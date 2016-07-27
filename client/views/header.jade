@@ -21,28 +21,17 @@ template(name="navLinks")
             a(href="{{pathFor 'create-account'}}") Create User Account
           li(class="{{checkActive 'admins'}}")
             a(href="{{pathFor 'admins'}}") Current User Accounts
-      li(class="{{checkActive 'comments'}}")
-        a(href="{{pathFor 'adminComments'}}") Comments
+      //li(class="{{checkActive 'comments'}}")
+        //a(href="{{pathFor 'adminComments'}}") Comments
     li(class="{{checkActive 'about'}}")
       a(href="{{pathFor 'about'}}") About
-    li(class="{{checkActive 'events'}} {{checkActive 'user-events'}}").dropdown
-      a.dropdown-toggle-nav(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-        | Emergence Events
-        span.caret
-      ul.dropdown-menu.nav-dd
-        li(class="{{checkActive 'events'}}")
-          a(href="{{pathFor 'events'}}") Historical Events
-        li(class="{{checkActive 'user-events'}}")
-          a(href="{{pathFor 'user-events'}}") Tracked Events
+    li(class="{{checkActive 'user-events'}}")
+      a(href="{{pathFor 'user-events'}}") Tracked Events
     if currentUser
-      li(class="{{checkActive 'download'}}")
-        a(href="{{pathFor 'download'}}") Download
-    li(class="{{checkActive 'event-map'}}")
-      a(href="{{pathFor 'event-map'}}") Event Map
-    li(class="{{checkActive 'variable-definitions'}}")
-      a.withIcon(href="{{pathFor 'variable-definitions'}}" title="Variable Definitions")
-        span.link-text-nav Variable Definitions
-        span.fa.fa-question-circle.show-small
+      //li(class="{{checkActive 'download'}}")
+        //a(href="{{pathFor 'download'}}") Download
+    //li(class="{{checkActive 'event-map'}}")
+      //a(href="{{pathFor 'event-map'}}") Event Map
     li(class="{{checkActive 'contact-us'}}")
       a(href="{{pathFor 'contact-us'}}") Contact Us
     li(class="{{checkActive 'sign-in'}}")
