@@ -1,0 +1,59 @@
+template(name="header")
+  header
+    nav.navbar.navbar-default.navbar-fixed-top
+      .container-fluid
+        .container
+          .navbar-header
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse' data-target=".navbar-collapse") Menu
+            a.navbar-brand(href="{{pathFor 'splash'}}")
+
+          .collapse.navbar-collapse
+            +navLinks
+
+template(name="navLinks")
+  ul.nav.navbar-nav
+    if isInRole "admin"
+      li(class="dropdown {{checkActive 'create-account'}} {{checkActive 'admins'}}")
+        a.dropdown-toggle-nav(href="#" role="button" data-toggle="dropdown") Admins
+          span.caret
+        ul.dropdown-menu.nav-dd
+          li(class="{{checkActive 'create-account'}}")
+            a(href="{{pathFor 'create-account'}}") Create User Account
+          li(class="{{checkActive 'admins'}}")
+            a(href="{{pathFor 'admins'}}") Current User Accounts
+      li(class="{{checkActive 'comments'}}")
+        a(href="{{pathFor 'adminComments'}}") Comments
+    li(class="{{checkActive 'about'}}")
+      a(href="{{pathFor 'about'}}") About
+    li(class="{{checkActive 'events'}} {{checkActive 'user-events'}}").dropdown
+      a.dropdown-toggle-nav(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+        | Emergence Events
+        span.caret
+      ul.dropdown-menu.nav-dd
+        li(class="{{checkActive 'events'}}")
+          a(href="{{pathFor 'events'}}") Historical Events
+        li(class="{{checkActive 'user-events'}}")
+          a(href="{{pathFor 'user-events'}}") Tracked Events
+    if currentUser
+      li(class="{{checkActive 'download'}}")
+        a(href="{{pathFor 'download'}}") Download
+    li(class="{{checkActive 'event-map'}}")
+      a(href="{{pathFor 'event-map'}}") Event Map
+    li(class="{{checkActive 'variable-definitions'}}")
+      a.withIcon(href="{{pathFor 'variable-definitions'}}" title="Variable Definitions")
+        span.link-text-nav Variable Definitions
+        span.fa.fa-question-circle.show-small
+    li(class="{{checkActive 'contact-us'}}")
+      a(href="{{pathFor 'contact-us'}}") Contact Us
+    li(class="{{checkActive 'sign-in'}}")
+      +account
+
+template(name="account")
+  if currentUser
+    a.withIcon(href="" title="Sign Out")#logOut
+      span.link-text-nav Sign Out
+      span.fa.fa-sign-out.show-large
+  else
+    a.withIcon(href="/sign-in" title="Sign In")
+      span.link-text-nav Sign In
+      span.fa.fa-sign-in.show-large

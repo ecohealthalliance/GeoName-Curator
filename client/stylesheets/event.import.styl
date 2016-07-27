@@ -1,0 +1,172 @@
+@import 'event-icons.import'
+
+.event-wrap
+  margin-bottom 20px
+
+.fact-sheet-wrap
+  padding 20px 0 0 0
+  background secondary-light
+  padding-bottom 20px
+
+.event-head
+  h1
+    margin 0
+  .minor
+    font-size 24px
+  h2
+    margin 5px 0 0 0 
+    color #666
+    font-size 18px
+  h3
+    font-size 14px
+
+.disease
+  h3
+    display inline-block
+    margin 5px 5px 10px 0
+
+.basic-info
+  margin-bottom 20px
+  h2
+    font-size 200%
+
+.panel-heading
+  h3
+    color #333
+
+.tables
+  td:first-child
+    width 40%
+    border-right table-border
+    padding-right 25px
+    border-right 1px solid #DDD
+  td
+    position relative
+  td:last-child
+    padding-right 80px
+  .panel-default
+    border-top 3px solid secondary
+
+.location-list-wrap
+
+.location-list
+  margin-bottom 5px
+
+.main-facts
+  margin 20px 0
+  margin-bottom 40px
+  border-top table-border
+  &:last-of-type
+    margin-bottom 0
+  th, td
+    width 33%
+    text-align center
+    border-right 0
+  th:first-child, td:first-child
+    text-align: left
+  th:last-child, td:last-child
+    text-align: right
+  > thead > tr > th
+    font-size 16px
+    border-bottom table-border
+    position relative
+  th:last-child,
+  td:last-child
+    border-right 0
+  &:after
+    clearFix()
+  .lrg
+    font-size 18px
+  .description
+    font-size 13px
+ 
+.references
+  h2
+    font-size 16px
+    margin 0
+    display inline-block   
+  .date
+    margin 0
+    
+.ref-link
+  span
+    padding-right 5px
+  &:hover
+    text-decoration none
+    
+@import 'comments.import'
+
+@media (max-width: 1200px)
+
+  .main-facts
+    &:last-of-type
+      margin-bottom 30px
+
+@media (max-width: 768px)
+  .event-head
+    h1
+      font-size 2em
+    .minor
+      font-size 1.2em
+      margin .3em 0
+    h3
+      font-size 1.1em
+  
+  table, thead, tbody, th, td, tr
+    display block
+
+  .event .table td:first-child,
+  td:first-child
+    width 100%
+
+  thead tr
+    position absolute
+    top -9999px
+    left -9999px
+  
+  tr 
+    border: 0
+  
+  td
+    border none
+    border-bottom 1px solid #eee 
+    position relative
+    padding-left 50% 
+  
+  .table-striped > tbody > tr:nth-child(odd) > td, 
+  .table-striped > tbody > tr:nth-child(odd) > th
+    background none
+    
+  .tables td:first-child
+    width 100%
+    font-weight bold
+    border-right 0
+    background ll-gray !important
+    
+  .tables td:last-child
+    border-top 0
+
+  .tables .table:not(.not-founds) td:last-child
+    margin-bottom 20px
+  
+  .main-facts
+    border-top 0
+    tr, td
+      border 0 !important
+    th, td, th:first-child, td:first-child, th:last-child, td:last-child
+      width 100%
+      text-align left
+    td
+      padding 0 0 3px 0 !important
+      margin-bottom 20px
+      &::before
+        font-size 18px
+        content attr(data-header)
+        font-weight bold
+        display block
+        border-bottom table-border
+        width 100%
+        margin-bottom 15px
+
+.abstract
+  white-space pre

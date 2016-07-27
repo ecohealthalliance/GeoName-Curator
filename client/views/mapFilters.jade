@@ -1,0 +1,37 @@
+template(name="mapFilters")
+  .container.map-search-wrap
+    .mobile-control
+      span Filters
+    .map-filter-content
+      .search-wrap
+        .input-group
+          span.input-group-addon
+            i.fa.fa-filter
+          input.map-search.form-control(type="text" placeholder="Search by event name")
+          if getSearchText
+            span.clear-search
+              i.fa.fa-times-circle
+      if getVariables
+        .toggles
+          .filter
+            h2 Filters
+          .filters-wrap.hidden
+            each getVariables
+              .filter-block
+                .filter-header
+                  h3(data-toggle="popover" data-content="#{description}") #{displayName}
+                    i.fa.fa-info-circle
+                  .checkbox-controls
+                    +checkboxControl variable=spreadsheetName checkBoxes=getCheckboxList
+                .form-group
+                  each getValues
+                    .checkbox
+                      label(data-toggle="popover" data-content="#{description}")
+                        input(class="#{../spreadsheetName}" type="checkbox" value="#{name}" checked="#{state}")
+                        | #{name}
+
+template(name="checkboxControl")
+  if showCheckAll
+    span.check.check-all
+  else
+    span.check.uncheck-all

@@ -1,0 +1,125 @@
+.navbar
+  min-height header-height - 2
+  background-color #FFF
+  border-bottom 2px solid secondary
+  z-index 1000
+  li > a
+    padding 25px 15px
+    font-size 15px
+    color #333
+    letter-spacing 0.02em
+
+.navbar-nav
+  margin-right -15px
+
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav .open .dropdown-menu > li > a
+  font-size 14px
+  color d-gray
+  &:hover
+    background-color secondary
+    color #FFF
+    @extend .dark-shadow
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus,
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus
+    background-color secondary
+    color white
+    @extend .dark-shadow
+
+.navbar-nav .open .dropdown-menu
+  background-color secondary-light
+
+.dropdown-menu
+  > li > a
+    padding 20px
+
+.logo
+  height 50px
+  width 50px
+  float left
+  padding-top 15px
+
+.navbar-brand
+  bg('/images/eidr-logo-header', 85px, 47px, 'png')
+  margin-top 10px
+
+.disclaimer
+  width 100%
+  padding 1px 0
+  background-color warning
+  a
+    color d-gray
+    &:hover
+      color #000
+
+.link-text-nav
+  display inline-block
+  padding-right 3px
+
+.show-small
+  display none
+
+
+@media (min-width: 768px) and (max-width: 992px)
+  .link-text-nav
+      display none
+  .show-small,
+  .show-large
+    display inline-block
+    font-size 20px
+  .navbar-default .navbar-nav > li > a
+    font-size 14px
+  li > a
+    &.withIcon
+      padding 25px 15px
+      line-height 0
+      font-size 18px
+
+@media (max-width: 768px)
+  .show-small
+    display none
+  .navbar-nav
+    border-bottom 2px solid white
+    .icon
+      display none
+  .disclaimer
+    display none
+  .navbar-nav
+    float none
+  .navbar-brand
+    background-size 63px 35px
+    background-repeat no-repeat
+    width 63px
+    margin-top 10px
+    height 45px
+  .navbar
+    min-height mobile-header-height
+    li
+      border-bottom table-border
+      > a
+        padding 15px 30px
+      &:last-child
+        border 0
+  .nav
+    margin 0
+  .container > .navbar-collapse
+    padding 0
+    margin-right -30px
+    margin-left -30px
+  .navbar-fixed-top .navbar-collapse
+    max-height 400px
+  .navbar-toggle
+    margin-right 0
+    margin-top 10px
+  .navbar-header
+    min-height mobile-header-height
+  .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus
+    background-color ll-gray

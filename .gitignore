@@ -1,0 +1,10 @@
+.DS_Store
+*~
+thumbs.db
+
+settings-dev.json
+
+npm-debug.log
+
+.meteor/local
+.meteor/dev_bundle

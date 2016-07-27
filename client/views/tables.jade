@@ -1,0 +1,94 @@
+template(name="tables")
+  .row
+    .col-md-7
+      if checkStats stats event
+        .panel.panel-default
+          .panel-heading
+            h3 Descriptive Epidemiology
+          +statsTable stats=stats event=event className='table-striped'
+
+    .col-md-5
+      if checkStats pathogenStats event
+        .panel.panel-default
+          .panel-heading
+            h3 Pathogen
+          +statsTable stats=pathogenStats event=event className='table-striped'
+      
+      if checkStats economicsStats event
+        .panel.panel-default     
+          .panel-heading
+            h3 Economics
+          +statsTable stats=economicsStats event=event className='table-striped'
+  .row
+    .col-lg-7
+      +references
+    if getNotFound event
+      .col-lg-5
+        .panel.panel-default     
+          .panel-heading
+            h3 Data Not Found 
+          table.table.table-striped.not-founds
+            tbody
+              each getNotFound event
+                tr
+                  td #{name}
+                    .icon-wrap
+                      .description-wrap(data-toggle="popover" data-content="#{description}")
+                        span.description
+
+template(name="references")
+  .panel.panel-default.references
+    .panel-heading
+      h3 References
+    ul.list-group
+      each getReferences
+        +reference
+
+template(name="statsTable")
+  table.table(class=className)
+    tbody
+      each stats
+        if showStat spreadsheetName ../event
+          tr.stats-field
+            td #{displayName}
+              +description event=../event field=spreadsheetName
+            td {{getVal spreadsheetName ../event}}
+              .icon-wrap
+                  if getQuote ../event 
+                    span.quote(data-toggle="popover-quote" data-content="{{getQuote ../event}}")
+                  if getReference ../event
+                    span.reference(data-toggle="popover" data-content="{{getReference ../event}}")
+
+template(name="reference")
+  li.list-group-item
+    if isPMCID
+      a.ref-link(href="http://www.ncbi.nlm.nih.gov/pmc/articles/{{archiveLocation}}" target="_blank")
+        +authorLink
+      +referenceDescription
+    else if isPMID
+      a.ref-link(href="http://www.ncbi.nlm.nih.gov/pubmed/{{archiveLocation}}" target="_blank")
+        +authorLink
+      +referenceDescription
+    else if url
+      a.ref-link(href="{{url}}" target="_blank")
+        +authorLink
+      +referenceDescription
+    else
+      p #{title}
+    a.ref-link(href="https://www.zotero.org/groups/252452/items/itemKey/{{key}}" target="_blank") Zotero
+
+template(name="authorLink")
+  +author
+  span.fa.fa-external-link
+
+template(name="author")
+  if creators
+    if date
+      span #{formatAuthor}, #{date}
+    else
+      span #{formatAuthor}
+  else if date
+    span #{date}
+
+template(name="referenceDescription")
+  p #{title}

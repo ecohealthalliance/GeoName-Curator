@@ -1,0 +1,10 @@
+template(name="userEvents")
+  .container
+    h1 Tracked Events
+  section.container.events
+    if isInRole "admin"
+      .row
+        .col-md-2.col-md-offset-10
+          a.btn.btn-link.btn-lg(href="{{pathFor 'create-event'}}") Create New Event
+
+    +reactiveTable collection="userEvents" settings=settings

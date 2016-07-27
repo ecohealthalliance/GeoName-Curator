@@ -1,0 +1,138 @@
+template(name="userEvent")
+  .container-fluid.fact-sheet-wrap.event.space-btm-4
+    .container
+      .row
+        .col-lg-12.event-head
+          with userEvent
+            .basic-info
+              if isEditing
+                form#editEvent.form-horizontal
+                  .form-group
+                    .col-sm-2.col-md-push-8.space-btm-2
+                      button#save-edit.btn.btn-primary.btn-lg.btn-block(type='submit') Save
+                    .col-sm-2.col-md-push-8.space-btm-2
+                      button#cancel-edit.btn.btn-default.btn-lg.btn-block(type='button') Cancel
+                    .col-sm-8.col-md-pull-4
+                      input.form-control.input-lg(type='text', name='eventName', value='{{eventName}}', placeholder="Event name", required)
+                  .form-group
+                    .col-md-12
+                      textarea.form-control(name="eventSummary", placeholder="Event summary", rows="15") {{summary}}
+              else
+                .row
+                  .col-sm-2.col-md-push-10
+                    if currentUser
+                      button#edit.btn.btn-default.btn-lg.btn-block Edit
+                  .col-sm-10.col-md-pull-2.space-btm-2
+                    h1 {{eventName}}
+                .row
+                  .col-md-12
+                    if summary
+                      p.abstract {{summary}}
+                    else
+                      p.abstract No summary available.
+  
+  .container.tables
+    .row
+      .col-lg-6
+        +locationList
+      .col-lg-6
+        +articles
+
+template(name="locationList")
+  .panel.panel-default
+    .panel-heading
+      h3 Locations
+    .panel-body
+      if locations.length
+        if currentUser
+          .form-horizontal
+            each locations
+              .form-group
+                .col-sm-12
+                  button.btn.btn-danger.btn-sm.remove-location(type="button")
+                    i.fa.fa-times
+                  a(href="{{url}}") {{formatLocation(this)}}
+        else
+          ul
+            each locations
+              li.location-list
+                a(href="{{url}}") {{formatLocation(this)}}
+      else
+        p No locations are associated with this event.
+      if currentUser
+        .form-horizontal
+          .form-group
+            .col-md-12
+              +locationSelect2
+          .form-group
+            .col-lg-4.col-lg-offset-8.col-md-12
+              button#add-locations.btn.btn-primary.btn-block(type="button") Add Locations
+
+template(name="articles")
+  .panel.panel-default
+    .panel-heading
+      h3 Articles
+    .panel-body.comments-container
+      .comment-form
+        if currentUser
+          form#add-article.form-horizontal(novalidate)
+            .form-group
+              .col-lg-12
+                input.form-control.new-article(name="article" placeholder="Article URL associated with this event" required)
+            .form-group
+              .col-lg-12
+                .checkbox
+                  label
+                    input(type="checkbox" value="1" name="scrapeLocations")
+                    | Find locations in the article to add to the event
+            .form-group
+              .col-lg-4.col-lg-offset-8.col-sm-12
+                button.btn.btn-primary.btn-block(type="submit") Add article
+        else
+          +atForm
+    ul.list-group
+      each articles
+        +article
+
+template(name="article")
+  li.list-group-item
+    .row
+      .col-md-10
+        a.ref-link(href="{{url}}" target="_blank") {{url}}
+      .col-md-2
+        if currentUser
+          button.btn.btn-default.btn-sm.delete-article("article-id" = _id) Delete
+
+template(name="locationModal")
+  .modal.fade(role="dialog")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Locations mentioned in the article
+        .modal-body
+          if suggestedLocations.length
+            p The linked article contains references to the following locations. Please select which locations you would like to add to the event.
+            #suggested-locations-form.form-horizontal
+              each suggestedLocations
+                .form-group
+                  .col-md-12
+                    .checkbox
+                      label
+                        input(type="checkbox" value="{{geonameId}}")
+                        {{locationOptionText(this)}}
+                      a(href="{{url}}" target="_blank") (Geonames link)
+          else
+            p No new locations could be found in the linked article.
+        .modal-footer
+          button.btn.btn-default(type="button" data-dismiss="modal") Close
+          if suggestedLocations.length
+            button#add-suggestions.btn.btn-primary(type="button") Add Locations
+
+template(name="loadingModal")
+  .modal.fade(role="dialog")
+    .modal-dialog
+      .modal-content
+        .modal-body
+          p
+            i.fa.fa-circle-o-notch.fa-spin
+            | Processing article

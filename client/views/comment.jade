@@ -1,0 +1,14 @@
+template(name="comment")
+  li.list-group-item.comment
+    .row.comment-text
+      .col-lg-6
+        p
+          | #{comment}
+      .col-lg-6
+        if isInRole 'admin'
+          button.btn.btn-default.btn-sm.delete-comment.pull-right("comment-id" = _id) Delete
+    .row.comment-info
+      .col-lg-6.user
+        p #{username}
+      .col-lg-6.time
+        p #{timeStamp}

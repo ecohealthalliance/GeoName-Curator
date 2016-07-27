@@ -1,0 +1,55 @@
+font(font-face)
+  font-family: font-face, sans-serif;
+
+centerElement(width, topMargin)
+  width: width
+  margin topMargin auto
+
+full-width()
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+
+clearFix()
+  clear both
+  content ''
+  display block
+
+fluid-ratio(widthLarge, heightLarge, widthSmall, heightSmall)
+  slope = (heightLarge - heightSmall) / (widthLarge - widthSmall)
+  height = heightSmall - widthSmall * slope
+
+  padding-top slope * 100%
+  height height
+
+  background-size cover
+  -moz-background-size cover
+  background-position center
+
+bg(path, w, h, type='png')
+  background-image url(path + '.' + type)
+  background-repeat no-repeat
+  background-size w h
+  width w
+  height h
+  text-indent -9999px
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2)
+    background-image url(path + '-2x.' + type)
+
+changeBGSize(w,h)
+  background-size w h
+  width w
+  height h
+
+vAlign()
+  vertical-align middle
+  display inline-block
+
+centerPosition(h=-50%,v=-50%)
+  position absolute
+  -ms-transform translate(h,v);
+  -webkit-transform translate(h,v)
+  transform translate(h,v)
+

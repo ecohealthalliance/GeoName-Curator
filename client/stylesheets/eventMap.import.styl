@@ -1,0 +1,55 @@
+@import 'mapFilters.import'
+
+#event-map
+  position absolute
+  left 0
+  right 0
+  top header-height
+  bottom footer-height
+  background-color #B5D0D0
+  margin auto
+  background-color map-background
+  .leaflet-top,
+  .leaflet-left
+    z-index 90
+
+.leaflet-popup-content-wrapper
+  border-radius 5px
+
+.map-marker
+  position relative
+  &::before,
+  &::after
+    display block
+    centerPosition()
+    top 50%
+    left 50%
+    content ''
+    border-radius 100%
+    transistion .2s
+  &::before
+    border 1px solid rgba(210, 106, 40, .3)
+    background-color rgba(210, 106, 40, .7)
+    height 20px
+    width 20px
+    transition .2s
+  &::after
+    background-color rgba(245, 245, 243, .8)
+    width 5px
+    height 5px
+  &:hover
+    &::before
+      transition .2s
+      background-color secondary
+
+@media (max-width: 768px)
+  #event-map
+    top mobile-header-height
+    bottom mobile-footer-height
+    .leaflet-control-attribution
+      font-size 5px
+@media (max-width: 320px)
+  .leaflet-popup-content,
+  .leaflet-popup-content-wrapper
+    max-width 300px
+

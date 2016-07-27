@@ -1,0 +1,6 @@
+template(name="adminComments")
+  .container
+    ul.list-group.comment-list
+      each comments
+        a(href="{{pathFor route='event' eidID=this.event}}") View Event
+        +comment

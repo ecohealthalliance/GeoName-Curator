@@ -1,0 +1,43 @@
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+mquandalle:jade
+coffeescript
+stylus
+iron:router
+pinglamb:bootstrap3
+d3
+natestrauser:analyticsjs
+http
+fortawesome:fontawesome
+aslagle:reactive-table
+fuatsengul:leaflet
+chrismbeckett:toastr
+accounts-base
+accounts-ui
+accounts-google
+accounts-password
+useraccounts:bootstrap
+useraccounts:iron-routing
+service-configuration
+reactive-var
+alanning:roles
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+standard-minifier-css
+standard-minifier-js
+natestrauser:select2
+peppelg:bootstrap-3-modal

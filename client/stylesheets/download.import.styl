@@ -1,0 +1,39 @@
+.download-file
+  a,
+  span
+    display block
+  a
+    position relative
+    margin-top 40px
+    background #f9f9f9
+    padding 20px
+    text-decoration none
+    border-radius 3px
+    overflow hidden
+    border 1px solid #1BAA4A
+    color #333
+    font-size 16px
+    transition .2s
+    &:hover
+      background darken(#f9f9f9, 5%)
+      .download-icon
+        background darken(#1BAA4A, 5%)
+
+.link-text
+  padding-right 15%
+
+.download-icon
+  position absolute
+  right 0
+  top 0
+  bottom 0
+  background-color #1BAA4A
+  width 15%
+  span
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+    color white
+    font-size 28px
+    text-shadow 0 1px 0 rgba(0,0,0,.3)

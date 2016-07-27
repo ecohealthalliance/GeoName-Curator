@@ -1,0 +1,25 @@
+template(name="createAccount")
+  .container-fluid
+    .container
+      .row
+        .col-md-12
+          h1 Create New Account
+ 
+          form#add-account.form-horizontal
+            .form-group
+              label.control-label.col-sm-2 Email
+              .col-sm-8
+                input.form-control(type='text', name='email')
+            .form-group
+              label.control-label.col-sm-2 Name
+              .col-sm-8
+                input.form-control(type='text', name='name')
+            .form-group
+              .col-sm-8.col-sm-offset-2
+                .checkbox
+                  label
+                    input(type="checkbox", name="admin")
+                    | Make Admin
+            .row
+              .col-sm-3.col-sm-offset-7
+                button#add-event.btn.btn-primary.btn-lg.btn-block(type='submit') Add User

@@ -1,0 +1,91 @@
+transmissionIcons = {
+  direct: "\0063"
+  vector: "\0076"
+  vertical: "\0075"
+  NF: "\006E"
+  nosocomial: "\0068"
+  unknown: "\003F"
+  airborne: "\0061"
+  transmission: "\0074"
+  oral: "\006F"
+  sexual: "\0073"
+  contamination: "\0043"
+}
+
+.transmission-icons
+  li
+    @extend .icon
+    font-size 65px
+    color #555
+    padding 0 5px
+    display inline-block
+    line-height 65px
+
+  for key, value in transmissionIcons
+    .type-{key}
+      &::before
+        content value
+        
+.icon-wrap
+  position absolute
+  right 0
+  top 0
+  bottom 0
+  text-align right
+  color #CCC
+  span
+    &:hover
+      color #1BAA4A
+
+.right-icon
+  display inline-block
+  font-size 20px
+  margin-right 4px
+  margin-top 6px
+
+.description-wrap
+  position: absolute
+  top 0
+  bottom 0
+  width 30px
+  right 0
+  &:hover
+    color #1BAA4A
+
+.table-icon
+  @extend .font-awesome
+  display inline-block
+  font-size 20px
+  color #CCC
+
+.description
+  position absolute
+  right 10px
+  top 8px
+
+.description,
+.description-inline
+  &::before
+    content '\f129'
+    @extend .table-icon
+
+.description-inline
+  padding 3px
+  &::before 
+    vertical-align top
+    color #999
+    font-size 90%
+
+.reference
+  margin-right 8px
+  @extend .right-icon
+  &::before
+    content '\f02d'
+    @extend .table-icon
+.quote
+  @extend .right-icon
+  &::before
+    content '\f10e'
+    @extend .table-icon
+    margin-right 5px
+    

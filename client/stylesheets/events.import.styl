@@ -1,0 +1,138 @@
+
+.reactive-table
+  padding-left 0
+  padding-right 0
+  border-radius 5px
+  overflow hidden
+  border table-border
+  tbody tr
+    cursor pointer
+.reactive-table-columns-dropdown
+  button
+    text-shadow none
+    &:hover
+      @extend .white-shadow
+  float left !important
+  width auto
+  padding 0
+  a
+    position relative
+  label
+    white-space initial
+    padding-left 25px
+    margin 0
+    input
+      position absolute
+      left 15px
+
+.reactive-table-columns-dropdown .dropdown-toggle
+  font-size 0
+  &::before,
+  &::after
+    vAlign()
+  &::before
+    @extend .font-awesome
+    content '\f0db'
+    padding-right 5px
+    font-size 16px
+  &::after
+    content 'Variables'
+    font-size 14px
+
+.dropdown-toggle-nav
+  font-size 0
+  &::before,
+  &::after
+    vAlign()
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active
+  background-color #2ea852
+
+.reactive-table-options
+  float none
+  width 100%
+  padding 0
+  .dropdown-menu > li > a
+    padding 4px 10px
+
+.dropdown-menu
+  min-width 350px
+.dropdown-menu-right
+  left 0 !important
+  right 0
+.dropdown-menu.nav-dd
+  padding 0
+
+.rows-per-page,
+.page-number
+  span
+    font-weight normal
+    padding 0 1px
+  .page-number-count,
+  .rows-per-page-count
+    font-weight bold
+  input
+    text-align center
+
+.reactive-table-navigation .previous-page,
+.reactive-table-navigation .next-page
+  font-size 150%
+  line-height 0
+
+@media (min-width: 768px)
+  .reactive-table-filter
+    width 40%
+    padding 0
+
+@media (max-width: 768px)
+  .reactive-table
+    td
+      display none
+      border-top 0 !important
+      &:first-child
+        display block
+        padding-top 20px
+        padding-bottom 20px
+      &:hover,
+      &:focus
+        background l-gray
+    tr:last-child td:first-child
+      border 0
+  .reactive-table-filter
+    padding 10px 0 10px 0
+  .reactive-table-options
+    margin 0
+    padding 0
+    .dropdown-toggle
+      display none
+  .reactive-table-input
+    padding 20px 10px
+  .next-page
+  .page-number
+    width 100%
+    float none
+    font-size 24px
+    label
+      display none
+    .previous-page,
+    .next-page
+      display block
+      width 45%
+      float left
+      background secondary
+      text-align center
+      padding 10px
+      color white
+      border-radius 3px
+      cursor pointer
+      &:focus,
+      &:hover
+        background darken(secondary, 15%)
+        border primary
+        color white
+
+    .next-page
+      float right
+
+  .rows-per-page
+    display none

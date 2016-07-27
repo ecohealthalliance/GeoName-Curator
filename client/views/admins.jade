@@ -1,0 +1,16 @@
+template(name="admins")
+  .container-fluid
+    .container.content-block
+      +each adminUsers
+        +adminUser
+      +each nonAdminUsers
+        +adminUser
+
+template(name="adminUser")
+  p
+    | {{name}} - {{email}}
+    unless isCurrentUser
+      if isAdmin
+        button.btn.btn-primary.remove-admin(user-id = this._id) Remove admin
+      else
+        button.btn.btn-primary.make-admin(user-id = this._id) Make admin
