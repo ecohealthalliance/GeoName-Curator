@@ -57,11 +57,11 @@ Router.route "/event/:eidID",
 Router.route "/event-map",
   name: 'event-map'
   waitOn: ->
-    Meteor.subscribe "locations"
-    Meteor.subscribe "fields"
+    Meteor.subscribe "geolocations"
+    Meteor.subscribe "userEvents"
   data: ->
-    events: Events()
-    fields: Fields()
+    events: UserEvents()
+    locations: Geolocations()
 
 Router.route "/admins",
   name: 'admins'

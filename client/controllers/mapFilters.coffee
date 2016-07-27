@@ -57,7 +57,7 @@ Template.mapFilters.rendered = ->
     userSearchText = Template.instance().userSearchText.get()
     nameQuery = []
     searchWords = userSearchText.split(' ')
-    _.each searchWords, -> nameQuery.push {eventNameVal: new RegExp(userSearchText, 'i')}
+    _.each searchWords, -> nameQuery.push {eventName: new RegExp(userSearchText, 'i')}
     filters.push({$or: nameQuery})
 
     Template.instance().data.query.set({ $and: filters })
