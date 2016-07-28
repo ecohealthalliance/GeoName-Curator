@@ -32,7 +32,7 @@ Template.locationSelect2.onRendered ->
     $(".select2-container").css("width", "100%")
   )
 
-Template.locationList.helpers
+Template.location.helpers
   formatLocation: (location) ->
     return formatLocation(location.displayName, location.subdivision, location.countryName)
 
