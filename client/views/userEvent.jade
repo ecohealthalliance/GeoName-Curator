@@ -121,7 +121,7 @@ template(name="locationModal")
                     .checkbox
                       label
                         input(type="checkbox" value="{{geonameId}}")
-                        {{locationOptionText(this)}}
+                        | {{locationOptionText(this)}}
                       a(href="{{url}}" target="_blank") (Geonames link)
           else
             p No new locations could be found in the linked article.
