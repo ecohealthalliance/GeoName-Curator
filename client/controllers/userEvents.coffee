@@ -13,6 +13,13 @@ Template.userEvents.onCreated ->
       displayName: 'Event Name',
       fieldName: 'eventName',
       defaultSortDirection: 1
+    },
+    {
+      arrayName: '',
+      description: 'Date the event was last modified.',
+      displayName: 'Last Modified Date',
+      fieldName: 'lastModifiedDate',
+      defaultSortDirection: -1
     }
   ]
 

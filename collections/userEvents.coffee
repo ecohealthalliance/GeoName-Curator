@@ -17,10 +17,34 @@ if Meteor.isServer
       return Roles.userIsInRole(Meteor.userId(), ['admin'])
 
 Meteor.methods
-  addUserEvent: (name, locations) ->
-    trimmedName = name.trim()
-    if trimmedName.length isnt 0
-      UserEvents.insert({eventName: trimmedName, creationDate: new Date()}, (error, result) ->
-        if result
-          Meteor.call("addEventLocations", result, locations)
-      )
+  addUserEvent: (name, summary, locations) ->
+    if Roles.userIsInRole(Meteor.userId(), ['admin'])
+      trimmedName = name.trim()
+      user = Meteor.user()
+      now = new Date()
+      
+      if trimmedName.length isnt 0
+        UserEvents.insert({
+          eventName: trimmedName,
+          summary: summary,
+          creationDate: now,
+          createdByUserId: user._id,
+          createdByUserName: user.profile.name,
+          lastModifiedDate: now,
+          lastModifiedByUserId: user._id,
+          lastModifiedByUserName: user.profile.name
+        }, (error, result) ->
+          if result
+            Meteor.call("addEventLocations", result, locations)
+        )
+  
+  updateUserEvent: (id, name, summary) ->
+    if Roles.userIsInRole(Meteor.userId(), ['admin'])
+      user = Meteor.user()
+      grid.UserEvents.update(id, {$set: {
+        eventName: name,
+        summary: summary,
+        lastModifiedDate: new Date(),
+        lastModifiedByUserId: user._id,
+        lastModifiedByUserName: user.profile.name
+      }})
