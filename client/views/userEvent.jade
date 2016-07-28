@@ -77,8 +77,8 @@ template(name="articles")
     .panel-heading
       h3 Articles
     .panel-body.comments-container
-      .comment-form
-        if currentUser
+      if currentUser
+        .comment-form
           form#add-article.form-horizontal(novalidate)
             .form-group
               .col-lg-12
@@ -92,11 +92,12 @@ template(name="articles")
             .form-group
               .col-lg-4.col-lg-offset-8.col-sm-12
                 button.btn.btn-primary.btn-block(type="submit") Add article
-        else
-          +atForm
-    ul.list-group
-      each articles
-        +article
+    if articles.length
+      ul.list-group
+        each articles
+          +article
+    else
+      p No articles are associated with this event.
 
 template(name="article")
   li.list-group-item
