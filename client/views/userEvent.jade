@@ -58,32 +58,32 @@ template(name="locationList")
     if locations.length
       ul.list-group
         each locations
-          li.list-group-item
-            .row
-              .col-md-10
-                +location
-              .col-md-2
-                if currentUser
-                  button.btn.btn-danger.btn-sm.remove-location(type="button") Delete
+          +location
     else
       p No locations are associated with this event.
 
 template(name="location")
-  a(role="button" href="#{{_id}}" data-toggle="collapse") {{formatLocation(this)}}
-  .collapse(id="{{_id}}").space-top-2
+  li.list-group-item
     .row
-      label.col-md-3 Geonames Link
-      .col-md-9
-        p
-          a(href="{{url}}") {{formatLocation(this)}}
-    .row
-      label.col-md-3 Added By
-      .col-md-9
-        p {{addedByUserName}}
-    .row
-      label.col-md-3 Added On
-      .col-md-9
-        p {{addedDate}}
+      .col-sm-10.space-btm-2
+        a(role="button" href="#{{_id}}" data-toggle="collapse") {{formatLocation(this)}}
+        .collapse(id="{{_id}}").space-top-2
+          .row
+            label.col-md-3 Geonames Link
+            .col-md-9
+              p
+                a(href="{{url}}") {{displayName}}
+          .row
+            label.col-md-3 Added By
+            .col-md-9
+              p {{addedByUserName}}
+          .row
+            label.col-md-3 Added On
+            .col-md-9
+              p {{addedDate}}
+      .col-sm-2.col-xs-6
+        if currentUser
+          button.btn.btn-danger.btn-sm.btn-block.remove-location(type="button") Delete
 
 template(name="articles")
   .panel.panel-default
@@ -114,11 +114,11 @@ template(name="articles")
 template(name="article")
   li.list-group-item
     .row
-      .col-md-10
+      .col-sm-10
         a.ref-link(href="{{url}}" target="_blank") {{url}}
-      .col-md-2
+      .col-sm-2.col-xs-6
         if currentUser
-          button.btn.btn-danger.btn-sm.delete-article("article-id" = _id) Delete
+          button.btn.btn-danger.btn-sm.btn-block.delete-article("article-id" = _id) Delete
 
 template(name="locationModal")
   .modal.fade(role="dialog")
