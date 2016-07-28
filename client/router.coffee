@@ -1,12 +1,3 @@
-Events = ->
-  @grid.Events
-
-Fields = ->
-  @grid.Fields
-
-Comments = ->
-  @grid.Comments
-
 UserEvents = ->
   @grid.UserEvents
 
@@ -32,27 +23,6 @@ Router.route "/",
   name: 'splash'
 
 Router.route "/about"
-
-Router.route "/events",
-  waitOn: ->
-    [
-      Meteor.subscribe "fields"
-    ]
-  data: ->
-    fields: Fields().find({'Event table': {'$ne': '0'}})
-
-Router.route "/event/:eidID",
-  name: 'event'
-  waitOn: ->
-    [
-      Meteor.subscribe "event", @params.eidID
-      Meteor.subscribe "fields"
-      Meteor.subscribe "comments", @params.eidID
-      Meteor.subscribe "references", @params.eidID
-    ]
-  data: ->
-    event: Events().findOne({'eidID': @params.eidID})
-    comments: Comments().find({'event': @params.eidID}, {sort: {timeStamp: -1}})
 
 Router.route "/event-map",
   name: 'event-map'
@@ -85,17 +55,6 @@ Router.route "/create-account",
     #Wait on roles subscription so onBeforeAction() doesn't run twice
     Meteor.subscribe "roles"
 
-Router.route "/comments",
-  name: 'adminComments'
-  onBeforeAction: ->
-    unless Roles.userIsInRole(Meteor.userId(), ['admin'])
-      @redirect '/'
-    @next()
-  waitOn: ->
-    Meteor.subscribe "adminComments"
-  data: ->
-    comments: Comments().find({}, {sort: {timeStamp: -1}})
-
 Router.route "/download",
   name: 'download',
   onBeforeAction: ->
@@ -115,15 +74,6 @@ Router.route "/download",
             csvData: encodeURI(csvData)
         )
     )
-
-Router.route "/variable-definitions",
-  name: 'variable-definitions',
-  waitOn: ->
-    [
-      Meteor.subscribe "fields"
-    ]
-  data: ->
-    fields: Fields().find({'tab': {'$ne': ''}, 'webVariable': {'$ne': '0'}})
 
 Router.route "/create-event",
   name: 'create-event',
