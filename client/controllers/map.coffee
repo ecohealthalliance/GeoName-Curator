@@ -24,14 +24,14 @@ Template.map.rendered = ->
   markers = []
 
   @autorun ->
-    data = Template.currentData()
+    locations = grid.Geolocations.find({userEventId: Template.currentData()._id}).fetch()
 
     for marker in markers
       eventMap.removeLayer marker
     markers = []
-
-    if data.locations
-      latLngs = ([location.locationLatitude, location.locationLongitude] for location in data.locations)
+    
+    if locations
+      latLngs = ([location.latitude, location.longitude] for location in locations)
       latLngs = _.filter(latLngs, (latLng) ->
         latLng[0] isnt 'Not Found' and latLng[1] isnt 'Not Found'
       )
@@ -39,10 +39,10 @@ Template.map.rendered = ->
         eventMap.setView(latLngs[0], 4)
       else
         eventMap.fitBounds(latLngs, {padding: [15,15]})
-      for location in data.locations
-        latLng = [location.locationLatitude, location.locationLongitude]
+      for location in locations
+        latLng = [location.latitude, location.longitude]
         if latLng[0] isnt 'Not Found' and latLng[1] isnt 'Not Found'
-          displayName = location[location.fieldUsed]
+          displayName = location.displayName
 
           circle = L.marker(latLng, {
             icon: L.divIcon({

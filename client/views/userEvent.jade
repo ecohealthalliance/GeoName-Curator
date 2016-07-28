@@ -27,11 +27,13 @@ template(name="userEvent")
                     h5 Created by {{createdByUserName}} on {{creationDate}}
                     h5 Last modified by {{lastModifiedByUserName}} on {{lastModifiedDate}}
                 .row
-                  .col-md-12
+                  .col-lg-7.col-md-12
                     if summary
                       p.abstract {{summary}}
                     else
                       p.abstract No summary available.
+                  .col-lg-5.col-md-12
+                    +map
   
   .container.tables
     .row
@@ -121,7 +123,7 @@ template(name="locationModal")
                     .checkbox
                       label
                         input(type="checkbox" value="{{geonameId}}")
-                        {{locationOptionText(this)}}
+                        | {{locationOptionText(this)}}
                       a(href="{{url}}" target="_blank") (Geonames link)
           else
             p No new locations could be found in the linked article.

@@ -4,6 +4,8 @@ Geolocations = new Mongo.Collection "geolocations"
 @grid.Geolocations = Geolocations
 
 if Meteor.isServer
+  Meteor.publish "geolocations", () ->
+    Geolocations.find({})
   Meteor.publish "eventLocations", (userEventId) ->
     Geolocations.find({userEventId: userEventId})
 

@@ -32,18 +32,20 @@ Template.eventMap.rendered = ->
     map.removeLayer(markers)
     markers = new L.FeatureGroup()
     query = instance.query.get()
+    
     if _.isObject query
       filteredEvents = instance.data.events.find(query).fetch()
     else
       map.removeLayer(markers)
       return
     for event in filteredEvents
-      if event.locations
-        name = event.eventNameVal
-        eidID = event.eidID
+      eventLocations = instance.data.locations.find({userEventId: event._id}).fetch()
+      if eventLocations.length
+        name = event.eventName
+        eventId = event._id
 
-        for location in event.locations
-          latLng = [location.locationLatitude, location.locationLongitude]
+        for location in eventLocations
+          latLng = [location.latitude, location.longitude]
 
           if latLng[0] isnt 'Not Found' and latLng[1] isnt 'Not Found'
             marker = L.marker(latLng, {
@@ -52,7 +54,7 @@ Template.eventMap.rendered = ->
                 iconSize:null
                 html: '<div class="map-marker"></div>'
               })
-            }).bindPopup("""<a href="/event/#{eidID}">#{name}</a>""")
+            }).bindPopup("""<a href="user-event/#{eventId}">#{name}</a>""")
             markers.addLayer(marker)
 
     map.addLayer(markers)

@@ -8,6 +8,9 @@ if Meteor.isServer
 
   Meteor.publish "userEvent", (eidID) ->
     UserEvents.find({_id: eidID})
+  
+  Meteor.publish "userEvents", () ->
+    UserEvents.find()
 
   UserEvents.allow
     insert: (userID, doc) ->
