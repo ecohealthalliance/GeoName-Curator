@@ -36,6 +36,8 @@ Meteor.methods
             addedDate: new Date()
           }
           Geolocations.insert(geolocation)
+          
+          Meteor.call("updateUserEventLastModified", eventId)
     else
         throw new Meteor.Error(403, "Not authorized")
   removeEventLocation: (id) ->

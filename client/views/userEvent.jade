@@ -94,10 +94,15 @@ template(name="articles")
         .comment-form
           form#add-article.form-horizontal(novalidate)
             .form-group
-              .col-lg-12
-                input.form-control.new-article(name="article" placeholder="Article URL associated with this event" required)
+              label.col-lg-3.control-label Article URL
+              .col-lg-9
+                input.form-control.new-article(name="article" required)
             .form-group
-              .col-lg-12
+              label.col-lg-3.control-label Publication Date
+              .col-lg-9
+                input.form-control(type="date" name="publishDate")
+            .form-group
+              .col-lg-9.col-lg-offset-3
                 .checkbox
                   label
                     input(type="checkbox" value="1" name="scrapeLocations")
@@ -117,9 +122,12 @@ template(name="article")
     .row
       .col-sm-10
         a.ref-link(href="{{url}}" target="_blank") {{url}}
-      .col-sm-2.col-xs-6
+        if publishDate
+          p
+            small {{publishDate}}
+      .col-md-2
         if currentUser
-          button.btn.btn-danger.btn-sm.btn-block.delete-article("article-id" = _id) Delete
+          button.btn.btn-danger.btn-sm.btn-block.delete-article("article-id"=_id) Delete
 
 template(name="locationModal")
   .modal.fade(role="dialog")
