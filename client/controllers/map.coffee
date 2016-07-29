@@ -24,8 +24,8 @@ Template.map.rendered = ->
   markers = []
 
   @autorun ->
-    locations = grid.Geolocations.find({userEventId: Template.currentData()._id}).fetch()
-
+    locations = grid.Geolocations.find({userEventId: Template.currentData().userEvent._id}).fetch()
+    
     for marker in markers
       eventMap.removeLayer marker
     markers = []

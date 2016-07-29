@@ -3,9 +3,9 @@ template(name="userEvent")
     .container
       .row
         .col-lg-12.event-head
-          with userEvent
-            .basic-info
-              if isEditing
+          .basic-info
+            if isEditing
+              with userEvent
                 form#editEvent.form-horizontal
                   .form-group
                     .col-sm-2.space-btm-1
@@ -18,13 +18,13 @@ template(name="userEvent")
                   .form-group
                     .col-md-12
                       textarea.form-control(name="eventSummary", placeholder="Event summary", rows="15") {{summary}}
-              else
-                if isInRole "admin"
-                  .row
-                    .col-sm-2.space-btm-2
-                      button#edit.btn.btn-default.btn-block Edit
-                .row
-                  .col-sm-10
+            else
+              .row
+                .col-sm-2.col-md-push-10
+                  if isInRole "admin"
+                    button#edit.btn.btn-default.btn-lg.btn-block Edit
+                .col-sm-10.col-md-pull-2.space-btm-2
+                  with userEvent
                     h1 {{eventName}}
                   .col-sm-2.space-btm-1
                     button.btn.btn-default.btn-block(type="button" data-target="#shareLink" data-toggle="collapse")
@@ -44,21 +44,28 @@ template(name="userEvent")
                   .col-sm-10.space-btm-2
                     h5 Created by {{createdByUserName}} on {{creationDate}}
                     h5 Last modified by {{lastModifiedByUserName}} on {{lastModifiedDate}}
-                .row
+              .row
+                if locations.length
                   .col-lg-7.col-md-12
-                    if summary
-                      p.abstract {{summary}}
-                    else
-                      p.abstract No summary available.
+                    +summary
                   .col-lg-5.col-md-12
                     +map
-  
-  .container
+                else
+                  .col-md-12
+                    +summary
+
+  .container.tables
     .row
       .col-lg-6
         +locationList
       .col-lg-6
         +articles
+
+template(name="summary")
+  if userEvent.summary
+    p.abstract {{userEvent.summary}}
+  else
+    p.abstract No summary available.
 
 template(name="locationList")
   .panel.panel-default
