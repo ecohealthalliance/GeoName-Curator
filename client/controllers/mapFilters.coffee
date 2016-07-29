@@ -1,35 +1,11 @@
-Fields = ->
-  @grid.Fields
-
 Template.mapFilters.created = ->
   filterVariables = [
     {name: 'eidCategoryVal', show: true}
     {name: 'zoonoticVal',show: false}
     {name: 'eventTransmissionAnimalVal', show: false}
   ]
-  variables = {}
-  _.each filterVariables, (variable) ->
-    field = Fields().findOne({spreadsheetName: variable.name})
-    return unless field
-    values = {}
-    if _.isEmpty(field.dropdownExplanations)
-      _.each field.values.split(','), (value) ->
-        values[value.trim()] =
-          state: true
-    else
-      for key, value of field.dropdownExplanations
-        values[key.trim()] =
-          state: true
-          description: value.trim()
-    variableInfo =
-      values: values
-      show: variable.show
-      displayName: field.displayName
-      spreadsheetName: field.spreadsheetName
-      strictSearch: _.isEmpty field.dropdownExplanations
-      description: field.description
-    variables[variable.name] = variableInfo
-  @variables = new ReactiveVar variables
+  
+  @variables = new ReactiveVar {}
   @userSearchText = new ReactiveVar ''
 
 Template.mapFilters.rendered = ->

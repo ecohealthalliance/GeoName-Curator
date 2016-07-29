@@ -30,8 +30,8 @@ template(name="navLinks")
     if currentUser
       //li(class="{{checkActive 'download'}}")
         //a(href="{{pathFor 'download'}}") Download
-    //li(class="{{checkActive 'event-map'}}")
-      //a(href="{{pathFor 'event-map'}}") Event Map
+    li(class="{{checkActive 'event-map'}}")
+      a(href="{{pathFor 'event-map'}}") Event Map
     li(class="{{checkActive 'contact-us'}}")
       a(href="{{pathFor 'contact-us'}}") Contact Us
     li(class="{{checkActive 'sign-in'}}")
