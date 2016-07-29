@@ -35,7 +35,7 @@ template(name="userEvent")
                   .col-lg-5.col-md-12
                     +map
   
-  .container.tables
+  .container
     .row
       .col-lg-6
         +locationList
@@ -100,7 +100,7 @@ template(name="articles")
             .form-group
               label.col-lg-3.control-label Publication Date
               .col-lg-9
-                input.form-control(type="date" name="publishDate")
+                input.form-control.datePicker(type="text" name="publishDate" data-DateTimePicker)
             .form-group
               .col-lg-9.col-lg-offset-3
                 .checkbox

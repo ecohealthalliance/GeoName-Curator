@@ -1,3 +1,11 @@
+Template.articles.onRendered ->
+  $(document).ready(() ->
+    $(".datePicker").datetimepicker({
+      format: "M/D/YYYY",
+      useCurrent: false
+    })
+  )
+
 Template.articles.events
   "submit #add-article": (e, templateInstance) ->
     event.preventDefault()

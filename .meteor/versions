@@ -69,6 +69,7 @@ mobile-experience@1.0.4
 mobile-status-bar@1.0.12
 modules@0.6.2
 modules-runtime@0.6.4
+momentjs:moment@2.8.4
 mongo@1.1.8
 mongo-id@1.0.5
 mquandalle:jade@0.4.9
@@ -104,6 +105,7 @@ stylus@2.512.1
 templating@1.1.10
 templating-tools@1.0.4
 tracker@1.0.14
+tsega:bootstrap3-datetimepicker@4.17.37_1
 ui@1.0.11
 underscore@1.0.9
 url@1.0.10

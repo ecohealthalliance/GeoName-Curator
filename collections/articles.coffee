@@ -33,8 +33,10 @@ Meteor.methods
         insertArticle.addedDate = new Date()
         
         if publishDate.length
-          # format of date string is yyyy-mm-dd
-          insertArticle.publishDate = new Date(publishDate.split("-"))
+          # format of date string is m/d/yyyy
+          dateSplit = publishDate.split("/")
+          # months are 0 indexed, so subtract 1 when creating the date
+          insertArticle.publishDate = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1])
         
         Articles.insert(insertArticle)
         
