@@ -46,31 +46,44 @@ template(name="locationList")
   .panel.panel-default
     .panel-heading
       h3 Locations
-    .panel-body
-      if locations.length
-        if currentUser
-          .form-horizontal
-            each locations
-              .form-group
-                .col-sm-12
-                  button.btn.btn-danger.btn-sm.remove-location(type="button")
-                    i.fa.fa-times
-                  a(href="{{url}}") {{formatLocation(this)}}
-        else
-          ul
-            each locations
-              li.location-list
-                a(href="{{url}}") {{formatLocation(this)}}
-      else
-        p No locations are associated with this event.
-      if currentUser
-        .form-horizontal
+    if currentUser
+      .panel-body.comments-container
+        .form-horizontal.comment-form
           .form-group
             .col-md-12
               +locationSelect2
           .form-group
             .col-lg-4.col-lg-offset-8.col-md-12
               button#add-locations.btn.btn-primary.btn-block(type="button") Add Locations
+    if locations.length
+      ul.list-group
+        each locations
+          +location
+    else
+      p No locations are associated with this event.
+
+template(name="location")
+  li.list-group-item
+    .row
+      .col-sm-10.space-btm-2
+        a(role="button" href="#{{_id}}" data-toggle="collapse") {{formatLocation(this)}}
+        .collapse(id="{{_id}}").space-top-2
+          .row
+            label.col-md-3 Geonames Link
+            .col-md-9
+              p
+                a(href="{{url}}") {{displayName}}
+          .row
+            label.col-md-3 Added By
+            .col-md-9
+              p {{addedByUserName}}
+          .row
+            label.col-md-3 Added On
+            .col-md-9
+              p {{addedDate}}
+      .col-sm-2.col-xs-6
+        if currentUser
+          button.btn.btn-danger.btn-sm.btn-block.remove-location(type="button") Delete
 
 template(name="articles")
   .panel.panel-default
@@ -102,11 +115,11 @@ template(name="articles")
 template(name="article")
   li.list-group-item
     .row
-      .col-md-10
+      .col-sm-10
         a.ref-link(href="{{url}}" target="_blank") {{url}}
-      .col-md-2
+      .col-sm-2.col-xs-6
         if currentUser
-          button.btn.btn-default.btn-sm.delete-article("article-id" = _id) Delete
+          button.btn.btn-danger.btn-sm.btn-block.delete-article("article-id" = _id) Delete
 
 template(name="locationModal")
   .modal.fade(role="dialog")

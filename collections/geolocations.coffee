@@ -20,6 +20,7 @@ Meteor.methods
       
       for location in locations
         if existingLocations.indexOf(location.geonameId.toString()) is -1
+          user = Meteor.user()
           geolocation = {
             userEventId: eventId,
             geonameId: location.geonameId,
@@ -29,7 +30,10 @@ Meteor.methods
             countryName: location.countryName,
             latitude: location.latitude,
             longitude: location.longitude,
-            url: Meteor.call("generateGeonamesUrl", location.geonameId)
+            url: Meteor.call("generateGeonamesUrl", location.geonameId),
+            addedByUserId: user._id,
+            addedByUserName: user.profile.name,
+            addedDate: new Date()
           }
           Geolocations.insert(geolocation)
     else
