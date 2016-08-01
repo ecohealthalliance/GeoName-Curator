@@ -4,6 +4,14 @@ Modal.allowMultiple = true
 Template.userEvent.onCreated ->
   @editState = new ReactiveVar(false)
 
+Template.userEvent.onRendered ->
+  $(document).ready(() ->
+    board = new Clipboard("#copyLink")
+    $("body").on("focus", "#eventLink", () ->
+      $(this).select()
+    )
+  )
+
 Template.userEvent.helpers
   isEditing: ->
     return Template.instance().editState.get()

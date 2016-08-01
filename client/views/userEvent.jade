@@ -8,22 +8,40 @@ template(name="userEvent")
               if isEditing
                 form#editEvent.form-horizontal
                   .form-group
-                    .col-sm-2.col-md-push-8.space-btm-2
-                      button#save-edit.btn.btn-primary.btn-lg.btn-block(type='submit') Save
-                    .col-sm-2.col-md-push-8.space-btm-2
-                      button#cancel-edit.btn.btn-default.btn-lg.btn-block(type='button') Cancel
-                    .col-sm-8.col-md-pull-4
+                    .col-sm-2.space-btm-1
+                      button#save-edit.btn.btn-primary.btn-block(type='submit') Save
+                    .col-sm-2
+                      button#cancel-edit.btn.btn-default.btn-block(type='button') Cancel
+                  .form-group
+                    .col-sm-12
                       input.form-control.input-lg(type='text', name='eventName', value='{{eventName}}', placeholder="Event name", required)
                   .form-group
                     .col-md-12
                       textarea.form-control(name="eventSummary", placeholder="Event summary", rows="15") {{summary}}
               else
+                if isInRole "admin"
+                  .row
+                    .col-sm-2.space-btm-2
+                      button#edit.btn.btn-default.btn-block Edit
                 .row
-                  .col-sm-2.col-md-push-10
-                    if isInRole "admin"
-                      button#edit.btn.btn-default.btn-lg.btn-block Edit
-                  .col-sm-10.col-md-pull-2.space-btm-2
+                  .col-sm-10
                     h1 {{eventName}}
+                  .col-sm-2.space-btm-1
+                    button.btn.btn-default.btn-block(type="button" data-target="#shareLink" data-toggle="collapse")
+                      i.fa.fa-share
+                      | Share
+                #shareLink.row.collapse
+                  .col-sm-12.shareLink
+                    .panel.panel-default
+                      .panel-body
+                        p Share this event by copying the direct link to this page below.
+                        .input-group
+                          input#eventLink.form-control(type="text" readonly value="{{urlFor 'user-event'}}")
+                          span.input-group-btn
+                            button#copyLink.btn.btn-default(type="button" data-clipboard-target="#eventLink")
+                              i.fa.fa-clipboard
+                .row
+                  .col-sm-10.space-btm-2
                     h5 Created by {{createdByUserName}} on {{creationDate}}
                     h5 Last modified by {{lastModifiedByUserName}} on {{lastModifiedDate}}
                 .row
