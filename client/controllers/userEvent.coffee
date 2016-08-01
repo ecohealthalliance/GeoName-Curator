@@ -17,8 +17,14 @@ Template.userEvent.helpers
     return Template.instance().editState.get()
 
 Template.userEvent.events
-  "click #edit, click #cancel-edit": (event, template) ->
+  "click .edit-link, click #cancel-edit": (event, template) ->
     template.editState.set(not template.editState.get())
+  "click .delete-link": (event, template) ->
+    if confirm("Are you sure you want to delete this event?")
+      Meteor.call("deleteUserEvent", @_id, (error, result) ->
+        if not error
+          Router.go('user-events')
+      )
   "submit #editEvent": (event, template) ->
     event.preventDefault()
     valid = event.target.eventName.checkValidity()
@@ -44,10 +50,10 @@ Template.createEvent.events
       return
     newEvent = e.target.eventName.value
     summary = e.target.eventSummary.value
-    
+
     $new = $("#location-select2")
     locations = []
-    
+
     for option in $new.select2("data")
       locations.push({
         geonameId: option.item.geonameId,
@@ -58,7 +64,7 @@ Template.createEvent.events
         longitude: option.item.lng,
         subdivision: option.item.adminName1
       })
-    
+
     Meteor.call("addUserEvent", newEvent, summary, locations, (error, result) ->
       if result
         Router.go('user-event', {_id: result})

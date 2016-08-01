@@ -84,7 +84,7 @@ Router.route "/create-event",
 
 Router.route "/contact-us",
   name: 'contact-us'
-  
+
 Router.route "/user-events",
   name: 'user-events'
 
