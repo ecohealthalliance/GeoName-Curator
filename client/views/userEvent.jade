@@ -85,10 +85,16 @@ template(name="locationList")
         .form-horizontal.comment-form
           .form-group
             .col-md-12
-              +locationSelect2
+              select#location-select2.form-control.select2(name='location')
+          .form-group
+            .col-md-12
+              select#article-select2.form-control.select2(name='locationArticle')
+                option(value="")
+                each articles
+                  option(value="{{_id}}") {{url}}
           .form-group
             .col-lg-4.col-lg-offset-8.col-md-12
-              button#add-locations.btn.btn-primary.btn-block(type="button") Add Locations
+              button#add-location.btn.btn-primary.btn-block(type="button") Add Location
     if locations.length
       ul.list-group
         each locations

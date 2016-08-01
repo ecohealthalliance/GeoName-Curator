@@ -6,11 +6,10 @@ formatLocation = (name, sub, country) ->
     text += ", " + country
   return text
 
-Template.locationSelect2.onRendered ->
+Template.locationList.onRendered ->
   $(document).ready(() ->
     $("#location-select2").select2({
-      multiple: true
-      placeholder: "Search for locations..."
+      placeholder: "Search for a location..."
       minimumInputLength: 1
       ajax: {
         url: "http://api.geonames.org/searchJSON"
@@ -29,6 +28,10 @@ Template.locationSelect2.onRendered ->
           return {results: results}
       }
     })
+    $("#article-select2").select2({
+      placeholder: "Select at least one article"
+      multiple: true
+    })
     $(".select2-container").css("width", "100%")
   )
 
@@ -37,11 +40,13 @@ Template.location.helpers
     return formatLocation(location.displayName, location.subdivision, location.countryName)
 
 Template.locationList.events
-  "click #add-locations": (event, template) ->
-    $new = $("#location-select2")
+  "click #add-location": (event, template) ->
+    $loc = $("#location-select2")
+    $art = $("#article-select2")
     allLocations = []
-    
-    for option in $new.select2("data")
+    allArticles = $art.val()
+
+    for option in $loc.select2("data")
       allLocations.push({
         geonameId: option.item.geonameId,
         name: option.item.name,
@@ -49,14 +54,25 @@ Template.locationList.events
         countryName: option.item.countryName,
         subdivision: option.item.adminName1,
         latitude: option.item.lat,
-        longitude: option.item.lng
+        longitude: option.item.lng,
+        articles: allArticles
       })
-    
+
+    unless allLocations.length
+      toastr.error('Please select a location')
+      $loc.focus()
+      return
+
+    unless allArticles.length
+      toastr.error("Please select at least one article that references the location")
+      $art.focus()
+      return
+
     Meteor.call("addEventLocations", template.data.userEvent._id, allLocations, (error, result) ->
       if not error
         $new.select2("val", "")
     )
-  
+
   "click .remove-location": (event, template) ->
     if confirm("Do you want to delete the selected location?")
       Meteor.call("removeEventLocation", @_id)
@@ -72,11 +88,11 @@ Template.locationModal.events
     $("#suggested-locations-form").find("input:checked").each(() ->
       geonameIds.push($(this).val())
     )
-    
+
     for loc in @suggestedLocations
       if geonameIds.indexOf(loc.geonameId) isnt -1
         allLocations.push(loc)
-    
+
     if allLocations.length
       Meteor.call("addEventLocations", @userEventId, allLocations, (error, result) ->
         Modal.hide(template)

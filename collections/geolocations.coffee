@@ -17,7 +17,7 @@ Meteor.methods
       existingLocations = []
       for loc in Geolocations.find({userEventId: eventId}).fetch()
         existingLocations.push(loc.geonameId)
-      
+
       for location in locations
         if existingLocations.indexOf(location.geonameId.toString()) is -1
           user = Meteor.user()
@@ -36,7 +36,7 @@ Meteor.methods
             addedDate: new Date()
           }
           Geolocations.insert(geolocation)
-          
+
           Meteor.call("updateUserEventLastModified", eventId)
     else
         throw new Meteor.Error(403, "Not authorized")
