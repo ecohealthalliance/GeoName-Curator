@@ -88,10 +88,7 @@ template(name="locationList")
               select#location-select2.form-control.select2(name='location')
           .form-group
             .col-md-12
-              select#article-select2.form-control.select2(name='locationArticle')
-                option(value="")
-                each articles
-                  option(value="{{_id}}") {{url}}
+              +articleSelect2 selectId="article-select2" articles=articles
           .form-group
             .col-lg-4.col-lg-offset-8.col-md-12
               button#add-location.btn.btn-primary.btn-block(type="button") Add Location
@@ -121,6 +118,21 @@ template(name="location")
             label.col-md-3 Added On
             .col-md-9
               p {{addedDate}}
+          .row
+            label.col-md-3 Sources
+            .col-md-7
+              if isEditingSources
+                +articleSelect2 selectId=articleSelectId articles=allArticles selected=selectedArticles
+              else
+                each sourceArticles
+                  p
+                    a(href="{{url}}") {{url}}
+            .col-md-2
+              if isEditingSources
+                button.save-edit-sources.btn.btn-default(type="button") Save
+                button.cancel-edit-sources.btn.btn-default(type="button") Cancel
+              else
+                button.edit-sources.btn.btn-default(type="button") Edit Sources
       .col-sm-2.col-xs-6
         if currentUser
           button.btn.btn-danger.btn-sm.btn-block.remove-location(type="button") Delete
@@ -202,3 +214,8 @@ template(name="loadingModal")
           p
             i.fa.fa-circle-o-notch.fa-spin
             | Processing article
+
+template(name="articleSelect2")
+  select.article-select2.form-control.select2(id="{{selectId}}" multiple)
+    each articles
+      option(value="{{url}}") {{url}}

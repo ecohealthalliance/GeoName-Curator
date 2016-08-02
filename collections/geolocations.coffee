@@ -12,11 +12,18 @@ if Meteor.isServer
 Meteor.methods
   generateGeonamesUrl: (geonameId) ->
     return "http://www.geonames.org/" + geonameId
-  addEventLocations: (eventId, locations) ->
+  addEventLocations: (eventId, articles, locations) ->
     if Meteor.user()
       existingLocations = []
+      sources = []
+      
       for loc in Geolocations.find({userEventId: eventId}).fetch()
         existingLocations.push(loc.geonameId)
+      
+      for article in articles
+        sources.push({
+          url: article
+        })
 
       for location in locations
         if existingLocations.indexOf(location.geonameId.toString()) is -1
@@ -34,6 +41,7 @@ Meteor.methods
             addedByUserId: user._id,
             addedByUserName: user.profile.name,
             addedDate: new Date()
+            sourceArticles: sources
           }
           Geolocations.insert(geolocation)
 

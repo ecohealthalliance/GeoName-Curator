@@ -22,7 +22,7 @@ Template.articles.events
     scrapeLocations = e.target.scrapeLocations.checked
 
     if article.length isnt 0
-      Meteor.call("addEventArticle", @userEvent._id, article, e.target.publishDate.value, (error, result) ->
+      Meteor.call("addEventArticle", templateInstance.data.userEvent._id, article, e.target.publishDate.value, (error, result) ->
         if not error
           e.target.article.value = ""
           e.target.publishDate.value = ""
@@ -32,7 +32,7 @@ Template.articles.events
             articleLocations = []
             existingLocations = []
 
-            for loc in @locations
+            for loc in templateInstance.data.locations
               existingLocations.push(loc.geonameId.toString())
 
             Modal.show("loadingModal")
@@ -47,3 +47,22 @@ Template.articles.events
               Modal.show("locationModal", {userEventId:templateInstance.data.userEvent._id, suggestedLocations: articleLocations, articleUrl: article})
             )
       )
+
+Template.articleSelect2.onRendered ->
+  templateData = Template.instance().data
+  
+  $(document).ready(() ->
+    $input = $("#" + templateData.selectId)
+    
+    $input.select2({
+      placeholder: "Select at least one article"
+      multiple: true
+    })
+    
+    if templateData.selected
+      $input.val(templateData.selected).trigger("change")
+    #$(".select2-container").css("width", "100%")
+  )
+
+Template.articleSelect2.onDestroyed ->
+  $("#" + Template.instance().data.selectId).select2("destroy")

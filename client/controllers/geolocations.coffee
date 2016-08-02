@@ -6,6 +6,9 @@ formatLocation = (name, sub, country) ->
     text += ", " + country
   return text
 
+Template.location.onCreated ->
+  @editSourcesState = new ReactiveVar(false)
+
 Template.locationList.onRendered ->
   $(document).ready(() ->
     $("#location-select2").select2({
@@ -28,16 +31,27 @@ Template.locationList.onRendered ->
           return {results: results}
       }
     })
-    $("#article-select2").select2({
-      placeholder: "Select at least one article"
-      multiple: true
-    })
     $(".select2-container").css("width", "100%")
   )
 
 Template.location.helpers
   formatLocation: (location) ->
     return formatLocation(location.displayName, location.subdivision, location.countryName)
+  isEditingSources: () ->
+    return Template.instance().editSourcesState.get()
+  articleSelectId: () ->
+    return "articles-" + Template.instance().data._id
+  selectedArticles: () ->
+    urls = []
+    for article in Template.instance().data.sourceArticles
+      urls.push(article.url)
+    return urls
+  allArticles: () ->
+    return grid.Articles.find({userEventId: Template.instance().data.userEventId}).fetch()
+
+Template.location.events
+  "click .edit-sources, click .cancel-edit-sources": (event, template) ->
+    template.editSourcesState.set(not template.editSourcesState.get())
 
 Template.locationList.events
   "click #add-location": (event, template) ->
@@ -68,9 +82,10 @@ Template.locationList.events
       $art.focus()
       return
 
-    Meteor.call("addEventLocations", template.data.userEvent._id, allLocations, (error, result) ->
+    Meteor.call("addEventLocations", template.data.userEvent._id, allArticles, allLocations, (error, result) ->
       if not error
-        $new.select2("val", "")
+        $loc.select2("val", "")
+        $art.select2("val", "")
     )
 
   "click .remove-location": (event, template) ->
@@ -94,7 +109,7 @@ Template.locationModal.events
         allLocations.push(loc)
 
     if allLocations.length
-      Meteor.call("addEventLocations", @userEventId, allLocations, (error, result) ->
+      Meteor.call("addEventLocations", @userEventId, [@articleUrl], allLocations, (error, result) ->
         Modal.hide(template)
       )
     else
