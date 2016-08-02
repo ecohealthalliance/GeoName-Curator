@@ -38,6 +38,14 @@ Meteor.methods
           # months are 0 indexed, so subtract 1 when creating the date
           insertArticle.publishDate = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1])
         
-        Articles.insert(insertArticle)
+        newId = Articles.insert(insertArticle)
         
         Meteor.call("updateUserEventLastModified", eventId)
+        
+        return newId
+  removeEventArticle: (id) ->
+    if Meteor.user()
+      removed = Articles.findOne(id)
+      Articles.remove(id)
+      Meteor.call("removeOrphanedLocations", removed.userEventId, id)
+      Meteor.call("updateUserEventLastModified", removed.userEventId)

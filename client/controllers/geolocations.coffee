@@ -44,7 +44,7 @@ Template.location.helpers
   selectedArticles: () ->
     urls = []
     for article in Template.instance().data.sourceArticles
-      urls.push(article.url)
+      urls.push(article.articleId)
     return urls
   allArticles: () ->
     return grid.Articles.find({userEventId: Template.instance().data.userEventId}).fetch()
@@ -52,13 +52,29 @@ Template.location.helpers
 Template.location.events
   "click .edit-sources, click .cancel-edit-sources": (event, template) ->
     template.editSourcesState.set(not template.editSourcesState.get())
+  "click .save-edit-sources": (event, template) ->
+    $articlesInput = $("#articles-" + template.data._id)
+    articles = []
+    for option in $articlesInput.select2("data")
+      articles.push({
+        articleId: option.id,
+        url: option.text
+      })
+    if articles.length
+      Meteor.call("updateLocationArticles", template.data._id, articles, (error, result) ->
+        if not error
+          template.editSourcesState.set(false)
+      )
+    else
+      toastr.error('The location must have at least one source article')
+      $articlesInput.select2("open")
 
 Template.locationList.events
   "click #add-location": (event, template) ->
     $loc = $("#location-select2")
     $art = $("#article-select2")
     allLocations = []
-    allArticles = $art.val()
+    allArticles = []
 
     for option in $loc.select2("data")
       allLocations.push({
@@ -71,7 +87,13 @@ Template.locationList.events
         longitude: option.item.lng,
         articles: allArticles
       })
-
+    
+    for option in $art.select2("data")
+      allArticles.push({
+        articleId: option.id,
+        url: option.text
+      })
+    
     unless allLocations.length
       toastr.error('Please select a location')
       $loc.focus()
@@ -109,7 +131,7 @@ Template.locationModal.events
         allLocations.push(loc)
 
     if allLocations.length
-      Meteor.call("addEventLocations", @userEventId, [@articleUrl], allLocations, (error, result) ->
+      Meteor.call("addEventLocations", @userEventId, [@article], allLocations, (error, result) ->
         Modal.hide(template)
       )
     else
