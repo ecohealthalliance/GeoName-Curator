@@ -8,7 +8,7 @@ if Meteor.isServer
 
   Meteor.publish "userEvent", (eidID) ->
     UserEvents.find({_id: eidID})
-  
+
   Meteor.publish "userEvents", () ->
     UserEvents.find()
 
@@ -25,7 +25,7 @@ Meteor.methods
       trimmedName = name.trim()
       user = Meteor.user()
       now = new Date()
-      
+
       if trimmedName.length isnt 0
         UserEvents.insert({
           eventName: trimmedName,
@@ -40,7 +40,7 @@ Meteor.methods
           if result
             Meteor.call("addEventLocations", result, locations)
         )
-  
+
   updateUserEvent: (id, name, summary) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       user = Meteor.user()
@@ -51,7 +51,10 @@ Meteor.methods
         lastModifiedByUserId: user._id,
         lastModifiedByUserName: user.profile.name
       }})
-  
+  deleteUserEvent: (id) ->
+    if Roles.userIsInRole(Meteor.userId(), ['admin'])
+      UserEvents.remove(id)
+
   updateUserEventLastModified: (id) ->
     user = Meteor.user()
     if user
