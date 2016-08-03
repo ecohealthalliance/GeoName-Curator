@@ -11,7 +11,7 @@ Template.location.onCreated ->
 
 Template.locationList.onRendered ->
   $(document).ready(() ->
-    $("#location-select2").select2({
+    $("#location-select2, #count-location-select2").select2({
       placeholder: "Search for a location..."
       minimumInputLength: 1
       ajax: {
@@ -87,13 +87,13 @@ Template.locationList.events
         longitude: option.item.lng,
         articles: allArticles
       })
-    
+
     for option in $art.select2("data")
       allArticles.push({
         articleId: option.id,
         url: option.text
       })
-    
+
     unless allLocations.length
       toastr.error('Please select a location')
       $loc.focus()

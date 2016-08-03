@@ -66,6 +66,9 @@ template(name="userEvent")
   .container
     .row
       .col-lg-6
+        +counts
+    .row
+      .col-lg-6
         +articles
       .col-lg-6
         +locationList
@@ -226,3 +229,41 @@ template(name="articleSelect2")
   select.article-select2.form-control.select2(id="{{selectId}}" multiple)
     each articles
       option(value="{{_id}}") {{url}}
+
+template(name="counts")
+  .panel.panel-default
+    .panel-heading
+      h3 Case/Death Counts
+    .panel-body.comments-container
+      if currentUser
+        .comment-form
+          form#add-article.form-horizontal(novalidate)
+            .form-group
+              label.col-lg-3.control-label Article URL
+              .col-lg-9
+                input.form-control.new-article(name="article" required)
+            .form-group
+              label.col-lg-3.control-label Publication Date
+              .col-lg-9
+                input.form-control.datePicker(type="text" name="publishDate" data-DateTimePicker)
+            .form-group
+              label.col-lg-3.control-label Location
+              .col-lg-9
+                select#count-location-select2.form-control.select2(name='location')
+            .form-group
+              label.col-lg-3.control-label Cases
+              .col-lg-9
+                input.form-control.new-article(name="article" required type="number")
+            .form-group
+              label.col-lg-3.control-label Deaths
+              .col-lg-9
+                input.form-control.new-article(name="article" required type="number")
+            .form-group
+              .col-lg-4.col-lg-offset-8.col-sm-12
+                button.btn.btn-primary.btn-block(type="submit") Add Count
+    if counts.length
+      ul.list-group
+        each counts
+          +count
+    else
+      p No articles are associated with this event.
