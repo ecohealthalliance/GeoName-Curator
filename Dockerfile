@@ -27,8 +27,6 @@ RUN cd meteor && git checkout -b $METEOR_VERSION_TAG
 ENV PATH $PATH:/meteor
 
 # Add the application files
-ADD ./build/bundle /eidr-connect
-ADD supervisor-mongod.conf /etc/supervisor/conf.d/mongod.conf
 ADD supervisor-eidr-connect.conf /etc/supervisor/conf.d/eidr-connect.conf
 ADD eidr-connect.sh /eidr-connect.sh
 ADD run.sh /run.sh
