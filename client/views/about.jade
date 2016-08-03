@@ -2,80 +2,39 @@ template(name="about")
   .about
     .container-fluid.about-intro
       .container.content-block
-        h1 EIDR
-        p.lead EIDR is a centralized web platform dedicated to unraveling the origins of Emerging Infectious Diseases (EIDs). Through EIDR, multiple EID events can be compared, historical disease emergence can be visualized spatially, and individual emergence events can be explored in depth. This project builds upon previous work at EcoHealth Alliance, like the ‘hotspots’ map published by Jones et al., in 2008 in the journal Nature (Jones et al 2008).
+        h1 EIDR Connect
+        p.lead EIDR Connect is a centralized web platform dedicated to tracking Emerging Infectious Diseases (EIDs). Through EIDR Connect, multiple EID events can be compared and individual emergence events can be explored in depth. This project builds upon previous work at EcoHealth Alliance, like the ‘hotspots’ map published by Jones et al., in 2008 in the journal Nature (Jones et al 2008).
 
     .container-fluid.exploring-wrap
       .container.content-block
-        h2.centered How can you explore disease emergence using EIDR?
+        h2.centered How can you explore disease emergence using EIDR Connect?
         p.lead.centered Emergence events can be sorted, compared, and investigated in a variety of ways.
         ul.row.exploring.list-unstyled
           li.col-xs-12.col-md-4.col-sm-6
             span.fa.fa-list
             h3 Emergence Events
-            p You can explore emergence events using an interactive table of EID events found in the ‘Emergence Events’ view. The information displayed in this table is customizable, allowing you to choose which EIDR variables you want to view. You can perform specific searches within the table using a filter feature. You may want to search for events with a common variable, like a specific host, or pathogen.
-            a.btn.btn-default.btn-block(href="{{pathFor route='events'}}") View Emergence Events
+            p You can explore emergence events using an interactive table of EID events found in the ‘Tracked Events’ view. The information displayed in this table is customizable, allowing you to choose which event information you want to view. You can perform specific searches within the table using a filter feature.
+            a.btn.btn-default.btn-block(href="{{pathFor route='user-events'}}") View Tracked Events
           li.col-xs-12.col-md-4.col-sm-6
             span.fa.fa-info-circle
             h3 Event Pages
-            p You can explore individual EID events in greater detail through event pages. These event pages can be accessed from the 'Emergence Events' list by clicking an event in the table. Each EID event page contains a detailed report on the event, including an abstract, a map showing the location of the event, and additional information on the event. References used for each event are available in each event page.
+            p You can explore individual EID events in greater detail through event pages. These event pages can be accessed from the 'Tracked Events' list by clicking an event in the table. Links to articles that reference the event and locations that are related to the event can be found here.
           li.col-xs-12.col-md-4.col-sm-6
             span.fa.fa-globe
             h3 Event Map
-            p The event map map provides a broad spatial depiction of all EID events within the EIDR database. Zoom into a specific region or event of interest and click on the map pin to be directed to the Event Page for that event.
+            p The event map map provides a broad spatial depiction of all EID events within the EIDR Connect database. Zoom into a specific region or event of interest and click on the map pin to be directed to the Event Page for that event.
             a.btn.btn-default.btn-block(href="{{pathFor route='event-map'}}") View Event Map
-
-    .container-fluid.green
-      .container.content-block
-        h2.centered.space-btm-3 Methods
-        .row
-          .method.col-md-6
-            h3 EID Event Collection
-            p For the purpose of EIDR, an EID event is defined as the original case or cluster of cases representing the emergence of an infectious disease in human populations. Emergence is defined as the development of any of the following with respect to a given microorganism:
-            ol
-              li Earliest instance of natural human infection
-              li Reappearance after control or elimination
-              li New drug resistance
-              li New or expanded geographic region
-              li Increased incidence
-              li Increased virulence
-
-            p Events are not counted amongst EID events unless some clinical significance and relevance is attributable to the pathogen in question. Potential EID events were evaluated based on these definitions by emerging infectious disease experts at EcoHealth Alliance and classified as EID events if they met any of the above criteria. #[a(href="{{pathFor route='variable-definitions'}}") See EIDR variable definitions for more information on these variables].
-
-            p The events in EIDR date back to 1940, a cut-off chosen by Jones et al. (Jones et al. 2008), and informed by the Institute of Medicine’s resources on EIDs (Smolinski, Hamburg, and Lederberg 2003). Potential EID events were collected from a review of meta-analyses on disease emergence, or through an internal literature review. All events between 1940 and 2004 derive from Jones et al. (Jones et al. 2008), which relied heavily on the review by Taylor and colleagues (Taylor, Latham, and Woolhouse 2001). Events between 2004 and 2013 derive from a recent effort to map emerging zoonoses (Grace et al. 2012), a review of trends in viral discovery (Rosenberg et al. 2013), or were compiled through a review of the literature.
-
-          .method.col-md-6
-            h3 Data Collection and Review
-            p For each EID event data were collected on a set of variables identified as important by a team of EcoHealth Alliance experts. These variables are designed to capture critical spatial, temporal, clinical, epidemiologic, economic, pathogen, and host information. Data were also collected on potential drivers associated with each EID event, like war and famine, antimicrobial use, or proximity to wildlife. Driver categories are based on those found in Smolinski et al. (Smolinski, Hamburg, and Lederberg 2003) and Lederberg et al. (Lederberg, Shope, and Oaks 1992), but some categories are removed and others are broken down further. Emergence locations are resolved to the most specific spatial information available, frequently geographic coordinates representing the smallest administrative region associated with an event. Rarely, multiple potential emergence locations are provided for a single event due to insufficient temporal information within the available literature. Events were independently reviewed at least twice by EcoHealth Alliance veterinarians, disease ecologists, epidemiologists, and public health specialists. A list of all variables and their sub-categories can be found in #[a(href="{{pathFor route='variable-definitions'}}") EIDR variable definitions].
-
-            p Short abstracts are included for all events. When possible, direct language from text was captured to justify values for subjective variables. If no information could be found on a particular variable this absence was captured. General contextual information for each event was acquired from various sources, many unrelated to EID events. For example, taxonomic information is from the National Center for Biotechnology Information (NCBI 2015), and economic information is from the World Bank (World Bank Group 2015).
 
     .container-fluid.funding
       .container.content-block
-        p.centered EIDR was made possible by the generous support of the American people through the United States Agency for International Development (USAID) Emerging Pandemic Threats PREDICT, and through the support of the Defense Threat Reduction Agency (DTRA) through a contract (Contract No. HDTRA1-13-C-0029) awarded to EcoHealth Alliance. The contents are the responsibility of the authors and do not necessarily reflect the views of USAID, DTRA or the United States Government.
-        .row
-          .col-sm-6.col-sm-offset-3.col-xs-10.col-xs-offset-1.col-md-4.col-md-offset-4
-            .row
-              .col-xs-6
-                a(href="//www.dtra.mil/")
-                  img.img-responsive(src="/images/dtra_logo.png")
-              .col-xs-6
-                a(href="//www.usaid.gov/")
-                  img.img-responsive(src="/images/usaid_logo.png")
-
-    .container-fluid.references.gray
-      .container.content-block.reference-list
-        p.space-btm-2 The data is shared under the #[a(href='http://creativecommons.org/licenses/by-sa/4.0/') Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)].
-        ul.list-unstyled
-          li Funk, S., T. L. Bogich, K. E. Jones, A. M. Kilpatrick, and P. Daszak. 2013. 'Quantifying trends in disease impact to produce a consistent and reproducible definition of an emerging infectious disease', #[em PLoS One], 8: e69951.
-          li Grace D, Mutua F, Ochungo P, Kruska R, Jones K, Brierley L, Lapar ML, Said M, Herrero M, Phuc PM, Thao NB, Akuku I, Ogutu F. 2012. "Mapping of poverty and likely zoonoses hotspots." Nairobi Kenya: ILRI.
-          li Jones, K. E., N. G. Patel, M. A. Levy, A. Storeygard, D. Balk, J. L. Gittleman, and P. Daszak. 2008. 'Global trends in emerging infectious diseases', #[em Nature], 451: 990-3.
-          li Lederberg, J., R. E. Shope, and S. C. Oaks. 1992. #[em Emerging Infections: Microbial Threats to Health in the United States] (Institute of Medicine, National Academy Press: Washington (DC)).
-          li Morens, D. M., G. K. Folkers, and A. S. Fauci. 2004. 'The challenge of emerging and re-emerging infectious diseases', #[em Nature], 430: 242-9.
-          li NCBI. 2015. 'Home - Taxonomy - NCBI'. #[a(href="http://www.ncbi.nlm.nih.gov/pubmed/") http://www.ncbi.nlm.nih.gov/pubmed/].
-          li Smolinski, M. S., M. A. Hamburg, and J. Lederberg. 2003.  (National Academies Press: Washington (DC)).
-          li Taylor, L. H., S. M. Latham, and M. E. Woolhouse. 2001. 'Risk factors for human disease emergence', #[em Philos Trans R Soc Lond B Biol Sci], 356: 983-9.
-          li Weiss, R. A., and A. J. McMichael. 2004. 'Social and environmental risk factors in the emergence of infectious diseases', #[em Nat Med], 10: S70-6.
-          li WHO. 2014. 'WHO | Global Health Estimates', WHO.
-          li Woolhouse, M. E., R. Howey, E. Gaunt, L. Reilly, M. Chase-Topping, and N. Savill. 2008. 'Temporal trends in the discovery of human viruses', #[em Proc Biol Sci], 275: 2111-5.
-          li Woolhouse, M., F. Scott, Z. Hudson, R. Howey, and M. Chase-Topping. 2012. 'Human viruses: discovery and emergence', #[em Philos Trans R Soc Lond B Biol Sci], 367: 2864-71.
+        p.centered Funding acknowledgements
+        //p.centered EIDR was made possible by the generous support of the American people through the United States Agency for International Development (USAID) Emerging Pandemic Threats PREDICT, and through the support of the Defense Threat Reduction Agency (DTRA) through a contract (Contract No. HDTRA1-13-C-0029) awarded to EcoHealth Alliance. The contents are the responsibility of the authors and do not necessarily reflect the views of USAID, DTRA or the United States Government.
+        //.row
+          //.col-sm-6.col-sm-offset-3.col-xs-10.col-xs-offset-1.col-md-4.col-md-offset-4
+            //.row
+              //.col-xs-6
+                //a(href="//www.dtra.mil/")
+                  //img.img-responsive(src="/images/dtra_logo.png")
+              //.col-xs-6
+                //a(href="//www.usaid.gov/")
+                  //img.img-responsive(src="/images/usaid_logo.png")
