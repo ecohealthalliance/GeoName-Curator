@@ -12,12 +12,13 @@ if Meteor.isServer
 Meteor.methods
   generateGeonamesUrl: (geonameId) ->
     return "http://www.geonames.org/" + geonameId
-  addEventLocations: (eventId, locations) ->
+  addEventLocations: (eventId, articles, locations) ->
     if Meteor.user()
       existingLocations = []
+      
       for loc in Geolocations.find({userEventId: eventId}).fetch()
         existingLocations.push(loc.geonameId)
-      
+
       for location in locations
         if existingLocations.indexOf(location.geonameId.toString()) is -1
           user = Meteor.user()
@@ -34,9 +35,10 @@ Meteor.methods
             addedByUserId: user._id,
             addedByUserName: user.profile.name,
             addedDate: new Date()
+            sourceArticles: articles
           }
           Geolocations.insert(geolocation)
-          
+
           Meteor.call("updateUserEventLastModified", eventId)
     else
         throw new Meteor.Error(403, "Not authorized")
@@ -44,4 +46,34 @@ Meteor.methods
     if Meteor.user()
       Geolocations.remove(id)
     else
-        throw new Meteor.Error(403, "Not authorized")
+      throw new Meteor.Error(403, "Not authorized")
+  updateLocationArticles: (id, articles) ->
+    if Meteor.user()
+      location = Geolocations.findOne(id)
+      
+      if location
+        Geolocations.update(id, {$set: {
+          sourceArticles: articles
+        }})
+        
+        Meteor.call("updateUserEventLastModified", location.userEventId)
+    else
+      throw new Meteor.Error(403, "Not authorized")
+  removeOrphanedLocations: (eventId, articleId) ->
+    Geolocations.remove({
+      userEventId: eventId,
+      "sourceArticles.articleId": articleId,
+      sourceArticles: {$size: 1}
+    })
+    
+    Geolocations.update(
+      {
+        userEventId: eventId
+      },
+      {
+        $pull: {
+          sourceArticles: {articleId: articleId}
+        }
+      },
+      {multi: true}
+    )

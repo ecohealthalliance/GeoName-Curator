@@ -99,4 +99,4 @@ Router.route "/user-event/:_id",
   data: ->
     userEvent: UserEvents().findOne({'_id': @params._id})
     articles: Articles().find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
-    locations: Geolocations().find({'userEventId': @params._id}).fetch()
+    locations: Geolocations().find({'userEventId': @params._id}, {sort: {displayName: 1}}).fetch()

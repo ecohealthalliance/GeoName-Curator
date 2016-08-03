@@ -6,11 +6,13 @@ formatLocation = (name, sub, country) ->
     text += ", " + country
   return text
 
-Template.locationSelect2.onRendered ->
+Template.location.onCreated ->
+  @editSourcesState = new ReactiveVar(false)
+
+Template.locationList.onRendered ->
   $(document).ready(() ->
     $("#location-select2").select2({
-      multiple: true
-      placeholder: "Search for locations..."
+      placeholder: "Search for a location..."
       minimumInputLength: 1
       ajax: {
         url: "http://api.geonames.org/searchJSON"
@@ -35,13 +37,46 @@ Template.locationSelect2.onRendered ->
 Template.location.helpers
   formatLocation: (location) ->
     return formatLocation(location.displayName, location.subdivision, location.countryName)
+  isEditingSources: () ->
+    return Template.instance().editSourcesState.get()
+  articleSelectId: () ->
+    return "articles-" + Template.instance().data._id
+  selectedArticles: () ->
+    urls = []
+    for article in Template.instance().data.sourceArticles
+      urls.push(article.articleId)
+    return urls
+  allArticles: () ->
+    return grid.Articles.find({userEventId: Template.instance().data.userEventId}).fetch()
+
+Template.location.events
+  "click .edit-sources, click .cancel-edit-sources": (event, template) ->
+    template.editSourcesState.set(not template.editSourcesState.get())
+  "click .save-edit-sources": (event, template) ->
+    $articlesInput = $("#articles-" + template.data._id)
+    articles = []
+    for option in $articlesInput.select2("data")
+      articles.push({
+        articleId: option.id,
+        url: option.text
+      })
+    if articles.length
+      Meteor.call("updateLocationArticles", template.data._id, articles, (error, result) ->
+        if not error
+          template.editSourcesState.set(false)
+      )
+    else
+      toastr.error('The location must have at least one source article')
+      $articlesInput.select2("open")
 
 Template.locationList.events
-  "click #add-locations": (event, template) ->
-    $new = $("#location-select2")
+  "click #add-location": (event, template) ->
+    $loc = $("#location-select2")
+    $art = $("#article-select2")
     allLocations = []
-    
-    for option in $new.select2("data")
+    allArticles = []
+
+    for option in $loc.select2("data")
       allLocations.push({
         geonameId: option.item.geonameId,
         name: option.item.name,
@@ -49,14 +84,32 @@ Template.locationList.events
         countryName: option.item.countryName,
         subdivision: option.item.adminName1,
         latitude: option.item.lat,
-        longitude: option.item.lng
+        longitude: option.item.lng,
+        articles: allArticles
       })
     
-    Meteor.call("addEventLocations", template.data.userEvent._id, allLocations, (error, result) ->
+    for option in $art.select2("data")
+      allArticles.push({
+        articleId: option.id,
+        url: option.text
+      })
+    
+    unless allLocations.length
+      toastr.error('Please select a location')
+      $loc.focus()
+      return
+
+    unless allArticles.length
+      toastr.error("Please select at least one article that references the location")
+      $art.focus()
+      return
+
+    Meteor.call("addEventLocations", template.data.userEvent._id, allArticles, allLocations, (error, result) ->
       if not error
-        $new.select2("val", "")
+        $loc.select2("val", "")
+        $art.select2("val", "")
     )
-  
+
   "click .remove-location": (event, template) ->
     if confirm("Do you want to delete the selected location?")
       Meteor.call("removeEventLocation", @_id)
@@ -72,13 +125,13 @@ Template.locationModal.events
     $("#suggested-locations-form").find("input:checked").each(() ->
       geonameIds.push($(this).val())
     )
-    
+
     for loc in @suggestedLocations
       if geonameIds.indexOf(loc.geonameId) isnt -1
         allLocations.push(loc)
-    
+
     if allLocations.length
-      Meteor.call("addEventLocations", @userEventId, allLocations, (error, result) ->
+      Meteor.call("addEventLocations", @userEventId, [@article], allLocations, (error, result) ->
         Modal.hide(template)
       )
     else

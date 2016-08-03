@@ -66,9 +66,9 @@ template(name="userEvent")
   .container
     .row
       .col-lg-6
-        +locationList
-      .col-lg-6
         +articles
+      .col-lg-6
+        +locationList
 
 template(name="summary")
   if userEvent.summary
@@ -82,13 +82,19 @@ template(name="locationList")
       h3 Locations
     if currentUser
       .panel-body.comments-container
-        .form-horizontal.comment-form
-          .form-group
-            .col-md-12
-              +locationSelect2
-          .form-group
-            .col-lg-4.col-lg-offset-8.col-md-12
-              button#add-locations.btn.btn-primary.btn-block(type="button") Add Locations
+        if articles.length
+          .form-horizontal.comment-form
+            .form-group
+              label.col-lg-3.control-label Location
+              .col-lg-9
+                select#location-select2.form-control.select2(name='location')
+            .form-group
+              label.col-lg-3.control-label Source Articles
+              .col-lg-9
+                +articleSelect2 selectId="article-select2" articles=articles
+            .form-group
+              .col-lg-4.col-lg-offset-8.col-md-12
+                button#add-location.btn.btn-primary.btn-block(type="button") Add Location
     if locations.length
       ul.list-group
         each locations
@@ -101,23 +107,42 @@ template(name="location")
     .row
       .col-sm-10.space-btm-2
         a(role="button" href="#{{_id}}" data-toggle="collapse") {{formatLocation(this)}}
-        .collapse(id="{{_id}}").space-top-2
-          .row
-            label.col-md-3 Geonames Link
-            .col-md-9
-              p
-                a(href="{{url}}") {{displayName}}
-          .row
-            label.col-md-3 Added By
-            .col-md-9
-              p {{addedByUserName}}
-          .row
-            label.col-md-3 Added On
-            .col-md-9
-              p {{addedDate}}
       .col-sm-2.col-xs-6
         if currentUser
           button.btn.btn-danger.btn-sm.btn-block.remove-location(type="button") Delete
+    .collapse(id="{{_id}}").space-top-2
+      .row
+        label.col-md-3 Geonames Link
+        .col-md-9
+          p
+            a(href="{{url}}") {{displayName}}
+      .row
+        label.col-md-3 Added By
+        .col-md-9
+          p {{addedByUserName}}
+      .row
+        label.col-md-3 Added On
+        .col-md-9
+          p {{addedDate}}
+      .row
+        label.col-md-3 Sources
+        .col-md-9
+          if isEditingSources
+            +articleSelect2 selectId=articleSelectId articles=allArticles selected=selectedArticles
+          else
+            each sourceArticles
+              p
+                a(href="{{url}}") {{url}}
+      if currentUser
+        .row.space-top-2
+          if isEditingSources
+            .col-sm-3.col-xs-6.col-md-offset-3
+              button.cancel-edit-sources.btn.btn-default.btn-block(type="button") Cancel
+            .col-sm-3.col-xs-6
+               button.save-edit-sources.btn.btn-primary.btn-block(type="button") Save
+          else
+            .col-sm-3.col-xs-6.col-md-offset-3
+              button.edit-sources.btn.btn-default.btn-block(type="button") Edit Sources
 
 template(name="articles")
   .panel.panel-default
@@ -159,9 +184,9 @@ template(name="article")
         if publishDate
           p
             small {{publishDate}}
-      .col-md-2
+      .col-sm-2.col-xs-6
         if currentUser
-          button.btn.btn-danger.btn-sm.btn-block.delete-article("article-id"=_id) Delete
+          button.btn.btn-danger.btn-sm.btn-block.delete-article Delete
 
 template(name="locationModal")
   .modal.fade(role="dialog")
@@ -196,3 +221,8 @@ template(name="loadingModal")
           p
             i.fa.fa-circle-o-notch.fa-spin
             | Processing article
+
+template(name="articleSelect2")
+  select.article-select2.form-control.select2(id="{{selectId}}" multiple)
+    each articles
+      option(value="{{_id}}") {{url}}
