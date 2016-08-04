@@ -237,15 +237,15 @@ template(name="counts")
     .panel-body.comments-container
       if currentUser
         .comment-form
-          form#add-article.form-horizontal(novalidate)
+          form#add-count.form-horizontal(novalidate)
             .form-group
               label.col-lg-3.control-label Article URL
               .col-lg-9
                 input.form-control.new-article(name="article" required)
             .form-group
-              label.col-lg-3.control-label Publication Date
+              label.col-lg-3.control-label Date
               .col-lg-9
-                input.form-control.datePicker(type="text" name="publishDate" data-DateTimePicker)
+                input.form-control.datePicker(type="text" name="date" data-DateTimePicker)
             .form-group
               label.col-lg-3.control-label Location
               .col-lg-9
@@ -253,11 +253,11 @@ template(name="counts")
             .form-group
               label.col-lg-3.control-label Cases
               .col-lg-9
-                input.form-control.new-article(name="article" required type="number")
+                input.form-control.new-cases(name="cases" required type="number")
             .form-group
               label.col-lg-3.control-label Deaths
               .col-lg-9
-                input.form-control.new-article(name="article" required type="number")
+                input.form-control.new-deaths(name="deaths" required type="number")
             .form-group
               .col-lg-4.col-lg-offset-8.col-sm-12
                 button.btn.btn-primary.btn-block(type="submit") Add Count
@@ -266,4 +266,16 @@ template(name="counts")
         each counts
           +count
     else
-      p No articles are associated with this event.
+      p No case/death counts are associated with this event.
+
+template(name="count")
+  li.list-group-item
+    .row
+      .col-sm-10
+        a.ref-link(href="{{url}}" target="_blank") {{url}}
+        if date
+          p
+            small {{date}}
+      .col-sm-2.col-xs-6
+        if currentUser
+          button.btn.btn-danger.btn-sm.btn-block.delete-article Delete
