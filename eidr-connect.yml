@@ -11,6 +11,7 @@ eidr-connect.eha.io:
   command: supervisord --nodaemon --config /etc/supervisor/supervisord.conf
   volumes:
     - /shared:/shared
+
 mongodb:
   container_name: mongodb
   image: mongodb
@@ -20,3 +21,14 @@ mongodb:
   volumes:
     - /mnt/mongo:/var/lib
     - /var/log:/var/log
+
+app-router:
+  container_name: app-router
+  image: app-router
+  ports:
+    - "80:80"
+    - "443:443"
+  restart: always
+  volumes:
+    - /etc/letsencrypt:/etc/letsencrypt:ro
+
