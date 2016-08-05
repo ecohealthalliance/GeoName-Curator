@@ -20,14 +20,30 @@ Template.counts.events
       return
     article = e.target.article.value.trim()
 
+    $loc = $("#count-location-select2")
+    allLocations = []
+
+    for option in $loc.select2("data")
+      allLocations.push({
+        geonameId: option.item.geonameId,
+        name: option.item.name,
+        displayName: option.item.toponymName,
+        countryName: option.item.countryName,
+        subdivision: option.item.adminName1,
+        latitude: option.item.lat,
+        longitude: option.item.lng,
+      })
+
     if article.length isnt 0
-      Meteor.call("addEventCount", templateInstance.data.userEvent._id, article, e.target.cases.value, e.target.deaths.value, e.target.date.value, (error, result) ->
+      Meteor.call("addEventCount", templateInstance.data.userEvent._id, article, allLocations, e.target.cases.value, e.target.deaths.value, e.target.date.value, (error, result) ->
         if not error
-          articleId = result
+          countId = result
           e.target.article.value = ""
           e.target.date.value = ""
           e.target.cases.value = ""
           e.target.deaths.value = ""
+          $("#count-location-select2").select2('val', '')
+          toastr.success("Count added to event.")
       )
 
 Template.articleSelect2.onRendered ->

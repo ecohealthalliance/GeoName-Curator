@@ -97,6 +97,7 @@ Router.route "/user-event/:_id",
     [
       Meteor.subscribe "userEvent", @params._id
       Meteor.subscribe "eventArticles", @params._id
+      Meteor.subscribe "eventCounts", @params._id
       Meteor.subscribe "eventLocations", @params._id
     ]
   data: ->

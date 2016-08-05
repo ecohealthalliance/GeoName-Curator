@@ -29,7 +29,7 @@ Meteor.methods
       if existingArticle.length is 0
         user = Meteor.user()
         insertArticle.addedByUserId = user._id
-        insertArticle.addedByUserName = user.profile.name
+        insertArticle.addedByUserName = user.user.profile.name
         insertArticle.addedDate = new Date()
 
         if publishDate.length
