@@ -12,6 +12,11 @@ Template.counts.onRendered ->
       format: "M/D/YYYY",
       useCurrent: false
     })
+
+    $("#countArticles").select2({
+      tags: true
+      })
+
     $("#count-location-select2").select2({
       placeholder: "Search for a location..."
       minimumInputLength: 1
@@ -38,7 +43,7 @@ Template.counts.onRendered ->
 Template.counts.events
   "submit #add-count": (e, templateInstance) ->
     event.preventDefault()
-    validURL = e.target.article.checkValidity()
+    validURL = e.target.articles.checkValidity()
     unless validURL
       toastr.error('Please provide a correct URL address')
       e.target.article.focus()
@@ -47,7 +52,10 @@ Template.counts.events
       toastr.error('Please provide a valid date.')
       e.target.publishDate.focus()
       return
-    article = e.target.article.value.trim()
+
+    articles = []
+    for child in e.target.articles.children
+      articles.push(child.value.trim())
 
     $loc = $("#count-location-select2")
     allLocations = []
@@ -63,11 +71,11 @@ Template.counts.events
         longitude: option.item.lng,
       })
 
-    if article.length isnt 0
-      Meteor.call("addEventCount", templateInstance.data.userEvent._id, article, allLocations, e.target.cases.value, e.target.deaths.value, e.target.date.value, (error, result) ->
+    if articles.length isnt 0
+      Meteor.call("addEventCount", templateInstance.data.userEvent._id, articles, allLocations, e.target.cases.value, e.target.deaths.value, e.target.date.value, (error, result) ->
         if not error
           countId = result
-          e.target.article.value = ""
+          e.target.articles.value = ""
           e.target.date.value = ""
           e.target.cases.value = ""
           e.target.deaths.value = ""

@@ -20,7 +20,6 @@ if Meteor.isServer
 
 Meteor.methods
   addEventCount: (eventId, url, locations, cases, deaths, date) ->
-    console.log locations
     if url.length
       insertCount = {
         url: url,
