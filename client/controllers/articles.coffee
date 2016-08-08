@@ -1,10 +1,9 @@
 Template.articles.onRendered ->
-  $(document).ready(() ->
-    $(".datePicker").datetimepicker({
+  @ProMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
+  $(document).ready =>
+    @$(".datePicker").datetimepicker
       format: "M/D/YYYY",
       useCurrent: false
-    })
-  )
 
 Template.articles.events
   "submit #add-article": (e, templateInstance) ->
@@ -52,6 +51,19 @@ Template.articles.events
               })
             )
       )
+  "input #article": _.throttle((event, templateInstance) ->
+    value = event.currentTarget.value.trim()
+    match = templateInstance.ProMEDRegEx.exec(value)
+    if match
+      articleId = match[1]
+      Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
+        if result
+          date = new Date(result)
+          dateString = date.getMonth()+1 + '/' + date.getDate() + '/' +
+                        date.getFullYear()
+          templateInstance.$('#publishDate').val(dateString).trigger('change')
+  , 1000)
+
 
 Template.articleSelect2.onRendered ->
   templateData = Template.instance().data

@@ -157,11 +157,11 @@ template(name="articles")
             .form-group
               label.col-lg-3.control-label Article URL
               .col-lg-9
-                input.form-control.new-article(type="url" name="article" required)
+                input#article.form-control.new-article(type="url" name="article" required)
             .form-group
               label.col-lg-3.control-label Publication Date
               .col-lg-9
-                input.form-control.datePicker(type="text" name="publishDate" data-DateTimePicker)
+                input#publishDate.form-control.datePicker(type="text" name="publishDate" data-DateTimePicker)
             .form-group
               .col-lg-9.col-lg-offset-3
                 .checkbox
