@@ -58,5 +58,5 @@ Meteor.methods
       UserEvents.update(id, {$set: {
         lastModifiedDate: new Date(),
         lastModifiedByUserId: user._id,
-        lastModifiedByUserName: user._id
+        lastModifiedByUserName: user.profile.name
       }})

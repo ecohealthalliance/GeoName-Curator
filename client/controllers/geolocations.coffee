@@ -11,7 +11,7 @@ Template.location.onCreated ->
 
 Template.locationList.onRendered ->
   $(document).ready(() ->
-    $("#location-select2, #count-location-select2").select2({
+    $("#location-select2").select2({
       placeholder: "Search for a location..."
       minimumInputLength: 1
       ajax: {

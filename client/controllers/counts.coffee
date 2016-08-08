@@ -1,9 +1,38 @@
+formatLocation = (name, sub, country) ->
+  text = name
+  if sub
+    text += ", " + sub
+  if country
+    text += ", " + country
+  return text
+
 Template.counts.onRendered ->
   $(document).ready(() ->
     $(".datePicker").datetimepicker({
       format: "M/D/YYYY",
       useCurrent: false
     })
+    $("#count-location-select2").select2({
+      placeholder: "Search for a location..."
+      minimumInputLength: 1
+      ajax: {
+        url: "http://api.geonames.org/searchJSON"
+        data: (params) ->
+          return {
+            username: "eha_eidr"
+            q: params.term
+            style: "full"
+            maxRows: 10
+          }
+        delay: 600
+        processResults: (data, params) ->
+          results = []
+          for loc in data.geonames
+            results.push({id: loc.geonameId, text: formatLocation(loc.toponymName, loc.adminName1, loc.countryName), item: loc})
+          return {results: results}
+      }
+    })
+    $(".select2-container").css("width", "100%")
   )
 
 Template.counts.events
