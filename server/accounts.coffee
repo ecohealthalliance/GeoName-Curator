@@ -5,7 +5,8 @@ Meteor.startup ->
   unless Meteor.users.find().count()
     userData = Meteor.settings.private.initial_user
     if userData
-      console.log "[ Creating initial user with email #{userData.email} … ]"
+      userData.profile = { name: 'Admin' }
+      console.log "[ Creating initial user with email #{userData.email} ]"
       Accounts.createUser userData
       newUserRecord = Meteor.users.findOne('emails.address': userData.email)
       if newUserRecord
