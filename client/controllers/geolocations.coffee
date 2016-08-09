@@ -50,6 +50,12 @@ Template.location.helpers
     return grid.Articles.find({userEventId: Template.instance().data.userEventId}).fetch()
 
 Template.location.events
+  "click .proMedLink": (event, template) ->
+    if this.url != undefined
+      $('#proMedIFrame').attr('src', this.url)
+      $('#proMedURL').attr('href', this.url)
+      $('#proMedURL').text(this.url)
+      $('#proMedModal').modal("show")
   "click .edit-sources, click .cancel-edit-sources": (event, template) ->
     template.editSourcesState.set(not template.editSourcesState.get())
   "click .save-edit-sources": (event, template) ->
@@ -87,13 +93,13 @@ Template.locationList.events
         longitude: option.item.lng,
         articles: allArticles
       })
-    
+
     for option in $art.select2("data")
       allArticles.push({
         articleId: option.id,
         url: option.text
       })
-    
+
     unless allLocations.length
       toastr.error('Please select a location')
       $loc.focus()

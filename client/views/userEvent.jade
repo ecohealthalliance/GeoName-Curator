@@ -77,6 +77,16 @@ template(name="summary")
     p.abstract No summary available.
 
 template(name="locationList")
+  #proMedModal.modal.fade(role='dialog')
+    .modal-dialog.modal-lg(role='document')
+      .modal-content
+        .modal-header
+          button.fa.fa-times.close.fa-2x(type='button', data-dismiss='modal')
+          h4
+            a#proMedURL
+        .modal-body
+          iframe#proMedIFrame
+
   .panel.panel-default
     .panel-heading
       h3 Locations
@@ -116,6 +126,7 @@ template(name="location")
         .col-md-9
           p
             a(href="{{url}}") {{displayName}}
+
       .row
         label.col-md-3 Added By
         .col-md-9
@@ -133,6 +144,7 @@ template(name="location")
             each sourceArticles
               p
                 a(href="{{url}}") {{url}}
+                a.proMedLink(href="#" uri=url) ^
       if currentUser
         .row.space-top-2
           if isEditingSources
