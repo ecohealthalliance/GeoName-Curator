@@ -9,9 +9,7 @@ Template.adminUser.helpers
     this.profile.name
 
   email: ->
-    if this.services.google
-      return this.services.google.email
-    return this.emails[0].address
+    return this.emails?[0].address
 
 Template.adminUser.events
   'click .make-admin': (event) ->
@@ -34,12 +32,12 @@ Template.createAccount.events
       Meteor.call('createAccount', email, name, makeAdmin, (error, result) ->
         if error
           if error.error is 'allUsers.createAccount.exists'
-            toastr.error("The specified email address is already being used.")
+            toastr.error("The specified email address is already being used")
           else
             toastr.error(error.error)
          else
            Router.go('admins')
-           toastr.success("Account created for "+ email)
+           toastr.success("Account created for " + email)
         )
      else
-       toastr.error("Enter an email address and name.")
+       toastr.error("Enter an email address and name")

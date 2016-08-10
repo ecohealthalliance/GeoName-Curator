@@ -15,7 +15,7 @@ Template.articles.events
       e.target.article.focus()
       return
     unless e.target.publishDate.checkValidity()
-      toastr.error('Please provide a valid date.')
+      toastr.error('Please provide a valid date')
       e.target.publishDate.focus()
       return
     article = e.target.article.value.trim()
@@ -55,14 +55,14 @@ Template.articles.events
 
 Template.articleSelect2.onRendered ->
   templateData = Template.instance().data
-  
+
   $(document).ready(() ->
     $input = $("#" + templateData.selectId)
-    
+
     $input.select2({
       multiple: true
     })
-    
+
     if templateData.selected
       $input.val(templateData.selected).trigger("change")
     $(".select2-container").css("width", "100%")
