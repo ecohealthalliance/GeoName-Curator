@@ -116,6 +116,7 @@ template(name="location")
         .col-md-9
           p
             a(href="{{url}}") {{displayName}}
+              i.fa.fa-external-link
       .row
         label.col-md-3 Added By
         .col-md-9
@@ -133,6 +134,7 @@ template(name="location")
             each sourceArticles
               p
                 a(href="{{url}}") {{url}}
+                  i.fa.fa-external-link
       if currentUser
         .row.space-top-2
           if isEditingSources
@@ -155,7 +157,7 @@ template(name="articles")
             .form-group
               label.col-lg-3.control-label Article URL
               .col-lg-9
-                input.form-control.new-article(name="article" required)
+                input.form-control.new-article(type="url" name="article" required)
             .form-group
               label.col-lg-3.control-label Publication Date
               .col-lg-9
@@ -174,13 +176,14 @@ template(name="articles")
         each articles
           +article
     else
-      p No articles are associated with this event.
+      p There are no articles currently associated with this event.
 
 template(name="article")
   li.list-group-item
     .row
       .col-sm-10
         a.ref-link(href="{{url}}" target="_blank") {{url}}
+          i.fa.fa-external-link
         if publishDate
           p
             small {{publishDate}}
@@ -206,6 +209,7 @@ template(name="locationModal")
                         input(type="checkbox" value="{{geonameId}}")
                         | {{locationOptionText(this)}}
                       a(href="{{url}}" target="_blank") (Geonames link)
+                        i.fa.fa-external-link
           else
             p No new locations could be found in the linked article.
         .modal-footer
