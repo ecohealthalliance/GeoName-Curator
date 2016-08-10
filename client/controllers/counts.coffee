@@ -52,6 +52,10 @@ Template.counts.events
       toastr.error('Please provide a valid date.')
       e.target.publishDate.focus()
       return
+    unless e.target.cases.checkValidity() || e.target.deaths.checkValidity()
+      toastr.error('Please provide a valid case or death count.')
+      e.target.cases.focus()
+      return
 
     articles = []
     for child in e.target.articles.children
@@ -75,12 +79,14 @@ Template.counts.events
       Meteor.call("addEventCount", templateInstance.data.userEvent._id, articles, allLocations, e.target.cases.value, e.target.deaths.value, e.target.date.value, (error, result) ->
         if not error
           countId = result
-          e.target.articles.value = ""
+          $("#countArticles").select2('val', '')
           e.target.date.value = ""
           e.target.cases.value = ""
           e.target.deaths.value = ""
           $("#count-location-select2").select2('val', '')
           toastr.success("Count added to event.")
+        else
+          toastr.error(error.reason)
       )
 
 Template.articleSelect2.onRendered ->

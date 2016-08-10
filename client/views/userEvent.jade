@@ -283,9 +283,14 @@ template(name="count")
           button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
     .row
       .col-sm-2.text-right Location:
-      .col-sm-10 {{location.name}}, {{location.displayName}}, {{location.countryName}}
+      if location
+        .col-sm-10 {{location.name}}, {{location.displayName}}, {{location.countryName}}
+      else
+        | No location specified.
     .row
-      .col-sm-2.text-right Cases:
-      .col-sm-2.text-left {{cases}}
-      .col-sm-2.text-right Deaths:
-      .col-sm-2.text-left {{deaths}}
+      if cases
+        .col-sm-2.text-right Cases:
+        .col-sm-2.text-left {{cases}}
+      if deaths
+        .col-sm-2.text-right Deaths:
+        .col-sm-2.text-left {{deaths}}
