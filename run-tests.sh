@@ -5,7 +5,7 @@
 #   execute this script
 
 
-chimp=/Users/Kaylie/meteor/node_modules/chimp/bin/chimp.js
+chimp=node_modules/chimp/bin/chimp.js
 watch=""
 quit=0
 
