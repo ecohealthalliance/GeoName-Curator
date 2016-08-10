@@ -19,6 +19,9 @@ Meteor.methods
       for loc in Geolocations.find({userEventId: eventId}).fetch()
         existingLocations.push(loc.geonameId)
 
+      for article, index in articles
+        articles[index].index = index+1
+
       for location in locations
         if existingLocations.indexOf(location.geonameId.toString()) is -1
           user = Meteor.user()
@@ -52,6 +55,9 @@ Meteor.methods
       location = Geolocations.findOne(id)
 
       if location
+        for article, index in articles
+          articles[index].index = index+1
+
         Geolocations.update(id, {$set: {
           sourceArticles: articles
         }})
