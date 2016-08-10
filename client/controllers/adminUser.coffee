@@ -9,9 +9,7 @@ Template.adminUser.helpers
     this.profile.name
 
   email: ->
-    if this.services.google
-      return this.services.google.email
-    return this.emails[0].address
+    return this.emails?[0].address
 
 Template.adminUser.events
   'click .make-admin': (event) ->
