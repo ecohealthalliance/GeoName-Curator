@@ -11,27 +11,34 @@ do ->
 
     @After(()  ->
       @client.pause(2000)
+      if @client.isVisible("button.navbar-toggle")
+        @client.click("button.navbar-toggle")
+        @client.waitForVisible("#logOut")
       @client.click("#logOut")
       @client.pause(2000)
       @server.call("reset")
     )
 
     @Given(/^I am on the site$/, () ->
+      #@client.windowHandleSize({width: 600, height: 800})
       @client.url(url.resolve(process.env.ROOT_URL, '/'))
     )
 
     @Given(/^I am logged in as an admin$/, () ->
-      @client.waitForExist("a.withIcon[title='Sign In']")
+      if @client.isVisible("button.navbar-toggle")
+        @client.click("button.navbar-toggle")
+      @client.pause(1000)
       @client.click("a.withIcon[title='Sign In']")
       @client.pause(2000)
       @client.setValue("#at-field-email", "chimp@testing1234.com")
       @client.setValue("#at-field-password", "Pa55w0rd!")
       @browser.submitForm("#at-pwd-form")
-      @client.pause(2000)
     )
 
     @Given(/^I can go to the account form$/, () ->
-      @client.waitForExist("#logOut")
+      if @client.isVisible("button.navbar-toggle")
+        @client.click("button.navbar-toggle")
+      @client.waitForVisible("#admins-menu")
       @client.click("#admins-menu")
       @client.waitForVisible(".dropdown-menu.nav-dd")
       @client.click(".dropdown-menu.nav-dd li:first-child a")
@@ -54,4 +61,27 @@ do ->
       @client.waitForExist(".toast-success")
       @client.click("button.toast-close-button")
       expect(userList.value.length).toEqual(2)
+    )
+
+    @Given(/^I can go to the event form$/, () ->
+      if @client.isVisible("button.navbar-toggle")
+        @client.click("button.navbar-toggle")
+      @client.waitForVisible("#logOut")
+      @client.click("a=Tracked Events")
+      @client.pause(2000)
+      @client.click("a=Create New Event")
+    )
+
+    @Then(/^I can(not)? create an event with name "([^"]*)" and summary "([^"]*)"$/, (negated, name, summary) ->
+      @client.setValue("#eventName", name)
+      @client.setValue("#eventSummary", summary)
+      @browser.submitForm("#add-event")
+      @client.pause(1000)
+      if negated
+        expect(@client.isExisting(".toast-error")).toBe(true)
+        @client.click("button.toast-close-button")
+      else
+        expect(@client.isExisting("h1=" + name)).toBe(true)
+        if summary
+          expect(@client.isExisting("p.abstract=" + summary)).toBe(true)
     )
