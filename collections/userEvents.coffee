@@ -37,7 +37,7 @@ Meteor.methods
           lastModifiedByUserId: user._id,
           lastModifiedByUserName: user.profile.name
         })
-  
+
   updateUserEvent: (id, name, summary) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       user = Meteor.user()

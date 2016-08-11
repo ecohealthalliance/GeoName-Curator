@@ -69,6 +69,9 @@ template(name="userEvent")
         +articles
       .col-lg-6
         +locationList
+    .row
+      .col-lg-6
+        +counts
 
 template(name="summary")
   if userEvent.summary
@@ -230,3 +233,68 @@ template(name="articleSelect2")
   select.article-select2.form-control.select2(id="{{selectId}}" multiple)
     each articles
       option(value="{{_id}}") {{url}}
+
+template(name="counts")
+  .panel.panel-default
+    .panel-heading
+      h3 Case/Death Counts
+    .panel-body.comments-container
+      if currentUser
+        .comment-form
+          form#add-count.form-horizontal(novalidate)
+            .form-group
+              label.col-lg-3.control-label Article URL
+              .col-lg-9
+                select#countArticles.form-control.select2(name="articles" required multiple)
+            .form-group
+              label.col-lg-3.control-label Date
+              .col-lg-9
+                input.form-control.datePicker(type="text" name="date" data-DateTimePicker)
+            .form-group
+              label.col-lg-3.control-label Location
+              .col-lg-9
+                select#count-location-select2.form-control.select2(name='location')
+            .form-group
+              label.col-lg-3.control-label Cases
+              .col-lg-9
+                input.form-control.new-cases(name="cases" required type="number")
+            .form-group
+              label.col-lg-3.control-label Deaths
+              .col-lg-9
+                input.form-control.new-deaths(name="deaths" required type="number")
+            .form-group
+              .col-lg-4.col-lg-offset-8.col-sm-12
+                button.btn.btn-primary.btn-block(type="submit") Add Count
+    if counts.length
+      ul.list-group
+        each counts
+          +count
+    else
+      p No case/death counts are associated with this event.
+
+template(name="count")
+  li.list-group-item
+    .row
+      .col-sm-10
+        each val in url
+          p
+            a.ref-link(href="{{val}}" target="_blank") {{val}}
+        if date
+          p
+            small {{date}}
+      .col-sm-2.col-xs-6
+        if currentUser
+          button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
+    .row
+      .col-sm-2.text-right Location:
+      if location
+        .col-sm-10 {{location.name}}, {{location.displayName}}, {{location.countryName}}
+      else
+        | No location specified.
+    .row
+      if cases
+        .col-sm-2.text-right Cases:
+        .col-sm-2.text-left {{cases}}
+      if deaths
+        .col-sm-2.text-right Deaths:
+        .col-sm-2.text-left {{deaths}}

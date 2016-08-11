@@ -87,13 +87,13 @@ Template.locationList.events
         longitude: option.item.lng,
         articles: allArticles
       })
-    
+
     for option in $art.select2("data")
       allArticles.push({
         articleId: option.id,
         url: option.text
       })
-    
+
     unless allLocations.length
       toastr.error('Please select a location')
       $loc.focus()

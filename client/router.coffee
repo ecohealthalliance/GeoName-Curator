@@ -4,6 +4,9 @@ UserEvents = ->
 Articles = ->
   @grid.Articles
 
+Counts = ->
+  @grid.Counts
+
 Geolocations = () ->
   @grid.Geolocations
 
@@ -94,9 +97,11 @@ Router.route "/user-event/:_id",
     [
       Meteor.subscribe "userEvent", @params._id
       Meteor.subscribe "eventArticles", @params._id
+      Meteor.subscribe "eventCounts", @params._id
       Meteor.subscribe "eventLocations", @params._id
     ]
   data: ->
     userEvent: UserEvents().findOne({'_id': @params._id})
     articles: Articles().find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
+    counts: Counts().find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()
     locations: Geolocations().find({'userEventId': @params._id}, {sort: {displayName: 1}}).fetch()
