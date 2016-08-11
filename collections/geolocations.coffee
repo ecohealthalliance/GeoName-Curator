@@ -11,7 +11,7 @@ if Meteor.isServer
 
 Meteor.methods
   generateGeonamesUrl: (geonameId) ->
-    return "http://www.geonames.org/" + geonameId
+    return "https://crossorigin.me/http://www.geonames.org/" + geonameId
   addEventLocations: (eventId, articles, locations) ->
     if Meteor.user()
       existingLocations = []
