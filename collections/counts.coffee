@@ -28,27 +28,24 @@ Meteor.methods
       }
       for location in locations
         insertCount.location = location.displayName
-      existingCount = Counts.find(insertCount).fetch()
-      if existingCount.length is 0
-        user = Meteor.user()
-        insertCount.addedByUserId = user._id
-        insertCount.addedByUserName = user.profile.name
-        insertCount.addedDate = new Date()
 
-        if date.length
-          # format of date string is m/d/yyyy
-          dateSplit = date.split("/")
-          # months are 0 indexed, so subtract 1 when creating the date
-          insertCount.date = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1])
-        for location in locations
-          insertCount.location = location
-        insertCount.cases = cases
-        insertCount.deaths = deaths
-        newId = Counts.insert(insertCount)
-        #Meteor.call("updateUserEventLastModified", eventId)
-        return newId
-      else
-        throw new Meteor.Error(500, "An Count for this article and event already exists.")
+      user = Meteor.user()
+      insertCount.addedByUserId = user._id
+      insertCount.addedByUserName = user.profile.name
+      insertCount.addedDate = new Date()
+
+      if date.length
+        # format of date string is m/d/yyyy
+        dateSplit = date.split("/")
+        # months are 0 indexed, so subtract 1 when creating the date
+        insertCount.date = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1])
+      for location in locations
+        insertCount.location = location
+      insertCount.cases = cases
+      insertCount.deaths = deaths
+      newId = Counts.insert(insertCount)
+      Meteor.call("updateUserEventLastModified", eventId)
+      return newId
 
   removeEventCount: (id) ->
     if Meteor.user()
