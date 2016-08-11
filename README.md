@@ -5,16 +5,11 @@ Global Repository of Infectious Disease Data
 
 ## Building the docker image, and running the container
 
-Build the app with the shell script  
-`./build.sh`
-
 Build the docker image  
 `sudo docker build -t eidr-connect .`
 
 Run the newly built image using docker-compose  
-`sudo docker-compose -f <compose yml file> up -d`  
-Examples of compose files here:  
-https://github.com/ecohealthalliance/infrastructure/tree/master/docker/containers
+`sudo docker-compose -f eidr-compose.yml up -d`
 
 
 ## License
