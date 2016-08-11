@@ -20,7 +20,6 @@ do ->
     )
 
     @Given(/^I am on the site$/, () ->
-      #@client.windowHandleSize({width: 600, height: 800})
       @client.url(url.resolve(process.env.ROOT_URL, '/'))
     )
 

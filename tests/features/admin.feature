@@ -9,7 +9,6 @@ Feature: Admin
     Given I can go to the account form
     Then I cannot submit a blank account form
 
-
   Scenario: Submit a valid user form
     Given I can go to the account form
     Then I can submit a form that has email "test@test.com" and name "The Test"

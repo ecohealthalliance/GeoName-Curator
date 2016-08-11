@@ -5,7 +5,8 @@
 #   execute this script
 
 
-chimp=/Users/Kaylie/meteor/node_modules/chimp/bin/chimp.js
+chimp=node_modules/chimp/bin/chimp.js
+mongo=node_modules/mongodb-prebuilt/binjs/
 watch=""
 quit=0
 
@@ -18,9 +19,9 @@ fi
 # Clean-up
 function finish {
   echo "Cleaning-up..."
-  mongo localhost:13001/meteor .scripts/drop-database.js
+  $mongo/mongo.js localhost:13001/meteor .scripts/drop-database.js
   echo "Restoring the original 'meteor' db from a dump file..."
-  mongorestore -h 127.0.0.1 --port 13001 -d meteor tests/dump/meteor --quiet
+  $mongo/mongorestore.js -h 127.0.0.1 --port 13001 -d meteor tests/dump/meteor --quiet
   echo "done."
   rm -rf tests/dump/ # cle
 }
@@ -36,7 +37,7 @@ trap finish SIGTERM # 15
 # Back up the current database
 rm -rf tests/dump/
 echo "Creating a bson dump of our 'meteor' db..."
-mongodump -h 127.0.0.1 --port 13001 -d meteor -o tests/dump/ --quiet
+$mongo/mongodump.js -h 127.0.0.1 --port 13001 -d meteor -o tests/dump/ --quiet
 echo "done."
 
 

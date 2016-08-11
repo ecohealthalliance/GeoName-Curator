@@ -19,16 +19,17 @@ https://github.com/ecohealthalliance/infrastructure/tree/master/docker/container
 
 ## Testing
 
-Install Chimp by running
-`meteor npm install`
-
-Install mongoDB by following the appropriate installation instructions on the official site:
-https://www.mongodb.com/download-center
+Install testing dependencies
+`npm install`
 
 Run the meteor application on port 13000
-`meteor -p 13000`
+`npm run start-test`
 
-Execute `run-tests.sh`
+Execute the test runner to run all tests
+`npm run chimp-test`
+
+Or include the watch flag to continuously execute watched tests after file changes
+`npm run chimp-watch`
 
 ## License
 
