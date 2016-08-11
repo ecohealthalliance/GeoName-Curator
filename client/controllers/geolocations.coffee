@@ -8,7 +8,7 @@ formatLocation = (name, sub, country) ->
 
 Template.location.onCreated ->
   @editSourcesState = new ReactiveVar(false)
-
+  @index = 0
 Template.locationList.onRendered ->
   $(document).ready(() ->
     $("#location-select2").select2({
@@ -50,6 +50,12 @@ Template.location.helpers
     return grid.Articles.find({userEventId: Template.instance().data.userEventId}).fetch()
 
 Template.location.events
+  "click .proMedLink": (event, template) ->
+    if this.url != undefined
+      $('#proMedIFrame').attr('src', this.url)
+      $('#proMedURL').attr('href', this.url)
+      $('#proMedURL').text(this.url)
+      $('#proMedModal').modal("show")
   "click .edit-sources, click .cancel-edit-sources": (event, template) ->
     template.editSourcesState.set(not template.editSourcesState.get())
   "click .save-edit-sources": (event, template) ->

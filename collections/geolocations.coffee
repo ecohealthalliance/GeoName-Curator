@@ -15,9 +15,12 @@ Meteor.methods
   addEventLocations: (eventId, articles, locations) ->
     if Meteor.user()
       existingLocations = []
-      
+
       for loc in Geolocations.find({userEventId: eventId}).fetch()
         existingLocations.push(loc.geonameId)
+
+      for article, index in articles
+        articles[index].index = index+1
 
       for location in locations
         if existingLocations.indexOf(location.geonameId.toString()) is -1
@@ -50,12 +53,15 @@ Meteor.methods
   updateLocationArticles: (id, articles) ->
     if Meteor.user()
       location = Geolocations.findOne(id)
-      
+
       if location
+        for article, index in articles
+          articles[index].index = index+1
+
         Geolocations.update(id, {$set: {
           sourceArticles: articles
         }})
-        
+
         Meteor.call("updateUserEventLastModified", location.userEventId)
     else
       throw new Meteor.Error(403, "Not authorized")
@@ -65,7 +71,7 @@ Meteor.methods
       "sourceArticles.articleId": articleId,
       sourceArticles: {$size: 1}
     })
-    
+
     Geolocations.update(
       {
         userEventId: eventId

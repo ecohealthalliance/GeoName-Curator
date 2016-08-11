@@ -80,6 +80,16 @@ template(name="summary")
     p.abstract No summary available.
 
 template(name="locationList")
+  #proMedModal.modal.fade(role='dialog')
+    .modal-dialog.modal-lg(role='document')
+      .modal-content
+        .modal-header
+          button.fa.fa-times.close.fa-2x(type='button', data-dismiss='modal')
+          h4
+            a#proMedURL
+        .modal-body
+          iframe#proMedIFrame
+
   .panel.panel-default
     .panel-heading
       h3 Locations
@@ -110,6 +120,9 @@ template(name="location")
     .row
       .col-sm-10.space-btm-2
         a(role="button" href="#{{_id}}" data-toggle="collapse") {{formatLocation(this)}}
+        each sourceArticles
+          a.proMedLink(href="#" uri=url)
+            sup[{{index}}]
       .col-sm-2.col-xs-6
         if currentUser
           button.btn.btn-danger.btn-sm.btn-block.remove-location(type="button") Delete
@@ -136,6 +149,7 @@ template(name="location")
           else
             each sourceArticles
               p
+                |[{{index}}]
                 a(href="{{url}}") {{url}}
                   i.fa.fa-external-link
       if currentUser
