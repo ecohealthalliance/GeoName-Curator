@@ -9,7 +9,7 @@ formatLocation = (name, sub, country) ->
 Template.location.onCreated ->
   @editSourcesState = new ReactiveVar(false)
   @index = 0
-Template.locationList.onRendered ->
+Template.locationForm.onRendered ->
   $(document).ready(() ->
     $("#location-select2").select2({
       placeholder: "Search for a location..."

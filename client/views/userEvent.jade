@@ -79,6 +79,20 @@ template(name="summary")
   else
     p.abstract No summary available.
 
+template(name="locationForm")
+  .form-horizontal.comment-form
+    .form-group
+      label.col-lg-3.control-label Location
+      .col-lg-9
+        select#location-select2.form-control.select2(name='location')
+    .form-group
+      label.col-lg-3.control-label Source Articles
+      .col-lg-9
+        +articleSelect2 selectId="article-select2" articles=articles
+    .form-group
+      .col-lg-4.col-lg-offset-8.col-md-12
+        button#add-location.btn.btn-primary.btn-block(type="button") Add Location
+
 template(name="locationList")
   #proMedModal.modal.fade(role='dialog')
     .modal-dialog.modal-lg(role='document')
@@ -96,18 +110,7 @@ template(name="locationList")
     if currentUser
       .panel-body.comments-container
         if articles.length
-          .form-horizontal.comment-form
-            .form-group
-              label.col-lg-3.control-label Location
-              .col-lg-9
-                select#location-select2.form-control.select2(name='location')
-            .form-group
-              label.col-lg-3.control-label Source Articles
-              .col-lg-9
-                +articleSelect2 selectId="article-select2" articles=articles
-            .form-group
-              .col-lg-4.col-lg-offset-8.col-md-12
-                button#add-location.btn.btn-primary.btn-block(type="button") Add Location
+          +locationForm
     if locations.length
       ul.list-group
         each locations
