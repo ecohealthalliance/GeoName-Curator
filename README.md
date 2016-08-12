@@ -12,6 +12,20 @@ Run the newly built image using docker-compose
 `sudo docker-compose -f eidr-compose.yml up -d`
 
 
+## Testing
+
+Install testing dependencies
+`npm install`
+
+Run the meteor application on port 13000
+`npm run start-test`
+
+Execute the test runner to run all tests
+`npm run chimp-test`
+
+Or include the watch flag to continuously execute watched tests after file changes
+`npm run chimp-watch`
+
 ## License
 
 Copyright 2016 EcoHealth Alliance

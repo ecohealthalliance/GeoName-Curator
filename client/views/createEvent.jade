@@ -7,13 +7,13 @@ template(name="createEvent")
 
           form#add-event.form-horizontal(novalidate)
             .form-group
-              label.control-label.col-sm-2 Event Name
+              label.control-label.col-sm-2(for="eventName") Event Name
               .col-sm-8
-                input.form-control(type='text', name='eventName' required)
+                input#eventName.form-control(type='text', name='eventName' required)
             .form-group
-              label.control-label.col-sm-2 Event Summary
+              label.control-label.col-sm-2(for="eventSummary") Event Summary
               .col-sm-8
-                textarea.form-control(name='eventSummary', rows='15')
+                textarea#eventSummary.form-control(name='eventSummary', rows='15')
             .row
               .col-sm-3.col-sm-offset-7
-                button#add-event.btn.btn-primary.btn-lg.btn-block(type='submit') Add Event
+                button#add-event-btn.btn.btn-primary.btn-lg.btn-block(type='submit') Add Event
