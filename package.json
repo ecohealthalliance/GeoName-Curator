@@ -4,11 +4,12 @@
   "scripts": {
     "start": "meteor -p 3000 --settings settings-dev.json",
     "start-test": "meteor -p 13000 --settings settings-dev.json",
-    "chimp-test": ". ./run-tests.sh",
-    "chimp-watch": "WATCH=true . ./run-tests.sh"
+    "chimp-test": "bash run-tests.sh",
+    "chimp-watch": "WATCH=true bash run-tests.sh"
   },
   "devDependencies": {
     "chimp": "^0.39.3",
-    "mongodb-prebuilt": "^5.0.6"
+    "mongodb-prebuilt": "^5.0.6",
+    "coffee-script": "^1.6.3"
   }
 }
