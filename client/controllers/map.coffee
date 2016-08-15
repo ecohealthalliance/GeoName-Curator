@@ -24,12 +24,13 @@ Template.map.rendered = ->
   markers = []
 
   @autorun ->
-    locations = grid.Geolocations.find({userEventId: Template.currentData().userEvent._id}).fetch()
-    
+    eventData = Template.currentData().userEvent
+    locations = grid.Geolocations.find({userEventId: eventData._id}).fetch()
+
     for marker in markers
       eventMap.removeLayer marker
     markers = []
-    
+
     if locations
       latLngs = ([location.latitude, location.longitude] for location in locations)
       latLngs = _.filter(latLngs, (latLng) ->
@@ -48,9 +49,7 @@ Template.map.rendered = ->
             icon: L.divIcon({
               className: 'map-marker-container'
               iconSize:null
-              html:"""
-              <div class="map-marker"></div>
-              """
+              html: Meteor.mapHelpers.getMarkerHtml([eventData])
             })
           })
           .bindPopup displayName

@@ -32,30 +32,36 @@ Template.eventMap.rendered = ->
     map.removeLayer(markers)
     markers = new L.FeatureGroup()
     query = instance.query.get()
-    
+
     if _.isObject query
       filteredEvents = instance.data.events.find(query).fetch()
     else
       map.removeLayer(markers)
       return
+    mapLocations = {}
+
     for event in filteredEvents
       eventLocations = instance.data.locations.find({userEventId: event._id}).fetch()
-      if eventLocations.length
-        name = event.eventName
-        eventId = event._id
+      for location in eventLocations
+        latLng = location.latitude.toString() + "," + location.longitude.toString()
+        if not mapLocations[latLng]
+          mapLocations[latLng] = {name: location.displayName, events: []}
+        mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: event.mapColorRGB})
 
-        for location in eventLocations
-          latLng = [location.latitude, location.longitude]
+    for coordinates, loc of mapLocations
+      popupHtml = "<h5>" + loc.name + "</h5>"
 
-          if latLng[0] isnt 'Not Found' and latLng[1] isnt 'Not Found'
-            marker = L.marker(latLng, {
-              icon: L.divIcon({
-                className: 'map-marker-container'
-                iconSize:null
-                html: '<div class="map-marker"></div>'
-              })
-            }).bindPopup("""<a href="user-event/#{eventId}">#{name}</a>""")
-            markers.addLayer(marker)
+      for event in loc.events
+        popupHtml += '<p><svg height="8" width="8"><circle fill="rgb(' + event.mapColorRGB + ')" stroke="black" stroke-width="1" r="4" cx="4" cy="4"></circle></svg><a href="user-event/' + event.id + '">' + event.name + '</a></p>'
+
+      marker = L.marker(coordinates.split(","), {
+        icon: L.divIcon({
+          className: 'map-marker-container'
+          iconSize:null
+          html: Meteor.mapHelpers.getMarkerHtml(loc.events)
+        })
+      }).bindPopup(popupHtml)
+      markers.addLayer(marker)
 
     map.addLayer(markers)
 

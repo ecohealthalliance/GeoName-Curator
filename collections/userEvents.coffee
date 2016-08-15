@@ -36,6 +36,7 @@ Meteor.methods
           lastModifiedDate: now,
           lastModifiedByUserId: user._id,
           lastModifiedByUserName: user.profile.name
+          mapColorRGB: (Math.floor(Math.random() * 256)) + ", " + (Math.floor(Math.random() * 256)) + ", " + (Math.floor(Math.random() * 256))
         })
 
   updateUserEvent: (id, name, summary) ->
