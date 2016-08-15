@@ -21,7 +21,7 @@ Template.counts.onRendered ->
       placeholder: "Search for a location..."
       minimumInputLength: 1
       ajax: {
-        url: "http://api.geonames.org/searchJSON"
+        url: "https://crossorigin.me/http://api.geonames.org/searchJSON"
         data: (params) ->
           return {
             username: "eha_eidr"
