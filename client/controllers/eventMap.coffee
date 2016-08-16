@@ -49,10 +49,10 @@ Template.eventMap.rendered = ->
         mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: event.mapColorRGB})
 
     for coordinates, loc of mapLocations
-      popupHtml = "<h5>" + loc.name + "</h5>"
+      popupHtml = "<h4>" + loc.name + "</h4>"
 
       for event in loc.events
-        popupHtml += '<p><svg height="8" width="8"><circle fill="rgb(' + event.mapColorRGB + ')" stroke="black" stroke-width="1" r="4" cx="4" cy="4"></circle></svg><a href="user-event/' + event.id + '">' + event.name + '</a></p>'
+        popupHtml += '<p><svg class="marker-color-spot" height="10" width="10"><circle fill="rgb(' + event.mapColorRGB + ')" r="5" cx="5" cy="5"></circle></svg><a href="user-event/' + event.id + '">' + event.name + '</a></p>'
 
       marker = L.marker(coordinates.split(","), {
         icon: L.divIcon({

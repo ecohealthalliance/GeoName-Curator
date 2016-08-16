@@ -7,7 +7,7 @@ Meteor.mapHelpers = {
     radius = size / 2
 
     angle = 360 * (1 / events.length)
-    angleCalc = if events.length is 1 then 1 else if (angle > 180) then 360 - angle else angle
+    angleCalc = if events.length is 1 then 0.1 else if (angle > 180) then 360 - angle else angle
     angleRad = angleCalc * Math.PI / 180
     z = Math.sqrt(2 * radius * radius - (2 * radius * radius * Math.cos(angleRad)))
 
@@ -25,8 +25,8 @@ Meteor.mapHelpers = {
       arcSweep = 1
 
     for event in events
-      paths += '<path fill="rgba(' + event.mapColorRGB + ', 0.8)" d="M' + radius + ',' + radius + ' L' + radius + ',0 A' + radius + ',' + radius + ' 1 ' + arcSweep + ',1 ' + x + ', ' + y + ' z" transform="rotate(' + rotation + ', ' + radius + ', ' + radius + ')" />'
+      paths += '<path class="map-marker-path" fill="rgba(' + event.mapColorRGB + ', 0.7)" d="M' + radius + ',' + radius + ' L' + radius + ',0 A' + radius + ',' + radius + ' 1 ' + arcSweep + ',1 ' + x + ', ' + y + ' z" transform="rotate(' + rotation + ', ' + radius + ', ' + radius + ')" />'
       rotation += angle
 
-    return '<svg width="' + size + '" height="' + size + '">' + paths + '<circle r="' + size * 0.12 + '" cx="' + size * 0.5 + '" cy="' + size * 0.5 + '" fill="rgb(245, 245, 243)" /></svg>'
+    return '<svg class="map-marker" width="' + size + '" height="' + size + '">' + paths + '<circle r="' + size * 0.12 + '" cx="' + size * 0.5 + '" cy="' + size * 0.5 + '" fill="rgb(245, 245, 243)" /></svg>'
 }
