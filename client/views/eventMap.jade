@@ -2,9 +2,3 @@ template(name="eventMap")
   +mapFilters query=getQuery
   .fluid-container
     #event-map
-
-template(name="markerPopup")
-  h5 {{location}}
-  each events
-    p
-      a(href="{{pathFor 'user-event'}}") {{name}}
