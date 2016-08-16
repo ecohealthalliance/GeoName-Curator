@@ -1,9 +1,22 @@
 Template.articles.onRendered ->
-  @ProMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
-  $(document).ready =>
-    @$(".datePicker").datetimepicker
-      format: "M/D/YYYY",
-      useCurrent: false
+  @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
+  @isAMorPM = (hours) ->
+    if (hours != 0 && hours > 12) then 'PM' else 'AM'
+
+Template.articles.helpers
+  timezones: ->
+    a = []
+    for k,v of UTCOffsets
+      a.push({name: k, offset: v})
+      if k is 'EST'
+        a[a.length-1].selected = true
+    a
+  initDatePicker: ->
+    templateInstance = Template.instance()
+    Meteor.defer ->
+      templateInstance.$(".datePicker").datetimepicker
+        format: 'M/D/YYYY hh:mm A'
+        useCurrent: false
 
 Template.articles.events
   "submit #add-article": (e, templateInstance) ->
@@ -21,7 +34,7 @@ Template.articles.events
     scrapeLocations = e.target.scrapeLocations.checked
 
     if article.length isnt 0
-      Meteor.call("addEventArticle", templateInstance.data.userEvent._id, article, e.target.publishDate.value, (error, result) ->
+      Meteor.call("addEventArticle", templateInstance.data.userEvent._id, article, e.target.publishDate.value, e.target.publishDateTZ.value, (error, result) ->
         if not error
           articleId = result
           e.target.article.value = ""
@@ -51,18 +64,19 @@ Template.articles.events
               })
             )
       )
-  "input #article": _.throttle((event, templateInstance) ->
+  "input #article": (event, templateInstance) ->
     value = event.currentTarget.value.trim()
-    match = templateInstance.ProMEDRegEx.exec(value)
+    match = templateInstance.proMEDRegEx.exec(value)
     if match
-      articleId = match[1]
+      articleId = Number(match[1])
       Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
         if result
           date = new Date(result)
           dateString = date.getMonth()+1 + '/' + date.getDate() + '/' +
-                        date.getFullYear()
+                        date.getFullYear() +
+                        ' ' + (date.getHours()-1) + ':' + date.getMinutes() +
+                        ' ' + templateInstance.isAMorPM(date.getHours())
           templateInstance.$('#publishDate').val(dateString).trigger('change')
-  , 1000)
 
 Template.articleSelect2.helpers
   initArticleSelect2: ->
