@@ -23,7 +23,7 @@ Meteor.methods
   addEventCount: (eventId, url, locations, cases, deaths, date) ->
     if url.length
       insertCount = {
-        url: url,
+        url: [url],
         userEventId: eventId
       }
       for location in locations

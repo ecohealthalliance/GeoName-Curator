@@ -88,7 +88,7 @@ template(name="locationForm")
     .form-group
       label.col-lg-3.control-label Source Articles
       .col-lg-9
-        +articleSelect2 selectId="article-select2" articles=articles
+        +articleSelect2 selectId="article-select2" articles=articles multiple="true"
     .form-group
       .col-lg-4.col-lg-offset-8.col-md-12
         button#add-location.btn.btn-primary.btn-block(type="button") Add Location
@@ -148,7 +148,7 @@ template(name="location")
         label.col-md-3 Sources
         .col-md-9
           if isEditingSources
-            +articleSelect2 selectId=articleSelectId articles=allArticles selected=selectedArticles
+            +articleSelect2 selectId=articleSelectId articles=allArticles selected=selectedArticles multiple="true"
           else
             each sourceArticles
               p
@@ -247,7 +247,9 @@ template(name="loadingModal")
             | Processing article
 
 template(name="articleSelect2")
-  select.article-select2.form-control.select2(id="{{selectId}}" multiple)
+  select.article-select2.form-control.select2(id="{{selectId}}" name="{{selectId}}" multiple="{{multiple}}" init="{{initArticleSelect2}}" required)
+    unless multiple
+      option(value="")
     each articles
       option(value="{{_id}}") {{url}}
 
@@ -262,7 +264,7 @@ template(name="counts")
             .form-group
               label.col-lg-3.control-label Article URL
               .col-lg-9
-                select#countArticles.form-control.select2(name="articles" required multiple)
+                +articleSelect2 selectId="countArticles" articles=articles
             .form-group
               label.col-lg-3.control-label Date
               .col-lg-9
