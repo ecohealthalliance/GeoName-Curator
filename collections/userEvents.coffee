@@ -27,14 +27,6 @@ Meteor.methods
       now = new Date()
 
       if trimmedName.length isnt 0
-        # Generate the map marker color from a hash of the event name
-        hash = 5381
-        for i in [0..trimmedName.length - 1]
-          hash = ((hash << 5) + hash) + trimmedName.charCodeAt(i)
-        r = (hash & 0xFF0000) >> 16
-        g = (hash & 0x00FF00) >> 8
-        b = hash & 0x0000FF
-
         UserEvents.insert({
           eventName: trimmedName,
           summary: summary,
@@ -44,7 +36,6 @@ Meteor.methods
           lastModifiedDate: now,
           lastModifiedByUserId: user._id,
           lastModifiedByUserName: user.profile.name
-          mapColorRGB: r + ", " + g + ", " + b
         })
 
   updateUserEvent: (id, name, summary) ->

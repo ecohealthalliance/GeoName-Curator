@@ -1,3 +1,5 @@
+MapHelpers = require '/imports/ui/mapMarkers.coffee'
+
 L.Icon.Default.imagePath = "/packages/fuatsengul_leaflet/images"
 
 Template.eventMap.created = ->
@@ -40,13 +42,16 @@ Template.eventMap.rendered = ->
       return
     mapLocations = {}
 
-    for event in filteredEvents
+    colorScale = chroma.scale(MapHelpers.getDefaultGradientColors()).colors(filteredEvents.length)
+
+    for i in [0..filteredEvents.length - 1]
+      event = filteredEvents[i]
       eventLocations = instance.data.locations.find({userEventId: event._id}).fetch()
       for location in eventLocations
         latLng = location.latitude.toString() + "," + location.longitude.toString()
         if not mapLocations[latLng]
           mapLocations[latLng] = {name: location.displayName, events: []}
-        mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: event.mapColorRGB})
+        mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: chroma(colorScale[i]).rgb()})
 
     for coordinates, loc of mapLocations
       popupHtml = "<h4>" + loc.name + "</h4>"
@@ -58,7 +63,7 @@ Template.eventMap.rendered = ->
         icon: L.divIcon({
           className: 'map-marker-container'
           iconSize:null
-          html: Meteor.mapHelpers.getMarkerHtml(loc.events)
+          html: MapHelpers.getMarkerHtml(loc.events)
         })
       }).bindPopup(popupHtml)
       markers.addLayer(marker)

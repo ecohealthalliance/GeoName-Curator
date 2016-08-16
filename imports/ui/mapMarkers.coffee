@@ -1,4 +1,8 @@
-Meteor.mapHelpers = {
+module.exports =
+  getDefaultGradientColors: ->
+    #gradient is made from shades of [blue, yellow, red]
+    return ["1F87FF","F7E40F", "E30B0B"]
+
   getMarkerHtml: (events, customSize) ->
     paths = ""
     rotation = 0
@@ -29,4 +33,4 @@ Meteor.mapHelpers = {
       rotation += angle
 
     return '<svg class="map-marker" width="' + size + '" height="' + size + '">' + paths + '<circle r="' + size * 0.12 + '" cx="' + size * 0.5 + '" cy="' + size * 0.5 + '" fill="rgb(245, 245, 243)" /></svg>'
-}
+
