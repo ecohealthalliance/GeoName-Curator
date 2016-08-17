@@ -1,3 +1,5 @@
+MapHelpers = require '/imports/ui/mapMarkers.coffee'
+
 L.Icon.Default.imagePath = "/packages/fuatsengul_leaflet/images"
 
 Template.eventMap.created = ->
@@ -32,30 +34,39 @@ Template.eventMap.rendered = ->
     map.removeLayer(markers)
     markers = new L.FeatureGroup()
     query = instance.query.get()
-    
+
     if _.isObject query
       filteredEvents = instance.data.events.find(query).fetch()
     else
       map.removeLayer(markers)
       return
-    for event in filteredEvents
+    mapLocations = {}
+
+    colorScale = chroma.scale(MapHelpers.getDefaultGradientColors()).colors(filteredEvents.length)
+
+    for i in [0..filteredEvents.length - 1]
+      event = filteredEvents[i]
       eventLocations = instance.data.locations.find({userEventId: event._id}).fetch()
-      if eventLocations.length
-        name = event.eventName
-        eventId = event._id
+      for location in eventLocations
+        latLng = location.latitude.toString() + "," + location.longitude.toString()
+        if not mapLocations[latLng]
+          mapLocations[latLng] = {name: location.displayName, events: []}
+        mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: chroma(colorScale[i]).rgb()})
 
-        for location in eventLocations
-          latLng = [location.latitude, location.longitude]
+    for coordinates, loc of mapLocations
+      popupHtml = "<h4>" + loc.name + "</h4>"
 
-          if latLng[0] isnt 'Not Found' and latLng[1] isnt 'Not Found'
-            marker = L.marker(latLng, {
-              icon: L.divIcon({
-                className: 'map-marker-container'
-                iconSize:null
-                html: '<div class="map-marker"></div>'
-              })
-            }).bindPopup("""<a href="user-event/#{eventId}">#{name}</a>""")
-            markers.addLayer(marker)
+      for event in loc.events
+        popupHtml += '<p><svg class="marker-color-spot" height="10" width="10"><circle fill="rgb(' + event.mapColorRGB + ')" r="5" cx="5" cy="5"></circle></svg><a href="user-event/' + event.id + '">' + event.name + '</a></p>'
+
+      marker = L.marker(coordinates.split(","), {
+        icon: L.divIcon({
+          className: 'map-marker-container'
+          iconSize:null
+          html: MapHelpers.getMarkerHtml(loc.events)
+        })
+      }).bindPopup(popupHtml)
+      markers.addLayer(marker)
 
     map.addLayer(markers)
 

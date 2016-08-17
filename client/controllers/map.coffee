@@ -1,3 +1,5 @@
+MapHelpers = require '/imports/ui/mapMarkers.coffee'
+
 Template.map.rendered = ->
   eventMap = L.map 'map',
     scrollWheelZoom: false,
@@ -24,12 +26,14 @@ Template.map.rendered = ->
   markers = []
 
   @autorun ->
-    locations = grid.Geolocations.find({userEventId: Template.currentData().userEvent._id}).fetch()
-    
+    eventData = Template.currentData().userEvent
+    locations = grid.Geolocations.find({userEventId: eventData._id}).fetch()
+
     for marker in markers
       eventMap.removeLayer marker
     markers = []
-    
+    colorScale = chroma.scale(MapHelpers.getDefaultGradientColors()).colors(2)
+    eventData.mapColorRGB = chroma(colorScale[0]).rgb()
     if locations
       latLngs = ([location.latitude, location.longitude] for location in locations)
       latLngs = _.filter(latLngs, (latLng) ->
@@ -48,9 +52,7 @@ Template.map.rendered = ->
             icon: L.divIcon({
               className: 'map-marker-container'
               iconSize:null
-              html:"""
-              <div class="map-marker"></div>
-              """
+              html: MapHelpers.getMarkerHtml([eventData])
             })
           })
           .bindPopup displayName
