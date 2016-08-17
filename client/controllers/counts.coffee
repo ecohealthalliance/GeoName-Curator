@@ -43,10 +43,11 @@ Template.counts.onRendered ->
 Template.counts.events
   "submit #add-count": (e, templateInstance) ->
     event.preventDefault()
-    validURL = e.target.articles.checkValidity()
+    $articleSelect = templateInstance.$(e.target.countArticles)
+    validURL = e.target.countArticles.checkValidity()
     unless validURL
-      toastr.error('Please provide a correct URL address')
-      e.target.article.focus()
+      toastr.error('Please select an article.')
+      e.target.countArticles.focus()
       return
     unless e.target.date.checkValidity()
       toastr.error('Please provide a valid date.')
@@ -57,11 +58,12 @@ Template.counts.events
       e.target.cases.focus()
       return
 
-    articles = []
-    for child in e.target.articles.children
-      articles.push(child.value.trim())
+    article = ""
+    for child in $articleSelect.select2("data")
+      if child.selected
+        article = child.text.trim()
 
-    $loc = $("#count-location-select2")
+    $loc = templateInstance.$("#count-location-select2")
     allLocations = []
 
     for option in $loc.select2("data")
@@ -75,34 +77,16 @@ Template.counts.events
         longitude: option.item.lng,
       })
 
-    if articles.length isnt 0
-      Meteor.call("addEventCount", templateInstance.data.userEvent._id, articles, allLocations, e.target.cases.value, e.target.deaths.value, e.target.date.value, (error, result) ->
+    if article.length isnt 0
+      Meteor.call("addEventCount", templateInstance.data.userEvent._id, article, allLocations, e.target.cases.value, e.target.deaths.value, e.target.date.value, (error, result) ->
         if not error
           countId = result
-          $("#countArticles").select2('val', '')
+          $articleSelect.select2('val', '')
           e.target.date.value = ""
           e.target.cases.value = ""
           e.target.deaths.value = ""
-          $("#count-location-select2").select2('val', '')
+          templateInstance.$("#count-location-select2").select2('val', '')
           toastr.success("Count added to event.")
         else
           toastr.error(error.reason)
       )
-
-Template.articleSelect2.onRendered ->
-  templateData = Template.instance().data
-
-  $(document).ready(() ->
-    $input = $("#" + templateData.selectId)
-
-    $input.select2({
-      multiple: true
-    })
-
-    if templateData.selected
-      $input.val(templateData.selected).trigger("change")
-    $(".select2-container").css("width", "100%")
-  )
-
-Template.articleSelect2.onDestroyed ->
-  $("#" + Template.instance().data.selectId).select2("destroy")

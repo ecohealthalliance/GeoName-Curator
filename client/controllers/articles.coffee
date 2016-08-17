@@ -64,21 +64,24 @@ Template.articles.events
           templateInstance.$('#publishDate').val(dateString).trigger('change')
   , 1000)
 
+Template.articleSelect2.helpers
+  initArticleSelect2: ->
+    templateInstance = Template.instance()
+    templateData = templateInstance.data
 
-Template.articleSelect2.onRendered ->
-  templateData = Template.instance().data
+    Meteor.defer ->
+      $input = templateInstance.$("#" + templateData.selectId)
+      options = {}
+      
+      if templateData.multiple
+        options.multiple = true
+      
+      $input.select2(options)
 
-  $(document).ready(() ->
-    $input = $("#" + templateData.selectId)
-
-    $input.select2({
-      multiple: true
-    })
-
-    if templateData.selected
-      $input.val(templateData.selected).trigger("change")
-    $(".select2-container").css("width", "100%")
-  )
+      if templateData.selected
+        $input.val(templateData.selected).trigger("change")
+      templateInstance.$(".select2-container").css("width", "100%")
 
 Template.articleSelect2.onDestroyed ->
-  $("#" + Template.instance().data.selectId).select2("destroy")
+  templateInstance = Template.instance()
+  templateInstance.$("#" + templateInstance.data.selectId).select2("destroy")
