@@ -9,30 +9,6 @@ formatLocation = (name, sub, country) ->
 Template.location.onCreated ->
   @editSourcesState = new ReactiveVar(false)
   @index = 0
-Template.locationForm.onRendered ->
-  $(document).ready(() ->
-    $("#location-select2").select2({
-      placeholder: "Search for a location..."
-      minimumInputLength: 1
-      ajax: {
-        url: "https://crossorigin.me/http://api.geonames.org/searchJSON"
-        data: (params) ->
-          return {
-            username: "eha_eidr"
-            q: params.term
-            style: "full"
-            maxRows: 10
-          }
-        delay: 600
-        processResults: (data, params) ->
-          results = []
-          for loc in data.geonames
-            results.push({id: loc.geonameId, text: formatLocation(loc.toponymName, loc.adminName1, loc.countryName), item: loc})
-          return {results: results}
-      }
-    })
-    $(".select2-container").css("width", "100%")
-  )
 
 Template.location.helpers
   formatLocation: (location) ->
@@ -142,3 +118,32 @@ Template.locationModal.events
       )
     else
       Modal.hide(template)
+
+Template.locationSelect2.helpers
+  initLocationSelect2: ->
+    templateInstance = Template.instance()
+    templateData = templateInstance.data
+
+    Meteor.defer ->
+      templateInstance.$("#" + templateData.selectId).select2({
+        tags: templateData.multiple
+        placeholder: "Search for a location..."
+        minimumInputLength: 1
+        ajax: {
+          url: "https://crossorigin.me/http://api.geonames.org/searchJSON"
+          data: (params) ->
+            return {
+              username: "eha_eidr"
+              q: params.term
+              style: "full"
+              maxRows: 10
+            }
+          delay: 600
+          processResults: (data, params) ->
+            results = []
+            for loc in data.geonames
+              results.push({id: loc.geonameId, text: formatLocation(loc.toponymName, loc.adminName1, loc.countryName), item: loc})
+            return {results: results}
+        }
+      })
+      templateInstance.$(".select2-container").css("width", "100%")

@@ -84,7 +84,7 @@ template(name="locationForm")
     .form-group
       label.col-lg-3.control-label Location
       .col-lg-9
-        select#location-select2.form-control.select2(name='location')
+        +locationSelect2 selectId="location-select2" required="true"
     .form-group
       label.col-lg-3.control-label Source Articles
       .col-lg-9
@@ -246,6 +246,9 @@ template(name="loadingModal")
             i.fa.fa-circle-o-notch.fa-spin
             | Processing article
 
+template(name="locationSelect2")
+  select.location-select2.form-control.select2(id="{{selectId}}" name="location" multiple="{{multiple}}" init="{{initLocationSelect2}}" required="{{required}}")
+
 template(name="articleSelect2")
   select.article-select2.form-control.select2(id="{{selectId}}" name="{{selectId}}" multiple="{{multiple}}" init="{{initArticleSelect2}}" required)
     unless multiple
@@ -272,7 +275,7 @@ template(name="counts")
             .form-group
               label.col-lg-3.control-label Location
               .col-lg-9
-                select#count-location-select2.form-control.select2(name='location')
+                +locationSelect2 selectId="count-location-select2" multiple="true"
             .form-group
               label.col-lg-3.control-label Cases
               .col-lg-9
@@ -305,11 +308,13 @@ template(name="count")
         if currentUser
           button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
     .row
-      .col-sm-2.text-right Location:
-      if location
-        .col-sm-10 {{location.name}}, {{location.displayName}}, {{location.countryName}}
+      .col-sm-2.text-right Locations:
+      if locations.length
+        .col-sm-10
+          each locations
+            p {{name}}, {{displayName}}, {{countryName}}
       else
-        | No location specified.
+        | No locations specified.
     .row
       if cases
         .col-sm-2.text-right Cases:

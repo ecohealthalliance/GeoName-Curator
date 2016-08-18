@@ -15,29 +15,7 @@ Template.counts.onRendered ->
 
     $("#countArticles").select2({
       tags: true
-      })
-
-    $("#count-location-select2").select2({
-      placeholder: "Search for a location..."
-      minimumInputLength: 1
-      ajax: {
-        url: "https://crossorigin.me/http://api.geonames.org/searchJSON"
-        data: (params) ->
-          return {
-            username: "eha_eidr"
-            q: params.term
-            style: "full"
-            maxRows: 10
-          }
-        delay: 600
-        processResults: (data, params) ->
-          results = []
-          for loc in data.geonames
-            results.push({id: loc.geonameId, text: formatLocation(loc.toponymName, loc.adminName1, loc.countryName), item: loc})
-          return {results: results}
-      }
     })
-    $(".select2-container").css("width", "100%")
   )
 
 Template.counts.events
