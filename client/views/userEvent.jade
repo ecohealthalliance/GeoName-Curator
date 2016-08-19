@@ -259,7 +259,7 @@ template(name="articleSelect2")
 template(name="counts")
   .panel.panel-default
     .panel-heading
-      h3 Case/Death Counts
+      h3 Incident Reports
     .panel-body.comments-container
       if currentUser
         .comment-form
@@ -277,48 +277,64 @@ template(name="counts")
               .col-lg-9
                 +locationSelect2 selectId="count-location-select2" multiple="true"
             .form-group
-              label.col-lg-3.control-label Cases
+              label.col-lg-3.control-label Incident Type
               .col-lg-9
-                input.form-control.new-cases(name="cases" required type="number")
+                select.form-control(name="incidentType" required)
+                  option(value="")
+                  option(value="cases") Case Count
+                  option(value="deaths") Death Count
+                  option(value="other") Other
             .form-group
-              label.col-lg-3.control-label Deaths
-              .col-lg-9
-                input.form-control.new-deaths(name="deaths" required type="number")
+              if showCountForm
+                label.col-lg-3.control-label Count
+                .col-lg-9
+                  input.form-control(name="count" type="number" min="0" required)
+              if showOtherForm
+                label.col-lg-3.control-label Specify Other
+                .col-lg-9
+                  input.form-control(name="other" type="text" required)
             .form-group
               .col-lg-4.col-lg-offset-8.col-sm-12
-                button.btn.btn-primary.btn-block(type="submit") Add Count
+                button.btn.btn-primary.btn-block(type="submit") Add Report
     if counts.length
       ul.list-group
         each counts
           +count
     else
-      p No case/death counts are associated with this event.
+      p No incident reports are associated with this event.
 
 template(name="count")
   li.list-group-item
-    .row
-      .col-sm-10
-        each val in url
-          p
-            a.ref-link(href="{{val}}" target="_blank") {{val}}
-        if date
-          p
-            small {{date}}
-      .col-sm-2.col-xs-6
-        if currentUser
-          button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
-    .row
-      .col-sm-2.text-right Locations:
-      if locations.length
+    .form-horizontal
+      .row
         .col-sm-10
-          each locations
-            p {{name}}, {{displayName}}, {{countryName}}
-      else
-        | No locations specified.
-    .row
-      if cases
-        .col-sm-2.text-right Cases:
-        .col-sm-2.text-left {{cases}}
-      if deaths
-        .col-sm-2.text-right Deaths:
-        .col-sm-2.text-left {{deaths}}
+          each val in url
+            p
+              a.ref-link(href="{{val}}" target="_blank") {{val}}
+          if date
+            p
+              small {{date}}
+        .col-sm-2.col-xs-6
+          if currentUser
+            button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
+      .row
+        .col-sm-2.control-label Location:
+        .col-sm-10
+          p.form-control-static
+            if locations.length
+              each locations
+                {{name}}, {{displayName}}, {{countryName}}
+            else
+              | No location specified.
+      .row
+        if cases
+          +incident label="Cases" value=cases
+        if deaths
+          +incident label="Deaths" value=deaths
+        if specify
+          +incident label="Other" value=specify
+
+template(name="incident")
+  .col-sm-2.control-label {{label}}:
+  .col-sm-10
+    p.form-control-static {{value}}

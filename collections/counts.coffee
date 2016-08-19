@@ -20,7 +20,7 @@ if Meteor.isServer
       return Roles.userIsInRole(Meteor.userId(), ['admin'])
 
 Meteor.methods
-  addEventCount: (eventId, url, locations, cases, deaths, date) ->
+  addEventCount: (eventId, url, locations, type, count, date) ->
     if url.length
       insertCount = {
         url: [url],
@@ -41,8 +41,10 @@ Meteor.methods
         # months are 0 indexed, so subtract 1 when creating the date
         insertCount.date = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1])
 
-      insertCount.cases = cases
-      insertCount.deaths = deaths
+      switch type
+        when "cases" then insertCount.cases = count
+        when "deaths" then insertCount.deaths = count
+        else insertCount.specify = count
       newId = Counts.insert(insertCount)
       Meteor.call("updateUserEventLastModified", eventId)
       return newId
