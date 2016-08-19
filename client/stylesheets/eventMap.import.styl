@@ -38,3 +38,32 @@
   .leaflet-popup-content-wrapper
     max-width 300px
 
+.map-legend-container.leaflet-control
+  margin-bottom 0
+  min-width 200px
+
+.map-legend
+  padding 10px 15px
+  background rgba(255, 255, 255, 0.9)
+  box-shadow 0 2px 5px rgba(0, 0, 0, 0.2)
+  border-radius 0 5px 0 0
+  border 1px solid secondary
+  border-bottom none
+
+.map-legend-drawer
+  max-height 500px
+  overflow hidden
+  transition .5s
+
+.map-legend-drawer.closed
+  max-height 0
+  transition .5s
+
+.map-legend-tab
+  height 30px
+  width 40px
+  background-color secondary
+  color white
+  box-shadow 0 0 15px rgba(0, 0, 0, 0.2)
+  border-radius 5px 5px 0 0
+  cursor pointer

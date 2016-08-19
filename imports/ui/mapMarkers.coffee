@@ -1,7 +1,7 @@
 module.exports =
   getDefaultGradientColors: ->
-    #gradient is made from shades of [blue, yellow, red]
-    return ["1F87FF","F7E40F", "E30B0B"]
+    #gradient is made from shades of [red, yellow, blue]
+    return ["E30B0B","BFB10F", "1F87FF"]
 
   getMarkerHtml: (events, customSize) ->
     paths = ""
