@@ -34,8 +34,9 @@ Template.userEvent.events
       return
     updatedName = event.target.eventName.value.trim()
     updatedSummary = event.target.eventSummary.value.trim()
+    disease = event.target.eventDisease.value.trim()
     if updatedName.length isnt 0
-      Meteor.call("updateUserEvent", @_id, updatedName, updatedSummary, (error, result) ->
+      Meteor.call("updateUserEvent", @_id, updatedName, updatedSummary, disease, (error, result) ->
         if not error
           template.editState.set(false)
       )

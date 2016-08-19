@@ -38,12 +38,13 @@ Meteor.methods
           lastModifiedByUserName: user.profile.name
         })
 
-  updateUserEvent: (id, name, summary) ->
+  updateUserEvent: (id, name, summary, disease) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       user = Meteor.user()
       grid.UserEvents.update(id, {$set: {
         eventName: name,
         summary: summary,
+        disease: disease,
         lastModifiedDate: new Date(),
         lastModifiedByUserId: user._id,
         lastModifiedByUserName: user.profile.name
