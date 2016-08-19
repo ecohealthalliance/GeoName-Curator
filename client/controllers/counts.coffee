@@ -1,11 +1,3 @@
-formatLocation = (name, sub, country) ->
-  text = name
-  if sub
-    text += ", " + sub
-  if country
-    text += ", " + country
-  return text
-
 Template.counts.onRendered ->
   $(document).ready(() ->
     $(".datePicker").datetimepicker({
@@ -45,15 +37,15 @@ Template.counts.events
     allLocations = []
 
     for option in $loc.select2("data")
-      allLocations.push({
-        geonameId: option.item.geonameId,
-        name: option.item.name,
-        displayName: option.item.toponymName,
-        countryName: option.item.countryName,
-        subdivision: option.item.adminName1,
-        latitude: option.item.lat,
-        longitude: option.item.lng,
-      })
+      allLocations.push(
+        geonameId: option.item.id
+        name: option.item.name
+        displayName: option.item.name
+        countryName: option.item.countryName
+        subdivision: option.item.admin1Name
+        latitude: option.item.latitude
+        longitude: option.item.longitude
+      )
 
     if article.length isnt 0
       Meteor.call("addEventCount", templateInstance.data.userEvent._id, article, allLocations, e.target.cases.value, e.target.deaths.value, e.target.date.value, (error, result) ->
