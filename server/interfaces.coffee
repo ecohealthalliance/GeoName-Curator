@@ -34,8 +34,7 @@ Meteor.methods
               subdivision: loc.adminName1,
               latitude: loc.lat,
               longitude: loc.lng,
-              countryName: loc.countryName,
-              url: Meteor.call("generateGeonamesUrl", loc.geonameId)
+              countryName: loc.countryName
             })
     return locations
 
