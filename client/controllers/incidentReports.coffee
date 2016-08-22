@@ -6,10 +6,10 @@ formatLocation = (name, sub, country) ->
     text += ", " + country
   return text
 
-Template.counts.onCreated ->
+Template.incidentReports.onCreated ->
   @incidentType = new ReactiveVar("")
 
-Template.counts.onRendered ->
+Template.incidentReports.onRendered ->
   $(document).ready(() ->
     $(".datePicker").datetimepicker({
       format: "M/D/YYYY",
@@ -21,14 +21,14 @@ Template.counts.onRendered ->
     })
   )
 
-Template.counts.helpers
+Template.incidentReports.helpers
   showCountForm: ->
     type = Template.instance().incidentType.get()
     return type is "cases" or type is "deaths"
   showOtherForm: ->
     return Template.instance().incidentType.get() is "other"
 
-Template.counts.events
+Template.incidentReports.events
   "change select[name='incidentType']": (e, template) ->
     template.incidentType.set($(e.target).val())
   "submit #add-count": (e, templateInstance) ->
@@ -77,7 +77,7 @@ Template.counts.events
 
     incidentCount = if e.target.count then e.target.count.value.trim() else e.target.other.value.trim()
 
-    Meteor.call("addEventCount", templateInstance.data.userEvent._id, article, allLocations, e.target.incidentType.value, incidentCount, e.target.date.value, (error, result) ->
+    Meteor.call("addIncidentReport", templateInstance.data.userEvent._id, article, allLocations, e.target.incidentType.value, incidentCount, e.target.date.value, (error, result) ->
       if not error
         countId = result
         $articleSelect.select2('val', '')
