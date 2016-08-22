@@ -1,17 +1,20 @@
 Template.mapFilters.created = ->
-  filterVariables = [
-    {name: 'eidCategoryVal', show: true}
-    {name: 'zoonoticVal',show: false}
-    {name: 'eventTransmissionAnimalVal', show: false}
-  ]
-  
-  @variables = new ReactiveVar {}
+  filterVariables = ["countDate"]
+  @variables = new ReactiveVar {
+    "countDate": {
+      class: "countDate"
+      state: false
+      showDateAttributes: true
+      value: "Incident Report Date"
+    }
+  }
   @userSearchText = new ReactiveVar ''
 
 Template.mapFilters.rendered = ->
   @autorun ->
     checkValues = Template.instance().variables.get()
-    filters =
+    filters =[]
+    ###
       _.chain(checkValues)
         .map((variable) ->
           checkedValues = []
@@ -30,6 +33,7 @@ Template.mapFilters.rendered = ->
             [varQuery]
         ).map((variable) -> {$or: variable})
         .value()
+    ###
     userSearchText = Template.instance().userSearchText.get()
     nameQuery = []
     searchWords = userSearchText.split(' ')
@@ -77,22 +81,27 @@ Template.mapFilters.helpers
   getSearchText: ->
     Template.instance().userSearchText.get()
 
-Template.checkboxControl.helpers
-  showCheckAll: ->
-    _.every(getCheckboxStates.call(@))
-
 Template.mapFilters.events
   'click .filter': (e, instance) ->
+    $wrap = instance.$('.filters-wrap')
+    initCalendar = $wrap.hasClass("hidden")
+    if not initCalendar
+      instance.$(".datePicker").data("DateTimePicker").destroy()
     instance.$('.filter').toggleClass('open')
-    instance.$('.filters-wrap').toggleClass('hidden')
+    $wrap.toggleClass('hidden')
+    if initCalendar
+      instance.$(".datePicker").datetimepicker
+        format: "M/D/YYYY"
+        defaultDate: new Date()
+        widgetPositioning: {vertical: "bottom"}
 
   'click input[type=checkbox]': (e) ->
     variables = Template.instance().variables.get()
     target = $(e.target)
-    value = target.val()
     variable = target[0].className
     state = target[0].checked
-    variables[variable]['values'][value].state = state
+    date
+    variables[variable].state = state
     Template.instance().variables.set(variables)
 
   'input .map-search': _.debounce (e, templateInstance) ->

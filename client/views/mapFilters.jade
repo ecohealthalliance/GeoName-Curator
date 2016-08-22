@@ -11,27 +11,38 @@ template(name="mapFilters")
           if getSearchText
             span.clear-search
               i.fa.fa-times-circle
-      if getVariables
-        .toggles
-          .filter
-            h2 Filters
-          .filters-wrap.hidden
-            each getVariables
-              .filter-block
-                .filter-header
-                  h3(data-toggle="popover" data-content="#{description}") #{displayName}
-                    i.fa.fa-info-circle
-                  .checkbox-controls
-                    +checkboxControl variable=spreadsheetName checkBoxes=getCheckboxList
-                .form-group
-                  each getValues
-                    .checkbox
-                      label(data-toggle="popover" data-content="#{description}")
-                        input(class="#{../spreadsheetName}" type="checkbox" value="#{name}" checked="#{state}")
-                        | #{name}
-
-template(name="checkboxControl")
-  if showCheckAll
-    span.check.check-all
-  else
-    span.check.uncheck-all
+      .toggles
+        .filter
+          h2 Filters
+        .filters-wrap.hidden
+          each getVariables
+            .filter-block
+              .form-group
+                .checkbox
+                  label
+                    input(class="{{class}}" type="checkbox" value="{{value}}" checked="#{state}")
+                    | {{value}}
+              if showDateAttributes
+                .filter-attributes
+                  .form-group
+                    .radio
+                      label
+                        input(type="radio" name="incidentDateType" value="on" checked="true")
+                        | On
+                  .form-group
+                    .radio
+                      label
+                        input(type="radio" name="incidentDateType" value="before")
+                        | Before
+                  .form-group
+                    .radio
+                      label
+                        input(type="radio" name="incidentDateType" value="after")
+                        | After
+                  .form-group
+                    .radio
+                      label
+                        input(type="radio" name="incidentDateType" value="between")
+                        | Between
+                  .form-group
+                    input.form-control.datePicker(type="text")
