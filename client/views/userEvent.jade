@@ -13,11 +13,17 @@ template(name="userEvent")
                     .col-sm-2.space-btm-1
                       button#save-edit.btn.btn-primary.btn-block(type='submit') Save
                   .form-group
-                    .col-sm-12
-                      input.form-control.input-lg(type='text', name='eventName', value='{{eventName}}', placeholder="Event name", required)
+                    .col-md-12
+                      label.control-label Event Name
+                      input.form-control(type='text' name='eventName' value='{{eventName}}' required)
                   .form-group
                     .col-md-12
-                      textarea.form-control(name="eventSummary", placeholder="Event summary", rows="15") {{summary}}
+                      label.control-label Event Summary
+                      textarea.form-control(name="eventSummary" rows="15") {{summary}}
+                  .form-group
+                    .col-md-12
+                      label.control-label Event Disease
+                      input.form-control(type="text" name="eventDisease" value="{{disease}}")
             else
               with userEvent
                 if isInRole "admin"
@@ -74,10 +80,22 @@ template(name="userEvent")
         +counts
 
 template(name="summary")
-  if userEvent.summary
-    p.abstract {{userEvent.summary}}
-  else
-    p.abstract No summary available.
+  .row
+    .col-md-12
+      p.abstract
+        if userEvent.summary
+          | {{userEvent.summary}}
+        else
+          | No summary available.
+  .row.space-btm-2
+    .col-md-12
+      .disease-separator
+      h2 Event Disease
+      p
+        if userEvent.disease
+          | {{userEvent.disease}}
+        else
+          | No disease available.
 
 template(name="locationForm")
   .form-horizontal.comment-form
