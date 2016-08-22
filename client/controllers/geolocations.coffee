@@ -1,18 +1,10 @@
-formatLocation = (name, sub, country) ->
-  text = name
-  if sub
-    text += ", " + sub
-  if country
-    text += ", " + country
-  return text
+formatLocation = require '/imports/formatLocation.coffee'
 
 Template.location.onCreated ->
   @editSourcesState = new ReactiveVar(false)
   @index = 0
 
 Template.location.helpers
-  formatLocation: (location) ->
-    return formatLocation(location.displayName, location.subdivision, location.countryName)
   isEditingSources: () ->
     return Template.instance().editSourcesState.get()
   articleSelectId: () ->
@@ -59,16 +51,16 @@ Template.locationList.events
     allArticles = []
 
     for option in $loc.select2("data")
-      allLocations.push({
-        geonameId: option.item.geonameId,
-        name: option.item.name,
-        displayName: option.item.toponymName,
-        countryName: option.item.countryName,
-        subdivision: option.item.adminName1,
-        latitude: option.item.lat,
-        longitude: option.item.lng,
+      allLocations.push(
+        geonameId: option.item.id
+        name: option.item.name
+        displayName: option.item.name
+        countryName: option.item.countryName
+        subdivision: option.item.admin1Name
+        latitude: option.item.latitude
+        longitude: option.item.longitude
         articles: allArticles
-      })
+      )
 
     for option in $art.select2("data")
       allArticles.push({
@@ -98,7 +90,11 @@ Template.locationList.events
 
 Template.locationModal.helpers
   locationOptionText: (location) ->
-    return formatLocation(location.displayName, location.subdivision, location.countryCode)
+    return formatLocation(
+      name: location.displayName
+      admin1Name: location.subdivision
+      countryName: location.countryName
+    )
 
 Template.locationModal.events
   "click #add-suggestions": (event, template) ->
@@ -118,32 +114,3 @@ Template.locationModal.events
       )
     else
       Modal.hide(template)
-
-Template.locationSelect2.helpers
-  initLocationSelect2: ->
-    templateInstance = Template.instance()
-    templateData = templateInstance.data
-
-    Meteor.defer ->
-      templateInstance.$("#" + templateData.selectId).select2({
-        tags: templateData.multiple
-        placeholder: "Search for a location..."
-        minimumInputLength: 1
-        ajax: {
-          url: "https://crossorigin.me/http://api.geonames.org/searchJSON"
-          data: (params) ->
-            return {
-              username: "eha_eidr"
-              q: params.term
-              style: "full"
-              maxRows: 10
-            }
-          delay: 600
-          processResults: (data, params) ->
-            results = []
-            for loc in data.geonames
-              results.push({id: loc.geonameId, text: formatLocation(loc.toponymName, loc.adminName1, loc.countryName), item: loc})
-            return {results: results}
-        }
-      })
-      templateInstance.$(".select2-container").css("width", "100%")

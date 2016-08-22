@@ -10,8 +10,6 @@ if Meteor.isServer
     Geolocations.find({userEventId: userEventId})
 
 Meteor.methods
-  generateGeonamesUrl: (geonameId) ->
-    return "https://crossorigin.me/http://www.geonames.org/" + geonameId
   addEventLocations: (eventId, articles, locations) ->
     if Meteor.user()
       existingLocations = []
@@ -34,7 +32,6 @@ Meteor.methods
             countryName: location.countryName,
             latitude: location.latitude,
             longitude: location.longitude,
-            url: Meteor.call("generateGeonamesUrl", location.geonameId),
             addedByUserId: user._id,
             addedByUserName: user.profile.name,
             addedDate: new Date()

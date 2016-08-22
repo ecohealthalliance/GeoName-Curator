@@ -152,7 +152,7 @@ template(name="location")
         label.col-md-3 Geonames Link
         .col-md-9
           p
-            a(href="{{url}}") {{displayName}}
+            a(href="http://www.geonames.org/{{geonameId}}") {{displayName}}
               i.fa.fa-external-link
       .row
         label.col-md-3 Added By
@@ -264,12 +264,10 @@ template(name="loadingModal")
             i.fa.fa-circle-o-notch.fa-spin
             | Processing article
 
-template(name="locationSelect2")
-  select.location-select2.form-control.select2(id="{{selectId}}" name="location" multiple="{{multiple}}" init="{{initLocationSelect2}}" required="{{required}}")
-
 template(name="articleSelect2")
   select.article-select2.form-control.select2(id="{{selectId}}" name="{{selectId}}" multiple="{{multiple}}" init="{{initArticleSelect2}}" required)
     unless multiple
       option(value="")
     each articles
       option(value="{{_id}}") {{url}}
+

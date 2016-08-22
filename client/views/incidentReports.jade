@@ -64,8 +64,9 @@ template(name="incidentReport")
         .col-sm-10
           p.form-control-static
             if locations.length
-              each locations
-                | {{name}}, {{displayName}}, {{countryName}}
+              ul
+                each locations
+                  li {{formatLocation(this)}}
             else
               | No location specified.
       .row

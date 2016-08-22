@@ -1,11 +1,3 @@
-formatLocation = (name, sub, country) ->
-  text = name
-  if sub
-    text += ", " + sub
-  if country
-    text += ", " + country
-  return text
-
 Template.incidentReports.onCreated ->
   @incidentType = new ReactiveVar("")
 
@@ -65,15 +57,15 @@ Template.incidentReports.events
     allLocations = []
 
     for option in $loc.select2("data")
-      allLocations.push({
-        geonameId: option.item.geonameId,
-        name: option.item.name,
-        displayName: option.item.toponymName,
-        countryName: option.item.countryName,
-        subdivision: option.item.adminName1,
-        latitude: option.item.lat,
-        longitude: option.item.lng,
-      })
+      allLocations.push(
+        geonameId: option.item.id
+        name: option.item.name
+        displayName: option.item.name
+        countryName: option.item.countryName
+        subdivision: option.item.admin1Name
+        latitude: option.item.latitude
+        longitude: option.item.longitude
+      )
 
     incidentCount = if e.target.count then e.target.count.value.trim() else e.target.other.value.trim()
 
