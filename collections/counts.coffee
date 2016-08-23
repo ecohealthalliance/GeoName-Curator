@@ -1,3 +1,5 @@
+dateHelpers = require '/imports/ui/dateHelpers.coffee'
+
 Counts = new Meteor.Collection "counts"
 
 @grid ?= {}
@@ -11,6 +13,8 @@ Counts.getEventCounts = getEventCounts
 if Meteor.isServer
   Meteor.publish "eventCounts", (ueId) ->
     getEventCounts(ueId)
+  Meteor.publish "mapIncidents", () ->
+    Counts.find({date: {$ne: null}}, {fields: {userEventId: 1, date: 1}})
 
   Counts.allow
     insert: (userID, doc) ->
@@ -36,10 +40,7 @@ Meteor.methods
       insertCount.addedDate = new Date()
 
       if date.length
-        # format of date string is m/d/yyyy
-        dateSplit = date.split("/")
-        # months are 0 indexed, so subtract 1 when creating the date
-        insertCount.date = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1])
+        insertCount.date = dateHelpers.dateStringToDate(date, "/")
 
       insertCount.cases = cases
       insertCount.deaths = deaths
