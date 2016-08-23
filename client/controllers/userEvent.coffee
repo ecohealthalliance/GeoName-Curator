@@ -5,12 +5,11 @@ Template.userEvent.onCreated ->
   @editState = new ReactiveVar(false)
 
 Template.userEvent.onRendered ->
-  $(document).ready(() ->
+  $(document).ready ->
     board = new Clipboard("#copyLink")
-    $("body").on("focus", "#eventLink", () ->
+    $(document.body).on("focus", "#eventLink", ->
       $(this).select()
     )
-  )
 
 Template.userEvent.helpers
   isEditing: ->
@@ -51,7 +50,7 @@ Template.createEvent.events
       return
     newEvent = e.target.eventName.value
     summary = e.target.eventSummary.value
-    
+
     Meteor.call("addUserEvent", newEvent, summary, (error, result) ->
       if result
         Router.go('user-event', {_id: result})

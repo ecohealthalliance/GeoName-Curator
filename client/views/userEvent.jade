@@ -68,16 +68,13 @@ template(name="userEvent")
                 else
                   .col-md-12
                     +summary
-
   .container
     .row
       .col-lg-6
         +articles
+        +incidentReports
       .col-lg-6
         +locationList
-    .row
-      .col-lg-6
-        +incidentReports
 
 template(name="summary")
   .row
@@ -97,20 +94,6 @@ template(name="summary")
         else
           | No disease available.
 
-template(name="locationForm")
-  .form-horizontal.comment-form
-    .form-group
-      label.col-lg-3.control-label Location
-      .col-lg-9
-        +locationSelect2 selectId="location-select2" required="true"
-    .form-group
-      label.col-lg-3.control-label Source Articles
-      .col-lg-9
-        +articleSelect2 selectId="article-select2" articles=articles multiple="true"
-    .form-group
-      .col-lg-4.col-lg-offset-8.col-md-12
-        button#add-location.btn.btn-primary.btn-block(type="button") Add Location
-
 template(name="locationList")
   #proMedModal.modal.fade(role='dialog')
     .modal-dialog.modal-lg(role='document')
@@ -121,17 +104,12 @@ template(name="locationList")
             a#proMedURL
         .modal-body
           iframe#proMedIFrame
-
   .panel.panel-default
     .panel-heading
       h3 Locations
-    if currentUser
-      .panel-body.comments-container
-        if articles.length
-          +locationForm
-    if locations.length
+    if incidentLocations.length
       ul.list-group
-        each locations
+        each incidentLocations
           +location
     else
       p No locations are associated with this event.
@@ -139,50 +117,31 @@ template(name="locationList")
 template(name="location")
   li.list-group-item
     .row
-      .col-sm-10.space-btm-2
-        a(role="button" href="#{{_id}}" data-toggle="collapse") {{formatLocation(this)}}
-        each sourceArticles
-          a.proMedLink(href="#" uri=url)
-            sup [{{index}}]
-      .col-sm-2.col-xs-6
-        if currentUser
-          button.btn.btn-danger.btn-sm.btn-block.remove-location(type="button") Delete
-    .collapse(id="{{_id}}").space-top-2
+      .col-sm-12.space-btm-2
+        a(role="button" href="#g#{geonameId}" data-toggle="collapse") {{formatLocation(this)}}
+        each sources
+          a.proMedLink(href="#" uri=this)
+            sup [
+              i.fa.fa-external-link
+              | ]
+    .collapse(id="g#{geonameId}").space-top-2
       .row
-        label.col-md-3 Geonames Link
-        .col-md-9
+        label.col-md-4 Geonames Link
+        .col-md-8
           p
             a(href="http://www.geonames.org/{{geonameId}}") {{displayName}}
               i.fa.fa-external-link
       .row
-        label.col-md-3 Added By
-        .col-md-9
-          p {{addedByUserName}}
-      .row
-        label.col-md-3 Added On
-        .col-md-9
+        label.col-md-4 Added On
+        .col-md-8
           p {{addedDate}}
       .row
-        label.col-md-3 Sources
-        .col-md-9
-          if isEditingSources
-            +articleSelect2 selectId=articleSelectId articles=allArticles selected=selectedArticles multiple="true"
-          else
-            each sourceArticles
-              p
-                |[{{index}}]
-                a(href="{{url}}") {{url}}
-                  i.fa.fa-external-link
-      if currentUser
-        .row.space-top-2
-          if isEditingSources
-            .col-sm-3.col-xs-6.col-md-offset-3
-              button.cancel-edit-sources.btn.btn-default.btn-block(type="button") Cancel
-            .col-sm-3.col-xs-6
-               button.save-edit-sources.btn.btn-primary.btn-block(type="button") Save
-          else
-            .col-sm-3.col-xs-6.col-md-offset-3
-              button.edit-sources.btn.btn-default.btn-block(type="button") Edit Sources
+        label.col-md-4 Source
+        .col-md-8
+          each sources
+            p
+              a(href="{{this}}") {{this}}
+                i.fa.fa-external-link
 
 template(name="articles")
   .panel.panel-default
@@ -270,4 +229,3 @@ template(name="articleSelect2")
       option(value="")
     each articles
       option(value="{{_id}}") {{url}}
-
