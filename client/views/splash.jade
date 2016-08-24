@@ -2,12 +2,11 @@ template(name="splash")
 	.jumbotron
 			.intro-info
 				h1 EIDR Connect
-				.container
-					p
-						| EIDR Connect provides facilities for site curators to track on-going disease emergence events.
-						| This web platform is developed and maintained by EcoHealth Alliance in New York City, USA.
-					.row
-						.col-sm-6
-							a.btn.btn-primary.btn-lg.btn-block(href="{{pathFor 'user-events'}}", role="button") View Tracked Events
-						.col-sm-6
-							a.btn.btn-primary.btn-lg.btn-block(href="{{pathFor 'about'}}", role="button") Learn More
+				p
+					| EIDR Connect provides facilities for site curators to track on-going disease emergence events.
+					| This web platform is developed and maintained by EcoHealth Alliance in New York City, USA.
+				.row
+					.col-sm-6
+						a.btn.btn-primary.btn-lg.btn-block(href="{{pathFor 'user-events'}}", role="button") View Tracked Events
+					.col-sm-6
+						a.btn.btn-primary.btn-lg.btn-block(href="{{pathFor 'about'}}", role="button") Learn More
