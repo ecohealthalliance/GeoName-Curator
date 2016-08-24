@@ -110,12 +110,8 @@ template(name="locationList")
       else
         p No locations are associated with this event.
     .col-md-6
-      +map
-
-  .container
-    .row
-      .col-lg-6
-        +incidentReports
+      if locations.length
+        +map
 
 template(name="location")
   td.location-details(colspan="4")

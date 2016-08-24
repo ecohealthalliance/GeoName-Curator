@@ -80,21 +80,24 @@ Template.locationList.helpers
       showFilter: false
       showNavigationRowsPerPage: false
       showRowCount: false
+      class: "table"
     }
 
 Template.locationList.events
   "click .reactive-table tbody tr": (event, template) ->
-    currentLocationView = template.locationView
-    $parentRow = $(event.target).parent("tr")
-    if currentLocationView
-      template.$("tr").removeClass("details-open")
-      template.$("tr.location-details").remove()
-      Blaze.remove(currentLocationView)
-      template.locationView = false
-    else
-      $tr = $("<tr>").addClass("location-details")
-      $parentRow.addClass("details-open").after($tr)
-      template.locationView = Blaze.renderWithData(Template.location, {location: this}, $tr[0])
+    $parentRow = $(event.target).parents("tr")
+    if not $parentRow.hasClass("location-details")
+      currentLocationView = template.locationView
+      closeRow = $parentRow.hasClass("details-open")
+      if currentLocationView
+        template.$("tr").removeClass("details-open")
+        template.$("tr.location-details").remove()
+        Blaze.remove(currentLocationView)
+        template.locationView = false
+      if not closeRow
+        $tr = $("<tr>").addClass("location-details")
+        $parentRow.addClass("details-open").after($tr)
+        template.locationView = Blaze.renderWithData(Template.location, {location: this}, $tr[0])
 
   "click #add-location": (event, template) ->
     $loc = $("#location-select2")
