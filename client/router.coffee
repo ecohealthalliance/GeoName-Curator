@@ -32,6 +32,7 @@ Router.route "/event-map",
   waitOn: ->
     Meteor.subscribe "geolocations"
     Meteor.subscribe "userEvents"
+    Meteor.subscribe "mapIncidents"
   data: ->
     events: UserEvents()
     locations: Geolocations()
