@@ -143,7 +143,7 @@ template(name="location")
         a(role="button" href="#{{_id}}" data-toggle="collapse") {{formatLocation(this)}}
         each sourceArticles
           a.proMedLink(href="#" uri=url)
-            sup[{{index}}]
+            sup [{{index}}]
       .col-sm-2.col-xs-6
         if currentUser
           button.btn.btn-danger.btn-sm.btn-block.remove-location(type="button") Delete
@@ -246,7 +246,7 @@ template(name="locationModal")
                       label
                         input(type="checkbox" value="{{geonameId}}")
                         | {{locationOptionText(this)}}
-                      a(href="{{url}}" target="_blank") (Geonames link)
+                      a(href="http://www.geonames.org/{{geonameId}}" target="_blank") (Geoname link)
                         i.fa.fa-external-link
           else
             p No new locations could be found in the linked article.

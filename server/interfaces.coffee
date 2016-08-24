@@ -4,40 +4,31 @@ DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
 Meteor.methods
   getArticleLocations: (url) ->
     geonameIds = []
-    placeNames = []
-    locations = []
 
     result = HTTP.call("POST", "http://grits.eha.io:80/api/v1/public_diagnose", {params: {api_key: "grits28754", url: url}})
     if result.data and result.data.features
       for object in result.data.features
         if object.geoname
           geonameIds.push(object.geoname.geonameid.toString())
-          placeNames.push(object.geoname.name)
 
-    if geonameIds.length
-      geonameLocations = HTTP.call("GET", "https://crossorigin.me/http://api.geonames.org/searchJSON", {
-        params: {
-          name: placeNames.toString(),
-          username: "eha_eidr",
-          style: "full",
-          operator: "or"
-        }
-      })
+    unless geonameIds.length
+      return []
 
-      if geonameLocations.data
-        for loc in geonameLocations.data.geonames
-          if geonameIds.indexOf(loc.geonameId.toString()) isnt -1
-            locations.push({
-              geonameId: loc.geonameId.toString(),
-              name: loc.name,
-              displayName: loc.toponymName,
-              subdivision: loc.adminName1,
-              latitude: loc.lat,
-              longitude: loc.lng,
-              countryName: loc.countryName
-            })
-    return locations
+    geonames = HTTP.get("https://geoname-lookup.eha.io/api/geonames", {
+      params:
+        ids: geonameIds
+    })
 
+    return geonames.data.docs.map (loc)->
+      return {
+        geonameId: loc.id
+        name: loc.name
+        displayName: loc.name
+        subdivision: loc.admin1Name
+        latitude: parseFloat(loc.latitude)
+        longitude: parseFloat(loc.longitude)
+        countryName: loc.countryName
+      }
   retrieveProMedArticleDate: (articleID) ->
     result = HTTP.call "GET", "http://www.promedmail.org/ajax/getPost.php",
       params:
