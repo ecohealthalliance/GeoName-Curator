@@ -45,7 +45,57 @@ Template.location.events
       toastr.error('The location must have at least one source article')
       $articlesInput.select2("open")
 
+Template.locationList.onCreated ->
+  @locationView = false
+
+Template.locationList.helpers
+  getSettings: ->
+    fields = [
+      {
+        key: "displayName"
+        label: "Title"
+      },
+      {
+        key: "addedDate"
+        label: "Added"
+      }
+    ]
+
+    if Meteor.user()
+      fields.push({
+        key: "delete"
+        label: ""
+        cellClass: "remove-location"
+      })
+
+    fields.push({
+        key: "expand"
+        label: ""
+        cellClass: "open-location"
+    })
+
+    return {
+      id: 'event-locations-table'
+      fields: fields
+      showFilter: false
+      showNavigationRowsPerPage: false
+      showRowCount: false
+    }
+
 Template.locationList.events
+  "click .reactive-table tbody tr": (event, template) ->
+    currentLocationView = template.locationView
+    $parentRow = $(event.target).parent("tr")
+    if currentLocationView
+      template.$("tr").removeClass("details-open")
+      template.$("tr.location-details").remove()
+      Blaze.remove(currentLocationView)
+      template.locationView = false
+    else
+      $tr = $("<tr>").addClass("location-details")
+      $parentRow.addClass("details-open").after($tr)
+      template.locationView = Blaze.renderWithData(Template.location, {location: this}, $tr[0])
+
   "click #add-location": (event, template) ->
     $loc = $("#location-select2")
     $art = $("#article-select2")
