@@ -1,5 +1,3 @@
-dateHelpers = require '/imports/ui/dateHelpers.coffee'
-
 Articles = new Meteor.Collection "articles"
 
 @grid ?= {}
@@ -35,7 +33,7 @@ Meteor.methods
         insertArticle.addedDate = new Date()
 
         if publishDate.length
-          insertArticle.publishDate = dateHelpers.dateStringToDate(publishDate, "/")
+          insertArticle.publishDate = moment(publishDate, "M/D/YYYY").toDate()
 
         newId = Articles.insert(insertArticle)
 

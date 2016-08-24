@@ -1,5 +1,3 @@
-dateHelpers = require '/imports/ui/dateHelpers.coffee'
-
 Counts = new Meteor.Collection "counts"
 
 @grid ?= {}
@@ -40,7 +38,7 @@ Meteor.methods
       insertCount.addedDate = new Date()
 
       if date.length
-        insertCount.date = dateHelpers.dateStringToDate(date, "/")
+        insertCount.date = moment(date, "M/D/YYYY").toDate()
 
       insertCount.cases = cases
       insertCount.deaths = deaths

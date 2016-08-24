@@ -1,5 +1,3 @@
-dateHelpers = require '/imports/ui/dateHelpers.coffee'
-
 Template.dateSelector.rendered = ->
   instance = Template.instance()
   instance.$(".datePicker").datetimepicker
@@ -32,9 +30,9 @@ Template.mapFilters.rendered = ->
       if variable.state
         varQuery = {}
         if variable.dateFilter
-          filterDate = dateHelpers.dateStringToDate(variable.values.dates[0], "/")
+          filterDate = variable.values.dates[0]
           if variable.values.searchType is "between"
-            filterDate2 = dateHelpers.dateStringToDate(variable.values.dates[1], "/")
+            filterDate2 = variable.values.dates[1]
           mongoProjection = switch variable.values.searchType
             when "after" then {date: {$gt: filterDate}}
             when "before" then {date: {$lt: filterDate}}
@@ -83,7 +81,7 @@ Template.mapFilters.events
     variable = $target.parents(".filter-block").data("filter")
     type = $target.val()
     if type is "between"
-      variables[variable].values.dates.push(dateHelpers.dateToAbbrvDateString(instance.currentDate))
+      variables[variable].values.dates.push(instance.currentDate)
     else if variables[variable].values.dates.length > 1
       variables[variable].values.dates.pop()
     variables[variable].values.searchType = type
@@ -95,7 +93,7 @@ Template.mapFilters.events
     variable = $parentBlock.data("filter")
     dateValues = []
     $parentBlock.find("input.datePicker").each( ->
-      dateValues.push($(this).val())
+      dateValues.push(new Date($(this).val()))
     )
     variables[variable].values.dates = dateValues
     instance.variables.set(variables)
