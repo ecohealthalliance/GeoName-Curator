@@ -157,8 +157,12 @@ template(name="articles")
                 input#article.form-control.new-article(type="url" name="article" required)
             .form-group
               label.col-lg-3.control-label Publication Date
-              .col-lg-9
-                input#publishDate.form-control.datePicker(type="text" name="publishDate" data-DateTimePicker)
+              .col-lg-5
+                input#publishDate.form-control.datePicker(type="text" name="publishDate" init="{{initDatePicker}}")
+              .col-lg-4
+                select#publishDateTZ.form-control(name="publishDateTZ")
+                  each timezones
+                    option(value=name selected=selected) {{name}} (GMT{{offset}})
             .form-group
               .col-lg-9.col-lg-offset-3
                 .checkbox
