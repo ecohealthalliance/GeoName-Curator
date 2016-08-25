@@ -35,4 +35,5 @@ Template.locationSelect2.onRendered ->
               item: hit._source
             }
         }
-  $input.next(".select2-container").css("width", "100%")
+  #override the inline width of the select2 container and its text input field
+  $input.next(".select2-container").css("width", "100%").find("input").css("width", "100%")

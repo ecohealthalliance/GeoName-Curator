@@ -34,7 +34,9 @@ template(name="incidentReports")
                 input.form-control(name="other" type="text" required)
           .form-group
             .col-lg-4.col-lg-offset-8.col-sm-12
-              button.btn.main-btn.btn-block(type="submit") Add Report
+              button.btn.secondary-btn.btn-block(type="submit")
+                i.fa.fa-plus-circle
+                | Add Report
       if counts.length
           +reactiveTable collection=counts settings=getSettings
       else

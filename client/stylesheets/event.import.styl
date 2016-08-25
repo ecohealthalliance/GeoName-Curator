@@ -193,12 +193,17 @@
     border-bottom-color #F9F9F9
     width 200px
     text-align center
-    font-size 20px
+    font-size 18px
     margin-left 5px
 
 .tab-form
   background-color primary-l-light
-  padding 10px
+  padding 15px 30px
+  border 1px solid lighten(m-gray, 70%)
+  input.form-control,
+  select.form-control,
+  .select2 > .selection > .select2-selection
+    border-color primary
 
 .tab-pane .col-md-6
   padding 0
@@ -221,8 +226,10 @@
     content "\f106"
     font-family FontAwesome
 
-.reactive-table tr.location-details
+.reactive-table tr.tr-details
   cursor default
 
-.location-detail-container
+.tr-detail-container
   padding 0 50px
+  ul
+    margin-bottom 0

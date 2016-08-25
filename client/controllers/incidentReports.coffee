@@ -24,9 +24,9 @@ Template.incidentReports.helpers
         label: "Count"
         fn: (value, object, key) ->
           if object.cases
-            return object.cases + " cases"
+            return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
           else if object.deaths
-            return object.deaths + " deaths"
+            return object.deaths + " death" + (if object.deaths isnt "1" then "s" else "")
           else
             return object.specify
       },
