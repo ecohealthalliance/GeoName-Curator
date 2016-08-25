@@ -58,7 +58,6 @@ Meteor.methods
         insertArticle.addedByUserName = user.profile.name
         insertArticle.addedDate = new Date()
         if publishDate.length
-          #insertArticle.publishDate = moment(publishDate, "M/D/YYYY").toDate()
           # Convert the input string into a Date object
           dateString = new Date(publishDate).toString()
           # Fix the timezone offset

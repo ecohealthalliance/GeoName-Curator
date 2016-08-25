@@ -1,16 +1,18 @@
+Template.articles.onCreated ->
+  @tzIsSpecified = false
+
 Template.articles.onRendered ->
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
-  @isAMorPM = (hours) ->
-    if (hours != 0 && hours > 12) then 'PM' else 'AM'
 
 Template.articles.helpers
   timezones: ->
-    a = []
-    for k,v of UTCOffsets
-      a.push({name: k, offset: v})
-      if k is 'EST'
-        a[a.length-1].selected = true
-    a
+    timezones = []
+    defaultTimezone = if moment().isDST() then 'EDT' else 'EST'
+    for tzKey, tzOffset of UTCOffsets
+      timezones.push({name: tzKey, offset: tzOffset})
+      if tzKey is defaultTimezone
+        timezones[timezones.length-1].selected = true
+    timezones
   initDatePicker: ->
     templateInstance = Template.instance()
     Meteor.defer ->
@@ -19,6 +21,8 @@ Template.articles.helpers
         useCurrent: false
 
 Template.articles.events
+  "change #publishDateTZ": (e, templateInstance) ->
+    templateInstance.tzIsSpecified = true
   "submit #add-article": (e, templateInstance) ->
     event.preventDefault()
     validURL = e.target.article.checkValidity()
@@ -40,6 +44,8 @@ Template.articles.events
           e.target.article.value = ""
           e.target.publishDate.value = ""
           e.target.scrapeLocations.checked = false
+
+          templateInstance.tzIsSpecified = false
 
           if scrapeLocations
             articleLocations = []
@@ -71,11 +77,12 @@ Template.articles.events
       articleId = Number(match[1])
       Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
         if result
-          date = new Date(result)
-          dateString = date.getMonth()+1 + '/' + date.getDate() + '/' +
-                        date.getFullYear() +
-                        ' ' + (date.getHours()-1) + ':' + date.getMinutes() +
-                        ' ' + templateInstance.isAMorPM(date.getHours())
+          date = moment(result)
+          if !templateInstance.tzIsSpecified
+            tz = if date.isDST() then 'EDT' else 'EST'
+            templateInstance.$("#publishDateTZ option[value='#{tz}']")
+              .prop('selected', true)
+          dateString = date.format("M/D/YYYY hh:mm A")
           templateInstance.$('#publishDate').val(dateString).trigger('change')
 
 Template.articleSelect2.helpers
@@ -86,10 +93,10 @@ Template.articleSelect2.helpers
     Meteor.defer ->
       $input = templateInstance.$("#" + templateData.selectId)
       options = {}
-      
+
       if templateData.multiple
         options.multiple = true
-      
+
       $input.select2(options)
 
       if templateData.selected
