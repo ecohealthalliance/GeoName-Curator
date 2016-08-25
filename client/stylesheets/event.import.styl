@@ -196,26 +196,33 @@
     font-size 20px
     margin-left 5px
 
+.tab-form
+  background-color primary-l-light
+  padding 10px
+
+.tab-pane .col-md-6
+  padding 0
+
 .disease-separator
   border-top 1px solid #DDD
   margin 10px 0
 
-.remove-location::before
+.remove-row::before
   content "\f014"
   font-family FontAwesome
 
-.open-location::before
+.open-row::before
   content "\f107"
   font-family FontAwesome
 
 .details-open
   background-color secondary-light
-  .open-location::before
+  .open-row::before
     content "\f106"
     font-family FontAwesome
 
-.location-details
+.reactive-table tr.location-details
   cursor default
 
 .location-detail-container
-  padding 10px 50px
+  padding 0 50px

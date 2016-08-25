@@ -16,6 +16,8 @@ Template.location.helpers
     return urls
   allArticles: () ->
     return grid.Articles.find({userEventId: Template.instance().data.userEventId}).fetch()
+  formatDate: (date) ->
+    return moment(date).format("MMM D, YYYY")
 
 Template.location.events
   "click .proMedLink": (event, template) ->
@@ -54,10 +56,18 @@ Template.locationList.helpers
       {
         key: "displayName"
         label: "Title"
+        fn: (value, object, key) ->
+          return formatLocation(
+            name: object.displayName
+            admin1Name: object.subdivision
+            countryName: object.countryName
+          )
       },
       {
         key: "addedDate"
         label: "Added"
+        fn: (value, object, key) ->
+          return moment(value).fromNow()
       }
     ]
 
@@ -65,13 +75,13 @@ Template.locationList.helpers
       fields.push({
         key: "delete"
         label: ""
-        cellClass: "remove-location"
+        cellClass: "remove-row"
       })
 
     fields.push({
         key: "expand"
         label: ""
-        cellClass: "open-location"
+        cellClass: "open-row"
     })
 
     return {
@@ -85,19 +95,24 @@ Template.locationList.helpers
 
 Template.locationList.events
   "click .reactive-table tbody tr": (event, template) ->
-    $parentRow = $(event.target).parents("tr")
-    if not $parentRow.hasClass("location-details")
-      currentLocationView = template.locationView
-      closeRow = $parentRow.hasClass("details-open")
-      if currentLocationView
-        template.$("tr").removeClass("details-open")
-        template.$("tr.location-details").remove()
-        Blaze.remove(currentLocationView)
-        template.locationView = false
-      if not closeRow
-        $tr = $("<tr>").addClass("location-details")
-        $parentRow.addClass("details-open").after($tr)
-        template.locationView = Blaze.renderWithData(Template.location, {location: this}, $tr[0])
+    $target = $(event.target)
+    if $target.closest(".remove-row").length
+      if confirm("Do you want to delete the selected location?")
+        Meteor.call("removeEventLocation", @_id)
+    else
+      $parentRow = $target.parents("tr")
+      if not $parentRow.hasClass("location-details")
+        currentLocationView = template.locationView
+        closeRow = $parentRow.hasClass("details-open")
+        if currentLocationView
+          template.$("tr").removeClass("details-open")
+          template.$("tr.location-details").remove()
+          Blaze.remove(currentLocationView)
+          template.locationView = false
+        if not closeRow
+          $tr = $("<tr>").addClass("location-details")
+          $parentRow.addClass("details-open").after($tr)
+          template.locationView = Blaze.renderWithData(Template.location, {location: this}, $tr[0])
 
   "click #add-location": (event, template) ->
     $loc = $("#location-select2")
@@ -138,10 +153,6 @@ Template.locationList.events
         $loc.select2("val", "")
         $art.select2("val", "")
     )
-
-  "click .remove-location": (event, template) ->
-    if confirm("Do you want to delete the selected location?")
-      Meteor.call("removeEventLocation", @_id)
 
 Template.locationModal.helpers
   locationOptionText: (location) ->

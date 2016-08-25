@@ -1,5 +1,5 @@
 template(name="userEvent")
-  .container-fluid.fact-sheet-wrap.event.space-btm-4
+  .container-fluid.event
     .container
       .row
         .col-lg-12.event-head
@@ -11,7 +11,7 @@ template(name="userEvent")
                     .col-sm-2
                       button#cancel-edit.btn.btn-default.btn-block(type='button') Cancel
                     .col-sm-2.space-btm-1
-                      button#save-edit.btn.btn-primary.btn-block(type='submit') Save
+                      button#save-edit.btn.main-btn.btn-block(type='submit') Save
                   .form-group
                     .col-md-12
                       label.control-label Event Name
@@ -63,17 +63,18 @@ template(name="userEvent")
                 .col-md-12
                   +summary
 
-  ul.nav.nav-tabs(role="tablist")
-    li.active(role="presentation")
-      a(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
-    li(role="presentation")
-      a(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
+    .row
+      ul.nav.nav-tabs(role="tablist")
+        li.active(role="presentation")
+          a(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
+        li(role="presentation")
+          a(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
 
-  .tab-content
-    #locationTab.tab-pane.active(role="tabpanel")
-      +locationList
-    #incidentTab.tab-pane(role="tabpanel")
-      +incidentReports
+    .tab-content
+      #locationTab.tab-pane.active(role="tabpanel")
+        +locationList
+      #incidentTab.tab-pane(role="tabpanel")
+        +incidentReports
 
 template(name="summary")
   .row
@@ -114,39 +115,40 @@ template(name="locationList")
         +map
 
 template(name="location")
-  td.location-details(colspan="4")
-    .row
-      .col-md-12
-        h5
-          i.fa.fa-link
-          | Sources
-        if isEditingSources
-          +articleSelect2 selectId=articleSelectId articles=allArticles selected=selectedArticles multiple="true"
-        else
-          ul
-            each location.sourceArticles
-             li
-                |[{{index}}]
-                a(href="{{url}}") {{url}}
-                  i.fa.fa-external-link
-    .row
-      .col-md-12
-        i.fa.fa-globe
-        a(href="http://www.geonames.org/{{location.geonameId}}") {{location.displayName}}
-    .row
-      .col-md-12
-        i.fa.fa-info-circle
-        | Added by {{location.addedByUserName}} on {{location.addedDate}}
-    if currentUser
-      .row.space-top-2
-        if isEditingSources
-          .col-sm-3.col-xs-6.col-md-offset-3
-            button.cancel-edit-sources.btn.btn-default.btn-block(type="button") Cancel
-          .col-sm-3.col-xs-6
-             button.save-edit-sources.btn.btn-primary.btn-block(type="button") Save
-        else
-          .col-sm-3.col-xs-6.col-md-offset-3
-            button.edit-sources.btn.btn-default.btn-block(type="button") Edit Sources
+  td(colspan="4")
+    .location-detail-container
+      .row
+        .col-md-12
+          h5
+            i.fa.fa-link
+            | Sources
+          if isEditingSources
+            +articleSelect2 selectId=articleSelectId articles=allArticles selected=selectedArticles multiple="true"
+          else
+            ul
+              each location.sourceArticles
+               li
+                  |[{{index}}]
+                  a(href="{{url}}") {{url}}
+                    i.fa.fa-external-link
+      .row
+        .col-md-12
+          i.fa.fa-globe
+          a(href="http://www.geonames.org/{{location.geonameId}}") {{location.displayName}}
+      .row
+        .col-md-12
+          i.fa.fa-info-circle
+          | Added by {{location.addedByUserName}} on {{formatDate location.addedDate}}
+      if currentUser
+        .row.space-top-2
+          if isEditingSources
+            .col-sm-3.col-xs-6.col-md-offset-3
+              button.cancel-edit-sources.btn.btn-default.btn-block(type="button") Cancel
+            .col-sm-3.col-xs-6
+               button.save-edit-sources.btn.main-btn.btn-block(type="button") Save
+          else
+            .col-sm-3.col-xs-6.col-md-offset-3
+              button.edit-sources.btn.btn-default.btn-block(type="button") Edit Sources
 
 template(name="articles")
   .panel.panel-default
@@ -176,7 +178,7 @@ template(name="articles")
                     | Find locations in the article to add to the event
             .form-group
               .col-lg-4.col-lg-offset-8.col-sm-12
-                button.btn.btn-primary.btn-block(type="submit") Add article
+                button.btn.main-btn.btn-block(type="submit") Add article
     if articles.length
       ul.list-group
         each articles
@@ -221,7 +223,7 @@ template(name="locationModal")
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           if suggestedLocations.length
-            button#add-suggestions.btn.btn-primary(type="button") Add Locations
+            button#add-suggestions.btn.main-btn(type="button") Add Locations
 
 template(name="loadingModal")
   .modal.fade(role="dialog")

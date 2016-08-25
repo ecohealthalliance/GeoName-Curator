@@ -17,8 +17,59 @@ Template.incidentReports.helpers
     return type is "cases" or type is "deaths"
   showOtherForm: ->
     return Template.instance().incidentType.get() is "other"
+  getSettings: ->
+    fields = [
+      {
+        key: "count"
+        label: "Count"
+        fn: (value, object, key) ->
+          if object.cases
+            return object.cases + " cases"
+          else if object.deaths
+            return object.deaths + " deaths"
+          else
+            return object.specify
+      },
+      {
+        key: "locations"
+        label: "Locations"
+        fn: (value, object, key) ->
+          if object.locations
+            return $.map(object.locations, (element, index) ->
+              return element.displayName
+            ).toString()
+          return ""
+      },
+      {
+        key: "addedDate"
+        label: "Reported"
+        fn: (value, object, key) ->
+          return moment(value).fromNow()
+      }
+    ]
+    
+    if Meteor.user()
+      fields.push({
+        key: "delete"
+        label: ""
+        cellClass: "remove-row"
+      })
+
+    return {
+      id: 'event-incidents-table'
+      fields: fields
+      showFilter: false
+      showNavigationRowsPerPage: false
+      showRowCount: false
+      class: "table"
+    }
 
 Template.incidentReports.events
+  "click .reactive-table tbody tr": (event, template) ->
+    $target = $(event.target)
+    if $target.closest(".remove-row").length
+      if window.confirm("Are you sure you want to delete this incident report?")
+        Meteor.call("removeEventCount", @_id)
   "change select[name='incidentType']": (e, template) ->
     template.incidentType.set($(e.target).val())
   "submit #add-count": (e, templateInstance) ->

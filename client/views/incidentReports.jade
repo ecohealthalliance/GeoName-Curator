@@ -2,7 +2,7 @@ template(name="incidentReports")
   .row
     .col-md-6
       if currentUser
-        form#add-count.form-horizontal(novalidate)
+        form#add-count.form-horizontal.tab-form(novalidate)
           .form-group
             label.col-lg-3.control-label Article URL
             .col-lg-9
@@ -34,45 +34,42 @@ template(name="incidentReports")
                 input.form-control(name="other" type="text" required)
           .form-group
             .col-lg-4.col-lg-offset-8.col-sm-12
-              button.btn.btn-primary.btn-block(type="submit") Add Report
+              button.btn.main-btn.btn-block(type="submit") Add Report
       if counts.length
-        ul.list-group
-          each counts
-            +incidentReport
+          +reactiveTable collection=counts settings=getSettings
       else
         p No incident reports are associated with this event.
 
 template(name="incidentReport")
-  li.list-group-item
-    .form-horizontal
-      .row
-        .col-sm-10
-          each val in url
-            p
-              a.ref-link(href="{{val}}" target="_blank") {{val}}
-          if date
-            p
-              small {{date}}
-        .col-sm-2.col-xs-6
-          if currentUser
-            button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
-      .row
-        .col-sm-2.control-label Location:
-        .col-sm-10
-          p.form-control-static
-            if locations.length
-              ul
-                each locations
-                  li {{formatLocation(this)}}
-            else
-              | No location specified.
-      .row
-        if cases
-          +incidentDetails label="Cases" value=cases
-        if deaths
-          +incidentDetails label="Deaths" value=deaths
-        if specify
-          +incidentDetails label="Other" value=specify
+  .form-horizontal
+    .row
+      .col-sm-10
+        each val in url
+          p
+            a.ref-link(href="{{val}}" target="_blank") {{val}}
+        if date
+          p
+            small {{date}}
+      .col-sm-2.col-xs-6
+        if currentUser
+          button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
+    .row
+      .col-sm-2.control-label Location:
+      .col-sm-10
+        p.form-control-static
+          if locations.length
+            ul
+              each locations
+                li {{formatLocation(this)}}
+          else
+            | No location specified.
+    .row
+      if cases
+        +incidentDetails label="Cases" value=cases
+      if deaths
+        +incidentDetails label="Deaths" value=deaths
+      if specify
+        +incidentDetails label="Other" value=specify
 
 template(name="incidentDetails")
   .col-sm-2.control-label {{label}}:
