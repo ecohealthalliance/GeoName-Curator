@@ -2,16 +2,14 @@ Template.incidentReports.onCreated ->
   @incidentType = new ReactiveVar("")
 
 Template.incidentReports.onRendered ->
-  $(document).ready(() ->
-    $(".datePicker").datetimepicker({
+  $(document).ready =>
+    @$(".datePicker").datetimepicker({
       format: "M/D/YYYY",
       useCurrent: false
     })
-
-    $("#countArticles").select2({
+    @$("#countArticles").select2({
       tags: true
     })
-  )
 
 Template.incidentReports.helpers
   showCountForm: ->

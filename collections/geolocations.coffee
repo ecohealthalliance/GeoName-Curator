@@ -68,7 +68,6 @@ Meteor.methods
       "sourceArticles.articleId": articleId,
       sourceArticles: {$size: 1}
     })
-
     Geolocations.update(
       {
         userEventId: eventId
@@ -80,3 +79,31 @@ Meteor.methods
       },
       {multi: true}
     )
+
+
+# Convert Geolocation records into Counts
+if Meteor.isServer
+  Meteor.startup ->
+    # Loop through geolocations in the database
+    Geolocations.find({imported: $ne: true}).forEach (geolocation) ->
+      newIncidentReport =
+        addedByUserId: geolocation.addedByUserId
+        addedByUserName: geolocation.addedByUserName
+        addedDate: geolocation.addedDate
+        specify: 'Location Import'
+        date: null
+        locations: [
+          countryName: geolocation.countryName
+          displayName: geolocation.displayName
+          geonameId: geolocation.geonameId
+          latitude: geolocation.latitude
+          longitude: geolocation.longitude
+          name: geolocation.name
+          subdivision: geolocation.subdivision
+        ]
+        url: [ geolocation.sourceArticles[0].url ]
+        userEventId: geolocation.userEventId
+      # Insert the newly created Count
+      Counts.insert newIncidentReport
+      # Remove the original record from the database
+      Geolocations.update(geolocation._id, $set: imported: true)

@@ -1,5 +1,4 @@
-Counts = new Meteor.Collection "counts"
-
+@Counts = new Meteor.Collection "counts"
 @grid ?= {}
 @grid.Counts = Counts
 

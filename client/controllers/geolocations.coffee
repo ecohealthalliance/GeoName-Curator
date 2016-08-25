@@ -19,10 +19,12 @@ Template.location.helpers
 
 Template.location.events
   "click .proMedLink": (event, template) ->
-    if this.url != undefined
-      $('#proMedIFrame').attr('src', this.url)
-      $('#proMedURL').attr('href', this.url)
-      $('#proMedURL').text(this.url)
+    anchorNode = event.currentTarget
+    url = anchorNode.getAttribute 'uri'
+    if url
+      $('#proMedIFrame').attr('src', url)
+      $('#proMedURL').attr('href', url)
+      $('#proMedURL').text(url)
       $('#proMedModal').modal("show")
   "click .edit-sources, click .cancel-edit-sources": (event, template) ->
     template.editSourcesState.set(not template.editSourcesState.get())
