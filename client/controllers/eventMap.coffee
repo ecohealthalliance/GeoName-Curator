@@ -68,15 +68,15 @@ Template.eventMap.onRendered ->
     if totalEventCount
       filteredEvents = []
       colorScale = chroma.scale(MapHelpers.getDefaultGradientColors()).colors(instance.eventsPerPage)
-      
-      #Remove events that have no locations to plot on the map
+
+      # Remove events that have no locations to plot on the map
       filteredEvents = []
       for event in allEvents
         incidentLocations = instance.data.incidents.find({userEventId: event._id, locations: {$ne: null}}, {fields: {locations: 1}}).fetch()
         if incidentLocations.length
           event.incidents = incidentLocations
           filteredEvents.push(event)
-      
+
       if filteredEvents.length
         while templateEvents.length < instance.eventsPerPage and eventIndex < filteredEvents.length
           event = filteredEvents[eventIndex]
