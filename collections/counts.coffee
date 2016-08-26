@@ -21,11 +21,12 @@ if Meteor.isServer
       return Roles.userIsInRole(Meteor.userId(), ['admin'])
 
 Meteor.methods
-  addIncidentReport: (eventId, url, locations, type, value, date) ->
+  addIncidentReport: (eventId, url, locations, type, value, date, species) ->
     if url.length
       insertCount = {
-        url: [url],
+        url: [url]
         userEventId: eventId
+        species: species
       }
 
       if locations.length

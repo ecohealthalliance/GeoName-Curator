@@ -36,6 +36,12 @@ template(name="incidentReport")
                 li {{formatLocation(this)}}
           else
             | No location specified.
+    if species
+        .row
+          .col-sm-2.control-label Species:
+          .col-sm-10
+            p.form-control-static
+              em {{species}}
     .row
       if cases
         +incidentDetails label="Cases" value=cases
@@ -69,6 +75,10 @@ template(name="incidentModal")
               label.col-lg-3.control-label Location
               .col-lg-9
                 +locationSelect2 selectId="count-location-select2" multiple="true"
+            .form-group
+              label.col-lg-3.control-label Species
+              .col-lg-9
+                input.form-control(type="text" name="species")
             .form-group
               label.col-lg-3.control-label Incident Type
               .col-lg-9

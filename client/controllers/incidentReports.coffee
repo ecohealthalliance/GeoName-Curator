@@ -124,7 +124,7 @@ Template.incidentModal.events
 
     incidentCount = if form.count then form.count.value.trim() else form.other.value.trim()
 
-    Meteor.call("addIncidentReport", templateInstance.data.userEventId, article, allLocations, form.incidentType.value, incidentCount, form.date.value, (error, result) ->
+    Meteor.call("addIncidentReport", templateInstance.data.userEvent._id, article, allLocations, e.target.incidentType.value, incidentCount, e.target.date.value, e.target.species.value, (error, result) ->
       if not error
         if closeModal
           Modal.hide(templateInstance)
