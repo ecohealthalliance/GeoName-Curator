@@ -56,8 +56,8 @@ Template.eventMap.onRendered ->
 
     if _.isObject query
       allEvents = instance.data.events.find(query, {sort: {creationDate: -1}}).fetch()
-      startingPosition = currentPage * instance.eventsPerPage
       totalEventCount = allEvents.length
+      startingPosition = currentPage * instance.eventsPerPage
     else
       map.removeLayer(markers)
       return
@@ -65,24 +65,35 @@ Template.eventMap.onRendered ->
     templateEvents = []
     eventIndex = startingPosition
 
-    if allEvents.length
+    if totalEventCount
+      filteredEvents = []
       colorScale = chroma.scale(MapHelpers.getDefaultGradientColors()).colors(instance.eventsPerPage)
-
-      while templateEvents.length < instance.eventsPerPage and eventIndex < totalEventCount
-        event = allEvents[eventIndex]
-        eventLocations = instance.data.locations.find({userEventId: event._id}).fetch()
-
-        if eventLocations.length
+      
+      #Remove events that have no locations to plot on the map
+      filteredEvents = []
+      for event in allEvents
+        incidentLocations = instance.data.incidents.find({userEventId: event._id, locations: {$ne: null}}, {fields: {locations: 1}}).fetch()
+        if incidentLocations.length
+          event.incidents = incidentLocations
+          filteredEvents.push(event)
+      
+      if filteredEvents.length
+        while templateEvents.length < instance.eventsPerPage and eventIndex < filteredEvents.length
+          event = filteredEvents[eventIndex]
           rgbColor = chroma(colorScale[templateEvents.length]).rgb()
           templateEvents.push({name: event.eventName, date: event.creationDate.toDateString(), rgbColor: rgbColor})
 
-          for location in eventLocations
-            latLng = location.latitude.toString() + "," + location.longitude.toString()
-            if not mapLocations[latLng]
-              mapLocations[latLng] = {name: location.displayName, events: []}
-            mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: rgbColor})
+          uniqueEventLocations = []
+          for incident in event.incidents
+            for location in incident.locations
+              latLng = location.latitude.toString() + "," + location.longitude.toString()
+              if uniqueEventLocations.indexOf(latLng) is -1
+                if not mapLocations[latLng]
+                  mapLocations[latLng] = {name: location.displayName, events: []}
+                mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: rgbColor})
+                uniqueEventLocations.push(latLng)
 
-        eventIndex += 1
+          eventIndex += 1
 
       for coordinates, loc of mapLocations
         popupHtml = Blaze.toHTMLWithData(Template.markerPopup, {location: loc.name, events: loc.events})

@@ -60,11 +60,11 @@ template(name="userEvent")
                     h5 Created by {{createdByUserName}} on {{creationDate}}
                     h5 Last modified by {{lastModifiedByUserName}} on {{lastModifiedDate}}
               .row
-                if locations.length
+                if incidentLocations.length
                   .col-lg-7.col-md-12
                     +summary
                   .col-lg-5.col-md-12
-                    +map
+                    +map event=userEvent incidentLocations=incidentLocations
                 else
                   .col-md-12
                     +summary

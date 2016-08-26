@@ -11,7 +11,7 @@ if Meteor.isServer
   Meteor.publish "eventCounts", (ueId) ->
     getEventCounts(ueId)
   Meteor.publish "mapIncidents", () ->
-    Counts.find({date: {$ne: null}}, {fields: {userEventId: 1, date: 1}})
+    Counts.find({locations: {$ne: null}}, {fields: {userEventId: 1, date: 1, locations: 1}})
 
   Counts.allow
     insert: (userID, doc) ->
