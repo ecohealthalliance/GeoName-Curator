@@ -10,7 +10,7 @@ Template.locationList.helpers
           if locations[loc.geonameId]  # Append the source, update the date
             mergedSources = _.union(loc.sources, count.url)
             currDate = new Date(locations[loc.geonameId].addedDate)
-            newDate = new Date(date.parse count.addedDate)
+            newDate = new Date(Date.parse count.addedDate)
             if currDate < newDate
               locations[loc.geonameId].addedDate = newDate
             locations[loc.geonameId].sources = mergedSources
