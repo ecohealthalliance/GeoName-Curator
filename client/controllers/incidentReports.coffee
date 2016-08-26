@@ -70,11 +70,11 @@ Template.incidentReports.events
     Meteor.call("addIncidentReport", templateInstance.data.userEvent._id, article, allLocations, e.target.incidentType.value, incidentCount, e.target.date.value, (error, result) ->
       if not error
         countId = result
-        $articleSelect.select2('val', '')
-        e.target.date.value = ""
-        e.target.incidentType.value = ""
-        templateInstance.incidentType.set("")
-        templateInstance.$("#count-location-select2").select2('val', '')
+        # $articleSelect.select2('val', '')
+        # e.target.date.value = ""
+        # e.target.incidentType.value = ""
+        # templateInstance.incidentType.set("")
+        # templateInstance.$("#count-location-select2").select2('val', '')
         toastr.success("Incident report added to event.")
       else
         toastr.error(error.reason)
