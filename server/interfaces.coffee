@@ -35,6 +35,9 @@ Meteor.methods
       post = JSON.parse(result.content).post
       match = DateRegEx.exec(post)
       if match
-        dateUTC = match[1].replace(' ', 'T') + '-05:00' # ProMED is UTC−05:00
+        date = moment(match[1])
+        tz = if date.isDST() then 'EDT' else 'EST'
+        offset = UTCOffsets[tz]
+        dateUTC = match[1].replace(' ', 'T') + offset
         dateUTC
     )
