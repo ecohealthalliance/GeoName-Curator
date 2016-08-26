@@ -2,6 +2,11 @@ MapHelpers = require '/imports/ui/mapMarkers.coffee'
 
 L.Icon.Default.imagePath = "/packages/fuatsengul_leaflet/images"
 
+Template.mapLegend.onRendered ->
+  # Prevent clicks from going through the widget
+  L.DomEvent.disableClickPropagation @find('.map-legend-tab')
+  L.DomEvent.disableClickPropagation @find('.map-legend-drawer')
+
 Template.mapLegend.helpers
   getEvents: ->
     return Template.instance().data.events
@@ -10,18 +15,15 @@ Template.markerPopup.helpers
   getEvents: ->
     return Template.instance().data.events
 
-Template.eventMap.created = ->
+Template.eventMap.onCreated ->
   @query = new ReactiveVar({})
   @pageNum = new ReactiveVar(0)
   @eventsPerPage = 5
 
-Template.eventMap.rendered = ->
-
+Template.eventMap.onRendered ->
   bounds = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180))
 
-  map = L.map('event-map',
-    maxBounds: bounds
-    ).setView([10, -0], 3)
+  map = L.map('event-map', maxBounds: bounds).setView([10, -0], 3)
   L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
     attribution: """Map tiles by <a href="http://cartodb.com/attributions#basemaps">CartoDB</a>, under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>. Data by <a href="http://www.openstreetmap.org/">OpenStreetMap</a>, under ODbL.
     <br>
@@ -41,21 +43,16 @@ Template.eventMap.rendered = ->
   markers = new L.FeatureGroup()
   legend = L.control({position: 'bottomleft'})
   legend.onAdd = (map) ->
-    @_div = L.DomUtil.create('div', 'map-legend-container')
-    @update()
-    return @_div
-
-  legend.update = (html) ->
-    @_div.innerHTML = html
-
+    L.DomUtil.create('div', 'map-legend-container')
   legend.addTo(map)
 
+  reactiveTemplateId = null
   @autorun ->
     map.removeLayer(markers)
     markers = new L.FeatureGroup()
     query = instance.query.get()
-    legendHtml = ""
     currentPage = instance.pageNum.get()
+    Blaze.remove reactiveTemplateId if reactiveTemplateId
 
     if _.isObject query
       allEvents = instance.data.events.find(query, {sort: {creationDate: -1}}).fetch()
@@ -101,14 +98,13 @@ Template.eventMap.rendered = ->
 
       disablePrev = if eventIndex < totalEventCount then false else true
       disableNext = if currentPage is 0 then true else false
-      legendHtml = Blaze.toHTMLWithData(Template.mapLegend, {
+      reactiveTemplateId = Blaze.renderWithData(Template.mapLegend, {
         disablePrev: disablePrev
         disableNext: disableNext
         events: templateEvents
-      })
+      }, legend.getContainer())
 
     map.addLayer(markers)
-    legend.update(legendHtml)
 
 Template.eventMap.helpers
   getQuery: ->
@@ -117,15 +113,12 @@ Template.eventMap.helpers
 Template.eventMap.events
   "click .legend-next": (event, template) ->
     template.pageNum.set(template.pageNum.get() - 1)
-
   "click .legend-prev": (event, template) ->
     template.pageNum.set(template.pageNum.get() + 1)
-
   "click .map-legend-tab": (event, template) ->
     $target = template.$(event.target)
     if $target.hasClass("map-legend-tab")
       $target = $target.find(".fa")
-    
     if $target.hasClass("fa-angle-down")
       $target.removeClass("fa-angle-down").addClass("fa-angle-up")
       template.$(".map-legend-drawer").addClass("closed")

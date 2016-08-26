@@ -39,7 +39,9 @@ Template.articles.events
 
     if article.length isnt 0
       Meteor.call("addEventArticle", templateInstance.data.userEvent._id, article, e.target.publishDate.value, e.target.publishDateTZ.value, (error, result) ->
-        if not error
+        if error
+          toastr.error error.reason
+        else
           articleId = result
           e.target.article.value = ""
           e.target.publishDate.value = ""
