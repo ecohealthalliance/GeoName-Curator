@@ -1,22 +1,4 @@
-Template.incidentReports.onCreated ->
-  @incidentType = new ReactiveVar("")
-
-Template.incidentReports.onRendered ->
-  $(document).ready =>
-    @$(".datePicker").datetimepicker({
-      format: "M/D/YYYY",
-      useCurrent: false
-    })
-    @$("#countArticles").select2({
-      tags: true
-    })
-
 Template.incidentReports.helpers
-  showCountForm: ->
-    type = Template.instance().incidentType.get()
-    return type is "cases" or type is "deaths"
-  showOtherForm: ->
-    return Template.instance().incidentType.get() is "other"
   getSettings: ->
     fields = [
       {
@@ -47,7 +29,7 @@ Template.incidentReports.helpers
           return moment(value).fromNow()
       }
     ]
-    
+
     if Meteor.user()
       fields.push({
         key: "delete"
@@ -65,36 +47,60 @@ Template.incidentReports.helpers
     }
 
 Template.incidentReports.events
+  "click .open-incident-form": (event, template) ->
+    Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id})
   "click .reactive-table tbody tr": (event, template) ->
     $target = $(event.target)
     if $target.closest(".remove-row").length
       if window.confirm("Are you sure you want to delete this incident report?")
         Meteor.call("removeEventCount", @_id)
+
+Template.incidentModal.onCreated ->
+  @incidentType = new ReactiveVar("")
+
+Template.incidentModal.onRendered ->
+  $(document).ready =>
+    @$(".datePicker").datetimepicker({
+      format: "M/D/YYYY",
+      useCurrent: false
+    })
+
+Template.incidentModal.helpers
+  articles: ->
+    return Template.instance().data.articles
+  showCountForm: ->
+    type = Template.instance().incidentType.get()
+    return type is "cases" or type is "deaths"
+  showOtherForm: ->
+    return Template.instance().incidentType.get() is "other"
+
+Template.incidentModal.events
   "change select[name='incidentType']": (e, template) ->
     template.incidentType.set($(e.target).val())
-  "submit #add-count": (e, templateInstance) ->
-    e.preventDefault()
-    $articleSelect = templateInstance.$(e.target.countArticles)
-    validURL = e.target.countArticles.checkValidity()
+  "click .save-modal, click .save-modal-close": (e, templateInstance) ->
+    closeModal = $(e.target).hasClass("save-modal-close")
+    form = templateInstance.$("form")[0]
+    $articleSelect = templateInstance.$(form.countArticles)
+    validURL = form.countArticles.checkValidity()
     unless validURL
       toastr.error('Please select an article.')
-      e.target.countArticles.focus()
+      form.countArticles.focus()
       return
-    unless e.target.date.checkValidity()
+    unless form.date.checkValidity()
       toastr.error('Please provide a valid date.')
-      e.target.publishDate.focus()
+      form.publishDate.focus()
       return
-    unless e.target.incidentType.checkValidity()
+    unless form.incidentType.checkValidity()
       toastr.error('Please select an incident type.')
-      e.target.incidentType.focus()
+      form.incidentType.focus()
       return
-    if e.target.count and e.target.count.checkValidity() is false
+    if form.count and form.count.checkValidity() is false
       toastr.error('Please provide a valid count.')
-      e.target.count.focus()
+      form.count.focus()
       return
-    if e.target.other and e.target.other.value.trim().length is 0
+    if form.other and form.other.value.trim().length is 0
       toastr.error('Please specify the incident type.')
-      e.target.other.focus()
+      form.other.focus()
       return
 
     article = ""
@@ -116,16 +122,12 @@ Template.incidentReports.events
         longitude: option.item.longitude
       )
 
-    incidentCount = if e.target.count then e.target.count.value.trim() else e.target.other.value.trim()
+    incidentCount = if form.count then form.count.value.trim() else form.other.value.trim()
 
-    Meteor.call("addIncidentReport", templateInstance.data.userEvent._id, article, allLocations, e.target.incidentType.value, incidentCount, e.target.date.value, (error, result) ->
+    Meteor.call("addIncidentReport", templateInstance.data.userEventId, article, allLocations, form.incidentType.value, incidentCount, form.date.value, (error, result) ->
       if not error
-        countId = result
-        # $articleSelect.select2('val', '')
-        # e.target.date.value = ""
-        # e.target.incidentType.value = ""
-        # templateInstance.incidentType.set("")
-        # templateInstance.$("#count-location-select2").select2('val', '')
+        if closeModal
+          Modal.hide(templateInstance)
         toastr.success("Incident report added to event.")
       else
         toastr.error(error.reason)

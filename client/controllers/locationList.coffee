@@ -1,8 +1,5 @@
 formatLocation = require '/imports/formatLocation.coffee'
 
-Template.locationList.onCreated ->
-  @locationView = new ReactiveVar(false)
-
 Template.locationList.helpers
   incidentLocations: ->
     locations = {}
@@ -30,7 +27,7 @@ Template.locationList.helpers
     fields = [
       {
         key: "displayName"
-        label: "Title"
+        label: "Name"
         fn: (value, object, key) ->
           return formatLocation(
             name: object.displayName
@@ -58,21 +55,22 @@ Template.locationList.helpers
       showNavigationRowsPerPage: false
       showRowCount: false
       class: "table"
+      filters: ["locationFilter"]
     }
 
 Template.locationList.events
+  "click #event-locations-table th": (event, template) ->
+    template.$("tr").removeClass("details-open")
+    template.$("tr.tr-details").remove()
   "click .reactive-table tbody tr": (event, template) ->
     $target = $(event.target)
     $parentRow = $target.closest("tr")
     if not $parentRow.hasClass("tr-details")
-      currentLocationView = template.locationView.get()
+      currentOpen = template.$("tr.tr-details")
       closeRow = $parentRow.hasClass("details-open")
-      if currentLocationView
+      if currentOpen
         template.$("tr").removeClass("details-open")
-        template.$("tr.tr-details").remove()
-        Blaze.remove(currentLocationView)
-        template.locationView.set(false)
+        currentOpen.remove()
       if not closeRow
-        $tr = $("<tr>").addClass("tr-details")
+        $tr = $("<tr>").addClass("tr-details").html(Blaze.toHTMLWithData(Template.location, this))
         $parentRow.addClass("details-open").after($tr)
-        template.locationView.set(Blaze.renderWithData(Template.location, this, $tr[0]))

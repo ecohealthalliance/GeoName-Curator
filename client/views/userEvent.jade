@@ -66,9 +66,9 @@ template(name="userEvent")
     .row
       ul.nav.nav-tabs(role="tablist")
         li.active(role="presentation")
-          a(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
+          a.location-tab(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
         li(role="presentation")
-          a(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
+          a.incident-tab(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
 
     .tab-content
       #locationTab.tab-pane.active(role="tabpanel")
@@ -112,6 +112,10 @@ template(name="locationList")
   .row
     .col-md-6
       if incidentLocations.length
+        .tab-form
+          .row
+            .col-lg-12
+              +reactiveTableFilter id="locationFilter" label=" " class="input-group table-filter"
         +reactiveTable collection=incidentLocations settings=getSettings
       else
         p No locations are associated with this event.
