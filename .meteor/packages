@@ -7,7 +7,7 @@ mquandalle:jade
 coffeescript@1.2.3
 stylus@2.513.4
 iron:router
-pinglamb:bootstrap3
+twbs:bootstrap
 d3
 natestrauser:analyticsjs
 http@1.2.8
