@@ -60,14 +60,8 @@ template(name="userEvent")
                     h5 Created by {{createdByUserName}} on {{creationDate}}
                     h5 Last modified by {{lastModifiedByUserName}} on {{lastModifiedDate}}
               .row
-                if incidentLocations.length
-                  .col-lg-7.col-md-12
-                    +summary
-                  .col-lg-5.col-md-12
-                    +map event=userEvent incidentLocations=incidentLocations
-                else
-                  .col-md-12
-                    +summary
+                .col-md-12
+                  +summary
     .container
       .row
         ul.nav.nav-tabs(role="tablist")
@@ -127,7 +121,7 @@ template(name="locationList")
         p No locations are associated with this event.
     .col-md-6
       if incidentLocations.length
-        +map
+        +map event=userEvent incidentLocations=incidentLocations
 
 template(name="location")
   td(colspan="4")
