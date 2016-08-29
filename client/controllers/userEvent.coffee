@@ -40,10 +40,8 @@ Template.userEvent.events
           template.editState.set(false)
       )
   "click a[data-toggle='tab']": (e, template) ->
-    $target = $(e.target)
-    if not $target.parent("li").hasClass("active") and $target.hasClass("incident-tab")
-      template.$(".reactive-table tr").removeClass("details-open")
-      template.$(".reactive-table tr.tr-details").remove()
+    template.$(".reactive-table tr").removeClass("details-open")
+    template.$(".reactive-table tr.tr-details").remove()
 
 Template.createEvent.events
   "submit #add-event": (e) ->

@@ -21,30 +21,32 @@ if Meteor.isServer
       return Roles.userIsInRole(Meteor.userId(), ['admin'])
 
 Meteor.methods
-  addIncidentReport: (eventId, url, locations, type, value, date) ->
-    if url.length
+  addIncidentReport: (incident) ->
+    if incident.url.length
       insertCount = {
-        url: [url],
-        userEventId: eventId
+        url: [incident.url]
+        userEventId: incident.eventId
+        species: incident.species
+        travelRelated: incident.travel
       }
 
-      if locations.length
-        insertCount.locations = locations
+      if incident.locations.length
+        insertCount.locations = incident.locations
 
       user = Meteor.user()
       insertCount.addedByUserId = user._id
       insertCount.addedByUserName = user.profile.name
       insertCount.addedDate = new Date()
 
-      if date.length
-        insertCount.date = moment(date, "M/D/YYYY").toDate()
+      if incident.date.length
+        insertCount.date = moment(incident.date, "M/D/YYYY").toDate()
 
-      switch type
-        when "cases" then insertCount.cases = value
-        when "deaths" then insertCount.deaths = value
-        else insertCount.specify = value
+      switch incident.type
+        when "cases" then insertCount.cases = incident.value
+        when "deaths" then insertCount.deaths = incident.value
+        else insertCount.specify = incident.value
       newId = Counts.insert(insertCount)
-      Meteor.call("updateUserEventLastModified", eventId)
+      Meteor.call("updateUserEventLastModified", incident.eventId)
       return newId
 
   removeEventCount: (id) ->
