@@ -4,8 +4,8 @@ UserEvents = ->
 Articles = ->
   @grid.Articles
 
-Counts = ->
-  @grid.Counts
+Incidents = ->
+  @grid.Incidents
 
 Geolocations = () ->
   @grid.Geolocations
@@ -34,7 +34,7 @@ Router.route "/event-map",
     Meteor.subscribe "mapIncidents"
   data: ->
     events: UserEvents()
-    incidents: Counts()
+    incidents: Incidents()
 
 Router.route "/admins",
   name: 'admins'
@@ -97,9 +97,9 @@ Router.route "/user-event/:_id",
     [
       Meteor.subscribe "userEvent", @params._id
       Meteor.subscribe "eventArticles", @params._id
-      Meteor.subscribe "eventCounts", @params._id
+      Meteor.subscribe "eventIncidents", @params._id
     ]
   data: ->
     userEvent: UserEvents().findOne({'_id': @params._id})
     articles: Articles().find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
-    counts: Counts().find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()
+    incidents: Incidents().find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()

@@ -1,19 +1,19 @@
-@Counts = new Meteor.Collection "counts"
+@Incidents = new Meteor.Collection "counts"
 @grid ?= {}
-@grid.Counts = Counts
+@grid.Incidents = Incidents
 
-getEventCounts = (userEventId) ->
-  Counts.find({userEventId: userEventId})
+getEventIncidentss = (userEventId) ->
+  Incidents.find({userEventId: userEventId})
 
-Counts.getEventCounts = getEventCounts
+Incidents.getEventIncidentss = getEventIncidentss
 
 if Meteor.isServer
-  Meteor.publish "eventCounts", (ueId) ->
-    getEventCounts(ueId)
+  Meteor.publish "eventIncidents", (ueId) ->
+    getEventIncidentss(ueId)
   Meteor.publish "mapIncidents", () ->
-    Counts.find({locations: {$ne: null}}, {fields: {userEventId: 1, date: 1, locations: 1}})
+    Incidents.find({locations: {$ne: null}}, {fields: {userEventId: 1, date: 1, locations: 1}})
 
-  Counts.allow
+  Incidents.allow
     insert: (userID, doc) ->
       doc.creationDate = new Date()
       return Roles.userIsInRole(Meteor.userId(), ['admin'])
@@ -23,33 +23,33 @@ if Meteor.isServer
 Meteor.methods
   addIncidentReport: (eventId, url, locations, type, value, date) ->
     if url.length
-      insertCount = {
+      insertIncident = {
         url: [url],
         userEventId: eventId
       }
 
       if locations.length
-        insertCount.locations = locations
+        insertIncident.locations = locations
 
       user = Meteor.user()
-      insertCount.addedByUserId = user._id
-      insertCount.addedByUserName = user.profile.name
-      insertCount.addedDate = new Date()
+      insertIncident.addedByUserId = user._id
+      insertIncident.addedByUserName = user.profile.name
+      insertIncident.addedDate = new Date()
 
       if date.length
-        insertCount.date = moment(date, "M/D/YYYY").toDate()
+        insertIncident.date = moment(date, "M/D/YYYY").toDate()
 
       switch type
-        when "cases" then insertCount.cases = value
-        when "deaths" then insertCount.deaths = value
-        else insertCount.specify = value
-      newId = Counts.insert(insertCount)
+        when "cases" then insertIncident.cases = value
+        when "deaths" then insertIncident.deaths = value
+        else insertIncident.specify = value
+      newId = Incidents.insert(insertIncident)
       Meteor.call("updateUserEventLastModified", eventId)
       return newId
 
-  removeEventCount: (id) ->
+  removeIncidentReport: (id) ->
     if Meteor.user()
-      removed = Counts.findOne(id)
-      Counts.remove(id)
+      removed = Incidents.findOne(id)
+      Incidents.remove(id)
       #Meteor.call("removeOrphanedLocations", removed.userEventId, id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)

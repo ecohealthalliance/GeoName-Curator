@@ -53,7 +53,7 @@ Template.incidentReports.events
     $target = $(event.target)
     if $target.closest(".remove-row").length
       if window.confirm("Are you sure you want to delete this incident report?")
-        Meteor.call("removeEventCount", @_id)
+        Meteor.call("removeIncidentReport", @_id)
 
 Template.incidentModal.onCreated ->
   @incidentType = new ReactiveVar("")
@@ -80,11 +80,11 @@ Template.incidentModal.events
   "click .save-modal, click .save-modal-close": (e, templateInstance) ->
     closeModal = $(e.target).hasClass("save-modal-close")
     form = templateInstance.$("form")[0]
-    $articleSelect = templateInstance.$(form.countArticles)
-    validURL = form.countArticles.checkValidity()
+    $articleSelect = templateInstance.$(form.articleSource)
+    validURL = form.articleSource.checkValidity()
     unless validURL
       toastr.error('Please select an article.')
-      form.countArticles.focus()
+      form.articleSource.focus()
       return
     unless form.date.checkValidity()
       toastr.error('Please provide a valid date.')
@@ -108,7 +108,7 @@ Template.incidentModal.events
       if child.selected
         article = child.text.trim()
 
-    $loc = templateInstance.$("#count-location-select2")
+    $loc = templateInstance.$("#incident-location-select2")
     allLocations = []
 
     for option in $loc.select2("data")
