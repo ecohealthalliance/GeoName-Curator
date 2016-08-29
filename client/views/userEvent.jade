@@ -1,5 +1,5 @@
 template(name="userEvent")
-  .container-fluid.fact-sheet-wrap.event.space-btm-4
+  .container-fluid.event
     .container
       .row
         .col-lg-12.event-head
@@ -9,9 +9,9 @@ template(name="userEvent")
                 form#editEvent.form-horizontal
                   .form-group
                     .col-sm-2
-                      button#cancel-edit.btn.btn-default.btn-block(type='button') Cancel
+                      button#cancel-edit.btn.secondary-btn.btn-block(type='button') Cancel
                     .col-sm-2.space-btm-1
-                      button#save-edit.btn.btn-primary.btn-block(type='submit') Save
+                      button#save-edit.btn.main-btn.btn-block(type='submit') Save
                   .form-group
                     .col-md-12
                       label.control-label Event Name
@@ -30,7 +30,7 @@ template(name="userEvent")
                   .row
                     .col-sm-2.space-btm-2
                       .dropdown
-                        button.btn.btn-default.dropdown-toggle(type="button" data-toggle="dropdown")
+                        button.btn.secondary-btn.dropdown-toggle(type="button" data-toggle="dropdown")
                           | Admin Options
                           span.caret
                         ul.dropdown-menu
@@ -42,7 +42,7 @@ template(name="userEvent")
                   .col-sm-10
                     h1 {{eventName}}
                   .col-sm-2.space-btm-1
-                    button.btn.btn-default.btn-block(type="button" data-target="#shareLink" data-toggle="collapse")
+                    button.btn.secondary-btn.btn-block(type="button" data-target="#shareLink" data-toggle="collapse")
                       i.fa.fa-share
                       | Share
                 #shareLink.row.collapse
@@ -68,13 +68,24 @@ template(name="userEvent")
                 else
                   .col-md-12
                     +summary
-  .container
-    .row
-      .col-lg-6
-        +articles
-        +incidentReports
-      .col-lg-6
-        +locationList
+    .container
+      .row
+        ul.nav.nav-tabs(role="tablist")
+          li.active(role="presentation")
+            a.location-tab(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
+          li(role="presentation")
+            a.incident-tab(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
+
+      .tab-content
+        #locationTab.tab-pane.active(role="tabpanel")
+          +locationList
+        #incidentTab.tab-pane(role="tabpanel")
+          +incidentReports
+
+    .container
+      .row
+        col-lg-6
+          +articles
 
 template(name="summary")
   .row
@@ -104,44 +115,42 @@ template(name="locationList")
             a#proMedURL
         .modal-body
           iframe#proMedIFrame
-  .panel.panel-default
-    .panel-heading
-      h3 Locations
-    if incidentLocations.length
-      ul.list-group
-        each incidentLocations
-          +location
-    else
-      p No locations are associated with this event.
+  .row
+    .col-md-6
+      if incidentLocations.length
+        .tab-form
+          .row
+            .col-lg-12
+              +reactiveTableFilter id="locationFilter" label=" " class="input-group table-filter"
+        +reactiveTable collection=incidentLocations settings=getSettings
+      else
+        p No locations are associated with this event.
+    .col-md-6
+      if incidentLocations.length
+        +map
 
 template(name="location")
-  li.list-group-item
-    .row
-      .col-sm-12.space-btm-2
-        a(role="button" href="#g#{geonameId}" data-toggle="collapse") {{formatLocation(this)}}
-        each sources
-          a.proMedLink(href="#" uri=this)
-            sup [
-              i.fa.fa-external-link
-              | ]
-    .collapse(id="g#{geonameId}").space-top-2
-      .row
-        label.col-md-4 Geonames Link
-        .col-md-8
-          p
-            a(href="http://www.geonames.org/{{geonameId}}") {{displayName}}
-              i.fa.fa-external-link
-      .row
-        label.col-md-4 Added On
-        .col-md-8
-          p {{addedDate}}
-      .row
-        label.col-md-4 Source
-        .col-md-8
-          each sources
-            p
-              a(href="{{this}}") {{this}}
-                i.fa.fa-external-link
+  td(colspan="4")
+    .tr-detail-container.form-horizontal
+      .form-group
+        .col-md-12
+          h5
+            i.fa.fa-link
+            | Sources
+          ul
+            each sources
+             li
+                a(href="{{this}}") {{this}}
+                  i.fa.fa-external-link
+      .form-group
+        .col-md-12
+          i.fa.fa-globe
+          a(href="http://www.geonames.org/{{geonameId}}") {{displayName}}
+            i.fa.fa-external-link
+      .form-group
+        .col-md-12
+          i.fa.fa-info-circle
+          em Added on {{formatDate addedDate}}
 
 template(name="articles")
   .panel.panel-default
@@ -171,7 +180,7 @@ template(name="articles")
                     | Find locations in the article to add to the event
             .form-group
               .col-lg-4.col-lg-offset-8.col-sm-12
-                button.btn.btn-primary.btn-block(type="submit") Add article
+                button.btn.main-btn.btn-block(type="submit") Add article
     if articles.length
       ul.list-group
         each articles
@@ -216,7 +225,7 @@ template(name="locationModal")
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           if suggestedLocations.length
-            button#add-suggestions.btn.btn-primary(type="button") Add Locations
+            button#add-suggestions.btn.main-btn(type="button") Add Locations
 
 template(name="loadingModal")
   .modal.fade(role="dialog")

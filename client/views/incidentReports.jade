@@ -1,11 +1,62 @@
 template(name="incidentReports")
-  .panel.panel-default
-    .panel-heading
-      h3 Incident Reports
-    .panel-body.comments-container
+  .row
+    .col-md-6
       if currentUser
-        .comment-form
-          form#add-count.form-horizontal(novalidate)
+        .tab-form
+          .row
+            .col-lg-4.col-lg-offset-8.col-sm-12
+              button.btn.secondary-btn.btn-block.open-incident-form(type="button")
+                i.fa.fa-plus-circle
+                | Add Report
+      if counts.length
+        +reactiveTable collection=counts settings=getSettings
+      else
+        p No incident reports are associated with this event.
+
+template(name="incidentReport")
+  .form-horizontal
+    .row
+      .col-sm-10
+        each val in url
+          p
+            a.ref-link(href="{{val}}" target="_blank") {{val}}
+        if date
+          p
+            small {{date}}
+      .col-sm-2.col-xs-6
+        if currentUser
+          button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
+    .row
+      .col-sm-2.control-label Location:
+      .col-sm-10
+        p.form-control-static
+          if locations.length
+            ul
+              each locations
+                li {{formatLocation(this)}}
+          else
+            | No location specified.
+    .row
+      if cases
+        +incidentDetails label="Cases" value=cases
+      if deaths
+        +incidentDetails label="Deaths" value=deaths
+      if specify
+        +incidentDetails label="Other" value=specify
+
+template(name="incidentDetails")
+  .col-sm-2.control-label {{label}}:
+  .col-sm-10
+    p.form-control-static {{value}}
+
+template(name="incidentModal")
+  .modal.fade(role="dialog")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Add Incident Report
+        .modal-body
+          form#add-incident.form-horizontal(novalidate)
             .form-group
               label.col-lg-3.control-label Article URL
               .col-lg-9
@@ -35,49 +86,7 @@ template(name="incidentReports")
                 label.col-lg-3.control-label Specify Other
                 .col-lg-9
                   input.form-control(name="other" type="text" required)
-            .form-group
-              .col-lg-4.col-lg-offset-8.col-sm-12
-                button.btn.btn-primary.btn-block(type="submit") Add Report
-    if counts.length
-      ul.list-group
-        each counts
-          +incidentReport
-    else
-      p No incident reports are associated with this event.
-
-template(name="incidentReport")
-  li.list-group-item
-    .form-horizontal
-      .row
-        .col-sm-10
-          each val in url
-            p
-              a.ref-link(href="{{val}}" target="_blank") {{val}}
-          if date
-            p
-              small {{date}}
-        .col-sm-2.col-xs-6
-          if currentUser
-            button.btn.btn-danger.btn-sm.btn-block.delete-count Delete
-      .row
-        .col-sm-2.control-label Location:
-        .col-sm-10
-          p.form-control-static
-            if locations.length
-              ul
-                each locations
-                  li {{formatLocation(this)}}
-            else
-              | No location specified.
-      .row
-        if cases
-          +incidentDetails label="Cases" value=cases
-        if deaths
-          +incidentDetails label="Deaths" value=deaths
-        if specify
-          +incidentDetails label="Other" value=specify
-
-template(name="incidentDetails")
-  .col-sm-2.control-label {{label}}:
-  .col-sm-10
-    p.form-control-static {{value}}
+        .modal-footer
+          button.btn.secondary-btn(type="button" data-dismiss="modal") Close
+          button.btn.main-btn.save-modal-close(type="button") Save and Close
+          button.btn.main-btn.save-modal(type="button") Save

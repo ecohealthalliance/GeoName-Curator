@@ -103,7 +103,7 @@ Template.articleSelect2.helpers
 
       if templateData.selected
         $input.val(templateData.selected).trigger("change")
-      templateInstance.$(".select2-container").css("width", "100%")
+      $input.next(".select2-container").css("width", "100%")
 
 Template.articleSelect2.onDestroyed ->
   templateInstance = Template.instance()

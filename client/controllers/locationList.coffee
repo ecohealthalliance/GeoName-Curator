@@ -1,3 +1,5 @@
+formatLocation = require '/imports/formatLocation.coffee'
+
 Template.locationList.helpers
   incidentLocations: ->
     locations = {}
@@ -20,3 +22,55 @@ Template.locationList.helpers
             locations[loc.geonameId] = loc
     # Return
     _.values(locations)
+
+  getSettings: ->
+    fields = [
+      {
+        key: "displayName"
+        label: "Name"
+        fn: (value, object, key) ->
+          return formatLocation(
+            name: object.displayName
+            admin1Name: object.subdivision
+            countryName: object.countryName
+          )
+      },
+      {
+        key: "addedDate"
+        label: "Added"
+        fn: (value, object, key) ->
+          return moment(value).fromNow()
+      },
+      {
+        key: "expand"
+        label: ""
+        cellClass: "open-row"
+      }
+    ]
+
+    return {
+      id: 'event-locations-table'
+      fields: fields
+      showFilter: false
+      showNavigationRowsPerPage: false
+      showRowCount: false
+      class: "table"
+      filters: ["locationFilter"]
+    }
+
+Template.locationList.events
+  "click #event-locations-table th": (event, template) ->
+    template.$("tr").removeClass("details-open")
+    template.$("tr.tr-details").remove()
+  "click .reactive-table tbody tr": (event, template) ->
+    $target = $(event.target)
+    $parentRow = $target.closest("tr")
+    if not $parentRow.hasClass("tr-details")
+      currentOpen = template.$("tr.tr-details")
+      closeRow = $parentRow.hasClass("details-open")
+      if currentOpen
+        template.$("tr").removeClass("details-open")
+        currentOpen.remove()
+      if not closeRow
+        $tr = $("<tr>").addClass("tr-details").html(Blaze.toHTMLWithData(Template.location, this))
+        $parentRow.addClass("details-open").after($tr)
