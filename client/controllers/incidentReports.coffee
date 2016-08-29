@@ -37,6 +37,12 @@ Template.incidentReports.helpers
         cellClass: "remove-row"
       })
 
+    fields.push({
+      key: "expand"
+      label: ""
+      cellClass: "open-row"
+    })
+
     return {
       id: 'event-incidents-table'
       fields: fields
@@ -49,11 +55,25 @@ Template.incidentReports.helpers
 Template.incidentReports.events
   "click .open-incident-form": (event, template) ->
     Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id})
+  "click #event-incidents-table th": (event, template) ->
+    template.$("tr").removeClass("details-open")
+    template.$("tr.tr-details").remove()
   "click .reactive-table tbody tr": (event, template) ->
     $target = $(event.target)
+    $parentRow = $target.closest("tr")
+    currentOpen = template.$("tr.tr-details")
     if $target.closest(".remove-row").length
       if window.confirm("Are you sure you want to delete this incident report?")
+        currentOpen.remove()
         Meteor.call("removeIncidentReport", @_id)
+    else if not $parentRow.hasClass("tr-details")
+      closeRow = $parentRow.hasClass("details-open")
+      if currentOpen
+        template.$("tr").removeClass("details-open")
+        currentOpen.remove()
+      if not closeRow
+        $tr = $("<tr>").addClass("tr-details").html(Blaze.toHTMLWithData(Template.incidentReport, this))
+        $parentRow.addClass("details-open").after($tr)
 
 Template.incidentModal.onCreated ->
   @incidentType = new ReactiveVar("")
@@ -103,16 +123,23 @@ Template.incidentModal.events
       form.other.focus()
       return
 
-    article = ""
+    incident = {
+      eventId: templateInstance.data.userEventId
+      species: form.species.value
+      travel: form.travelRelated.checked
+      date: form.date.value
+      locations: []
+      type: form.incidentType.value
+      value: if form.count then form.count.value.trim() else form.other.value.trim()
+    }
+    
     for child in $articleSelect.select2("data")
       if child.selected
-        article = child.text.trim()
+        incident.url = child.text.trim()
 
     $loc = templateInstance.$("#incident-location-select2")
-    allLocations = []
-
     for option in $loc.select2("data")
-      allLocations.push(
+      incident.locations.push(
         geonameId: option.item.id
         name: option.item.name
         displayName: option.item.name
@@ -122,13 +149,14 @@ Template.incidentModal.events
         longitude: option.item.longitude
       )
 
-    incidentCount = if form.count then form.count.value.trim() else form.other.value.trim()
-
-    Meteor.call("addIncidentReport", templateInstance.data.userEventId, article, allLocations, form.incidentType.value, incidentCount, form.date.value, (error, result) ->
+    Meteor.call("addIncidentReport", incident, (error, result) ->
       if not error
+        $(".reactive-table tr").removeClass("details-open")
+        $(".reactive-table tr.tr-details").remove()
         if closeModal
           Modal.hide(templateInstance)
         toastr.success("Incident report added to event.")
       else
         toastr.error(error.reason)
     )
+
