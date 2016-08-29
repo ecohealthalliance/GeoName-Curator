@@ -1,7 +1,8 @@
 formatLocation = require '/imports/formatLocation.coffee'
 
 Template.locationSelect2.onRendered ->
-  @$("#" + @data.selectId).select2
+  $input = @$("#" + @data.selectId)
+  $input.select2
     multiple: @data.multiple
     placeholder: "Search for a location..."
     minimumInputLength: 1
@@ -34,4 +35,5 @@ Template.locationSelect2.onRendered ->
               item: hit._source
             }
         }
-  @$(".select2-container").css("width", "100%")
+  #override the inline width of the select2 container and its text input field
+  $input.next(".select2-container").css("width", "100%").find("input").css("width", "100%")
