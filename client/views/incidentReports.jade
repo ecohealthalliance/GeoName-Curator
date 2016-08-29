@@ -8,8 +8,8 @@ template(name="incidentReports")
               button.btn.secondary-btn.btn-block.open-incident-form(type="button")
                 i.fa.fa-plus-circle
                 | Add Report
-      if counts.length
-        +reactiveTable collection=counts settings=getSettings
+      if incidents.length
+        +reactiveTable collection=incidents settings=getSettings
       else
         p No incident reports are associated with this event.
 
@@ -70,7 +70,7 @@ template(name="incidentModal")
             .form-group
               label.col-lg-3.control-label Article URL
               .col-lg-9
-                +articleSelect2 selectId="countArticles" articles=articles
+                +articleSelect2 selectId="articleSource" articles=articles
             .form-group
               label.col-lg-3.control-label Date
               .col-lg-9
@@ -78,7 +78,7 @@ template(name="incidentModal")
             .form-group
               label.col-lg-3.control-label Location
               .col-lg-9
-                +locationSelect2 selectId="count-location-select2" multiple="true"
+                +locationSelect2 selectId="incident-location-select2" multiple="true"
             .form-group
               label.col-lg-3.control-label Species
               .col-lg-9

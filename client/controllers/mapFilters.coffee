@@ -15,7 +15,7 @@ Template.mapFilters.created = ->
       label: "Incident Report Date"
       collectionField: "_id"
       values:
-        dateCollection: "counts"
+        dateCollection: "incidents"
         searchType: "on"
         dates: []
   }
@@ -38,8 +38,8 @@ Template.mapFilters.rendered = ->
             when "before" then {date: {$lt: filterDate}}
             when "between" then {date: {$gte: filterDate, $lte: filterDate2}}
             else {date: filterDate}
-          if variable.values.dateCollection is "counts"
-            eventIds = _.uniq(grid.Counts.find(mongoProjection, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
+          if variable.values.dateCollection is "incidents"
+            eventIds = _.uniq(grid.Incidents.find(mongoProjection, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
             varQuery[variable.collectionField] = {$in: eventIds}
         filters.push(varQuery)
 

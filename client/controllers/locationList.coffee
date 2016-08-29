@@ -3,22 +3,22 @@ formatLocation = require '/imports/formatLocation.coffee'
 Template.locationList.helpers
   incidentLocations: ->
     locations = {}
-    counts = Template.instance().data.counts
-    # Loop 1: Incident Reports ("counts")
-    for count in counts
-      if count?.locations
-        # Loop 2: Locations within each "count" record
-        for loc in count.locations
+    incidents = Template.instance().data.incidents
+    # Loop 1: Incident Reports
+    for incident in incidents
+      if incident?.locations
+        # Loop 2: Locations within each incident report record
+        for loc in incident.locations
           if locations[loc.geonameId]  # Append the source, update the date
-            mergedSources = _.union(loc.sources, count.url)
+            mergedSources = _.union(loc.sources, incident.url)
             currDate = new Date(locations[loc.geonameId].addedDate)
-            newDate = new Date(Date.parse count.addedDate)
+            newDate = new Date(Date.parse incident.addedDate)
             if currDate < newDate
               locations[loc.geonameId].addedDate = newDate
             locations[loc.geonameId].sources = mergedSources
           else # Insert new item
-            loc.sources = count.url
-            loc.addedDate = count.addedDate
+            loc.sources = incident.url
+            loc.addedDate = incident.addedDate
             locations[loc.geonameId] = loc
     # Return
     _.values(locations)

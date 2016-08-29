@@ -55,11 +55,6 @@ Template.incidentReports.helpers
 Template.incidentReports.events
   "click .open-incident-form": (event, template) ->
     Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id})
-  "click .reactive-table tbody tr": (event, template) ->
-    $target = $(event.target)
-    if $target.closest(".remove-row").length
-      if window.confirm("Are you sure you want to delete this incident report?")
-        Meteor.call("removeEventCount", @_id)
   "click #event-incidents-table th": (event, template) ->
     template.$("tr").removeClass("details-open")
     template.$("tr.tr-details").remove()
@@ -70,7 +65,7 @@ Template.incidentReports.events
     if $target.closest(".remove-row").length
       if window.confirm("Are you sure you want to delete this incident report?")
         currentOpen.remove()
-        Meteor.call("removeEventCount", @_id)
+        Meteor.call("removeIncidentReport", @_id)
     else if not $parentRow.hasClass("tr-details")
       closeRow = $parentRow.hasClass("details-open")
       if currentOpen
@@ -105,11 +100,11 @@ Template.incidentModal.events
   "click .save-modal, click .save-modal-close": (e, templateInstance) ->
     closeModal = $(e.target).hasClass("save-modal-close")
     form = templateInstance.$("form")[0]
-    $articleSelect = templateInstance.$(form.countArticles)
-    validURL = form.countArticles.checkValidity()
+    $articleSelect = templateInstance.$(form.articleSource)
+    validURL = form.articleSource.checkValidity()
     unless validURL
       toastr.error('Please select an article.')
-      form.countArticles.focus()
+      form.articleSource.focus()
       return
     unless form.date.checkValidity()
       toastr.error('Please provide a valid date.')
@@ -142,7 +137,7 @@ Template.incidentModal.events
       if child.selected
         incident.url = child.text.trim()
 
-    $loc = templateInstance.$("#count-location-select2")
+    $loc = templateInstance.$("#incident-location-select2")
     for option in $loc.select2("data")
       incident.locations.push(
         geonameId: option.item.id
