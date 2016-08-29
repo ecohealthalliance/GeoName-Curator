@@ -59,6 +59,10 @@ Template.locationList.helpers
     }
 
 Template.locationList.events
+  "keyup .reactive-table-input": (event, template) ->
+    if event.target.value.length
+      template.$("tr").removeClass("details-open")
+      template.$("tr.tr-details").remove()
   "click #event-locations-table th": (event, template) ->
     template.$("tr").removeClass("details-open")
     template.$("tr.tr-details").remove()
