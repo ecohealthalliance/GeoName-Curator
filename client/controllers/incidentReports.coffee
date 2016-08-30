@@ -3,7 +3,7 @@ Template.incidentReports.helpers
     fields = [
       {
         key: "count"
-        label: "Count"
+        label: "Incident"
         fn: (value, object, key) ->
           if object.cases
             return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
@@ -27,6 +27,18 @@ Template.incidentReports.helpers
         label: "Reported"
         fn: (value, object, key) ->
           return moment(value).fromNow()
+      },
+      {
+        key: "travelRelated"
+        label: "Travel Related"
+        fn: (value, object, key) ->
+          if value
+            return "Yes"
+          return "No"
+      },
+      {
+        key: "species"
+        label: "Species"
       }
     ]
 
