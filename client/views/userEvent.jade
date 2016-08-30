@@ -62,21 +62,24 @@ template(name="userEvent")
               .row
                 .col-md-12
                   +summary
-    .container
-      .row
-        ul.nav.nav-tabs(role="tablist")
-          li.active(role="presentation")
-            a.location-tab(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
-          li(role="presentation")
-            a.incident-tab(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
 
-      .tab-content
-        #locationTab.tab-pane.active(role="tabpanel")
-          +locationList
-        #incidentTab.tab-pane(role="tabpanel")
-          +incidentReports
+      if incidents.length
+        .row
+          ul.nav.nav-tabs(role="tablist")
+            li.active(role="presentation")
+              a.location-tab(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
+            li(role="presentation")
+              a.incident-tab(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
 
-    .container
+        .tab-content
+          #locationTab.tab-pane.active(role="tabpanel")
+            +locationList
+          #incidentTab.tab-pane(role="tabpanel")
+            +incidentReports
+      else
+        .row
+          +addIncidentReport
+
       .row
         col-lg-6
           +articles

@@ -53,8 +53,6 @@ Template.incidentReports.helpers
     }
 
 Template.incidentReports.events
-  "click .open-incident-form": (event, template) ->
-    Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id})
   "click #event-incidents-table th": (event, template) ->
     template.$("tr").removeClass("details-open")
     template.$("tr.tr-details").remove()
