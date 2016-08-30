@@ -41,6 +41,11 @@ template(name="incidentReport")
           .col-sm-10
             p.form-control-static
               em {{species}}
+      if status
+        .row
+          .col-sm-2.control-label Status:
+          .col-sm-10
+            p.form-control-static {{status}}
       .row
         if cases
           +incidentDetails label="Cases" value=cases
@@ -83,6 +88,14 @@ template(name="incidentModal")
               label.col-lg-3.control-label Species
               .col-lg-9
                 input.form-control(type="text" name="species")
+            .form-group
+              label.col-lg-3.control-label Status
+              .col-lg-9
+                select.form-control(name="status")
+                  option(value="")
+                  option(value="suspected") Suspected
+                  option(value="confirmed") Confirmed
+                  option(value="revoked") Revoked
             .form-group
               label.col-lg-3.control-label Incident Type
               .col-lg-9
