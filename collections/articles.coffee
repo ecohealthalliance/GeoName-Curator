@@ -33,8 +33,13 @@ getEventArticles = (userEventId) ->
 Articles.getEventArticles = getEventArticles
 
 if Meteor.isServer
+  ReactiveTable.publish "recentEventArticles", Articles, {}
+
   Meteor.publish "eventArticles", (ueId) ->
     getEventArticles(ueId)
+
+  Meteor.publish "recentEventArticles", () ->
+    Articles.find()
 
   Articles.allow
     insert: (userID, doc) ->

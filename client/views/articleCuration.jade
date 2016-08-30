@@ -1,0 +1,38 @@
+template(name="articleCuration")
+  .container
+    h1 Article Curation Pipeline
+  section.container.events
+    .row
+      h3 {{articles.length}} pending event sources.
+    .row
+      .col-md-6
+        .row
+          +reactiveTable collection="recentEventArticles" settings=settings
+      .col-md-6
+          if selectedArticle
+            .row
+              .col-xs-12
+                h3 Lorem ipsum dolor sit amet, title goes here.
+                p Submitted on {{selectedArticle.addedDate}}
+                p Added by {{selectedArticle.addedByUserName}}
+            .row
+              .col-sm-6
+                h4 Location
+                p Lorem ipsum dolor sit amet.
+                p Lorem ipsum dolor sit amet.
+              .col-sm-6
+                h4 Cases
+                p Lorem ipsum dolor sit amet.
+            .row
+              .col-xs-12
+                h4 Text extractions
+                p Lorem ipsum dolor sit amet.
+                p Lorem ipsum dolor sit amet.
+            .row
+              .col-xs-12.text-center
+                a.btn.btn-primary(href="{{pathFor 'create-event'}}") ACCEPT SOURCE
+                a.btn.btn-default(href="{{pathFor 'create-event'}}") DECLINE
+          else
+            .text-center
+              br
+              h2 Select an article
