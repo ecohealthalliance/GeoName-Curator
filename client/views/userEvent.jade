@@ -1,85 +1,81 @@
 template(name="userEvent")
   .container-fluid.event
-    .container
-      .row
-        .col-lg-12.event-head
-          .basic-info
-            if isEditing
-              with userEvent
-                form#editEvent.form-horizontal
-                  .form-group
-                    .col-sm-2
-                      button#cancel-edit.btn.secondary-btn.btn-block(type='button') Cancel
-                    .col-sm-2.space-btm-1
-                      button#save-edit.btn.main-btn.btn-block(type='submit') Save
-                  .form-group
-                    .col-md-12
-                      label.control-label Event Name
-                      input.form-control(type='text' name='eventName' value='{{eventName}}' required)
-                  .form-group
-                    .col-md-12
-                      label.control-label Event Summary
-                      textarea.form-control(name="eventSummary" rows="15") {{summary}}
-                  .form-group
-                    .col-md-12
-                      label.control-label Event Disease
-                      input.form-control(type="text" name="eventDisease" value="{{disease}}")
-            else
-              with userEvent
-                if isInRole "admin"
-                  .row
-                    .col-sm-2.space-btm-2
-                      .dropdown
-                        button.btn.secondary-btn.dropdown-toggle(type="button" data-toggle="dropdown")
-                          | Admin Options
-                          span.caret
-                        ul.dropdown-menu
-                          li
-                            a.edit-link(href="#") Edit
-                          li
-                            a.delete-link(href="#") Delete
-                .row
-                  .col-sm-10
-                    h1 {{eventName}}
+    .row
+      .col-lg-12.event-head
+        .basic-info
+          if isEditing
+            with userEvent
+              form#editEvent.form-horizontal
+                .form-group
+                  .col-sm-2
+                    button#cancel-edit.btn.secondary-btn.btn-block(type='button') Cancel
                   .col-sm-2.space-btm-1
-                    button.btn.secondary-btn.btn-block(type="button" data-target="#shareLink" data-toggle="collapse")
-                      i.fa.fa-share
-                      | Share
-                #shareLink.row.collapse
-                  .col-sm-12.shareLink
-                    .panel.panel-default
-                      .panel-body
-                        p Share this event by copying the direct link to this page below.
-                        .input-group
-                          input#eventLink.form-control(type="text" readonly value="{{urlFor 'user-event'}}")
-                          span.input-group-btn
-                            button#copyLink.btn.btn-default(type="button" data-clipboard-target="#eventLink")
-                              i.fa.fa-clipboard
-                .row
-                  .col-sm-10.space-btm-2
-                    h5 Created by {{createdByUserName}} on {{creationDate}}
-                    h5 Last modified by {{lastModifiedByUserName}} on {{lastModifiedDate}}
+                    button#save-edit.btn.main-btn.btn-block(type='submit') Save
+                .form-group
+                  .col-md-12
+                    label.control-label Event Name
+                    input.form-control(type='text' name='eventName' value='{{eventName}}' required)
+                .form-group
+                  .col-md-12
+                    label.control-label Event Summary
+                    textarea.form-control(name="eventSummary" rows="15") {{summary}}
+                .form-group
+                  .col-md-12
+                    label.control-label Event Disease
+                    input.form-control(type="text" name="eventDisease" value="{{disease}}")
+          else
+            with userEvent
               .row
-                .col-md-12
-                  +summary
-    .container
-      .row
-        ul.nav.nav-tabs(role="tablist")
-          li.active(role="presentation")
-            a.location-tab(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
-          li(role="presentation")
-            a.incident-tab(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
+                .col-sm-8
+                  h1 {{eventName}}
+                .col-sm-2.space-btm-1.space-top-1
+                  button.btn.secondary-btn.btn-block(type="button" data-target="#shareLink" data-toggle="collapse")
+                    i.fa.fa-share
+                    | Share
+                .col-sm-2.space-btm-1.space-top-1
+                  if isInRole "admin"
+                    .dropdown
+                      button.btn.secondary-btn.btn-block.dropdown-toggle(type="button" data-toggle="dropdown")
+                        | Admin Options
+                        span.caret
+                      ul.dropdown-menu
+                        li
+                          a.edit-link(href="#") Edit
+                        li
+                          a.delete-link(href="#") Delete
+              #shareLink.row.collapse
+                .col-sm-12.shareLink
+                  .panel.panel-default
+                    .panel-body
+                      p Share this event by copying the direct link to this page below.
+                      .input-group
+                        input#eventLink.form-control(type="text" readonly value="{{urlFor 'user-event'}}")
+                        span.input-group-btn
+                          button#copyLink.btn.btn-default(type="button" data-clipboard-target="#eventLink")
+                            i.fa.fa-clipboard
+              .row
+                .col-sm-10.space-btm-2
+                  h5 Created by {{createdByUserName}} on {{creationDate}}
+                  h5 Last modified by {{lastModifiedByUserName}} on {{lastModifiedDate}}
+            .row
+              .col-md-12
+                +summary
+    .row
+      ul.nav.nav-tabs(role="tablist")
+        li.active(role="presentation")
+          a.location-tab(href="#locationTab" aria-control="location tab" role="tab" data-toggle="tab") Locations
+        li(role="presentation")
+          a.incident-tab(href="#incidentTab" aria-control="incident report tab" role="tab" data-toggle="tab") Incident Reports
 
-      .tab-content
-        #locationTab.tab-pane.active(role="tabpanel")
-          +locationList
-        #incidentTab.tab-pane(role="tabpanel")
-          +incidentReports
+    .tab-content
+      #locationTab.tab-pane.active(role="tabpanel")
+        +locationList
+      #incidentTab.tab-pane(role="tabpanel")
+        +incidentReports
 
-    .container
-      .row
-        col-lg-6
-          +articles
+    .row
+      col-lg-12
+        +articles
 
 template(name="summary")
   .row
@@ -148,39 +144,22 @@ template(name="location")
 
 template(name="articles")
   .panel.panel-default
-    .panel-heading
-      h3 Articles
-    .panel-body.comments-container
-      if currentUser
-        .comment-form
-          form#add-article.form-horizontal(novalidate)
-            .form-group
-              label.col-lg-3.control-label Article URL
-              .col-lg-9
-                input#article.form-control.new-article(type="url" name="article" required)
-            .form-group
-              label.col-lg-3.control-label Publication Date
-              .col-lg-5
-                input#publishDate.form-control.datePicker(type="text" name="publishDate" init="{{initDatePicker}}")
-              .col-lg-4
-                select#publishDateTZ.form-control(name="publishDateTZ")
-                  each timezones
-                    option(value=name selected=selected) {{name}} (GMT{{offset}})
-            .form-group
-              .col-lg-9.col-lg-offset-3
-                .checkbox
-                  label
-                    input(type="checkbox" value="1" name="scrapeLocations")
-                    | Find locations in the article to add to the event
-            .form-group
-              .col-lg-4.col-lg-offset-8.col-sm-12
-                button.btn.main-btn.btn-block(type="submit") Add article
-    if articles.length
-      ul.list-group
-        each articles
-          +article
-    else
-      p There are no articles currently associated with this event.
+    .panel-heading.es-panel-heading
+      h2 Event Sources
+    .row
+      .col-md-6
+        if articles.length
+          .tab-form
+            .row
+              .col-lg-8
+                +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
+              .col-lg-2.col-lg-offset-2.button.btn.btn-default.open-source-form
+                i.fa.fa-plus-circle
+                |Add Source
+          +reactiveTable collection=articles settings=getSettings
+
+        else
+          p There are no articles currently associated with this event.
 
 template(name="article")
   li.list-group-item
@@ -220,6 +199,39 @@ template(name="locationModal")
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           if suggestedLocations.length
             button#add-suggestions.btn.main-btn(type="button") Add Locations
+
+template(name="sourceModal")
+  .modal.fade(role="dialog")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Add Event Source
+        .modal-body
+          form#add-source.form-horizontal(novalidate)
+            .form-group
+              label.col-lg-3.control-label Article URL
+              .col-lg-9
+                input#article.form-control.new-article(type="url" name="article" required)
+            .form-group
+              label.col-lg-3.control-label Publication Date
+              .col-lg-9
+                input#publishDate.form-control.datePicker(type="text" name="publishDate" init="{{initDatePicker}}")
+            .form-group
+              label.col-lg-3.control-label Time zone
+              .col-lg-9
+                select#publishDateTZ.form-control(name="publishDateTZ")
+                  each timezones
+                    option(value=name selected=selected) {{name}} (GMT{{offset}})
+            .form-group
+              .col-lg-9.col-lg-offset-3
+                .checkbox
+                  label
+                    input(type="checkbox" value="1" name="scrapeLocations")
+                    | Find locations in the article to add to the event
+        .modal-footer
+          button.btn.secondary-btn(type="button" data-dismiss="modal") Close
+          button.btn.main-btn.save-modal-close(type="button") Save and Close
+          button.btn.main-btn.save-modal(type="button") Save
 
 template(name="loadingModal")
   .modal.fade(role="dialog")

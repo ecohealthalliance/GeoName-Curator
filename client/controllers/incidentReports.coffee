@@ -24,7 +24,7 @@ Template.incidentReports.helpers
       },
       {
         key: "addedDate"
-        label: "Reported"
+        label: "Added"
         fn: (value, object, key) ->
           return moment(value).fromNow()
       }
@@ -132,7 +132,7 @@ Template.incidentModal.events
       type: form.incidentType.value
       value: if form.count then form.count.value.trim() else form.other.value.trim()
     }
-    
+
     for child in $articleSelect.select2("data")
       if child.selected
         incident.url = child.text.trim()
@@ -159,4 +159,3 @@ Template.incidentModal.events
       else
         toastr.error(error.reason)
     )
-

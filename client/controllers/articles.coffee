@@ -1,10 +1,48 @@
+Template.articles.helpers
+  getSettings: ->
+    fields = [
+      {
+        key: "url"
+        label: "Title"
+        fn: (value, object, key) ->
+          return value
+      },
+      {
+        key: "addedDate"
+        label: "Added"
+        fn: (value, object, key) ->
+          return moment(value).fromNow()
+      }
+      {
+        key: "publishDate"
+        label: "Reported"
+        fn: (value, object, key) ->
+          return moment(value).fromNow()
+      }
+    ]
+
+    fields.push({
+      key: "expand"
+      label: ""
+      cellClass: "open-row-right"
+    })
+
+    return {
+      id: 'event-sources-table'
+      fields: fields
+      showFilter: false
+      showNavigationRowsPerPage: false
+      showRowCount: false
+      class: "table"
+    }
+
 Template.articles.onCreated ->
   @tzIsSpecified = false
 
 Template.articles.onRendered ->
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
 
-Template.articles.helpers
+Template.sourceModal.helpers
   timezones: ->
     timezones = []
     defaultTimezone = if moment().isDST() then 'EDT' else 'EST'
@@ -21,6 +59,9 @@ Template.articles.helpers
         useCurrent: false
 
 Template.articles.events
+  "click .open-source-form": (event, template) ->
+    Modal.show("sourceModal", {userEventId: template.data.userEvent._id})
+Template.sourceModal.events
   "change #publishDateTZ": (e, templateInstance) ->
     templateInstance.tzIsSpecified = true
   "submit #add-article": (e, templateInstance) ->
