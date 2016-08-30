@@ -21,7 +21,7 @@ Template.locationSelect2.onCreated ->
       data.push { id: loc.geonameId, text: formatLocation(loc), item: loc }
     callback results: data
   # Retrieve locations from a server
-  @ajax = _.debounce (term, callback) ->
+  @ajax = (term, callback) ->
     $.ajax({
       url: "https://geoname-lookup.eha.io/api/lookup"
       data: {
@@ -41,7 +41,6 @@ Template.locationSelect2.onCreated ->
           text: formatLocation(hit._source)
           item: hit._source
         }
-  , 600, true
 
 Template.locationSelect2.onRendered ->
   $input = @$("#" + @data.selectId)
