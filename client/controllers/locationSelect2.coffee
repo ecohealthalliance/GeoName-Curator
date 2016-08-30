@@ -1,12 +1,12 @@
 formatLocation = require '/imports/formatLocation.coffee'
 
-countsToLocations = (counts) ->
+incidentsToLocations = (incidents) ->
   locations = {}
-  # Loop 1: Incident Reports ("counts")
-  for count in counts
-    if count?.locations
-      # Loop 2: Locations within each "count" record
-      for loc in count.locations
+  # Loop 1: Incident Reports
+  for incident in incidents
+    if incident?.locations
+      # Loop 2: Locations within each incident record
+      for loc in incident.locations
         if !locations[loc.geonameId]
           locations[loc.geonameId] = loc
   # Return
@@ -15,7 +15,7 @@ countsToLocations = (counts) ->
 Template.locationSelect2.onCreated ->
   # Display locations relevant to this event
   @suggestLocations = (term, callback) ->
-    locations = countsToLocations Counts.find().fetch()
+    locations = incidentsToLocations Incidents.find().fetch()
     data = []
     for loc in locations
       data.push { id: loc.geonameId, text: formatLocation(loc), item: loc }
