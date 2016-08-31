@@ -48,19 +48,19 @@ Template.locationSelect2.onRendered ->
     multiple: @data.multiple
     placeholder: "Search for a location..."
     minimumInputLength: 1
-
   $.fn.select2.amd.define('select2/data/queryAdapter',
     [ 'select2/data/array', 'select2/utils' ],
     (ArrayAdapter, Utils) =>
       CustomDataAdapter = ($element, options) ->
         CustomDataAdapter.__super__.constructor.call(@, $element, options)
       Utils.Extend(CustomDataAdapter, ArrayAdapter)
-      CustomDataAdapter.prototype.query = (params, callback) =>
+      CustomDataAdapter.prototype.query = _.debounce (params, callback) =>
         term = params.term?.trim()
         if term # Query the remote server for any matching locations
           @ajax(term, callback)
         else # Show recently used locations for the current event
           @suggestLocations(term, callback)
+      , 600
       CustomDataAdapter
   )
   queryDataAdapter = $.fn.select2.amd.require('select2/data/queryAdapter')
