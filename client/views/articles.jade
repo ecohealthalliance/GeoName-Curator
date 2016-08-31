@@ -1,0 +1,44 @@
+template(name="articles")
+  .panel.panel-default
+    .panel-heading
+      h2 Event Sources
+    .row
+      .col-md-6
+        if articles.length
+          .tab-form
+            .row
+              .col-lg-8
+                +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
+              .col-lg-4.col-sm-12
+                button.btn.secondary-btn.btn-block.open-source-form(type="button")
+                  i.fa.fa-plus-circle
+                  | Add Source
+          +reactiveTable collection=articles settings=getSettings
+
+        else
+          .col-lg-8
+            p There are no articles currently associated with this event.
+          .col-lg-4.col-sm-12
+            button.btn.secondary-btn.btn-block.open-source-form(type="button")
+              i.fa.fa-plus-circle
+              | Add Source
+
+template(name="article")
+  li.list-group-item
+    .row
+      .col-sm-10
+        a.ref-link(href="{{url}}" target="_blank") {{url}}
+          i.fa.fa-external-link
+        if publishDate
+          p
+            small {{publishDate}}
+      .col-sm-2.col-xs-6
+        if isInRole "admin"
+          button.btn.btn-danger.btn-sm.btn-block.delete-article Delete
+
+template(name="articleSelect2")
+  select.article-select2.form-control.select2(id="{{selectId}}" name="{{selectId}}" multiple="{{multiple}}" required)
+    unless multiple
+      option(value="")
+    each articles
+      option(value="{{_id}}") {{url}}

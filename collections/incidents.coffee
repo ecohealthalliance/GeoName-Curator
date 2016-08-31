@@ -22,39 +22,43 @@ if Meteor.isServer
 
 Meteor.methods
   addIncidentReport: (incident) ->
-    if incident.url.length
-      insertIncident = {
-        url: [incident.url]
-        userEventId: incident.eventId
-        species: incident.species
-        travelRelated: incident.travel
-        status: incident.status
-      }
+    if not incident.url.length
+      throw new Meteor.Error("url is required")
+    insertIncident = {
+      url: [incident.url]
+      userEventId: incident.eventId
+      species: incident.species
+      travelRelated: incident.travel
+      status: incident.status
+    }
 
-      if incident.locations.length
-        insertIncident.locations = incident.locations
+    if incident.locations.length
+      insertIncident.locations = incident.locations
 
-      user = Meteor.user()
-      insertIncident.addedByUserId = user._id
-      insertIncident.addedByUserName = user.profile.name
-      insertIncident.addedDate = new Date()
+    user = Meteor.user()
+    insertIncident.addedByUserId = user._id
+    insertIncident.addedByUserName = user.profile.name
+    insertIncident.addedDate = new Date()
 
-      if incident.date.length
-        insertIncident.date = moment(incident.date, "M/D/YYYY").toDate()
+    if incident.date.length
+      insertIncident.date = moment(incident.date, "M/D/YYYY").toDate()
 
-      switch incident.type
-        when "cases" then insertIncident.cases = incident.value
-        when "deaths" then insertIncident.deaths = incident.value
-        else insertIncident.specify = incident.value
-      newId = Incidents.insert(insertIncident)
-      Meteor.call("updateUserEventLastModified", incident.eventId)
-      return newId
+    switch incident.type
+      when "cases" then insertIncident.cases = incident.value
+      when "deaths" then insertIncident.deaths = incident.value
+      else insertIncident.specify = incident.value
+    newId = Incidents.insert(insertIncident)
+    Meteor.call("updateUserEventLastModified", incident.eventId)
+    return newId
+
+  addIncidentReports: (incidents) ->
+    incidents.map (incident)->
+      Meteor.call("addIncidentReport", incident)
 
   removeIncidentReport: (id) ->
     if Meteor.user()
       removed = Incidents.findOne(id)
       Incidents.remove(id)
-      #Meteor.call("removeOrphanedLocations", removed.userEventId, id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
 
 # Split incidents with both case and death counts into separate incidents

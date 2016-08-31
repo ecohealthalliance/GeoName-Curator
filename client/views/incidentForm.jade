@@ -1,0 +1,50 @@
+template(name="incidentForm")
+  form#add-incident.form-horizontal(novalidate)
+    .form-group
+      label.col-lg-3.control-label Article URL
+      .col-lg-9
+        +articleSelect2 selectId="articleSource" articles=articles selected=incidentData.articleSource
+    .form-group
+      label.col-lg-3.control-label Date
+      .col-lg-9
+        input.form-control.datePicker(type="text" name="date" data-DateTimePicker value=incidentData.date)
+    .form-group
+      label.col-lg-3.control-label Location
+      .col-lg-9
+        +locationSelect2 selectId="incident-location-select2" multiple="true" selected=incidentData.locations
+    .form-group
+      label.col-lg-3.control-label Species
+      .col-lg-9
+        input.form-control(type="text" name="species" value=incidentData.species)
+    .form-group
+      label.col-lg-3.control-label Status
+      .col-lg-9
+        select.form-control(name="status")
+          option(value="")
+          option(value="suspected" selected=incidentStatus.suspected) Suspected
+          option(value="confirmed" selected=incidentStatus.confirmed) Confirmed
+          option(value="revoked" selected=incidentStatus.revoked) Revoked
+    .form-group
+      label.col-lg-3.control-label Incident Type
+      .col-lg-9
+        select.form-control(name="incidentType" required)
+          option(value="")
+          option(value="cases" selected=incidentType.cases) Case Count
+          option(value="deaths" selected=incidentType.deaths) Death Count
+          option(value="other" selected=incidentType.other) Other
+    if showCountForm
+      .form-group
+        label.col-lg-3.control-label Count
+        .col-lg-9
+          input.form-control(name="count" type="number" min="0" required value=incidentData.value)
+    if showOtherForm
+      .form-group
+        label.col-lg-3.control-label Specify Other
+        .col-lg-9
+          input.form-control(name="other" type="text" required value=incidentData.value)
+    .form-group
+      .col-lg-9.col-lg-offset-3
+        .checkbox
+          label
+            input(type="checkbox" value="1" name="travelRelated" checked=incidentData.travel)
+            | Travel related
