@@ -21,13 +21,14 @@ template(name="navLinks")
             a(href="{{pathFor 'create-account'}}") Create User Account
           li(class="{{checkActive 'admins'}}")
             a(href="{{pathFor 'admins'}}") Current User Accounts
-      
+    
+    if isInRole "admin"
       li(class="dropdown {{checkActive 'create-account'}} {{checkActive 'admins'}}")
         a.dropdown-toggle-nav(id="curators-menu" href="#" role="button" data-toggle="dropdown") Curators
           span.caret
         ul.dropdown-menu.nav-dd
-          li(class="{{checkActive 'article-curation'}}")
-            a(href="{{pathFor 'article-curation'}}") New Articles
+          li(class="{{checkActive 'curator-inbox'}}")
+            a(href="{{pathFor 'curator-inbox'}}") Inbox
 
       
       //li(class="{{checkActive 'comments'}}")

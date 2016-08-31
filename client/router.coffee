@@ -91,14 +91,14 @@ Router.route "/contact-us",
 Router.route "/user-events",
   name: 'user-events'
 
-Router.route "/article-curation",
-  name: 'article-curation'
+Router.route "/curator-inbox",
+  name: 'curator-inbox'
   waitOn: ->
     Meteor.subscribe "recentEventArticles"
   data: ->
     articles: Articles().find().fetch()
   onBeforeAction: () ->
-    unless Roles.userIsInRole(Meteor.userId(), ['admin'])
+    unless Roles.userIsInRole(Meteor.userId(), ['admin', 'curator'])
       @redirect '/sign-in'
     @next()
 

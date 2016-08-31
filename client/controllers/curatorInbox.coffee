@@ -1,5 +1,5 @@
-Template.articleCuration.onCreated ->
-  @articleCurationFields = [
+Template.curatorInbox.onCreated ->
+  @curatorInboxFields = [
     {
       arrayName: '',
       description: 'The article\'s title.',
@@ -25,7 +25,7 @@ Template.articleCuration.onCreated ->
   @sortOrder = {}
   @sortDirection = {}
 
-  for field in @articleCurationFields
+  for field in @curatorInboxFields
     defaultSortOrder = Infinity
     oldSortOrder = Session.get('article-curation-field-sort-order-' + field.fieldName)
     sortOrder = if _.isUndefined(oldSortOrder) then defaultSortOrder else oldSortOrder
@@ -39,17 +39,17 @@ Template.articleCuration.onCreated ->
   @autorun =>
     Session.set 'article-curation-current-page', @currentPage.get()
     Session.set 'article-curation-rows-per-page', @rowsPerPage.get()
-    for field in @articleCurationFields
+    for field in @curatorInboxFields
       Session.set 'article-curation-field-sort-order-' + field.fieldName, @sortOrder[field.fieldName].get()
       Session.set 'article-curation-field-sort-direction-' + field.fieldName, @sortDirection[field.fieldName].get()
 
-Template.articleCuration.helpers
+Template.curatorInbox.helpers
   selectedArticle: ->
     return Template.instance().selectedArticle.get()
 
   settings: ->
     fields = []
-    for field in Template.instance().articleCurationFields
+    for field in Template.instance().curatorInboxFields
       fields.push {
         key: field.fieldName
         label: field.displayName
@@ -69,7 +69,7 @@ Template.articleCuration.helpers
       showFilter: false
     }
 
-Template.articleCuration.events
+Template.curatorInbox.events
   "click .reactive-table tbody tr": (event, template) ->
     template.selectedArticle.set(@)
   "click .next-page, click .previous-page": ->
