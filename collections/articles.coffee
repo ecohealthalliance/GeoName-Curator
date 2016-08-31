@@ -71,5 +71,4 @@ Meteor.methods
     if Meteor.user()
       removed = Articles.findOne(id)
       Articles.remove(id)
-      Meteor.call("removeOrphanedLocations", removed.userEventId, id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
