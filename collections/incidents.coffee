@@ -56,3 +56,28 @@ Meteor.methods
       Incidents.remove(id)
       #Meteor.call("removeOrphanedLocations", removed.userEventId, id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
+
+# Split incidents with both case and death counts into separate incidents
+if Meteor.isServer
+  Meteor.startup ->
+    incidents = Incidents.find({$and: [{cases: {$exists: true}}, {deaths: {$exists: true}}]}).fetch()
+    for incident in incidents
+      if incident.cases?.length and incident.deaths?.length
+        newIncident = {
+          url: incident.url
+          userEventId: incident.userEventId
+          species: incident.species
+          travelRelated: incident.travel
+          addedByUserId: incident.addedByUserId
+          addedByUserName: incident.addedByUserName
+          addedDate: incident.addedDate
+          deaths: incident.deaths
+        }
+
+        if incident.locations?.length
+          newIncident.locations = incident.locations
+        if incident.date
+          newIncident.date = incident.date
+
+        Incidents.update(incident._id, {$unset: {deaths: ""}})
+        Incidents.insert(newIncident)
