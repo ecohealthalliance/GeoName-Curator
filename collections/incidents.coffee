@@ -62,7 +62,7 @@ if Meteor.isServer
   Meteor.startup ->
     incidents = Incidents.find({$and: [{cases: {$exists: true}}, {deaths: {$exists: true}}]}).fetch()
     for incident in incidents
-      if incident.cases.length and incident.deaths.length
+      if incident.cases?.length and incident.deaths?.length
         newIncident = {
           url: incident.url
           userEventId: incident.userEventId
@@ -79,5 +79,5 @@ if Meteor.isServer
         if incident.date
           newIncident.date = incident.date
 
-        Incidents.update({_id: incident._id}, {$unset: {deaths: ""}})
+        Incidents.update(incident._id, {$unset: {deaths: ""}})
         Incidents.insert(newIncident)
