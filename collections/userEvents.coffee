@@ -63,12 +63,13 @@ Meteor.methods
         lastModifiedByUserName: user.profile.name
       }})
   updateUserEventArticleCount: (id, countModifier) ->
-    event = UserEvents.findOne(id)
-    UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
+    if Meteor.user()
+      event = UserEvents.findOne(id)
+      UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
 
 # Add article count field to events
 if Meteor.isServer
   Meteor.startup ->
-    UserEvents.find({articleCount: {$exists: false}}).forEach (event) ->
+    UserEvents.find().forEach (event) ->
       count = grid.Articles.find({userEventId: event._id}).count()
       UserEvents.update(event._id, {$set: {articleCount: count}})
