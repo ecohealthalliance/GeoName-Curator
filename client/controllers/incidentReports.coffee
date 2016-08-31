@@ -23,10 +23,12 @@ Template.incidentReports.helpers
           return ""
       },
       {
-        key: "addedDate"
-        label: "Reported"
+        key: "date"
+        label: "Date"
         fn: (value, object, key) ->
-          return moment(value).fromNow()
+          if object.date
+            return moment(value).fromNow()
+          return ""
       },
       {
         key: "travelRelated"
@@ -34,7 +36,7 @@ Template.incidentReports.helpers
         fn: (value, object, key) ->
           if value
             return "Yes"
-          return "No"
+          return ""
       },
       {
         key: "species"
