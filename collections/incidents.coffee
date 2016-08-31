@@ -28,6 +28,7 @@ Meteor.methods
         userEventId: incident.eventId
         species: incident.species
         travelRelated: incident.travel
+        status: incident.status
       }
 
       if incident.locations.length

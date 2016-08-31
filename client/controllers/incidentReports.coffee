@@ -131,6 +131,7 @@ Template.incidentModal.events
       locations: []
       type: form.incidentType.value
       value: if form.count then form.count.value.trim() else form.other.value.trim()
+      status: form.status.value
     }
     
     for child in $articleSelect.select2("data")
