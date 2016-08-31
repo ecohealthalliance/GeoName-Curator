@@ -154,7 +154,7 @@ template(name="articles")
     .panel-heading
       h3 Articles
     .panel-body.comments-container
-      if currentUser
+      if isInRole "admin"
         .comment-form
           form#add-article.form-horizontal(novalidate)
             .form-group
@@ -195,7 +195,7 @@ template(name="article")
           p
             small {{publishDate}}
       .col-sm-2.col-xs-6
-        if currentUser
+        if isInRole "admin"
           button.btn.btn-danger.btn-sm.btn-block.delete-article Delete
 
 template(name="locationModal")

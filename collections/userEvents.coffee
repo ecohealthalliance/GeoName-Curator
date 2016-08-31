@@ -63,7 +63,7 @@ Meteor.methods
         lastModifiedByUserName: user.profile.name
       }})
   updateUserEventArticleCount: (id, countModifier) ->
-    if Meteor.user()
+    if Roles.userIsInRole(Meteor.userId(), ['admin'])
       event = UserEvents.findOne(id)
       UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
 
