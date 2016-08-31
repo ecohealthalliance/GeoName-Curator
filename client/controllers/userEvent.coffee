@@ -14,6 +14,18 @@ Template.userEvent.onRendered ->
 Template.userEvent.helpers
   isEditing: ->
     return Template.instance().editState.get()
+  locationView: ->
+    viewParam = Router.current().getParams()._view
+    return typeof viewParam is "undefined" or viewParam is "locations"
+  incidentView: ->
+    return Router.current().getParams()._view is "incidents"
+  view: ->
+    currentView = Router.current().getParams()._view
+    if currentView is "incidents"
+      return "incidentReports"
+    return "locationList"
+  templateData: ->
+    return Template.instance().data
 
 Template.userEvent.events
   "click .edit-link, click #cancel-edit": (event, template) ->
@@ -39,9 +51,6 @@ Template.userEvent.events
         if not error
           template.editState.set(false)
       )
-  "click a[data-toggle='tab']": (e, template) ->
-    template.$(".reactive-table tr").removeClass("details-open")
-    template.$(".reactive-table tr.tr-details").remove()
 
 Template.createEvent.events
   "submit #add-event": (e) ->
