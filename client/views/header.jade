@@ -22,8 +22,9 @@ template(name="navLinks")
           li(class="{{checkActive 'admins'}}")
             a(href="{{pathFor 'admins'}}") Current User Accounts
     
-    if isInRole "admin"
-      li(class="dropdown {{checkActive 'create-account'}} {{checkActive 'admins'}}")
+    //- TODO: Replace with curator role
+    if isInRole "admin" 
+      li(class="dropdown {{checkActive 'curator-inbox'}}")
         a.dropdown-toggle-nav(id="curators-menu" href="#" role="button" data-toggle="dropdown") Curators
           span.caret
         ul.dropdown-menu.nav-dd

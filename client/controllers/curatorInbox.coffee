@@ -1,61 +1,86 @@
 Template.curatorInbox.onCreated ->
-  @curatorInboxFields = [
-    {
-      arrayName: '',
-      description: 'The article\'s title.',
-      displayName: 'Title',
-      fieldName: 'url',
-      defaultSortDirection: 1
-    },
-    {
-      arrayName: '',
-      description: 'Date the article was added.',
-      displayName: 'Added',
-      fieldName: 'addedDate',
-      defaultSortDirection: -1,
-      fn: (value) ->
-        return moment(value).fromNow()
-    }, 
-  ]
+  @selectedArticle = false
+  @allArticles = grid.Articles.find({}, {sort: {addedDate: -1}}).fetch()
 
-  @selectedArticle = new ReactiveVar(false)
-  @currentPage = new ReactiveVar(Session.get('article-curation-current-page') or 0)
-  @rowsPerPage = new ReactiveVar(Session.get('article-curation-rows-per-page') or 20)
-  @fieldVisibility = {}
-  @sortOrder = {}
-  @sortDirection = {}
+  @days = []
+  recordedDates = {}
+  for article in @allArticles
+    date = new Date(article.addedDate.getFullYear(), article.addedDate.getMonth(), article.addedDate.getDate())
+    recordedDates[date.getTime()] = date
 
-  for field in @curatorInboxFields
-    defaultSortOrder = Infinity
-    oldSortOrder = Session.get('article-curation-field-sort-order-' + field.fieldName)
-    sortOrder = if _.isUndefined(oldSortOrder) then defaultSortOrder else oldSortOrder
-    @sortOrder[field.fieldName] = new ReactiveVar(sortOrder)
-
-    defaultSortDirection = field.defaultSortDirection
-    oldSortDirection = Session.get('article-curation-field-sort-direction-' + field.fieldName)
-    sortDirection = if _.isUndefined(oldSortDirection) then defaultSortDirection else oldSortDirection
-    @sortDirection[field.fieldName] = new ReactiveVar(sortDirection)
-
-  @autorun =>
-    Session.set 'article-curation-current-page', @currentPage.get()
-    Session.set 'article-curation-rows-per-page', @rowsPerPage.get()
-    for field in @curatorInboxFields
-      Session.set 'article-curation-field-sort-order-' + field.fieldName, @sortOrder[field.fieldName].get()
-      Session.set 'article-curation-field-sort-direction-' + field.fieldName, @sortDirection[field.fieldName].get()
+  for key of recordedDates
+    @days.push recordedDates[key]
+  @days.sort
 
 Template.curatorInbox.helpers
   selectedArticle: ->
-    return Template.instance().selectedArticle.get()
+    return 0
+    # return Template.instance().selectedArticle.get()
 
+  days: ->
+    return Template.instance().days
+
+Template.curatorInbox.events
+  "click .reactive-table tbody tr": (event, template) ->
+    # template.selectedArticle.set(@)
+  "click .next-page, click .previous-page": ->
+    if (window.scrollY > 0 and window.innerHeight < 700)
+      $(document.body).animate({scrollTop: 0}, 400)
+
+Template.curatorInboxSection.onCreated ->
+  @curatorInboxFields = [
+    {
+      key: 'url'
+      description: 'The article\'s title.'
+      displayName: 'Title'
+      sortOrder: 2
+      sortDirection: -1
+    },
+    {
+      key: 'publishDate'
+      description: 'Date the article was published.'
+      displayName: 'Published'
+      sortOrder: 1
+      sortDirection: -1
+      fn: (value) ->
+        return moment(value).fromNow()
+    }, 
+    {
+      key: 'addedDate'
+      description: 'Date the article was added.'
+      displayName: 'Added'
+      sortOrder: 0
+      sortDirection: -1
+      hidden: true
+      fn: (value) ->
+        return moment(value).format('YYYY-MM-DD')
+    }, 
+  ]
+
+  today = Template.instance().data.date
+  tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+
+  @filterId = 'inbox-date-filter-'+today.getTime()
+  @filter = new ReactiveTable.Filter(@filterId, ['addedDate'])
+  @filter.set({
+    $gte: today
+    $lt: tomorrow
+  })
+
+Template.curatorInboxSection.helpers
+  formattedDate: ->
+    return moment(Template.instance().data.date).format('MMMM DD, YYYY')
   settings: ->
     fields = []
     for field in Template.instance().curatorInboxFields
       fields.push {
-        key: field.fieldName
+        key: field.key
         label: field.displayName
-        sortOrder: Template.instance().sortOrder[field.fieldName]
-        sortDirection: Template.instance().sortDirection[field.fieldName]
-        sortable: not field.arrayName
+        sortOrder: field.sortOrder
+        sortDirection: field.sortDirection
+        sortable: false
+        hidden: field.hidden
         fn: field.fn
       }
 
@@ -63,15 +88,11 @@ Template.curatorInbox.helpers
       id: 'article-curation-table'
       showColumnToggles: false
       fields: fields
-      currentPage: Template.instance().currentPage
-      rowsPerPage: Template.instance().rowsPerPage
-      showRowCount: true
+      showRowCount: false
       showFilter: false
+      showNavigation: 'never'
+      filters: [Template.instance().filterId]
     }
 
-Template.curatorInbox.events
-  "click .reactive-table tbody tr": (event, template) ->
-    template.selectedArticle.set(@)
-  "click .next-page, click .previous-page": ->
-    if (window.scrollY > 0 and window.innerHeight < 700)
-      $(document.body).animate({scrollTop: 0}, 400)
+
+# moment(article.addedDate).format('MMMM DD, YYYY')

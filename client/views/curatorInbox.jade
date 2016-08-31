@@ -1,13 +1,14 @@
 template(name="curatorInbox")
   .container
-    h1 Article Curation Pipeline
+    h1 Curator Inbox
   section.container.events
     .row
       h3 {{articles.length}} pending event sources.
     .row
       .col-md-6
-        .row
-          +reactiveTable collection="recentEventArticles" settings=settings
+        each day in days
+          +curatorInboxSection date=day
+          //- +curatorInboxArticles
       .col-md-6
           if selectedArticle
             .row
@@ -36,3 +37,8 @@ template(name="curatorInbox")
             .text-center
               br
               h2 Select an article
+
+template(name="curatorInboxSection")
+  .row
+    h3 {{formattedDate}}
+    +reactiveTable collection="recentEventArticles" settings=settings selector=selector
