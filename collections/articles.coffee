@@ -66,10 +66,11 @@ Meteor.methods
           insertArticle.publishDate = new Date(dateString)
         newId = Articles.insert(insertArticle)
         Meteor.call("updateUserEventLastModified", eventId)
+        Meteor.call("updateUserEventArticleCount", eventId, 1)
         return newId
   removeEventArticle: (id) ->
     if Meteor.user()
       removed = Articles.findOne(id)
       Articles.remove(id)
-      Meteor.call("removeOrphanedLocations", removed.userEventId, id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
+      Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
