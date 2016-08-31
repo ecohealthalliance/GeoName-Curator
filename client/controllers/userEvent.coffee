@@ -15,13 +15,13 @@ Template.userEvent.helpers
   isEditing: ->
     return Template.instance().editState.get()
   locationView: ->
-    currentRoute = Router.current().route.getName()
-    return currentRoute is "event-locations" or currentRoute is "user-event"
+    viewParam = Router.current().getParams()._view
+    return typeof viewParam is "undefined" or viewParam is "locations"
   incidentView: ->
-    return Router.current().route.getName() is "event-incidents"
+    return Router.current().getParams()._view is "incidents"
   view: ->
-    currentRoute = Router.current().route.getName()
-    if currentRoute is "event-incidents"
+    currentView = Router.current().getParams()._view
+    if currentView is "incidents"
       return "incidentReports"
     return "locationList"
   templateData: ->

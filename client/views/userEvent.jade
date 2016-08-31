@@ -67,9 +67,9 @@ template(name="userEvent")
         .row
           ul.nav.nav-tabs(role="tablist")
             li(class="{{#if locationView}}active{{/if}}" role="presentation")
-              a(href="{{pathFor route='event-locations' _id=userEvent._id}}") Locations
+              a(href="{{pathFor route='user-event' _id=userEvent._id _view='locations'}}") Locations
             li(class="{{#if incidentView}}active{{/if}}" role="presentation")
-              a(href="{{pathFor route='event-incidents' _id=userEvent._id}}") Incident Reports
+              a(href="{{pathFor route='user-event' _id=userEvent._id _view='incidents'}}") Incident Reports
 
         .tab-content
           .tab-pane.active(role="tabpanel")

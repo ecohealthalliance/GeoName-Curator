@@ -91,36 +91,8 @@ Router.route "/contact-us",
 Router.route "/user-events",
   name: 'user-events'
 
-Router.route "/user-event/:_id",
+Router.route "/user-event/:_id/:_view?",
   name: 'user-event'
-  waitOn: ->
-    [
-      Meteor.subscribe "userEvent", @params._id
-      Meteor.subscribe "eventArticles", @params._id
-      Meteor.subscribe "eventIncidents", @params._id
-    ]
-  data: ->
-    userEvent: UserEvents().findOne({'_id': @params._id})
-    articles: Articles().find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
-    incidents: Incidents().find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()
-
-Router.route "/event-locations/:_id",
-  name: "event-locations"
-  template: "userEvent"
-  waitOn: ->
-    [
-      Meteor.subscribe "userEvent", @params._id
-      Meteor.subscribe "eventArticles", @params._id
-      Meteor.subscribe "eventIncidents", @params._id
-    ]
-  data: ->
-    userEvent: UserEvents().findOne({'_id': @params._id})
-    articles: Articles().find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
-    incidents: Incidents().find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()
-
-Router.route "/event-incidents/:_id",
-  name: "event-incidents"
-  template: "userEvent"
   waitOn: ->
     [
       Meteor.subscribe "userEvent", @params._id
