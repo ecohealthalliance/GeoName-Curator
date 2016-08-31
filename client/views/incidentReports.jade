@@ -1,17 +1,20 @@
 template(name="incidentReports")
   .row
     .col-md-6
-      if currentUser
-        .tab-form
-          .row
-            .col-lg-4.col-lg-offset-8.col-sm-12
-              button.btn.secondary-btn.btn-block.open-incident-form(type="button")
-                i.fa.fa-plus-circle
-                | Add Report
+      +addIncidentReport
       if incidents.length
         +reactiveTable collection=incidents settings=getSettings
       else
         p No incident reports are associated with this event.
+
+template(name="addIncidentReport")
+  if currentUser
+    .tab-form
+      .row
+        .col-md-6.col-md-offset-3.col-sm-12
+          button.btn.secondary-btn.btn-block.open-incident-form(type="button")
+            i.fa.fa-plus-circle
+            | Add Incident Report
 
 template(name="incidentReport")
   td(colspan="5")
