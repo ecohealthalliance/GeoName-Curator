@@ -19,7 +19,7 @@ template(name="curatorInbox")
               i.fa.fa-search.search-icon
         .row
           each day in days
-            +curatorInboxSection date=day
+            +curatorInboxSection date=day index=@index
       .col-md-6#curator-article-details
         .row.curator-header
 
@@ -30,7 +30,8 @@ template(name="curatorInboxSection")
     .pull-right
       i.fa.fa-lg(class="{{travelIcon}}")
       i.fa.fa-arrow-circle-down
-  +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table"
+  if isOpen
+    +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table"
 
 template(name="curatorArticleDetails")
   .row.curator-header

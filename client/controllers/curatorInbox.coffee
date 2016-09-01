@@ -71,7 +71,11 @@ Template.curatorInboxSection.onCreated ->
     $lt: tomorrow
   })
 
+  @isOpen = new ReactiveVar(@data.index < 3)
+
 Template.curatorInboxSection.helpers
+  isOpen: ->
+    return Template.instance().isOpen.get()
   formattedDate: ->
     return moment(Template.instance().data.date).format('MMMM DD, YYYY')
   settings: ->
@@ -103,6 +107,9 @@ Template.curatorInboxSection.events
     $target = $(event.target)
     console.log 'click'
     $details = $("#curator-article-details").html(Blaze.toHTMLWithData(Template.curatorArticleDetails, this))
+  "click .curator-inbox-section-head": (event, template) ->
+    console.log template.isOpen.curValue
+    template.isOpen.set(!template.isOpen.curValue)
 
 Template.curatorArticleDetails.helpers
   formattedAddedDate: ->
