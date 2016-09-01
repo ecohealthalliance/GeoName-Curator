@@ -14,16 +14,16 @@ Template.userEvent.onRendered ->
 Template.userEvent.helpers
   isEditing: ->
     return Template.instance().editState.get()
-  locationView: ->
-    viewParam = Router.current().getParams()._view
-    return typeof viewParam is "undefined" or viewParam is "locations"
   incidentView: ->
-    return Router.current().getParams()._view is "incidents"
+    viewParam = Router.current().getParams()._view
+    return typeof viewParam is "undefined" or viewParam is "incidents"
+  locationView: ->
+    return Router.current().getParams()._view is "locations"
   view: ->
     currentView = Router.current().getParams()._view
-    if currentView is "incidents"
-      return "incidentReports"
-    return "locationList"
+    if currentView is "locations"
+      return "locationList"
+    return "incidentReports"
   templateData: ->
     return Template.instance().data
 
