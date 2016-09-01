@@ -67,7 +67,7 @@ Meteor.methods
           insertArticle.publishDate = new Date(dateString)
         newId = Articles.insert(insertArticle)
         Meteor.call("updateUserEventLastModified", insertArticle.userEventId)
-        Meteor.call("updateUserEventArticleCount", eventId, 1)
+        Meteor.call("updateUserEventArticleCount", insertArticle.userEventId, 1)
         return newId
 
   removeEventArticle: (id) ->

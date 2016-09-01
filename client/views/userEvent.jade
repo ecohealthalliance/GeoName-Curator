@@ -80,8 +80,8 @@ template(name="summary")
   .row
     .col-md-12
       p.abstract
-        if userEvent.summary
-          | {{userEvent.summary}}
+        if summary
+          | {{summary}}
         else
           | No summary available.
   .row.space-btm-2
@@ -89,8 +89,8 @@ template(name="summary")
       .disease-separator
       h2 Event Disease
       p
-        if userEvent.disease
-          | {{userEvent.disease}}
+        if disease
+          | {{disease}}
         else
           | No disease available.
 
@@ -159,7 +159,12 @@ template(name="articles")
           +reactiveTable collection=articles settings=getSettings
 
         else
-          p There are no articles currently associated with this event.
+          .col-lg-8
+            p There are no articles currently associated with this event.
+          .col-lg-4.col-sm-12
+            button.btn.secondary-btn.btn-block.open-source-form(type="button")
+              i.fa.fa-plus-circle
+              | Add Source
 
 template(name="article")
   li.list-group-item
