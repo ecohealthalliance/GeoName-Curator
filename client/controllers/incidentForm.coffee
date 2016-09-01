@@ -19,10 +19,24 @@ Template.incidentForm.onCreated ->
       @incidentType.set("other")
 
 Template.incidentForm.onRendered ->
-  @$(".datePicker").datetimepicker(
-    format: "M/D/YYYY",
-    useCurrent: false
-  )
+  $(document).ready =>
+    @$(".datePicker").datetimepicker({
+      format: "M/D/YYYY"
+      useCurrent: false
+    })
+    @$(".timePicker").datetimepicker({
+      format: "h A"
+      useCurrent: false
+    })
+  ###
+  @$(".datePicker").daterangepicker({
+      timePicker: true
+      timePickerIncrement: 30
+      autoUpdateInput: false
+      applyClass: "main-btn"
+      cancelClass: "secondary-btn"
+    })
+  ###
 
 Template.incidentForm.helpers
   incidentData: ->
@@ -38,6 +52,11 @@ Template.incidentForm.helpers
     return type is "cases" or type is "deaths"
   showOtherForm: ->
     return Template.instance().incidentType.get() is "other"
+  timezones: ->
+    timezones = []
+    for tzKey, tzOffset of UTCOffsets
+      timezones.push({name: tzKey, offset: tzOffset})
+    return timezones
 
 Template.incidentForm.events
   "change select[name='incidentType']": (e, template) ->

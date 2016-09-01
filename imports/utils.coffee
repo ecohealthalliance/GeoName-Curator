@@ -38,6 +38,31 @@ module.exports.incidentReportFormToIncident = (form)->
   else
     throw new Meteor.Error("unknown-type")
 
+  startDate = $(form.date).data("DateTimePicker").date()
+  startTime = $(form.time).data("DateTimePicker").date()
+  endDate = startDate
+  
+  if startDate
+    if startTime
+      startHour = startTime.get("hour")
+      startDate.set("hour", startHour)
+      endDate.set("hour", startHour)
+      endDate.add(1, "hour")
+    else
+      endDate.add(24, "hour")
+
+    incident.startDate = startDate.toDate()
+    incident.endDate = endDate.toDate()
+  if form.timeZone.value.length
+    incident.timeZone = form.timeZone.value
+  #datePicker = $(form.date).data("daterangepicker")
+  #start = datePicker.startDate
+  #end = datePicker.endDate
+
+  #if start and start.isSame(end)
+    #start.set({hour: 0, minute: 0})
+    #end.set({hour: 23, minute: 59})
+
   for child in $articleSelect.select2("data")
     if child.selected
       incident.url = [child.text.trim()]
