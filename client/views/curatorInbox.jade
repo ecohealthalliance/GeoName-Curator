@@ -1,44 +1,66 @@
 template(name="curatorInbox")
   .container
-    h1 Curator Inbox
+    .row
+      h1.curator-heading CURATOR INBOX
   section.container.events
     .row
-      h3 {{articles.length}} pending event sources.
-    .row
-      .col-md-6
-        each day in days
-          +curatorInboxSection date=day
-          //- +curatorInboxArticles
-      .col-md-6
-          if selectedArticle
-            .row
-              .col-xs-12
-                h3 Lorem ipsum dolor sit amet, title goes here.
-                p Submitted on {{selectedArticle.addedDate}}
-                p Added by {{selectedArticle.addedByUserName}}
-            .row
-              .col-sm-6
-                h4 Location
-                p Lorem ipsum dolor sit amet.
-                p Lorem ipsum dolor sit amet.
-              .col-sm-6
-                h4 Cases
-                p Lorem ipsum dolor sit amet.
-            .row
-              .col-xs-12
-                h4 Text extractions
-                p Lorem ipsum dolor sit amet.
-                p Lorem ipsum dolor sit amet.
-            .row
-              .col-xs-12.text-center
-                a.btn.btn-primary(href="{{pathFor 'create-event'}}") ACCEPT SOURCE
-                a.btn.btn-default(href="{{pathFor 'create-event'}}") DECLINE
-          else
-            .text-center
-              br
-              h2 Select an article
+      .col-md-6.curator-inbox-articles
+        .row.curator-header
+          .pull-left
+            h2 Sources
+          .curator-inbox-options.pull-right.form-inline
+            //- input(name="search" placeholder="Search articles")
+            a
+              i.fa.fa-calendar
+            a
+              i.fa.fa-check-circle
+            .input-group
+              input.map-search.form-control(type="text" placeholder="Filter by event name")
+              i.fa.fa-search.search-icon
+        .row
+          each day in days
+            +curatorInboxSection date=day
+      .col-md-6#curator-article-details
+        .row.curator-header
 
 template(name="curatorInboxSection")
-  .row
-    h3 {{formattedDate}}
-    +reactiveTable collection="recentEventArticles" settings=settings selector=selector
+  .col-xs-12.curator-inbox-section-head
+    .pull-left
+      b {{formattedDate}}
+    .pull-right
+      i.fa.fa-lg(class="{{travelIcon}}")
+      i.fa.fa-arrow-circle-down
+  +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table"
+
+template(name="curatorArticleDetails")
+  .row.curator-header
+    h2 Article Title
+  .curator-article-details-content
+    .row
+      .col-xs-12
+        p 
+          b Originally published on 
+          {{formattedPublishDate}}
+        p 
+          b Added by 
+          {{addedByUserName}},
+          b on {{formattedAddedDate}}
+        p
+          a.ref-link(href="{{url}}" target="_blank") {{url}}
+    .row
+      .col-sm-6
+        h4 Location
+        p Lorem ipsum dolor sit amet.
+        p Lorem ipsum dolor sit amet.
+      .col-sm-6
+        h4 Cases
+        p Lorem ipsum dolor sit amet.
+    .row
+      .col-xs-12
+        h4 Text extractions
+        p Lorem ipsum dolor sit amet.
+        p Lorem ipsum dolor sit amet.
+    .row
+      .col-xs-12.text-center
+        a.btn.btn-primary.disabled(href="") ACCEPT SOURCE
+        a.btn.btn-default.disabled(href="") DECLINE

@@ -38,8 +38,11 @@ if Meteor.isServer
   Meteor.publish "eventArticles", (ueId) ->
     getEventArticles(ueId)
 
-  Meteor.publish "recentEventArticles", () ->
-    Articles.find()
+  Meteor.publish "recentEventArticles", (limit) ->
+    Articles.find({}, {
+      sort: {addedDate: -1}
+      limit: limit || 100
+    })
 
   Articles.allow
     insert: (userID, doc) ->

@@ -95,8 +95,6 @@ Router.route "/curator-inbox",
   name: 'curator-inbox'
   waitOn: ->
     Meteor.subscribe "recentEventArticles"
-  data: ->
-    articles: Articles().find().fetch()
   onBeforeAction: () ->
     unless Roles.userIsInRole(Meteor.userId(), ['admin', 'curator'])
       @redirect '/sign-in'

@@ -32,15 +32,13 @@ Template.curatorInboxSection.onCreated ->
     {
       key: 'url'
       description: 'The article\'s title.'
-      displayName: 'Title'
-      sortOrder: 2
+      label: 'Title'
       sortDirection: -1
     },
     {
       key: 'publishDate'
       description: 'Date the article was published.'
-      displayName: 'Published'
-      sortOrder: 1
+      label: 'Published'
       sortDirection: -1
       fn: (value) ->
         return moment(value).fromNow()
@@ -48,13 +46,18 @@ Template.curatorInboxSection.onCreated ->
     {
       key: 'addedDate'
       description: 'Date the article was added.'
-      displayName: 'Added'
+      label: 'Added'
       sortOrder: 0
       sortDirection: -1
       hidden: true
       fn: (value) ->
         return moment(value).format('YYYY-MM-DD')
-    }, 
+    },
+    {
+      key: "expand"
+      label: ""
+      cellClass: "details-row"
+    }
   ]
 
   today = Template.instance().data.date
@@ -76,11 +79,12 @@ Template.curatorInboxSection.helpers
     for field in Template.instance().curatorInboxFields
       fields.push {
         key: field.key
-        label: field.displayName
-        sortOrder: field.sortOrder
-        sortDirection: field.sortDirection
+        label: field.label
+        sortOrder: field.sortOrder || 99
+        sortDirection: field.sortDirection || 99
         sortable: false
         hidden: field.hidden
+        cellClass: field.cellClass
         fn: field.fn
       }
 
@@ -94,5 +98,14 @@ Template.curatorInboxSection.helpers
       filters: [Template.instance().filterId]
     }
 
+Template.curatorInboxSection.events
+  "click .reactive-table tbody tr": (event, template) ->
+    $target = $(event.target)
+    console.log 'click'
+    $details = $("#curator-article-details").html(Blaze.toHTMLWithData(Template.curatorArticleDetails, this))
 
-# moment(article.addedDate).format('MMMM DD, YYYY')
+Template.curatorArticleDetails.helpers
+  formattedAddedDate: ->
+    return moment(Template.instance().data.addedDate).format('MMMM DD, YYYY')
+  formattedPublishDate: ->
+    return moment(Template.instance().data.publishDate).format('MMMM DD, YYYY')
