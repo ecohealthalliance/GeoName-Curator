@@ -153,9 +153,10 @@ template(name="articles")
             .row
               .col-lg-8
                 +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
-              .col-lg-2.col-lg-offset-2.button.btn.btn-default.open-source-form
-                i.fa.fa-plus-circle
-                |Add Source
+              .col-lg-4.col-sm-12
+                button.btn.secondary-btn.btn-block.open-source-form(type="button")
+                  i.fa.fa-plus-circle
+                  | Add Source
           +reactiveTable collection=articles settings=getSettings
 
         else

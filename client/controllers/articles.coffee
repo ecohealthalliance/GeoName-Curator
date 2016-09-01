@@ -15,9 +15,9 @@ Template.articles.helpers
       }
       {
         key: "publishDate"
-        label: "Reported"
+        label: "Publication Date"
         fn: (value, object, key) ->
-          return moment(value).fromNow()
+          return moment(value).format('MMM D, YYYY')
       }
     ]
 
@@ -34,6 +34,7 @@ Template.articles.helpers
       showNavigationRowsPerPage: false
       showRowCount: false
       class: "table"
+      filters: ["sourceFilter"]
     }
 
 Template.articles.onCreated ->
@@ -57,6 +58,44 @@ Template.sourceModal.helpers
       templateInstance.$(".datePicker").datetimepicker
         format: 'M/D/YYYY hh:mm A'
         useCurrent: false
+
+Template.sourceModal.events
+  "click .save-modal, click .save-modal-close": (e, templateInstance) ->
+    closeModal = $(e.target).hasClass("save-modal-close")
+    form = templateInstance.$("form")[0]
+    $article = templateInstance.$(form.article)
+    validURL = form.article.checkValidity()
+    unless validURL
+      toastr.error('Please enter an article.')
+      form.article.focus()
+      return
+    unless form.publishDate.checkValidity()
+      toastr.error('Please provide a valid date.')
+      form.publishDate.focus()
+      return
+    unless form.publishDateTZ.checkValidity()
+      toastr.error('Please select a time zone.')
+      form.publishDateTZ.focus()
+      return
+
+    source = {
+      userEventId: templateInstance.data.userEventId
+      url: form.article.value
+      publishDate: form.publishDate.value
+      publishDateTZ: form.publishDateTZ.value
+    }
+
+    Meteor.call("addEventSource", source, (error, result) ->
+      if not error
+        $(".reactive-table tr").removeClass("details-open")
+        $(".reactive-table tr.tr-details").remove()
+        if closeModal
+          Modal.hide(templateInstance)
+        toastr.success("Source added to event.")
+      else
+        toastr.error(error.reason)
+    )
+
 
 Template.articles.events
   "click .open-source-form": (event, template) ->
