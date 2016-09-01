@@ -44,7 +44,8 @@ if Meteor.isServer
 
 Meteor.methods
   addEventSource: (source) -> #eventId, url, publishDate, publishDateTZ
-    if source.url.length
+    user = Meteor.user()
+    if Roles.userIsInRole(user._id, ['admin']) and source.url.length
       insertArticle = {
         url: source.url,
         userEventId: source.userEventId
@@ -54,7 +55,6 @@ Meteor.methods
         throw new Meteor.Error(501, 'This article has already been added')
       else
         insertArticle = source
-        user = Meteor.user()
         insertArticle.addedByUserId = user._id
         insertArticle.addedByUserName = user.profile.name
         insertArticle.addedDate = new Date()
@@ -66,12 +66,13 @@ Meteor.methods
           dateString = dateStringMatch[1] + UTCOffsets[insertArticle.publishDateTZ]
           insertArticle.publishDate = new Date(dateString)
         newId = Articles.insert(insertArticle)
-        Meteor.call("updateUserEventLastModified", insertArticle.eventId)
+        Meteor.call("updateUserEventLastModified", insertArticle.userEventId)
+        Meteor.call("updateUserEventArticleCount", eventId, 1)
         return newId
 
   removeEventArticle: (id) ->
-    if Meteor.user()
+    if Roles.userIsInRole(Meteor.userId(), ['admin'])
       removed = Articles.findOne(id)
       Articles.remove(id)
-      Meteor.call("removeOrphanedLocations", removed.userEventId, id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
+      Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)

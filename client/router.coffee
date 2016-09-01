@@ -91,7 +91,7 @@ Router.route "/contact-us",
 Router.route "/user-events",
   name: 'user-events'
 
-Router.route "/user-event/:_id",
+Router.route "/user-event/:_id/:_view?",
   name: 'user-event'
   waitOn: ->
     [

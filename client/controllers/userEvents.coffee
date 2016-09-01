@@ -20,6 +20,13 @@ Template.userEvents.onCreated ->
       displayName: 'Last Modified Date',
       fieldName: 'lastModifiedDate',
       defaultSortDirection: -1
+    },
+    {
+      arrayName: '',
+      description: 'The number of articles associated with the event.',
+      displayName: 'Article Count',
+      fieldName: 'articleCount',
+      defaultSortDirection: 1
     }
   ]
 

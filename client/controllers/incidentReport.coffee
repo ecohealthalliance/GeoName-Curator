@@ -6,7 +6,6 @@ Template.incidentReport.helpers
   formatDate: (date) ->
     return moment(date).format("MMM D, YYYY")
 
-Template.incidentReport.events
-  "click .delete-count": (e) ->
-    if window.confirm("Are you sure you want to delete this incident report?")
-      Meteor.call("removeEventCount", @_id)
+Template.addIncidentReport.events
+  "click .open-incident-form": (event, template) ->
+    Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id})
