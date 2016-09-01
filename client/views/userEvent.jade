@@ -35,7 +35,7 @@ template(name="userEvent")
                 .col-sm-2.space-btm-1.space-top-1
                   if isInRole "admin"
                     .dropdown
-                      button.btn.secondary-btn.btn-block.dropdown-toggle(type="button" data-toggle="dropdown")
+                      button.btn.secondary-btn.btn-block.dropdown-toggle(type="button" data-toggle="dropdown" style="white-space: normal;")
                         | Admin Options
                         span.caret
                       ul.dropdown-menu
@@ -144,7 +144,7 @@ template(name="location")
 
 template(name="articles")
   .panel.panel-default
-    .panel-heading.es-panel-heading
+    .panel-heading
       h2 Event Sources
     .row
       .col-md-6
