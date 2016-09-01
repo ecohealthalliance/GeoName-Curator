@@ -36,6 +36,7 @@ Meteor.methods
           lastModifiedDate: now,
           lastModifiedByUserId: user._id,
           lastModifiedByUserName: user.profile.name
+          articleCount: 0
         })
 
   updateUserEvent: (id, name, summary, disease) ->
@@ -61,3 +62,14 @@ Meteor.methods
         lastModifiedByUserId: user._id,
         lastModifiedByUserName: user.profile.name
       }})
+  updateUserEventArticleCount: (id, countModifier) ->
+    if Roles.userIsInRole(Meteor.userId(), ['admin'])
+      event = UserEvents.findOne(id)
+      UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
+
+# Add article count field to events
+if Meteor.isServer
+  Meteor.startup ->
+    UserEvents.find().forEach (event) ->
+      count = grid.Articles.find({userEventId: event._id}).count()
+      UserEvents.update(event._id, {$set: {articleCount: count}})
