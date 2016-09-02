@@ -11,6 +11,26 @@ Template.userEvent.onRendered ->
       $(this).select()
     )
 
+Template.summary.helpers
+  formatDate: (date) ->
+    return moment(date).format("MMM D, YYYY")
+  locationCount: ->
+    locCount = 0
+    locations = {}
+    incidents = grid.Incidents.find({userEventId:this._id}).fetch()
+    for incident in incidents
+      if incident?.locations
+        # Loop 2: Locations within each incident report record
+        for loc in incident.locations
+          if !locations[loc.geonameId]  # add location if its not in locaitons object
+            locations[loc.geonameId] = loc.geonameId
+            locCount++
+    return locCount    
+  articleCount: ->
+    return Template.instance().data.articleCount
+  caseCount: ->
+    return grid.Incidents.find({userEventId:this._id}).count()
+
 Template.userEvent.helpers
   isEditing: ->
     return Template.instance().editState.get()
@@ -28,6 +48,8 @@ Template.userEvent.helpers
     return Template.instance().data
 
 Template.userEvent.events
+  "click #copyLink": (event, template) ->
+    toastr.success("Event link copied.")
   "click .edit-link, click #cancel-edit": (event, template) ->
     template.editState.set(not template.editState.get())
   "click .delete-link": (event, template) ->

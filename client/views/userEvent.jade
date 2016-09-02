@@ -1,58 +1,30 @@
 template(name="userEvent")
   .event
     .row
-      .col-lg-12.event-head
+      .event-head
         .basic-info
           if isEditing
             with userEvent
               form#editEvent.form-horizontal
-                .form-group
-                  .col-sm-2
-                    button#cancel-edit.btn.secondary-btn.btn-block(type='button') Cancel
-                  .col-sm-2.space-btm-1
-                    button#save-edit.btn.main-btn.btn-block(type='submit') Save
                 .form-group
                   .col-md-12
                     label.control-label Event Name
                     input.form-control(type='text' name='eventName' value='{{eventName}}' required)
                 .form-group
                   .col-md-12
+                    label.control-label Event Disease
+                    input.form-control(type="text" name="eventDisease" value="{{disease}}")
+                .form-group
+                  .col-md-12
                     label.control-label Event Summary
                     textarea.form-control(name="eventSummary" rows="15") {{summary}}
                 .form-group
-                  .col-md-12
-                    label.control-label Event Disease
-                    input.form-control(type="text" name="eventDisease" value="{{disease}}")
+                  .col-sm-2
+                    button#cancel-edit.btn.secondary-btn.btn-block(type='button') Cancel
+                  .col-sm-2.space-btm-1
+                    button#save-edit.btn.main-btn.btn-block(type='submit') Save
           else
             with userEvent
-              .row
-                .col-sm-8
-                  h1 {{eventName}}
-                .col-sm-2.space-btm-1.space-top-1
-                  button.btn.secondary-btn.btn-block(type="button" data-target="#shareLink" data-toggle="collapse")
-                    i.fa.fa-share
-                    | Share
-                .col-sm-2.space-btm-1.space-top-1
-                  if isInRole "admin"
-                    .dropdown
-                      button.btn.secondary-btn.btn-block.dropdown-toggle(type="button" data-toggle="dropdown" style="white-space: normal;")
-                        | Admin Options
-                        span.caret
-                      ul.dropdown-menu
-                        li
-                          a.edit-link(href="#") Edit
-                        li
-                          a.delete-link(href="#") Delete
-              #shareLink.row.collapse
-                .col-sm-12.shareLink
-                  .panel.panel-default
-                    .panel-body
-                      p Share this event by copying the direct link to this page below.
-                      .input-group
-                        input#eventLink.form-control(type="text" readonly value="{{urlFor 'user-event'}}")
-                        span.input-group-btn
-                          button#copyLink.btn.btn-default(type="button" data-clipboard-target="#eventLink")
-                            i.fa.fa-clipboard
               .row
                 .col-md-12
                   +summary
@@ -78,21 +50,57 @@ template(name="userEvent")
 
 template(name="summary")
   .row
-    .col-md-12
-      p.abstract
+    .col-md-6
+      .eventName {{eventName}}
+      p
+        if disease
+          .diseaseName {{disease}}
+        else
+          | No disease available.
+      p.abstract.eventSummary
         if summary
           | {{summary}}
         else
           | No summary available.
-  .row.space-btm-2
-    .col-md-12
-      .disease-separator
-      h2 Event Disease
-      p
-        if disease
-          | {{disease}}
-        else
-          | No disease available.
+    .col-md-6
+      .col-sm-4.col-sm-offset-8.space-btm-1.space-top-1
+        if isInRole "admin"
+          .dropdown
+            button.btn.secondary-btn.btn-block.dropdown-toggle(type="button" data-toggle="dropdown" style="white-space: normal;")
+              | Admin Options
+              span.caret
+            ul.dropdown-menu
+              li
+                a.edit-link(href="#") Edit
+              li
+                a.delete-link(href="#") Delete
+      table#countTable.col-md-12
+        tr.col-md-12
+          td.col-md-4.countCell.text-center
+            col-md-12.countCellValue
+              {{locationCount}}
+            .col-md-12.countCellTitle LOCATIONS
+          td.col-md-4.countCell.countCellCenter.text-center
+            .col-md-12.countCellValue
+              {{caseCount}}
+            .col-md-12.countCellTitle CASE COUNTS
+          td.col-md-4.countCell.text-center
+            .col-md-12.countCellValue
+              {{articleCount}}
+            .col-md-12.countCellTitle SOURCES
+        tr.col-md-12.countTableDetail
+          td.col-md-5.gi Created By:
+            b{{createdByUserName}}
+            |on {{formatDate creationDate}}
+          td.col-md-5.gi.giCellCenter Last Modified By:
+            b{{lastModifiedByUserName}}
+            |on {{formatDate lastModifiedDate}}
+          td.col-md-2.gi
+            button#copyLink.btn.btn-xs.btn-default(type="button" data-clipboard-text="{{urlFor 'user-event'}}")
+              i.fa.fa-share-alt
+              | Copy Event Link
+
+
 
 template(name="locationList")
   #proMedModal.modal.fade(role='dialog')
