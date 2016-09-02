@@ -1,3 +1,5 @@
+
+
 Template.incidentReports.helpers
   getSettings: ->
     fields = [
@@ -23,11 +25,14 @@ Template.incidentReports.helpers
           return ""
       },
       {
-        key: "date"
+        key: "startDate"
         label: "Date"
         fn: (value, object, key) ->
-          if object.date
-            return moment(value).fromNow()
+          if object.startDate
+            if object.specificDate
+              return moment(object.startDate).format("M/D/YYYY")
+            else
+              return " - "
           return ""
       },
       {

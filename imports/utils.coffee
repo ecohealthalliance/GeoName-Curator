@@ -38,30 +38,35 @@ module.exports.incidentReportFormToIncident = (form)->
   else
     throw new Meteor.Error("unknown-type")
 
-  startDate = $(form.date).data("DateTimePicker").date()
-  startTime = $(form.time).data("DateTimePicker").date()
-  endDate = startDate
-  
-  if startDate
-    if startTime
-      startHour = startTime.get("hour")
-      startDate.set("hour", startHour)
-      endDate.set("hour", startHour)
-      endDate.add(1, "hour")
-    else
-      endDate.add(24, "hour")
+  exactDate = false
+  useTime = form.hourPrecision.checked
+  $form = $(form)
 
-    incident.startDate = startDate.toDate()
-    incident.endDate = endDate.toDate()
-  if form.timeZone.value.length
-    incident.timeZone = form.timeZone.value
-  #datePicker = $(form.date).data("daterangepicker")
-  #start = datePicker.startDate
-  #end = datePicker.endDate
+  if $form.find("#singleDate").hasClass("active")
+    exactDate = true
+    picker = $form.find("#singleDatePicker").data("daterangepicker")
+  else if $form.find("#preciseRange").hasClass("active")
+    picker = $form.find("#rangePicker").data("daterangepicker")
 
-  #if start and start.isSame(end)
-    #start.set({hour: 0, minute: 0})
-    #end.set({hour: 23, minute: 59})
+  if picker.startDate
+    start = picker.startDate
+    end = picker.endDate
+
+    if useTime
+      if exactDate
+        start.set("hour", form.hour.value.trim())
+        end.set("hour", form.hour.value.trim())
+        end.add(1, "hour")
+      else
+        start.set("hour", form.startHour.value.trim())
+        end.set("hour", form.endHour.value.trim())
+
+    incident.specificDate = exactDate
+    incident.startDate = start.toDate()
+    incident.endDate = end.toDate()
+    
+  #if form.timeZone.value.length
+    #incident.timeZone = form.timeZone.value
 
   for child in $articleSelect.select2("data")
     if child.selected

@@ -1,8 +1,13 @@
+createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
+
 Template.incidentForm.onCreated ->
   @incidentType = new ReactiveVar()
   @incidentData = {
     species: "Human"
   }
+  @showTimePicker = new ReactiveVar(false)
+  @multipleTimePickers = new ReactiveVar(false)
+
   if @data.incident
     @incidentData = _.extend(@incidentData, @data.incident)
     @incidentData.date = moment(@data.incident.date).format('MM/DD/YYYY')
@@ -20,23 +25,12 @@ Template.incidentForm.onCreated ->
 
 Template.incidentForm.onRendered ->
   $(document).ready =>
-    @$(".datePicker").datetimepicker({
-      format: "M/D/YYYY"
-      useCurrent: false
-    })
+    createInlineDateRangePicker(@, "#singleDatePicker", true)
+    createInlineDateRangePicker(@, "#rangePicker")
     @$(".timePicker").datetimepicker({
       format: "h A"
       useCurrent: false
     })
-  ###
-  @$(".datePicker").daterangepicker({
-      timePicker: true
-      timePickerIncrement: 30
-      autoUpdateInput: false
-      applyClass: "main-btn"
-      cancelClass: "secondary-btn"
-    })
-  ###
 
 Template.incidentForm.helpers
   incidentData: ->
