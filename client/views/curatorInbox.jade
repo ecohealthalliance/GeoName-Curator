@@ -4,13 +4,13 @@ template(name="curatorInbox")
   section.container-fluid
     .row
       .col-sm-6.curator-inbox-articles
-        .row.curator-header
+        .row.curator-inbox-header
           .pull-left
             h2 Sources
           .curator-inbox-options.pull-right.form-inline
-            a
+            a.curator-filter-calendar
               i.fa.fa-calendar
-            a
+            a.curator-filter-curated-icon.active
               i.fa.fa-check-circle
             .input-group
               input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
@@ -19,7 +19,7 @@ template(name="curatorInbox")
           each day in days
             +curatorInboxSection date=day index=@index
       .col-sm-6#curator-article-details
-        .row.curator-header
+        .row.curator-inbox-header
 
 template(name="curatorInboxSection")
   .col-xs-12.curator-inbox-section-head
@@ -35,10 +35,9 @@ template(name="curatorInboxSection")
     +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
 
 template(name="curatorArticleDetails")
-  .row.curator-header.curator-article-details-header
+  div(class="row curator-inbox-header curator-article-details-header {{isCurated}}")
     h2 Article Title
-    if curated
-      i.fa.fa-check-circle.curated-icon
+    i.fa.fa-check-circle.curated-icon
   .curator-article-details-content
     .row
       .col-xs-12

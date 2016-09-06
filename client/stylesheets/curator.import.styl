@@ -5,7 +5,7 @@
   font-size 32px
   line-height 0.5
 
-.curator-header
+.curator-inbox-header
   background primary
   padding 10px 15px
   min-height 54px
@@ -16,7 +16,7 @@
     font-weight 700
 
 .curator-inbox-articles
-  border-right 2px m-gray solid
+  border-right 2px primary-light solid
 
 .curator-inbox-options
   position relative
@@ -35,11 +35,34 @@
   a
     color primary-light
     position relative
-    top 3px
+    top 5px
     margin-right 15px
-    font-size 20px
+    font-size 25px
+    line-height 0.5
     &:hover
       color l-gray
+  .curator-filter-curated-icon
+    &.active
+      color positive
+
+.curator-inbox-table
+  margin-bottom 0
+  color primary-light 
+  thead
+    display none
+  tr
+    padding-left 7px
+    padding-right 7px
+
+.curator-inbox-section-head
+  color primary
+  background primary-l-light
+  border-top 1px primary-light solid
+  border-bottom 1px primary-light solid
+  height 37px
+  font-size 14px
+  padding-top 8px
+  cursor: pointer
 
 .curator-article-details-header
   .curated-icon
@@ -55,23 +78,6 @@
     .curated-icon
       color primary
 
-.curator-inbox-table
-  margin-bottom 0
-  color primary-light 
-  thead
-    display none
-  tr
-    padding-left 7px
-    padding-right 7px
-
-.curator-inbox-section-head
-  color primary
-  background primary-l-light
-  height 37px
-  font-size 14px
-  padding-top 8px
-  cursor: pointer
-  
 .curator-article-details-content
   padding-top 15px
 
@@ -97,6 +103,6 @@
   .curator-heading
     padding-left 40px
   .curator-inbox-articles
-    .curator-header,
+    .curator-inbox-header,
     .curator-inbox-section-head
       padding-left 55px

@@ -19,11 +19,6 @@ Template.curatorInbox.helpers
     return Template.instance().days
 
 Template.curatorInbox.events
-  "click .reactive-table tbody tr": (event, template) ->
-    # template.selectedArticle.set(@)
-  "click .next-page, click .previous-page": ->
-    if (window.scrollY > 0 and window.innerHeight < 700)
-      $(document.body).animate({scrollTop: 0}, 400)
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
     template.textFilter.set($(event.target).val())
 
@@ -115,14 +110,17 @@ Template.curatorInboxSection.helpers
 
 Template.curatorInboxSection.events
   "click .reactive-table tbody tr": (event, template) ->
-    $target = $(event.target)
-    console.log 'click'
     $details = $("#curator-article-details").html(Blaze.toHTMLWithData(Template.curatorArticleDetails, this))
+    if (window.scrollY > 0 and window.innerHeight < 700)
+      $(document.body).animate({scrollTop: 0}, 400)
   "click .curator-inbox-section-head": (event, template) ->
-    console.log template.isOpen.curValue
     template.isOpen.set(!template.isOpen.curValue)
 
 Template.curatorArticleDetails.helpers
+  isCurated: ->
+    console.log Template.instance()
+    if Template.instance().data.curated
+      return 'curated'
   formattedAddedDate: ->
     return moment(Template.instance().data.addedDate).format('MMMM DD, YYYY')
   formattedPublishDate: ->
