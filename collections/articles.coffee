@@ -51,33 +51,36 @@ if Meteor.isServer
       return Meteor.user()
 
 Meteor.methods
-  addEventArticle: (eventId, url, publishDate, publishDateTZ) ->
-    if url.length
+  addEventSource: (source) -> #eventId, url, publishDate, publishDateTZ
+    user = Meteor.user()
+    if Roles.userIsInRole(user._id, ['admin']) and source.url.length
       insertArticle = {
-        url: url,
-        userEventId: eventId
+        url: source.url,
+        userEventId: source.userEventId
       }
       existingArticle = Articles.find(insertArticle).fetch()
       unless existingArticle.length is 0
         throw new Meteor.Error(501, 'This article has already been added')
       else
-        user = Meteor.user()
+        insertArticle = source
         insertArticle.addedByUserId = user._id
         insertArticle.addedByUserName = user.profile.name
         insertArticle.addedDate = new Date()
-        if publishDate.length
+        if insertArticle.publishDate.length
           # Convert the input string into a Date object
-          dateString = new Date(publishDate).toString()
+          dateString = new Date(insertArticle.publishDate).toString()
           # Fix the timezone offset
           dateStringMatch = dateString.match(/(.*GMT)/)
-          dateString = dateStringMatch[1] + UTCOffsets[publishDateTZ]
+          dateString = dateStringMatch[1] + UTCOffsets[insertArticle.publishDateTZ]
           insertArticle.publishDate = new Date(dateString)
         newId = Articles.insert(insertArticle)
-        Meteor.call("updateUserEventLastModified", eventId)
+        Meteor.call("updateUserEventLastModified", insertArticle.userEventId)
+        Meteor.call("updateUserEventArticleCount", insertArticle.userEventId, 1)
         return newId
+
   removeEventArticle: (id) ->
-    if Meteor.user()
+    if Roles.userIsInRole(Meteor.userId(), ['admin'])
       removed = Articles.findOne(id)
       Articles.remove(id)
-      Meteor.call("removeOrphanedLocations", removed.userEventId, id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
+      Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)

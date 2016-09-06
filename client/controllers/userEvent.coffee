@@ -11,11 +11,33 @@ Template.userEvent.onRendered ->
       $(this).select()
     )
 
+Template.summary.helpers
+  formatDate: (date) ->
+    return moment(date).format("MMM D, YYYY")
+  articleCount: ->
+    return Template.instance().data.articleCount
+  caseCount: ->
+    return grid.Incidents.find({userEventId:this._id}).count()
+
 Template.userEvent.helpers
   isEditing: ->
     return Template.instance().editState.get()
+  incidentView: ->
+    viewParam = Router.current().getParams()._view
+    return typeof viewParam is "undefined" or viewParam is "incidents"
+  locationView: ->
+    return Router.current().getParams()._view is "locations"
+  view: ->
+    currentView = Router.current().getParams()._view
+    if currentView is "locations"
+      return "locationList"
+    return "incidentReports"
+  templateData: ->
+    return Template.instance().data
 
 Template.userEvent.events
+  "click #copyLink": (event, template) ->
+    toastr.success("Event link copied.")
   "click .edit-link, click #cancel-edit": (event, template) ->
     template.editState.set(not template.editState.get())
   "click .delete-link": (event, template) ->
@@ -39,9 +61,6 @@ Template.userEvent.events
         if not error
           template.editState.set(false)
       )
-  "click a[data-toggle='tab']": (e, template) ->
-    template.$(".reactive-table tr").removeClass("details-open")
-    template.$(".reactive-table tr.tr-details").remove()
 
 Template.createEvent.events
   "submit #add-event": (e) ->

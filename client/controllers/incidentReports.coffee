@@ -3,7 +3,7 @@ Template.incidentReports.helpers
     fields = [
       {
         key: "count"
-        label: "Count"
+        label: "Incident"
         fn: (value, object, key) ->
           if object.cases
             return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
@@ -23,10 +23,24 @@ Template.incidentReports.helpers
           return ""
       },
       {
-        key: "addedDate"
-        label: "Reported"
+        key: "date"
+        label: "Date"
         fn: (value, object, key) ->
-          return moment(value).fromNow()
+          if object.date
+            return moment(value).fromNow()
+          return ""
+      },
+      {
+        key: "travelRelated"
+        label: "Travel Related"
+        fn: (value, object, key) ->
+          if value
+            return "Yes"
+          return ""
+      },
+      {
+        key: "species"
+        label: "Species"
       }
     ]
 
@@ -53,8 +67,6 @@ Template.incidentReports.helpers
     }
 
 Template.incidentReports.events
-  "click .open-incident-form": (event, template) ->
-    Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id})
   "click #event-incidents-table th": (event, template) ->
     template.$("tr").removeClass("details-open")
     template.$("tr.tr-details").remove()
@@ -131,8 +143,9 @@ Template.incidentModal.events
       locations: []
       type: form.incidentType.value
       value: if form.count then form.count.value.trim() else form.other.value.trim()
+      status: form.status.value
     }
-    
+
     for child in $articleSelect.select2("data")
       if child.selected
         incident.url = child.text.trim()
@@ -159,4 +172,3 @@ Template.incidentModal.events
       else
         toastr.error(error.reason)
     )
-

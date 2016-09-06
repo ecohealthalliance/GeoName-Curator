@@ -1,5 +1,9 @@
 @import 'event-icons.import'
 
+.event
+  padding-left 50px
+  padding-right 50px
+
 .event-wrap
   margin-bottom 20px
 
@@ -8,11 +12,27 @@
   background secondary-light
   padding-bottom 20px
 
+.eventName
+  padding-top 15px
+  padding-bottom 10px
+
+.eventNameSummary
+  font-size 36px
+  color highlight
+
+.diseaseName
+  font-size 20px
+  color #345e7e
+  padding-bottom 10px
+
+.eventSummary
+  padding-bottom 25px
+
 .event-head
   h1
     margin-bottom 20px
   .minor
-    font-size 24px
+    font-size 20px
   h2
     margin 5px 0 5px 0
     color #666
@@ -26,13 +46,13 @@
     margin 5px 5px 10px 0
 
 .basic-info
-  margin-bottom 20px
-  h2
-    font-size 200%
+  margin-left: 40px;
+  margin-right: 40px;
 
 .panel-heading
-  h3
-    color #333
+  h2
+    color white
+  background lightslategrey
 
 .tables
   td:first-child
@@ -97,7 +117,6 @@
 @import 'comments.import'
 
 @media (max-width: 1200px)
-
   .main-facts
     &:last-of-type
       margin-bottom 30px
@@ -105,7 +124,7 @@
 @media (max-width: 768px)
   .event-head
     h1
-      font-size 2em
+      font-size 20px
     .minor
       font-size 1.2em
       margin .3em 0
@@ -114,6 +133,10 @@
 
   table, thead, tbody, th, td, tr
     display block
+
+  .event
+    padding-left 50px
+    padding-right 50px
 
   .event .table td:first-child,
   td:first-child
@@ -175,7 +198,7 @@
   cursor text
 
 .nav-tabs
-  padding-left 30px
+  padding-left 50px
   border-bottom 2px solid primary
   > li
     margin-bottom 0
@@ -198,7 +221,7 @@
 
 .tab-form
   background-color primary-l-light
-  padding 15px 30px
+  padding 15px 50px
   border 1px solid lighten(m-gray, 70%)
   input.form-control,
   select.form-control,
@@ -230,6 +253,10 @@
   content "\f105"
   font-family FontAwesome
 
+.open-row-right::before
+  content "\f054"
+  font-family FontAwesome
+
 .details-open
   background-color secondary-light
   .open-row::before
@@ -243,3 +270,11 @@
   padding 0 50px
   ul
     margin-bottom 0
+
+.select2-container
+.select2-container + input
+  width 100% !important
+
+td.col-md-6.countCell.countCellLeft.text-center
+td.col-md-6.countCell.text-center
+  float left

@@ -100,7 +100,7 @@ Router.route "/curator-inbox",
       @redirect '/sign-in'
     @next()
 
-Router.route "/user-event/:_id",
+Router.route "/user-event/:_id/:_view?",
   name: 'user-event'
   waitOn: ->
     [
