@@ -1,22 +1,23 @@
 .curator-heading
   color primary
-  font-weight 300
+  font-weight 400
   margin 30px 0 0
-  font-size 36px
+  font-size 32px
+  line-height 0.5
 
 .curator-header
   background primary
   padding 10px 15px
   min-height 54px
-  h1, h2, h3
+  h2
     color ll-gray
     margin: 0
-  h2
     font-size 30px
+    font-weight 700
 
 .curator-inbox-articles
   border-right 2px m-gray solid
-  
+
 .curator-inbox-options
   position relative
   color: primary-light
@@ -40,6 +41,20 @@
     &:hover
       color l-gray
 
+.curator-article-details-header
+  .curated-icon
+    color positive
+    position absolute
+    top 12px
+    right 20px
+    font-size 32px
+  &.curated
+    background positive
+    h2
+      color primary
+    .curated-icon
+      color primary
+
 .curator-inbox-table
   margin-bottom 0
   color primary-light 
@@ -59,3 +74,24 @@
   
 .curator-article-details-content
   padding-top 15px
+
+.curator-inbox-table-row
+  .curator-inbox-curated-row::before
+    content "\f058"
+    font-family FontAwesome
+    color positive
+  td:first-of-type
+    width 45px
+    text-align right
+  td:nth-of-type(-n+2)
+    display table-cell !important
+    padding-top 8px
+    padding-bottom 8px
+
+@media (min-width: 992px)
+  .curator-heading
+    padding-left 55px
+  .curator-inbox-articles
+    .curator-header,
+    .curator-inbox-section-head
+      padding-left 55px

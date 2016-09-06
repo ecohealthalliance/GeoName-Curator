@@ -30,6 +30,17 @@ Template.curatorInbox.events
 Template.curatorInboxSection.onCreated ->
   @curatorInboxFields = [
     {
+      key: 'curated'
+      description: 'Article has been curated'
+      label: ''
+      cellClass: (value) ->
+        if value
+          return 'curator-inbox-curated-row'
+      sortDirection: -1
+      fn: (value) ->
+        return ''
+    },
+    {
       key: 'url'
       description: 'The article\'s title.'
       label: 'Title'

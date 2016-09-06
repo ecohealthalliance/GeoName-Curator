@@ -1,10 +1,10 @@
 template(name="curatorInbox")
-  .container
+  .container-fluid
     .row
       h1.curator-heading CURATOR INBOX
-  section.container.events
+  section.container-fluid
     .row
-      .col-md-6.curator-inbox-articles
+      .col-sm-6.curator-inbox-articles
         .row.curator-header
           .pull-left
             h2 Sources
@@ -19,7 +19,7 @@ template(name="curatorInbox")
         .row
           each day in days
             +curatorInboxSection date=day index=@index
-      .col-md-6#curator-article-details
+      .col-sm-6#curator-article-details
         .row.curator-header
 
 template(name="curatorInboxSection")
@@ -27,21 +27,26 @@ template(name="curatorInboxSection")
     .pull-left
       b {{formattedDate}}
     .pull-right
-      i.fa.fa-lg(class="{{travelIcon}}")
-      i.fa.fa-arrow-circle-down
+      i.fa.fa-lg
+        if isOpen
+          i.fa.fa-chevron-circle-down
+        else
+          i.fa.fa-chevron-circle-left
   if isOpen
-    +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table"
+    +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
 
 template(name="curatorArticleDetails")
-  .row.curator-header
+  .row.curator-header.curator-article-details-header
     h2 Article Title
+    if curated
+      i.fa.fa-check-circle.curated-icon
   .curator-article-details-content
     .row
       .col-xs-12
-        p 
+        p
           b Originally published on 
           {{formattedPublishDate}}
-        p 
+        p
           b Added by 
           {{addedByUserName}},
           b on {{formattedAddedDate}}
