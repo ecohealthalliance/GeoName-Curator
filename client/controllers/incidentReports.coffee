@@ -109,8 +109,8 @@ Template.incidentModal.helpers
 Template.incidentModal.events
   "change select[name='incidentType']": (e, template) ->
     template.incidentType.set($(e.target).val())
-  "click .save-modal, click .save-modal-close": (e, templateInstance) ->
-    closeModal = $(e.target).hasClass("save-modal-close")
+  "click .save-modal, click .save-modal-duplicate": (e, templateInstance) ->
+    duplicate = $(e.target).hasClass("save-modal-duplicate")
     form = templateInstance.$("form")[0]
     $articleSelect = templateInstance.$(form.articleSource)
     validURL = form.articleSource.checkValidity()
@@ -166,8 +166,15 @@ Template.incidentModal.events
       if not error
         $(".reactive-table tr").removeClass("details-open")
         $(".reactive-table tr.tr-details").remove()
-        if closeModal
-          Modal.hide(templateInstance)
+        if !duplicate
+          $("#articleSource").val(null).trigger("change")
+          $(form.date).val("")
+          $("#incident-location-select2").val(null).trigger("change")
+          $(form.species).val("")
+          $(form.status).val(null)
+          $(form.count).val("")
+          $(form.incidentType).val(null).trigger("change")
+          $(form.travelRelated).attr('checked', false)
         toastr.success("Incident report added to event.")
       else
         toastr.error(error.reason)
