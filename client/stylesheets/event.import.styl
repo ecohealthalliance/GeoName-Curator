@@ -3,7 +3,7 @@
 .event
   padding-left 50px
   padding-right 50px
-  
+
 .event-wrap
   margin-bottom 20px
 
@@ -12,11 +12,27 @@
   background secondary-light
   padding-bottom 20px
 
+.eventName
+  padding-top 15px
+  padding-bottom 10px
+
+.eventNameSummary
+  font-size 36px
+  color highlight
+
+.diseaseName
+  font-size 20px
+  color #345e7e
+  padding-bottom 10px
+
+.eventSummary
+  padding-bottom 25px
+
 .event-head
   h1
     margin-bottom 20px
   .minor
-    font-size 24px
+    font-size 20px
   h2
     margin 5px 0 5px 0
     color #666
@@ -32,8 +48,6 @@
 .basic-info
   margin-left: 40px;
   margin-right: 40px;
-  h2
-    font-size 200%
 
 .panel-heading
   h2
@@ -110,7 +124,7 @@
 @media (max-width: 768px)
   .event-head
     h1
-      font-size 2em
+      font-size 20px
     .minor
       font-size 1.2em
       margin .3em 0
@@ -256,3 +270,7 @@
 .select2-container
 .select2-container + input
   width 100% !important
+
+td.col-md-6.countCell.countCellLeft.text-center
+td.col-md-6.countCell.text-center
+  float left

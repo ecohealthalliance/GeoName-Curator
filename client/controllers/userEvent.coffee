@@ -11,6 +11,14 @@ Template.userEvent.onRendered ->
       $(this).select()
     )
 
+Template.summary.helpers
+  formatDate: (date) ->
+    return moment(date).format("MMM D, YYYY")
+  articleCount: ->
+    return Template.instance().data.articleCount
+  caseCount: ->
+    return grid.Incidents.find({userEventId:this._id}).count()
+
 Template.userEvent.helpers
   isEditing: ->
     return Template.instance().editState.get()
@@ -28,6 +36,8 @@ Template.userEvent.helpers
     return Template.instance().data
 
 Template.userEvent.events
+  "click #copyLink": (event, template) ->
+    toastr.success("Event link copied.")
   "click .edit-link, click #cancel-edit": (event, template) ->
     template.editState.set(not template.editState.get())
   "click .delete-link": (event, template) ->
