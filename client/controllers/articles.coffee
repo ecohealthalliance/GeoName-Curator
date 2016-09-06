@@ -1,10 +1,49 @@
+Template.articles.helpers
+  getSettings: ->
+    fields = [
+      {
+        key: "url"
+        label: "Title"
+        fn: (value, object, key) ->
+          return value
+      },
+      {
+        key: "addedDate"
+        label: "Added"
+        fn: (value, object, key) ->
+          return moment(value).fromNow()
+      }
+      {
+        key: "publishDate"
+        label: "Publication Date"
+        fn: (value, object, key) ->
+          return moment(value).format('MMM D, YYYY')
+      }
+    ]
+
+    fields.push({
+      key: "expand"
+      label: ""
+      cellClass: "open-row-right"
+    })
+
+    return {
+      id: 'event-sources-table'
+      fields: fields
+      showFilter: false
+      showNavigationRowsPerPage: false
+      showRowCount: false
+      class: "table"
+      filters: ["sourceFilter"]
+    }
+
 Template.articles.onCreated ->
   @tzIsSpecified = false
 
 Template.articles.onRendered ->
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
 
-Template.articles.helpers
+Template.sourceModal.helpers
   timezones: ->
     timezones = []
     defaultTimezone = if moment().isDST() then 'EDT' else 'EST'
@@ -20,7 +59,48 @@ Template.articles.helpers
         format: 'M/D/YYYY hh:mm A'
         useCurrent: false
 
+Template.sourceModal.events
+  "click .save-modal, click .save-modal-close": (e, templateInstance) ->
+    closeModal = $(e.target).hasClass("save-modal-close")
+    form = templateInstance.$("form")[0]
+    $article = templateInstance.$(form.article)
+    validURL = form.article.checkValidity()
+    unless validURL
+      toastr.error('Please enter an article.')
+      form.article.focus()
+      return
+    unless form.publishDate.checkValidity()
+      toastr.error('Please provide a valid date.')
+      form.publishDate.focus()
+      return
+    unless form.publishDateTZ.checkValidity()
+      toastr.error('Please select a time zone.')
+      form.publishDateTZ.focus()
+      return
+
+    source = {
+      userEventId: templateInstance.data.userEventId
+      url: form.article.value
+      publishDate: form.publishDate.value
+      publishDateTZ: form.publishDateTZ.value
+    }
+
+    Meteor.call("addEventSource", source, (error, result) ->
+      if not error
+        $(".reactive-table tr").removeClass("details-open")
+        $(".reactive-table tr.tr-details").remove()
+        if closeModal
+          Modal.hide(templateInstance)
+        toastr.success("Source added to event.")
+      else
+        toastr.error(error.reason)
+    )
+
+
 Template.articles.events
+  "click .open-source-form": (event, template) ->
+    Modal.show("sourceModal", {userEventId: template.data.userEvent._id})
+Template.sourceModal.events
   "change #publishDateTZ": (e, templateInstance) ->
     templateInstance.tzIsSpecified = true
   "submit #add-article": (e, templateInstance) ->
