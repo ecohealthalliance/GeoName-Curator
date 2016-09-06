@@ -9,13 +9,12 @@ template(name="curatorInbox")
           .pull-left
             h2 Sources
           .curator-inbox-options.pull-right.form-inline
-            //- input(name="search" placeholder="Search articles")
             a
               i.fa.fa-calendar
             a
               i.fa.fa-check-circle
             .input-group
-              input.map-search.form-control(type="text" placeholder="Filter by event name")
+              input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
               i.fa.fa-search.search-icon
         .row
           each day in days

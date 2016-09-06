@@ -12,11 +12,9 @@ Template.curatorInbox.onCreated ->
     @days.push recordedDates[key]
   @days.sort
 
-Template.curatorInbox.helpers
-  selectedArticle: ->
-    return 0
-    # return Template.instance().selectedArticle.get()
+  @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
 
+Template.curatorInbox.helpers
   days: ->
     return Template.instance().days
 
@@ -26,6 +24,8 @@ Template.curatorInbox.events
   "click .next-page, click .previous-page": ->
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
+  "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
+    template.textFilter.set($(event.target).val())
 
 Template.curatorInboxSection.onCreated ->
   @curatorInboxFields = [
@@ -99,7 +99,7 @@ Template.curatorInboxSection.helpers
       showRowCount: false
       showFilter: false
       showNavigation: 'never'
-      filters: [Template.instance().filterId]
+      filters: [Template.instance().filterId, 'curator-inbox-article-filter']
     }
 
 Template.curatorInboxSection.events
