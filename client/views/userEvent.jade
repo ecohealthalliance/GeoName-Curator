@@ -51,7 +51,7 @@ template(name="userEvent")
 template(name="summary")
   .row
     .col-md-6
-      .eventName {{eventName}}
+      .eventName.eventNameSummary {{eventName}}
       p
         if disease
           .diseaseName {{disease}}
@@ -76,14 +76,10 @@ template(name="summary")
                 a.delete-link(href="#") Delete
       table#countTable.col-md-12
         tr.col-md-12
-          td.col-md-4.countCell.text-center
-            col-md-12.countCellValue
-              {{locationCount}}
-            .col-md-12.countCellTitle LOCATIONS
-          td.col-md-4.countCell.countCellCenter.text-center
+          td.col-md-4.countCell.countCellLeft.text-center
             .col-md-12.countCellValue
               {{caseCount}}
-            .col-md-12.countCellTitle CASE COUNTS
+            .col-md-12.countCellTitle INCIDENT REPORTS
           td.col-md-4.countCell.text-center
             .col-md-12.countCellValue
               {{articleCount}}
