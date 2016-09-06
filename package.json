@@ -11,5 +11,8 @@
     "chimp": "^0.39.3",
     "mongodb-prebuilt": "^5.0.6",
     "coffee-script": "^1.6.3"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7"
   }
 }
