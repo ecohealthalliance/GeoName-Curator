@@ -21,6 +21,13 @@ Template.articles.helpers
       }
     ]
 
+    if Meteor.user()
+      fields.push({
+        key: "delete"
+        label: ""
+        cellClass: "remove-row"
+      })
+
     fields.push({
       key: "expand"
       label: ""
@@ -98,6 +105,23 @@ Template.sourceModal.events
 
 
 Template.articles.events
+  "click .reactive-table tbody tr": (event, template) ->
+    $target = $(event.target)
+    $parentRow = $target.closest("tr")
+    currentOpen = template.$("tr.tr-details")
+    if $target.closest(".remove-row").length
+      if window.confirm("Are you sure you want to delete this event source?")
+        currentOpen.remove()
+        Meteor.call("removeEventSource", @_id)
+    else if not $parentRow.hasClass("tr-details")
+      closeRow = $parentRow.hasClass("details-open")
+      ###
+      if currentOpen
+        template.$("tr").removeClass("details-open")
+        currentOpen.remove()
+      if not closeRow
+        #TODO: Display event source details.
+      ###
   "click .open-source-form": (event, template) ->
     Modal.show("sourceModal", {userEventId: template.data.userEvent._id})
 Template.sourceModal.events
