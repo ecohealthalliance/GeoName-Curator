@@ -5,6 +5,8 @@ Template.navLinks.events
       $('.navbar-collapse').collapse('toggle')
 
 Template.navLinks.helpers
+  isCurator: ->
+    return Roles.userIsInRole(Meteor.userId(), ["admin", "curator"])
   checkActive: (routeName) ->
     if routeName is Router.current().location.get().path.slice(1)
       'active'

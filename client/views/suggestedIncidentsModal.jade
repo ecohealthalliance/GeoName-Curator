@@ -1,0 +1,18 @@
+template(name="suggestedIncidentsModal")
+  .modal.fade(role="dialog")
+    .modal-dialog.suggested-incidents
+      .modal-content
+        .modal-header
+          h4.modal-title Suggested Incident Reports
+        .modal-body
+          if loading
+            i.fa.fa-circle-o-notch.fa-spin
+            | Processing article
+          else
+            unless incidentsFound
+              .warn No incident reports could be automatically extracted from the article.
+            #suggested-locations-form.form-horizontal
+              p.annotated-content=annotatedContent
+        .modal-footer
+          button.btn.btn-default(type="button" data-dismiss="modal") Close
+          button.btn.main-btn#add-suggestions(type="button") Add Confirmed Suggestions

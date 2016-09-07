@@ -1,0 +1,69 @@
+template(name="curatorInbox")
+  .container-fluid
+    h1.curator-heading CURATOR INBOX
+  section.container-fluid
+    .row
+      .col-sm-6.curator-inbox-articles
+        .row.curator-inbox-header
+          .pull-left
+            h2 Sources
+          .curator-inbox-options.pull-right.form-inline
+            a.curator-filter-calendar
+              i.fa.fa-calendar
+            a.curator-filter-curated-icon.active
+              i.fa.fa-check-circle
+            .input-group
+              input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
+              i.fa.fa-search.search-icon
+        .row
+          each day in days
+            +curatorInboxSection date=day index=@index
+      .col-sm-6#curator-article-details
+        .row.curator-inbox-header
+
+template(name="curatorInboxSection")
+  .col-xs-12.curator-inbox-section-head
+    .pull-left
+      b {{formattedDate}}
+    .pull-right
+      i.fa.fa-lg
+        if isOpen
+          i.fa.fa-chevron-circle-down
+        else
+          i.fa.fa-chevron-circle-left
+  if isOpen
+    +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
+
+template(name="curatorArticleDetails")
+  div(class="row curator-inbox-header curator-article-details-header {{isCurated}}")
+    h2 Article Title
+    i.fa.fa-check-circle.curated-icon
+  .curator-article-details-content
+    .row
+      .col-xs-12
+        p
+          b Originally published on 
+          {{formattedPublishDate}}
+        p
+          b Added by 
+          {{addedByUserName}},
+          b on {{formattedAddedDate}}
+        p
+          a.ref-link(href="{{url}}" target="_blank") {{url}}
+    .row
+      .col-sm-6
+        h4 Location
+        p Lorem ipsum dolor sit amet.
+        p Lorem ipsum dolor sit amet.
+      .col-sm-6
+        h4 Cases
+        p Lorem ipsum dolor sit amet.
+    .row
+      .col-xs-12
+        h4 Text extractions
+        p Lorem ipsum dolor sit amet.
+        p Lorem ipsum dolor sit amet.
+    .row
+      .col-xs-12.text-center
+        a.btn.btn-primary.disabled(href="") ACCEPT SOURCE
+        a.btn.btn-default.disabled(href="") DECLINE

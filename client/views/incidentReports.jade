@@ -74,55 +74,7 @@ template(name="incidentModal")
         .modal-header
           h4.modal-title Add Incident Report
         .modal-body
-          form#add-incident.form-horizontal(novalidate)
-            .form-group
-              label.col-lg-3.control-label Article URL
-              .col-lg-9
-                +articleSelect2 selectId="articleSource" articles=articles
-            .form-group
-              label.col-lg-3.control-label Date
-              .col-lg-9
-                input.form-control.datePicker(type="text" name="date" data-DateTimePicker)
-            .form-group
-              label.col-lg-3.control-label Location
-              .col-lg-9
-                +locationSelect2 selectId="incident-location-select2" multiple="true"
-            .form-group
-              label.col-lg-3.control-label Species
-              .col-lg-9
-                input.form-control(type="text" name="species")
-            .form-group
-              label.col-lg-3.control-label Status
-              .col-lg-9
-                select.form-control(name="status")
-                  option(value="")
-                  option(value="suspected") Suspected
-                  option(value="confirmed") Confirmed
-                  option(value="revoked") Revoked
-            .form-group
-              label.col-lg-3.control-label Incident Type
-              .col-lg-9
-                select.form-control(name="incidentType" required)
-                  option(value="")
-                  option(value="cases") Case Count
-                  option(value="deaths") Death Count
-                  option(value="other") Other
-            if showCountForm
-              .form-group
-                label.col-lg-3.control-label Count
-                .col-lg-9
-                  input.form-control(name="count" type="number" min="0" required)
-            if showOtherForm
-              .form-group
-                label.col-lg-3.control-label Specify Other
-                .col-lg-9
-                  input.form-control(name="other" type="text" required)
-            .form-group
-              .col-lg-9.col-lg-offset-3
-                .checkbox
-                  label
-                    input(type="checkbox" value="1" name="travelRelated")
-                    | Travel related
+          +incidentForm
         .modal-footer
           button.btn.secondary-btn(type="button" data-dismiss="modal") Close
           button.btn.main-btn.save-modal-close(type="button") Save and Close

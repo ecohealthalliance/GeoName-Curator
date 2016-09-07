@@ -248,6 +248,10 @@
 .open-row::before
   content "\f107"
   font-family FontAwesome
+  
+.details-row::before
+  content "\f105"
+  font-family FontAwesome
 
 .open-row-right::before
   content "\f054"
@@ -270,6 +274,23 @@
 .select2-container
 .select2-container + input
   width 100% !important
+
+.annotation
+  color red
+  text-decoration underline
+  cursor pointer
+.annotation.accepted
+  color green
+.suggested-incidents
+  width 800px
+  .modal-body
+    height 500px
+    overflow-y scroll
+.annotated-content
+  white-space pre-wrap
+
+.warn
+  background-color yellow
 
 td.col-md-6.countCell.countCellLeft.text-center
 td.col-md-6.countCell.text-center

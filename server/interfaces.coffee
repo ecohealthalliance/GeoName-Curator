@@ -1,29 +1,21 @@
 DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
 
+GRITS_API_URL = process.env.GRITS_API_URL or "https://grits.eha.io/api/v1"
+
 Meteor.methods
-  getArticleLocations: (url) ->
+  getArticleEnhancements: (url) ->
     geonameIds = []
-    result = HTTP.call("POST", "http://grits.eha.io:80/api/v1/public_diagnose",{
-      params: { api_key: "grits28754", url: url }
-    })
-    if result.data and result.data.features
-      for object in result.data.features
-        if object.geoname
-          geonameIds.push(object.geoname.geonameid.toString())
-    unless geonameIds.length
-      return []
-    geonames = HTTP.get("https://geoname-lookup.eha.io/api/geonames", {
+    console.log "Calling GRITS API @ " + GRITS_API_URL
+    result = HTTP.post(GRITS_API_URL + "/public_diagnose", {
       params:
-        ids: geonameIds
+        api_key: "grits28754"
+        returnSourceContent: true
+        showKeypoints: true
+        url: url
     })
-    geonames.data.docs.map (loc) ->
-      geonameId: loc.id
-      name: loc.name
-      displayName: loc.name
-      subdivision: loc.admin1Name
-      latitude: parseFloat(loc.latitude)
-      longitude: parseFloat(loc.longitude)
-      countryName: loc.countryName
+    if result.data.error
+      throw new Meteor.Error("grits-error", result.data.error)
+    return result.data
 
   retrieveProMedArticleDate: _.memoize( (articleID) ->
     result = HTTP.call "GET", "http://www.promedmail.org/ajax/getPost.php",
