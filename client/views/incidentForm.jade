@@ -3,11 +3,11 @@ template(name="incidentForm")
     .form-group
       label.col-lg-3.control-label Article URL
       .col-lg-9
-        +articleSelect2 selectId="articleSource" articles=articles selected=incidentData.articleSource
+        +articleSelect2 selectId="articleSource" articles=articles selected=incidentData.url
     .form-group
       label.col-lg-3.control-label Date
       .col-lg-9
-        input.form-control.datePicker(type="text" name="date" data-DateTimePicker value=incidentData.date)
+        input.form-control.datePicker(type="text" name="date" data-DateTimePicker value=incidentData.addedDate)
     .form-group
       label.col-lg-3.control-label Location
       .col-lg-9
