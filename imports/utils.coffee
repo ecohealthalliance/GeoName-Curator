@@ -1,14 +1,41 @@
+inlineDateRangePicker = require '/ui/inlineDateRangePicker.coffee'
+
 module.exports.incidentReportFormToIncident = (form)->
+  $form = $(form)
   $articleSelect = $(form.articleSource)
-  validURL = form.articleSource.checkValidity()
-  unless validURL
+  if $form.find("#singleDate").hasClass("active")
+    rangeType = "day"
+    $pickerContainer = $form.find("#singleDatePicker")
+  else if $form.find("#preciseRange").hasClass("active")
+    rangeType = "precise"
+    $pickerContainer = $form.find("#rangePicker")
+  else
+    rangeType = "unbounded"
+    $pickerContainer = $form.find("#rangePointPicker")
+
+  selectedDates = inlineDateRangePicker.getSelectedDates($pickerContainer)
+
+  unless form.articleSource.checkValidity()
     toastr.error('Please select an article.')
     form.articleSource.focus()
     return
-  unless form.date.checkValidity() and moment(form.date.value, "M/D/YYYY").isValid()
-    toastr.error('Please provide a valid date.')
-    form.publishDate.focus()
-    return
+  if form.hourPrecision.checked
+    if not selectedDates
+      toastr.error('Please select a date or date range.')
+      return
+    if rangeType is "precise"
+      if form.startHour.value.length is 0
+        toastr.error('Please select a starting hour.')
+        form.startHour.focus()
+        return
+      if form.endHour.value.length is 0
+        toastr.error('Please select an ending hour.')
+        form.endHour.focus()
+        return
+    else if form.hour.value.length is 0
+      toastr.error('Please select a time.')
+      form.hour.focus()
+      return
   unless form.incidentType.checkValidity()
     toastr.error('Please select an incident type.')
     form.incidentType.focus()
@@ -38,35 +65,38 @@ module.exports.incidentReportFormToIncident = (form)->
   else
     throw new Meteor.Error("unknown-type")
 
-  exactDate = false
-  useTime = form.hourPrecision.checked
-  $form = $(form)
+  if selectedDates
+    start = selectedDates.startDate
+    end = selectedDates.endDate
+    incident.dateRangeType = rangeType
+    incident.hourPrecision = form.hourPrecision.checked
+    if form.hourPrecision.checked and form.timezone.value.length
+      incident.timezone = form.timezone.value
+    else
+      incident.unknownTimezone = true
+      incident.timezone = "EGST"
 
-  if $form.find("#singleDate").hasClass("active")
-    exactDate = true
-    picker = $form.find("#singleDatePicker").data("daterangepicker")
-  else if $form.find("#preciseRange").hasClass("active")
-    picker = $form.find("#rangePicker").data("daterangepicker")
-
-  if picker.startDate
-    start = picker.startDate
-    end = picker.endDate
-
-    if useTime
-      if exactDate
-        start.set("hour", form.hour.value.trim())
-        end.set("hour", form.hour.value.trim())
+    if rangeType is "day"
+      if form.hourPrecision.checked
+        hour = $(form.hour).data("DateTimePicker").date().get("hour")
+        start.set("hour", hour)
+        end.set("hour", hour)
         end.add(1, "hour")
+      incident.startDate = start.toDate()
+      incident.endDate = end.toDate()
+    else if rangeType is "precise"
+      if form.hourPrecision.checked
+        start.set("hour", $(form.startHour).data("DateTimePicker").date().get("hour"))
+        end.set({hour: $(form.endHour).data("DateTimePicker").date().get("hour"), minute: 0})
+      incident.startDate = start.toDate()
+      incident.endDate = end.toDate()
+    else
+      if form.hourPrecision.checked
+        start.set("hour", $(form.hour).data("DateTimePicker").date().get("hour"))
+      if form.unboundedRangeType.value is "after"
+        incident.startDate = start.toDate()
       else
-        start.set("hour", form.startHour.value.trim())
-        end.set("hour", form.endHour.value.trim())
-
-    incident.specificDate = exactDate
-    incident.startDate = start.toDate()
-    incident.endDate = end.toDate()
-    
-  #if form.timeZone.value.length
-    #incident.timeZone = form.timeZone.value
+        incident.endDate = start.toDate()
 
   for child in $articleSelect.select2("data")
     if child.selected

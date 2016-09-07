@@ -1,15 +1,21 @@
 Template.incidentReport.helpers
   formatDate: ->
-    if @specificDate
-      startMoment = moment(@startDate)
-      endMoment = moment(@endDate)
-      diff = endMoment.diff(startMoment, "hours")
-      if diff is 1
-        return moment(@startDate).format("MMM D, YYYY h:mm A")
+    timezoneString = ""
+    if @timezone
+      timezoneString = " " + @timezone + " " + @timezoneOffset
+    dateFormat = "MMM D, YYYY"
+    if @hourPrecision
+      dateFormat = "MMM D, YYYY h:mm A"
+    if @dateRangeType is "day"
+      return moment(@startDate).format(dateFormat) + timezoneString
+    else if @dateRangeType is "precise"
+      return moment(@startDate).format(dateFormat) + " - " + moment(@endDate).format(dateFormat) + timezoneString
+    else if @dateRangeType is "unbounded"
+      if @startDate
+        return "After " + moment(@startDate).format(dateFormat) + timezoneString
       else
-        return moment(@startDate).format("MMM D, YYYY")
-    else
-      return " - "
+        return "Before " + moment(@endDate).format(dateFormat) + timezoneString
+    return ""
 
 Template.addIncidentReport.events
   "click .open-incident-form": (event, template) ->

@@ -96,3 +96,11 @@ if Meteor.isServer
           mongoProjection = {$set: {deaths: parsed}}
       if mongoProjection
         Incidents.update({_id: incident._id}, mongoProjection)
+
+    incidents = Incidents.find({date: {$exists: true}}).fetch()
+    for incident in incidents
+      Incidents.update(incident._id, {
+        startDate: incident.date
+        endDate: incident.date
+        unknownTimezone: true
+      })

@@ -1,4 +1,4 @@
-createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
+inlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 Template.incidentForm.onCreated ->
   @incidentType = new ReactiveVar()
@@ -25,8 +25,12 @@ Template.incidentForm.onCreated ->
 
 Template.incidentForm.onRendered ->
   $(document).ready =>
-    createInlineDateRangePicker(@, "#singleDatePicker", true)
-    createInlineDateRangePicker(@, "#rangePicker")
+    inlineDateRangePicker.createInlineDateRangePicker(@, "#singleDatePicker", true)
+    inlineDateRangePicker.createInlineDateRangePicker(@, "#rangePicker")
+    inlineDateRangePicker.createInlineDateRangePicker(@, "#rangePointPicker", true)
+
+Template.timePicker.onRendered ->
+  $(document).ready =>
     @$(".timePicker").datetimepicker({
       format: "h A"
       useCurrent: false
