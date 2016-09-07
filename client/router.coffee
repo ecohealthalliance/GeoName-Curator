@@ -93,6 +93,15 @@ Router.route "/contact-us",
 Router.route "/user-events",
   name: 'user-events'
 
+Router.route "/curator-inbox",
+  name: 'curator-inbox'
+  waitOn: ->
+    Meteor.subscribe "recentEventArticles"
+  onBeforeAction: () ->
+    unless Roles.userIsInRole(Meteor.userId(), ['admin', 'curator'])
+      @redirect '/sign-in'
+    @next()
+
 Router.route "/user-event/:_id/:_view?",
   name: 'user-event'
   waitOn: ->

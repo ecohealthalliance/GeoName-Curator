@@ -19,6 +19,17 @@ template(name="navLinks")
             a(href="{{pathFor 'create-account'}}") Create User Account
           li(class="{{checkActive 'admins'}}")
             a(href="{{pathFor 'admins'}}") Current User Accounts
+    
+    //- TODO: Replace with curator role
+    if isCurator
+      li(class="dropdown {{checkActive 'curator-inbox'}}")
+        a.dropdown-toggle-nav(id="curators-menu" href="#" role="button" data-toggle="dropdown") Curators
+          span.caret
+        ul.dropdown-menu.nav-dd
+          li(class="{{checkActive 'curator-inbox'}}")
+            a(href="{{pathFor 'curator-inbox'}}") Inbox
+
+      
       //li(class="{{checkActive 'comments'}}")
         //a(href="{{pathFor 'adminComments'}}") Comments
     li(class="{{checkActive 'about'}}")
