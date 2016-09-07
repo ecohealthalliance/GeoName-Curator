@@ -1,3 +1,5 @@
+require '/imports/ui/helpers.coffee'
+
 UserEvents = ->
   @grid.UserEvents
 

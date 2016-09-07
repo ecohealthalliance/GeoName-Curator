@@ -43,11 +43,13 @@ Template.locationSelect2.onCreated ->
         }
 
 Template.locationSelect2.onRendered ->
-  $input = @$("#" + @data.selectId)
-  $input.select2
-    multiple: @data.multiple
-    placeholder: "Search for a location..."
-    minimumInputLength: 1
+  initialValues = []
+  if @data.selected
+    initialValues = @data.selected.map (loc)->
+      id: loc.geonameId
+      text: formatLocation(loc)
+      item: loc
+  $input = @$("select")
   $.fn.select2.amd.define('select2/data/queryAdapter',
     [ 'select2/data/array', 'select2/utils' ],
     (ArrayAdapter, Utils) =>
@@ -64,8 +66,11 @@ Template.locationSelect2.onRendered ->
       CustomDataAdapter
   )
   queryDataAdapter = $.fn.select2.amd.require('select2/data/queryAdapter')
-  @$("#" + @data.selectId).select2
+  $input.select2
+    data: initialValues
     multiple: @data.multiple
     placeholder: "Search for a location..."
     minimumInputLength: 0
     dataAdapter: queryDataAdapter
+  if initialValues.length > 0
+    $input.val(initialValues.map((x)->x.id)).trigger("change")
