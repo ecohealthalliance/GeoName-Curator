@@ -99,8 +99,19 @@ if Meteor.isServer
 
     incidents = Incidents.find({date: {$exists: true}}).fetch()
     for incident in incidents
+      startDate = moment(incident.date).set({hour: 0, minute: 0})
+      endDate = moment(startDate).set({hour: 23, minute: 59})
       Incidents.update(incident._id, {
-        startDate: incident.date
-        endDate: incident.date
-        unknownTimezone: true
+        $set: {
+          startDate: startDate.toDate()
+          endDate: endDate.toDate()
+          dateRangeType: "day"
+          hourPrecision: false
+          unknownTimezone: true
+          timezone: "EGST"
+          timezoneOffset: "+0000"
+        },
+        $unset: {
+          date: ""
+        }
       })
