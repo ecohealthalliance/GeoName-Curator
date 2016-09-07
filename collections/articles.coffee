@@ -78,7 +78,7 @@ Meteor.methods
         Meteor.call("updateUserEventArticleCount", insertArticle.userEventId, 1)
         return newId
 
-  removeEventArticle: (id) ->
+  removeEventSource: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       removed = Articles.findOne(id)
       Articles.remove(id)
