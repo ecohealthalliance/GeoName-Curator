@@ -1,12 +1,12 @@
 template(name="splash")
-	.jumbotron
-			.intro-info
-				h1 EIDR Connect
-				p
-					| EIDR Connect provides facilities for site curators to track on-going disease emergence events.
-					| This web platform is developed and maintained by EcoHealth Alliance in New York City, USA.
-				.row
-					.col-sm-6
-						a.btn.btn-primary.btn-lg.btn-block(href="{{pathFor 'user-events'}}", role="button") View Tracked Events
-					.col-sm-6
-						a.btn.btn-primary.btn-lg.btn-block(href="{{pathFor 'about'}}", role="button") Learn More
+  .about
+    .container-fluid.about-intro
+      .container.content-block
+        h1 EIDR Connect
+        p.lead
+          | EIDR Connect is a centralized web platform dedicated to tracking Emerging Infectious Diseases (EIDs).
+          | Through EIDR Connect, ongoing EID events can be curated by experts.
+          | EID events can be compared and individual emergence events can be explored in depth.
+    .row
+      .col-md-4.col-md-offset-4
+        a.btn.btn-primary.btn-block(href="{{pathFor 'user-events'}}", role="button") View Tracked Events
