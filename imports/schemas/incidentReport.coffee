@@ -31,9 +31,17 @@ IncidentReportSchema = new SimpleSchema(
     blackbox: true
   userEventId:
     type: String
-  date:
+  dateRangeType:
+    type: String
+  startDate:
     type: Date
-    label: "Date of the incident"
+    label: "Date range starting point"
+  endDate:
+    type: Date
+    label: "Date range ending point"
+  cumulative:
+    type: Boolean
+    optional: true
   travelRelated:
     type: Boolean
     optional: true

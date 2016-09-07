@@ -1,12 +1,10 @@
-inlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
+createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 Template.incidentForm.onCreated ->
   @incidentType = new ReactiveVar()
   @incidentData = {
     species: "Human"
   }
-  @showTimePicker = new ReactiveVar(false)
-  @multipleTimePickers = new ReactiveVar(false)
 
   if @data.incident
     @incidentData = _.extend(@incidentData, @data.incident)
@@ -25,16 +23,8 @@ Template.incidentForm.onCreated ->
 
 Template.incidentForm.onRendered ->
   $(document).ready =>
-    inlineDateRangePicker.createInlineDateRangePicker(@, "#singleDatePicker", true)
-    inlineDateRangePicker.createInlineDateRangePicker(@, "#rangePicker")
-    inlineDateRangePicker.createInlineDateRangePicker(@, "#rangePointPicker", true)
-
-Template.timePicker.onRendered ->
-  $(document).ready =>
-    @$(".timePicker").datetimepicker({
-      format: "h A"
-      useCurrent: false
-    })
+    createInlineDateRangePicker(@, "#singleDatePicker", true)
+    createInlineDateRangePicker(@, "#rangePicker")
 
 Template.incidentForm.helpers
   incidentData: ->
@@ -50,11 +40,6 @@ Template.incidentForm.helpers
     return type is "cases" or type is "deaths"
   showOtherForm: ->
     return Template.instance().incidentType.get() is "other"
-  timezones: ->
-    timezones = []
-    for tzKey, tzOffset of UTCOffsets
-      timezones.push({name: tzKey, offset: tzOffset})
-    return timezones
 
 Template.incidentForm.events
   "change select[name='incidentType']": (e, template) ->

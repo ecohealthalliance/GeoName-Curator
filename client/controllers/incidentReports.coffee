@@ -27,17 +27,13 @@ Template.incidentReports.helpers
         label: "Date"
         fn: (value, object, key) ->
           dateFormat = "M/D/YYYY"
-          if object.hourPrecision
-            dateFormat = "M/D/YYYY h:mm A"
           if object.dateRangeType is "day"
-            return moment(object.startDate).format(dateFormat)
+            if object.cumulative
+              return "Before " + moment(object.endDate).format(dateFormat)
+            else
+              return moment(object.startDate).format(dateFormat)
           else if object.dateRangeType is "precise"
             return moment(object.startDate).format(dateFormat) + " - " + moment(object.endDate).format(dateFormat)
-          else if object.dateRangeType is "unbounded"
-            if object.startDate
-              return "After " + moment(object.startDate).format(dateFormat)
-            else
-              return "Before " + moment(object.endDate).format(dateFormat)
           return ""
       },
       {

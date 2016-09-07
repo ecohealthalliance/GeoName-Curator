@@ -2,76 +2,30 @@ template(name="incidentForm")
   form#add-incident.form-horizontal(novalidate)
     .form-group
       .col-md-12
-      label.control-label Article URL
-      +articleSelect2 selectId="articleSource" articles=articles selected=incidentData.articleSource
+        label.control-label Article URL
+        +articleSelect2 selectId="articleSource" articles=articles selected=incidentData.articleSource
     .form-group
-      //input.form-control.datePicker(type="text" name="date" data-DateTimePicker value=incidentData.date)
       .col-md-12
         label.control-label Date
         ul.nav.nav-tabs.secondary-tabs(role="tablist")
           li.active(role="presentation")
-            a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab" data-isrange="false") Single Date
+            a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab") Single Date
           li(role="presentation")
-            a(href="#preciseRange" aria-controls="precise date range" role="tab" data-toggle="tab" data-isrange="true") Precise Date Range
-          li(role="presentation")
-            a(href="#unboundRange" aria-controls="unbound date range" role="tab" data-toggle="tab" data-isrange="false") Unbound Date Range
+            a(href="#preciseRange" aria-controls="date range" role="tab" data-toggle="tab") Date Range
 
         .tab-content
           #singleDate.tab-pane.active(role="tabpanel")
             #singleDatePicker.inlineRangePicker
+            .form-group
+              .col-md-12.text-center
+                .checkbox
+                  label
+                    input(type="checkbox" value="1" name="cumulative")
+                    | Cumulative
 
           #preciseRange.tab-pane(role="tabpanel")
             #rangePicker.inlineRangePicker
 
-          #unboundRange.tab-pane(role="tabpanel")
-            #rangePointPicker.inlineRangePicker
-            .form-group
-              .col-md-12.text-center
-                label.radio-inline
-                  input(type="radio" name="unboundedRangeType" value="before" checked)
-                  | Before
-                label.radio-inline
-                  input(type="radio" name="unboundedRangeType" value="after")
-                  | After
-
-    .form-group
-      .col-md-12
-        button.btn.secondary-btn.clear-calendar(type="button") Clear Calendar
-    .form-group
-      .col-md-12
-        .checkbox.text-center
-          label
-            input(type="checkbox" value="1" name="hourPrecision")
-            | Enable Hour Precision
-
-    if showTimePicker
-      .form-group
-        if multipleTimePickers
-          .col-md-6
-            .input-group
-              span.input-group-addon
-                i.fa.fa-clock-o
-              +timePicker name="startHour" placeholder="Starting Hour"
-          .col-md-6
-            .input-group
-              span.input-group-addon
-                i.fa.fa-clock-o
-              +timePicker name="endHour" placeholder="Ending Hour"
-        else
-          .col-md-offset-3.col-md-6
-            .input-group
-              span.input-group-addon
-                i.fa.fa-clock-o
-              +timePicker name="hour" placeholder="Hour"
-      .form-group.space-btm-2
-        .col-md-offset-3.col-md-6
-          .input-group
-            span.input-group-addon
-              i.fa.fa-globe
-            select.form-control(name="timezone")
-              option(value="")
-              each timezones
-                option(value=name) {{name}} (GMT{{offset}})
     .form-group
       .col-md-12
         label.control-label Location
@@ -112,6 +66,3 @@ template(name="incidentForm")
           label
             input(type="checkbox" value="1" name="travelRelated" checked=incidentData.travelRelated)
             | Travel related
-
-template(name="timePicker")
-  input.timePicker.form-control(type="text" name="{{name}}" placeholder="{{placeholder}}")
