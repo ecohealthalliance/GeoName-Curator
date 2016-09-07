@@ -47,3 +47,4 @@ ecmascript@0.5.8
 rcy:chromajs
 momentjs:moment
 shell-server
+aldeed:simple-schema
