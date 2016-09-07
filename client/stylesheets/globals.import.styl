@@ -1,8 +1,8 @@
-html,
+html
 body
   height 100%
 
-body,
+body
 ul
   color #555
   font('Open Sans')
@@ -14,16 +14,16 @@ p
 ul
   font-weight 400
 
-ul,
-h1,
-h2,
-h3,
+ul
+h1
+h2
+h3
 h4
   letter-spacing .01em
 
-h1,
-h2,
-h3,
+h1
+h2
+h3
 h4
   color $highlight
   font-weight 700
@@ -62,8 +62,8 @@ h5
   font-weight 600
   color $d-gray
 
-a,
-button,
+a
+button
 tr
   transition .2s
   &:hover
@@ -161,13 +161,13 @@ table tr:last-child
   &.orange
     background $secondary-$secondary
 
-for num in 1 2 3 4 5 6
+for $num in 1 2 3 4 5 6
 
-  .space-btm-{num}
-    margin-bottom num*10px
+  .space-btm-{$num}
+    margin-bottom $num*10px
 
-  .space-top-{num}
-    margin-top num*10px
+  .space-top-{$num}
+    margin-top $num*10px
 
 .rm-pad
   padding 0
@@ -176,9 +176,9 @@ for num in 1 2 3 4 5 6
   .content-wrapper
     padding-top $mobile-header-height
     padding-bottom $mobile-footer-height
-  .popover,
-  .tooltip,
-  .tooltip-inner,
+  .popover
+  .tooltip
+  .tooltip-inner
   .popover-content
     min-width 200px
     max-width 325px
@@ -186,7 +186,7 @@ for num in 1 2 3 4 5 6
     top 0 !important
   .main-content
     padding-top $mobile-header-height
-  a.btn,
+  a.btn
   a.btn-$primary
     padding-top 15px
     padding-bottom 15px
@@ -219,6 +219,6 @@ for num in 1 2 3 4 5 6
     font-weight 600
     color $d-gray
 
-.select2 > .selection > .select2-selection,
+.select2 > .selection > .select2-selection
 .select2-dropdown
-  border-color: #CCC
+  border-color #CCC
