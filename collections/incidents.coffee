@@ -1,3 +1,4 @@
+incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 @Incidents = new Meteor.Collection "counts"
 @grid ?= {}
 @grid.Incidents = Incidents
@@ -22,33 +23,15 @@ if Meteor.isServer
 
 Meteor.methods
   addIncidentReport: (incident) ->
-    if not incident.url.length
-      throw new Meteor.Error("url is required")
-    insertIncident = {
-      url: [incident.url]
-      userEventId: incident.eventId
-      species: incident.species
-      travelRelated: incident.travel
-      status: incident.status
-    }
-
-    if incident.locations.length
-      insertIncident.locations = incident.locations
-
+    incidentReportSchema.validate(incident)
     user = Meteor.user()
-    insertIncident.addedByUserId = user._id
-    insertIncident.addedByUserName = user.profile.name
-    insertIncident.addedDate = new Date()
-
-    if incident.date.length
-      insertIncident.date = moment(incident.date, "M/D/YYYY").toDate()
-
-    switch incident.type
-      when "cases" then insertIncident.cases = incident.value
-      when "deaths" then insertIncident.deaths = incident.value
-      else insertIncident.specify = incident.value
-    newId = Incidents.insert(insertIncident)
-    Meteor.call("updateUserEventLastModified", incident.eventId)
+    if not Roles.userIsInRole(user._id, ['admin'])
+      throw new Meteor.Error("auth", "User does not have permission to create incident reports")
+    incident.addedByUserId = user._id
+    incident.addedByUserName = user.profile.name
+    incident.addedDate = new Date()
+    newId = Incidents.insert(incident)
+    Meteor.call("updateUserEventLastModified", incident.userEventId)
     return newId
 
   addIncidentReports: (incidents) ->

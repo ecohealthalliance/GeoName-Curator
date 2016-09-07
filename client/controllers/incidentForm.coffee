@@ -1,8 +1,10 @@
 Template.incidentForm.onCreated ->
   @incidentType = new ReactiveVar()
-  @incidentData = {}
+  @incidentData = {
+    species: "Human"
+  }
   if @data.incident
-    @incidentData = @data.incident
+    @incidentData = _.extend(@incidentData, @data.incident)
     @incidentData.value = @incidentData.cases or @incidentData.deaths or @incidentData.specify
     if @incidentData.url
       @incidentData.articleSource = _.findWhere(@data.articles, {

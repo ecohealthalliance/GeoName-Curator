@@ -1,3 +1,4 @@
+incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
 # A annotation's territory is the sentence containing it,
 # and all the following sentences until the next annotation.
 # Annotations in the same sentence are grouped.
@@ -64,7 +65,6 @@ Template.suggestedIncidentsModal.onCreated ->
           latitude: parseFloat(loc.latitude)
           longitude: parseFloat(loc.longitude)
           countryName: loc.countryName
-      console.log geonamesById
       @loading.set(false)
       @content.set result.source.cleanContent.content
       sents = result.source.cleanContent.content.split(".")
@@ -89,7 +89,7 @@ Template.suggestedIncidentsModal.onCreated ->
         dateTerritory.annotations.forEach (annotation)->
           time = annotation.time
           if not time.timeRange
-            console.log "No Timerange", annotation
+            #console.log "No Timerange", annotation
             return
           fromTime = time.timeRange.begin
           if fromTime
@@ -152,12 +152,10 @@ Template.suggestedIncidentsModal.events
       incident: incident
     })
   "click #add-suggestions": (event, template) ->
-    console.log Template.instance().incidentCollection.find({accepted: true}).fetch()
     incidents = Template.instance().incidentCollection.find({accepted: true}).map (incident)->
-      _.pick(incident, "cases", "deaths", "specify", "species", "eventId", "locations", "date", "travel", "status", "url")
+      _.pick(incident, incidentReportSchema.objectKeys())
     Meteor.call "addIncidentReports", incidents, (err, result)->
-      console.log(err, result)
       if err
-        toastr.error error.reason
+        toastr.error err.reason
       else
         Modal.hide(template)

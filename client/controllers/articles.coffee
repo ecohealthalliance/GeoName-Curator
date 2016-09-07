@@ -42,7 +42,6 @@ Template.articles.events
     Modal.show("sourceModal", {userEventId: template.data.userEvent._id})
 
 Template.articleSelect2.onRendered ->
-  console.log "articleSelect2", @data
   $input = @$("select")
   options = {}
 
