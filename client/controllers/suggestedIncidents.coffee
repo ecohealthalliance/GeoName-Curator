@@ -1,21 +1,61 @@
+# A annotation's territory is the sentence containing it,
+# and all the following sentences until the next annotation.
+# Annotations in the same sentence are grouped.
+getTerritories = (annotationsWithOffsets, sents) ->
+  annotationIdx = 0
+  sentStart = 0
+  sentEnd = 0
+  territories = []
+  sents.forEach (sent) ->
+    sentStart = sentEnd
+    sentEnd = sentEnd + sent.length
+    sentAnnotations = []
+    while annotation = annotationsWithOffsets[annotationIdx]
+      [aStart, aEnd] = annotation.textOffsets[0]
+      if aStart > sentEnd
+        break
+      else
+        sentAnnotations.push annotation
+        annotationIdx++
+    if sentAnnotations.length > 0
+      territories.push
+        annotations: sentAnnotations
+        territoryStart: sentStart
+        territoryEnd: sentEnd
+    else if territories.length > 0
+      territories[territories.length - 1].territoryEnd = sentEnd
+  return territories
+
 Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar("")
   Meteor.call("getArticleEnhancements", @data.article.url, (error, result) =>
-    console.log error, result
     if error
+      Modal.hide(@)
       toastr.error error.reason
-    window.r = result
-    geonameIds = result.keypoints.filter((k)->k.location).map((k)->k.location.geonameid)
-    HTTP.get("https://geoname-lookup.eha.io/api/geonames", {
-      params:
-        ids: geonameIds
-    }, (error, geonamesResult)=>
-      if error
-        toastr.error error.reason
+      return
+    geonameIds = result.keypoints
+      .filter((k)->k.location)
+      .map((k)->k.location.geonameid)
+    new Promise((resolve, reject) =>
+      if geonameIds.length == 0
+        resolve([])
+      else
+        HTTP.get("https://geoname-lookup.eha.io/api/geonames", {
+          params:
+            ids: geonameIds
+        }, (error, geonamesResult) =>
+          if error
+            toastr.error error.reason
+            Modal.hide(@)
+            reject()
+          else
+            resolve(geonamesResult.data.docs)
+        )
+    ).then((locations) =>
       geonamesById = {}
-      geonamesResult.data.docs.forEach (loc)->
+      locations.forEach (loc)->
         geonamesById[loc.id] =
           geonameId: loc.id
           name: loc.name
@@ -29,42 +69,9 @@ Template.suggestedIncidentsModal.onCreated ->
       @content.set result.source.cleanContent.content
       sents = result.source.cleanContent.content.split(".")
       sents = sents.slice(0, -1).map((s)->s + ".").concat(sents.slice(-1))
-      # A annotation's territory is the sentence containing it,
-      # and all the following sentences until the next annotation.
-      # Annotations in the same sentence are grouped.
-      getTerritories = (annotationsWithOffsets)->
-        annotationIdx = 0
-        sentStart = 0
-        sentEnd = 0
-        territories = []
-        sents.forEach (sent)->
-          sentStart = sentEnd
-          sentEnd = sentEnd + sent.length
-          sentAnnotations = []
-          while annotation = annotationsWithOffsets[annotationIdx]
-            [aStart, aEnd] = annotation.textOffsets[0]
-            if aStart > sentEnd
-              break
-            else
-              sentAnnotations.push annotation
-              annotationIdx++
-          if sentAnnotations.length > 0
-            territories.push
-              annotations: sentAnnotations
-              territoryStart: sentStart
-              territoryEnd: sentEnd
-          else if territories.length > 0
-            territories[territories.length - 1].territoryEnd = sentEnd
-        return territories
       keypoints = result.keypoints
-      locTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.location))
-      dateTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.time))
-      parseDate = (dateObj)->
-        mDate = moment(dateObj)
-        if mDate.isValid()
-          mDate.toDate()
-        else
-          null
+      locTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.location), sents)
+      dateTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.time), sents)
       result.keypoints.forEach((keypoint) =>
         unless keypoint.count then return
         [kStart, kEnd] = keypoint.textOffsets[0]
@@ -87,17 +94,17 @@ Template.suggestedIncidentsModal.onCreated ->
           fromTime = time.timeRange.begin
           if fromTime
             fromKeys = Object.keys(fromTime).length
-            parsedDate = parseDate(fromTime)
-            if fromKeys > mostFromKeys and parsedDate
-              incident.timeRange.start = parsedDate
+            parsedDate = moment(fromTime)
+            if fromKeys > mostFromKeys and parsedDate.isValid()
+              incident.timeRange.start = parsedDate.toDate()
               mostFromKeys = fromKeys
           toTime = time.timeRange.end
           if toTime
             toKeys = Object.keys(toTime).length
             # Round up the to date
-            parsedDate = parseDate(_.extend({hours:23, minutes: 59}, toTime))
-            if toKeys > mostToKeys and parsedDate
-              incident.timeRange.end = parsedDate
+            parsedDate = moment(_.extend({hours:23, minutes: 59}, toTime))
+            if toKeys > mostToKeys and parsedDate.isValid()
+              incident.timeRange.end = parsedDate.toDate()
               mostToKeys = toKeys
         incident.dateTerritory = dateTerritory
         incident.locationTerritory = locationTerritory

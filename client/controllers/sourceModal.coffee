@@ -19,8 +19,7 @@ Template.sourceModal.helpers
         useCurrent: false
 
 Template.sourceModal.events
-  "click .save-modal, click .save-modal-close": (e, templateInstance) ->
-    closeModal = $(e.target).hasClass("save-modal-close")
+  "click .save-modal": (e, templateInstance) ->
     form = templateInstance.$("form")[0]
     article = form.article.value
     validURL = form.article.checkValidity()
@@ -49,6 +48,7 @@ Template.sourceModal.events
       if error
         toastr.error error.reason
       else
+        Modal.hide(templateInstance)
         form.article.value = ""
         form.publishDate.value = ""
 

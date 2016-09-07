@@ -3,8 +3,11 @@ Template.suggestedIncidentModal.onCreated ->
   @incident = @data.incident
   console.log @incident
 Template.suggestedIncidentModal.events
-  "click .reject": (event, template) ->
-    Template.instance().incidentCollection.update(template.incident._id, {accepted: false})
+  "click .reject": (event, templateInstance) ->
+    Template.instance().incidentCollection.update(templateInstance.incident._id, {
+      $set:
+        accepted: false
+    })
   "click .save-modal": (e, templateInstance) ->
     form = templateInstance.$("form")[0]
     $articleSelect = templateInstance.$(form.articleSource)

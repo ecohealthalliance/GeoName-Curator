@@ -14,7 +14,7 @@ Meteor.methods
         url: url
     })
     if result.data.error
-      throw new Meteor.Error(result.data.error)
+      throw new Meteor.Error("grits-error", result.data.error)
     return result.data
 
   retrieveProMedArticleDate: _.memoize( (articleID) ->
