@@ -9,7 +9,7 @@
 
 .fact-sheet-wrap
   padding 20px 0 0 0
-  background secondary-light
+  background $secondary-light
   padding-bottom 20px
 
 .eventName
@@ -18,7 +18,7 @@
 
 .eventNameSummary
   font-size 36px
-  color highlight
+  color $highlight
 
 .diseaseName
   font-size 20px
@@ -57,7 +57,7 @@
 .tables
   td:first-child
     width 40%
-    border-right table-border
+    border-right $table-border
     padding-right 25px
     border-right 1px solid #DDD
   td
@@ -65,7 +65,7 @@
   td:last-child
     padding-right 80px
   .panel-default
-    border-top 3px solid secondary
+    border-top 3px solid $secondary
 
 .location-list-wrap
 
@@ -75,7 +75,7 @@
 .main-facts
   margin 20px 0
   margin-bottom 40px
-  border-top table-border
+  border-top $table-border
   &:last-of-type
     margin-bottom 0
   th, td
@@ -88,7 +88,7 @@
     text-align: right
   > thead > tr > th
     font-size 16px
-    border-bottom table-border
+    border-bottom $table-border
     position relative
   th:last-child,
   td:last-child
@@ -164,7 +164,7 @@
     width 100%
     font-weight bold
     border-right 0
-    background ll-gray !important
+    background $ll-gray !important
 
   .tables td:last-child
     border-top 0
@@ -187,7 +187,7 @@
         content attr(data-header)
         font-weight bold
         display block
-        border-bottom table-border
+        border-bottom $table-border
         width 100%
         margin-bottom 15px
 
@@ -199,15 +199,15 @@
 
 .nav-tabs
   padding-left 50px
-  border-bottom 2px solid primary
+  border-bottom 2px solid $primary
   > li
     margin-bottom 0
   > li.active > a,
   > li.active > a:hover,
   > li.active > a:focus
     color white
-    background-color primary
-    border 1px solid primary
+    background-color $primary
+    border 1px solid $primary
     font-weight bold
   > li > a
     background-color #F9F9F9
@@ -220,16 +220,16 @@
     margin-left 5px
 
 .tab-form
-  background-color primary-l-light
+  background-color $primary-l-light
   padding 15px 50px
-  border 1px solid lighten(m-gray, 70%)
+  border 1px solid lighten($m-gray, 70%)
   input.form-control,
   select.form-control,
   .input-group-addon
-    border-color primary
+    border-color $primary
   .table-filter .input-group-addon
     background-color white
-    color primary
+    color $primary
     &:before
       content "\f002"
       font-family FontAwesome
@@ -258,7 +258,7 @@
   font-family FontAwesome
 
 .details-open
-  background-color secondary-light
+  background-color $secondary-light
   .open-row::before
     content "\f106"
     font-family FontAwesome

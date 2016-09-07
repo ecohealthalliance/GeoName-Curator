@@ -1,53 +1,53 @@
 .curator-heading
-  color primary
+  color $primary
   font-weight 400
   margin 30px 0 0
   font-size 32px
   line-height 0.5
 
 .curator-inbox-header
-  background primary
+  background $primary
   padding 10px 15px
   min-height 54px
   h2
-    color ll-gray
-    margin: 0
+    color $ll-gray
+    margin 0
     font-size 30px
     font-weight 700
 
 .curator-inbox-articles
-  border-right 2px primary-light solid
+  border-right 2px $primary-light solid
 
 .curator-inbox-options
   position relative
-  color: primary-light
+  color $primary-light
   input
     padding 5px 5px 5px 30px
-    border 1px primary-light solid
+    border 1px $primary-light solid
     border-radius 3px
-    background primary
-    color l-gray
+    background $primary
+    color $l-gray
   .search-icon
     position absolute
     top 10px
     left 10px
     z-index 10
   a
-    color primary-light
+    color $primary-light
     position relative
     top 5px
     margin-right 15px
     font-size 25px
     line-height 0.5
     &:hover
-      color l-gray
+      color $l-gray
   .curator-filter-curated-icon
     &.active
-      color positive
+      color $positive
 
 .curator-inbox-table
   margin-bottom 0
-  color primary-light 
+  color $primary-light
   thead
     display none
   tr
@@ -55,28 +55,28 @@
     padding-right 7px
 
 .curator-inbox-section-head
-  color primary
-  background primary-l-light
-  border-top 1px primary-light solid
-  border-bottom 1px primary-light solid
+  color $primary
+  background $primary-l-light
+  border-top 1px $primary-light solid
+  border-bottom 1px $primary-light solid
   height 37px
   font-size 14px
   padding-top 8px
-  cursor: pointer
+  cursor pointer
 
 .curator-article-details-header
   .curated-icon
-    color positive
+    color $positive
     position absolute
     top 12px
     right 20px
     font-size 32px
   &.curated
-    background positive
+    background $positive
     h2
-      color primary
+      color $primary
     .curated-icon
-      color primary
+      color $primary
 
 .curator-article-details-content
   padding-top 15px
@@ -85,7 +85,7 @@
   .curator-inbox-curated-row::before
     content "\f058"
     font-family FontAwesome
-    color positive
+    color $positive
   td:first-of-type
     width 45px
     text-align right
@@ -103,6 +103,6 @@
   .curator-heading
     padding-left 40px
   .curator-inbox-articles
-    .curator-inbox-header,
+    .curator-inbox-header
     .curator-inbox-section-head
       padding-left 55px

@@ -4,7 +4,7 @@
   padding-right 0
   border-radius 5px
   overflow hidden
-  border table-border
+  border $table-border
   tbody tr
     cursor pointer
 .reactive-table-columns-dropdown
@@ -46,7 +46,7 @@
     vAlign()
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active
-  background-color secondary
+  background-color $secondary
 
 .reactive-table-options
   float none
@@ -96,7 +96,7 @@
         padding-bottom 20px
       &:hover,
       &:focus
-        background l-gray
+        background $l-gray
     tr:last-child td:first-child
       border 0
   .reactive-table-filter
@@ -120,7 +120,7 @@
       display block
       width 45%
       float left
-      background secondary
+      background $secondary
       text-align center
       padding 10px
       color white
@@ -128,8 +128,8 @@
       cursor pointer
       &:focus,
       &:hover
-        background darken(secondary, 15%)
-        border primary
+        background darken($secondary, 15%)
+        border $primary
         color white
 
     .next-page
