@@ -68,3 +68,12 @@ if Meteor.isServer
 
         Incidents.update(incident._id, {$unset: {deaths: ""}})
         Incidents.insert(newIncident)
+
+    # Convert string case and death counts to integers
+    incidents = Incidents.find({$or: [{cases: {$type: "string"}}, {deaths: {$type: "string"}}]}).fetch()
+    for incident in incidents
+      if incident.cases
+        updateField = {cases: parseInt(incident.cases)}
+      else
+        updateField = {deaths: parseInt(incident.deaths)}
+      Incidents.update({_id: incident._id}, {$set: updateField})
