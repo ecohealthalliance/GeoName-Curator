@@ -8,5 +8,4 @@ Template.incidentReport.helpers
 
 Template.addIncidentReport.events
   "click .open-incident-form": (event, template) ->
-    console.log true
     Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id, add: true})

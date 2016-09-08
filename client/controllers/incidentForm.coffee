@@ -9,7 +9,7 @@ Template.incidentForm.onCreated ->
     if @incidentData.url
       @incidentData.articleSource = _.findWhere(@data.articles, {
         url: @incidentData.url[0]
-      })?._id    
+      })?._id
     if @incidentData.cases
       @incidentType.set("cases")
     else if @incidentData.deaths
