@@ -72,6 +72,7 @@ if Meteor.isServer
     # Convert string case and death counts to integers
     incidents = Incidents.find({$or: [{cases: {$type: "string"}}, {deaths: {$type: "string"}}]}).fetch()
     for incident in incidents
+      mongoProjection = false
       if incident.cases
         parsed = parseInt(incident.cases)
         if parsed.toString() is "NaN"
