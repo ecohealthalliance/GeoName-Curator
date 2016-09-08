@@ -1,15 +1,15 @@
 $btn-types = {
   '.btn-default': {
     text-color: $primary
-    color: l-gray
-    bg: ll-gray
+    color: $l-gray
+    bg: $ll-gray
   },
   '.btn-primary': {
     text-color: $primary
-    color: darken(l-gray, 50%)
-    border: border-btn
-    bg: primary-$light
-    bg-hover: secondary
+    color: darken($l-gray, 50%)
+    border: $border-btn
+    bg: $primary-light
+    bg-hover: $secondary
   },
   '.btn-success': {
     text-color: $primary
@@ -36,7 +36,7 @@ $buttons()
     $color = $btn-type-props.color
     $bg = $btn-type-props.bg
     $bg-hover = $btn-type-props.bg-hover or lighten($bg, 40%)
-    $border = $btn-type-props.border or border-btn
+    $border = $btn-type-props.border or $border-btn
     {$btn-type}
       background $bg
       color $text
