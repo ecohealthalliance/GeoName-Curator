@@ -1,4 +1,4 @@
-transmissionIcons = {
+$transmissionIcons = {
   direct: "\0063"
   vector: "\0076"
   vertical: "\0075"
@@ -21,11 +21,11 @@ transmissionIcons = {
     display inline-block
     line-height 65px
 
-  for key, value in transmissionIcons
-    .type-{key}
+  for $key, $value in $transmissionIcons
+    .type-{$key}
       &::before
-        content value
-        
+        content $value
+
 .icon-wrap
   position absolute
   right 0
@@ -63,7 +63,7 @@ transmissionIcons = {
   right 10px
   top 8px
 
-.description,
+.description
 .description-inline
   &::before
     content '\f129'
@@ -71,7 +71,7 @@ transmissionIcons = {
 
 .description-inline
   padding 3px
-  &::before 
+  &::before
     vertical-align top
     color #999
     font-size 90%
@@ -88,4 +88,3 @@ transmissionIcons = {
     content '\f10e'
     @extend .table-icon
     margin-right 5px
-    

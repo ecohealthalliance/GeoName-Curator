@@ -12,7 +12,7 @@
   z-index 100
   width 320px
   border-radius 0 0 5px 5px
-  border 1px solid secondary
+  border 1px solid $secondary
   border-top 0
   z-index 10000
   background  rgba(255,255,255, .9)
@@ -52,7 +52,7 @@
 
 .toggles
   padding 0
-  border-top 2px solid darken(secondary, 15%)
+  border-top 2px solid darken($secondary, 15%)
   h2
     font-size 16px
     margin 0
@@ -73,8 +73,8 @@
   .filter-header
     position relative
     padding 10px 20px 10px 20px
-    border-bottom 1px solid secondary
-    background secondary-l-light
+    border-bottom 1px solid $secondary
+    background $secondary-l-light
     span.check
       margin-left 10px
       float right
@@ -85,7 +85,7 @@
       cursor pointer
       transition color .2s
       &:hover
-        color secondary
+        color $secondary
         transition color .2s
       &::before
         @extend .font-awesome
@@ -114,7 +114,7 @@
       color #555
       font-size 14px
     &:hover
-      background darken(secondary, 10%)
+      background darken($secondary, 10%)
       color white
       h2,
       &::after
@@ -131,11 +131,11 @@
       -moz-osx-font-smoothing grayscale
       transition .2s
     &.open
-      background secondary
+      background $secondary
       color white
       margin-bottom 0
       &:hover
-        background darken(secondary, 10%)
+        background darken($secondary, 10%)
       h2
         color white
       &::after
@@ -159,22 +159,22 @@
       &:first-child
         margin-top 0
       &:hover
-        background secondary-l-light
+        background $secondary-l-light
         color black
 .mobile-control
   position fixed
-  top mobile-header-height + 10
+  top $mobile-header-height + 10
   right -2px
   min-height 50px
   padding 14px 20px 12px 10px
   cursor pointer
   background rgba(255,255,255, .8)
   border-radius 4px 0 0 4px
-  border 1px solid #999x`
+  border 1px solid #999
   transition .4s
   box-shadow 0 2px 5px rgba(0,0,0,0.3)
   &:hover
-    background secondary
+    background $secondary
     color white
 .mobile-control::before
   @extend .font-awesome
@@ -184,9 +184,9 @@
 
 @media (max-width: 768px)
   #event-map
-    top mobile-header-height
+    top $mobile-header-height
   .map-search-wrap
-    top mobile-header-height
+    top $mobile-header-height
     left auto
     right -270px
     position fixed
@@ -203,15 +203,15 @@
       .map-filter-content,
       .mobile-control
         transition transform .4s
-        transform: translate(-270px, 0px)
-        -webkit-transform: translate(-270px, 0px)
-        -moz-transform: translate(-270px, 0px)
-        -o-transform: translate(-270px, 0px)
-        -ms-transform: translate(-270px, 0px)
+        transform translate(-270px, 0px)
+        -webkit-transform translate(-270px, 0px)
+        -moz-transform translate(-270px, 0px)
+        -o-transform translate(-270px, 0px)
+        -ms-transform translate(-270px, 0px)
       .mobile-control
         transition .4s
         padding 12px 10px 12px 10px
-        background secondary
+        background $secondary
         color white
         &::before
           content '\f0a9'

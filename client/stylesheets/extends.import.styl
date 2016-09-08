@@ -4,32 +4,32 @@
 .font-awesome
   font-family FontAwesome
   -webkit-font-smoothing antialiased
-  
-.main-btn
-  background-color primary
-  border 1px solid darken(primary, 10%)
-  color white
-  &:hover,
-  &:focus
-    background-color darken(primary, 10%)
-    color white
-    border-color darken(primary, 20%)
 
-.secondary-btn
+.main-btn
+  background-color $primary
+  border 1px solid darken($primary, 10%)
+  color white
+  &:hover
+  &:focus
+    background-color darken($primary, 10%)
+    color white
+    border-color darken($primary, 20%)
+
+.$secondary-btn
   background-color white
-  border 1px solid darken(l-gray, 20%)
-  color primary
+  border 1px solid darken($l-gray, 20%)
+  color $primary
   &:hover,
   &:focus
-    background-color ll-gray
-    color darken(primary, 20%)
-    border-color lighten(m-gray, 15%)
+    background-color $ll-gray
+    color darken($primary, 20%)
+    border-color lighten($m-gray, 15%)
 
 .white-shadow
   text-shadow 1px 1px 0 rgba(255,255,255, .4)
 
 .dark-shadow
   text-shadow 1px 1px 0 rgba(0,0,0, .2)
-  
+
 .content-block
   padding 50px 0

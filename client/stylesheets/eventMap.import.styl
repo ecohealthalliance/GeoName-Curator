@@ -4,11 +4,11 @@
   position absolute
   left 0
   right 0
-  top header-height
-  bottom footer-height
+  top $header-height
+  bottom $footer-height
   background-color #B5D0D0
   margin auto
-  background-color map-background
+  background-color $map-background
   .leaflet-top,
   .leaflet-left
     z-index 90
@@ -21,15 +21,15 @@
   &:hover
     .map-marker-path
       transition .2s
-      fill secondary
+      fill $secondary
 
 .marker-color-spot
   margin-right 10px
 
 @media (max-width: 768px)
   #event-map
-    top mobile-header-height
-    bottom mobile-footer-height
+    top $mobile-header-height
+    bottom $mobile-footer-height
     .leaflet-control-attribution
       font-size 5px
 
@@ -47,7 +47,7 @@
   background rgba(255, 255, 255, 0.9)
   box-shadow 0 2px 5px rgba(0, 0, 0, 0.2)
   border-radius 0 5px 0 0
-  border 1px solid secondary
+  border 1px solid $secondary
   border-bottom none
 
 .map-legend-drawer
@@ -62,7 +62,7 @@
 .map-legend-tab
   height 30px
   width 40px
-  background-color secondary
+  background-color $secondary
   color white
   box-shadow 0 0 15px rgba(0, 0, 0, 0.2)
   border-radius 5px 5px 0 0
