@@ -1,47 +1,32 @@
-Template.dateSelector.rendered = ->
-  instance = Template.instance()
-  instance.$(".datePicker").datetimepicker
-    format: "M/D/YYYY"
-    defaultDate: instance.data.currentDate
-    widgetPositioning: {vertical: "bottom"}
-
-Template.mapFilters.created = ->
+Template.mapFilters.onCreated ->
   @currentDate = new Date()
-  @variables = new ReactiveVar {
-    "incidentDate":
-      filter: "incidentDate"
+  @variables = new ReactiveVar
+    incidentDate:
+      filter: 'incidentDate'
       state: false
       dateFilter: true
-      label: "Incident Report Date"
-      collectionField: "_id"
+      label: 'Incident Report Date'
+      collectionField: '_id'
       values:
-        dateCollection: "incidents"
-        searchType: "on"
+        dateCollection: 'incidents'
+        searchType: 'on'
         dates: []
-  }
   @userSearchText = new ReactiveVar ''
+  @filtering = new ReactiveVar false
 
-Template.mapFilters.rendered = ->
+Template.mapFilters.onRendered ->
+  instance = @
   @autorun ->
     checkValues = Template.instance().variables.get()
     filters = []
-
     for name, variable of checkValues
-      if variable.state
-        varQuery = {}
-        if variable.dateFilter
-          filterDate = variable.values.dates[0]
-          if variable.values.searchType is "between"
-            filterDate2 = variable.values.dates[1]
-          mongoProjection = switch variable.values.searchType
-            when "after" then {date: {$gt: filterDate}}
-            when "before" then {date: {$lt: filterDate}}
-            when "between" then {date: {$gte: filterDate, $lte: filterDate2}}
-            else {date: filterDate}
-          if variable.values.dateCollection is "incidents"
-            eventIds = _.uniq(grid.Incidents.find(mongoProjection, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
-            varQuery[variable.collectionField] = {$in: eventIds}
-        filters.push(varQuery)
+      varQuery = {}
+      if instance.filtering.get()
+        filterDate = variable.values.dates[0] or new Date()
+        if variable.values.dateCollection is 'incidents'
+          eventIds = _.uniq(grid.Incidents.find({date: filterDate}, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
+          varQuery[variable.collectionField] = {$in: eventIds}
+      filters.push(varQuery)
 
     userSearchText = Template.instance().userSearchText.get()
     nameQuery = []
@@ -59,42 +44,32 @@ Template.mapFilters.helpers
     Template.instance().userSearchText.get()
 
   getCurrentDate: ->
-    return Template.instance().currentDate
+    Template.instance().currentDate
 
   searchMatch: (matchType, valueType) ->
-    return matchType is valueType
+    matchType is valueType
+
+  getEvents: ->
+    Template.instance().data.templateEvents?.get()
+
+  disablePrev: ->
+    Template.instance().data.disablePrev?.get()
+
+  disableNext: ->
+    Template.instance().data.disableNext?.get()
+
+  filtering: ->
+    Template.instance().filtering
 
 Template.mapFilters.events
-  'click .filter': (e, instance) ->
-    instance.$('.filter').toggleClass('open')
-    instance.$('.filters-wrap').toggleClass('hidden')
+  'click .datePicker': (e, instance) ->
+    instance.filtering.set true
 
-  'click input[type=checkbox]': (e, instance) ->
+  'dp.change .datePicker': (e, instance) ->
     variables = instance.variables.get()
-    variable = $(e.target).parents(".filter-block").data("filter")
-    variables[variable].state = e.target.checked
-    instance.variables.set(variables)
-
-  "change input[type=radio]": (e, instance) ->
-    variables = instance.variables.get()
-    $target = $(e.target)
-    variable = $target.parents(".filter-block").data("filter")
-    type = $target.val()
-    if type is "between"
-      variables[variable].values.dates.push(instance.currentDate)
-    else if variables[variable].values.dates.length > 1
-      variables[variable].values.dates.pop()
-    variables[variable].values.searchType = type
-    instance.variables.set(variables)
-  
-  "dp.change input.datePicker": (e, instance) ->
-    variables = instance.variables.get()
-    $parentBlock = $(e.target).parents(".filter-block")
-    variable = $parentBlock.data("filter")
+    variable = 'incidentDate'
     dateValues = []
-    $parentBlock.find("input.datePicker").each( ->
-      dateValues.push(new Date($(this).val()))
-    )
+    dateValues.push e.date._d
     variables[variable].values.dates = dateValues
     instance.variables.set(variables)
 
@@ -109,3 +84,13 @@ Template.mapFilters.events
 
   'click .mobile-control': (e, instance) ->
     instance.$('.map-search-wrap').toggleClass('open')
+
+Template.dateSelector.onRendered ->
+  instance = Template.instance()
+  instance.$(".datePicker").datetimepicker
+    format: "M/D/YYYY"
+    widgetPositioning: {vertical: "bottom"}
+    inline: true
+    defaultDate: false
+  Meteor.defer ->
+    instance.data.filtering.set true

@@ -1,6 +1,6 @@
 @import 'mapFilters.import'
 
-#event-map
+.event-map-wrapper
   position absolute
   left 0
   right 0
@@ -12,6 +12,9 @@
   .leaflet-top,
   .leaflet-left
     z-index 90
+
+#event-map
+  full-width()
 
 .leaflet-popup-content-wrapper
   border-radius 5px
@@ -38,32 +41,33 @@
   .leaflet-popup-content-wrapper
     max-width 300px
 
-.map-legend-container.leaflet-control
-  margin-bottom 0
-  width 330px
+.map-menu
+  position absolute
+  top 0
+  bottom 0
+  width 20%
+  min-width 300px
+  max-width 600px
+  background rgba(255,255,255,.9)
+  z-index 100
 
-.map-legend
-  padding 10px 15px
-  background rgba(255, 255, 255, 0.9)
-  box-shadow 0 2px 5px rgba(0, 0, 0, 0.2)
-  border-radius 0 5px 0 0
-  border 1px solid $secondary
-  border-bottom none
+.map-event-list
+  border 0
 
-.map-legend-drawer
-  max-height 500px
-  overflow hidden
-  transition .5s
-
-.map-legend-drawer.closed
-  max-height 0
-  transition .5s
-
-.map-legend-tab
-  height 30px
-  width 40px
-  background-color $secondary
-  color white
-  box-shadow 0 0 15px rgba(0, 0, 0, 0.2)
-  border-radius 5px 5px 0 0
-  cursor pointer
+.map-event-list--item
+  padding-right 2.5em
+  border-left 0
+  border-right 0
+  background none
+  .date
+    display block
+    font-style italic
+    font-size 90%
+  .circle
+    position absolute
+    top 50%
+    transform translate(0, -50%)
+    right 1em
+    border-radius 50%
+    height 1.5em
+    width 1.5em

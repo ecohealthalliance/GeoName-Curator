@@ -2,23 +2,13 @@ MapHelpers = require '/imports/ui/mapMarkers.coffee'
 
 L.Icon.Default.imagePath = "/packages/fuatsengul_leaflet/images"
 
-Template.mapLegend.onRendered ->
-  # Prevent clicks from going through the widget
-  L.DomEvent.disableClickPropagation @find('.map-legend-tab')
-  L.DomEvent.disableClickPropagation @find('.map-legend-drawer')
-
-Template.mapLegend.helpers
-  getEvents: ->
-    return Template.instance().data.events
-
-Template.markerPopup.helpers
-  getEvents: ->
-    return Template.instance().data.events
-
 Template.eventMap.onCreated ->
   @query = new ReactiveVar({})
   @pageNum = new ReactiveVar(0)
   @eventsPerPage = 5
+  @templateEvents = new ReactiveVar null
+  @disablePrev = new ReactiveVar false
+  @disableNext = new ReactiveVar true
 
 Template.eventMap.onRendered ->
   bounds = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180))
@@ -41,10 +31,6 @@ Template.eventMap.onRendered ->
 
   instance = @
   markers = new L.FeatureGroup()
-  legend = L.control({position: 'bottomleft'})
-  legend.onAdd = (map) ->
-    L.DomUtil.create('div', 'map-legend-container')
-  legend.addTo(map)
 
   reactiveTemplateId = null
   @autorun ->
@@ -107,13 +93,9 @@ Template.eventMap.onRendered ->
         }).bindPopup(popupHtml)
         markers.addLayer(marker)
 
-      disablePrev = if eventIndex < totalEventCount then false else true
-      disableNext = if currentPage is 0 then true else false
-      reactiveTemplateId = Blaze.renderWithData(Template.mapLegend, {
-        disablePrev: disablePrev
-        disableNext: disableNext
-        events: templateEvents
-      }, legend.getContainer())
+      instance.templateEvents.set templateEvents
+      instance.disablePrev.set if eventIndex < totalEventCount then false else true
+      instance.disableNext.set if currentPage is 0 then true else false
 
     map.addLayer(markers)
 
@@ -121,18 +103,25 @@ Template.eventMap.helpers
   getQuery: ->
     Template.instance().query
 
+  templateEvents: ->
+    Template.instance().templateEvents
+
+  disablePrev: ->
+    Template.instance().disablePrev
+
+  disableNext: ->
+    Template.instance().disableNext
+
+  query: ->
+    Template.instance().query
+
 Template.eventMap.events
-  "click .legend-next": (event, template) ->
-    template.pageNum.set(template.pageNum.get() - 1)
-  "click .legend-prev": (event, template) ->
-    template.pageNum.set(template.pageNum.get() + 1)
-  "click .map-legend-tab": (event, template) ->
-    $target = template.$(event.target)
-    if $target.hasClass("map-legend-tab")
-      $target = $target.find(".fa")
-    if $target.hasClass("fa-angle-down")
-      $target.removeClass("fa-angle-down").addClass("fa-angle-up")
-      template.$(".map-legend-drawer").addClass("closed")
-    else
-      $target.removeClass("fa-angle-up").addClass("fa-angle-down")
-      template.$(".map-legend-drawer").removeClass("closed")
+  "click .event-list-next": (event, template) ->
+    template.pageNum.set template.pageNum.get() - 1
+
+  "click .event-list-prev": (event, template) ->
+    template.pageNum.set template.pageNum.get() + 1
+
+Template.markerPopup.helpers
+  getEvents: ->
+    Template.instance().data.events
