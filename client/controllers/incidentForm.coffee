@@ -9,8 +9,7 @@ Template.incidentForm.onCreated ->
     if @incidentData.url
       @incidentData.articleSource = _.findWhere(@data.articles, {
         url: @incidentData.url[0]
-      })?._id
-    @incidentData.dateReported = @incidentData.date
+      })?._id    
     if @incidentData.cases
       @incidentType.set("cases")
     else if @incidentData.deaths
@@ -27,7 +26,7 @@ Template.incidentForm.onRendered ->
 Template.incidentForm.helpers
   incidentData: ->
     Template.instance().incidentData
-  incidentDate: ->    
+  incidentDate: ->
     moment(Template.instance().data.incident.date).format('MM/DD/YYYY')
   incidentStatus: ->
     "#{Template.instance().incidentData.status}": true
