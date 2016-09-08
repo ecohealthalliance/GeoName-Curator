@@ -58,13 +58,17 @@ Template.suggestedIncidentsModal.onCreated ->
       geonamesById = {}
       locations.forEach (loc)->
         geonamesById[loc.id] =
-          geonameId: loc.id
+          id: loc.id
           name: loc.name
-          displayName: loc.name
-          subdivision: loc.admin1Name
-          latitude: parseFloat(loc.latitude)
-          longitude: parseFloat(loc.longitude)
+          admin1Name: loc.admin1Name
+          admin2Name: loc.admin2Name
+          latitude: loc.latitude
+          longitude: loc.longitude
           countryName: loc.countryName
+          population: loc.population
+          featureClass: loc.featureClass
+          featureCode: loc.featureCode
+          alternateNames: loc.alternateNames
       @loading.set(false)
       @content.set result.source.cleanContent.content
       sents = result.source.cleanContent.content.split(".")

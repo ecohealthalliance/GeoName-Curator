@@ -26,9 +26,6 @@ IncidentReportSchema = new SimpleSchema(
   locations:
     type: [Object]
     minCount: 1
-  "locations.$":
-    type: Object
-    blackbox: true
   userEventId:
     type: String
   date:
@@ -43,5 +40,32 @@ IncidentReportSchema = new SimpleSchema(
   status:
     type: String
     optional: true
+  "locations":
+    type: [Object]
+  "locations.$.admin1Name":
+    type: String
+    optional: true
+  "locations.$.admin2Name":
+    type: String
+    optional: true
+  "locations.$.alternateNames":
+    type: [String]
+    optional: true
+  "locations.$.countryName":
+    type: String
+  "locations.$.featureClass":
+    type: String
+  "locations.$.featureCode":
+    type: String
+  "locations.$.id":
+    type: String
+  "locations.$.latitude":
+    type: String
+  "locations.$.longitude":
+    type: String
+  "locations.$.name":
+    type: String
+  "locations.$.population":
+    type: Number
 )
 module.exports = IncidentReportSchema

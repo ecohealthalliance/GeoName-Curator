@@ -89,7 +89,7 @@ Template.eventMap.onRendered ->
               latLng = location.latitude.toString() + "," + location.longitude.toString()
               if uniqueEventLocations.indexOf(latLng) is -1
                 if not mapLocations[latLng]
-                  mapLocations[latLng] = {name: location.displayName, events: []}
+                  mapLocations[latLng] = {name: location.name, events: []}
                 mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: rgbColor})
                 uniqueEventLocations.push(latLng)
 
