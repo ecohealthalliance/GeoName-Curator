@@ -110,9 +110,9 @@ Template.suggestedIncidentsModal.onCreated ->
         incident.locationTerritory = locationTerritory
         incident.countAnnotation = keypoint
         if keypoint.count.case
-          incident.deaths = keypoint.count.number
-        else if keypoint.count.death
           incident.cases = keypoint.count.number
+        else if keypoint.count.death
+          incident.deaths = keypoint.count.number
         incident.url = [@data.article.url]
         @incidentCollection.insert(incident)
       )
