@@ -34,6 +34,15 @@ Meteor.methods
     Meteor.call("updateUserEventLastModified", incident.userEventId)
     return newId
 
+  editIncidentReport: (incident) ->
+    incidentReportSchema.validate(incident)
+    user = Meteor.user()
+    if not Roles.userIsInRole(user._id, ['admin'])
+      throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
+    res = Incidents.update(incident._id, incident)
+    Meteor.call("updateUserEventLastModified", incident.userEventId)
+    return incident._id
+
   addIncidentReports: (incidents) ->
     incidents.map (incident)->
       Meteor.call("addIncidentReport", incident)

@@ -9,22 +9,36 @@ Template.incidentModal.events
     if not incident
       return
     incident.userEventId = templateInstance.data.userEventId
-    Meteor.call("addIncidentReport", incident, (error, result) ->
-      if not error
-        $(".reactive-table tr").removeClass("details-open")
-        $(".reactive-table tr.tr-details").remove()
-        if !duplicate
-           $("#articleSource").val(null).trigger("change")
-           $(form.date).val("")
-           $("#incident-location-select2").val(null).trigger("change")
-           $(form.species).val("")
-           $(form.status).val(null)
-           $(form.count).val("")
-           $(form.incidentType).val(null).trigger("change")
-           $(form.travelRelated).attr('checked', false)
-        if closeModal
-          Modal.hide(templateInstance)
-        toastr.success("Incident report added to event.")
-      else
-        toastr.error(error.reason)
+    if this.add
+      Meteor.call("addIncidentReport", incident, (error, result) ->
+        if not error
+          $(".reactive-table tr").removeClass("details-open")
+          $(".reactive-table tr.tr-details").remove()
+          if !duplicate
+             $("#articleSource").val(null).trigger("change")
+             $(form.date).val("")
+             $("#incident-location-select2").val(null).trigger("change")
+             $(form.species).val("")
+             $(form.status).val(null)
+             $(form.count).val("")
+             $(form.incidentType).val(null).trigger("change")
+             $(form.travelRelated).attr('checked', false)
+          if closeModal
+            Modal.hide(templateInstance)
+          toastr.success("Incident report added to event.")
+        else
+          toastr.error(error.reason)
+      )
+    if this.edit
+      incident._id = this.incident._id
+      incident.addedByUserId = this.incident.addedByUserId
+      incident.addedByUserName = this.incident.addedByUserName
+      incident.addedDate = this.incident.addedDate
+      Meteor.call("editIncidentReport", incident, (error, result) ->
+        if not error
+          $(".reactive-table tr").removeClass("details-open")
+          $(".reactive-table tr.tr-details").remove()
+          toastr.success("Incident report updated.")
+        else
+          toastr.error(error.reason)
     )

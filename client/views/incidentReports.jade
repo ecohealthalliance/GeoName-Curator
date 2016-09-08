@@ -78,7 +78,7 @@ template(name="incidentModal")
             h4.modal-title Add Incident Report
         .modal-body
           if edit
-            +incidentForm articles=articles incident=incident
+            +incidentForm articles=articles incident=incident edit=true
           else
             +incidentForm
         .modal-footer
