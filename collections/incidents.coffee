@@ -73,7 +73,16 @@ if Meteor.isServer
     incidents = Incidents.find({$or: [{cases: {$type: "string"}}, {deaths: {$type: "string"}}]}).fetch()
     for incident in incidents
       if incident.cases
-        updateField = {cases: parseInt(incident.cases)}
-      else
-        updateField = {deaths: parseInt(incident.deaths)}
-      Incidents.update({_id: incident._id}, {$set: updateField})
+        parsed = parseInt(incident.cases)
+        if parsed.toString() is "NaN"
+          mongoProjection = {$set: {specify: incident.cases}, $unset: {cases: ""}}
+        else
+          mongoProjection = {$set: {cases: parsed}}
+      else if incident.deaths
+        parsed = parseInt(incident.deaths)
+        if parsed.toString() is "NaN"
+          mongoProjection = {$set: {specify: incident.deaths}, $unset: {deaths: ""}}
+        else
+          mongoProjection = {$set: {deaths: parsed}}
+      if mongoProjection
+        Incidents.update({_id: incident._id}, mongoProjection)
