@@ -68,3 +68,22 @@ if Meteor.isServer
 
         Incidents.update(incident._id, {$unset: {deaths: ""}})
         Incidents.insert(newIncident)
+
+    # Convert string case and death counts to integers
+    incidents = Incidents.find({$or: [{cases: {$type: "string"}}, {deaths: {$type: "string"}}]}).fetch()
+    for incident in incidents
+      mongoProjection = false
+      if incident.cases
+        parsed = parseInt(incident.cases)
+        if parsed.toString() is "NaN"
+          mongoProjection = {$set: {specify: incident.cases}, $unset: {cases: ""}}
+        else
+          mongoProjection = {$set: {cases: parsed}}
+      else if incident.deaths
+        parsed = parseInt(incident.deaths)
+        if parsed.toString() is "NaN"
+          mongoProjection = {$set: {specify: incident.deaths}, $unset: {deaths: ""}}
+        else
+          mongoProjection = {$set: {deaths: parsed}}
+      if mongoProjection
+        Incidents.update({_id: incident._id}, mongoProjection)
