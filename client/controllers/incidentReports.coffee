@@ -51,6 +51,12 @@ Template.incidentReports.helpers
         cellClass: "remove-row"
       })
 
+      fields.push({
+        key: "Edit"
+        label: ""
+        cellClass: "edit-row"
+      })
+
     fields.push({
       key: "expand"
       label: ""
@@ -78,6 +84,8 @@ Template.incidentReports.events
       if window.confirm("Are you sure you want to delete this incident report?")
         currentOpen.remove()
         Meteor.call("removeIncidentReport", @_id)
+    else if $target.closest(".edit-row").length
+      Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id, edit: true, incident: this})
     else if not $parentRow.hasClass("tr-details")
       closeRow = $parentRow.hasClass("details-open")
       if currentOpen

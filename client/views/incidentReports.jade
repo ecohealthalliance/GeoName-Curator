@@ -70,10 +70,17 @@ template(name="incidentModal")
     .modal-dialog
       .modal-content
         .modal-header
-          h4.modal-title Add Incident Report
+          if edit
+            h4.modal-title Edit Incident Report
+          else
+            h4.modal-title Add Incident Report
         .modal-body
-          +incidentForm
+          if edit
+            +incidentForm articles=articles incident=incident edit=true
+          else
+            +incidentForm
         .modal-footer
           button.btn.secondary-btn(type="button" data-dismiss="modal") Close
-          button.btn.main-btn.save-modal-duplicate(type="button") Save then Duplicate
+          if add
+            button.btn.main-btn.save-modal-duplicate(type="button") Save then Duplicate
           button.btn.main-btn.save-modal(type="button") Save

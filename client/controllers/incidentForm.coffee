@@ -5,6 +5,7 @@ Template.incidentForm.onCreated ->
   }
   if @data.incident
     @incidentData = _.extend(@incidentData, @data.incident)
+    @incidentData.date = moment(@data.incident.date).format('MM/DD/YYYY')
     @incidentData.value = @incidentData.cases or @incidentData.deaths or @incidentData.specify
     if @incidentData.url
       @incidentData.articleSource = _.findWhere(@data.articles, {

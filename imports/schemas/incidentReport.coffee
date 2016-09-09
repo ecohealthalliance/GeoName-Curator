@@ -1,4 +1,7 @@
 IncidentReportSchema = new SimpleSchema(
+  _id:
+    type: String
+    optional: true
   url:
     type: [String]
     label: "Source the incident is based on"
