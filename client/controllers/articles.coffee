@@ -17,7 +17,9 @@ Template.articles.helpers
         key: "publishDate"
         label: "Publication Date"
         fn: (value, object, key) ->
-          return moment(value).format('MMM D, YYYY')
+          if value
+            return moment(value).format('MMM D, YYYY')
+          return ""
       }
     ]
 
