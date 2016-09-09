@@ -40,8 +40,6 @@ IncidentReportSchema = new SimpleSchema(
   status:
     type: String
     optional: true
-  "locations":
-    type: [Object]
   "locations.$.admin1Name":
     type: String
     optional: true

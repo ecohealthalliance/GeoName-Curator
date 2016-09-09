@@ -1,10 +1,6 @@
 formatLocation = require '/imports/formatLocation.coffee'
 UI.registerHelper 'formatLocation', (location)->
-  return formatLocation(
-    name: location.displayName
-    admin1Name: location.subdivision
-    countryName: location.countryName
-  )
+  return formatLocation(location)
 
 formatTimeRange = ({start, end})->
   if start and end
