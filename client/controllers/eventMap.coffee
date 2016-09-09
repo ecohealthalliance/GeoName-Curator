@@ -108,7 +108,8 @@ Template.eventMap.onRendered ->
       instance.disablePrev.set if eventIndex < totalEventCount then false else true
       instance.disableNext.set if currentPage is 0 then true else false
 
-    map.addLayer(markers)
+    map.addLayer markers
+    map.fitBounds markers.getBounds()
 
 Template.eventMap.helpers
   getQuery: ->

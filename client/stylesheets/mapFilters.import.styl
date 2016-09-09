@@ -1,13 +1,23 @@
-.map-menu
-  .date-picker-container
-    margin 3em 1em
-
 .map-search-wrap
   position relative
   top 0
 
 .map-search
-  padding-right 30px
+  position relative
+  align-self flex-end
+  .fa
+    position absolute
+    left 10px
+    top 50%
+    transform translate(0, -50%)
+    content '\f073'
+    @extend .font-awesome
+    z-index 10
+  input
+    padding-left 30px
+
+.calendar-wrapper
+  padding 1em
 
 .map-filter-content
   position absolute
@@ -52,6 +62,9 @@
     font-size 12px
 
 .search-wrap
+  display flex
+  align-items center
+  justify-content space-around
   padding 15px 20px 15px 20px
   background $primary-light
 

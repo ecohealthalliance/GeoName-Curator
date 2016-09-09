@@ -13,6 +13,7 @@ Template.mapFilters.onCreated ->
         dates: []
   @userSearchText = new ReactiveVar ''
   @filtering = new ReactiveVar false
+  @calendarState = new ReactiveVar false
 
 Template.mapFilters.onRendered ->
   instance = @
@@ -37,6 +38,9 @@ Template.mapFilters.onRendered ->
     Template.instance().data.query.set({ $and: filters })
 
 Template.mapFilters.helpers
+  variables: ->
+    Template.instance().variables
+
   getVariables: ->
     _.values Template.instance().variables.get()
 
@@ -62,9 +66,11 @@ Template.mapFilters.helpers
     Template.instance().filtering
 
   selected: ->
-    console.log @
-    console.log Template.instance().data.selectedEvents.find().fetch()
     Template.instance().data.selectedEvents.findOne id: @_id
+
+  calendarState: ->
+    Template.instance().calendarState
+
 
 Template.mapFilters.events
   'click .datePicker': (e, instance) ->
@@ -98,6 +104,11 @@ Template.mapFilters.events
     else
       selectedEvents.insert id: id
 
+  'click .toggle-calendar-state': (e, instance) ->
+    calendarState = instance.calendarState
+    calendarState.set not calendarState.get()
+
+
 Template.dateSelector.onRendered ->
   instance = Template.instance()
   instance.$(".datePicker").datetimepicker
@@ -105,3 +116,19 @@ Template.dateSelector.onRendered ->
     widgetPositioning: {vertical: "bottom"}
     inline: true
     defaultDate: false
+
+setSearchType = (instance, type) ->
+  variables = instance.data.variables
+  _variables = variables.get()
+  _variables.incidentDate.values.searchType = type
+  variables.set _variables
+
+Template.dateSelector.helpers
+  calendarState: ->
+    Template.instance().data.calendarState.get()
+
+Template.dateSelector.events
+  'click .before': (event, instance) ->
+    setSearchType(instance, 'before')
+  'click .after': (event, instance) ->
+    setSearchType(instance, 'after')

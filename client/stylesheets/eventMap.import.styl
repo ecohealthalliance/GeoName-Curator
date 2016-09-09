@@ -56,6 +56,10 @@
 .map-event-list
   border 0
 
+.toggle-calendar-state
+  font-size 1.75em
+  cursor pointer
+
 .map-event-list--item
   padding-right 2.5em
   border-left 0
@@ -86,3 +90,15 @@
         width .5em
         content ''
         background white
+
+.map-event-list--nav
+  display flex
+  align-items center
+  justify-content center
+  > div
+    padding 1em
+    cursor pointer
+    font-size 1.5em
+    color $primary
+    &:hover
+      color $secondary
