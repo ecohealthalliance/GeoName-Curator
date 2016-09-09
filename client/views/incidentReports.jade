@@ -38,17 +38,14 @@ template(name="incidentReport")
               p.form-control-static {{formatLocation(this)}}
           else
             p.form-control-static No location specified.
-      if species
-        .row
-          .col-sm-2.control-label Species:
-          .col-sm-10
-            p.form-control-static
-              em {{species}}
-      if status
-        .row
-          .col-sm-2.control-label Status:
-          .col-sm-10
-            p.form-control-static {{status}}
+      .row
+        .col-sm-2.control-label Species:
+        .col-sm-10
+          p.form-control-static {{species}}
+      .row
+        .col-sm-2.control-label Status:
+        .col-sm-10
+          p.form-control-static {{status}}
       .row
         if cases
           +incidentDetails label="Cases" value=cases
@@ -59,8 +56,9 @@ template(name="incidentReport")
       .row
         .col-sm-2.control-label Travel Related:
         .col-sm-10
-          p.form-control-static
-            i.fa.fa-lg(class="{{travelIcon}}")
+          if travelRelated
+            p.form-control-static
+              i.fa.fa-lg.fa-check
 
 template(name="incidentDetails")
   .col-sm-2.control-label {{label}}:

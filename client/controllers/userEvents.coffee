@@ -2,13 +2,6 @@ Template.userEvents.onCreated ->
   @userEventFields = [
     {
       arrayName: '',
-      description: 'Date the event was created.',
-      displayName: 'Creation Date',
-      fieldName: 'creationDate',
-      defaultSortDirection: -1
-    },
-    {
-      arrayName: '',
       description: 'The name of the EID.',
       displayName: 'Event Name',
       fieldName: 'eventName',
@@ -16,10 +9,21 @@ Template.userEvents.onCreated ->
     },
     {
       arrayName: '',
+      description: 'Date the event was created.',
+      displayName: 'Creation Date',
+      fieldName: 'creationDate',
+      defaultSortDirection: -1,
+      displayFn: (value, object, key) ->
+        return value.toLocaleString()
+    },
+    {
+      arrayName: '',
       description: 'Date the event was last modified.',
       displayName: 'Last Modified Date',
       fieldName: 'lastModifiedDate',
-      defaultSortDirection: -1
+      defaultSortDirection: -1,
+      displayFn: (value, object, key) ->
+        return value.toLocaleString()
     },
     {
       arrayName: '',
@@ -66,7 +70,7 @@ Template.userEvents.helpers
   settings: ->
     fields = []
     for field in Template.instance().userEventFields
-      fields.push {
+      tableField = {
         key: field.fieldName
         label: field.displayName
         isVisible: Template.instance().fieldVisibility[field.fieldName]
@@ -74,6 +78,9 @@ Template.userEvents.helpers
         sortDirection: Template.instance().sortDirection[field.fieldName]
         sortable: not field.arrayName
       }
+      if field.displayFn
+        tableField.fn = field.displayFn
+      fields.push(tableField)
 
     return {
       id: 'user-events-table'

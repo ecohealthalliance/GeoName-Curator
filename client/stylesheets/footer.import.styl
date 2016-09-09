@@ -3,11 +3,11 @@ footer
   bottom 0
   z-index 100
   width 100%
-  border-top 2px solid secondary
+  border-top 2px solid $secondary
   background white
-  height footer-height
+  height $footer-height
   a
-    bg('/images/eha-logo', 280px, 78px, 'png')
+    bg('/images/eha-logo', 280px, 78px, 'svg')
     display block
     margin 10px auto
   .eha
@@ -16,10 +16,10 @@ footer
       margin-bottom 15px
   address
     font-size 90%
-    color m-gray
+    color $m-gray
 
 @media (max-width: 768px)
   footer
-    height mobile-footer-height
+    height $mobile-footer-height
     a
       changeBGSize(150px,42px)

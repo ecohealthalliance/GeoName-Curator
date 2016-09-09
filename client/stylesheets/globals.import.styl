@@ -1,8 +1,8 @@
-html,
+html
 body
   height 100%
 
-body,
+body
 ul
   color #555
   font('Open Sans')
@@ -14,18 +14,18 @@ p
 ul
   font-weight 400
 
-ul,
-h1,
-h2,
-h3,
+ul
+h1
+h2
+h3
 h4
   letter-spacing .01em
 
-h1,
-h2,
-h3,
+h1
+h2
+h3
 h4
-  color highlight
+  color $highlight
   font-weight 700
 
 h1
@@ -34,7 +34,7 @@ h1
 
 h2
   font-size 38px
-  color primary
+  color $primary
   margin-bottom 0px
   margin-top 0
 
@@ -50,7 +50,7 @@ h3
   font-size 20px
   margin-top 0
   margin-bottom 15px
-  color blue
+  color $blue
 
 h4
   color body-text
@@ -60,29 +60,22 @@ h4
 h5
   font-size 100%
   font-weight 600
-  color d-gray
+  color $d-gray
 
-a,
-button,
+a
+button
 tr
   transition .2s
   &:hover
     transition .2s
 
 a
-  color link-color
+  color $link-color
   &:hover
-    color link-color-hover
+    color $link-color-hover
 
 .centered
   text-align center
-
-.btn
-  @extend .dark-shadow
-  letter-spacing .03em
-
-.btn-default
-  text-shadow none
 
 #main
   margin-top 70px
@@ -98,8 +91,8 @@ section
   margin 0
 
 .content-wrapper
-  padding-top header-height
-  padding-bottom footer-height
+  padding-top $header-height
+  padding-bottom $footer-height
 
 .page-wrapper
   position relative
@@ -111,7 +104,7 @@ section
 .table-header
   padding 10px
   margin-bottom 0
-  border-radius tableRadius tableRadius 0 0
+  border-radius $tableRadius $tableRadius 0 0
   border 1px solid #CCC
 
 table tr:last-child
@@ -130,7 +123,7 @@ table tr:last-child
   padding 15px
 
 .default-fullWidth
-  background ll-gray
+  background $ll-gray
 
 .tooltip-inner
   max-width 350px
@@ -144,7 +137,7 @@ table tr:last-child
 .popover-content
   overflow hidden
   text-overflow ellipsis
-  color d-gray
+  color $d-gray
   font-weight normal
   font-size 14px
   line-height 1.3
@@ -155,38 +148,38 @@ table tr:last-child
   padding-right 30px
   padding-left 30px
   &.gray
-    background ll-gray
+    background $ll-gray
   &.green
-    background secondary-light
+    background $secondary-light
   &.orange
-    background secondary-secondary
+    background $secondary-$secondary
 
-for num in 1 2 3 4 5 6
+for $num in 1 2 3 4 5 6
 
-  .space-btm-{num}
-    margin-bottom num*10px
+  .space-btm-{$num}
+    margin-bottom $num*10px
 
-  .space-top-{num}
-    margin-top num*10px
+  .space-top-{$num}
+    margin-top $num*10px
 
 .rm-pad
   padding 0
 
 @media (max-width: 768px)
   .content-wrapper
-    padding-top mobile-header-height
-    padding-bottom mobile-footer-height
-  .popover,
-  .tooltip,
-  .tooltip-inner,
+    padding-top $mobile-header-height
+    padding-bottom $mobile-footer-height
+  .popover
+  .tooltip
+  .tooltip-inner
   .popover-content
     min-width 200px
     max-width 325px
   .tooltip-arrow
     top 0 !important
   .main-content
-    padding-top mobile-header-height
-  a.btn,
+    padding-top $mobile-header-height
+  a.btn
   a.btn-primary
     padding-top 15px
     padding-bottom 15px
@@ -195,7 +188,7 @@ for num in 1 2 3 4 5 6
     position absolute
     top -5px
     right -5px
-    color d-gray
+    color $d-gray
     font-size 22px
   h1
     font-size 40px
@@ -217,8 +210,8 @@ for num in 1 2 3 4 5 6
   h5
     font-size 100%
     font-weight 600
-    color d-gray
+    color $d-gray
 
-.select2 > .selection > .select2-selection,
+.select2 > .selection > .select2-selection
 .select2-dropdown
-  border-color: #CCC
+  border-color #CCC

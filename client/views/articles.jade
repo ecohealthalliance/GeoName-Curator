@@ -10,18 +10,14 @@ template(name="articles")
               .col-lg-8
                 +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
               .col-lg-4.col-sm-12
-                button.btn.secondary-btn.btn-block.open-source-form(type="button")
-                  i.fa.fa-plus-circle
-                  | Add Source
+                +sourceModalButton
           +reactiveTable collection=articles settings=getSettings
 
         else
           .col-lg-8
             p There are no articles currently associated with this event.
           .col-lg-4.col-sm-12
-            button.btn.secondary-btn.btn-block.open-source-form(type="button")
-              i.fa.fa-plus-circle
-              | Add Source
+            +sourceModalButton
 
 template(name="article")
   li.list-group-item
@@ -42,3 +38,9 @@ template(name="articleSelect2")
       option(value="")
     each articles
       option(value="{{_id}}") {{url}}
+
+template(name="sourceModalButton")
+  if isInRole "admin"
+    button.btn.secondary-btn.btn-block.open-source-form(type="button")
+      i.fa.fa-plus-circle
+      | Add Source
