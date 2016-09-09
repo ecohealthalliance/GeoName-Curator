@@ -5,7 +5,7 @@
   left 0
   right 0
   top $header-height
-  bottom $footer-height
+  bottom 0
   background-color #B5D0D0
   margin auto
   background-color $map-background
@@ -48,8 +48,10 @@
   width 20%
   min-width 300px
   max-width 600px
+  max-height calc(100% - $header-height)
   background rgba(255,255,255,.9)
   z-index 100
+  overflow-x scroll
 
 .map-event-list
   border 0
