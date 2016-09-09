@@ -59,10 +59,14 @@
   border-left 0
   border-right 0
   background none
+  cursor pointer
   .date
     display block
     font-style italic
     font-size 90%
+  &.selected
+    background $secondary-light
+  &.selected .circle::before
   .circle
     position absolute
     top 50%
@@ -71,3 +75,12 @@
     border-radius 50%
     height 1.5em
     width 1.5em
+  &.selected
+    .circle
+      &::before
+        left 50%
+        transform translate(-50%, -50%)
+        height .5em
+        width .5em
+        content ''
+        background white

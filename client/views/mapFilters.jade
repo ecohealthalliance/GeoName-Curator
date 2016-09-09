@@ -13,7 +13,7 @@ template(name="mapFilters")
             i.fa.fa-times-circle
     ul.map-event-list.list-group
       each getEvents
-        li.map-event-list--item.list-group-item
+        li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
           span.name=name
           span.date=date
           .circle(style="background-color:rgb(#{rgbColor})")

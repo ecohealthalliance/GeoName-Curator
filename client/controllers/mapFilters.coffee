@@ -32,7 +32,7 @@ Template.mapFilters.onRendered ->
     nameQuery = []
     searchWords = userSearchText.split(' ')
     _.each searchWords, -> nameQuery.push {eventName: new RegExp(userSearchText, 'i')}
-    filters.push({$or: nameQuery})
+    filters.push $or: nameQuery
 
     Template.instance().data.query.set({ $and: filters })
 
@@ -61,6 +61,11 @@ Template.mapFilters.helpers
   filtering: ->
     Template.instance().filtering
 
+  selected: ->
+    console.log @
+    console.log Template.instance().data.selectedEvents.find().fetch()
+    Template.instance().data.selectedEvents.findOne id: @_id
+
 Template.mapFilters.events
   'click .datePicker': (e, instance) ->
     instance.filtering.set true
@@ -85,6 +90,14 @@ Template.mapFilters.events
   'click .mobile-control': (e, instance) ->
     instance.$('.map-search-wrap').toggleClass('open')
 
+  'click .map-event-list--item': (e, instance) ->
+    selectedEvents = instance.data.selectedEvents
+    id = @_id
+    if selectedEvents.findOne(id: id)
+      selectedEvents.remove id: id
+    else
+      selectedEvents.insert id: id
+
 Template.dateSelector.onRendered ->
   instance = Template.instance()
   instance.$(".datePicker").datetimepicker
@@ -92,5 +105,3 @@ Template.dateSelector.onRendered ->
     widgetPositioning: {vertical: "bottom"}
     inline: true
     defaultDate: false
-  Meteor.defer ->
-    instance.data.filtering.set true

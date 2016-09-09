@@ -9,6 +9,7 @@ Template.eventMap.onCreated ->
   @templateEvents = new ReactiveVar null
   @disablePrev = new ReactiveVar false
   @disableNext = new ReactiveVar true
+  @selectedEvents = new Meteor.Collection null
 
 Template.eventMap.onRendered ->
   bounds = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180))
@@ -40,16 +41,25 @@ Template.eventMap.onRendered ->
     currentPage = instance.pageNum.get()
     Blaze.remove reactiveTemplateId if reactiveTemplateId
 
+    _selectedEvents = instance.selectedEvents.find().fetch()
     if _.isObject query
       allEvents = instance.data.events.find(query, {sort: {creationDate: -1}}).fetch()
       totalEventCount = allEvents.length
       startingPosition = currentPage * instance.eventsPerPage
     else
       map.removeLayer(markers)
-      return
     mapLocations = {}
     templateEvents = []
     eventIndex = startingPosition
+
+    _selectedEventsLength = _selectedEvents.length
+    if _selectedEventsLength
+      selectedEventIds = _.pluck _selectedEvents, 'id'
+      totalEventCount = _selectedEventsLength
+    else
+      selectedEventIds = _.pluck allEvents, '_id'
+
+    console.log selectedEventIds, totalEventCount
 
     if totalEventCount
       filteredEvents = []
@@ -67,17 +77,18 @@ Template.eventMap.onRendered ->
         while templateEvents.length < instance.eventsPerPage and eventIndex < filteredEvents.length
           event = filteredEvents[eventIndex]
           rgbColor = chroma(colorScale[templateEvents.length]).rgb()
-          templateEvents.push({name: event.eventName, date: event.creationDate.toDateString(), rgbColor: rgbColor})
+          templateEvents.push({_id: event._id, name: event.eventName, date: event.creationDate.toDateString(), rgbColor: rgbColor})
 
-          uniqueEventLocations = []
-          for incident in event.incidents
-            for location in incident.locations
-              latLng = location.latitude.toString() + "," + location.longitude.toString()
-              if uniqueEventLocations.indexOf(latLng) is -1
-                if not mapLocations[latLng]
-                  mapLocations[latLng] = {name: location.name, events: []}
-                mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: rgbColor})
-                uniqueEventLocations.push(latLng)
+          if event._id in selectedEventIds
+            uniqueEventLocations = []
+            for incident in event.incidents
+              for location in incident.locations
+                latLng = location.latitude.toString() + "," + location.longitude.toString()
+                if uniqueEventLocations.indexOf(latLng) is -1
+                  if not mapLocations[latLng]
+                    mapLocations[latLng] = {name: location.displayName, events: []}
+                  mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: rgbColor})
+                  uniqueEventLocations.push(latLng)
 
           eventIndex += 1
 
@@ -114,6 +125,9 @@ Template.eventMap.helpers
 
   query: ->
     Template.instance().query
+
+  selectedEvents: ->
+    Template.instance().selectedEvents
 
 Template.eventMap.events
   "click .event-list-next": (event, template) ->
