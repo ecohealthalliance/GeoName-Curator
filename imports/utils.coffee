@@ -32,10 +32,12 @@ module.exports.incidentReportFormToIncident = (form)->
     travelRelated: form.travelRelated.checked
     locations: []
     status: form.status.value
-    dateRangeType: rangeType
-    cumulative: form.cumulative.checked
-    startDate: picker.startDate.toDate()
-    endDate: picker.endDate.toDate()
+    dateRange: {
+      type: rangeType
+      start: picker.startDate.toDate()
+      end: picker.endDate.toDate()
+      cumulative: form.cumulative.checked
+    }
   }
   if form.incidentType.value == "cases"
     incident.cases = parseInt(form.count.value, 10)

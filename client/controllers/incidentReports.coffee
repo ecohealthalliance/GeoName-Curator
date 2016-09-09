@@ -23,17 +23,17 @@ Template.incidentReports.helpers
           return ""
       },
       {
-        key: "startDate"
+        key: "dateRange"
         label: "Date"
         fn: (value, object, key) ->
           dateFormat = "M/D/YYYY"
-          if object.dateRangeType is "day"
-            if object.cumulative
-              return "Before " + moment(object.endDate).format(dateFormat)
+          if object.dateRange?.type is "day"
+            if object.dateRange.cumulative
+              return "Before " + moment(object.dateRange.end).format(dateFormat)
             else
-              return moment(object.startDate).format(dateFormat)
-          else if object.dateRangeType is "precise"
-            return moment(object.startDate).format(dateFormat) + " - " + moment(object.endDate).format(dateFormat)
+              return moment(object.dateRange.start).format(dateFormat)
+          else if object.dateRange?.type is "precise"
+            return moment(object.dateRange.start).format(dateFormat) + " - " + moment(object.dateRange.end).format(dateFormat)
           return ""
       },
       {

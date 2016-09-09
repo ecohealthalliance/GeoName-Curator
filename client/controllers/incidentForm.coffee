@@ -4,11 +4,15 @@ Template.incidentForm.onCreated ->
   @incidentType = new ReactiveVar()
   @incidentData = {
     species: "Human"
+    dateRange: {
+      type: "day"
+    }
   }
 
   if @data.incident
     @incidentData = _.extend(@incidentData, @data.incident)
-    @incidentData.date = moment(@data.incident.date).format('MM/DD/YYYY')
+    if @data.incident.dateRange
+      @incidentData.dateRange = @data.incident.dateRange
     @incidentData.value = @incidentData.cases or @incidentData.deaths or @incidentData.specify
     if @incidentData.url
       @incidentData.articleSource = _.findWhere(@data.articles, {
@@ -23,8 +27,13 @@ Template.incidentForm.onCreated ->
 
 Template.incidentForm.onRendered ->
   $(document).ready =>
-    createInlineDateRangePicker(@, "#singleDatePicker", true)
-    createInlineDateRangePicker(@, "#rangePicker")
+    datePickerOptions = {}
+    if @incidentData.dateRange.start and @incidentData.dateRange.end
+      datePickerOptions.startDate = @incidentData.dateRange.start
+      datePickerOptions.endDate = @incidentData.dateRange.end
+    createInlineDateRangePicker(@.$("#rangePicker"), datePickerOptions)
+    datePickerOptions.singleDatePicker = true
+    createInlineDateRangePicker(@.$("#singleDatePicker"), datePickerOptions)
 
 Template.incidentForm.helpers
   incidentData: ->
@@ -40,6 +49,12 @@ Template.incidentForm.helpers
     return type is "cases" or type is "deaths"
   showOtherForm: ->
     return Template.instance().incidentType.get() is "other"
+  dayTabClass: ->
+    if Template.instance().incidentData.dateRange.type is "day"
+      return "active"
+  rangeTabClass: ->
+    if Template.instance().incidentData.dateRange.type is "precise"
+      return "active"
 
 Template.incidentForm.events
   "change select[name='incidentType']": (e, template) ->

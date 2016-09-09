@@ -8,22 +8,16 @@ template(name="incidentForm")
       .col-md-12
         label.control-label Date
         ul.nav.nav-tabs.secondary-tabs(role="tablist")
-          li.active(role="presentation")
+          li(role="presentation" class="{{dayTabClass}}")
             a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab") Single Date
-          li(role="presentation")
+          li(role="presentation" class="{{rangeTabClass}}")
             a(href="#preciseRange" aria-controls="date range" role="tab" data-toggle="tab") Date Range
 
         .tab-content
-          #singleDate.tab-pane.active(role="tabpanel")
+          #singleDate.tab-pane(role="tabpanel" class="{{dayTabClass}}")
             #singleDatePicker.inlineRangePicker
-            .form-group
-              .col-md-12.text-center
-                .checkbox
-                  label
-                    input(type="checkbox" value="1" name="cumulative")
-                    | Cumulative
 
-          #preciseRange.tab-pane(role="tabpanel")
+          #preciseRange.tab-pane(role="tabpanel" class="{{rangeTabClass}}")
             #rangePicker.inlineRangePicker
 
     .form-group
@@ -60,6 +54,12 @@ template(name="incidentForm")
         .col-md-12
           label.control-label Specify Other
           input.form-control(name="other" type="text" required value=incidentData.value)
+    .form-group
+      .col-md-12
+        .checkbox
+          label
+            input(type="checkbox" value="1" name="cumulative" checked="{{incidentData.dateRange.cumulative}}")
+            | Cumulative
     .form-group
       .col-md-12
         .checkbox

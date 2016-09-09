@@ -1,25 +1,34 @@
-createInlineDateRangePicker = (template, parentSelector, singleDatePicker) ->
-  options = {
-    parentEl: parentSelector
+createInlineDateRangePicker = ($parentElement, options) ->
+  parentId = $parentElement.prop("id")
+  if !parentId
+    # If the parent element doesn't have an id, generate one
+    parentId = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) ->
+      r = Math.random()*16|0
+      v = if c is 'x' then r else (r&0x3|0x8)
+      return v.toString(16)
+    )
+
+  allOptions = {
+    parentEl: "#" + parentId
     template: Blaze.toHTML(Template.inlineDateRangePicker)
-    singleDatePicker: singleDatePicker
+    singleDatePicker: options.singleDatePicker
     autoUpdateInput: false
   }
+  
+  if options.startDate and options.endDate
+    allOptions.startDate = options.startDate
+    allOptions.endDate = options.endDate
 
-  $rangeContainer = template.$(parentSelector + ".inlineRangePicker").daterangepicker(options)
+  $rangeContainer = $parentElement.daterangepicker(allOptions)
   picker = $rangeContainer.data("daterangepicker")
   if options.singleDatePicker
     picker.clickApply = (e) ->
       this.element.trigger('apply.daterangepicker', this);
 
-  template.$(".inlineRangePicker").off("click.daterangepicker")
-  template.$(".daterangepicker").removeClass("opensright")
+  $(".inlineRangePicker").off("click.daterangepicker")
+  $(".inlineRangePicker .daterangepicker").removeClass("opensright")
 
   picker.show()
-  
-  if template.incidentData
-    picker.setStartDate(template.incidentData.startDate)
-    picker.setEndDate(template.incidentData.endDate)
 
   $(document).off("mousedown.daterangepicker touchend.daterangepicker click.daterangepicker focusin.daterangepicker")
 
