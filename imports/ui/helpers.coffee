@@ -42,8 +42,8 @@ UI.registerHelper 'incidentToText', (incident) ->
     )
 
   result = "#{incidentDescription} in #{formattedLocations}"
-  if @timeRange
-    result += " #{formatTimeRange(@timeRange)}"
+  if @dateRange
+    result += " #{formatDateRange(@dateRange)}"
   result
 
 UI.registerHelper 'formatDate', (date) ->

@@ -98,32 +98,16 @@ Template.articles.events
 Template.articleSelect2.onRendered ->
   $input = @$("select")
   options = {}
+
   if @data.multiple
     options.multiple = true
+
   $input.select2(options)
+
   if @data.selected
     $input.val(@data.selected).trigger("change")
   $input.next(".select2-container").css("width", "100%")
-  "click tr": (event, templateInstance) ->
-    event.preventDefault()
-    templateInstance.selectedSourceId.set @_id
-  "click .open-source-form": (event, template) ->
-    Modal.show("sourceModal", {userEventId: template.data.userEvent._id})
 
 Template.articleSelect2.onDestroyed ->
   templateInstance = Template.instance()
   templateInstance.$("#" + templateInstance.data.selectId).select2("destroy")
-
-Template.articleSelect2.helpers
-  initArticleSelect2: ->
-    templateInstance = Template.instance()
-    templateData = templateInstance.data
-    Meteor.defer ->
-      $input = templateInstance.$("#" + templateData.selectId)
-      options = {}
-      if templateData.multiple
-        options.multiple = true
-      $input.select2(options)
-      if templateData.selected
-        $input.val(templateData.selected).trigger("change")
-      $input.next(".select2-container").css("width", "100%")
