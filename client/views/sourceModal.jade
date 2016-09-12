@@ -7,21 +7,28 @@ template(name="sourceModal")
         .modal-body
           form#add-source.form-horizontal(novalidate)
             .form-group
-              label.col-lg-3.control-label Article URL
-              .col-lg-9
+              .col-md-12
+                label.control-label Article URL
                 input#article.form-control.new-article(type="url" name="article" required)
             .form-group
-              label.col-lg-3.control-label Publication Date
-              .col-lg-9
-                input#publishDate.form-control.datePicker(type="text" name="publishDate" init="{{initDatePicker}}")
+              .col-md-12
+                label.control-label Publication Date
+                #publishDate.datePicker(init="{{initDatePicker}}")
             .form-group
-              label.col-lg-3.control-label Time zone
-              .col-lg-9
-                select#publishDateTZ.form-control(name="publishDateTZ")
-                  each timezones
-                    option(value=name selected=selected) {{name}} (GMT{{offset}})
+              .col-md-6
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-clock-o
+                  input#publishTime.timePicker.form-control(type="text" placeholder="Time" init="{{initTimePicker}}")
+              .col-md-6
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-globe
+                  select#publishDateTZ.form-control(name="publishDateTZ")
+                    each timezones
+                      option(value=name selected=selected) {{name}} (GMT{{offset}})
             .form-group
-              .col-lg-9.col-lg-offset-3
+              .col-lg-12
                 .checkbox
                   label
                     input(type="checkbox" value="1" name="enhance" checked)
