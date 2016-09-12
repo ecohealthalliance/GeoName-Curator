@@ -47,7 +47,7 @@
 
 .curator-inbox-table
   margin-bottom 0
-  color $primary-light
+  color $primary
   thead
     display none
   tr
@@ -93,6 +93,23 @@
     display table-cell !important
     padding-top 8px
     padding-bottom 8px
+
+.curator-events-table
+  margin-bottom 0
+  color $primary
+  // background $secondary
+  thead
+    display none
+  tr
+    padding-left 7px
+    padding-right 7px
+  .open-row::before
+    content "\f138"
+    font-family FontAwesome
+  .close-row::before
+    content "\f13a"
+    font-family FontAwesome
+
 
 @media (max-width: 992px)
   .curator-inbox-options

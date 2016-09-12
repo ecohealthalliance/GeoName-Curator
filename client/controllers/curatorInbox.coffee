@@ -109,7 +109,7 @@ Template.curatorInboxSection.helpers
     }
 
 Template.curatorInboxSection.events
-  "click .reactive-table tbody tr": (event, template) ->
+  "click .curator-inbox-table tbody tr": (event, template) ->
     $details = $("#curator-article-details").html(Blaze.toHTMLWithData(Template.curatorArticleDetails, this))
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
@@ -118,7 +118,6 @@ Template.curatorInboxSection.events
 
 Template.curatorArticleDetails.helpers
   isCurated: ->
-    console.log Template.instance()
     if Template.instance().data.curated
       return 'curated'
   formattedAddedDate: ->
