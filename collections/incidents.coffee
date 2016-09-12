@@ -75,7 +75,7 @@ if Meteor.isServer
           else
             updatedLocations.push(loc)
         if updatesMade
-          Incidents.update(incident._id, {$set: locations: {updatedLocations}})
+          Incidents.update(incident._id, {$set: {locations: updatedLocations}})
           incident.locations = updatedLocations
 
       # Split incidents with both case and death counts into separate incidents
