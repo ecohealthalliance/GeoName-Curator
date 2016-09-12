@@ -6,21 +6,19 @@ UI.registerHelper 'formatLocation', (location)->
     countryName: location.countryName
   )
 
-formatTimeRange = ({start, end})->
-  if start and end
-    duration = moment.duration(moment(end).diff(start))
-    if duration.asHours() > 24
-      "from " + moment(start).format("MMM Do YY") + " to " + moment(end).format("MMM Do YY")
-    else if duration.asHours() > 1
-      "on " + moment(start).format("MMM Do YY")
+formatDateRange = (dateRange)->
+  dateFormat = "MMM D, YYYY"
+  if dateRange.type is "day"
+    if dateRange.cumulative
+      return "Before " + moment(dateRange.end).format(dateFormat)
     else
-      "on " + moment(start).format("MMM Do YY, h a")
-  else if start
-    "after " + moment(start).format("MMM Do YY")
-  else if end
-    "before " + moment(end).format("MMM Do YY")
-  else
-    ""
+      return moment(dateRange.start).format(dateFormat)
+  else if dateRange.type is "precise"
+    return moment(dateRange.start).format(dateFormat) + " - " + moment(dateRange.end).format(dateFormat)
+  return ""
+
+UI.registerHelper 'formatDateRange', (dateRange)->
+  return formatDateRange(dateRange)
 
 UI.registerHelper 'incidentToText', (incident)->
   console.log incident
@@ -37,4 +35,4 @@ UI.registerHelper 'incidentToText', (incident)->
       @locations.map(formatLocation).slice(0, -1).join(", ") +
       ", and " + formatLocation(@locations.slice(-1)[0])
     )
-  return "#{incidentDescription} in #{formattedLocations} #{formatTimeRange(@timeRange)}"
+  return "#{incidentDescription} in #{formattedLocations} #{formatDateRange(@dateRange)}"

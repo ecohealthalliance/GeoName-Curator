@@ -96,3 +96,21 @@ if Meteor.isServer
           mongoProjection = {$set: {deaths: parsed}}
       if mongoProjection
         Incidents.update({_id: incident._id}, mongoProjection)
+
+    #Convert dates to date ranges
+    incidents = Incidents.find({date: {$exists: true}}).fetch()
+    for incident in incidents
+      startDate = moment(incident.date).set({hour: 0, minute: 0})
+      endDate = moment(startDate).set({hour: 23, minute: 59})
+      Incidents.update(incident._id, {
+        $set: {
+          dateRange: {
+            start: startDate.toDate()
+            end: endDate.toDate()
+            type: "day"
+          }
+        },
+        $unset: {
+          date: ""
+        }
+      })

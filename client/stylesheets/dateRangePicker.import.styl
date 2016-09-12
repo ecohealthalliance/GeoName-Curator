@@ -1,0 +1,34 @@
+.daterangepicker td.in-range
+  background-color $secondary-light
+  color $primary
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover
+  background-color $secondary
+  color $primary
+
+.daterangepicker,
+.daterangepicker .calendar td.today
+  position relative
+
+.inlineRangePicker .daterangepicker .calendar
+  width 50%
+  border none
+
+.inlineRangePicker .daterangepicker.single .calendar.left.single
+  width 100%
+  max-width 550px
+
+.inlineRangePicker .daterangepicker .calendar .calendar-table
+  border none
+
+.daterangepicker .calendar td.today:after
+  content ''
+  display inline-block
+  border solid transparent
+  border-width 0 0 7px 7px
+  border-bottom-color $primary
+  border-top-color rgba(0, 0, 0, 0.2)
+  position absolute
+  bottom 4px
+  right 4px

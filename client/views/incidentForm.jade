@@ -1,32 +1,44 @@
 template(name="incidentForm")
   form#add-incident.form-horizontal(novalidate)
     .form-group
-      label.col-lg-3.control-label Article URL
-      .col-lg-9
+      .col-md-12
+        label.control-label Article URL
         +articleSelect2 selectId="articleSource" articles=articles selected=incidentData.articleSource
     .form-group
-      label.col-lg-3.control-label Date
-      .col-lg-9
-        input.form-control.datePicker(type="text" name="date" data-DateTimePicker value=incidentData.date)
+      .col-md-12
+        label.control-label Date
+        ul.nav.nav-tabs.secondary-tabs(role="tablist")
+          li(role="presentation" class="{{dayTabClass}}")
+            a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab") Single Date
+          li(role="presentation" class="{{rangeTabClass}}")
+            a(href="#preciseRange" aria-controls="date range" role="tab" data-toggle="tab") Date Range
+
+        .tab-content
+          #singleDate.tab-pane(role="tabpanel" class="{{dayTabClass}}")
+            #singleDatePicker.inlineRangePicker
+
+          #preciseRange.tab-pane(role="tabpanel" class="{{rangeTabClass}}")
+            #rangePicker.inlineRangePicker
+
     .form-group
-      label.col-lg-3.control-label Location
-      .col-lg-9
+      .col-md-12
+        label.control-label Location
         +locationSelect2 selectId="incident-location-select2" multiple="true" selected=incidentData.locations
     .form-group
-      label.col-lg-3.control-label Species
-      .col-lg-9
+      .col-md-12
+        label.control-label Species
         input.form-control(type="text" name="species" value=incidentData.species)
     .form-group
-      label.col-lg-3.control-label Status
-      .col-lg-9
+      .col-md-12
+        label.control-label Status
         select.form-control(name="status")
           option(value="")
           option(value="suspected" selected=incidentStatus.suspected) Suspected
           option(value="confirmed" selected=incidentStatus.confirmed) Confirmed
           option(value="revoked" selected=incidentStatus.revoked) Revoked
     .form-group
-      label.col-lg-3.control-label Incident Type
-      .col-lg-9
+      .col-md-12
+        label.control-label Incident Type
         select.form-control(name="incidentType" required)
           option(value="")
           option(value="cases" selected=incidentType.cases) Case Count
@@ -34,16 +46,22 @@ template(name="incidentForm")
           option(value="other" selected=incidentType.other) Other
     if showCountForm
       .form-group
-        label.col-lg-3.control-label Count
-        .col-lg-9
+        .col-md-12
+          label.control-label Count
           input.form-control(name="count" type="number" min="0" required value=incidentData.value)
     if showOtherForm
       .form-group
-        label.col-lg-3.control-label Specify Other
-        .col-lg-9
+        .col-md-12
+          label.control-label Specify Other
           input.form-control(name="other" type="text" required value=incidentData.value)
     .form-group
-      .col-lg-9.col-lg-offset-3
+      .col-md-12
+        .checkbox
+          label
+            input(type="checkbox" value="1" name="cumulative" checked="{{incidentData.dateRange.cumulative}}")
+            | Cumulative
+    .form-group
+      .col-md-12
         .checkbox
           label
             input(type="checkbox" value="1" name="travelRelated" checked=incidentData.travelRelated)
