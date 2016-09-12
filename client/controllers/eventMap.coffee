@@ -5,7 +5,7 @@ L.Icon.Default.imagePath = "/packages/fuatsengul_leaflet/images"
 Template.eventMap.onCreated ->
   @query = new ReactiveVar({})
   @pageNum = new ReactiveVar(0)
-  @eventsPerPage = 5
+  @eventsPerPage = 10
   @templateEvents = new ReactiveVar null
   @disablePrev = new ReactiveVar false
   @disableNext = new ReactiveVar true
@@ -35,35 +35,35 @@ Template.eventMap.onRendered ->
 
   reactiveTemplateId = null
   @autorun ->
+    eventsSelected = false
     map.removeLayer(markers)
     markers = new L.FeatureGroup()
     query = instance.query.get()
     currentPage = instance.pageNum.get()
+    eventsPerPage = instance.eventsPerPage
     Blaze.remove reactiveTemplateId if reactiveTemplateId
 
-    _selectedEvents = instance.selectedEvents.find().fetch()
     if _.isObject query
       allEvents = instance.data.events.find(query, {sort: {creationDate: -1}}).fetch()
-      totalEventCount = allEvents.length
-      startingPosition = currentPage * instance.eventsPerPage
+      startingPosition = currentPage * eventsPerPage
     else
       map.removeLayer(markers)
     mapLocations = {}
     templateEvents = []
     eventIndex = startingPosition
 
-    _selectedEventsLength = _selectedEvents.length
-    if _selectedEventsLength
+    _selectedEvents = instance.selectedEvents.find().fetch()
+    if _selectedEvents.length
+      eventsSelected = true
       selectedEventIds = _.pluck _selectedEvents, 'id'
-      totalEventCount = _selectedEventsLength
     else
       selectedEventIds = _.pluck allEvents, '_id'
 
-    console.log selectedEventIds, totalEventCount
+    totalEventCount = selectedEventIds.length
 
     if totalEventCount
       filteredEvents = []
-      colorScale = chroma.scale(MapHelpers.getDefaultGradientColors()).colors(instance.eventsPerPage)
+      colorScale = chroma.scale(MapHelpers.getDefaultGradientColors()).colors(eventsPerPage)
 
       # Remove events that have no locations to plot on the map
       filteredEvents = []
@@ -74,7 +74,7 @@ Template.eventMap.onRendered ->
           filteredEvents.push(event)
 
       if filteredEvents.length
-        while templateEvents.length < instance.eventsPerPage and eventIndex < filteredEvents.length
+        while templateEvents.length < eventsPerPage and eventIndex < filteredEvents.length
           event = filteredEvents[eventIndex]
           rgbColor = chroma(colorScale[templateEvents.length]).rgb()
           templateEvents.push({_id: event._id, name: event.eventName, date: event.creationDate.toDateString(), rgbColor: rgbColor})
@@ -105,11 +105,14 @@ Template.eventMap.onRendered ->
         markers.addLayer(marker)
 
       instance.templateEvents.set templateEvents
-      instance.disablePrev.set if eventIndex < totalEventCount then false else true
-      instance.disableNext.set if currentPage is 0 then true else false
+      if eventIndex >= totalEventCount - eventsPerPage and not eventsSelected
+        instance.disablePrev.set true
+      else
+        false
+      instance.disableNext.set if eventIndex <= eventsPerPage then true else false
 
     map.addLayer markers
-    map.fitBounds markers.getBounds()
+    map.fitBounds(markers.getBounds(), {maxZoom: 10, padding: [20, 20]})
 
 Template.eventMap.helpers
   getQuery: ->
@@ -130,12 +133,16 @@ Template.eventMap.helpers
   selectedEvents: ->
     Template.instance().selectedEvents
 
-Template.eventMap.events
-  "click .event-list-next": (event, template) ->
-    template.pageNum.set template.pageNum.get() - 1
+paginate = (template, direction) ->
+  template.pageNum.set template.pageNum.get() + direction
+  template.selectedEvents.remove {}
 
-  "click .event-list-prev": (event, template) ->
-    template.pageNum.set template.pageNum.get() + 1
+Template.eventMap.events
+  "click .event-list-next:not('.disabled')": (event, template) ->
+    paginate template, -1
+
+  "click .event-list-prev:not('.disabled')": (event, template) ->
+    paginate template, 1
 
 Template.markerPopup.helpers
   getEvents: ->

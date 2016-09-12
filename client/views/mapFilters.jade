@@ -17,9 +17,9 @@ template(name="mapFilters")
           span.date=date
           .circle(style="background-color:rgb(#{rgbColor})")
       .map-event-list--nav
-        .event-list-prev(title="Older" disabled="{{disablePrev}}")
+        .event-list-prev(title="Older" class="{{#if disablePrev}} disabled {{/if}}")
           i.fa.fa-chevron-left
-        .event-list-next(title="Newer" disabled="{{disableNext}}")
+        .event-list-next(title="Newer" class="{{#if disableNext}} disabled {{/if}}")
           i.fa.fa-chevron-right
 
 template(name="dateSelector")
