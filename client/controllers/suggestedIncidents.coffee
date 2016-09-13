@@ -134,14 +134,15 @@ Template.suggestedIncidentsModal.helpers
     lastEnd = 0
     html = ""
     i = 0
-    displayCharacters = 100
+    displayCharacters = 150
     incidents = Template.instance().incidentCollection.find().fetch()
     while i < incidents.length
       incident = incidents[i]
       [start, end] = incident.countAnnotation.textOffsets[0]
       startingIndex = lastEnd
-      precedingEllipsis = ""
-      followingEllipsis = ""
+      precedingEllipsis = false
+      followingEllipsis = false
+      htmlBreak = true
 
       precedingContentLength = start - lastEnd
       if precedingContentLength > displayCharacters
@@ -156,13 +157,14 @@ Template.suggestedIncidentsModal.helpers
       if split.length > 1
         precedingText = split[split.length - 1]
       else if precedingContentLength isnt 1
-        precedingEllipsis = "&hellip;"
+        precedingEllipsis = true
 
       nextIndex = i + 1
       lastEnd = end + displayCharacters
       if (nextIndex < incidents.length) and (incidents[nextIndex].countAnnotation.textOffsets[0][0] < lastEnd)
         # Adjust lastEnd if the next incident would be contained in the following text
         lastEnd = incidents[nextIndex].countAnnotation.textOffsets[0][0] - 1
+        htmlBreak = false
       followingText = content.slice(end, lastEnd)
 
       # Split the following text if it contains multiple new lines
@@ -170,19 +172,22 @@ Template.suggestedIncidentsModal.helpers
       if split.length > 1
         followingText = split[0]
       else if followingText.length is displayCharacters and !followingText.match(/(\.|\?)\s*$/)
-        followingEllipsis = "&hellip;"
-
+        followingEllipsis = true
+      
+      if precedingEllipsis
+        html += "&hellip;"
       html += (
-        precedingEllipsis
         Handlebars._escape("#{precedingText}") +
         """<span
           class='annotation#{if incident.accepted then " accepted" else ""}'
           data-incident-id='#{incident._id}'
         >#{Handlebars._escape(content.slice(start, end))}</span>""" +
-        Handlebars._escape("#{followingText}") +
-        followingEllipsis +
-        "<br><br>"
+        Handlebars._escape("#{followingText}")
       )
+      if followingEllipsis
+        html += "&hellip;"
+      if htmlBreak
+        html += "<br><br>"
       i++
     new Spacebars.SafeString(html)
 
