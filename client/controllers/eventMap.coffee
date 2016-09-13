@@ -30,36 +30,25 @@ Template.eventMap.onRendered ->
     maxZoom: 18
   }).addTo(map)
 
+  @filteredMapLocations = {}
+  @mapMarkers = new L.FeatureGroup()
   instance = @
-  markers = new L.FeatureGroup()
 
-  reactiveTemplateId = null
   @autorun ->
-    eventsSelected = false
-    map.removeLayer(markers)
-    markers = new L.FeatureGroup()
     query = instance.query.get()
     currentPage = instance.pageNum.get()
     eventsPerPage = instance.eventsPerPage
-    Blaze.remove reactiveTemplateId if reactiveTemplateId
 
     if _.isObject query
       allEvents = instance.data.events.find(query, {sort: {creationDate: -1}}).fetch()
       startingPosition = currentPage * eventsPerPage
+      totalEventCount = allEvents.length
     else
-      map.removeLayer(markers)
-    mapLocations = {}
+      map.removeLayer instance.mapMarkers
+
+    filteredMapLocations = instance.filteredMapLocations = {}
     templateEvents = []
     eventIndex = startingPosition
-
-    _selectedEvents = instance.selectedEvents.find().fetch()
-    if _selectedEvents.length
-      eventsSelected = true
-      selectedEventIds = _.pluck _selectedEvents, 'id'
-    else
-      selectedEventIds = _.pluck allEvents, '_id'
-
-    totalEventCount = selectedEventIds.length
 
     if totalEventCount
       filteredEvents = []
@@ -71,48 +60,39 @@ Template.eventMap.onRendered ->
         incidentLocations = instance.data.incidents.find({userEventId: event._id, locations: {$ne: null}}, {fields: {locations: 1}}).fetch()
         if incidentLocations.length
           event.incidents = incidentLocations
-          filteredEvents.push(event)
+          filteredEvents.push event
 
       if filteredEvents.length
         while templateEvents.length < eventsPerPage and eventIndex < filteredEvents.length
           event = filteredEvents[eventIndex]
           rgbColor = chroma(colorScale[templateEvents.length]).rgb()
-          templateEvents.push({_id: event._id, name: event.eventName, date: event.creationDate.toDateString(), rgbColor: rgbColor})
-
-          if event._id in selectedEventIds
-            uniqueEventLocations = []
-            for incident in event.incidents
-              for location in incident.locations
-                latLng = location.latitude.toString() + "," + location.longitude.toString()
-                if uniqueEventLocations.indexOf(latLng) is -1
-                  if not mapLocations[latLng]
-                    mapLocations[latLng] = {name: location.displayName, events: []}
-                  mapLocations[latLng].events.push({id: event._id, name: event.eventName, mapColorRGB: rgbColor})
-                  uniqueEventLocations.push(latLng)
-
+          templateEvents.push
+            _id: event._id
+            name: event.eventName
+            date: event.creationDate.toDateString()
+            rgbColor: rgbColor
+            incidents: event.incidents
+          MapHelpers.addEventToMarkers filteredMapLocations, event, rgbColor
           eventIndex += 1
 
-      for coordinates, loc of mapLocations
-        popupHtml = Blaze.toHTMLWithData(Template.markerPopup, {location: loc.name, events: loc.events})
+    instance.templateEvents.set templateEvents
+    instance.disablePrev.set if eventIndex < totalEventCount then false else true
+    instance.disableNext.set if currentPage is 0 then true else false
+    if instance.allMapMarkers
+      map.removeLayer instance.allMapMarkers
+    MapHelpers.addMarkersToMap map, instance, filteredMapLocations
 
-        marker = L.marker(coordinates.split(","), {
-          icon: L.divIcon({
-            className: 'map-marker-container'
-            iconSize:null
-            html: MapHelpers.getMarkerHtml(loc.events)
-          })
-        }).bindPopup(popupHtml)
-        markers.addLayer(marker)
+  # Update the map markers to reflect user selection of events
+  @autorun ->
+    _selectedEvents = instance.selectedEvents.find().fetch()
+    if _selectedEvents.length
+      selecedMapLocations = {}
+      _.each _selectedEvents, (selectedEvent) ->
+        MapHelpers.addEventToMarkers selecedMapLocations, selectedEvent, selectedEvent.rgbColor
+      MapHelpers.addMarkersToMap map, instance, selecedMapLocations
+    else
+      MapHelpers.addMarkersToMap map, instance, instance.filteredMapLocations
 
-      instance.templateEvents.set templateEvents
-      if eventIndex >= totalEventCount - eventsPerPage and not eventsSelected
-        instance.disablePrev.set true
-      else
-        false
-      instance.disableNext.set if eventIndex <= eventsPerPage then true else false
-
-    map.addLayer markers
-    map.fitBounds(markers.getBounds(), {maxZoom: 10, padding: [20, 20]})
 
 Template.eventMap.helpers
   getQuery: ->

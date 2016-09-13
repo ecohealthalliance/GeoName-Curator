@@ -102,7 +102,11 @@ Template.mapFilters.events
     if selectedEvents.findOne(id: id)
       selectedEvents.remove id: id
     else
-      selectedEvents.insert id: id
+      selectedEvents.insert
+        id: id
+        rgbColor: @rgbColor
+        incidents: @incidents
+        selected: true
 
   'click .toggle-calendar-state': (e, instance) ->
     calendarState = instance.calendarState
