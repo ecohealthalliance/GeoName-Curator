@@ -62,17 +62,22 @@ IncidentReportSchema = new SimpleSchema(
     type: String
   "locations.$.featureClass":
     type: String
+    optional: true
   "locations.$.featureCode":
     type: String
+    optional: true
   "locations.$.id":
     type: String
   "locations.$.latitude":
-    type: String
+    type: Number
+    decimal: true
   "locations.$.longitude":
-    type: String
+    type: Number
+    decimal: true
   "locations.$.name":
     type: String
   "locations.$.population":
     type: Number
+    optional: true
 )
 module.exports = IncidentReportSchema

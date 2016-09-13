@@ -33,10 +33,9 @@ Template.locationSelect2.onCreated ->
       callback results: data.hits.map (hit) ->
         { id, latitude, longitude } = hit._source
         # Ensure numeric lat/lng
-        latitude = parseFloat(latitude)
-        longitude = parseFloat(longitude)
-        # Return
-        {
+        hit._source.latitude = parseFloat(latitude)
+        hit._source.longitude = parseFloat(longitude)
+        return {
           id: id
           text: formatLocation(hit._source)
           item: hit._source

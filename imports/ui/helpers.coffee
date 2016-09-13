@@ -8,15 +8,21 @@ pluralize = (word, count) ->
     word += "s"
   "#{count} #{word}"
 
-formatDateRange = (dateRange)->
+formatDateRange = (dateRange, readable)->
   dateFormat = "MMM D, YYYY"
   if dateRange.type is "day"
     if dateRange.cumulative
-      return "Before " + moment(dateRange.end).format(dateFormat)
+      return "before " + moment(dateRange.end).format(dateFormat)
     else
-      return moment(dateRange.start).format(dateFormat)
+      if readable
+        return "on " + moment(dateRange.start).format(dateFormat)
+      else
+        return moment(dateRange.start).format(dateFormat)
   else if dateRange.type is "precise"
-    return moment(dateRange.start).format(dateFormat) + " - " + moment(dateRange.end).format(dateFormat)
+    if readable
+      return "between " + moment(dateRange.start).format(dateFormat) + " and " + moment(dateRange.end).format(dateFormat)
+    else
+      return moment(dateRange.start).format(dateFormat) + " - " + moment(dateRange.end).format(dateFormat)
   return ""
 
 UI.registerHelper 'formatDateRange', (dateRange)->
@@ -39,7 +45,7 @@ UI.registerHelper 'incidentToText', (incident) ->
 
   result = "#{incidentDescription} in #{formattedLocations}"
   if @dateRange
-    result += " #{formatDateRange(@dateRange)}"
+    result += " #{formatDateRange(@dateRange, true)}"
   result
 
 UI.registerHelper 'formatDate', (date) ->

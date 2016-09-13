@@ -62,8 +62,8 @@ Template.suggestedIncidentsModal.onCreated ->
           name: loc.name
           admin1Name: loc.admin1Name
           admin2Name: loc.admin2Name
-          latitude: loc.latitude
-          longitude: loc.longitude
+          latitude: parseFloat(loc.latitude)
+          longitude: parseFloat(loc.longitude)
           countryName: loc.countryName
           population: loc.population
           featureClass: loc.featureClass

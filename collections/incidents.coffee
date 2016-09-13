@@ -68,8 +68,8 @@ if Meteor.isServer
               admin1Name: loc.subdivision
               countryName: loc.countryName
               id: loc.geonameId
-              latitude: loc.latitude
-              longitude: loc.longitude
+              latitude: parseFloat(loc.latitude)
+              longitude: parseFloat(loc.longitude)
               name: loc.name
             )
           else
