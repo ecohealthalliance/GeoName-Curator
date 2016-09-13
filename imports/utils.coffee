@@ -1,13 +1,18 @@
 module.exports.incidentReportFormToIncident = (form)->
+  $form = $(form)
   $articleSelect = $(form.articleSource)
-  validURL = form.articleSource.checkValidity()
-  unless validURL
+  if $form.find("#singleDate").hasClass("active")
+    rangeType = "day"
+    $pickerContainer = $form.find("#singleDatePicker")
+  else
+    rangeType = "precise"
+    $pickerContainer = $form.find("#rangePicker")
+
+  picker = $pickerContainer.data("daterangepicker")
+
+  unless form.articleSource.checkValidity()
     toastr.error('Please select an article.')
     form.articleSource.focus()
-    return
-  unless form.date.checkValidity() and moment(form.date.value, "M/D/YYYY").isValid()
-    toastr.error('Please provide a valid date.')
-    form.publishDate.focus()
     return
   unless form.incidentType.checkValidity()
     toastr.error('Please select an incident type.')
@@ -25,9 +30,14 @@ module.exports.incidentReportFormToIncident = (form)->
   incident = {
     species: form.species.value
     travelRelated: form.travelRelated.checked
-    date: moment(form.date.value, "M/D/YYYY").toDate()
     locations: []
     status: form.status.value
+    dateRange: {
+      type: rangeType
+      start: picker.startDate.toDate()
+      end: picker.endDate.toDate()
+      cumulative: form.cumulative.checked
+    }
   }
   if form.incidentType.value == "cases"
     incident.cases = parseInt(form.count.value, 10)

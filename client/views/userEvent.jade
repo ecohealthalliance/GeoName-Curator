@@ -31,7 +31,7 @@ template(name="userEvent")
 
       if incidents.length
         .row
-          ul.nav.nav-tabs(role="tablist")
+          ul.nav.nav-tabs.primary-tabs(role="tablist")
             li(class="{{#if incidentView}}active{{/if}}" role="presentation")
               a(href="{{pathFor route='user-event' _id=userEvent._id _view='incidents'}}") Incident Reports
             li(class="{{#if locationView}}active{{/if}}" role="presentation")

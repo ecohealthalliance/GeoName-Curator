@@ -25,11 +25,11 @@ template(name="incidentReport")
           each val in url
             p.form-control-static
               a.ref-link(href="{{val}}" target="_blank") {{val}}
-      if date
+      if dateRange
         .row
-          .col-sm-2.control-label Reported:
+          .col-sm-2.control-label Date:
           .col-sm-10
-            p.form-control-static {{formatDate date}}
+            p.form-control-static {{formatDateRange(dateRange)}}
       .row
         .col-sm-2.control-label Location:
         .col-sm-10

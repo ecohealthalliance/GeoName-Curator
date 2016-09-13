@@ -1,0 +1,23 @@
+template(name="inlineDateRangePicker")
+  .daterangepicker
+    .calendar.left
+      .daterangepicker_input
+        input.input-mini.form-control(type="text" name="daterangepicker_start" value="")
+        i.fa.fa-calendar.glyphicon.glyphicon-calendar
+        .calendar-time
+          div
+          i.fa.fa-clock-o.glyphicon.glyphicon-time
+
+      .calendar-table
+    .calendar.right
+      .daterangepicker_input
+        input.input-mini.form-control(type="text" name="daterangepicker_end" value="")
+        i.fa.fa-calendar.glyphicon.glyphicon-calendar
+        .calendar-time
+          div
+          i.fa.fa-clock-o.glyphicon.glyphicon-time
+      .calendar-table
+    .ranges.hidden
+      .range_inputs
+        button.applyBtn(disabled="disabled" type="button")
+        button.cancelBtn(type="button")

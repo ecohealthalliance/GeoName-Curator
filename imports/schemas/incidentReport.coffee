@@ -28,9 +28,18 @@ IncidentReportSchema = new SimpleSchema(
     minCount: 1
   userEventId:
     type: String
-  date:
+  dateRange:
+    type: Object
+  "dateRange.type":
+    type: String
+    allowedValues: ["day","precise"]
+  "dateRange.start":
     type: Date
-    label: "Date of the incident"
+  "dateRange.end":
+    type: Date
+  "dateRange.cumulative":
+    type: Boolean
+    optional: true
   travelRelated:
     type: Boolean
     optional: true

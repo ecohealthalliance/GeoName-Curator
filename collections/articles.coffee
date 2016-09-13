@@ -1,4 +1,4 @@
-Articles = new Meteor.Collection "articles"
+@Articles = new Meteor.Collection "articles"
 
 @grid ?= {}
 @grid.Articles = Articles

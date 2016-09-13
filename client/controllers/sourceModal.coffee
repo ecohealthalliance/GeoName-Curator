@@ -15,7 +15,14 @@ Template.sourceModal.helpers
     templateInstance = Template.instance()
     Meteor.defer ->
       templateInstance.$(".datePicker").datetimepicker
-        format: 'M/D/YYYY hh:mm A'
+        format: 'M/D/YYYY'
+        inline: true
+        useCurrent: false
+  initTimePicker: ->
+    templateInstance = Template.instance()
+    Meteor.defer ->
+      templateInstance.$(".timePicker").datetimepicker
+        format: 'hh:mm A'
         useCurrent: false
 
 Template.sourceModal.events
@@ -23,23 +30,33 @@ Template.sourceModal.events
     form = templateInstance.$("form")[0]
     article = form.article.value
     validURL = form.article.checkValidity()
+    datePicker = templateInstance.$('#publishDate').data("DateTimePicker")
+    timePicker = templateInstance.$('#publishTime').data("DateTimePicker")
+    date = datePicker.date()
+    time = timePicker.date()
+    dateString = ""
+
     unless validURL
       toastr.error('Please enter an article.')
       form.article.focus()
       return
-    unless form.publishDate.checkValidity()
-      toastr.error('Please provide a valid date.')
-      form.publishDate.focus()
+    if !date and time
+      toastr.error('Please select a date.')
       return
     unless form.publishDateTZ.checkValidity()
       toastr.error('Please select a time zone.')
       form.publishDateTZ.focus()
       return
 
+    if date
+      dateString = date.format("M/D/YYYY")
+      if time
+        dateString += time.format(" hh:mm A")
+
     source = {
       userEventId: templateInstance.data.userEventId
       url: article
-      publishDate: form.publishDate.value
+      publishDate: dateString
       publishDateTZ: form.publishDateTZ.value
     }
 
@@ -50,7 +67,8 @@ Template.sourceModal.events
       else
         Modal.hide(templateInstance)
         form.article.value = ""
-        form.publishDate.value = ""
+        datePicker.date(null)
+        timePicker.date(null)
 
         templateInstance.tzIsSpecified = false
 
@@ -62,6 +80,7 @@ Template.sourceModal.events
               url: article
           })
     )
+
   "change #publishDateTZ": (e, templateInstance) ->
     templateInstance.tzIsSpecified = true
   "input #article": (event, templateInstance) ->
@@ -76,5 +95,5 @@ Template.sourceModal.events
             tz = if date.isDST() then 'EDT' else 'EST'
             templateInstance.$("#publishDateTZ option[value='#{tz}']")
               .prop('selected', true)
-          dateString = date.format("M/D/YYYY hh:mm A")
-          templateInstance.$('#publishDate').val(dateString).trigger('change')
+          templateInstance.$('#publishDate').data("DateTimePicker").date(date)
+          templateInstance.$('#publishTime').data("DateTimePicker").date(date)
