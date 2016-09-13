@@ -9,31 +9,27 @@ Template.locationList.helpers
       if incident?.locations
         # Loop 2: Locations within each incident report record
         for loc in incident.locations
-          if locations[loc.geonameId]  # Append the source, update the date
+          if locations[loc.id]  # Append the source, update the date
             mergedSources = _.union(loc.sources, incident.url)
-            currDate = new Date(locations[loc.geonameId].addedDate)
+            currDate = new Date(locations[loc.id].addedDate)
             newDate = new Date(Date.parse incident.addedDate)
             if currDate < newDate
-              locations[loc.geonameId].addedDate = newDate
-            locations[loc.geonameId].sources = mergedSources
+              locations[loc.id].addedDate = newDate
+            locations[loc.id].sources = mergedSources
           else # Insert new item
             loc.sources = incident.url
             loc.addedDate = incident.addedDate
-            locations[loc.geonameId] = loc
+            locations[loc.id] = loc
     # Return
     _.values(locations)
 
   getSettings: ->
     fields = [
       {
-        key: "displayName"
+        key: "name"
         label: "Name"
         fn: (value, object, key) ->
-          return formatLocation(
-            name: object.displayName
-            admin1Name: object.subdivision
-            countryName: object.countryName
-          )
+          return formatLocation(object)
       },
       {
         key: "addedDate"

@@ -47,17 +47,15 @@ Template.articles.helpers
     }
   selectedSource: ->
     selectedId = Template.instance().selectedSourceId.get()
-    # console.log Articles.findOne selectedId
     if selectedId
       Articles.findOne selectedId
-  casesForSource: (sourceUrl) ->
-    # console.log Incidents.find({ "url": sourceUrl}).fetch()
-    Incidents.find({ "url": sourceUrl}).fetch()
+  incidentsForSource: (sourceUrl) ->
+    Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
   locationsForSource: (sourceUrl) ->
     locations = {}
-    incidents = Incidents.find({ "url": sourceUrl}).forEach( (incident) ->
+    incidents = Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).forEach( (incident) ->
       for location in incident.locations
-        locations[location.geonameId] = location.displayName
+        locations[location.id] = location.name
     )
     _.flatten locations
 

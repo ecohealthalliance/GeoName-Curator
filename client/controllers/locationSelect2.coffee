@@ -7,8 +7,8 @@ incidentsToLocations = (incidents) ->
     if incident?.locations
       # Loop 2: Locations within each incident record
       for loc in incident.locations
-        if !locations[loc.geonameId]
-          locations[loc.geonameId] = loc
+        if !locations[loc.id]
+          locations[loc.id] = loc
   # Return
   _.values(locations)
 
@@ -18,7 +18,7 @@ Template.locationSelect2.onCreated ->
     locations = incidentsToLocations Incidents.find().fetch()
     data = []
     for loc in locations
-      data.push { id: loc.geonameId, text: formatLocation(loc), item: loc }
+      data.push { id: loc.id, text: formatLocation(loc), item: loc }
     callback results: data
   # Retrieve locations from a server
   @ajax = (term, callback) ->
@@ -33,10 +33,9 @@ Template.locationSelect2.onCreated ->
       callback results: data.hits.map (hit) ->
         { id, latitude, longitude } = hit._source
         # Ensure numeric lat/lng
-        latitude = parseFloat(latitude)
-        longitude = parseFloat(longitude)
-        # Return
-        {
+        hit._source.latitude = parseFloat(latitude)
+        hit._source.longitude = parseFloat(longitude)
+        return {
           id: id
           text: formatLocation(hit._source)
           item: hit._source
@@ -46,7 +45,7 @@ Template.locationSelect2.onRendered ->
   initialValues = []
   if @data.selected
     initialValues = @data.selected.map (loc)->
-      id: loc.geonameId
+      id: loc.id
       text: formatLocation(loc)
       item: loc
   $input = @$("select")
