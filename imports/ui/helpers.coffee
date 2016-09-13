@@ -1,10 +1,16 @@
 formatLocation = require '/imports/formatLocation.coffee'
+
 UI.registerHelper 'formatLocation', (location)->
   return formatLocation(
     name: location.displayName
     admin1Name: location.subdivision
     countryName: location.countryName
   )
+
+pluralize = (word, count) ->
+  if Number(count) isnt 1
+    word += "s"
+  "#{count} #{word}"
 
 formatDateRange = (dateRange)->
   dateFormat = "MMM D, YYYY"
@@ -20,12 +26,11 @@ formatDateRange = (dateRange)->
 UI.registerHelper 'formatDateRange', (dateRange)->
   return formatDateRange(dateRange)
 
-UI.registerHelper 'incidentToText', (incident)->
-  console.log incident
+UI.registerHelper 'incidentToText', (incident) ->
   if @cases
-    incidentDescription = "#{@cases} death" + if @deaths > 1 then "s" else ""
+    incidentDescription = pluralize("case", @cases)
   else if @deaths
-    incidentDescription = "#{@deaths} death" + if @deaths > 1 then "s" else ""
+    incidentDescription = pluralize("death", @deaths)
   else if @specify
     incidentDescription = @specify
   if @locations.length < 2
@@ -35,4 +40,11 @@ UI.registerHelper 'incidentToText', (incident)->
       @locations.map(formatLocation).slice(0, -1).join(", ") +
       ", and " + formatLocation(@locations.slice(-1)[0])
     )
-  return "#{incidentDescription} in #{formattedLocations} #{formatDateRange(@dateRange)}"
+
+  result = "#{incidentDescription} in #{formattedLocations}"
+  if @dateRange
+    result += " #{formatDateRange(@dateRange)}"
+  result
+
+UI.registerHelper 'formatDate', (date) ->
+  moment(date).format("MMM DD, YYYY")
