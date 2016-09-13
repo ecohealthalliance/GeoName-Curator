@@ -45,6 +45,7 @@ Template.eventMap.onRendered ->
       totalEventCount = allEvents.length
     else
       map.removeLayer instance.mapMarkers
+      return
 
     filteredMapLocations = instance.filteredMapLocations = {}
     templateEvents = []
