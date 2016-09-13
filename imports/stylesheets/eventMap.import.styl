@@ -1,5 +1,10 @@
 @import 'mapFilters.import'
 
+$map-menu-width-small = 300px
+$map-menu-width-large = 25%
+$map-width-small = 'calc(100% - %s)' % $map-menu-width-small
+$map-width-large = 100 - $map-menu-width-large
+
 .event-map-wrapper
   position absolute
   left 0
@@ -15,6 +20,12 @@
 
 #event-map
   full-width()
+  left $map-menu-width-small
+  width $map-width-small
+  min-width $map-menu-width-small
+  +above(4)
+    left $map-menu-width-large
+    width $map-width-large
 
 .leaflet-popup-content-wrapper
   border-radius 5px
@@ -46,11 +57,12 @@
   top 0
   bottom 0
   width 20%
-  min-width 300px
-  max-width 600px
+  width $map-menu-width-small
   background rgba(255,255,255,.9)
   z-index 100
   overflow-x scroll
+  +above(4)
+    width $map-menu-width-large
 
 .map-event-list
   border 0
