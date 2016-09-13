@@ -11,7 +11,6 @@ $map-width-large = 100 - $map-menu-width-large
   right 0
   top $header-height
   bottom 0
-  background-color #B5D0D0
   margin auto
   background-color $map-background
   .leaflet-top,
@@ -26,6 +25,11 @@ $map-width-large = 100 - $map-menu-width-large
   +above(4)
     left $map-menu-width-large
     width $map-width-large
+  +below(2)
+    top $mobile-header-height
+    bottom $mobile-footer-height
+    .leaflet-control-attribution
+      font-size 5px
 
 .leaflet-popup-content-wrapper
   border-radius 5px
@@ -40,16 +44,10 @@ $map-width-large = 100 - $map-menu-width-large
 .marker-color-spot
   margin-right 10px
 
-@media (max-width: 768px)
-  #event-map
-    top $mobile-header-height
-    bottom $mobile-footer-height
-    .leaflet-control-attribution
-      font-size 5px
 
-@media (max-width: 320px)
-  .leaflet-popup-content
-  .leaflet-popup-content-wrapper
+.leaflet-popup-content
+.leaflet-popup-content-wrapper
+  +below(2)
     max-width 300px
 
 .map-menu
@@ -70,6 +68,9 @@ $map-width-large = 100 - $map-menu-width-large
 .toggle-calendar-state
   font-size 1.75em
   cursor pointer
+  margin-right 1em
+  &.showing
+    color darken($positive, 30%)
 
 .map-event-list--item
   padding-right 2.5em
@@ -79,6 +80,8 @@ $map-width-large = 100 - $map-menu-width-large
   cursor pointer
   &:hover
     background $ll-gray
+  .name
+    font-weight 600
   .date
     display block
     font-style italic
@@ -120,3 +123,17 @@ $map-width-large = 100 - $map-menu-width-large
     &
     &:hover
       color $l-gray
+
+.date-options
+  margin 1em 0
+  display flex
+  align-items center
+  justify-content center
+  button
+    padding .5em 2em
+    margin 0 .5em
+    &.selected
+      &
+      &:focus
+        background lighten($secondary, 40%)
+        font-weight 600

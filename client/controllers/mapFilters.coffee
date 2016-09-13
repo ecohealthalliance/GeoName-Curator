@@ -71,7 +71,6 @@ Template.mapFilters.helpers
   calendarState: ->
     Template.instance().calendarState
 
-
 Template.mapFilters.events
   'click .datePicker': (e, instance) ->
     instance.filtering.set true
@@ -130,6 +129,8 @@ setSearchType = (instance, type) ->
 Template.dateSelector.helpers
   calendarState: ->
     Template.instance().data.calendarState.get()
+  searchTypeSelected: (type) ->
+    Template.instance().data.variables.get().incidentDate.values.searchType is type
 
 Template.dateSelector.events
   'click .before': (event, instance) ->
