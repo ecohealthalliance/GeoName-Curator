@@ -65,8 +65,9 @@ Template.curatorEvents.events
       template.$("tr").removeClass("incidents-open")
       $currentOpen.remove()
     if not closeRow
-      $tr = $("<tr>").addClass("tr-incidents").html(Blaze.toHTMLWithData(Template.curatorEventIncidents, this))
+      $tr = $("<tr id='tr-incidents'>").addClass("tr-incidents")
       $parentRow.addClass("incidents-open").after($tr)
+      Blaze.renderWithData(Template.curatorEventIncidents, this, $tr[0])
 
 Template.curatorEventIncidents.onCreated ->
   Meteor.subscribe "eventIncidents", @data._id
@@ -116,6 +117,11 @@ Template.curatorEventIncidents.helpers
         key: "delete"
         label: ""
         cellClass: "remove-row"
+      },
+      {
+        key: "Edit"
+        label: ""
+        cellClass: "edit-row"
       }
     ]
 
@@ -128,3 +134,22 @@ Template.curatorEventIncidents.helpers
       class: "table"
       showColumnToggles: false
     }
+
+Template.curatorEventIncidents.events
+  "click .reactive-table tbody tr": (event, template) ->
+    $target = $(event.target)
+    $parentRow = $target.closest("tr")
+    currentOpen = template.$("tr.tr-details")
+    if $target.closest(".remove-row").length
+      if window.confirm("Are you sure you want to delete this incident report?")
+        currentOpen.remove()
+        Meteor.call("removeIncidentReport", @_id)
+    else if $target.closest(".edit-row").length
+      console.log template
+      console.log this
+      Modal.show("incidentModal", {
+        articles: template.data.articles,
+        userEventId: this.userEventId,
+        edit: true,
+        incident: this
+        })
