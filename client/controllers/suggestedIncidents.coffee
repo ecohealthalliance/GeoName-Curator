@@ -133,17 +133,57 @@ Template.suggestedIncidentsModal.helpers
     content = Template.instance().content.get()
     lastEnd = 0
     html = ""
-    Template.instance().incidentCollection.find().map (incident)->
+    i = 0
+    displayCharacters = 100
+    incidents = Template.instance().incidentCollection.find().fetch()
+    while i < incidents.length
+      incident = incidents[i]
       [start, end] = incident.countAnnotation.textOffsets[0]
+      startingIndex = lastEnd
+      precedingEllipsis = ""
+      followingEllipsis = ""
+
+      precedingContentLength = start - lastEnd
+      if precedingContentLength > displayCharacters
+        # Adjust the starting index if there is more content before the incident text
+        # than is necessary to display
+        startingIndex = start - displayCharacters
+      # The text before the incident link
+      precedingText = content.slice(startingIndex, start)
+
+      # Split the preceding text if it contains multiple new lines
+      split = precedingText.split(/\n{2,}/g)
+      if split.length > 1
+        precedingText = split[split.length - 1]
+      else if precedingContentLength isnt 1
+        precedingEllipsis = "&hellip;"
+
+      nextIndex = i + 1
+      lastEnd = end + displayCharacters
+      if (nextIndex < incidents.length) and (incidents[nextIndex].countAnnotation.textOffsets[0][0] < lastEnd)
+        # Adjust lastEnd if the next incident would be contained in the following text
+        lastEnd = incidents[nextIndex].countAnnotation.textOffsets[0][0] - 1
+      followingText = content.slice(end, lastEnd)
+
+      # Split the following text if it contains multiple new lines
+      split = followingText.split(/\n{2,}/g)
+      if split.length > 1
+        followingText = split[0]
+      else if followingText.length is displayCharacters and !followingText.match(/(\.|\?)\s*$/)
+        followingEllipsis = "&hellip;"
+
       html += (
-        Handlebars._escape("#{content.slice(lastEnd, start)}") +
+        precedingEllipsis
+        Handlebars._escape("#{precedingText}") +
         """<span
           class='annotation#{if incident.accepted then " accepted" else ""}'
           data-incident-id='#{incident._id}'
-        >#{Handlebars._escape(content.slice(start, end))}</span>"""
+        >#{Handlebars._escape(content.slice(start, end))}</span>""" +
+        Handlebars._escape("#{followingText}") +
+        followingEllipsis +
+        "<br><br>"
       )
-      lastEnd = end
-    html += Handlebars._escape("#{content.slice(lastEnd)}")
+      i++
     new Spacebars.SafeString(html)
 
 Template.suggestedIncidentsModal.events
