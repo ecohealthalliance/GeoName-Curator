@@ -53,6 +53,10 @@
   tr
     padding-left 7px
     padding-right 7px
+  .details-open
+    background $secondary-light
+    &:hover
+      background $secondary-light
 
 .curator-inbox-section-head
   color $primary
@@ -97,7 +101,6 @@
 .curator-events-table
   margin-bottom 0
   color $primary
-  // background $secondary
   thead
     display none
   tr
@@ -106,10 +109,13 @@
   .open-row::before
     content "\f138"
     font-family FontAwesome
-  .close-row::before
-    content "\f13a"
-    font-family FontAwesome
-
+  .incidents-open
+    background $secondary-light
+    &:hover
+      background $secondary-light
+    .open-row::before
+      content "\f13a"
+      font-family FontAwesome
 
 @media (max-width: 992px)
   .curator-inbox-options

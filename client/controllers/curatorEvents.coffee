@@ -45,7 +45,7 @@ Template.curatorEvents.helpers
       }
 
     return {
-      id: 'article-curation-events-table'
+      id: 'curator-events-table'
       showColumnToggles: false
       fields: fields
       showRowCount: true
@@ -56,19 +56,75 @@ Template.curatorEvents.helpers
     }
 
 Template.curatorEvents.events
-  "click .curator-events-table tbody tr": (event, template) ->
-    console.log 'open'
-    alert 'OPEN'
-    # $target = $(event.target)
-    # $parentRow = $target.closest("tr")
-    # $currentOpen = template.$("tr.tr-cases")
-    # closeRow = $parentRow.hasClass("cases-open")
-    # if $currentOpen
-    #   template.$("tr").removeClass("cases-open")
-    #   $currentOpen.remove()
-    # if not closeRow
-    #   $tr = template.$("<tr>").addClass("tr-cases").html(Blaze.toHTMLWithData(Template.incidentReport, this))
-    #   $parentRow.addClass("cases-open").after($tr)
-  # "click .curator-events-table tbody tr": (event, template) ->
-  #   template.$("tr").removeClass("cases-open")
-  #   template.$("tr.tr-cases").remove()
+  "click .curator-events-table .curator-events-table-row": (event, template) ->
+    $target = $(event.target)
+    $parentRow = $target.closest("tr")
+    $currentOpen = template.$("tr.tr-incidents")
+    closeRow = $parentRow.hasClass("incidents-open")
+    if $currentOpen
+      template.$("tr").removeClass("incidents-open")
+      $currentOpen.remove()
+    if not closeRow
+      $tr = $("<tr>").addClass("tr-incidents").html(Blaze.toHTMLWithData(Template.curatorEventIncidents, this))
+      $parentRow.addClass("incidents-open").after($tr)
+
+Template.curatorEventIncidents.onCreated ->
+  Meteor.subscribe "eventIncidents", @data._id
+
+Template.curatorEventIncidents.helpers
+  incidents: ->
+    return grid.Incidents.find()
+
+  settings: ->
+    fields = [
+      {
+        key: "count"
+        label: "Incident"
+        fn: (value, object, key) ->
+          if object.cases
+            return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
+          else if object.deaths
+            return object.deaths + " death" + (if object.deaths isnt "1" then "s" else "")
+          else
+            return object.specify
+      },
+      {
+        key: "locations"
+        label: "Locations"
+        fn: (value, object, key) ->
+          if object.locations
+            return $.map(object.locations, (element, index) ->
+              return element.displayName
+            ).toString()
+          return ""
+      },
+      {
+        key: "dateRange"
+        label: "Date"
+        fn: (value, object, key) ->
+          dateFormat = "M/D/YYYY"
+          if object.dateRange?.type is "day"
+            if object.dateRange.cumulative
+              return "Before " + moment(object.dateRange.end).format(dateFormat)
+            else
+              return moment(object.dateRange.start).format(dateFormat)
+          else if object.dateRange?.type is "precise"
+            return moment(object.dateRange.start).format(dateFormat) + " - " + moment(object.dateRange.end).format(dateFormat)
+          return ""
+      },
+      {
+        key: "delete"
+        label: ""
+        cellClass: "remove-row"
+      }
+    ]
+
+    return {
+      id: 'curator-event-incidents-table'
+      fields: fields
+      showFilter: false
+      showNavigationRowsPerPage: false
+      showRowCount: false
+      class: "table"
+      showColumnToggles: false
+    }

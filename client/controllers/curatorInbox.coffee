@@ -110,13 +110,20 @@ Template.curatorInboxSection.helpers
 
 Template.curatorInboxSection.events
   "click .curator-inbox-table tbody tr": (event, template) ->
-    $details = $("#curator-article-details").html(Blaze.toHTMLWithData(Template.curatorArticleDetails, this))
+    $(".details-open").removeClass("details-open")
+    $parentRow = $(event.target).closest("tr")
+    $parentRow.addClass("details-open")
+    $("#curator-article-details").html("")
+    details = document.getElementById("curator-article-details")
+    Blaze.renderWithData(Template.curatorArticleDetails, this, details)
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
   "click .curator-inbox-section-head": (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
 
 Template.curatorArticleDetails.helpers
+  title: ->
+    return Template.instance().data.url
   isCurated: ->
     if Template.instance().data.curated
       return 'curated'
