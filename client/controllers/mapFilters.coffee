@@ -68,6 +68,9 @@ Template.mapFilters.helpers
   selected: ->
     Template.instance().data.selectedEvents.findOne id: @_id
 
+  eventsAreSelected: ->
+    Template.instance().data.selectedEvents.findOne()
+
   calendarState: ->
     Template.instance().calendarState
 
@@ -111,6 +114,8 @@ Template.mapFilters.events
     calendarState = instance.calendarState
     calendarState.set not calendarState.get()
 
+  'click .deselect-all': (e, instance) ->
+    instance.data.selectedEvents.remove({})
 
 Template.dateSelector.onRendered ->
   instance = Template.instance()

@@ -21,6 +21,9 @@ template(name="mapFilters")
           i.fa.fa-chevron-left
         .event-list-next(title="Newer" class="{{#if disableNext}} disabled {{/if}}")
           i.fa.fa-chevron-right
+        span.deselect-all(
+          class="{{#if eventsAreSelected}} active {{/if}}") Deselect all events
+
 
 template(name="dateSelector")
   .calendar-wrapper(class="{{#unless calendarState}} hidden {{/unless}}")
