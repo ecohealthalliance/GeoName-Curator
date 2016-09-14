@@ -68,6 +68,9 @@
   padding-top 8px
   cursor pointer
 
+.curator-inbox-buttons
+  margin-bottom 30px
+
 .curator-article-details-header
   .curated-icon
     color $positive
@@ -84,6 +87,10 @@
 
 .curator-article-details-content
   padding-top 15px
+  h3
+    color $d-gray
+    font-weight 400
+    margin: 5px
   .reactive-table-navigation
     margin 15px 0
 
@@ -124,10 +131,11 @@
       padding 0
 
 .curator-events-incidents-table
-  background $ll-gray
   thead
     display table-header-group
     background $l-gray
+  tbody
+    background $ll-gray
   .fa-sort-asc,
   .fa-sort-desc
     display none

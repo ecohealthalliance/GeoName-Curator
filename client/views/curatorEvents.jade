@@ -1,6 +1,11 @@
 template(name="curatorEvents")
   h3 Suggested Events
   +reactiveTable collection=userEvents settings=settings class="table curator-events-table" rowClass="curator-events-table-row"
+  .row.curator-inbox-buttons
+    .col-xs-12
+      a.btn.btn-primary.disabled(href="")
+        i.fa.fa-plus
+        span Add Event
 
 template(name="curatorEventIncidents")
   td(colspan="2" class="tr-incidents-wrapper")

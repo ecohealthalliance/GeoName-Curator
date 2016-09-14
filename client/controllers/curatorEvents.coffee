@@ -41,8 +41,10 @@ Template.curatorEvents.helpers
       id: 'curator-events-table'
       showColumnToggles: false
       fields: fields
-      showRowCount: true
       showFilter: false
+      showNavigationRowsPerPage: false
+      showColumnToggles: false
+      showRowCount: false
       currentPage: 1
       rowsPerPage: 5
       # showNavigation: 'never'
