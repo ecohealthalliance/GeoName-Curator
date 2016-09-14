@@ -9,6 +9,8 @@ getEventIncidentss = (userEventId) ->
 Incidents.getEventIncidentss = getEventIncidentss
 
 if Meteor.isServer
+  ReactiveTable.publish "curatorEventIncidents", @Incidents
+
   Meteor.publish "eventIncidents", (ueId) ->
     getEventIncidentss(ueId)
   Meteor.publish "mapIncidents", () ->

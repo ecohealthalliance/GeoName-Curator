@@ -84,6 +84,8 @@
 
 .curator-article-details-content
   padding-top 15px
+  .reactive-table-navigation
+    margin 15px 0
 
 .curator-inbox-table-row
   .curator-inbox-curated-row::before
@@ -116,6 +118,19 @@
     .open-row::before
       content "\f13a"
       font-family FontAwesome
+  .tr-incidents
+    padding 0
+    .tr-incidents-wrapper
+      padding 0
+
+.curator-events-incidents-table
+  background $ll-gray
+  thead
+    display table-header-group
+    background $l-gray
+  .fa-sort-asc,
+  .fa-sort-desc
+    display none
 
 @media (max-width: 992px)
   .curator-inbox-options

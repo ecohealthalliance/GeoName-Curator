@@ -7,25 +7,18 @@ Template.curatorEvents.onCreated ->
     },
     {
       key: 'eventName'
-      label: 'Event Name',
-      sortDirection: 1,
+      label: 'Event Name'
+      sortDirection: 1
       hidden: false
     },
     {
       key: 'creationDate'
-      label: 'Creation Date',
+      label: 'Creation Date'
       sortOrder: 0
       sortDirection: -1
       hidden: true
     }
   ]
-
-  @currentPage = new ReactiveVar(Session.get('curator-events-current-page') or 0)
-  @rowsPerPage = new ReactiveVar(Session.get('curator-events-rows-per-page') or 5)
-
-  @autorun =>
-    Session.set 'curator-events-current-page', @currentPage.get()
-    Session.set 'curator-events-rows-per-page', @rowsPerPage.get()
 
 Template.curatorEvents.helpers
   userEvents: ->
@@ -50,9 +43,9 @@ Template.curatorEvents.helpers
       fields: fields
       showRowCount: true
       showFilter: false
-      currentPage: Template.instance().currentPage
-      rowsPerPage: Template.instance().rowsPerPage
-      showNavigation: 'never'
+      currentPage: 1
+      rowsPerPage: 5
+      # showNavigation: 'never'
     }
 
 Template.curatorEvents.events
@@ -71,68 +64,86 @@ Template.curatorEvents.events
 
 Template.curatorEventIncidents.onCreated ->
   Meteor.subscribe "eventIncidents", @data._id
+  @filter = new ReactiveTable.Filter("incidentFilter_"+@data._id, ["userEventId"])
+  @filter.set(@data._id)
+
+  @fields = [
+    {
+      key: "count"
+      label: "Incident"
+      fn: (value, object, key) ->
+        if object.cases
+          return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
+        else if object.deaths
+          return object.deaths + " death" + (if object.deaths isnt "1" then "s" else "")
+        else
+          return object.specify
+    },
+    {
+      key: "locations"
+      label: "Locations"
+      fn: (value, object, key) ->
+        if object.locations
+          return $.map(object.locations, (element, index) ->
+            return element.displayName
+          ).toString()
+        return ""
+    },
+    {
+      key: "dateRange"
+      label: "Date"
+      fn: (value, object, key) ->
+        dateFormat = "M/D/YYYY"
+        if object.dateRange?.type is "day"
+          if object.dateRange.cumulative
+            return "Before " + moment(object.dateRange.end).format(dateFormat)
+          else
+            return moment(object.dateRange.start).format(dateFormat)
+        else if object.dateRange?.type is "precise"
+          return moment(object.dateRange.start).format(dateFormat) + " - " + moment(object.dateRange.end).format(dateFormat)
+        return ""
+    },
+    {
+      key: "delete"
+      label: ""
+      cellClass: "remove-row"
+    },
+    {
+      key: "Edit"
+      label: ""
+      cellClass: "edit-row"
+    }
+  ]
 
 Template.curatorEventIncidents.helpers
   incidents: ->
     return grid.Incidents.find()
 
   settings: ->
-    fields = [
-      {
-        key: "count"
-        label: "Incident"
-        fn: (value, object, key) ->
-          if object.cases
-            return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
-          else if object.deaths
-            return object.deaths + " death" + (if object.deaths isnt "1" then "s" else "")
-          else
-            return object.specify
-      },
-      {
-        key: "locations"
-        label: "Locations"
-        fn: (value, object, key) ->
-          if object.locations
-            return $.map(object.locations, (element, index) ->
-              return element.displayName
-            ).toString()
-          return ""
-      },
-      {
-        key: "dateRange"
-        label: "Date"
-        fn: (value, object, key) ->
-          dateFormat = "M/D/YYYY"
-          if object.dateRange?.type is "day"
-            if object.dateRange.cumulative
-              return "Before " + moment(object.dateRange.end).format(dateFormat)
-            else
-              return moment(object.dateRange.start).format(dateFormat)
-          else if object.dateRange?.type is "precise"
-            return moment(object.dateRange.start).format(dateFormat) + " - " + moment(object.dateRange.end).format(dateFormat)
-          return ""
-      },
-      {
-        key: "delete"
-        label: ""
-        cellClass: "remove-row"
-      },
-      {
-        key: "Edit"
-        label: ""
-        cellClass: "edit-row"
+    fields = []
+    for field in Template.instance().fields
+      fields.push {
+        key: field.key
+        label: field.label
+        cellClass: field.cellClass
+        fn: field.fn
+        sortOrder: field.sortOrder || 99
+        sortDirection: field.sortDirection || 99
+        sortable: false
+        hidden: field.hidden
       }
-    ]
 
     return {
       id: 'curator-event-incidents-table'
+      collection: 'curatorEventIncidents'
       fields: fields
+      filters: ['incidentFilter_'+@_id]
       showFilter: false
       showNavigationRowsPerPage: false
-      showRowCount: false
-      class: "table"
       showColumnToggles: false
+      showRowCount: false
+      class: 'table table-hover curator-events-incidents-table'
+      showNavigation: 'never'
     }
 
 Template.curatorEventIncidents.events
@@ -145,8 +156,6 @@ Template.curatorEventIncidents.events
         currentOpen.remove()
         Meteor.call("removeIncidentReport", @_id)
     else if $target.closest(".edit-row").length
-      console.log template
-      console.log this
       Modal.show("incidentModal", {
         articles: template.data.articles,
         userEventId: this.userEventId,

@@ -3,11 +3,5 @@ template(name="curatorEvents")
   +reactiveTable collection=userEvents settings=settings class="table curator-events-table" rowClass="curator-events-table-row"
 
 template(name="curatorEventIncidents")
-  //- if incidents.length
-  td(colspan="2")
-    .row
-      .col-xs-12
-        +reactiveTable collection=incidents settings=settings class="table table-hover curator-events-incidents-table"
-    
-  //- else
-    //- p No incident reports are associated with this event.
+  td(colspan="2" class="tr-incidents-wrapper")
+    +reactiveTable collection="curatorEventIncidents" settings=settings
