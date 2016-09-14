@@ -2,7 +2,9 @@ $btn-types = {
   '.btn-default': {
     text-color: $primary
     color: $l-gray
+    border: $border-btn
     bg: $ll-gray
+    bg-hover: $l-gray
   },
   '.btn-primary': {
     text-color: $primary
@@ -13,8 +15,10 @@ $btn-types = {
   },
   '.btn-success': {
     text-color: $primary
-    color: $secondary,
-    bg: lighten($border-secondary, 20%)
+    color: darken($l-gray, 50%)
+    border: $border-btn
+    bg: $positive
+    bg-hover: $secondary
   }
   '.btn-danger': {
     text-color: $primary
@@ -77,6 +81,12 @@ $buttons()
 .btn-centered
   display block
   margin 10px auto
+
+.btn-sm
+  padding-top .25em
+  padding-bottom .25em
+  text-transform none
+  font-size 1em
 
 @media(max-width: $mobile-break)
   .btn-featured

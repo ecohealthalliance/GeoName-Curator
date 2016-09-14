@@ -100,7 +100,7 @@ if Meteor.isServer
         Incidents.insert(newIncident)
 
     # Convert string case and death counts to integers
-    incidents = Incidents.find({$or: [{cases: {$type: "string"}}, {deaths: {$type: "string"}}]}).fetch()
+    incidents = Incidents.find({$or: [{cases: {$type: 2}}, {deaths: {$type: 2}}]}).fetch()
     for incident in incidents
       mongoProjection = false
       if incident.cases
