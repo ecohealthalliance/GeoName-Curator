@@ -1,8 +1,11 @@
 @import 'mapFilters.import'
 
+$wide-ui-width = 2000px
 $map-menu-width-small = 300px
 $map-menu-width-large = 25%
+$map-menu-width-max = 500px
 $map-width-small = 'calc(100% - %s)' % $map-menu-width-small
+$map-width-max = 'calc(100% - %s)' % $map-menu-width-max
 $map-width-large = 100 - $map-menu-width-large
 
 .event-map-wrapper
@@ -22,14 +25,17 @@ $map-width-large = 100 - $map-menu-width-large
   left $map-menu-width-small
   width $map-width-small
   min-width $map-menu-width-small
-  +above(4)
-    left $map-menu-width-large
-    width $map-width-large
   +below(2)
     top $mobile-header-height
     bottom $mobile-footer-height
     .leaflet-control-attribution
       font-size 5px
+  +above(4)
+    left $map-menu-width-large
+    width $map-width-large
+  +above($wide-ui-width)
+    left $map-menu-width-max
+    width $map-width-max
 
 .leaflet-popup-content-wrapper
   border-radius 5px
@@ -60,6 +66,8 @@ $map-width-large = 100 - $map-menu-width-large
   overflow-x scroll
   +above(4)
     width $map-menu-width-large
+  +above($wide-ui-width)
+    width $map-menu-width-max
 
 .map-event-list
   border 0
@@ -73,6 +81,8 @@ $map-width-large = 100 - $map-menu-width-large
 
 .map-event-list--item
   padding-right 2.5em
+  padding-top .65em
+  padding-bottom .65em
   border-left 0
   border-right 0
   background none

@@ -5,7 +5,7 @@ L.Icon.Default.imagePath = "/packages/fuatsengul_leaflet/images"
 Template.eventMap.onCreated ->
   @query = new ReactiveVar({})
   @pageNum = new ReactiveVar(0)
-  @eventsPerPage = 10
+  @eventsPerPage = 8
   @templateEvents = new ReactiveVar null
   @disablePrev = new ReactiveVar false
   @disableNext = new ReactiveVar true
