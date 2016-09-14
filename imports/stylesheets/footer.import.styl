@@ -15,20 +15,22 @@ footer
       bg('/images/eha-logo', 280px, 78px, 'svg')
       display block
       margin 10px auto
-  .contact
-    font-weight bold
+  .contactInfo
+    float right
     margin-top 40px
-    color darkslategray
     margin-right 2%
-  .bullet::before
-    padding 20px
-    content "\f111"
-    font-family FontAwesome
   address
     font-size 90%
     color $m-gray
   a
-    color darkslategray
+    color $primary
+  li
+    font-weight bold
+    color $primary
+    display inline-block
+  .fa.fa-circle
+    margin-left 10px
+    margin-right 10px
 
 @media (max-width: 768px)
   footer
