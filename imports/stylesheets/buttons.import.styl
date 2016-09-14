@@ -3,8 +3,8 @@ $warning-btn-color = lighten($warning, 50%)
 
 $btn-types = {
   '.btn-default': {
-    text: $primary
-    border: $border-btn
+    text: $m-gray
+    border: lighten($m-gray, 50%)
     bg: white
     bg-hover: $l-gray
   },
@@ -73,8 +73,8 @@ $buttons()
 .btn
   padding-top .5em
   padding-bottom .5em
-  padding-left 1em
-  padding-right 1em
+  padding-left 1.25em
+  padding-right 1.25em
   font-size 1em
   font-weight 300
   letter-spacing .03em
@@ -93,6 +93,10 @@ $buttons()
 .btn-action
 .btn-shouting
   text-transform uppercase
+
+.btn-wide
+  padding-left 2em
+  padding-right 2em
 
 .btn-featured
   padding 1em 5em

@@ -1,0 +1,31 @@
+$modal-border-radius = 4px
+
+.modal-content
+  border-radius $modal-border-radius
+
+.modal-body
+  padding 10px 20px
+
+.modal-header
+  padding 0
+  border-top-left-radius $modal-border-radius
+  border-top-right-radius $modal-border-radius
+  overflow hidden
+  background $ll-gray
+  .close
+    padding 5px
+
+.modal-title
+  padding .35em .75em .4em .75em
+  text-transform uppercase
+  font-weight 300
+  font-size 2em
+  color $primary
+
+.modal-header
+.modal-footer
+  border-color lighten($l-gray, 10%)
+
+.modal-footer
+  padding-top 1.25em
+  padding-bottom 2em
