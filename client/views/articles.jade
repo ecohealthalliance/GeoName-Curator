@@ -18,7 +18,7 @@ template(name="articles")
             p There are no articles currently associated with this event.
           .col-lg-4.col-sm-12
             +sourceModalButton
-            button.btn.secondary-btn.btn-block.open-source-form(type="button")
+            button.btn.btn-primary.btn-block.open-source-form(type="button")
               i.fa.fa-plus-circle
               | Add Source
       .col-md-6.event-sources-detail
@@ -71,6 +71,6 @@ template(name="articleSelect2")
 
 template(name="sourceModalButton")
   if isInRole "admin"
-    button.btn.secondary-btn.btn-block.open-source-form(type="button")
+    button.btn.btn-primary.btn-block.open-source-form(type="button")
       i.fa.fa-plus-circle
       | Add Source
