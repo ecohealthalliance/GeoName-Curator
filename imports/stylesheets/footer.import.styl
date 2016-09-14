@@ -6,34 +6,45 @@ footer
   border-top 2px solid $secondary
   background white
   height $footer-height
-  .eha
+  display flex
+  align-items center
+  padding 0 2%
+  +below(2)
+    justify-content center
+    flex-direction column
     text-align center
-    margin-left 2%
-    img
-      margin-bottom 15px
+    position static
+    height auto
+    padding 1em 2%
+  .eha
     a
       bg('/images/eha-logo', 280px, 78px, 'svg')
       display block
-      margin 10px auto
   .contactInfo
-    float right
-    margin-top 40px
-    margin-right 2%
-  address
-    font-size 90%
-    color $m-gray
+    margin-left auto
+    font-weight 300
+    +below(2)
+      float none
+      margin-left 0
+      margin-top 1em
+    +between(3,4)
+      text-align right
   a
     color $primary
   li
-    font-weight bold
+    font-weight 400
+  li
+  .fa
     color $primary
-    display inline-block
-  .fa.fa-circle
-    margin-left 10px
-    margin-right 10px
-
-@media (max-width: 768px)
-  footer
-    height $mobile-footer-height
-    a
-      changeBGSize(150px,42px)
+    vAlign()
+    +between(3,4)
+      display block
+    +below(2)
+      display block
+      margin-bottom 3px
+  .fa
+    margin-left 1.75em
+    margin-right 1.75em
+    font-size .65em
+    +below(4)
+      display none
