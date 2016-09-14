@@ -14,7 +14,7 @@ createInlineDateRangePicker = ($parentElement, options) ->
     singleDatePicker: options.singleDatePicker
     autoUpdateInput: false
   }
-  
+
   if options.startDate and options.endDate
     allOptions.startDate = options.startDate
     allOptions.endDate = options.endDate
@@ -22,6 +22,7 @@ createInlineDateRangePicker = ($parentElement, options) ->
   $rangeContainer = $parentElement.daterangepicker(allOptions)
   picker = $rangeContainer.data("daterangepicker")
   if options.singleDatePicker
+    $(".singleDatePickerInput").show()
     picker.clickApply = (e) ->
       this.element.trigger('apply.daterangepicker', this);
 
