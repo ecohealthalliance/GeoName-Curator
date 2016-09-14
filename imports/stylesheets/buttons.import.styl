@@ -1,43 +1,44 @@
+$success-btn-color = desaturate(lighten($positive, 45%), 20%)
+$warning-btn-color = lighten($warning, 50%)
+
 $btn-types = {
   '.btn-default': {
-    text-color: $primary
-    color: $l-gray
+    text: $primary
     border: $border-btn
-    bg: $ll-gray
+    bg: white
     bg-hover: $l-gray
   },
   '.btn-primary': {
-    text-color: $primary
-    color: darken($l-gray, 50%)
+    text: $primary
     border: $border-btn
     bg: $primary-light
-    bg-hover: $secondary
+    bg-hover: lighten($secondary, 10%)
   },
   '.btn-success': {
-    text-color: $primary
-    color: darken($l-gray, 50%)
-    border: $border-btn
-    bg: $positive
-    bg-hover: $secondary
+    text: $primary
+    border: darken($positive, 30%)
+    bg: $success-btn-color
+    bg-hover: darken($success-btn-color, 25%)
   }
   '.btn-danger': {
-    text-color: $primary
-    text-color-hover: white
-    color: $delete,
-    bg: lighten($delete, 90%)
+    text: $primary
+    text-hover: white
+    border: darken($delete, 30%)
+    bg: lighten($delete, 50%)
+    bg-hover: darken($delete, 10%)
   }
   '.btn-warning': {
-    text-color: $primary
-    color: $warning,
-    bg: lighten($warning, 90%)
+    text: $primary
+    border: darken($warning, 30%)
+    bg: $warning-btn-color
+    bg-hover: darken($warning-btn-color, 25%)
   }
 }
 
 $buttons()
   for $btn-type, $btn-type-props  in $btn-types
-    $text = $btn-type-props.text-color
-    $text-hover = $btn-type-props.text-color-hover or $text
-    $color = $btn-type-props.color
+    $text = $btn-type-props.text
+    $text-hover = $btn-type-props.text-hover or $text
     $bg = $btn-type-props.bg
     $bg-hover = $btn-type-props.bg-hover or lighten($bg, 40%)
     $border = $btn-type-props.border or $border-btn
@@ -50,7 +51,7 @@ $buttons()
         color $text-hover
         border-color darken($bg-hover, 20%)
       &:focus
-        border-color darken($color, 20%)
+        border-color darken($border, 20%)
         background saturate(darken($bg, 10%), 20%)
         color $text
       &:focus
@@ -67,13 +68,31 @@ $buttons()
           background $bg
           border-color lighten($border, 10%)
 
+$buttons()
+
 .btn
-  padding-top .75em
-  padding-bottom .75em
-  text-transform uppercase
-  font-size 1.25em
+  padding-top .5em
+  padding-bottom .5em
+  padding-left 1em
+  padding-right 1em
+  font-size 1em
   font-weight 300
   letter-spacing .03em
+
+.btn-delete
+  @extend .btn-danger
+
+.btn-confirm
+  @extend .btn-success
+
+.btn-spacious
+  padding-top .75em
+  padding-bottom .75em
+  font-size 1.25em
+
+.btn-action
+.btn-shouting
+  text-transform uppercase
 
 .btn-featured
   padding 1em 5em
@@ -91,5 +110,3 @@ $buttons()
 @media(max-width: $mobile-break)
   .btn-featured
     width 100%
-
-$buttons()

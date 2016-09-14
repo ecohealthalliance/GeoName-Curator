@@ -20,9 +20,9 @@ template(name="userEvent")
                     textarea.form-control(name="eventSummary" rows="15") {{summary}}
                 .form-group
                   .col-sm-2
-                    button#cancel-edit.btn.secondary-btn.btn-block(type='button') Cancel
+                    button#cancel-edit.btn.btn-default.btn-block(type='button') Cancel
                   .col-sm-2.space-btm-1
-                    button#save-edit.btn.main-btn.btn-block(type='submit') Save
+                    button#save-edit.btn.btn-primary.btn-block(type='submit') Save
           else
             with userEvent
               .row
@@ -66,7 +66,7 @@ template(name="summary")
       .col-sm-4.col-sm-offset-8.space-btm-1.space-top-1
         if isInRole "admin"
           .dropdown
-            button.btn.secondary-btn.btn-block.dropdown-toggle(type="button" data-toggle="dropdown" style="white-space: normal;")
+            button.btn.btn-default.btn-block.dropdown-toggle(type="button" data-toggle="dropdown" style="white-space: normal;")
               | Admin Options
               span.caret
             ul.dropdown-menu
@@ -92,7 +92,7 @@ template(name="summary")
             b{{lastModifiedByUserName}}
             |on {{formatDate lastModifiedDate}}
           td.col-md-2.gi
-            button#copyLink.btn.btn-xs.btn-default(type="button" data-clipboard-text="{{urlFor 'user-event'}}")
+            button.copy-link.btn.btn-xs.btn-default(type="button" data-clipboard-text="{{urlFor 'user-event'}}")
               i.fa.fa-share-alt
               | Copy Event Link
 

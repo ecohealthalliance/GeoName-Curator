@@ -6,7 +6,7 @@ Template.userEvent.onCreated ->
 
 Template.userEvent.onRendered ->
   $(document).ready ->
-    board = new Clipboard("#copyLink")
+    board = new Clipboard(".copy-link")
     $(document.body).on("focus", "#eventLink", ->
       $(this).select()
     )
@@ -36,7 +36,7 @@ Template.userEvent.helpers
     return Template.instance().data
 
 Template.userEvent.events
-  "click #copyLink": (event, template) ->
+  "click .copy-link": (event, template) ->
     toastr.success("Event link copied.")
   "click .edit-link, click #cancel-edit": (event, template) ->
     template.editState.set(not template.editState.get())
