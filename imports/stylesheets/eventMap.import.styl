@@ -1,0 +1,159 @@
+@import 'mapFilters.import'
+
+$wide-ui-width = 2000px
+$map-menu-width-small = 300px
+$map-menu-width-large = 25%
+$map-menu-width-max = 500px
+$map-width-small = 'calc(100% - %s)' % $map-menu-width-small
+$map-width-max = 'calc(100% - %s)' % $map-menu-width-max
+$map-width-large = 100 - $map-menu-width-large
+
+.event-map-wrapper
+  position absolute
+  left 0
+  right 0
+  top $header-height
+  bottom 0
+  margin auto
+  background-color $map-background
+  .leaflet-top,
+  .leaflet-left
+    z-index 90
+
+#event-map
+  full-width()
+  left $map-menu-width-small
+  width $map-width-small
+  min-width $map-menu-width-small
+  +below(2)
+    top $mobile-header-height
+    bottom $mobile-footer-height
+    .leaflet-control-attribution
+      font-size 5px
+  +above(4)
+    left $map-menu-width-large
+    width $map-width-large
+  +above($wide-ui-width)
+    left $map-menu-width-max
+    width $map-width-max
+
+.leaflet-popup-content-wrapper
+  border-radius 5px
+
+.map-marker
+  centerPosition()
+  &:hover
+    .map-marker-path
+      transition .2s
+      fill $secondary
+
+.marker-color-spot
+  margin-right 10px
+
+.leaflet-popup-content
+.leaflet-popup-content-wrapper
+  +below(2)
+    max-width 300px
+
+.map-menu
+  position absolute
+  top 0
+  bottom 0
+  width 20%
+  width $map-menu-width-small
+  background rgba(255,255,255,.9)
+  z-index 100
+  overflow-x scroll
+  +above(4)
+    width $map-menu-width-large
+  +above($wide-ui-width)
+    width $map-menu-width-max
+
+.map-event-list
+  border 0
+
+.toggle-calendar-state
+  font-size 1.75em
+  cursor pointer
+  margin-right 1em
+  &.showing
+    color darken($positive, 30%)
+
+.map-event-list--item
+  padding-right 2.5em
+  padding-top .65em
+  padding-bottom .65em
+  border-left 0
+  border-right 0
+  background none
+  cursor pointer
+  &:hover
+    background $ll-gray
+  .name
+    font-weight 600
+  .date
+    display block
+    font-style italic
+    font-size 90%
+  &.selected
+    background $secondary-light
+  &.selected .circle::before
+  .circle
+    position absolute
+    top 50%
+    transform translate(0, -50%)
+    right 1em
+    border-radius 50%
+    height 1.5em
+    width 1.5em
+  &.selected
+    .circle
+      &::before
+        left 50%
+        transform translate(-50%, -50%)
+        height .5em
+        width .5em
+        content ''
+        background white
+
+.map-event-list--nav
+  display flex
+  align-items center
+  > div
+    padding .751em
+    cursor pointer
+    font-size 2em
+    color $primary
+    &:hover
+      color $secondary
+  .disabled
+    cursor default
+    &
+    &:hover
+      color $ld-gray
+
+.deselect-all
+  margin-right 1em
+  margin-left auto
+  color $ld-gray
+  font-weight 300
+  &.active
+    cursor pointer
+    color $secondary
+    font-weight 400
+    &:hover
+      color darken($secondary, 20%)
+
+.date-options
+  margin 1em 0
+  display flex
+  align-items center
+  justify-content center
+  button
+    padding .5em 2em
+    margin 0 .5em
+    &.selected
+      &
+      &:focus
+        background lighten($secondary, 40%)
+        font-weight 600

@@ -55,11 +55,32 @@ Meteor.methods
       Incidents.remove(id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
 
-# Split incidents with both case and death counts into separate incidents
 if Meteor.isServer
   Meteor.startup ->
-    incidents = Incidents.find({$and: [{cases: {$exists: true}}, {deaths: {$exists: true}}]}).fetch()
+    incidents = Incidents.find().fetch()
     for incident in incidents
+      # Update incident locations to match location schema
+      if incident.locations?.length
+        updatedLocations = []
+        updatesMade = false
+        for loc in incident.locations
+          if loc.geonameId
+            updatesMade = true
+            updatedLocations.push(
+              admin1Name: loc.subdivision
+              countryName: loc.countryName
+              id: loc.geonameId
+              latitude: parseFloat(loc.latitude)
+              longitude: parseFloat(loc.longitude)
+              name: loc.name
+            )
+          else
+            updatedLocations.push(loc)
+        if updatesMade
+          Incidents.update(incident._id, {$set: {locations: updatedLocations}})
+          incident.locations = updatedLocations
+
+      # Split incidents with both case and death counts into separate incidents
       if incident.cases?.length and incident.deaths?.length
         newIncident = {
           url: incident.url
@@ -81,7 +102,7 @@ if Meteor.isServer
         Incidents.insert(newIncident)
 
     # Convert string case and death counts to integers
-    incidents = Incidents.find({$or: [{cases: {$type: "string"}}, {deaths: {$type: "string"}}]}).fetch()
+    incidents = Incidents.find({$or: [{cases: {$type: 2}}, {deaths: {$type: 2}}]}).fetch()
     for incident in incidents
       mongoProjection = false
       if incident.cases

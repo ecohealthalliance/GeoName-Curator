@@ -54,13 +54,8 @@ module.exports.incidentReportFormToIncident = (form)->
 
   $loc = $(form).find("#incident-location-select2")
   for option in $loc.select2("data")
-    incident.locations.push(
-      geonameId: option.item.geonameId or option.item.id
-      name: option.item.name
-      displayName: option.item.displayName or option.item.name
-      countryName: option.item.countryName
-      subdivision: option.item.subdivision or option.item.admin1Name
-      latitude: option.item.latitude
-      longitude: option.item.longitude
-    )
+    item = option.item
+    if typeof item.alternateNames is "string"
+      delete item.alternateNames
+    incident.locations.push(item)
   return incident

@@ -1,30 +1,13 @@
 template(name="eventMap")
-  +mapFilters query=getQuery
   .fluid-container
-    #event-map
-
-template(name="mapLegend")
-  .map-legend-tab.text-center
-    i.fa.fa-angle-down.fa-2x
-  .map-legend-drawer
-    .map-legend
-      h5 Event Color Key
-      each getEvents
-        .row
-          .col-sm-2
-            svg(height="10" width="10")
-              circle(fill="rgb({{rgbColor}})" r="5" cx="5" cy="5")
-          .col-sm-10 {{name}}
-        .row.space-btm-1
-          .col-sm-10.col-sm-offset-2.small {{date}}
-      .row
-        .col-sm-12.text-center
-          button.btn.btn-default.btn-sm.legend-prev(type="button" title="Older" disabled="{{disablePrev}}")
-            i.fa.fa-angle-double-left.fa-lg
-            | Older
-          button.btn.btn-default.btn-sm.legend-next(type="button" title="Newer" disabled="{{disableNext}}")
-            | Newer
-            i.fa.fa-angle-double-right.fa-lg
+    .event-map-wrapper
+      #event-map
+      +mapFilters(
+        templateEvents=templateEvents
+        selectedEvents=selectedEvents
+        disablePrev=disablePrev
+        disableNext=disableNext
+        query=query)
 
 template(name="markerPopup")
   h4 {{location}}

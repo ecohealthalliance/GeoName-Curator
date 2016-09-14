@@ -23,11 +23,12 @@ Template.incidentModal.events
              $(form.count).val("")
              $(form.incidentType).val(null).trigger("change")
              $(form.travelRelated).attr('checked', false)
-          if closeModal
-            Modal.hide(templateInstance)
           toastr.success("Incident report added to event.")
         else
-          toastr.error(error.reason)
+          errorString = error.reason
+          if error.details[0].name is "locations" and error.details[0].type is "minCount"
+            errorString = "You must specify at least one loction"
+          toastr.error(errorString)
       )
     if this.edit
       incident._id = this.incident._id

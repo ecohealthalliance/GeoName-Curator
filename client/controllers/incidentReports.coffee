@@ -18,7 +18,7 @@ Template.incidentReports.helpers
         fn: (value, object, key) ->
           if object.locations
             return $.map(object.locations, (element, index) ->
-              return element.displayName
+              return element.name
             ).toString()
           return ""
       },

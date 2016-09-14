@@ -1,3 +1,6 @@
+Template.articles.onCreated ->
+  @selectedSourceId = new ReactiveVar null
+
 Template.articles.helpers
   getSettings: ->
     fields = [
@@ -12,7 +15,7 @@ Template.articles.helpers
         label: "Added"
         fn: (value, object, key) ->
           return moment(value).fromNow()
-      }
+      },
       {
         key: "publishDate"
         label: "Publication Date"
@@ -22,21 +25,18 @@ Template.articles.helpers
           return ""
       }
     ]
-
     if Meteor.user()
       fields.push({
         key: "delete"
         label: ""
         cellClass: "remove-row"
       })
-
     fields.push({
       key: "expand"
       label: ""
       cellClass: "open-row-right"
     })
-
-    return {
+    {
       id: 'event-sources-table'
       fields: fields
       showFilter: false
@@ -45,6 +45,19 @@ Template.articles.helpers
       class: "table"
       filters: ["sourceFilter"]
     }
+  selectedSource: ->
+    selectedId = Template.instance().selectedSourceId.get()
+    if selectedId
+      Articles.findOne selectedId
+  incidentsForSource: (sourceUrl) ->
+    Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
+  locationsForSource: (sourceUrl) ->
+    locations = {}
+    incidents = Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).forEach( (incident) ->
+      for location in incident.locations
+        locations[location.id] = location.name
+    )
+    _.flatten locations
 
 Template.articles.events
   "click .reactive-table tbody tr": (event, template) ->
@@ -71,8 +84,14 @@ Template.articles.events
       if not closeRow
         #TODO: Display event source details.
       ###
+  "click #event-sources-table tbody tr": (event, templateInstance) ->
+    event.preventDefault()
+    templateInstance.selectedSourceId.set @_id
+    $(event.currentTarget).parent().find('tr').removeClass("details-open")
+    $(event.currentTarget).addClass("details-open")
   "click .open-source-form": (event, template) ->
     Modal.show("sourceModal", {userEventId: template.data.userEvent._id})
+
 
 Template.articleSelect2.onRendered ->
   $input = @$("select")

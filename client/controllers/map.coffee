@@ -47,7 +47,7 @@ Template.map.rendered = ->
       for location in locations
         latLng = [location.latitude, location.longitude]
         if latLng[0] isnt 'Not Found' and latLng[1] isnt 'Not Found'
-          displayName = location.displayName
+          displayName = location.name
 
           circle = L.marker(latLng, {
             icon: L.divIcon({

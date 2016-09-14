@@ -18,12 +18,42 @@ template(name="articles")
             p There are no articles currently associated with this event.
           .col-lg-4.col-sm-12
             +sourceModalButton
+            button.btn.btn-primary.btn-block.open-source-form(type="button")
+              i.fa.fa-plus-circle
+              | Add Source
+      .col-md-6.event-sources-detail
+        if selectedSource
+          h2= selectedSource.url
+          .row.event-source-info
+            .col-lg-1
+              a.ref-link(href="{{selectedSource.url}}" target="_blank" rel="noopener noreferrer")
+                i.fa.fa-external-link
+            .col-lg-4 Published on {{formatDate selectedSource.publishDate}}
+            .col-lg-7 Submitted by {{selectedSource.addedByUserName}} on {{formatDate selectedSource.addedDate}}
+          .row.event-source-summary
+            .col-lg-6
+              h3 Locations
+                ul
+                  each locationsForSource selectedSource.url
+                    li= this
+                  else
+                    li No locations
+            .col-lg-6
+              h3 Incident Reports
+                ul
+                  each incidentsForSource selectedSource.url
+                    li {{incidentToText this}}
+                  else
+                    li No cases
+        else
+          h2 Please select the source on the left
+
 
 template(name="article")
   li.list-group-item
     .row
       .col-sm-10
-        a.ref-link(href="{{url}}" target="_blank") {{url}}
+        a.ref-link(href="{{url}}" target="_blank" rel="noopener noreferrer") {{url}}
           i.fa.fa-external-link
         if publishDate
           p
@@ -41,6 +71,6 @@ template(name="articleSelect2")
 
 template(name="sourceModalButton")
   if isInRole "admin"
-    button.btn.secondary-btn.btn-block.open-source-form(type="button")
+    button.btn.btn-primary.btn-block.open-source-form(type="button")
       i.fa.fa-plus-circle
       | Add Source

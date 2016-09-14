@@ -1,55 +1,36 @@
 template(name="mapFilters")
-  .container.map-search-wrap
-    .mobile-control
-      span Filters
-    .map-filter-content
-      .search-wrap
-        .input-group
-          span.input-group-addon
-            i.fa.fa-filter
-          input.map-search.form-control(type="text" placeholder="Filter by event name")
-          if getSearchText
-            span.clear-search
-              i.fa.fa-times-circle
-      .toggles
-        .filter
-          h2 Filters
-        .filters-wrap.hidden
-          each getVariables
-            .filter-block(data-filter="{{filter}}")
-              .form-group
-                .checkbox
-                  label
-                    input(type="checkbox" value="{{label}}" checked="{{state}}")
-                    | {{label}}
-              if dateFilter
-                .filter-attributes
-                  .form-group
-                    .radio
-                      label
-                        input(type="radio" name="incidentDateType" value="on" checked="{{searchMatch 'on' values.searchType}}")
-                        | On
-                  .form-group
-                    .radio
-                      label
-                        input(type="radio" name="incidentDateType" value="before" checked="{{searchMatch 'before' values.searchType}}")
-                        | Before
-                  .form-group
-                    .radio
-                      label
-                        input(type="radio" name="incidentDateType" value="after" checked="{{searchMatch 'after' values.searchType}}")
-                        | After
-                  .form-group
-                    .radio
-                      label
-                        input(type="radio" name="incidentDateType" value="between" checked="{{searchMatch 'between' values.searchType}}")
-                        | Between
-                  +dateSelector currentDate=getCurrentDate
+  .map-menu
+    .search-wrap
+      i.fa.fa-calendar.toggle-calendar-state(class="{{#if calendarState.get}} showing {{/if}}")
+      .map-search
+        i.fa.fa-search
+        input.form-control(type="text" placeholder="Search events")
+    +dateSelector(
+      currentDate=getCurrentDate
+      filtering=filtering
+      variables=variables
+      calendarState=calendarState)
+    ul.map-event-list.list-group
+      each getEvents
+        li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
+          span.name=name
+          span.date=date
+          .circle(style="background-color:rgb(#{rgbColor})")
+      .map-event-list--nav
+        .event-list-prev(title="Older" class="{{#if disablePrev}} disabled {{/if}}")
+          i.fa.fa-chevron-left
+        .event-list-next(title="Newer" class="{{#if disableNext}} disabled {{/if}}")
+          i.fa.fa-chevron-right
+        span.deselect-all(
+          class="{{#if eventsAreSelected}} active {{/if}}") Deselect events
 
-                  if searchMatch "between" values.searchType
-                    .form-group.text-center and
-                    +dateSelector currentDate=getCurrentDate
 
 template(name="dateSelector")
-  .form-group.date-picker-container
-    input.form-control.datePicker(type="text")
+  .calendar-wrapper(class="{{#unless calendarState}} hidden {{/unless}}")
+    .date-picker-container
+      .datePicker(type="text")
+    .date-options.centered
+      button.btn.btn-default.btn-sm.before(
+        class="{{#if searchTypeSelected 'before'}} selected {{/if}}") Before
+      button.btn.btn-default.btn-sm.after(
+        class="{{#if searchTypeSelected 'after'}} selected {{/if}}") After
