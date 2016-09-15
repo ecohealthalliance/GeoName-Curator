@@ -85,12 +85,12 @@ if Meteor.isServer
       if incident.deaths == ""
         Incidents.update(incident._id, {
           $unset:
-            deaths: "" 
+            deaths: ""
         })
       if incident.cases == ""
         Incidents.update(incident._id, {
           $unset:
-            cases: "" 
+            cases: ""
         })
     incidents = Incidents.find().fetch()
     for incident in incidents
