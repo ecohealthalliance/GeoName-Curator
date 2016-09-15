@@ -163,3 +163,10 @@ Template.suggestedIncidentsModal.events
         toastr.error err.reason
       else
         Modal.hide(template)
+  "click #non-suggested-incident": (event, template) ->
+    Modal.show("incidentModal", {
+      articles: [template.data.article]
+      userEventId: template.data.userEventId
+      add: true
+      incident: {url: [template.data.article.url]}
+    })
