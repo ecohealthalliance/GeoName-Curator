@@ -34,6 +34,7 @@ Meteor.methods
     incident.addedDate = new Date()
     newId = Incidents.insert(incident)
     Meteor.call("updateUserEventLastModified", incident.userEventId)
+    Meteor.call("updateUserEventLastIncident", incident.userEventId)
     return newId
 
   editIncidentReport: (incident) ->
@@ -43,6 +44,7 @@ Meteor.methods
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     res = Incidents.update(incident._id, incident)
     Meteor.call("updateUserEventLastModified", incident.userEventId)
+    Meteor.call("updateUserEventLastIncident", incident.userEventId)
     return incident._id
 
   addIncidentReports: (incidents) ->
