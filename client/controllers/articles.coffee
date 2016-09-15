@@ -25,11 +25,16 @@ Template.articles.helpers
           return ""
       }
     ]
-    if Meteor.user()
+    if Roles.userIsInRole(Meteor.userId(), ['admin'])
       fields.push({
         key: "delete"
         label: ""
         cellClass: "remove-row"
+      })
+      fields.push({
+        key: "Edit"
+        label: ""
+        cellClass: "edit-row"
       })
     fields.push({
       key: "expand"
@@ -75,6 +80,10 @@ Template.articles.events
       else if window.confirm("Are you sure you want to delete this event source?")
         currentOpen.remove()
         Meteor.call("removeEventSource", @_id)
+    else if $target.closest(".edit-row").length
+      modalData = @
+      modalData.edit = true
+      Modal.show("sourceModal", modalData)
     else if not $parentRow.hasClass("tr-details")
       closeRow = $parentRow.hasClass("details-open")
       ###

@@ -28,7 +28,7 @@ getEventArticles = (userEventId) ->
   PMST: '-0300'
   PST:  '-0800'
   WGST: '-0200'
-  WGT:  '-0300'
+  WGT: '-0300'
 
 Articles.getEventArticles = getEventArticles
 
@@ -67,19 +67,20 @@ Meteor.methods
           insertArticle.addedByUserId = user._id
           insertArticle.addedByUserName = user.profile.name
           insertArticle.addedDate = new Date()
-          if insertArticle.publishDate.length
-            # Convert the input string into a Date object
-            dateString = new Date(insertArticle.publishDate).toString()
-            # Fix the timezone offset
-            dateStringMatch = dateString.match(/(.*GMT)/)
-            dateString = dateStringMatch[1] + UTCOffsets[insertArticle.publishDateTZ]
-            insertArticle.publishDate = new Date(dateString)
           newId = Articles.insert(insertArticle)
           Meteor.call("updateUserEventLastModified", insertArticle.userEventId)
           Meteor.call("updateUserEventArticleCount", insertArticle.userEventId, 1)
           return newId
     else
       throw new Meteor.Error("auth", "User does not have permission to add source articles")
+
+  updateEventSource: (source) ->
+    user = Meteor.user()
+    if user and Roles.userIsInRole(user._id, ['admin'])
+      Articles.update(source._id, {$set: {publishDate: source.publishDate, publishDateTZ: source.publishDateTZ}})
+      Meteor.call("updateUserEventLastModified", source.userEventId)
+    else
+      throw new Meteor.Error("auth", "User does not have permission to edit source articles")
 
   removeEventSource: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
