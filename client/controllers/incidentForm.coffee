@@ -59,3 +59,5 @@ Template.incidentForm.helpers
 Template.incidentForm.events
   "change select[name='incidentType']": (e, template) ->
     template.incidentType.set($(e.target).val())
+  "change input[name='daterangepicker_start']": (e, template) ->
+    $('#singleDatePicker').data('daterangepicker').clickApply()

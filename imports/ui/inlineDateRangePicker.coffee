@@ -24,6 +24,8 @@ createInlineDateRangePicker = ($parentElement, options) ->
   if options.singleDatePicker
     $(".singleDatePickerInput").show()
     picker.clickApply = (e) ->
+      this.setEndDate(this.startDate)
+      this.updateView()
       this.element.trigger('apply.daterangepicker', this);
 
   $(".inlineRangePicker").off("click.daterangepicker")
