@@ -133,72 +133,57 @@ Template.suggestedIncidentsModal.helpers
     content = Template.instance().content.get()
     lastEnd = 0
     html = ""
-    i = 0
-    displayCharacters = 150
-    incidents = Template.instance().incidentCollection.find().fetch()
-    while i < incidents.length
-      incident = incidents[i]
+    Template.instance().incidentCollection.find().map (incident)->
       [start, end] = incident.countAnnotation.textOffsets[0]
-      startingIndex = lastEnd
-      precedingEllipsis = false
-      followingEllipsis = false
-      htmlBreak = true
-
-      precedingContentLength = start - lastEnd
-      if precedingContentLength > displayCharacters
-        # Adjust the starting index if there is more content before the incident text
-        # than is necessary to display
-        startingIndex = start - displayCharacters
-      # The text before the incident link
-      precedingText = content.slice(startingIndex, start)
-
-      # Split the preceding text if it contains multiple new lines
-      split = precedingText.split(/\n{2,}/g)
-      if split.length > 1
-        precedingText = split[split.length - 1]
-      else if precedingContentLength isnt 1
-        precedingEllipsis = true
-
-      nextIndex = i + 1
-      lastEnd = end + displayCharacters
-      if (nextIndex < incidents.length) and (incidents[nextIndex].countAnnotation.textOffsets[0][0] < lastEnd)
-        # Adjust lastEnd if the next incident would be contained in the following text
-        lastEnd = incidents[nextIndex].countAnnotation.textOffsets[0][0] - 1
-        htmlBreak = false
-      followingText = content.slice(end, lastEnd)
-
-      # Split the following text if it contains multiple new lines
-      split = followingText.split(/\n{2,}/g)
-      if split.length > 1
-        followingText = split[0]
-      else if followingText.length is displayCharacters and !followingText.match(/(\.|\?)\s*$/)
-        followingEllipsis = true
-      
-      if precedingEllipsis
-        html += "&hellip;"
       html += (
-        Handlebars._escape("#{precedingText}") +
+        Handlebars._escape("#{content.slice(lastEnd, start)}") +
         """<span
-          class='annotation#{if incident.accepted then " accepted" else ""}'
+          class='annotation annotation-text#{if incident.accepted then " accepted" else ""}'
           data-incident-id='#{incident._id}'
-        >#{Handlebars._escape(content.slice(start, end))}</span>""" +
-        Handlebars._escape("#{followingText}")
+        >#{Handlebars._escape(content.slice(start, end))}</span>"""
       )
-      if followingEllipsis
-        html += "&hellip;"
-      if htmlBreak
-        html += "<br><br>"
-      i++
+      lastEnd = end
+    html += Handlebars._escape("#{content.slice(lastEnd)}")
     new Spacebars.SafeString(html)
 
 Template.suggestedIncidentsModal.events
   "click .annotation": (event, template) ->
     incident = template.incidentCollection.findOne($(event.target).data("incident-id"))
+    content = Template.instance().content.get()
+    displayCharacters = 150
+    [start, end] = incident.countAnnotation.textOffsets[0]
+
+    startingIndex = start - displayCharacters
+    if startingIndex < 0
+      startingIndex = 0
+    # The text before the incident link
+    precedingText = content.slice(startingIndex, start)
+
+    # Split the preceding text if it contains multiple new lines
+    split = precedingText.split(/\n{2,}/g)
+    if split.length > 1
+      precedingText = split[split.length - 1]
+    else if startingIndex isnt 0
+      precedingText = "... " + precedingText
+
+    endingIndex = end + displayCharacters
+    if endingIndex >= content.length
+      endingIndex = content.length - 1
+    followingText = content.slice(end, endingIndex)
+
+    # Split the following text if it contains multiple new lines
+    split = followingText.split(/\n{2,}/g)
+    if split.length > 1
+      followingText = split[0]
+    else if endingIndex isnt (content.length - 1)
+      followingText += " ..."
+
     Modal.show("suggestedIncidentModal", {
       articles: [template.data.article]
       userEventId: template.data.userEventId
       incidentCollection: template.incidentCollection
       incident: incident
+      incidentText: Spacebars.SafeString(Handlebars._escape(precedingText) + """<span class='annotation-text'>#{Handlebars._escape(content.slice(start, end))}</span>""" + Handlebars._escape(followingText))
     })
   "click #add-suggestions": (event, template) ->
     incidents = Template.instance().incidentCollection.find({accepted: true}).map (incident)->
