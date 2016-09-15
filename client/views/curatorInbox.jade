@@ -36,34 +36,13 @@ template(name="curatorInboxSection")
 
 template(name="curatorArticleDetails")
   div(class="row curator-inbox-header curator-article-details-header {{isCurated}}")
-    h2 Article Title
+    h2 {{title}}
     i.fa.fa-check-circle.curated-icon
   .curator-article-details-content
     .row
       .col-xs-12
-        p
-          b Originally published on 
-          {{formattedPublishDate}}
-        p
-          b Added by 
-          {{addedByUserName}},
-          b on {{formattedAddedDate}}
-        p
-          a.ref-link(href="{{url}}" target="_blank") {{url}}
-    .row
-      .col-sm-6
-        h4 Location
-        p Lorem ipsum dolor sit amet.
-        p Lorem ipsum dolor sit amet.
-      .col-sm-6
-        h4 Cases
-        p Lorem ipsum dolor sit amet.
-    .row
-      .col-xs-12
-        h4 Text extractions
-        p Lorem ipsum dolor sit amet.
-        p Lorem ipsum dolor sit amet.
-    .row
+        +curatorEvents
+    .row.curator-inbox-buttons
       .col-xs-12.text-center
         a.btn.btn-primary.disabled(href="") ACCEPT SOURCE
         a.btn.btn-default.disabled(href="") DECLINE

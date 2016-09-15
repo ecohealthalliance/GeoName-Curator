@@ -47,12 +47,16 @@
 
 .curator-inbox-table
   margin-bottom 0
-  color $primary-light
+  color $primary
   thead
     display none
   tr
     padding-left 7px
     padding-right 7px
+  .details-open
+    background $secondary-light
+    &:hover
+      background $secondary-light
 
 .curator-inbox-section-head
   color $primary
@@ -63,6 +67,9 @@
   font-size 14px
   padding-top 8px
   cursor pointer
+
+.curator-inbox-buttons
+  margin-bottom 30px
 
 .curator-article-details-header
   .curated-icon
@@ -80,6 +87,12 @@
 
 .curator-article-details-content
   padding-top 15px
+  h3
+    color $d-gray
+    font-weight 400
+    margin: 5px
+  .reactive-table-navigation
+    margin 15px 0
 
 .curator-inbox-table-row
   .curator-inbox-curated-row::before
@@ -93,6 +106,39 @@
     display table-cell !important
     padding-top 8px
     padding-bottom 8px
+
+.curator-events-table
+  margin-bottom 0
+  color $primary
+  thead
+    display none
+  tr
+    padding-left 7px
+    padding-right 7px
+  .open-row::before
+    content "\f138"
+    font-family FontAwesome
+  .incidents-open
+    background $secondary-light
+    &:hover
+      background $secondary-light
+    .open-row::before
+      content "\f13a"
+      font-family FontAwesome
+  .tr-incidents
+    padding 0
+    .tr-incidents-wrapper
+      padding 0
+
+.curator-events-incidents-table
+  thead
+    display table-header-group
+    background $l-gray
+  tbody
+    background $ll-gray
+  .fa-sort-asc,
+  .fa-sort-desc
+    display none
 
 @media (max-width: 992px)
   .curator-inbox-options
