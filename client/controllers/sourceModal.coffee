@@ -5,6 +5,11 @@ Template.sourceModal.onCreated ->
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
   if @data.publishDate
     @timezoneFixedPublishDate = convertDate(@data.publishDate, "local", UTCOffsets[@data.publishDateTZ])
+  @suggestedArticles = new Mongo.Collection(null)
+  Meteor.call 'queryForSuggestedArticles', @data.userEventId, (error, result) =>
+    if result
+      for suggestedArticle in result
+        @suggestedArticles.insert suggestedArticle
 
 Template.sourceModal.helpers
   timezones: ->
@@ -49,6 +54,13 @@ Template.sourceModal.helpers
     if @edit
       return "save-edit-modal"
     return "save-modal"
+  suggestedArticles: ->
+    templateInstance = Template.instance()
+    articles = templateInstance.suggestedArticles.find()
+    if articles.count()
+      articles
+    else
+      false
 
 Template.sourceModal.events
   "click .save-modal": (e, templateInstance) ->
@@ -125,7 +137,7 @@ Template.sourceModal.events
 
     source = @
     source.publishDateTZ = form.publishDateTZ.value
-    
+
     if date
       selectedDate = moment(
         year: date.year()
@@ -160,3 +172,9 @@ Template.sourceModal.events
               .prop('selected', true)
           templateInstance.$('#publishDate').data("DateTimePicker").date(date)
           templateInstance.$('#publishTime').data("DateTimePicker").date(date)
+  "click #suggested-articles a": (event, templateInstance) ->
+    event.preventDefault()
+    url = event.currentTarget.getAttribute 'href'
+    input = templateInstance.find('#article')
+    input.value = url
+    $(input).trigger('input').trigger('input')

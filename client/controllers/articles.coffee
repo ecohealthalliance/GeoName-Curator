@@ -53,12 +53,12 @@ Template.articles.helpers
   selectedSource: ->
     selectedId = Template.instance().selectedSourceId.get()
     if selectedId
-      Articles.findOne selectedId
+      grid.Articles.findOne selectedId
   incidentsForSource: (sourceUrl) ->
-    Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
+    grid.Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
   locationsForSource: (sourceUrl) ->
     locations = {}
-    incidents = Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).forEach( (incident) ->
+    incidents = grid.Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).forEach( (incident) ->
       for location in incident.locations
         locations[location.id] = location.name
     )
@@ -70,7 +70,7 @@ Template.articles.events
     $parentRow = $target.closest("tr")
     currentOpen = template.$("tr.tr-details")
     if $target.closest(".remove-row").length
-      incidentCount = Incidents.find({userEventId: this.userEventId, url: this.url}).count()
+      incidentCount = grid.Incidents.find({userEventId: this.userEventId, url: this.url}).count()
       if incidentCount
         plural = if incidentCount is 1 then "" else "s"
         message = "There " +

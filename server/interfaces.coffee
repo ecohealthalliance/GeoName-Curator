@@ -1,6 +1,7 @@
 DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
 
 GRITS_API_URL = process.env.GRITS_API_URL or "https://grits.eha.io/api/v1"
+SPA_API_URL = process.env.SPA_API_URL or "http://localhost:5940/api/v1"
 
 Meteor.methods
   getArticleEnhancements: (url) ->
@@ -33,3 +34,15 @@ Meteor.methods
         dateUTC = match[1].replace(' ', 'T') + offset
         dateUTC
     )
+
+  queryForSuggestedArticles: (eventId) ->
+    event = grid.UserEvents.findOne(eventId)
+    console.log "Calling SPA API @ " + SPA_API_URL
+    response = HTTP.call('GET', "#{SPA_API_URL}/relatedArticles", {
+      params: { eventName: event.summary }
+    })
+
+    if response
+      response.data
+    else
+      throw new Meteor.Error 500, "Unable to reach the API"
