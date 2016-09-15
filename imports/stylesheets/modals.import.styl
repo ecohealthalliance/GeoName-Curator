@@ -29,3 +29,17 @@ $modal-border-radius = 4px
 .modal-footer
   padding-top 1.25em
   padding-bottom 2em
+
+.close-modal
+  position absolute
+  right 1em
+  top .75em
+  cursor pointer
+  color $m-gray
+  padding .25em
+  &:hover
+    color $secondary-dark
+  &::before
+    font-family FontAwesome
+    content '\f057'
+    font-size 1.65em
