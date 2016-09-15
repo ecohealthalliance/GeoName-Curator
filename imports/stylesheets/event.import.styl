@@ -13,17 +13,20 @@
   padding-bottom 20px
 
 .event-details
-  margin-top 25px
+  margin 25px 0 35px 0
+
+.event-name-wrap
+  display flex
+  align-items flex-start
+  margin-bottom .25em
 
 .event-name
-  margin-top 0
-  font-size 2.5em
+  margin 0
+  font-size 2.25em
   color $highlight
   font-weight 600
-  display inline-block
 
 .edit-event-details
-  vertical-align top
   margin-left 10px
   cursor pointer
   font-size 1.25em
@@ -32,16 +35,45 @@
     color $primary
 
 .disease-name
-  font-size 20px
-  color #345e7e
-  padding-bottom 10px
+  span
+    font-size 1.5em
+    color $primary
+    &.not-available
+      font-size 1em
 
-.event-summary
-  padding-bottom 25px
+.summary
+  line-height 1.75em
+
+.summary
+.disease-name
+  .not-available
+    color $m-gray
+    font-style italic
+  .fa
+    font-size 95%
+  &.shift-up
+    margin-top -10px
+
+.delete-confirmation
+  text-align center
+  padding-top 2em
+  padding-bottom 3.5em
+  p
+    &:first-of-type
+      margin .5em 0 .2em 0
+      font-size 125%
+    &:last-of-type
+      font-style italic
+      margin-bottom 2em
+  i
+    color lighten($delete, 20%)
+    font-size 5em
+  .other-actions
+    margin-top 1em
+    .btn:first-of-type
+      margin-right .5em
 
 .event-head
-  h1
-    margin-bottom 20px
   .minor
     font-size 20px
   h2
