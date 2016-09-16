@@ -19,6 +19,7 @@ RUN curl https://install.meteor.com/ | sh
 
 ADD . /eidr-connect
 WORKDIR /eidr-connect
+RUN meteor npm install
 RUN meteor build /build --directory
 WORKDIR /build/bundle/programs/server
 RUN npm install
