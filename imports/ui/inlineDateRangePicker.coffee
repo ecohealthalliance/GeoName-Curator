@@ -7,7 +7,9 @@ createInlineDateRangePicker = ($parentElement, options) ->
       v = if c is 'x' then r else (r&0x3|0x8)
       return v.toString(16)
     )
+    $parentElement.prop("id", parentId)
 
+  if !options then options = {}
   allOptions = {
     parentEl: "#" + parentId
     template: Blaze.toHTML(Template.inlineDateRangePicker)

@@ -77,7 +77,7 @@ Template.eventMap.onRendered ->
           eventIndex += 1
 
     instance.templateEvents.set templateEvents
-    instance.disablePrev.set if eventIndex < totalEventCount then false else true
+    instance.disablePrev.set if eventIndex < filteredEvents?.length then false else true
     instance.disableNext.set if currentPage is 0 then true else false
     if instance.allMapMarkers
       map.removeLayer instance.allMapMarkers

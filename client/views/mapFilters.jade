@@ -1,34 +1,32 @@
 template(name="mapFilters")
   .map-menu
     .search-wrap
-      i.fa.fa-calendar.toggle-calendar-state(class="{{#if calendarState.get}} showing {{/if}}")
+      i.fa.fa-calendar.toggle-calendar-state(class="{{#if calendarState}} showing {{/if}}")
       .map-search
         i.fa.fa-search
         input.form-control(type="text" placeholder="Search events")
-    +dateSelector(
-      currentDate=getCurrentDate
-      filtering=filtering
-      variables=variables
-      calendarState=calendarState)
-    ul.map-event-list.list-group
-      each getEvents
-        li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
-          span.name=name
-          span.date=date
-          .circle(style="background-color:rgb(#{rgbColor})")
-      .map-event-list--nav
-        .event-list-prev(title="Older" class="{{#if disablePrev}} disabled {{/if}}")
-          i.fa.fa-chevron-left
-        .event-list-next(title="Newer" class="{{#if disableNext}} disabled {{/if}}")
-          i.fa.fa-chevron-right
-        span.deselect-all(
-          class="{{#if eventsAreSelected}} active {{/if}}") Deselect events
+    if calendarState
+      +dateSelector(dateVariables=dateVariables)
+    div
+      ul.map-event-list.list-group
+        each getEvents
+          li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
+            span.name=name
+            span.date=date
+            .circle(style="background-color:rgb(#{rgbColor})")
+        .map-event-list--nav
+          .event-list-prev(title="Older" class="{{#if disablePrev}} disabled {{/if}}")
+            i.fa.fa-chevron-left
+          .event-list-next(title="Newer" class="{{#if disableNext}} disabled {{/if}}")
+            i.fa.fa-chevron-right
+          span.deselect-all(
+            class="{{#if eventsAreSelected}} active {{/if}}") Deselect events
 
 
 template(name="dateSelector")
-  .calendar-wrapper(class="{{#unless calendarState}} hidden {{/unless}}")
+  .calendar-wrapper
     .date-picker-container
-      .datePicker(type="text")
+      input.form-control.rangePicker(type="text")
     .date-options.centered
       button.btn.btn-default.btn-sm.before(
         class="{{#if searchTypeSelected 'before'}} selected {{/if}}") Before

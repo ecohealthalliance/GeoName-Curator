@@ -14,7 +14,13 @@ if Meteor.isServer
   Meteor.publish "eventIncidents", (ueId) ->
     getEventIncidentss(ueId)
   Meteor.publish "mapIncidents", () ->
-    Incidents.find({locations: {$ne: null}}, {fields: {userEventId: 1, date: 1, locations: 1}})
+    Incidents.find({locations: {$ne: null}}, {fields: {
+      userEventId: 1
+      "dateRange.start": 1
+      "dateRange.end": 1
+      "dateRange.cumulative": 1
+      locations: 1
+    }})
 
   Incidents.allow
     insert: (userID, doc) ->

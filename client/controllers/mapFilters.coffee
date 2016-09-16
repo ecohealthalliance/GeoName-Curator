@@ -1,16 +1,9 @@
+createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
+
 Template.mapFilters.onCreated ->
-  @currentDate = new Date()
-  @variables = new ReactiveVar
-    incidentDate:
-      filter: 'incidentDate'
-      state: false
-      dateFilter: true
-      label: 'Incident Report Date'
-      collectionField: '_id'
-      values:
-        dateCollection: 'incidents'
-        searchType: 'on'
-        dates: []
+  @dateVariables = new ReactiveVar
+    searchType: 'on'
+    dates: []
   @userSearchText = new ReactiveVar ''
   @filtering = new ReactiveVar false
   @calendarState = new ReactiveVar false
@@ -18,16 +11,42 @@ Template.mapFilters.onCreated ->
 Template.mapFilters.onRendered ->
   instance = @
   @autorun ->
-    checkValues = Template.instance().variables.get()
+    checkValues = Template.instance().dateVariables.get()
     filters = []
-    for name, variable of checkValues
+    if instance.filtering.get()
       varQuery = {}
-      if instance.filtering.get()
-        filterDate = variable.values.dates[0] or new Date()
-        if variable.values.dateCollection is 'incidents'
-          eventIds = _.uniq(grid.Incidents.find({date: filterDate}, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
-          varQuery[variable.collectionField] = {$in: eventIds}
-      filters.push(varQuery)
+      if checkValues.dates.length
+        startFilterDate = checkValues.dates[0]
+        endFilterDate = checkValues.dates[1]
+        switch checkValues.searchType
+          when "after" then dateProjection = {"dateRange.end": {$gt: endFilterDate}}
+          when "before" then dateProjection = {
+            $or: [
+              {
+                "dateRange.cumulative": false
+                "dateRange.start": {$lt: startFilterDate}
+              },
+              {
+                "dateRange.cumulative": true
+              }
+            ]
+          }
+          else dateProjection = {
+            $or: [
+              {
+                "dateRange.cumulative": false
+                "dateRange.start": {$lte: endFilterDate}
+                "dateRange.end": {$gte: startFilterDate}
+              },
+              {
+                "dateRange.cumulative": true
+                "dateRange.end": {$gte: startFilterDate}
+              }
+            ]
+          }
+        eventIds = _.uniq(grid.Incidents.find(dateProjection, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
+        varQuery._id = {$in: eventIds}
+        filters.push(varQuery)
 
     userSearchText = Template.instance().userSearchText.get()
     nameQuery = []
@@ -38,17 +57,11 @@ Template.mapFilters.onRendered ->
     Template.instance().data.query.set({ $and: filters })
 
 Template.mapFilters.helpers
-  variables: ->
-    Template.instance().variables
-
-  getVariables: ->
-    _.values Template.instance().variables.get()
+  dateVariables: ->
+    Template.instance().dateVariables
 
   getSearchText: ->
     Template.instance().userSearchText.get()
-
-  getCurrentDate: ->
-    Template.instance().currentDate
 
   searchMatch: (matchType, valueType) ->
     matchType is valueType
@@ -72,19 +85,27 @@ Template.mapFilters.helpers
     Template.instance().data.selectedEvents.findOne()
 
   calendarState: ->
-    Template.instance().calendarState
+    Template.instance().calendarState.get()
 
 Template.mapFilters.events
-  'click .datePicker': (e, instance) ->
-    instance.filtering.set true
+  'cancel.daterangepicker': (e, instance) ->
+    $(e.target).val("")
+    instance.filtering.set(false)
+    variables = instance.dateVariables.get()
+    variables.searchType = "on"
+    instance.dateVariables.set(variables)
 
-  'dp.change .datePicker': (e, instance) ->
-    variables = instance.variables.get()
-    variable = 'incidentDate'
-    dateValues = []
-    dateValues.push e.date._d
-    variables[variable].values.dates = dateValues
-    instance.variables.set(variables)
+  'apply.daterangepicker .rangePicker': (e, instance) ->
+    dateFormat = "M/D/YYYY"
+    $target = $(e.target)
+    picker = $target.data("daterangepicker")
+    variables = instance.dateVariables.get()
+    start = picker.startDate
+    end = picker.endDate
+    $target.val(start.format(dateFormat) + " - " + end.format(dateFormat))
+    variables.dates = [start.toDate(), end.toDate()]
+    instance.dateVariables.set(variables)
+    instance.filtering.set(true)
 
   'input .map-search': _.debounce (e, templateInstance) ->
     e.preventDefault()
@@ -118,24 +139,23 @@ Template.mapFilters.events
     instance.data.selectedEvents.remove({})
 
 Template.dateSelector.onRendered ->
-  instance = Template.instance()
-  instance.$(".datePicker").datetimepicker
-    format: "M/D/YYYY"
-    widgetPositioning: {vertical: "bottom"}
-    inline: true
-    defaultDate: false
+  @.$(".rangePicker").daterangepicker({
+    autoUpdateInput: false
+    locale: {cancelLabel: "Clear"}
+  })
 
 setSearchType = (instance, type) ->
-  variables = instance.data.variables
+  variables = instance.data.dateVariables
   _variables = variables.get()
-  _variables.incidentDate.values.searchType = type
+  if _variables.searchType is type
+    _variables.searchType = "on"
+  else
+    _variables.searchType = type
   variables.set _variables
 
 Template.dateSelector.helpers
-  calendarState: ->
-    Template.instance().data.calendarState.get()
   searchTypeSelected: (type) ->
-    Template.instance().data.variables.get().incidentDate.values.searchType is type
+    Template.instance().data.dateVariables.get().searchType is type
 
 Template.dateSelector.events
   'click .before': (event, instance) ->
