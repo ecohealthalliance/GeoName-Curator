@@ -40,7 +40,7 @@ Template.eventMap.onRendered ->
     eventsPerPage = instance.eventsPerPage
 
     if _.isObject query
-      allEvents = instance.data.events.find(query, {sort: {lastIncident: -1}}).fetch()
+      allEvents = instance.data.events.find(query, {sort: {lastIncidentDate: -1}}).fetch()
       startingPosition = currentPage * eventsPerPage
       totalEventCount = allEvents.length
     else
@@ -71,7 +71,7 @@ Template.eventMap.onRendered ->
             _id: event._id
             name: event.eventName
             date: 'Reported: ' + event.creationDate.toDateString()
-            lastIncident: 'Last Incident: ' + event.lastIncident.toDateString()
+            lastIncidentDate: 'Last Incident Date: ' + event.lastIncidentDate.toDateString()
             rgbColor: rgbColor
             incidents: event.incidents
           MapHelpers.addEventToMarkers filteredMapLocations, event, rgbColor

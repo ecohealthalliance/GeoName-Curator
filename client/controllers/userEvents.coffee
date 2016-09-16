@@ -10,8 +10,8 @@ Template.userEvents.onCreated ->
     {
       arrayName: '',
       description: 'Last Incident occured on.',
-      displayName: 'Last Incident',
-      fieldName: 'lastIncident',
+      displayName: 'Last Incident Date',
+      fieldName: 'lastIncidentDate',
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
         return value.toLocaleString()
@@ -46,7 +46,7 @@ Template.userEvents.onCreated ->
   @currentPage = new ReactiveVar(Session.get('events-current-page') or 0)
   @rowsPerPage = new ReactiveVar(Session.get('events-rows-per-page') or 10)
   @fieldVisibility = {}
-  @sortOrder = {"lastIncident"}
+  @sortOrder = {"lastIncidentDate"}
   @sortDirection = {}
 
   for field in @userEventFields

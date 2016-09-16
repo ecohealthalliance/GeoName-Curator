@@ -66,12 +66,12 @@ Meteor.methods
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       event = UserEvents.findOne(id)
       UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
-  updateUserEventLastIncident: (id) ->
+  updateUserEventlastIncidentDate: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       event = UserEvents.findOne(id)
       latestEventIncident = grid.Incidents.findOne({userEventId: event._id}, {sort: {addedDate: -1}})      
       if latestEventIncident
-        UserEvents.update(id, {$set: {lastIncident: latestEventIncident.dateRange.start}})
+        UserEvents.update(id, {$set: {lastIncidentDate: latestEventIncident.dateRange.start}})
 
 # Add article count field to events
 if Meteor.isServer
