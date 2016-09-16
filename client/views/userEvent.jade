@@ -3,31 +3,10 @@ template(name="userEvent")
     .row
       .event-head
         .basic-info
-          if isEditing
-            with userEvent
-              form#editEvent.form-horizontal
-                .form-group
-                  .col-md-12
-                    label.control-label Event Name
-                    input.form-control(type='text' name='eventName' value='{{eventName}}' required)
-                .form-group
-                  .col-md-12
-                    label.control-label Event Disease
-                    input.form-control(type="text" name="eventDisease" value="{{disease}}")
-                .form-group
-                  .col-md-12
-                    label.control-label Event Summary
-                    textarea.form-control(name="eventSummary" rows="15") {{summary}}
-                .form-group
-                  .col-sm-2
-                    button#cancel-edit.btn.btn-default.btn-block(type='button') Cancel
-                  .col-sm-2.space-btm-1
-                    button#save-edit.btn.btn-primary.btn-block(type='submit') Save
-          else
-            with userEvent
-              .row
-                .col-md-12
-                  +summary
+          with userEvent
+            .row
+              .col-md-12
+                +summary
 
       if incidents.length
         .row
@@ -49,52 +28,57 @@ template(name="userEvent")
           +articles
 
 template(name="summary")
-  .row
-    .col-md-6
-      .eventName.eventNameSummary {{eventName}}
-      p
+  .row.event-summary
+    .col-md-6.event-details
+      .event-name-wrap
+        h1.event-name= eventName
+        if isInRole "admin"
+          i.fa.fa-edit.edit-event-details(
+            data-toggle="modal"
+            data-target="#edit-event-modal"
+            data-editing='name')
+      p.disease-name
         if disease
-          .diseaseName {{disease}}
+          span= disease
         else
-          | No disease available.
-      p.abstract.eventSummary
+          span.not-available No disease available.
+          if isInRole "admin"
+            i.fa.fa-plus-circle.edit-event-details(
+              data-toggle="modal"
+              data-target="#edit-event-modal"
+              data-editing='disease')
+      p.abstract.summary(class="{{#unless summary}} shift-up {{/unless}}")
         if summary
-          | {{summary}}
+          span= summary
         else
-          | No summary available.
+          span.not-available No summary available.
+          if isInRole "admin"
+            i.fa.fa-plus-circle.edit-event-details(
+              data-toggle="modal"
+              data-target="#edit-event-modal"
+              data-editing='summary')
     .col-md-6
       .col-sm-4.col-sm-offset-8.space-btm-1.space-top-1
-        if isInRole "admin"
-          .dropdown
-            button.btn.btn-default.btn-block.dropdown-toggle(type="button" data-toggle="dropdown" style="white-space: normal;")
-              | Admin Options
-              span.caret
-            ul.dropdown-menu
-              li
-                a.edit-link(href="#") Edit
-              li
-                a.delete-link(href="#") Delete
       table#countTable.col-md-12
         tr.col-md-12
-          td.col-md-6.countCell.countCellLeft.text-center
-            .col-md-12.countCellValue
-              {{caseCount}}
-            .col-md-12.countCellTitle INCIDENT REPORTS
-          td.col-md-6.countCell.text-center
-            .col-md-12.countCellValue
-              {{articleCount}}
-            .col-md-12.countCellTitle SOURCES
-        tr.col-md-12.countTableDetail
-          td.col-md-5.gi Created By:
-            b{{createdByUserName}}
-            |on {{formatDate creationDate}}
-          td.col-md-5.gi.giCellCenter Last Modified By:
-            b{{lastModifiedByUserName}}
-            |on {{formatDate lastModifiedDate}}
+          td.col-md-6.count-cell.count-cell-left.text-center
+            .col-md-12.count-cell-value= caseCount
+            .col-md-12.count-cell-title Incident Reports
+          td.col-md-6.count-cell.text-center
+            .col-md-12.count-cell-value= articleCount
+            .col-md-12.count-cell-title Sources
+        tr.col-md-12.count-table-detail
+          td.col-md-5.gi
+            span Created:
+            | {{formatDate creationDate}} by #{createdByUserName}
+          td.col-md-5.gi.gi-cell-center
+            span Last Modified:
+            | {{formatDate lastModifiedDate}} by #{lastModifiedByUserName}
           td.col-md-2.gi
             button.copy-link.btn.btn-xs.btn-default(type="button" data-clipboard-text="{{urlFor 'user-event'}}")
               i.fa.fa-share-alt
               | Copy Event Link
+  +editEventDetailsModal
 
 
 
@@ -133,14 +117,50 @@ template(name="location")
           ul
             each sources
              li
-                a(href="{{this}}") {{this}}
+                a(href=this)= this
                   i.fa.fa-external-link
       .form-group
         .col-md-12
           i.fa.fa-globe
-          a(href="http://www.geonames.org/{{id}}") {{name}}
+          a(href="http://www.geonames.org/{{id}}")= name
             i.fa.fa-external-link
       .form-group
         .col-md-12
           i.fa.fa-info-circle
           em Added on {{formatDate addedDate}}
+
+template(name="editEventDetailsModal")
+  #edit-event-modal.modal.fade(role="dialog")
+    .modal-dialog
+      .modal-content
+        form#editEvent
+          .close-modal(data-dismiss="modal" aria-label="Close")
+          .modal-header
+            h4.modal-title Edit Event Details
+          .modal-body.clearfix
+            unless confirmingDeletion
+              .form-group
+                label Event Name
+                input.form-control(type='text' name='eventName' value=eventName required)
+              .form-group
+                label Event Disease
+                input.form-control(type="text" name="eventDisease" value=disease)
+              .form-group
+                label Event Summary
+                textarea.form-control(name="eventSummary" rows="15")= summary
+            else
+              .delete-confirmation
+                i.fa.fa-trash-o
+                p Are you sure you want to delete this event?
+                p= eventName
+                .main-action
+                  button.btn.btn-danger.btn-wide.delete-event-confirmation(type="button") Delete Event
+                .other-actions
+                  button.btn.btn-default.btn-sm.back-to-editing(type="button") Edit Event
+                  button.btn.btn-default.btn-sm(type="button" data-dismiss="modal") Cancel
+
+          unless confirmingDeletion
+            .modal-footer
+              button.btn.btn-danger.delete-event.pull-left(type="button") Delete Event
+              button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+              button.btn.btn-success.btn-wide.save-modal(type="submit") Save

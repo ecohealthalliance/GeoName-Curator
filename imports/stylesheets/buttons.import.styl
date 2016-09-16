@@ -3,8 +3,8 @@ $warning-btn-color = lighten($warning, 50%)
 
 $btn-types = {
   '.btn-default': {
-    text: $primary
-    border: $border-btn
+    text: $m-gray
+    border: lighten($m-gray, 50%)
     bg: white
     bg-hover: $l-gray
   },
@@ -21,10 +21,10 @@ $btn-types = {
     bg-hover: darken($success-btn-color, 25%)
   }
   '.btn-danger': {
-    text: $primary
+    text: $primary-dark
     text-hover: white
     border: darken($delete, 30%)
-    bg: lighten($delete, 50%)
+    bg: lighten($delete, 60%)
     bg-hover: darken($delete, 10%)
   }
   '.btn-warning': {
@@ -73,8 +73,8 @@ $buttons()
 .btn
   padding-top .5em
   padding-bottom .5em
-  padding-left 1em
-  padding-right 1em
+  padding-left 1.25em
+  padding-right 1.25em
   font-size 1em
   font-weight 300
   letter-spacing .03em
@@ -94,6 +94,10 @@ $buttons()
 .btn-shouting
   text-transform uppercase
 
+.btn-wide
+  padding-left 2em
+  padding-right 2em
+
 .btn-featured
   padding 1em 5em
 
@@ -105,7 +109,7 @@ $buttons()
   padding-top .25em
   padding-bottom .25em
   text-transform none
-  font-size 1em
+  font-size .95em
 
 @media(max-width: $mobile-break)
   .btn-featured

@@ -40,27 +40,6 @@ Template.userEvent.events
     toastr.success("Event link copied.")
   "click .edit-link, click #cancel-edit": (event, template) ->
     template.editState.set(not template.editState.get())
-  "click .delete-link": (event, template) ->
-    if confirm("Are you sure you want to delete this event?")
-      Meteor.call("deleteUserEvent", @_id, (error, result) ->
-        if not error
-          Router.go('user-events')
-      )
-  "submit #editEvent": (event, template) ->
-    event.preventDefault()
-    valid = event.target.eventName.checkValidity()
-    unless valid
-      toastr.error('Please provide a new name')
-      event.target.eventName.focus()
-      return
-    updatedName = event.target.eventName.value.trim()
-    updatedSummary = event.target.eventSummary.value.trim()
-    disease = event.target.eventDisease.value.trim()
-    if updatedName.length isnt 0
-      Meteor.call("updateUserEvent", @_id, updatedName, updatedSummary, disease, (error, result) ->
-        if not error
-          template.editState.set(false)
-      )
 
 Template.createEvent.events
   "submit #add-event": (e) ->
