@@ -18,14 +18,36 @@ getTerritories = (annotationsWithOffsets, sents) ->
       else
         sentAnnotations.push annotation
         annotationIdx++
-    if sentAnnotations.length > 0
+    if sentAnnotations.length > 0 or territories.length == 0
       territories.push
         annotations: sentAnnotations
         territoryStart: sentStart
         territoryEnd: sentEnd
-    else if territories.length > 0
+    else
       territories[territories.length - 1].territoryEnd = sentEnd
   return territories
+
+# Parse text into an array of sentences separated by
+# periods, colons, semi-colons, or double linebreaks.
+parseSents = (text)->
+  idx = 0
+  sents = []
+  sentStart = 0
+  while idx < text.length
+    char = text[idx]
+    if char == "\n"
+      [match] = text.slice(idx).match(/^\n+/)
+      idx += match.length
+      if match.length > 1
+        sents[sents.length] = text.slice(sentStart, idx)
+        sentStart = idx
+    else if /^[\.\;\:]/.test(char)
+      idx++
+      sents[sents.length] = text.slice(sentStart, idx)
+      sentStart = idx
+    else
+      idx++
+  return sents
 
 Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
@@ -71,8 +93,7 @@ Template.suggestedIncidentsModal.onCreated ->
           alternateNames: loc.alternateNames
       @loading.set(false)
       @content.set result.source.cleanContent.content
-      sents = result.source.cleanContent.content.split(".")
-      sents = sents.slice(0, -1).map((s)->s + ".").concat(sents.slice(-1))
+      sents = parseSents(result.source.cleanContent.content)
       keypoints = result.keypoints
       locTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.location), sents)
       dateTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.time), sents)
@@ -80,13 +101,12 @@ Template.suggestedIncidentsModal.onCreated ->
         unless keypoint.count then return
         [kStart, kEnd] = keypoint.textOffsets[0]
         locationTerritory = _.find locTerritories, ({territoryStart, territoryEnd})->
-          if kEnd <= territoryEnd and kStart >= territoryStart
+          if kStart <= territoryEnd and kStart >= territoryStart
             return true
         dateTerritory = _.find dateTerritories, ({territoryStart, territoryEnd})->
-          if kEnd <= territoryEnd and kStart >= territoryStart
+          if kStart <= territoryEnd and kStart >= territoryStart
             return true
         incident =
-          timeRange: {}
           locations: locationTerritory.annotations.map(({location})->geonamesById[location.geonameid])
         mostFromKeys = 0
         mostToKeys = 0
@@ -95,21 +115,34 @@ Template.suggestedIncidentsModal.onCreated ->
           if not time.timeRange
             #console.log "No Timerange", annotation
             return
-          fromTime = time.timeRange.begin
+          incident.dateRange = {}
+          fromTime = _.clone(time.timeRange.begin)
           if fromTime
             fromKeys = Object.keys(fromTime).length
+            # moment parses 0 based month indecies
+            if fromTime.month then fromTime.month--
             parsedDate = moment(fromTime)
             if fromKeys > mostFromKeys and parsedDate.isValid()
-              incident.timeRange.start = parsedDate.toDate()
+              incident.dateRange.start = parsedDate.toDate()
               mostFromKeys = fromKeys
-          toTime = time.timeRange.end
+          else
+            console.log "No fromTime", annotation
+          toTime = _.clone(time.timeRange.end)
           if toTime
             toKeys = Object.keys(toTime).length
+            # moment parses 0 based month indecies
+            if toTime.month then toTime.month--
             # Round up the to date
             parsedDate = moment(_.extend({hours:23, minutes: 59}, toTime))
             if toKeys > mostToKeys and parsedDate.isValid()
-              incident.timeRange.end = parsedDate.toDate()
+              incident.dateRange.end = parsedDate.toDate()
               mostToKeys = toKeys
+          else
+            console.log "No toTime", annotation
+          if moment(incident.dateRange.end).diff(incident.dateRange.start, "hours") <= 24
+            incident.dateRange.type = "day"
+          else
+            incident.dateRange.type = "precise"
         incident.dateTerritory = dateTerritory
         incident.locationTerritory = locationTerritory
         incident.countAnnotation = keypoint
