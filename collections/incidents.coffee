@@ -63,7 +63,7 @@ if Meteor.isServer
     # Fix empty location arrays, empty string counts and numeric geoname ids.
     incidents = Incidents.find().fetch()
     for incident in incidents
-      if incident.locations or incident.locations.length == 0
+      if incident.locations and incident.locations.length > 0
         Incidents.update(incident._id, {
           $set:
             locations: incident.locations.map((loc)->
