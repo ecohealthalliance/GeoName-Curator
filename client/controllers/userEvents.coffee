@@ -2,7 +2,14 @@ Template.userEvents.onCreated ->
   @userEventFields = [
     {
       arrayName: '',
-      description: 'Last Incident occured on.',
+      description: 'The name of the EID.',
+      displayName: 'Event Name',
+      fieldName: 'eventName',
+      defaultSortDirection: 1
+    },
+    {
+      arrayName: '',
+      description: 'Date last incident occured.',
       displayName: 'Last Incident Date',
       fieldName: 'lastIncidentDate',
       defaultSortDirection: -1,
@@ -10,16 +17,8 @@ Template.userEvents.onCreated ->
         if value != null
           return value.toLocaleString()
         else
-          return "No event incident"
+          return "No incidents"
     },
-    {
-      arrayName: '',
-      description: 'The name of the EID.',
-      displayName: 'Event Name',
-      fieldName: 'eventName',
-      defaultSortDirection: 1
-    },
-
     {
       arrayName: '',
       description: 'Date the event was created.',

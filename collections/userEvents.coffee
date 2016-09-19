@@ -66,16 +66,22 @@ Meteor.methods
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       event = UserEvents.findOne(id)
       UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
-  updateUserEventlastIncidentDate: (id) ->
-    if Roles.userIsInRole(Meteor.userId(), ['admin'])
-      event = UserEvents.findOne(id)
-      latestEventIncident = grid.Incidents.findOne({userEventId: event._id}, {sort: {addedDate: -1}})      
-      if latestEventIncident
-        UserEvents.update(id, {$set: {lastIncidentDate: latestEventIncident.dateRange.start}})
+  updateUserEventLastIncidentDate: (id) ->
+    event = UserEvents.findOne(id)
+    latestEventIncident = grid.Incidents.findOne({userEventId: event._id}, {sort: {addedDate: -1}})      
+    if latestEventIncident
+      UserEvents.update(id, {
+        $set:
+          lastIncidentDate: latestEventIncident.dateRange.end
+      })
+    else
+      UserEvents.update(id, {
+        $unset:
+          lastIncidentDate: ""
+      })
 
-# Add article count field to events
+# Add lastIncidentDate
 if Meteor.isServer
   Meteor.startup ->
     UserEvents.find().forEach (event) ->
-      count = grid.Articles.find({userEventId: event._id}).count()
-      UserEvents.update(event._id, {$set: {articleCount: count}})
+      Meteor.call("updateUserEventLastIncidentDate", event._id)

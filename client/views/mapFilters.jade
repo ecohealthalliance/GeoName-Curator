@@ -14,8 +14,7 @@ template(name="mapFilters")
       each getEvents
         li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
           span.name=name
-          span.date=date
-          span.date=lastIncidentDate
+          span.date Last Incident Date: {{formatDate lastIncidentDate}}
           .circle(style="background-color:rgb(#{rgbColor})")
       .map-event-list--nav
         .event-list-prev(title="Older" class="{{#if disablePrev}} disabled {{/if}}")

@@ -70,8 +70,8 @@ Template.eventMap.onRendered ->
           templateEvents.push
             _id: event._id
             name: event.eventName
-            date: 'Reported: ' + event.creationDate.toDateString()
-            lastIncidentDate: 'Last Incident Date: ' + event.lastIncidentDate.toDateString()
+            date: event.creationDate
+            lastIncidentDate: event.lastIncidentDate
             rgbColor: rgbColor
             incidents: event.incidents
           MapHelpers.addEventToMarkers filteredMapLocations, event, rgbColor
