@@ -60,6 +60,7 @@ IncidentReportSchema = new SimpleSchema(
     optional: true
   "locations.$.countryName":
     type: String
+    optional: true
   "locations.$.featureClass":
     type: String
     optional: true
