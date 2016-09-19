@@ -1,7 +1,7 @@
 DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
 
 GRITS_API_URL = process.env.GRITS_API_URL or "https://grits.eha.io/api/v1"
-SPA_API_URL = process.env.SPA_API_URL or "http://localhost:5940/api/v1"
+SPA_API_URL = process.env.SPA_API_URL or "http://spa.eha.io/api/v1"
 
 Meteor.methods
   getArticleEnhancements: (url) ->
