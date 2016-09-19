@@ -9,6 +9,18 @@ Template.userEvents.onCreated ->
     },
     {
       arrayName: '',
+      description: 'Date last incident occured.',
+      displayName: 'Last Incident Date',
+      fieldName: 'lastIncidentDate',
+      defaultSortDirection: -1,
+      displayFn: (value, object, key) ->
+        if value != null
+          return value.toLocaleString()
+        else
+          return "No incidents"
+    },
+    {
+      arrayName: '',
       description: 'Date the event was created.',
       displayName: 'Creation Date',
       fieldName: 'creationDate',

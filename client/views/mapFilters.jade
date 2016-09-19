@@ -7,20 +7,19 @@ template(name="mapFilters")
         input.form-control(type="text" placeholder="Search events")
     if calendarState
       +dateSelector(dateVariables=dateVariables)
-    div
-      ul.map-event-list.list-group
-        each getEvents
-          li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
-            span.name=name
-            span.date=date
-            .circle(style="background-color:rgb(#{rgbColor})")
-        .map-event-list--nav
-          .event-list-prev(title="Older" class="{{#if disablePrev}} disabled {{/if}}")
-            i.fa.fa-chevron-left
-          .event-list-next(title="Newer" class="{{#if disableNext}} disabled {{/if}}")
-            i.fa.fa-chevron-right
-          span.deselect-all(
-            class="{{#if eventsAreSelected}} active {{/if}}") Deselect events
+    ul.map-event-list.list-group
+      each getEvents
+        li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
+          span.name=name
+          span.date Last Incident Date: {{formatDate lastIncidentDate}}
+          .circle(style="background-color:rgb(#{rgbColor})")
+      .map-event-list--nav
+        .event-list-prev(title="Older" class="{{#if disablePrev}} disabled {{/if}}")
+          i.fa.fa-chevron-left
+        .event-list-next(title="Newer" class="{{#if disableNext}} disabled {{/if}}")
+          i.fa.fa-chevron-right
+        span.deselect-all(
+          class="{{#if eventsAreSelected}} active {{/if}}") Deselect events
 
 
 template(name="dateSelector")
