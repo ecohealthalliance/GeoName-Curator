@@ -142,16 +142,6 @@ Template.dateSelector.onRendered ->
       $('.after-date-picker').datetimepicker()
       $('.before-date-picker').datetimepicker()
 
-setSearchType = (instance, type) ->
-  variables = instance.data.dateVariables
-  _variables = variables.get()
-  if _variables.searchType is type
-    _variables.searchType = "on"
-  else
-    _variables.searchType = type
-  instance.$("input:not(.#{type}-date-picker)").val('')
-  variables.set _variables
-
 Template.dateSelector.helpers
   searchTypeSelected: (type) ->
     Template.instance().data.dateVariables.get().searchType is type
@@ -177,12 +167,6 @@ Template.dateSelector.events
     variables.set _variables
     instance.data.filtering.set true
     picker.show()
-
-  'click .after-date-picker': (event, instance) ->
-    setSearchType(instance, 'after')
-
-  'click .before-date-picker': (event, instance) ->
-    setSearchType(instance, 'before')
 
   'click .additional-date-options': (event, instance) ->
     instance.additionalOptions.set true
