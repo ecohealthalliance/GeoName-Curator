@@ -1,26 +1,53 @@
-Template.curatorInbox.onCreated ->
-  @selectedArticle = false
-  @allArticles = grid.Articles.find({}, {sort: {addedDate: -1}}).fetch()
+createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
-  @days = []
+createInboxSections = () ->
+  console.log 'CREATE'
+  sections = []
   recordedDates = {}
-  for article in @allArticles
+  allArticles = grid.Articles.find({}, {sort: {addedDate: -1}}).fetch()
+  for article in allArticles
     date = new Date(article.addedDate.getFullYear(), article.addedDate.getMonth(), article.addedDate.getDate())
     recordedDates[date.getTime()] = date
-
   for key of recordedDates
-    @days.push recordedDates[key]
-  @days.sort
+    sections.push recordedDates[key]
+  sections.sort
+  return sections
 
+Template.curatorInbox.onCreated ->
+  @calendarState = new ReactiveVar false
+  @ready = new ReactiveVar true
+  @selectedArticle = false
+  @days = createInboxSections()
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
+
+Template.curatorInbox.onRendered ->
+  $(document).ready =>
+    createInlineDateRangePicker($("#date-picker"), {})
 
 Template.curatorInbox.helpers
   days: ->
     return Template.instance().days
 
+  calendarState: ->
+    return Template.instance().calendarState.get()
+
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
     template.textFilter.set($(event.target).val())
+  "click .curator-filter-calendar-icon": (event, template) ->
+    calendarState = template.calendarState
+    calendarState.set not calendarState.get()
+  "click #calendar-btn-apply": (event, template) ->
+    template.calendarState.set(false)
+    template.ready.set(false)
+  "click #calendar-btn-reset": (event, template) ->
+    template.calendarState.set(false)
+    template.ready.set(false)
+  "click #calendar-btn-cancel": (event, template) ->
+    template.calendarState.set(false)
+
+  # "change input[name='daterangepicker_start']": (event, template) ->
+  #   $('#date-picker').data('daterangepicker').clickApply()
 
 Template.curatorInboxSection.onCreated ->
   @curatorInboxFields = [
