@@ -14,6 +14,15 @@ createInboxSections = () ->
   sections.sort
   return sections
 
+createNewCalendar = () ->
+  createInlineDateRangePicker($("#date-picker"), {maxDate: new Date(), useDefaultDate: true})
+  calendar = $('#date-picker').data('daterangepicker')
+  currentMonth = moment({ month: moment().month() })
+  lastMonth = moment({ month: moment().subtract(1, 'months').month() })
+  calendar.rightCalendar.month = currentMonth
+  calendar.leftCalendar.month = lastMonth
+  calendar.updateCalendars()
+
 Template.curatorInbox.onCreated ->
   @calendarState = new ReactiveVar false
   @ready = new ReactiveVar false
@@ -28,7 +37,7 @@ Template.curatorInbox.onCreated ->
 
 Template.curatorInbox.onRendered ->
   $(document).ready =>
-    createInlineDateRangePicker($("#date-picker"), {})
+    createNewCalendar()
 
 Template.curatorInbox.onDestroyed ->
   @sub.stop()
@@ -61,8 +70,6 @@ Template.curatorInbox.events
       endDate: $('#date-picker').data('daterangepicker').endDate.format()
     }
 
-    console.log range
-
     template.sub = Meteor.subscribe "recentEventArticles", 2000, range, () ->
       template.days = createInboxSections()
       template.ready.set(true)
@@ -71,6 +78,9 @@ Template.curatorInbox.events
     template.calendarState.set(false)
     template.ready.set(false)
     template.sub.stop()
+
+    createNewCalendar()
+
     template.sub = Meteor.subscribe "recentEventArticles", 100, null, () ->
       template.days = createInboxSections()
       template.ready.set(true)
