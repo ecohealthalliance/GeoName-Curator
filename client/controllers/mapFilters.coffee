@@ -19,28 +19,28 @@ Template.mapFilters.onRendered ->
         startFilterDate = checkValues.dates[0]
         endFilterDate = checkValues.dates[1]
         switch checkValues.searchType
-          when "after" then dateProjection = {"dateRange.end": {$gt: endFilterDate}}
-          when "before" then dateProjection = {
+          when 'after' then dateProjection = {'dateRange.end': {$gt: endFilterDate}}
+          when 'before' then dateProjection = {
             $or: [
               {
-                "dateRange.cumulative": false
-                "dateRange.start": {$lt: startFilterDate}
+                'dateRange.cumulative': false
+                'dateRange.start': {$lt: startFilterDate}
               },
               {
-                "dateRange.cumulative": true
+                'dateRange.cumulative': true
               }
             ]
           }
           else dateProjection = {
             $or: [
               {
-                "dateRange.cumulative": false
-                "dateRange.start": {$lte: endFilterDate}
-                "dateRange.end": {$gte: startFilterDate}
+                'dateRange.cumulative': false
+                'dateRange.start': {$lte: endFilterDate}
+                'dateRange.end': {$gte: startFilterDate}
               },
               {
-                "dateRange.cumulative": true
-                "dateRange.end": {$gte: startFilterDate}
+                'dateRange.cumulative': true
+                'dateRange.end': {$gte: startFilterDate}
               }
             ]
           }
@@ -138,11 +138,20 @@ Template.mapFilters.events
   'click .deselect-all': (e, instance) ->
     instance.data.selectedEvents.remove({})
 
+Template.dateSelector.onCreated ->
+  @additionalOptions = new ReactiveVar false
+
 Template.dateSelector.onRendered ->
-  @.$(".rangePicker").daterangepicker({
+  createInlineDateRangePicker @$('.date-picker-container'),
     autoUpdateInput: false
-    locale: {cancelLabel: "Clear"}
-  })
+    locale: cancelLabel: "Clear"
+
+  instance = @
+  @autorun ->
+    instance.additionalOptions.get()
+    Meteor.defer ->
+      $('.after-date-picker').datetimepicker()
+      $('.before-date-picker').datetimepicker()
 
 setSearchType = (instance, type) ->
   variables = instance.data.dateVariables
@@ -151,14 +160,30 @@ setSearchType = (instance, type) ->
     _variables.searchType = "on"
   else
     _variables.searchType = type
+  instance.$("input:not(.#{type}-date-picker)").val('')
   variables.set _variables
 
 Template.dateSelector.helpers
   searchTypeSelected: (type) ->
     Template.instance().data.dateVariables.get().searchType is type
 
+  additionalOptions: ->
+    Template.instance().additionalOptions.get()
+
 Template.dateSelector.events
-  'click .before': (event, instance) ->
-    setSearchType(instance, 'before')
-  'click .after': (event, instance) ->
+  'click .after-date-picker': (event, instance) ->
     setSearchType(instance, 'after')
+  'click .before-date-picker': (event, instance) ->
+    setSearchType(instance, 'before')
+  'click .additional-date-options': (event, instance) ->
+    instance.additionalOptions.set true
+  'dp.change .date-picker': (e, instance) ->
+    selectedDate = e.date.toDate()
+    variables = instance.data.dateVariables
+    _variables = variables.get()
+    type = instance.$(e.target).data 'type'
+    _variables.searchType = type
+    _variables.dates =
+      if type is 'after' then [null, selectedDate] else [selectedDate, null]
+    variables.set _variables
+    instance.data.filtering.set true

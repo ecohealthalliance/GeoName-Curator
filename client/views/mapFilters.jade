@@ -6,7 +6,7 @@ template(name="mapFilters")
         i.fa.fa-search
         input.form-control(type="text" placeholder="Search events")
     if calendarState
-      +dateSelector(dateVariables=dateVariables)
+      +dateSelector(dateVariables=dateVariables filtering=filtering)
     ul.map-event-list.list-group
       each getEvents
         li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
@@ -25,9 +25,13 @@ template(name="mapFilters")
 template(name="dateSelector")
   .calendar-wrapper
     .date-picker-container
-      input.form-control.rangePicker(type="text")
     .date-options.centered
-      button.btn.btn-default.btn-sm.before(
-        class="{{#if searchTypeSelected 'before'}} selected {{/if}}") Before
-      button.btn.btn-default.btn-sm.after(
-        class="{{#if searchTypeSelected 'after'}} selected {{/if}}") After
+      if additionalOptions
+        .input-group.before-date-picker.date-picker(data-type='before')
+          .input-group-addon Before
+          input.form-control(placeholder="Select a date")
+        .input-group.after-date-picker.date-picker(data-type='after')
+          .input-group-addon After
+          input.form-control(placeholder="Select a date")
+      else
+        button.btn.btn-default.btn-sm.additional-date-options Additional Options

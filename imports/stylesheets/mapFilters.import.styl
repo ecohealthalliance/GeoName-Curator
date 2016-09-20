@@ -19,6 +19,49 @@
 
 .calendar-wrapper
   padding 1em
+  .calendar
+    float none
+    font-size .85em
+    border 0
+    +above($wide-ui-width)
+      font-size 1em
+  .daterangepicker
+    position static
+    display flex
+    align-items center
+    justify-content space-around
+    background none
+    border 0
+    +below(4)
+      flex-direction column
+  .calendar-table
+    background none
+    border 0
+  .table-condensed > thead > tr > th
+  .table-condensed > tbody > tr > th
+  .table-condensed > tfoot > tr > th
+  .table-condensed > thead > tr > td
+  .table-condensed > tbody > tr > td
+  .table-condensed > tfoot > tr > td
+    padding .1em
+    +above($wide-ui-width)
+      padding .35em
+  .daterangepicker .calendar th
+  .daterangepicker .calendar td
+    min-width 15px
+  .daterangepicker .calendar td.today
+    border-radius 4px
+    background $highlight
+    color white
+    font-weight 600
+    &::after
+      border 0
+  .daterangepicker td.off
+  .daterangepicker td.off.in-range
+  .daterangepicker td.off.start-date
+  .daterangepicker td.off.end-date
+    background none
+    color darken($l-gray, 10%)
 
 .map-filter-content
   position absolute
