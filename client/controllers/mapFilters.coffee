@@ -1,4 +1,5 @@
-createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
+createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker'
+{ setVariables }            = require '/imports/ui/setRange'
 
 Template.mapFilters.onCreated ->
   @dateVariables = new ReactiveVar
@@ -90,10 +91,7 @@ Template.mapFilters.helpers
 Template.mapFilters.events
   'cancel.daterangepicker': (e, instance) ->
     $(e.target).val("")
-    instance.filtering.set(false)
-    variables = instance.dateVariables.get()
-    variables.searchType = "on"
-    instance.dateVariables.set(variables)
+    setVariables instance, 'on', []
 
   'input .map-search': _.debounce (e, templateInstance) ->
     e.preventDefault()
@@ -125,66 +123,3 @@ Template.mapFilters.events
 
   'click .deselect-all': (e, instance) ->
     instance.data.selectedEvents.remove({})
-
-Template.dateSelector.onCreated ->
-  @additionalOptions = new ReactiveVar false
-
-Template.dateSelector.onRendered ->
-  createInlineDateRangePicker @$('.date-picker-container'),
-    autoUpdateInput: false
-    locale: cancelLabel: "Clear"
-    autoApply: true
-
-  instance = @
-  @autorun ->
-    instance.additionalOptions.get()
-    Meteor.defer ->
-      $('.after-date-picker').datetimepicker()
-      $('.before-date-picker').datetimepicker()
-
-Template.dateSelector.helpers
-  searchTypeSelected: (type) ->
-    Template.instance().data.dateVariables.get().searchType is type
-
-  additionalOptions: ->
-    instance = Template.instance()
-    instance.additionalOptions.get() or instance.data.dateVariables.get().searchType in ['before', 'after']
-
-  searchingBeforeAfter: ->
-    Template.instance().data.dateVariables.get().searchType in ['before', 'after']
-
-Template.dateSelector.events
-  'apply.daterangepicker .date-picker-container': (event, instance) ->
-    dateFormat = "M/D/YYYY"
-    $target = $(event.target)
-    picker = $target.data("daterangepicker")
-    variables = instance.data.dateVariables
-    _variables = variables.get()
-    start = picker.startDate
-    end = picker.endDate
-    $target.val(start.format(dateFormat) + " - " + end.format(dateFormat))
-    _variables.dates = [start.toDate(), end.toDate()]
-    variables.set _variables
-    instance.data.filtering.set true
-    picker.show()
-
-  'click .additional-date-options': (event, instance) ->
-    instance.additionalOptions.set true
-
-  'dp.change .date-picker': (event, instance) ->
-    selectedDate = event.date.toDate()
-    variables = instance.data.dateVariables
-    _variables = variables.get()
-    type = instance.$(event.target).data 'type'
-    _variables.searchType = type
-    _variables.dates =
-      if type is 'after' then [null, selectedDate] else [selectedDate, null]
-    variables.set _variables
-    instance.data.filtering.set true
-  'click .clear-date': (event, instance) ->
-    variables = instance.data.dateVariables
-    _variables = variables.get()
-    _variables.searchType = 'on'
-    _variables.dates = []
-    variables.set _variables
-    instance.$('input').val('')

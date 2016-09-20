@@ -43,4 +43,6 @@ createInlineDateRangePicker = ($parentElement, options) ->
 
   $(document).off("mousedown.daterangepicker touchend.daterangepicker click.daterangepicker focusin.daterangepicker")
 
+  picker
+
 module.exports = createInlineDateRangePicker
