@@ -27,7 +27,9 @@ template(name="curatorInbox")
             each day in days
               +curatorInboxSection date=day index=@index
           else
-            p Loading...
+            .text-center
+              br
+              p Loading...
       .col-sm-6#curator-article-details
         .row.curator-inbox-header
 
