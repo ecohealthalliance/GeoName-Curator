@@ -21,6 +21,9 @@ createInlineDateRangePicker = ($parentElement, options) ->
     allOptions.startDate = options.startDate
     allOptions.endDate = options.endDate
 
+  if options.autoApply
+    allOptions.autoApply = true
+
   $rangeContainer = $parentElement.daterangepicker(allOptions)
   picker = $rangeContainer.data("daterangepicker")
   if options.singleDatePicker

@@ -95,17 +95,6 @@ Template.mapFilters.events
     variables.searchType = "on"
     instance.dateVariables.set(variables)
 
-  'apply.daterangepicker .rangePicker': (e, instance) ->
-    dateFormat = "M/D/YYYY"
-    $target = $(e.target)
-    picker = $target.data("daterangepicker")
-    variables = instance.dateVariables.get()
-    start = picker.startDate
-    end = picker.endDate
-    $target.val(start.format(dateFormat) + " - " + end.format(dateFormat))
-    variables.dates = [start.toDate(), end.toDate()]
-    instance.dateVariables.set(variables)
-    instance.filtering.set(true)
 
   'input .map-search': _.debounce (e, templateInstance) ->
     e.preventDefault()
@@ -145,6 +134,7 @@ Template.dateSelector.onRendered ->
   createInlineDateRangePicker @$('.date-picker-container'),
     autoUpdateInput: false
     locale: cancelLabel: "Clear"
+    autoApply: true
 
   instance = @
   @autorun ->
@@ -175,12 +165,29 @@ Template.dateSelector.helpers
     Template.instance().data.dateVariables.get().searchType in ['before', 'after']
 
 Template.dateSelector.events
+  'apply.daterangepicker .date-picker-container': (event, instance) ->
+    dateFormat = "M/D/YYYY"
+    $target = $(event.target)
+    picker = $target.data("daterangepicker")
+    variables = instance.data.dateVariables
+    _variables = variables.get()
+    start = picker.startDate
+    end = picker.endDate
+    $target.val(start.format(dateFormat) + " - " + end.format(dateFormat))
+    _variables.dates = [start.toDate(), end.toDate()]
+    variables.set _variables
+    instance.data.filtering.set true
+    picker.show()
+
   'click .after-date-picker': (event, instance) ->
     setSearchType(instance, 'after')
+
   'click .before-date-picker': (event, instance) ->
     setSearchType(instance, 'before')
+
   'click .additional-date-options': (event, instance) ->
     instance.additionalOptions.set true
+
   'dp.change .date-picker': (event, instance) ->
     selectedDate = event.date.toDate()
     variables = instance.data.dateVariables
