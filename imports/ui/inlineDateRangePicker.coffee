@@ -33,6 +33,9 @@ createInlineDateRangePicker = ($parentElement, options) ->
       this.updateView()
       this.element.trigger('apply.daterangepicker', this);
 
+  # Prevent the calendar from hiding
+  picker.hide = -> @
+
   $(".inlineRangePicker").off("click.daterangepicker")
   $(".inlineRangePicker .daterangepicker").removeClass("opensright")
 

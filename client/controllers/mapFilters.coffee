@@ -95,7 +95,6 @@ Template.mapFilters.events
     variables.searchType = "on"
     instance.dateVariables.set(variables)
 
-
   'input .map-search': _.debounce (e, templateInstance) ->
     e.preventDefault()
     text = $(e.target).val()
