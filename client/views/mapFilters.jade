@@ -25,13 +25,21 @@ template(name="mapFilters")
 template(name="dateSelector")
   .calendar-wrapper
     .date-picker-container
+      if searchingBeforeAfter
+        .veil
     .date-options.centered
       if additionalOptions
-        .input-group.before-date-picker.date-picker(data-type='before')
-          .input-group-addon Before
-          input.form-control(placeholder="Select a date")
-        .input-group.after-date-picker.date-picker(data-type='after')
-          .input-group-addon After
-          input.form-control(placeholder="Select a date")
+        .option
+          .input-group.before-date-picker.date-picker(data-type='before')
+            .input-group-addon(class="{{#if searchTypeSelected 'before'}} selected {{/if}}") Before
+            input.form-control(placeholder="Select a date")
+          if searchTypeSelected 'before'
+            .clear-date.fa.fa-times-circle
+        .option
+          .input-group.after-date-picker.date-picker(data-type='after')
+            .input-group-addon(class="{{#if searchTypeSelected 'after'}} selected {{/if}}") After
+            input.form-control(placeholder="Select a date")
+          if searchTypeSelected 'after'
+            .clear-date.fa.fa-times-circle
       else
         button.btn.btn-default.btn-sm.additional-date-options Additional Options

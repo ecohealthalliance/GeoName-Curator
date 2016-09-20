@@ -168,7 +168,11 @@ Template.dateSelector.helpers
     Template.instance().data.dateVariables.get().searchType is type
 
   additionalOptions: ->
-    Template.instance().additionalOptions.get()
+    instance = Template.instance()
+    instance.additionalOptions.get() or instance.data.dateVariables.get().searchType in ['before', 'after']
+
+  searchingBeforeAfter: ->
+    Template.instance().data.dateVariables.get().searchType in ['before', 'after']
 
 Template.dateSelector.events
   'click .after-date-picker': (event, instance) ->
@@ -177,13 +181,20 @@ Template.dateSelector.events
     setSearchType(instance, 'before')
   'click .additional-date-options': (event, instance) ->
     instance.additionalOptions.set true
-  'dp.change .date-picker': (e, instance) ->
-    selectedDate = e.date.toDate()
+  'dp.change .date-picker': (event, instance) ->
+    selectedDate = event.date.toDate()
     variables = instance.data.dateVariables
     _variables = variables.get()
-    type = instance.$(e.target).data 'type'
+    type = instance.$(event.target).data 'type'
     _variables.searchType = type
     _variables.dates =
       if type is 'after' then [null, selectedDate] else [selectedDate, null]
     variables.set _variables
     instance.data.filtering.set true
+  'click .clear-date': (event, instance) ->
+    variables = instance.data.dateVariables
+    _variables = variables.get()
+    _variables.searchType = 'on'
+    _variables.dates = []
+    variables.set _variables
+    instance.$('input').val('')

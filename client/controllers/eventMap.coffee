@@ -41,7 +41,6 @@ Template.eventMap.onRendered ->
 
     if _.isObject query
       allEvents = instance.data.events.find(query, {sort: {lastIncidentDate: -1}}).fetch()
-      console.log allEvents
       startingPosition = currentPage * eventsPerPage
       totalEventCount = allEvents.length
     else

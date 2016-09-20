@@ -17,7 +17,11 @@
   input
     padding-left 30px
 
+
+
 .calendar-wrapper
+  .date-picker-container
+    position relative
   padding 1em
   .calendar
     float none
@@ -32,6 +36,8 @@
     justify-content space-around
     background none
     border 0
+    &::before
+      border 0
     +below(4)
       flex-direction column
   .calendar-table
