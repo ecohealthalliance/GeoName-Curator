@@ -38,8 +38,17 @@ if Meteor.isServer
   Meteor.publish "eventArticles", (ueId) ->
     getEventArticles(ueId)
 
-  Meteor.publish "recentEventArticles", (limit) ->
-    Articles.find({}, {
+  Meteor.publish "recentEventArticles", (limit, range) ->
+    query = {}
+    if range and range.startDate and range.endDate
+      query = {
+        addedDate: {
+          $gte: new Date(range.startDate)
+          $lte: new Date(range.endDate)
+        }
+      }
+
+    Articles.find(query, {
       sort: {addedDate: -1}
       limit: limit || 100
     })

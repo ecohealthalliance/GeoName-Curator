@@ -96,7 +96,6 @@ Router.route "/user-events",
 Router.route "/curator-inbox",
   name: 'curator-inbox'
   waitOn: ->
-    Meteor.subscribe "recentEventArticles"
     Meteor.subscribe "userEvents"
   onBeforeAction: () ->
     unless Roles.userIsInRole(Meteor.userId(), ['admin', 'curator'])

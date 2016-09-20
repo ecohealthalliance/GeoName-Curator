@@ -23,8 +23,11 @@ template(name="curatorInbox")
             a#calendar-btn-reset.btn.btn-primary(href="") RESET
             a#calendar-btn-cancel.btn.btn-default(href="") CANCEL
         .row
-          each day in days
-            +curatorInboxSection date=day index=@index
+          if isReady
+            each day in days
+              +curatorInboxSection date=day index=@index
+          else
+            p Loading...
       .col-sm-6#curator-article-details
         .row.curator-inbox-header
 

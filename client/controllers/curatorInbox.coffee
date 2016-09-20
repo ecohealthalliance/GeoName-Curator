@@ -1,10 +1,11 @@
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 createInboxSections = () ->
-  console.log 'CREATE'
   sections = []
   recordedDates = {}
   allArticles = grid.Articles.find({}, {sort: {addedDate: -1}}).fetch()
+  if allArticles.length == 0
+    return []
   for article in allArticles
     date = new Date(article.addedDate.getFullYear(), article.addedDate.getMonth(), article.addedDate.getDate())
     recordedDates[date.getTime()] = date
@@ -15,14 +16,22 @@ createInboxSections = () ->
 
 Template.curatorInbox.onCreated ->
   @calendarState = new ReactiveVar false
-  @ready = new ReactiveVar true
+  @ready = new ReactiveVar false
   @selectedArticle = false
-  @days = createInboxSections()
+  @days = []
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
+
+  self = @
+  @sub = Meteor.subscribe "recentEventArticles", () ->
+    self.days = createInboxSections()
+    self.ready.set(true)
 
 Template.curatorInbox.onRendered ->
   $(document).ready =>
     createInlineDateRangePicker($("#date-picker"), {})
+
+Template.curatorInbox.onDestroyed ->
+  @sub.stop()
 
 Template.curatorInbox.helpers
   days: ->
@@ -31,23 +40,43 @@ Template.curatorInbox.helpers
   calendarState: ->
     return Template.instance().calendarState.get()
 
+  isReady: ->
+    return Template.instance().ready.get()
+
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
     template.textFilter.set($(event.target).val())
+
   "click .curator-filter-calendar-icon": (event, template) ->
     calendarState = template.calendarState
     calendarState.set not calendarState.get()
+
   "click #calendar-btn-apply": (event, template) ->
     template.calendarState.set(false)
     template.ready.set(false)
+    template.sub.stop()
+
+    range = {
+      startDate: $('#date-picker').data('daterangepicker').startDate.format()
+      endDate: $('#date-picker').data('daterangepicker').endDate.format()
+    }
+
+    console.log range
+
+    template.sub = Meteor.subscribe "recentEventArticles", 2000, range, () ->
+      template.days = createInboxSections()
+      template.ready.set(true)
+
   "click #calendar-btn-reset": (event, template) ->
     template.calendarState.set(false)
     template.ready.set(false)
+    template.sub.stop()
+    template.sub = Meteor.subscribe "recentEventArticles", 100, null, () ->
+      template.days = createInboxSections()
+      template.ready.set(true)
+
   "click #calendar-btn-cancel": (event, template) ->
     template.calendarState.set(false)
-
-  # "change input[name='daterangepicker_start']": (event, template) ->
-  #   $('#date-picker').data('daterangepicker').clickApply()
 
 Template.curatorInboxSection.onCreated ->
   @curatorInboxFields = [
