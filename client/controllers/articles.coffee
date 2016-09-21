@@ -53,7 +53,7 @@ Template.articles.helpers
   selectedSource: ->
     selectedId = Template.instance().selectedSourceId.get()
     if selectedId
-      grid.Articles.findOne selectedId
+      Articles.findOne selectedId
   incidentsForSource: (sourceUrl) ->
     grid.Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
   locationsForSource: (sourceUrl) ->

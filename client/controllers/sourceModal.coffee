@@ -4,12 +4,16 @@ Template.sourceModal.onCreated ->
   @tzIsSpecified = false
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
   if @data.publishDate
-    @timezoneFixedPublishDate = convertDate(@data.publishDate, "local", UTCOffsets[@data.publishDateTZ])
+    @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
+                                              UTCOffsets[@data.publishDateTZ])
   @suggestedArticles = new Mongo.Collection(null)
   Meteor.call 'queryForSuggestedArticles', @data.userEventId, (error, result) =>
     if result
       for suggestedArticle in result
-        @suggestedArticles.insert suggestedArticle
+        @suggestedArticles.insert {
+          url: "http://www.promedmail.org/post/#{suggestedArticle.promedId}"
+          subject: suggestedArticle.subject.raw
+        }
 
 Template.sourceModal.helpers
   timezones: ->
@@ -36,7 +40,6 @@ Template.sourceModal.helpers
         month: templateInstance.timezoneFixedPublishDate.month()
         date: templateInstance.timezoneFixedPublishDate.date()
       )
-
     Meteor.defer ->
       templateInstance.$(".datePicker").datetimepicker pickerOptions
   initTimePicker: ->
@@ -98,7 +101,8 @@ Template.sourceModal.events
       )
       if form.publishTime.value.length
         selectedDate.set({hour: time.get("hour"), minute: time.get("minute")})
-        selectedDate = convertDate(selectedDate, UTCOffsets[source.publishDateTZ], "local")
+        selectedDate = convertDate(selectedDate,
+                                    UTCOffsets[source.publishDateTZ], "local")
       source.publishDate = selectedDate.toDate()
 
     enhance = form.enhance.checked
@@ -146,7 +150,8 @@ Template.sourceModal.events
       )
       if form.publishTime.value.length
         selectedDate.set({hour: time.get("hour"), minute: time.get("minute")})
-        selectedDate = convertDate(selectedDate, UTCOffsets[source.publishDateTZ], "local")
+        selectedDate = convertDate(selectedDate,
+                                    UTCOffsets[source.publishDateTZ], "local")
       source.publishDate = selectedDate.toDate()
 
     Meteor.call("updateEventSource", source, (error, result) ->

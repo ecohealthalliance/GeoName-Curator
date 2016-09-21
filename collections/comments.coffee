@@ -1,4 +1,4 @@
-Comments = new Meteor.Collection "comments"
+@Comments = new Meteor.Collection "comments"
 
 @grid ?= {}
 @grid.Comments = Comments

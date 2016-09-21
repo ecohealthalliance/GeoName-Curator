@@ -5,6 +5,7 @@ SPA_API_URL = process.env.SPA_API_URL or "http://spa.eha.io/api/v1"
 
 Meteor.methods
   getArticleEnhancements: (url) ->
+    check url, String
     geonameIds = []
     console.log "Calling GRITS API @ " + GRITS_API_URL
     result = HTTP.post(GRITS_API_URL + "/public_diagnose", {
@@ -18,10 +19,11 @@ Meteor.methods
       throw new Meteor.Error("grits-error", result.data.error)
     return result.data
 
-  retrieveProMedArticleDate: _.memoize( (articleID) ->
+  retrieveProMedArticleDate: _.memoize (articleId) ->
+    check articleId, Number
     result = HTTP.call "GET", "http://www.promedmail.org/ajax/getPost.php",
       params:
-        alert_id: articleID
+        alert_id: articleId
       headers:
         Referer: "http://www.promedmail.org/"
     if result.statusCode is 200
@@ -33,15 +35,24 @@ Meteor.methods
         offset = UTCOffsets[tz]
         dateUTC = match[1].replace(' ', 'T') + offset
         dateUTC
-    )
 
   queryForSuggestedArticles: (eventId) ->
+    check eventId, String
     event = grid.UserEvents.findOne(eventId)
     console.log "Calling SPA API @ " + SPA_API_URL
-    response = HTTP.call('GET', "#{SPA_API_URL}/relatedArticles", {
-      params: { eventName: event.summary }
+    unless event
+      throw new Meteor.Error 404, "Unable to fetch the requested event record"
+    keywords = _.uniq event.eventName.match(/\w{3,}/g)
+    mongoQuery = { $and: [] }
+    for keyword in keywords
+      mongoQuery.$and.push
+        content: {
+          $regex: keyword
+          $options: 'i'
+        }
+    response = HTTP.call('GET', "#{SPA_API_URL}/find", {
+      params: { q: JSON.stringify(mongoQuery) }
     })
-
     if response
       response.data
     else
