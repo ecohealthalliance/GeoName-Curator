@@ -41,9 +41,26 @@
     line-height 0.5
     &:hover
       color $l-gray
-  .curator-filter-curated-icon
+  .curator-filter-curated-icon,
+  .curator-filter-calendar-icon
     &.active
       color $positive
+
+.curator-inbox-datepicker
+  display none
+  margin 5px auto 15px
+  &.active
+    display block
+  .inlineRangePicker
+    position relative
+  .daterangepicker
+    display inline-block
+    left auto !important
+    top 8px !important
+    padding 0
+    margin 0 0 5px
+  .calendar
+    margin 0
 
 .curator-inbox-table
   margin-bottom 0

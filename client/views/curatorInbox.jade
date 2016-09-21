@@ -8,16 +8,28 @@ template(name="curatorInbox")
           .pull-left
             h2 Sources
           .curator-inbox-options.pull-right.form-inline
-            a.curator-filter-calendar
+            a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
               i.fa.fa-calendar
             a.curator-filter-curated-icon.active
               i.fa.fa-check-circle
             .input-group
               input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
               i.fa.fa-search.search-icon
+        .row.curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
+          .text-center
+            #date-picker.inlineRangePicker
+          .text-center
+            a#calendar-btn-apply.btn.btn-primary(href="") APPLY
+            a#calendar-btn-reset.btn.btn-primary(href="") RESET
+            a#calendar-btn-cancel.btn.btn-default(href="") CANCEL
         .row
-          each day in days
-            +curatorInboxSection date=day index=@index
+          if isReady
+            each day in days
+              +curatorInboxSection date=day index=@index
+          else
+            .text-center
+              br
+              p Loading...
       .col-sm-6#curator-article-details
         .row.curator-inbox-header
 
