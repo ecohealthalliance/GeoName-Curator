@@ -95,9 +95,6 @@ Template.mapFilters.events
     instance.$('.map-search').val('')
     Template.instance().userSearchText.set('')
 
-  'click .mobile-control': (e, instance) ->
-    instance.$('.map-search-wrap').toggleClass('open')
-
   'click .map-event-list--item': (e, instance) ->
     selectedEvents = instance.data.selectedEvents
     id = @_id
