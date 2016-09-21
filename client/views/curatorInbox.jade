@@ -10,7 +10,7 @@ template(name="curatorInbox")
           .curator-inbox-options.pull-right.form-inline
             a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
               i.fa.fa-calendar
-            a.curator-filter-curated-icon.active
+            a.curator-filter-reviewed-icon.active
               i.fa.fa-check-circle
             .input-group
               input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
@@ -49,7 +49,7 @@ template(name="curatorInboxSection")
 template(name="curatorArticleDetails")
   div(class="row curator-inbox-header curator-article-details-header {{isCurated}}")
     h2 {{title}}
-    i.fa.fa-check-circle.curated-icon
+    i.fa.fa-check-circle.reviewed-icon
   .curator-article-details-content
     .row
       .col-xs-12

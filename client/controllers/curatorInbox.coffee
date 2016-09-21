@@ -29,6 +29,7 @@ Template.curatorInbox.onCreated ->
   @selectedArticle = false
   @days = []
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
+  @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
 
   self = @
   @sub = Meteor.subscribe "recentEventArticles", () ->
@@ -49,6 +50,11 @@ Template.curatorInbox.helpers
   calendarState: ->
     return Template.instance().calendarState.get()
 
+  reviewedState: ->
+    if Template.instance().reviewFilter.get()
+      return false
+    return true
+
   isReady: ->
     return Template.instance().ready.get()
 
@@ -59,6 +65,12 @@ Template.curatorInbox.events
   "click .curator-filter-calendar-icon": (event, template) ->
     calendarState = template.calendarState
     calendarState.set not calendarState.get()
+
+  "click .curator-filter-reviewed-icon": (event, template) ->
+    if template.reviewFilter.get()
+      template.reviewFilter.set(null)
+    else
+      template.reviewFilter.set({$ne: true})
 
   "click #calendar-btn-apply": (event, template) ->
     template.calendarState.set(false)
@@ -91,7 +103,7 @@ Template.curatorInbox.events
 Template.curatorInboxSection.onCreated ->
   @curatorInboxFields = [
     {
-      key: 'curated'
+      key: 'reviewed'
       description: 'Article has been curated'
       label: ''
       cellClass: (value) ->
@@ -171,7 +183,7 @@ Template.curatorInboxSection.helpers
       showRowCount: false
       showFilter: false
       showNavigation: 'never'
-      filters: [Template.instance().filterId, 'curator-inbox-article-filter']
+      filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
     }
 
 Template.curatorInboxSection.events

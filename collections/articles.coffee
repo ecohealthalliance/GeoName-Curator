@@ -39,18 +39,19 @@ if Meteor.isServer
     getEventArticles(ueId)
 
   Meteor.publish "recentEventArticles", (limit, range) ->
-    query = {}
+    query = {addedDate: {$exists: true}}
     if range and range.startDate and range.endDate
       query = {
         addedDate: {
           $gte: new Date(range.startDate)
           $lte: new Date(range.endDate)
         }
+        getFullYear: {}
       }
 
     Articles.find(query, {
       sort: {addedDate: -1}
-      limit: limit || 100
+      # limit: limit || 100
     })
 
   Articles.allow
