@@ -16,7 +16,7 @@ Template.dateSelector.helpers
     Template.instance().data.dateVariables.get().dates.length
 
 Template.dateSelector.events
-  'apply.daterangepicker .date-picker-container': (event, instance) ->
+  'click .apply-date-filters': (event, instance) ->
     dateFormat = "M/D/YYYY"
     $target = $(event.target)
     picker = instance.picker
@@ -25,7 +25,9 @@ Template.dateSelector.events
 
     $target.val(start.format(dateFormat) + " - " + end.format(dateFormat))
     setVariables instance, 'on', [start.toDate(), end.toDate()]
+    instance.$(event.target).blur()
 
-  'click .clear-all-date-filters': (event, instance) ->
+  'click .clear-date-filters': (event, instance) ->
     clearDateRange instance.picker
     setVariables instance, 'on', []
+    instance.$(event.target).blur()

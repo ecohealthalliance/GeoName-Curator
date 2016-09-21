@@ -28,6 +28,7 @@ template(name="mapFilters")
 template(name="dateSelector")
   .calendar-wrapper
     .date-picker-container.inlineRangePicker
-    if dateFiltering
-      .date-options.centered
-        button.btn.btn-warning.btn-sm.clear-all-date-filters Clear Date Filters
+    .date-options.centered
+      button.btn.btn-sm.btn-success.apply-date-filters Apply
+      if dateFiltering
+        button.btn.btn-default.btn-sm.clear-date-filters Clear
