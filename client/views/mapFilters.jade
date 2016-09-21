@@ -28,26 +28,6 @@ template(name="mapFilters")
 template(name="dateSelector")
   .calendar-wrapper
     .date-picker-container.inlineRangePicker
-      if searchingBeforeAfter
-        .veil
-    .date-options.centered
-      if additionalOptions
-        .option
-          .date-picker-wrapper
-            .input-group.before-date-picker.date-picker(data-type='before')
-              .input-group-addon(class="{{#if searchTypeSelected 'before'}} selected {{/if}}") Before
-              input.form-control(placeholder="Select a date")
-          if searchTypeSelected 'before'
-            .clear-date.fa.fa-times-circle
-        .option
-          .date-picker-wrapper
-            .input-group.after-date-picker.date-picker(data-type='after')
-              .input-group-addon(class="{{#if searchTypeSelected 'after'}} selected {{/if}}") After
-              input.form-control(placeholder="Select a date")
-          if searchTypeSelected 'after'
-            .clear-date.fa.fa-times-circle
-      else
-        button.btn.btn-default.btn-sm.additional-date-options Additional Options
-
-      if dateFiltering
+    if dateFiltering
+      .date-options.centered
         button.btn.btn-warning.btn-sm.clear-all-date-filters Clear Date Filters

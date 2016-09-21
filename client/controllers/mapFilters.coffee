@@ -19,32 +19,19 @@ Template.mapFilters.onRendered ->
       if checkValues.dates.length
         startFilterDate = checkValues.dates[0]
         endFilterDate = checkValues.dates[1]
-        switch checkValues.searchType
-          when 'after' then dateProjection = {'dateRange.end': {$gt: endFilterDate}}
-          when 'before' then dateProjection = {
-            $or: [
-              {
-                'dateRange.cumulative': false
-                'dateRange.start': {$lt: startFilterDate}
-              },
-              {
-                'dateRange.cumulative': true
-              }
-            ]
-          }
-          else dateProjection = {
-            $or: [
-              {
-                'dateRange.cumulative': false
-                'dateRange.start': {$lte: endFilterDate}
-                'dateRange.end': {$gte: startFilterDate}
-              },
-              {
-                'dateRange.cumulative': true
-                'dateRange.end': {$gte: startFilterDate}
-              }
-            ]
-          }
+        dateProjection = {
+          $or: [
+            {
+              'dateRange.cumulative': false
+              'dateRange.start': {$lte: endFilterDate}
+              'dateRange.end': {$gte: startFilterDate}
+            },
+            {
+              'dateRange.cumulative': true
+              'dateRange.end': {$gte: startFilterDate}
+            }
+          ]
+        }
         eventIds = _.uniq(grid.Incidents.find(dateProjection, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
         varQuery._id = {$in: eventIds}
         filters.push(varQuery)
