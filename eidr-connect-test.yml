@@ -1,0 +1,5 @@
+eidr-connect-test:
+  image: eidr-connect-test:latest
+  container_name: eidr-connect-test
+  ports:
+   - "80:80"

@@ -11,8 +11,14 @@ Build the docker image
 Run the newly built image using docker-compose  
 `sudo docker-compose -f eidr-compose.yml up -d`
 
+## Testing with docker
 
-## Testing
+```
+docker build -t eidr-connect-test -f test.Dockerfile .
+docker-compose -f eidr-connect-test.yml up
+```
+
+## Testing on OSX
 
 Install testing dependencies
 `npm install`
