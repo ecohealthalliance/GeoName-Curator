@@ -182,6 +182,7 @@ Template.curatorInboxSection.helpers
       fields: fields
       showRowCount: false
       showFilter: false
+      rowsPerPage: 200
       showNavigation: 'never'
       filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
     }
@@ -202,10 +203,14 @@ Template.curatorInboxSection.events
 Template.curatorArticleDetails.helpers
   title: ->
     return Template.instance().data.url
-  isCurated: ->
-    if Template.instance().data.curated
-      return 'curated'
+  isReviewed: ->
+    return Template.instance().data.reviewed
   formattedAddedDate: ->
     return moment(Template.instance().data.addedDate).format('MMMM DD, YYYY')
   formattedPublishDate: ->
     return moment(Template.instance().data.publishDate).format('MMMM DD, YYYY')
+
+Template.curatorArticleDetails.events
+  "click #accept-article": (event, template) ->
+    # console.log template
+    Meteor.call("curateArticle", template.data._id, true)

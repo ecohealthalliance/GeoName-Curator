@@ -51,7 +51,7 @@ if Meteor.isServer
 
     Articles.find(query, {
       sort: {addedDate: -1}
-      # limit: limit || 100
+      limit: limit || 100
     })
 
   Articles.allow
@@ -98,3 +98,8 @@ Meteor.methods
       Articles.remove(id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
       Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
+
+  curateArticle: (id, accepted) ->
+    if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
+      if accepted
+        Articles.update({_id: id}, {$set: {reviewed: true}})

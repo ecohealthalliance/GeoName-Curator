@@ -10,7 +10,7 @@ template(name="curatorInbox")
           .curator-inbox-options.pull-right.form-inline
             a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
               i.fa.fa-calendar
-            a.curator-filter-reviewed-icon.active
+            a.curator-filter-reviewed-icon(class="{{#if reviewedState}} active {{/if}}")
               i.fa.fa-check-circle
             .input-group
               input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
@@ -47,7 +47,7 @@ template(name="curatorInboxSection")
     +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
 
 template(name="curatorArticleDetails")
-  div(class="row curator-inbox-header curator-article-details-header {{isCurated}}")
+  div(class="row curator-inbox-header curator-article-details-header {{#if isReviewed}} reviewed {{/if}}")
     h2 {{title}}
     i.fa.fa-check-circle.reviewed-icon
   .curator-article-details-content
@@ -56,5 +56,5 @@ template(name="curatorArticleDetails")
         +curatorEvents
     .row.curator-inbox-buttons
       .col-xs-12.text-center
-        a.btn.btn-primary.disabled(href="") ACCEPT SOURCE
-        a.btn.btn-default.disabled(href="") DECLINE
+        a#accept-article.btn.btn-primary(href="") ACCEPT SOURCE
+        a#decline-article.btn.btn-default.disabled(href="") DECLINE
