@@ -3,7 +3,7 @@ createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 createInboxSections = () ->
   sections = []
   recordedDates = {}
-  allArticles = grid.Articles.find({}, {sort: {addedDate: -1}}).fetch()
+  allArticles = grid.PromedArticles.find({}, {sort: {addedDate: -1}}).fetch()
   if allArticles.length == 0
     return []
   for article in allArticles
