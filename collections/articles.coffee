@@ -39,13 +39,14 @@ if Meteor.isServer
     getEventArticles(ueId)
 
   Meteor.publish "recentEventArticles", (limit, range) ->
-    query = {}
+    query = {addedDate: {$exists: true}}
     if range and range.startDate and range.endDate
       query = {
         addedDate: {
           $gte: new Date(range.startDate)
           $lte: new Date(range.endDate)
         }
+        getFullYear: {}
       }
 
     Articles.find(query, {
@@ -97,3 +98,8 @@ Meteor.methods
       Articles.remove(id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
       Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
+
+  curateArticle: (id, accepted) ->
+    if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
+      if accepted
+        Articles.update({_id: id}, {$set: {reviewed: true}})

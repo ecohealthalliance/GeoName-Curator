@@ -29,6 +29,7 @@ Template.curatorInbox.onCreated ->
   @selectedArticle = false
   @days = []
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
+  @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
 
   self = @
   @sub = Meteor.subscribe "recentEventArticles", () ->
@@ -49,6 +50,11 @@ Template.curatorInbox.helpers
   calendarState: ->
     return Template.instance().calendarState.get()
 
+  reviewedState: ->
+    if Template.instance().reviewFilter.get()
+      return false
+    return true
+
   isReady: ->
     return Template.instance().ready.get()
 
@@ -59,6 +65,12 @@ Template.curatorInbox.events
   "click .curator-filter-calendar-icon": (event, template) ->
     calendarState = template.calendarState
     calendarState.set not calendarState.get()
+
+  "click .curator-filter-reviewed-icon": (event, template) ->
+    if template.reviewFilter.get()
+      template.reviewFilter.set(null)
+    else
+      template.reviewFilter.set({$ne: true})
 
   "click #calendar-btn-apply": (event, template) ->
     template.calendarState.set(false)
@@ -91,7 +103,7 @@ Template.curatorInbox.events
 Template.curatorInboxSection.onCreated ->
   @curatorInboxFields = [
     {
-      key: 'curated'
+      key: 'reviewed'
       description: 'Article has been curated'
       label: ''
       cellClass: (value) ->
@@ -170,8 +182,9 @@ Template.curatorInboxSection.helpers
       fields: fields
       showRowCount: false
       showFilter: false
+      rowsPerPage: 200
       showNavigation: 'never'
-      filters: [Template.instance().filterId, 'curator-inbox-article-filter']
+      filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
     }
 
 Template.curatorInboxSection.events
@@ -190,10 +203,14 @@ Template.curatorInboxSection.events
 Template.curatorArticleDetails.helpers
   title: ->
     return Template.instance().data.url
-  isCurated: ->
-    if Template.instance().data.curated
-      return 'curated'
+  isReviewed: ->
+    return Template.instance().data.reviewed
   formattedAddedDate: ->
     return moment(Template.instance().data.addedDate).format('MMMM DD, YYYY')
   formattedPublishDate: ->
     return moment(Template.instance().data.publishDate).format('MMMM DD, YYYY')
+
+Template.curatorArticleDetails.events
+  "click #accept-article": (event, template) ->
+    # console.log template
+    Meteor.call("curateArticle", template.data._id, true)
