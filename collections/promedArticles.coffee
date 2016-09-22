@@ -1,24 +1,39 @@
 
 @PromedArticles = new Meteor.Collection "promed_articles"
 
-@grid ?= {}
-@grid.PromedArticles = PromedArticles
+if Meteor.isServer
+  ReactiveTable.publish "promedArticles", PromedArticles, {}
 
-getPromedArticles = (userEventId) ->
-  PromedArticles.find({userEventId: userEventId})
+  Meteor.publish "promedArticles", (limit, range) ->
+    query = {addedDate: {$exists: true}}
+    if range and range.startDate and range.endDate
+      query = {
+        addedDate: {
+          $gte: new Date(range.startDate)
+          $lte: new Date(range.endDate)
+        }
+        getFullYear: {}
+      }
+
+    PromedArticles.find(query, {
+      sort: {addedDate: -1}
+      limit: limit || 100
+    })
 
 
-
-
-
+Meteor.methods
+  curatePromedArticle: (id, accepted) ->
+    if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
+      if accepted
+        PromedArticles.update({_id: id}, {$set: {reviewed: true}})
 
 
 # Temp dummy data:
 createDummyArticles = () ->
   console.log 'Populating with test article...'
   article = {
+    "addedDate": new Date(),
     "date": new Date(),
-    "dateAdded": new Date(),
     "source": {
       "url": "http://www.reporteepidemiologico.com/wp-content/uploads/2015/06/REC-1605.pdf",
       "edits": "[in Spanish, transl., edited]",

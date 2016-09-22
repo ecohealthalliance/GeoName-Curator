@@ -3,7 +3,7 @@ createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 createInboxSections = () ->
   sections = []
   recordedDates = {}
-  allArticles = grid.PromedArticles.find({}, {sort: {addedDate: -1}}).fetch()
+  allArticles = PromedArticles.find({}, {sort: {addedDate: -1}}).fetch()
   if allArticles.length == 0
     return []
   for article in allArticles
@@ -32,7 +32,7 @@ Template.curatorInbox.onCreated ->
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
 
   self = @
-  @sub = Meteor.subscribe "recentEventArticles", () ->
+  @sub = Meteor.subscribe "promedArticles", () ->
     self.days = createInboxSections()
     self.ready.set(true)
 
@@ -82,7 +82,7 @@ Template.curatorInbox.events
       endDate: $('#date-picker').data('daterangepicker').endDate.format()
     }
 
-    template.sub = Meteor.subscribe "recentEventArticles", 2000, range, () ->
+    template.sub = Meteor.subscribe "promedArticles", 2000, range, () ->
       template.days = createInboxSections()
       template.ready.set(true)
 
@@ -93,7 +93,7 @@ Template.curatorInbox.events
 
     createNewCalendar()
 
-    template.sub = Meteor.subscribe "recentEventArticles", 100, null, () ->
+    template.sub = Meteor.subscribe "promedArticles", 100, null, () ->
       template.days = createInboxSections()
       template.ready.set(true)
 
@@ -114,13 +114,13 @@ Template.curatorInboxSection.onCreated ->
         return ''
     },
     {
-      key: 'url'
+      key: 'source.name'
       description: 'The article\'s title.'
       label: 'Title'
       sortDirection: -1
     },
     {
-      key: 'publishDate'
+      key: 'date'
       description: 'Date the article was published.'
       label: 'Published'
       sortDirection: -1
@@ -202,9 +202,7 @@ Template.curatorInboxSection.events
 
 Template.curatorArticleDetails.helpers
   title: ->
-    return Template.instance().data.url
-  isReviewed: ->
-    return Template.instance().data.reviewed
+    return Template.instance().data.source.name
   formattedAddedDate: ->
     return moment(Template.instance().data.addedDate).format('MMMM DD, YYYY')
   formattedPublishDate: ->
@@ -212,5 +210,5 @@ Template.curatorArticleDetails.helpers
 
 Template.curatorArticleDetails.events
   "click #accept-article": (event, template) ->
-    # console.log template
-    Meteor.call("curateArticle", template.data._id, true)
+    Meteor.call("curatePromedArticle", template.data._id, true)
+    template.data.reviewed = true
