@@ -1,13 +1,5 @@
 @import 'mapFilters.import'
 
-$wide-ui-width = 2000px
-$map-menu-width-small = 300px
-$map-menu-width-large = 25%
-$map-menu-width-max = 500px
-$map-width-small = 'calc(100% - %s)' % $map-menu-width-small
-$map-width-max = 'calc(100% - %s)' % $map-menu-width-max
-$map-width-large = 100 - $map-menu-width-large
-
 .event-map-wrapper
   position absolute
   left 0
@@ -61,7 +53,7 @@ $map-width-large = 100 - $map-menu-width-large
   bottom 0
   width 20%
   width $map-menu-width-small
-  background rgba(255,255,255,.9)
+  background white
   z-index 100
   overflow-x scroll
   +above(4)
@@ -149,11 +141,13 @@ $map-width-large = 100 - $map-menu-width-large
   display flex
   align-items center
   justify-content center
+  flex-direction row
   button
     padding .5em 2em
-    margin 0 .5em
-    &.selected
-      &
-      &:focus
-        background lighten($secondary, 40%)
-        font-weight 600
+    margin-right 1em
+    +above(5)
+      &:first-of-type
+        padding-left 4em
+        padding-right 4em
+    &:last-of-type
+      margin 0

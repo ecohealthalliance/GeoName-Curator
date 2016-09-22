@@ -1,8 +1,12 @@
-.bootstrap-datetimepicker-widget table td.active.today:before
-  border-bottom-color $primary
+.bootstrap-datetimepicker-widget
+  table
+    color $primary
 
-.bootstrap-datetimepicker-widget table td.today:before
-  border-bottom-color #555
+  table td.active.today:before
+    border-bottom-color $primary
+
+  table td.today:before
+    border-bottom-color #555
 
 .daterangepicker td.in-range
   background-color $secondary-light
@@ -15,12 +19,11 @@
   color $primary
   background-color $secondary
 
-.daterangepicker,
+.inlineRangePicker .daterangepicker,
 .daterangepicker .calendar td.today
   position relative
 
 .inlineRangePicker .daterangepicker .calendar
-  width 50%
   border none
 
 .inlineRangePicker .daterangepicker.single .calendar.left.single
@@ -40,3 +43,81 @@
   position absolute
   bottom 4px
   right 4px
+
+td:first-child
+  +below(2)
+    width auto
+
+.daterangepicker td, .daterangepicker th
+
+.calendar-wrapper
+  .date-picker-container
+    position relative
+  padding 1em
+  .calendar
+    float none
+    font-size .85em
+    border 0
+    +below(4)
+      width 100%
+      &.left
+        margin-bottom 1em
+    +above($wide-ui-width)
+      font-size 1em
+  .daterangepicker
+    position static
+    display flex
+    align-items center
+    justify-content space-around
+    background none
+    border 0
+    // Overide dynamically generated inline styles
+    top auto !important
+    left auto !important
+    &::before
+      border 0
+    +below(4)
+      flex-direction column
+  .calendar-table
+    background none
+    border 0
+    color $primary
+  .table-condensed > thead > tr > th
+  .table-condensed > tbody > tr > th
+  .table-condensed > tfoot > tr > th
+  .table-condensed > thead > tr > td
+  .table-condensed > tbody > tr > td
+  .table-condensed > tfoot > tr > td
+    padding .1em
+    +above($wide-ui-width)
+      padding .35em
+  .daterangepicker .calendar th
+  .daterangepicker .calendar td
+    min-width 15px
+  .daterangepicker .calendar td.today
+    border-radius 4px
+    background $highlight
+    color white
+    font-weight 600
+    &::after
+      border 0
+    &.in-range
+      border-radius 0
+    &.end-date
+    &.start-date
+      border-radius 0
+      background $secondary
+      color $primary
+    &.end-date
+      border-top-right-radius 4px
+      border-bottom-right-radius 4px
+    &.start-date
+      border-top-left-radius 4px
+      border-bottom-left-radius 4px
+
+  .daterangepicker td.off
+  .daterangepicker td.off.in-range
+  .daterangepicker td.off.start-date
+  .daterangepicker td.off.end-date
+    background none
+    color darken($l-gray, 10%)

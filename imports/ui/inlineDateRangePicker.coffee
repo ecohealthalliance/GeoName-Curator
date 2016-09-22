@@ -7,7 +7,9 @@ createInlineDateRangePicker = ($parentElement, options) ->
       v = if c is 'x' then r else (r&0x3|0x8)
       return v.toString(16)
     )
+    $parentElement.prop("id", parentId)
 
+  if !options then options = {}
   allOptions = {
     parentEl: "#" + parentId
     template: Blaze.toHTML(Template.inlineDateRangePicker)
@@ -21,6 +23,9 @@ createInlineDateRangePicker = ($parentElement, options) ->
     allOptions.startDate = options.startDate
     allOptions.endDate = options.endDate
 
+  if options.autoApply
+    allOptions.autoApply = true
+
   $rangeContainer = $parentElement.daterangepicker(allOptions)
   picker = $rangeContainer.data("daterangepicker")
   if options.singleDatePicker
@@ -30,11 +35,16 @@ createInlineDateRangePicker = ($parentElement, options) ->
       this.updateView()
       this.element.trigger('apply.daterangepicker', this);
 
+  # Prevent the calendar from hiding
+  picker.hide = -> @
+
   $(".inlineRangePicker").off("click.daterangepicker")
   $(".inlineRangePicker .daterangepicker").removeClass("opensright")
 
   picker.show()
 
   $(document).off("mousedown.daterangepicker touchend.daterangepicker click.daterangepicker focusin.daterangepicker")
+
+  picker
 
 module.exports = createInlineDateRangePicker
