@@ -152,6 +152,94 @@
 
 @import 'comments.import'
 
+@media (max-width: 1200px)
+  .main-facts
+    &:last-of-type
+      margin-bottom 30px
+
+@media (max-width: 768px)
+  .events
+    .event-head
+      h1
+        font-size 20px
+      .minor
+        font-size 1.2em
+        margin .3em 0
+      h3
+        font-size 1.1em
+
+    table
+    thead
+    tbody
+    th
+    td
+    tr
+      display block
+
+    .event
+      padding-left 50px
+      padding-right 50px
+
+    .event .table td:first-child
+    td:first-child
+      width 100%
+
+    thead tr
+      position absolute
+      top -9999px
+      left -9999px
+
+    tr
+      border: 0
+
+    td
+      border none
+      border-bottom 1px solid #eee
+      position relative
+      padding-left 50%
+
+    .table-striped > tbody > tr:nth-child(odd) > td
+    .table-striped > tbody > tr:nth-child(odd) > th
+      background none
+
+    .tables td:first-child
+      width 100%
+      font-weight bold
+      border-right 0
+      background $ll-gray !important
+
+    .tables td:last-child
+      border-top 0
+
+    .tables .table:not(.not-founds) td:last-child
+      margin-bottom 20px
+
+    .main-facts
+      border-top 0
+      tr
+      td
+        border 0 !important
+      th
+      td
+      th:first-child
+      td:first-child
+      th:last-child
+      td:last-child
+        width 100%
+        text-align left
+      td
+        padding 0 0 3px 0 !important
+        margin-bottom 20px
+        &::before
+          font-size 18px
+          content attr(data-header)
+          font-weight bold
+          display block
+          border-bottom $table-border
+          width 100%
+          margin-bottom 15px
+
+
 .abstract
   white-space pre-wrap
 

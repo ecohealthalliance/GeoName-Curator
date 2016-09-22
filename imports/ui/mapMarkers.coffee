@@ -48,7 +48,9 @@ module.exports =
   addMarkersToMap: (map, instance, mapLocations) ->
     map.removeLayer instance.mapMarkers
     markers = instance.mapMarkers = new L.FeatureGroup()
+    locationCount = 0
     for coordinates, loc of mapLocations
+      locationCount++
       popupHtml = Blaze.toHTMLWithData(Template.markerPopup, {location: loc.name, events: loc.events})
       marker = L.marker(coordinates.split(","), {
         icon: L.divIcon({
@@ -60,6 +62,7 @@ module.exports =
       markers.addLayer(marker)
 
     map.addLayer markers
-    map.fitBounds markers.getBounds(),
-      maxZoom: 10
-      padding: [20, 20]
+    if locationCount
+      map.fitBounds markers.getBounds(),
+        maxZoom: 10
+        padding: [20, 20]
