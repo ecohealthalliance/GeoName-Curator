@@ -4,6 +4,8 @@
   margin 30px 0 0
   font-size 32px
   line-height 0.5
+  +above(4)
+    padding-left 40px
 
 .curator-inbox-header
   background $primary
@@ -14,6 +16,11 @@
     margin 0
     font-size 30px
     font-weight 700
+
+.curator-inbox-header
+.curator-inbox-section-head
+  +above(4)
+    padding-left 55px
 
 .curator-inbox-articles
   border-right 2px $primary-light solid
@@ -39,6 +46,8 @@
     margin-right 15px
     font-size 25px
     line-height 0.5
+    +below(4)
+      display none
     &:hover
       color $l-gray
   .curator-filter-curated-icon,
@@ -156,16 +165,3 @@
   .fa-sort-asc,
   .fa-sort-desc
     display none
-
-@media (max-width: 992px)
-  .curator-inbox-options
-    a
-      display none
-
-@media (min-width: 992px)
-  .curator-heading
-    padding-left 40px
-  .curator-inbox-articles
-    .curator-inbox-header
-    .curator-inbox-section-head
-      padding-left 55px

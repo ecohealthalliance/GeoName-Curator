@@ -1,16 +1,34 @@
+.nav
+  +below(3)
+    margin 0
+
 .navbar
   min-height $header-height - 2
   background-color #FFF
   border-bottom 2px solid $secondary
   z-index 1010
-  li > a
-    padding 25px 15px
-    font-size 15px
-    color #333
-    letter-spacing 0.02em
+  li
+    > a
+      padding 25px 15px
+      font-size 15px
+      color #333
+      letter-spacing 0.02em
+      +below(3)
+        padding 15px 10px
+        &:last-child
+          border 0
+  +below(3)
+    height $mobile-header-height
+    min-height $mobile-header-height
 
 .navbar-nav
   margin-right 60px
+  float right
+  +below(3)
+    float none
+    border-bottom 2px solid white
+    .icon
+      display none
 
 .navbar-default .navbar-nav > li > a
 .navbar-default .navbar-nav .open .dropdown-menu > li > a
@@ -49,6 +67,15 @@
   margin-left 60px
   bg('/images/eidr-connect-logo', 100px, 47px, 'svg')
   margin-top 10px
+  +below(3)
+    margin-left 20px
+    background-size 63px 35px
+    background-repeat no-repeat
+    width 63px
+    margin-top 5px
+    height 45px
+  +between(3,4)
+    margin-left 20px
 
 .disclaimer
   width 100%
@@ -58,6 +85,8 @@
     color $d-gray
     &:hover
       color #000
+  +below(3)
+    display none
 
 .link-text-nav
   display inline-block
@@ -66,66 +95,38 @@
 .show-small
   display none
 
-
-@media (min-width: 768px) and (max-width: 992px)
-  .link-text-nav
-      display none
-  .show-small,
-  .show-large
+.show-small
+.show-large
+  +between(3,4)
     display inline-block
     font-size 20px
-  .navbar-default .navbar-nav > li > a
-    font-size 12px
-  li > a
-    &.withIcon
-      padding 25px 15px
-      line-height 0
-      font-size 18px
-  .navbar-brand
-    margin-left 20px
 
-@media (max-width: 768px)
-  .show-small
-    display none
-  .navbar-nav
-    border-bottom 2px solid white
-    .icon
-      display none
-  .disclaimer
-    display none
-  .navbar-nav
-    float none
-  .navbar-brand
-    margin-left 20px
-    background-size 63px 35px
-    background-repeat no-repeat
-    width 63px
-    margin-top 10px
-    height 45px
-  .navbar
-    min-height $mobile-header-height
-    li
-      border-bottom $table-border
-      > a
-        padding 15px 30px
-      &:last-child
-        border 0
-  .nav
-    margin 0
-  .container > .navbar-collapse
+.link-text-nav
+.navbar-default .navbar-nav > li > a
+  +between(3,4)
+    font-size 12px
+
+li > a
+  +between(3,4)
+    &.withIcon
+      line-height 0
+
+.container > .navbar-collapse
+  +below(3)
     padding 0
     margin-right -30px
     margin-left -30px
-  .navbar-fixed-top .navbar-collapse
+
+.navbar-fixed-top .navbar-collapse
+  +below(3)
     max-height 400px
-  .navbar-toggle
+
+.navbar-toggle
+  +below(3)
     margin-right 0
     margin-top 10px
-  .navbar-header
-    min-height $mobile-header-height
-  .navbar-default .navbar-toggle:hover
-  .navbar-default .navbar-toggle:focus
+
+.navbar-default .navbar-toggle:hover
+.navbar-default .navbar-toggle:focus
+  +below(3)
     background-color $ll-gray
-.toast-top-right
-  top 0px
-  right 0px

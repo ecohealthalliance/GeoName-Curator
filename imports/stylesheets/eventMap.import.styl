@@ -4,13 +4,15 @@
   position absolute
   left 0
   right 0
-  top $header-height
+  top $mobile-header-height
   bottom 0
   margin auto
   background-color $map-background
   .leaflet-top,
   .leaflet-left
     z-index 90
+  +above(4)
+    top $header-height
 
 #event-map
   full-width()
@@ -22,6 +24,8 @@
     bottom $mobile-footer-height
     .leaflet-control-attribution
       font-size 5px
+  +below(3)
+    top $mobile-header-height
   +above(4)
     left $map-menu-width-large
     width $map-width-large
