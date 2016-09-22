@@ -25,8 +25,6 @@ fluid-ratio($widthLarge, $heightLarge, $widthSmall, $heightSmall)
   height $height
 
   background-size cover
-  -moz-background-size cover
-  background-position center
 
 bg($path, $w, $h, $type='png')
   background-image url($path + '.' + $type)
@@ -49,8 +47,6 @@ vAlign()
 
 centerPosition($h=-50%,$v=-50%)
   position absolute
-  -ms-transform translate($h,$v)
-  -webkit-transform translate($h,$v)
   transform translate($h,$v)
 
 icon()
