@@ -1,4 +1,26 @@
+ScatterPlot = require '/imports/charts/ScatterPlot.coffee'
+
 Template.incidentReports.helpers
+  draw: ->
+    Meteor.defer ->
+      plot = new ScatterPlot({
+        containerID: 'scatterPlot',
+        svgContentClass: 'scatterPlot-content',
+      })
+      plot
+        .addRectMarker(25, 25, 100, 5, '#345e7e', .2)
+        .addRectMarker(10, 10, 70, 5, '#345e7e', .2)
+        .addRectMarker(15, 15, 120, 5, '#345e7e', .2)
+        .addRectMarker(15, 15, 120, 5, '#345e7e', .2)
+        .addRectMarker(12, 12, 50, 5, '#345e7e', .2)
+        .addRectMarker(22, 22, 170, 5, '#345e7e', .2)
+        .addRectMarker(25, 25, 100, 5, '#345e7e', .2)
+        .addRectMarker(10, 10, 70, 5, '#345e7e', .2)
+        .addRectMarker(15, 15, 120, 5, '#345e7e', .2)
+        .addRectMarker(15, 15, 120, 5, '#345e7e', .2)
+        .addRectMarker(12, 12, 50, 5, '#345e7e', .2)
+        .addRectMarker(22, 22, 170, 5, '#345e7e', .2)
+
   getSettings: ->
     fields = [
       {
