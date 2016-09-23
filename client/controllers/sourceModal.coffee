@@ -104,9 +104,7 @@ Template.sourceModal.events
         if enhance
           Modal.show("suggestedIncidentsModal", {
             userEventId: templateInstance.data.userEventId
-            article:
-              _id: articleId
-              url: article
+            article: Articles.findOne(articleId)
           })
     )
 

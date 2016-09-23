@@ -96,7 +96,27 @@ Template.suggestedIncidentsModal.onCreated ->
       sents = parseSents(result.source.cleanContent.content)
       keypoints = result.keypoints
       locTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.location), sents)
-      dateTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.time), sents)
+      dateKeypoints = keypoints
+        .map (keypoint)=>
+          time = keypoint.time
+          if not time
+            return
+          if keypoint.time.label == "PRESENT_REF" or keypoint.text == "today"
+            time.timeRange =
+              begin: moment.utc(@data.article.publishDate).toObject()
+              end: moment.utc(@data.article.publishDate).add(1, "day").toObject()
+            time.precision = 1
+            return keypoint
+          if not (time.timeRange and time.timeRange.begin and time.timeRange.end)
+            #console.log "No Timerange", keypoint
+            return
+          # moment parses 0 based month indecies
+          if time.timeRange.begin.month then time.timeRange.begin.month--
+          if time.timeRange.end.month then time.timeRange.end.month--
+          time.precision = Object.keys(time.timeRange.end).length + Object.keys(time.timeRange.end).length
+          return keypoint
+        .filter (keypoint)-> keypoint
+      dateTerritories = getTerritories(dateKeypoints, sents)
       result.keypoints.forEach((keypoint) =>
         unless keypoint.count then return
         [kStart, kEnd] = keypoint.textOffsets[0]
@@ -108,41 +128,23 @@ Template.suggestedIncidentsModal.onCreated ->
             return true
         incident =
           locations: locationTerritory.annotations.map(({location})->geonamesById[location.geonameid])
-        mostFromKeys = 0
-        mostToKeys = 0
+        maxPrecision = 0
         dateTerritory.annotations.forEach (annotation)->
           time = annotation.time
-          if not time.timeRange
-            #console.log "No Timerange", annotation
-            return
-          incident.dateRange = {}
           fromTime = _.clone(time.timeRange.begin)
-          if fromTime
-            fromKeys = Object.keys(fromTime).length
-            # moment parses 0 based month indecies
-            if fromTime.month then fromTime.month--
-            parsedDate = moment(fromTime)
-            if fromKeys > mostFromKeys and parsedDate.isValid()
-              incident.dateRange.start = parsedDate.toDate()
-              mostFromKeys = fromKeys
-          else
-            console.log "No fromTime", annotation
           toTime = _.clone(time.timeRange.end)
-          if toTime
-            toKeys = Object.keys(toTime).length
-            # moment parses 0 based month indecies
-            if toTime.month then toTime.month--
-            # Round up the to date
-            parsedDate = moment(_.extend({hours:23, minutes: 59}, toTime))
-            if toKeys > mostToKeys and parsedDate.isValid()
-              incident.dateRange.end = parsedDate.toDate()
-              mostToKeys = toKeys
-          else
-            console.log "No toTime", annotation
-          if moment(incident.dateRange.end).diff(incident.dateRange.start, "hours") <= 24
-            incident.dateRange.type = "day"
-          else
-            incident.dateRange.type = "precise"
+          momentFromTime = moment.utc(fromTime)
+          # Round up the to day end
+          momentToTime = moment.utc(_.extend({hours:23, minutes: 59}, toTime))
+          if time.precision > maxPrecision and momentToTime.isValid() and momentFromTime.isValid()
+            maxPrecision = time.precision
+            incident.dateRange =
+              start: momentFromTime.toDate()
+              end: momentToTime.toDate()
+            if moment(incident.dateRange.end).diff(incident.dateRange.start, "hours") <= 24
+              incident.dateRange.type = "day"
+            else
+              incident.dateRange.type = "precise"
         incident.dateTerritory = dateTerritory
         incident.locationTerritory = locationTerritory
         incident.countAnnotation = keypoint
@@ -185,30 +187,21 @@ Template.suggestedIncidentsModal.events
     content = Template.instance().content.get()
     displayCharacters = 150
     [start, end] = incident.countAnnotation.textOffsets[0]
-
-    startingIndex = start - displayCharacters
-    if startingIndex < 0
-      startingIndex = 0
-    # The text before the incident link
+    
+    startingIndex = Math.min(incident.locationTerritory?.territoryStart or start,
+      incident.dateTerritory?.territoryStart or start)
     precedingText = content.slice(startingIndex, start)
 
-    # Split the preceding text if it contains multiple new lines
-    split = precedingText.split(/\n{2,}/g)
-    if split.length > 1
-      precedingText = split[split.length - 1]
-    else if startingIndex isnt 0
+    if startingIndex isnt 0
       precedingText = "... " + precedingText
 
-    endingIndex = end + displayCharacters
-    if endingIndex >= content.length
-      endingIndex = content.length - 1
+    endingIndex = Math.max(incident.locationTerritory?.territoryEnd or end,
+      incident.dateTerritory?.territoryEnd or end)
     followingText = content.slice(end, endingIndex)
 
     # Split the following text if it contains multiple new lines
     split = followingText.split(/\n{2,}/g)
-    if split.length > 1
-      followingText = split[0]
-    else if endingIndex isnt (content.length - 1)
+    if endingIndex isnt (content.length - 1)
       followingText += " ..."
 
     Modal.show("suggestedIncidentModal", {

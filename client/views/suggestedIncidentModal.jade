@@ -6,7 +6,7 @@ template(name="suggestedIncidentModal")
           +modalCloseButton
           h4.modal-title Edit and Confirm Incident Report
         .modal-body
-          .well {{incidentText}}
+          .well.annotated-content.snippet {{incidentText}}
           +incidentForm
         .modal-footer
           button.btn.btn-default.reject(type="button" data-dismiss="modal") Reject
