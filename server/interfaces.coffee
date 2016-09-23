@@ -39,34 +39,23 @@ Meteor.methods
   queryForSuggestedArticles: (eventId) ->
     check eventId, String
     event = UserEvents.findOne(eventId)
-    console.log event
     console.log "Calling SPA API @ " + SPA_API_URL
     unless event
       throw new Meteor.Error 404, "Unable to fetch the requested event record"
     # Construct an array of keywords out of the event's name
     keywords = _.uniq event.eventName.match(/\w{3,}/g)
-    # Build the mongodb query
-    mongoQuery = { $and: [] }
-    pushKeyword = (keyword) ->
-      mongoQuery.$and.push
-        content: { $regex: keyword, $options: 'i' }
-    # Construct a query out of keywords
-    for keyword in keywords
-      pushKeyword(keyword)
     # Add the disease name from the event to the keywords
     if event.disease
-      pushKeyword(event.disease)
-    # Filter out related event sources
+      keywords.push(event.disease)
+    # Collect related event source ID's
     notOneOfThese = []
     Articles.find(userEventId: eventId).forEach (relatedEventSource) ->
       url = relatedEventSource.url?[0]
       if url
         notOneOfThese.push url.match(/\d+/)?[0]
-    if notOneOfThese.length
-      mongoQuery.$and.push promedId: $nin: notOneOfThese
     # Query the remote server API
-    response = HTTP.call('GET', "#{SPA_API_URL}/find", {
-      params: { q: JSON.stringify(mongoQuery) }
+    response = HTTP.call('GET', "#{SPA_API_URL}/search", {
+      params: { text: keywords.join(' '), not: notOneOfThese.join(' ') }
     })
     if response
       response.data
