@@ -8,7 +8,7 @@ Meteor.methods
     console.log "Calling GRITS API @ " + GRITS_API_URL
     result = HTTP.post(GRITS_API_URL + "/public_diagnose", {
       params:
-        api_key: "grits28754"
+        api_key: "Cr9LPAtL"
         returnSourceContent: true
         showKeypoints: true
         url: url
