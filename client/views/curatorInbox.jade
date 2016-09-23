@@ -47,14 +47,15 @@ template(name="curatorInboxSection")
     +reactiveTable collection="promedArticles" settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
 
 template(name="curatorArticleDetails")
-  div(class="row curator-inbox-header curator-article-details-header {{#if reviewed}} reviewed {{/if}}")
-    h2 {{title}}
-    i.fa.fa-check-circle.reviewed-icon
-  .curator-article-details-content
-    .row
-      .col-xs-12
-        +curatorEvents
-    .row.curator-inbox-buttons
-      .col-xs-12.text-center
-        a#accept-article.btn.btn-primary(href="") ACCEPT SOURCE
-        a#decline-article.btn.btn-default.disabled(href="") DECLINE
+  with article
+    div(class="row curator-inbox-header curator-article-details-header {{#if reviewed}} reviewed {{/if}}")
+      h2 {{source.name}}
+      i.fa.fa-check-circle.reviewed-icon
+    .curator-article-details-content
+      .row
+        .col-xs-12
+          +curatorEvents
+      .row.curator-inbox-buttons
+        .col-xs-12.text-center
+          a#accept-article.btn.btn-primary(href="") ACCEPT SOURCE
+          a#decline-article.btn.btn-default.disabled(href="") DECLINE

@@ -194,15 +194,15 @@ Template.curatorInboxSection.events
     $parentRow.addClass("details-open")
     $("#curator-article-details").html("")
     details = document.getElementById("curator-article-details")
-    Blaze.renderWithData(Template.curatorArticleDetails, this, details)
+    Blaze.renderWithData(Template.curatorArticleDetails, {_id: this._id}, details)
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
   "click .curator-inbox-section-head": (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
 
 Template.curatorArticleDetails.helpers
-  title: ->
-    return Template.instance().data.source.name
+  article: ->
+    return PromedArticles.findOne({_id: @_id})
   formattedAddedDate: ->
     return moment(Template.instance().data.addedDate).format('MMMM DD, YYYY')
   formattedPublishDate: ->
@@ -212,3 +212,4 @@ Template.curatorArticleDetails.events
   "click #accept-article": (event, template) ->
     Meteor.call("curatePromedArticle", template.data._id, true)
     template.data.reviewed = true
+
