@@ -99,7 +99,9 @@ Meteor.methods
       Meteor.call("updateUserEventLastModified", removed.userEventId)
       Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
 
-  curateArticle: (id, accepted) ->
+  curateArticle: (id, reviewed) ->
     if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
-      if accepted
-        Articles.update({_id: id}, {$set: {reviewed: true}})
+      Articles.update({_id: id}, {
+        $set:
+          reviewed: reviewed
+      })

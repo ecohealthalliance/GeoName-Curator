@@ -47,8 +47,8 @@ template(name="curatorInboxSection")
     +reactiveTable collection="recentEventArticles" settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
 
 template(name="curatorArticleDetails")
-  div(class="row curator-inbox-header curator-article-details-header {{#if isReviewed}} reviewed {{/if}}")
-    h2 {{title}}
+  div(class="row curator-inbox-header curator-article-details-header {{#if article.reviewed}} reviewed {{/if}}")
+    h2 {{article.url}}
     i.fa.fa-check-circle.reviewed-icon
   .curator-article-details-content
     .row
@@ -56,5 +56,5 @@ template(name="curatorArticleDetails")
         +curatorEvents
     .row.curator-inbox-buttons
       .col-xs-12.text-center
-        a#accept-article.btn.btn-primary(href="") ACCEPT SOURCE
-        a#decline-article.btn.btn-default.disabled(href="") DECLINE
+        a.mark-reviewed.btn.btn-primary(href="") Mark as reviewed
+        a.mark-unreviewed.btn.btn-default(href="") Mark as unreviewed

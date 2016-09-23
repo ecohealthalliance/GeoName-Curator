@@ -200,17 +200,17 @@ Template.curatorInboxSection.events
   "click .curator-inbox-section-head": (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
 
+Template.curatorArticleDetails.onCreated ->
+  @article = ReactiveVar()
+  @autorun =>
+    @article.set grid.Articles.findOne(@data._id)
+
 Template.curatorArticleDetails.helpers
-  title: ->
-    return Template.instance().data.url
-  isReviewed: ->
-    return Template.instance().data.reviewed
-  formattedAddedDate: ->
-    return moment(Template.instance().data.addedDate).format('MMMM DD, YYYY')
-  formattedPublishDate: ->
-    return moment(Template.instance().data.publishDate).format('MMMM DD, YYYY')
+  article: ->
+    Template.instance().article.get()
 
 Template.curatorArticleDetails.events
-  "click #accept-article": (event, template) ->
-    # console.log template
+  "click .mark-reviewed": (event, template) ->
     Meteor.call("curateArticle", template.data._id, true)
+  "click .mark-unreviewed": (event, template) ->
+    Meteor.call("curateArticle", template.data._id, false)
