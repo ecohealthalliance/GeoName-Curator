@@ -12,7 +12,6 @@ if Meteor.isServer
           $gte: new Date(range.startDate)
           $lte: new Date(range.endDate)
         }
-        getFullYear: {}
       }
 
     PromedArticles.find(query, {

@@ -77,10 +77,18 @@ Template.curatorInbox.events
     template.ready.set(false)
     template.sub.stop()
 
-    range = {
-      startDate: $('#date-picker').data('daterangepicker').startDate.format()
-      endDate: $('#date-picker').data('daterangepicker').endDate.format()
-    }
+    range = null
+    startDate = $('#date-picker').data('daterangepicker').startDate
+    endDate = $('#date-picker').data('daterangepicker').endDate
+
+    if startDate and !endDate
+      endDate = startDate
+
+    if startDate and endDate
+      range = {
+        startDate: startDate.format(),
+        endDate: endDate.format()
+      }
 
     template.sub = Meteor.subscribe "promedArticles", 2000, range, () ->
       template.days = createInboxSections()
