@@ -1,14 +1,9 @@
 require '/imports/ui/helpers.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
-
-UserEvents = ->
-  @grid.UserEvents
+UserEvents = require '/imports/collections/userEvents.coffee'
 
 Articles = ->
   @grid.Articles
-
-Geolocations = () ->
-  @grid.Geolocations
 
 Router.configure
   layoutTemplate: "layout"
@@ -32,8 +27,6 @@ Router.route "/event-map",
   waitOn: ->
     Meteor.subscribe "userEvents"
     Meteor.subscribe "mapIncidents"
-  data: ->
-    events: UserEvents()
 
 Router.route "/admins",
   name: 'admins'
@@ -108,6 +101,6 @@ Router.route "/user-event/:_id/:_view?",
       Meteor.subscribe "eventIncidents", @params._id
     ]
   data: ->
-    userEvent: UserEvents().findOne({'_id': @params._id})
+    userEvent: UserEvents.findOne({'_id': @params._id})
     articles: Articles().find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
     incidents: Incidents.find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()

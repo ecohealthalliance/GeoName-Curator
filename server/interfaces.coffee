@@ -1,3 +1,5 @@
+UserEvents = require '/imports/collections/userEvents.coffee'
+
 DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
 
 GRITS_API_URL = process.env.GRITS_API_URL or "https://grits.eha.io/api/v1"

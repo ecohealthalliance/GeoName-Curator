@@ -1,24 +1,5 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
-@UserEvents = new Mongo.Collection "userEvents"
-
-@grid ?= {}
-@grid.UserEvents = UserEvents
-
-if Meteor.isServer
-  ReactiveTable.publish "userEvents", UserEvents, {}
-
-  Meteor.publish "userEvent", (eidID) ->
-    UserEvents.find({_id: eidID})
-
-  Meteor.publish "userEvents", () ->
-    UserEvents.find()
-
-  UserEvents.allow
-    insert: (userID, doc) ->
-      doc.creationDate = new Date()
-      return Roles.userIsInRole(Meteor.userId(), ['admin'])
-    update: (userId, doc, fieldNames, modifier) ->
-      return Roles.userIsInRole(Meteor.userId(), ['admin'])
+UserEvents = require '/imports/collections/userEvents.coffee'
 
 Meteor.methods
   addUserEvent: (name, summary) ->
@@ -43,7 +24,7 @@ Meteor.methods
   updateUserEvent: (id, name, summary, disease) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       user = Meteor.user()
-      grid.UserEvents.update(id, {$set: {
+      UserEvents.update(id, {$set: {
         eventName: name,
         summary: summary,
         disease: disease,
@@ -80,9 +61,3 @@ Meteor.methods
         $unset:
           lastIncidentDate: ""
       })
-
-# Add lastIncidentDate
-if Meteor.isServer
-  Meteor.startup ->
-    UserEvents.find().forEach (event) ->
-      Meteor.call("updateUserEventLastIncidentDate", event._id)
