@@ -1,3 +1,4 @@
+UserEvents = require '/imports/collections/userEvents.coffee'
 Template.userEvents.onCreated ->
   @userEventFields = [
     {
@@ -77,8 +78,7 @@ Template.userEvents.onCreated ->
 
 Template.userEvents.helpers
   userEvents: ->
-    return grid.UserEvents.find()
-
+    UserEvents.find()
   settings: ->
     fields = []
     for field in Template.instance().userEventFields
