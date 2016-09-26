@@ -18,6 +18,14 @@ template(name="sourceModal")
                   p.form-control-static {{url}}
                 else
                   input#article.form-control.new-article(type="url" name="article" required)
+            if suggestedArticles
+              .form-group
+                .col-md-12
+                  label.control-label Suggested Articles
+                  ul#suggested-articles
+                    each suggestedArticles
+                      li
+                        a(href=url) {{subject}}
             .form-group
               .col-md-12
                 label.control-label Publication Date

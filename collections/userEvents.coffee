@@ -1,4 +1,4 @@
-UserEvents = new Mongo.Collection "userEvents"
+@UserEvents = new Mongo.Collection "userEvents"
 
 @grid ?= {}
 @grid.UserEvents = UserEvents
@@ -68,7 +68,7 @@ Meteor.methods
       UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
   updateUserEventLastIncidentDate: (id) ->
     event = UserEvents.findOne(id)
-    latestEventIncident = grid.Incidents.findOne({userEventId: event._id}, {sort: {addedDate: -1}})      
+    latestEventIncident = grid.Incidents.findOne({userEventId: event._id}, {sort: {addedDate: -1}})
     if latestEventIncident
       UserEvents.update(id, {
         $set:

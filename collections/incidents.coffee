@@ -1,4 +1,5 @@
 incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
+
 @Incidents = new Meteor.Collection "counts"
 @grid ?= {}
 @grid.Incidents = Incidents
