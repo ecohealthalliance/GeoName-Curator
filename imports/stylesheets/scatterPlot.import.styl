@@ -1,13 +1,18 @@
 .scatterPlot-container
-  display inline-block
-  position relative
-  width 100%
-  padding-bottom 100%
-  vertical-align top
   overflow hidden
 
 .scatterPlot-content
-  display inline-block
-  position absolute
-  top 0
-  left 0
+  overflow hidden
+
+.scatterPlot-axis
+  font-family sans-serif
+  font-size 8px
+
+.scatterPlot-axis path, .scatterPlot-axis line
+  fill none
+  stroke #000
+  shape-rendering crispEdges
+
+.scatterPlot-axis-label
+  font-size 12px
+  font-weight bold
