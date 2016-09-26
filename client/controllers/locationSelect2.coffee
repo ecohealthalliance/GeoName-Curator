@@ -1,4 +1,5 @@
 formatLocation = require '/imports/formatLocation.coffee'
+Incidents = require '/imports/collections/incidentReports.coffee'
 
 incidentsToLocations = (incidents) ->
   locations = {}
@@ -15,7 +16,7 @@ incidentsToLocations = (incidents) ->
 Template.locationSelect2.onCreated ->
   # Display locations relevant to this event
   @suggestLocations = (term, callback) ->
-    locations = incidentsToLocations grid.Incidents.find().fetch()
+    locations = incidentsToLocations Incidents.find().fetch()
     data = []
     for loc in locations
       data.push { id: loc.id, text: formatLocation(loc), item: loc }

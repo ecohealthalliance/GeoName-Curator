@@ -1,3 +1,5 @@
+Incidents = require '/imports/collections/incidentReports.coffee'
+
 Template.curatorEvents.onCreated ->
   @eventFields = [
     {
@@ -119,7 +121,7 @@ Template.curatorEventIncidents.onCreated ->
 
 Template.curatorEventIncidents.helpers
   incidents: ->
-    return grid.Incidents.find()
+    return Incidents.find()
 
   settings: ->
     fields = []

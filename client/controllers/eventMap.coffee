@@ -1,4 +1,5 @@
 MapHelpers = require '/imports/ui/mapMarkers.coffee'
+Incidents = require '/imports/collections/incidentReports.coffee'
 
 L.Icon.Default.imagePath = "/packages/fuatsengul_leaflet/images"
 
@@ -58,7 +59,7 @@ Template.eventMap.onRendered ->
       # Remove events that have no locations to plot on the map
       filteredEvents = []
       for event in allEvents
-        incidentLocations = instance.data.incidents.find({userEventId: event._id, locations: {$ne: null}}, {fields: {locations: 1}}).fetch()
+        incidentLocations = Incidents.find({userEventId: event._id, locations: {$ne: null}}, {fields: {locations: 1}}).fetch()
         if incidentLocations.length
           event.incidents = incidentLocations
           filteredEvents.push event

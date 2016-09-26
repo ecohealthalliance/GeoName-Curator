@@ -1,3 +1,4 @@
+Incidents = require '/imports/collections/incidentReports.coffee'
 #Allow multiple modals or the suggested locations list won't show after the loading modal is hidden
 Modal.allowMultiple = true
 
@@ -17,7 +18,7 @@ Template.summary.helpers
   articleCount: ->
     return Template.instance().data.articleCount
   caseCount: ->
-    return grid.Incidents.find({userEventId:this._id}).count()
+    return Incidents.find({userEventId:this._id}).count()
 
 Template.userEvent.helpers
   isEditing: ->

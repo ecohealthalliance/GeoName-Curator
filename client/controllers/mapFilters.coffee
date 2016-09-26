@@ -1,3 +1,4 @@
+Incidents = require '/imports/collections/incidentReports.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker'
 { setVariables }            = require '/imports/ui/setRange'
 
@@ -32,7 +33,7 @@ Template.mapFilters.onRendered ->
             }
           ]
         }
-        eventIds = _.uniq(grid.Incidents.find(dateProjection, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
+        eventIds = _.uniq(Incidents.find(dateProjection, {fields: {userEventId: 1}}).fetch().map((x) -> x.userEventId))
         varQuery._id = {$in: eventIds}
         filters.push(varQuery)
 

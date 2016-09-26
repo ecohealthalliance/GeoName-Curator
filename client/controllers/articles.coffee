@@ -1,3 +1,5 @@
+Incidents = require '/imports/collections/incidentReports.coffee'
+
 Template.articles.onCreated ->
   @selectedSourceId = new ReactiveVar null
 
@@ -55,10 +57,10 @@ Template.articles.helpers
     if selectedId
       Articles.findOne selectedId
   incidentsForSource: (sourceUrl) ->
-    grid.Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
+    Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
   locationsForSource: (sourceUrl) ->
     locations = {}
-    incidents = grid.Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).forEach( (incident) ->
+    incidents = Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).forEach( (incident) ->
       for location in incident.locations
         locations[location.id] = location.name
     )
@@ -70,7 +72,7 @@ Template.articles.events
     $parentRow = $target.closest("tr")
     currentOpen = template.$("tr.tr-details")
     if $target.closest(".remove-row").length
-      incidentCount = grid.Incidents.find({userEventId: this.userEventId, url: this.url}).count()
+      incidentCount = Incidents.find({userEventId: this.userEventId, url: this.url}).count()
       if incidentCount
         plural = if incidentCount is 1 then "" else "s"
         message = "There " +
