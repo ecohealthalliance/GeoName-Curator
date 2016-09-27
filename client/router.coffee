@@ -37,8 +37,9 @@ Router.route "/admins",
   waitOn: ->
     Meteor.subscribe "allUsers"
   data: ->
-    adminUsers: Meteor.users.find({roles: {$in: ["admin"]}})
-    nonAdminUsers: Meteor.users.find({roles: {$not: {$in: ["admin"]}}})
+    adminUsers: Meteor.users.find({ roles: {$in: ["admin"]} }, {sort: {'profile.name': 1}})
+    curatorUsers: Meteor.users.find({ roles: {$in: ["curator"], $not: {$in: ["admin"]} }}, {sort: {'profile.name': 1}})
+    defaultUsers: Meteor.users.find({ roles: {$not: {$in: ["admin", "curator"]} }}, {sort: {'profile.name': 1}})
 
 Router.route "/create-account",
   name: 'create-account'

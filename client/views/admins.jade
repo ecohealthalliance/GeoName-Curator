@@ -1,16 +1,34 @@
 template(name="admins")
   .container-fluid
     .container.content-block
+      h3 Admins
       +each adminUsers
         +adminUser
-      +each nonAdminUsers
+      h3 Curators
+      +each curatorUsers
+        +adminUser
+      h3 Users
+      +each defaultUsers
         +adminUser
 
 template(name="adminUser")
   p
     | {{name}} - {{email}}
     unless isCurrentUser
-      if isAdmin
-        button.btn.btn-primary.remove-admin(user-id = this._id) Remove admin
-      else
-        button.btn.btn-primary.make-admin(user-id = this._id) Make admin
+      .btn-group
+        if isCurator
+          button.btn.btn-primary.remove-curator(user-id = this._id)
+            i.fa.fa-check
+            span Curator
+        else
+          button.btn.btn-default.make-curator(user-id = this._id)
+            i.fa.fa-plus
+            span Curator
+        if isAdmin
+          button.btn.btn-primary.remove-admin(user-id = this._id)
+            i.fa.fa-check
+            span Admin
+        else
+          button.btn.btn-default.make-admin(user-id = this._id)
+            i.fa.fa-plus
+            span Admin
