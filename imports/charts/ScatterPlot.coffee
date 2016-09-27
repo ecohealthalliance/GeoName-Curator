@@ -23,14 +23,9 @@ class ScatterPlot
    ```
   ###
   constructor: (options) ->
-    @height = options.height || 400
     @margins = options.margins || {left: 40, right: 20, top: 20, bottom: 40}
     @width = options.width || document.getElementById(options.containerID).offsetWidth - (@margins.left + @margins.right);
-    @data = options.data || [
-      {x: 0, y: 3, w: 4}, {x: 11, y: 31, w: 1}, {x: 15, y: 45, w: 2},
-      {x: 1, y: 3, w: 4}, {x: 12, y: 31, w: 1}, {x: 14, y: 45, w: 2}
-      {x: 2, y: 3, w: 4}, {x: 13, y: 31, w: 1}, {x: 13, y: 45, w: 2}
-    ]
+    @height = options.height || ScatterPlot.aspectRatio() * @width
 
     # the root elment of the plot
     @root = d3.select("\##{options.containerID}").append('svg')
@@ -39,30 +34,15 @@ class ScatterPlot
       .append('g')
       .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
 
-    # an svg group of the scatterPlot-rect-markers
+    # an svg group of the markers
     @markers = @root.append('g')
       .attr('class', 'scatterPlot-rect-markers')
       .attr('transform', "translate(#{@margins.left}, 0)")
 
-    # setup the scale proportional to the size of the data excluding margins
-    @xScale = d3.scale.linear().domain([0, 25]).range([0, @getWidth()])
-    @yScale = d3.scale.linear().domain([0, 50]).range([@getHeight(), 0])
-
-    # iterate of the data to create the markers
-    @data.forEach (d) =>
-      @_addRectMarker(d.x, d.y, d.w , 5, '#345e7e', .2)
-
     # the axes of the plot
-    @axes = new Axes(@, {
-      x: {
-        title: 'Time',
-        type: 'datetime',
-      },
-      y: {
-        title: 'Incidents',
-        type: 'numeric',
-      },
-    })
+    @axes = new Axes(@, options)
+
+    # return
     @
 
   ###
@@ -71,7 +51,7 @@ class ScatterPlot
   # @return {number} width (excluding margins) for the root svg
   ###
   getWidth: () ->
-    return @width - (@margins.left + @margins.right)
+    @width - (@margins.left + @margins.right)
 
   ###
   # getHeigth
@@ -79,7 +59,7 @@ class ScatterPlot
   # @return {number} width (excluding margins) for the root svg
   ###
   getHeight: () ->
-    return @height - (@margins.top + @margins.bottom)
+    @height - (@margins.top + @margins.bottom)
 
   ###
   # addRectMarker
@@ -95,14 +75,57 @@ class ScatterPlot
   #
   # @returns {object} this, returns itself for chaining
   ###
-  _addRectMarker: (x, y, w, h, f, o) ->
+  addRectMarker: (x, y, w, h, f, o) ->
     @markers.append('rect')
-      .attr('x', @xScale(x))
-      .attr('y', @yScale(y))
-      .attr('width', @xScale(w))
-      .attr('height', @getHeight() - @yScale(2))
+      .attr('x', @axes.xScale(x))
+      .attr('y', @axes.yScale(y))
+      .attr('width', @axes.xScale(w) - @axes.xScale(x))
+      .attr('height', @getHeight() - @axes.yScale(1))
       .style('fill', f)
       .style('opacity', o)
     @
 
+
 module.exports = ScatterPlot
+
+###
+# maxNumeric - determine the maximum value with padding. Padding is determined
+# by the number of digits ^ 10 / 10
+#
+# @return {number} max
+###
+ScatterPlot.maxNumeric = (data) ->
+  m = _.max(data)
+  l = String(m).split('').length
+  p = (Math.pow(10, l)) / 10
+  m + p
+
+###
+# maxDatetime - determine the maximum value with padding
+#
+# @param {array} data, an array of timestamps in milliseconds
+# @param {string} unit, the padding unit {day, month, year}
+# @param {numeric} amount, the amount of padding
+# @return {number} max, maximum datetime value
+###
+ScatterPlot.maxDatetime = (data, unit, amount) ->
+  m = _.max(data)
+  moment(m).add(amount, unit).valueOf()
+
+###
+# minDatetime - determine the minimum value with padding
+#
+# @param {array} data, an array of timestamps in milliseconds
+# @param {string} unit, the padding unit {day, month, year}
+# @param {numeric} amount, the amount of padding
+# @return {number} min, minimum datetime value
+###
+ScatterPlot.minDatetime = (data, unit, amount) ->
+  m = _.min(data)
+  moment(m).subtract(amount, unit).valueOf()
+
+# find the view port aspect ratio
+#
+# @return {number} aspectRatio
+ScatterPlot.aspectRatio = () ->
+  $(window).height() / $(window).width()
