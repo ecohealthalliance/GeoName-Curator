@@ -1,5 +1,8 @@
 Axes = require '/imports/charts/Axes.coffee'
 
+MINIMUM_MARKER_WIDTH = 10
+MINIMUM_MARKER_HEIGHT = 10
+
 class ScatterPlot
   ###
   # ScatterPlot
@@ -21,6 +24,25 @@ class ScatterPlot
    ```
   plot = new ScatterPlot(options)
    ```
+  #
+  # example datetime data:
+  ```
+    data = [
+      {x: 1443380879164, y: 3, w: 1445972879164}, {x: 1467054386392, y: 31, w: 1467659186392}, {x: 1459105926404, y: 15, w: 1469646565130},
+      {x: 1443380879164, y: 3, w: 1448654879164}, {x: 1467054386392, y: 31, w: 1468263986392}, {x: 1459105926404, y: 15, w: 1467659365130},
+      {x: 1443380879164, y: 3, w: 1451246879164}, {x: 1467054386392, y: 31, w: 1468868786392}, {x: 1459105926404, y: 15, w: 1467918565130},
+    ]
+  ```
+  #
+  # example numeric data:
+  ```
+    data = [
+      {x: 0, y: 3, w: 4}, {x: 5, y: 31, w: 9}, {x: 11, y: 45, w: 15},
+      {x: 1, y: 3, w: 4}, {x: 5, y: 31, w: 15}, {x: 12, y: 45, w: 14},
+      {x: 2, y: 3, w: 4}, {x: 6, y: 31, w: 7}, {x: 12, y: 45, w: 17},
+    ]
+  ```
+  #
   ###
   constructor: (options) ->
     @margins = options.margins || {left: 40, right: 20, top: 20, bottom: 40}
@@ -76,56 +98,98 @@ class ScatterPlot
   # @returns {object} this, returns itself for chaining
   ###
   addRectMarker: (x, y, w, h, f, o) ->
+    width = @axes.xScale(w) - @axes.xScale(x)
+    # if the scale is large enough (e.g. the scale is two years and the span
+    # x and w is one day), it is possible to have very small width, such as .2,
+    # which isn't visible on the plot. therefore the minimum size will be 5x5
+    if width < MINIMUM_MARKER_WIDTH
+      width = MINIMUM_MARKER_WIDTH
+    if h < MINIMUM_MARKER_HEIGHT
+      h = MINIMUM_MARKER_HEIGHT
     @markers.append('rect')
       .attr('x', @axes.xScale(x))
-      .attr('y', @axes.yScale(y))
-      .attr('width', @axes.xScale(w) - @axes.xScale(x))
-      .attr('height', @getHeight() - @axes.yScale(1))
+      .attr('y', @axes.yScale(y) - h/2)
+      .attr('width', width)
+      .attr('height', h)
       .style('fill', f)
       .style('opacity', o)
     @
 
-
-module.exports = ScatterPlot
+  ###
+  # showWarn - shows a warning message in the center of the plot
+  #
+  # @param {string} m, the message to display
+  ###
+  showWarn: (m) ->
+    mSize = m.split('').length;
+    @warn = @root.append('g')
+      .attr('class', 'scatterPlot-warn')
+      .attr('transform', "translate(#{@getWidth() / 2 - mSize}, #{@getHeight() / 2})")
+    @warn.append('text')
+      .text(m)
 
 ###
 # maxNumeric - determine the maximum value with padding. Padding is determined
-# by the number of digits ^ 10 / 10
+# by the number of digits ^ 10 / 10, unless number of digets == 10 then return
+# 10
 #
+# @param {array} data, an array of positive integers
 # @return {number} max
 ###
 ScatterPlot.maxNumeric = (data) ->
   m = _.max(data)
   l = String(m).split('').length
+  # if the length of the number is 1, (e.g 0 ... 9) then return 10
+  if l == 1
+    return 10
   p = (Math.pow(10, l)) / 10
   m + p
+
+###
+# getDatetimeUnit - determine the unit of time for padding the axis
+#
+# @param {object} min, the min moment datetime object
+# @param {object} max, the max moment datetime object
+# @return {string} the datetime unit {day, week, month}
+###
+getDatetimeUnit = (min, max) ->
+  diff = max.diff(min, 'days')
+  unit = 'month' # one of {day, week, month} default is month
+  if diff <= 14
+    unit = 'day'
+  else if diff > 14 and diff <= 183
+    unit = 'week'
+  return unit
 
 ###
 # maxDatetime - determine the maximum value with padding
 #
 # @param {array} data, an array of timestamps in milliseconds
-# @param {string} unit, the padding unit {day, month, year}
-# @param {numeric} amount, the amount of padding
 # @return {number} max, maximum datetime value
 ###
-ScatterPlot.maxDatetime = (data, unit, amount) ->
-  m = _.max(data)
-  moment(m).add(amount, unit).valueOf()
+ScatterPlot.maxDatetime = (data) ->
+  min = moment(_.min(data))
+  max = moment(_.max(data))
+  unit = getDatetimeUnit(min, max)
+  moment(max).add(1, unit).valueOf()
 
 ###
 # minDatetime - determine the minimum value with padding
 #
 # @param {array} data, an array of timestamps in milliseconds
-# @param {string} unit, the padding unit {day, month, year}
-# @param {numeric} amount, the amount of padding
 # @return {number} min, minimum datetime value
 ###
 ScatterPlot.minDatetime = (data, unit, amount) ->
-  m = _.min(data)
-  moment(m).subtract(amount, unit).valueOf()
+  min = moment(_.min(data))
+  max = moment(_.max(data))
+  unit = getDatetimeUnit(min, max)
+  moment(min).subtract(1, unit).valueOf()
 
 # find the view port aspect ratio
 #
 # @return {number} aspectRatio
 ScatterPlot.aspectRatio = () ->
   $(window).height() / $(window).width()
+
+
+module.exports = ScatterPlot

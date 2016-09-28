@@ -1,51 +1,71 @@
 ScatterPlot = require '/imports/charts/ScatterPlot.coffee'
 
-Template.incidentReports.helpers
-  draw: ->
-    Meteor.defer ->
-      # dummy data
-      data = [
-        {x: 1443380879164, y: 3, w: 1445972879164}, {x: 1467054386392, y: 31, w: 1467659186392}, {x: 1459105926404, y: 15, w: 1469646565130},
-        {x: 1443380879164, y: 3, w: 1448654879164}, {x: 1467054386392, y: 31, w: 1468263986392}, {x: 1459105926404, y: 15, w: 1467659365130},
-        {x: 1443380879164, y: 3, w: 1451246879164}, {x: 1467054386392, y: 31, w: 1468868786392}, {x: 1459105926404, y: 15, w: 1467918565130},
-      ]
-      ###
-      data = [
-        {x: 0, y: 3, w: 4}, {x: 5, y: 31, w: 9}, {x: 11, y: 45, w: 15},
-        {x: 1, y: 3, w: 4}, {x: 5, y: 31, w: 15}, {x: 12, y: 45, w: 14},
-        {x: 2, y: 3, w: 4}, {x: 6, y: 31, w: 7}, {x: 12, y: 45, w: 17},
-      ]
-      ###
+Template.incidentReports.onCreated ->
+  incidents = Template.instance().data.incidents
+  Meteor.defer ->
+    # format the data
+    data = _.chain(incidents)
+      .map((incident) ->
+        if typeof incident == 'undefined'
+          return
+        if typeof incident.dateRange != 'object'
+          return
+        m = {}
+        x = moment(incident.dateRange.start).hours(0).valueOf()
+        if x <= 0
+          return
+        w = moment(incident.dateRange.end).valueOf()
+        if w <= 0
+          return
+        m.x = x
+        m.w = w
+        y = 0
+        if incident.cases
+          y += incident.cases
+        if incident.deaths
+          y += incident.deaths
+        m.y = y
+        if incident.locations.length > 0
+          m.label = incident.locations[0].name
+        return m
+      ).filter((m) ->
+        if typeof m != 'undefined'
+          return m
+      ).value()
 
-      # build the plot
-      plot = new ScatterPlot({
-        containerID: 'scatterPlot',
-        svgContentClass: 'scatterPlot-content',
-        axes: {
-          x: {
-            title: 'Time',
-            type: 'datetime',
-            minMax: [
-              ScatterPlot.minDatetime(_.pluck(data, 'x'), 'month', 1),
-              ScatterPlot.maxDatetime(_.pluck(data, 'x'), 'month', 2),
-            ]
-            #type: 'numeric',
-            #minMax: [0, ScatterPlot.maxNumeric(_.pluck(data, 'x'))]
-          },
-          y: {
-            title: 'Incidents',
-            type: 'numeric',
-            minMax: [
-              0,
-              ScatterPlot.maxNumeric(_.pluck(data, 'y')),
-            ]
-          }
+    # build the plot
+    plot = new ScatterPlot({
+      containerID: 'scatterPlot',
+      svgContentClass: 'scatterPlot-content',
+      axes: {
+        x: {
+          title: 'Time',
+          type: 'datetime',
+          minMax: [
+            ScatterPlot.minDatetime(_.pluck(data, 'x')),
+            ScatterPlot.maxDatetime(_.pluck(data, 'w')),
+          ],
+        },
+        y: {
+          title: 'Incidents',
+          type: 'numeric',
+          minMax: [
+            0,
+            ScatterPlot.maxNumeric(_.pluck(data, 'y')),
+          ]
         }
-      })
-      # add the markers
-      data.forEach (d) =>
-        plot.addRectMarker(d.x, d.y, d.w , 5, '#345e7e', .2)
+      }
+    })
 
+    if data.length <= 0
+      plot.showWarn('Not enough data.')
+      return
+
+    # add the markers
+    data.forEach (d) =>
+      plot.addRectMarker(d.x, d.y, d.w , 10, '#345e7e', .3)
+
+Template.incidentReports.helpers
   getSettings: ->
     fields = [
       {
