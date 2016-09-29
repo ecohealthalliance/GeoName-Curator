@@ -17,18 +17,18 @@ template(name="adminUser")
     unless isCurrentUser
       .btn-group
         if isCurator
-          button.btn.btn-primary.remove-curator(user-id = this._id)
+          button.btn.btn-primary.remove-curator
             i.fa.fa-check
             span Curator
         else
-          button.btn.btn-default.make-curator(user-id = this._id)
+          button.btn.btn-default.make-curator
             i.fa.fa-plus
             span Curator
         if isAdmin
-          button.btn.btn-primary.remove-admin(user-id = this._id)
+          button.btn.btn-primary.remove-admin
             i.fa.fa-check
             span Admin
         else
-          button.btn.btn-default.make-admin(user-id = this._id)
+          button.btn.btn-default.make-admin
             i.fa.fa-plus
             span Admin
