@@ -1,13 +1,15 @@
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
-createInboxSections = () ->
+createInboxSections = (allPosts) ->
   sections = []
   recordedDates = {}
-  allArticles = PromedArticles.find({}, {sort: {addedDate: -1}}).fetch()
-  if allArticles.length == 0
+  allPosts = PromedPosts.find({}, {sort: {sourceDate: -1}}).fetch()
+  console.log 'allPosts'
+  console.log allPosts
+  if allPosts.length == 0
     return []
-  for article in allArticles
-    date = new Date(article.addedDate.getFullYear(), article.addedDate.getMonth(), article.addedDate.getDate())
+  for post in allPosts
+    date = new Date(post.sourceDate.getFullYear(), post.sourceDate.getMonth(), post.sourceDate.getDate())
     recordedDates[date.getTime()] = date
   for key of recordedDates
     sections.push recordedDates[key]
@@ -23,6 +25,9 @@ createNewCalendar = () ->
   calendar.leftCalendar.month = lastMonth
   calendar.updateCalendars()
 
+Template.curatorInbox.refresh = () ->
+  console.log 'mew!'
+
 Template.curatorInbox.onCreated ->
   @calendarState = new ReactiveVar false
   @ready = new ReactiveVar false
@@ -32,7 +37,17 @@ Template.curatorInbox.onCreated ->
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
 
   self = @
-  @sub = Meteor.subscribe "promedArticles", () ->
+
+  # Meteor.call 'fetchPromedPosts', 100, false, (err, response) ->
+  #   if err
+  #     console.warn err
+  #     return
+  #   console.log response
+  #   self.posts = response
+  #   self.days = createInboxSections(response)
+  #   self.ready.set(true)
+
+  @sub = Meteor.subscribe "promedPosts", () ->
     self.days = createInboxSections()
     self.ready.set(true)
 
@@ -58,9 +73,20 @@ Template.curatorInbox.helpers
   isReady: ->
     return Template.instance().ready.get()
 
+  isLoading: ->
+    return !Template.instance().ready.get()
+
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
     template.textFilter.set($(event.target).val())
+
+  "click .curator-refresh-icon": (event, template) ->
+    console.log template
+    template.refresh()
+
+  "click .curator-filter-calendar-icon": (event, template) ->
+    calendarState = template.calendarState
+    calendarState.set not calendarState.get()
 
   "click .curator-filter-calendar-icon": (event, template) ->
     calendarState = template.calendarState
@@ -90,7 +116,7 @@ Template.curatorInbox.events
         endDate: endDate.format()
       }
 
-    template.sub = Meteor.subscribe "promedArticles", 2000, range, () ->
+    template.sub = Meteor.subscribe "promedPosts", 2000, range, () ->
       template.days = createInboxSections()
       template.ready.set(true)
 
@@ -101,7 +127,7 @@ Template.curatorInbox.events
 
     createNewCalendar()
 
-    template.sub = Meteor.subscribe "promedArticles", 100, null, () ->
+    template.sub = Meteor.subscribe "promedPosts", 100, null, () ->
       template.days = createInboxSections()
       template.ready.set(true)
 
@@ -122,13 +148,20 @@ Template.curatorInboxSection.onCreated ->
         return ''
     },
     {
-      key: 'source.name'
-      description: 'The article\'s title.'
+      key: 'source'
+      description: 'The post\'s source metadata.'
       label: 'Title'
       sortDirection: -1
+      fn: (value, obj) ->
+        
+        if value and value.name
+          return lodash.truncate(value.name, {length: 50})
+        else if obj.communicatedBy
+          return lodash.truncate(obj.communicatedBy, {length: 50})
+        return 'No source name.'
     },
     {
-      key: 'date'
+      key: 'promedDate'
       description: 'Date the article was published.'
       label: 'Published'
       sortDirection: -1
@@ -136,7 +169,7 @@ Template.curatorInboxSection.onCreated ->
         return moment(value).fromNow()
     }, 
     {
-      key: 'addedDate'
+      key: 'sourceDate'
       description: 'Date the article was added.'
       label: 'Added'
       sortOrder: 0
@@ -157,7 +190,7 @@ Template.curatorInboxSection.onCreated ->
   tomorrow.setDate(tomorrow.getDate() + 1)
 
   @filterId = 'inbox-date-filter-'+today.getTime()
-  @filter = new ReactiveTable.Filter(@filterId, ['addedDate'])
+  @filter = new ReactiveTable.Filter(@filterId, ['sourceDate'])
   @filter.set({
     $gte: today
     $lt: tomorrow
@@ -166,6 +199,8 @@ Template.curatorInboxSection.onCreated ->
   @isOpen = new ReactiveVar(@data.index < 3)
 
 Template.curatorInboxSection.helpers
+  posts: ->
+    return PromedPosts
   isOpen: ->
     return Template.instance().isOpen.get()
   formattedDate: ->
@@ -192,7 +227,7 @@ Template.curatorInboxSection.helpers
       showFilter: false
       rowsPerPage: 200
       showNavigation: 'never'
-      filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
+      # filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
     }
 
 Template.curatorInboxSection.events
@@ -202,22 +237,8 @@ Template.curatorInboxSection.events
     $parentRow.addClass("details-open")
     $("#curator-article-details").html("")
     details = document.getElementById("curator-article-details")
-    Blaze.renderWithData(Template.curatorArticleDetails, {_id: this._id}, details)
+    Blaze.renderWithData(Template.curatorSourceDetails, {_id: this._id}, details)
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
   "click .curator-inbox-section-head": (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
-
-Template.curatorArticleDetails.helpers
-  article: ->
-    return PromedArticles.findOne({_id: @_id})
-  formattedAddedDate: ->
-    return moment(Template.instance().data.addedDate).format('MMMM DD, YYYY')
-  formattedPublishDate: ->
-    return moment(Template.instance().data.publishDate).format('MMMM DD, YYYY')
-
-Template.curatorArticleDetails.events
-  "click #accept-article": (event, template) ->
-    Meteor.call("curatePromedArticle", template.data._id, true)
-    template.data.reviewed = true
-

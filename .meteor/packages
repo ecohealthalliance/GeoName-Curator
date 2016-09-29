@@ -49,3 +49,4 @@ momentjs:moment
 shell-server
 aldeed:simple-schema
 dangrossman:bootstrap-daterangepicker
+stevezhu:lodash

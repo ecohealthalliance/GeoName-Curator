@@ -8,6 +8,8 @@ template(name="curatorInbox")
           .pull-left
             h2 Sources
           .curator-inbox-options.pull-right.form-inline
+            a.curator-refresh-icon
+              i.fa.fa-refresh(class="{{#if isLoading}} fa-spin {{/if}}")
             a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
               i.fa.fa-calendar
             a.curator-filter-reviewed-icon(class="{{#if reviewedState}} active {{/if}}")
@@ -44,18 +46,4 @@ template(name="curatorInboxSection")
         else
           i.fa.fa-chevron-circle-left
   if isOpen
-    +reactiveTable collection="promedArticles" settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
-
-template(name="curatorArticleDetails")
-  with article
-    div(class="row curator-inbox-header curator-article-details-header {{#if reviewed}} reviewed {{/if}}")
-      h2 {{source.name}}
-      i.fa.fa-check-circle.reviewed-icon
-    .curator-article-details-content
-      .row
-        .col-xs-12
-          +curatorEvents
-      .row.curator-inbox-buttons
-        .col-xs-12.text-center
-          a#accept-article.btn.btn-primary(href="") ACCEPT SOURCE
-          a#decline-article.btn.btn-default.disabled(href="") DECLINE
+    +reactiveTable collection=posts settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
