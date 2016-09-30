@@ -1,11 +1,9 @@
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
-createInboxSections = (allPosts) ->
+createInboxSections = () ->
   sections = []
   recordedDates = {}
   allPosts = PromedPosts.find({}, {sort: {sourceDate: -1}}).fetch()
-  console.log 'allPosts'
-  console.log allPosts
   if allPosts.length == 0
     return []
   for post in allPosts
@@ -25,9 +23,6 @@ createNewCalendar = () ->
   calendar.leftCalendar.month = lastMonth
   calendar.updateCalendars()
 
-Template.curatorInbox.refresh = () ->
-  console.log 'mew!'
-
 Template.curatorInbox.onCreated ->
   @calendarState = new ReactiveVar false
   @ready = new ReactiveVar false
@@ -37,15 +32,6 @@ Template.curatorInbox.onCreated ->
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
 
   self = @
-
-  # Meteor.call 'fetchPromedPosts', 100, false, (err, response) ->
-  #   if err
-  #     console.warn err
-  #     return
-  #   console.log response
-  #   self.posts = response
-  #   self.days = createInboxSections(response)
-  #   self.ready.set(true)
 
   @sub = Meteor.subscribe "promedPosts", () ->
     self.days = createInboxSections()
@@ -81,7 +67,6 @@ Template.curatorInbox.events
     template.textFilter.set($(event.target).val())
 
   "click .curator-refresh-icon": (event, template) ->
-    console.log template
     template.refresh()
 
   "click .curator-filter-calendar-icon": (event, template) ->
@@ -227,7 +212,7 @@ Template.curatorInboxSection.helpers
       showFilter: false
       rowsPerPage: 200
       showNavigation: 'never'
-      # filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
+      filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
     }
 
 Template.curatorInboxSection.events

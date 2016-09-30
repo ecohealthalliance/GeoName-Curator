@@ -8,8 +8,9 @@ template(name="curatorInbox")
           .pull-left
             h2 Sources
           .curator-inbox-options.pull-right.form-inline
-            a.curator-refresh-icon
-              i.fa.fa-refresh(class="{{#if isLoading}} fa-spin {{/if}}")
+            if isLoading
+              a.curator-refresh-icon
+                i.fa.fa-refresh.fa-spin
             a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
               i.fa.fa-calendar
             a.curator-filter-reviewed-icon(class="{{#if reviewedState}} active {{/if}}")
