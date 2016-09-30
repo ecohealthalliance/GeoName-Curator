@@ -1,9 +1,30 @@
 ScatterPlot = require '/imports/charts/ScatterPlot.coffee'
+tooltipTmpl = """
+  <div class='row'>
+    <div class='col-xs-12'>
+      <span style='font-weight: bold;'>
+        <%= obj.y %> <%= incidents %> at <%= obj.location %></span>
+      </span>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-xs-12'>
+      <span style='text-align: left; padding-left: 5px;'>
+        from <%= obj.moment(obj.x).format('MMM Do YYYY') %>
+        to <%= obj.moment(obj.w).format('MMM Do YYYY') %>
+      </span>
+    </div>
+  </div>
+"""
+
 
 Template.incidentReports.onCreated ->
   incidents = Template.instance().data.incidents
   Meteor.defer ->
     # format the data
+    markerHeight = 10
+    markerFill = '#345e7e'
+    markerOpacity = 0.3
     data = _.chain(incidents)
       .map((incident) ->
         if typeof incident == 'undefined'
@@ -26,7 +47,10 @@ Template.incidentReports.onCreated ->
           y += incident.deaths
         m.y = y
         if incident.locations.length > 0
-          m.label = incident.locations[0].name
+          m.location = incident.locations[0].name
+        m.h = markerHeight
+        m.f = markerFill
+        m.o = markerOpacity
         return m
       ).filter((m) ->
         if typeof m != 'undefined'
@@ -54,16 +78,22 @@ Template.incidentReports.onCreated ->
             ScatterPlot.maxNumeric(_.pluck(data, 'y')),
           ]
         }
-      }
+      },
+      tooltipTemplate: (d) ->
+        d.incidents = 'incidents'
+        d.moment = moment # template reference for momentjs
+        if d.y <= 1
+          incidents = 'incident'
+        # underscore compiled template
+        tmpl = _.template(tooltipTmpl)
+        tmpl(d)
     })
 
     if data.length <= 0
       plot.showWarn('Not enough data.')
       return
 
-    # add the markers
-    data.forEach (d) =>
-      plot.addRectMarker(d.x, d.y, d.w , 10, '#345e7e', .3)
+    plot.draw(data)
 
 Template.incidentReports.helpers
   getSettings: ->

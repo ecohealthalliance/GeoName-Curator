@@ -1,4 +1,5 @@
 Axes = require '/imports/charts/Axes.coffee'
+Tooltip = require '/imports/charts/Tooltip.coffee'
 
 MINIMUM_MARKER_WIDTH = 10
 MINIMUM_MARKER_HEIGHT = 10
@@ -12,6 +13,7 @@ class ScatterPlot
   # @param {object} options, the options to create a ScatterPlot
   # @param {string} containerID, the id of the ScatterPlot container div
   # @param {string} svgContentClass, the desired class of the constructed svg element
+  # @param {function} tooltipTemplate, the compiled template to execute for the tooltip
   #
   # @returns {object} this, returns self
   #
@@ -64,6 +66,9 @@ class ScatterPlot
     # the axes of the plot
     @axes = new Axes(@, options)
 
+    # the tooltip of the plot
+    @tooltip = new Tooltip(@, options)
+
     # return
     @
 
@@ -84,36 +89,60 @@ class ScatterPlot
     @height - (@margins.top + @margins.bottom)
 
   ###
-  # addRectMarker
+  # draw - draw using d3 select.data.enter workflow
   #
-  # adds a rectangular marker
+  # adds rectangular markers to the plot
   #
-  # @param {number} x, the x coordinate of the rect (lower left)
-  # @param {number} y, the y coordinate of the rect (lower left)
-  # @param {number} w, the width of the rect
-  # @param {number} h, the height of the rect
-  # @param {string} f, the hex color code to fill
-  # @param {number} o, the opacity of the fill
-  #
-  # @returns {object} this, returns itself for chaining
+  # @param {array} data, an array of {object} for each marker
+  # @param {number} data.x, the x coordinate of the rect (lower left)
+  # @param {number} data.y, the y coordinate of the rect (lower left)
+  # @param {number} data.w, the width of the rect
+  # @param {number} data.h, the height of the rect
+  # @param {string} data.f, the hex color code to fill
+  # @param {number} data.o, the opacity of the fill
   ###
-  addRectMarker: (x, y, w, h, f, o) ->
-    width = @axes.xScale(w) - @axes.xScale(x)
-    # if the scale is large enough (e.g. the scale is two years and the span
-    # x and w is one day), it is possible to have very small width, such as .2,
-    # which isn't visible on the plot. therefore the minimum size will be 5x5
-    if width < MINIMUM_MARKER_WIDTH
-      width = MINIMUM_MARKER_WIDTH
-    if h < MINIMUM_MARKER_HEIGHT
-      h = MINIMUM_MARKER_HEIGHT
-    @markers.append('rect')
-      .attr('x', @axes.xScale(x))
-      .attr('y', @axes.yScale(y) - h/2)
-      .attr('width', width)
-      .attr('height', h)
-      .style('fill', f)
-      .style('opacity', o)
+  draw: (data) ->
+    @markers.selectAll('.rect-marker').data(data).enter().append('rect')
+      # if the scale is large enough (e.g. the scale is two years and the span
+      # x and w is one day), it is possible to have very small width, such as .2,
+      # which isn't visible on the plot. therefore the minimum size will be set
+      # by MINIMUM_MARKER_WIDTH and MINIMUM_MARKER_HEIGHT
+      .attr('class', 'rect-marker')
+      .attr('x', (d) =>
+        @axes.xScale(d.x)
+      )
+      .attr('y', (d) =>
+        height = d.h
+        if height < MINIMUM_MARKER_HEIGHT
+          height = MINIMUM_MARKER_HEIGHT
+        @axes.yScale(d.y) - height/2
+      )
+      .attr('width', (d) =>
+        width = @axes.xScale(d.w) - @axes.xScale(d.x)
+        if width < MINIMUM_MARKER_WIDTH
+          width = MINIMUM_MARKER_WIDTH
+        width
+      )
+      .attr('height', (d) ->
+        height = d.h
+        if height < MINIMUM_MARKER_HEIGHT
+          height = MINIMUM_MARKER_HEIGHT
+        height
+      )
+      .style('fill', (d) -> d.f)
+      .style('opacity', (d) -> d.o)
+      .on('mouseover', (d) =>
+        d.incidents = 'incidents'
+        if d.y <= 1
+          d.incidents = 'incident'
+        @tooltip.mouseover(d, d3.event.pageX, d3.event.pageY)
+      )
+      .on('mouseout', (d) =>
+        @tooltip.mouseout()
+      )
+    #return
     @
+
 
   ###
   # showWarn - shows a warning message in the center of the plot
@@ -127,6 +156,12 @@ class ScatterPlot
       .attr('transform', "translate(#{@getWidth() / 2 - mSize}, #{@getHeight() / 2})")
     @warn.append('text')
       .text(m)
+
+  ###
+  # addTooltip - add tooltip to an
+  #
+  ###
+
 
 ###
 # maxNumeric - determine the maximum value with padding. Padding is determined
