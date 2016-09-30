@@ -23,6 +23,20 @@ if Meteor.isServer
       else
         throw new Meteor.Error(403, "Not authorized")
 
+    makeCurator: (userId) ->
+      currentUserId = Meteor.userId()
+      if Roles.userIsInRole(currentUserId, ['admin'])
+        Roles.addUsersToRoles(userId, ['curator'])
+      else
+        throw new Meteor.Error(403, "Not authorized")
+
+    removeCurator: (userId) ->
+      currentUserId = Meteor.userId()
+      if Roles.userIsInRole(currentUserId, ['admin'])
+        Roles.removeUsersFromRoles(userId, 'curator')
+      else
+        throw new Meteor.Error(403, "Not authorized")
+
     createAccount: (email, profileName, giveAdminRole) ->
       if Roles.userIsInRole(Meteor.userId(), ['admin'])
         existingUser = Accounts.findUserByEmail(email)
