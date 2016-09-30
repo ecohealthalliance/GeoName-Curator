@@ -1,4 +1,5 @@
 formatLocation = require '/imports/formatLocation.coffee'
+Incidents = require '/imports/collections/incidentReports.coffee'
 
 incidentsToLocations = (incidents) ->
   locations = {}

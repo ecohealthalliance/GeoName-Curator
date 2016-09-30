@@ -4,7 +4,7 @@
 @grid.Articles = Articles
 
 getEventArticles = (userEventId) ->
-  Articles.find({userEventId: userEventId})
+  grid.Articles.find({userEventId: userEventId})
 
 @UTCOffsets =
   ADT:  '-0300'
@@ -51,7 +51,7 @@ Meteor.methods
           url: source.url,
           userEventId: source.userEventId
         }
-        existingArticle = Articles.find(insertArticle).fetch()
+        existingArticle = grid.Articles.find(insertArticle).fetch()
         unless existingArticle.length is 0
           throw new Meteor.Error(501, 'This article has already been added')
         else
@@ -76,7 +76,17 @@ Meteor.methods
 
   removeEventSource: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
-      removed = Articles.findOne(id)
+      removed = grid.Articles.findOne(id)
       Articles.remove(id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
       Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
+<<<<<<< HEAD
+=======
+
+  curateArticle: (id, reviewed) ->
+    if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
+      Articles.update({_id: id}, {
+        $set:
+          reviewed: reviewed
+      })
+>>>>>>> refs/remotes/origin/master

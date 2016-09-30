@@ -1,16 +1,9 @@
 require '/imports/ui/helpers.coffee'
-
-UserEvents = ->
-  @grid.UserEvents
+Incidents = require '/imports/collections/incidentReports.coffee'
+UserEvents = require '/imports/collections/userEvents.coffee'
 
 Articles = ->
   @grid.Articles
-
-Incidents = ->
-  @grid.Incidents
-
-Geolocations = () ->
-  @grid.Geolocations
 
 Router.configure
   layoutTemplate: "layout"
@@ -34,9 +27,6 @@ Router.route "/event-map",
   waitOn: ->
     Meteor.subscribe "userEvents"
     Meteor.subscribe "mapIncidents"
-  data: ->
-    events: UserEvents()
-    incidents: Incidents()
 
 Router.route "/admins",
   name: 'admins'
@@ -47,8 +37,9 @@ Router.route "/admins",
   waitOn: ->
     Meteor.subscribe "allUsers"
   data: ->
-    adminUsers: Meteor.users.find({roles: {$in: ["admin"]}})
-    nonAdminUsers: Meteor.users.find({roles: {$not: {$in: ["admin"]}}})
+    adminUsers: Meteor.users.find({ roles: {$in: ["admin"]} }, {sort: {'profile.name': 1}})
+    curatorUsers: Meteor.users.find({ roles: {$in: ["curator"], $not: {$in: ["admin"]} }}, {sort: {'profile.name': 1}})
+    defaultUsers: Meteor.users.find({ roles: {$not: {$in: ["admin", "curator"]} }}, {sort: {'profile.name': 1}})
 
 Router.route "/create-account",
   name: 'create-account'
@@ -111,6 +102,6 @@ Router.route "/user-event/:_id/:_view?",
       Meteor.subscribe "eventIncidents", @params._id
     ]
   data: ->
-    userEvent: UserEvents().findOne({'_id': @params._id})
+    userEvent: UserEvents.findOne({'_id': @params._id})
     articles: Articles().find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
-    incidents: Incidents().find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()
+    incidents: Incidents.find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()

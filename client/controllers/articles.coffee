@@ -1,3 +1,5 @@
+Incidents = require '/imports/collections/incidentReports.coffee'
+
 Template.articles.onCreated ->
   @selectedSourceId = new ReactiveVar null
 

@@ -6,11 +6,13 @@ Template.incidentReports.helpers
         label: "Incident"
         fn: (value, object, key) ->
           if object.cases
-            return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
+            return pluralize("case", object.cases)
           else if object.deaths
-            return object.deaths + " death" + (if object.deaths isnt "1" then "s" else "")
+            return pluralize("death", object.deaths)
           else
             return object.specify
+        sortFn: (object) ->
+          0 + (object.deaths or 0) + (object.cases or 0)
       },
       {
         key: "locations"
@@ -33,8 +35,11 @@ Template.incidentReports.helpers
             else
               return moment(object.dateRange.start).format(dateFormat)
           else if object.dateRange?.type is "precise"
-            return moment(object.dateRange.start).format(dateFormat) + " - " + moment(object.dateRange.end).format(dateFormat)
+            return moment(object.dateRange.start).format(dateFormat) + " - "
+            + moment(object.dateRange.end).format(dateFormat)
           return ""
+        sortFn: (object) ->
+          +new Date(object.dateRange.end)
       },
       {
         key: "travelRelated"

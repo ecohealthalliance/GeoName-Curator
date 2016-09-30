@@ -4,7 +4,16 @@ Template.sourceModal.onCreated ->
   @tzIsSpecified = false
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
   if @data.publishDate
-    @timezoneFixedPublishDate = convertDate(@data.publishDate, "local", UTCOffsets[@data.publishDateTZ])
+    @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
+                                              UTCOffsets[@data.publishDateTZ])
+  @suggestedArticles = new Mongo.Collection(null)
+  Meteor.call 'queryForSuggestedArticles', @data.userEventId, (error, result) =>
+    if result
+      for suggestedArticle in result
+        @suggestedArticles.insert {
+          url: "http://www.promedmail.org/post/#{suggestedArticle.promedId}"
+          subject: suggestedArticle.subject.raw
+        }
 
 Template.sourceModal.helpers
   timezones: ->
@@ -31,7 +40,6 @@ Template.sourceModal.helpers
         month: templateInstance.timezoneFixedPublishDate.month()
         date: templateInstance.timezoneFixedPublishDate.date()
       )
-
     Meteor.defer ->
       templateInstance.$(".datePicker").datetimepicker pickerOptions
   initTimePicker: ->
@@ -49,6 +57,13 @@ Template.sourceModal.helpers
     if @edit
       return "save-edit-modal"
     return "save-modal"
+  suggestedArticles: ->
+    templateInstance = Template.instance()
+    articles = templateInstance.suggestedArticles.find()
+    if articles.count()
+      articles
+    else
+      false
 
 Template.sourceModal.events
   "click .save-modal": (e, templateInstance) ->
@@ -86,7 +101,8 @@ Template.sourceModal.events
       )
       if form.publishTime.value.length
         selectedDate.set({hour: time.get("hour"), minute: time.get("minute")})
-        selectedDate = convertDate(selectedDate, UTCOffsets[source.publishDateTZ], "local")
+        selectedDate = convertDate(selectedDate,
+                                    UTCOffsets[source.publishDateTZ], "local")
       source.publishDate = selectedDate.toDate()
 
     enhance = form.enhance.checked
@@ -104,9 +120,7 @@ Template.sourceModal.events
         if enhance
           Modal.show("suggestedIncidentsModal", {
             userEventId: templateInstance.data.userEventId
-            article:
-              _id: articleId
-              url: article
+            article: Articles.findOne(articleId)
           })
     )
 
@@ -127,7 +141,7 @@ Template.sourceModal.events
 
     source = @
     source.publishDateTZ = form.publishDateTZ.value
-    
+
     if date
       selectedDate = moment(
         year: date.year()
@@ -136,7 +150,8 @@ Template.sourceModal.events
       )
       if form.publishTime.value.length
         selectedDate.set({hour: time.get("hour"), minute: time.get("minute")})
-        selectedDate = convertDate(selectedDate, UTCOffsets[source.publishDateTZ], "local")
+        selectedDate = convertDate(selectedDate,
+                                    UTCOffsets[source.publishDateTZ], "local")
       source.publishDate = selectedDate.toDate()
 
     Meteor.call("updateEventSource", source, (error, result) ->
@@ -162,3 +177,9 @@ Template.sourceModal.events
               .prop('selected', true)
           templateInstance.$('#publishDate').data("DateTimePicker").date(date)
           templateInstance.$('#publishTime').data("DateTimePicker").date(date)
+  "click #suggested-articles a": (event, templateInstance) ->
+    event.preventDefault()
+    url = event.currentTarget.getAttribute 'href'
+    input = templateInstance.find('#article')
+    input.value = url
+    $(input).trigger('input').trigger('input')
