@@ -80,13 +80,3 @@ Meteor.methods
       Articles.remove(id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
       Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
-<<<<<<< HEAD
-=======
-
-  curateArticle: (id, reviewed) ->
-    if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
-      Articles.update({_id: id}, {
-        $set:
-          reviewed: reviewed
-      })
->>>>>>> refs/remotes/origin/master
