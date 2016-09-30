@@ -83,7 +83,7 @@ Template.incidentReports.onCreated ->
         d.incidents = 'incidents'
         d.moment = moment # template reference for momentjs
         if d.y <= 1
-          incidents = 'incident'
+          d.incidents = 'incident'
         # underscore compiled template
         tmpl = _.template(tooltipTmpl)
         tmpl(d)

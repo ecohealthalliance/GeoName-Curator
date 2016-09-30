@@ -157,11 +157,6 @@ class ScatterPlot
     @warn.append('text')
       .text(m)
 
-  ###
-  # addTooltip - add tooltip to an
-  #
-  ###
-
 
 ###
 # maxNumeric - determine the maximum value with padding. Padding is determined
