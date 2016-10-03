@@ -2,7 +2,7 @@ class Axes
   ###
   # Axes
   #
-  # constructs 2d cartesian axes, appends to the root SVG element of the plot
+  # constructs 2d cartesian axes, appends to the content SVG element of the plot
   #
   # @param {object} plot, the plot to append the axis
   # @param {object} options, the properties for the axis
@@ -71,7 +71,7 @@ class Axes
     # append the svg element as a group, store reference
     # xGroup
     if @axesOpts.x.type == 'datetime'
-      @xGroup = plot.root.append('g')
+      @xGroup = plot.content.append('g')
         .attr('class', 'scatterPlot-axis')
         .attr('transform', "translate(#{plot.margins.left}, #{plot.getHeight()})")
         .call(@xAxis)
@@ -87,7 +87,7 @@ class Axes
         .style('text-anchor', 'middle')
         .text(@axesOpts.x.title);
     else
-      @xGroup = plot.root.append('g')
+      @xGroup = plot.content.append('g')
         .attr('class', 'scatterPlot-axis')
         .attr('transform', "translate(#{plot.margins.left}, #{plot.getHeight()})")
         .call(@xAxis)
@@ -108,7 +108,7 @@ class Axes
     @yAxis = d3.svg.axis()
       .scale(@yScale)
       .orient('left')
-    @yGroup = plot.root.append('g')
+    @yGroup = plot.content.append('g')
       .attr('class', 'scatterPlot-axis')
       .attr('transform', "translate(#{plot.margins.left}, 0)")
       .call(@yAxis)

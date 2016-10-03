@@ -1,9 +1,10 @@
 ScatterPlot = require '/imports/charts/ScatterPlot.coffee'
+RectMarker = require '/imports/charts/RectMarker.coffee'
 tooltipTmpl = """
   <div class='row'>
     <div class='col-xs-12'>
       <span style='font-weight: bold;'>
-        <%= obj.y %> <%= incidents %> at <%= obj.location %></span>
+        <%= obj.y %> <%= incidents %> (<%= obj.meta.location %>)</span>
       </span>
     </div>
   </div>
@@ -22,43 +23,16 @@ Template.incidentReports.onCreated ->
   incidents = Template.instance().data.incidents
   Meteor.defer ->
     # format the data
-    markerHeight = 10
-    markerFill = '#345e7e'
-    markerOpacity = 0.3
     data = _.chain(incidents)
       .map((incident) ->
-        if typeof incident == 'undefined'
-          return
-        if typeof incident.dateRange != 'object'
-          return
-        m = {}
-        x = moment(incident.dateRange.start).hours(0).valueOf()
-        if x <= 0
-          return
-        w = moment(incident.dateRange.end).valueOf()
-        if w <= 0
-          return
-        m.x = x
-        m.w = w
-        y = 0
-        if incident.cases
-          y += incident.cases
-        if incident.deaths
-          y += incident.deaths
-        m.y = y
-        if incident.locations.length > 0
-          m.location = incident.locations[0].name
-        m.h = markerHeight
-        m.f = markerFill
-        m.o = markerOpacity
-        return m
+        RectMarker.createFromIncident(incident)
       ).filter((m) ->
         if typeof m != 'undefined'
           return m
       ).value()
 
     # build the plot
-    plot = new ScatterPlot({
+    window.plot = new ScatterPlot({
       containerID: 'scatterPlot',
       svgContentClass: 'scatterPlot-content',
       axes: {
@@ -79,14 +53,16 @@ Template.incidentReports.onCreated ->
           ]
         }
       },
-      tooltipTemplate: (d) ->
-        d.incidents = 'incidents'
-        d.moment = moment # template reference for momentjs
-        if d.y <= 1
-          d.incidents = 'incident'
+      # function to render the tooltip
+      tooltipTemplate: (marker) ->
+        marker.moment = moment # template reference for momentjs
+        marker.incidents = 'incidents'
+        if marker.y <= 1
+          marker.incidents = 'incident'
         # underscore compiled template
         tmpl = _.template(tooltipTmpl)
-        tmpl(d)
+        # render the template from
+        tmpl(marker)
     })
 
     if data.length <= 0

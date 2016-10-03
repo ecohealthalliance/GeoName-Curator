@@ -14,6 +14,8 @@ class ScatterPlot
   # @param {string} containerID, the id of the ScatterPlot container div
   # @param {string} svgContentClass, the desired class of the constructed svg element
   # @param {function} tooltipTemplate, the compiled template to execute for the tooltip
+  # @param {boolean} scale, scale the svg on window resize @default false
+  # @param {boolean} resize, resize the svg on window resize @default true
   #
   # @returns {object} this, returns self
   #
@@ -47,27 +49,46 @@ class ScatterPlot
   #
   ###
   constructor: (options) ->
-    @margins = options.margins || {left: 40, right: 20, top: 20, bottom: 40}
-    @width = options.width || document.getElementById(options.containerID).offsetWidth - (@margins.left + @margins.right);
-    @height = options.height || ScatterPlot.aspectRatio() * @width
+    @options = options
+    @init()
+
+  init: () ->
+    scale = @options.scale || false
+    resize = @options.resize || true
+
+    @margins = @options.margins || {left: 40, right: 20, top: 20, bottom: 40}
+    @width = @options.width || document.getElementById(@options.containerID).offsetWidth - (@margins.left + @margins.right);
+    @height = @options.height || ScatterPlot.aspectRatio() * @width
+    viewBoxWidth = @width + @margins.left + @margins.right
+    viewBoxHeight = @height + @margins.top + @margins.bottom
 
     # the root elment of the plot
-    @root = d3.select("\##{options.containerID}").append('svg')
-      .attr('width', @width + @margins.left + @margins.right)
-      .attr('height', @height + @margins.top + @margins.bottom)
-      .append('g')
+    if scale
+      @root = d3.select("\##{@options.containerID}").append('svg')
+        .attr('viewBox', "0 0 #{viewBoxWidth} #{viewBoxHeight}")
+        .attr('preserveAspectRatio','xMinYMin meet')
+    else
+      @root = d3.select("\##{@options.containerID}").append('svg')
+        .attr('width', viewBoxWidth)
+        .attr('height', viewBoxHeight)
+
+    if resize
+      window.addEventListener('resize', _.debounce(_.bind(@resize, @), 500))
+
+    @content = @root.append('g')
+      .attr('class', 'scatterPlot-content')
       .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
 
     # an svg group of the markers
-    @markers = @root.append('g')
-      .attr('class', 'scatterPlot-rect-markers')
+    @markers = @content.append('g')
+      .attr('class', 'scatterPlot-markers')
       .attr('transform', "translate(#{@margins.left}, 0)")
 
     # the axes of the plot
-    @axes = new Axes(@, options)
+    @axes = new Axes(@, @options)
 
     # the tooltip of the plot
-    @tooltip = new Tooltip(@, options)
+    @tooltip = new Tooltip(@, @options)
 
     # return
     @
@@ -102,12 +123,16 @@ class ScatterPlot
   # @param {number} data.o, the opacity of the fill
   ###
   draw: (data) ->
-    @markers.selectAll('.rect-marker').data(data).enter().append('rect')
+    if typeof data == 'undefined'
+      return
+    @data = data
+    @clear()
+    @markers.selectAll('.marker').data(data).enter().append('rect')
       # if the scale is large enough (e.g. the scale is two years and the span
       # x and w is one day), it is possible to have very small width, such as .2,
       # which isn't visible on the plot. therefore the minimum size will be set
       # by MINIMUM_MARKER_WIDTH and MINIMUM_MARKER_HEIGHT
-      .attr('class', 'rect-marker')
+      .attr('class', 'marker')
       .attr('x', (d) =>
         @axes.xScale(d.x)
       )
@@ -132,9 +157,6 @@ class ScatterPlot
       .style('fill', (d) -> d.f)
       .style('opacity', (d) -> d.o)
       .on('mouseover', (d) =>
-        d.incidents = 'incidents'
-        if d.y <= 1
-          d.incidents = 'incident'
         @tooltip.mouseover(d, d3.event.pageX, d3.event.pageY)
       )
       .on('mouseout', (d) =>
@@ -143,6 +165,29 @@ class ScatterPlot
     #return
     @
 
+  ###
+  # clear - removes any markers from the plot
+  ###
+  clear: () ->
+    @markers.selectAll('.marker').remove()
+
+  ###
+  # remove - removes the plot from the DOM
+  ###
+  remove: () ->
+    @root.remove()
+    @content = null
+    @markers = null
+    @axes = null
+    @tooltip = null
+
+  ###
+  # resize - re-renders the plot
+  ###
+  resize: () ->
+    @remove()
+    @init()
+    @draw(@data)
 
   ###
   # showWarn - shows a warning message in the center of the plot

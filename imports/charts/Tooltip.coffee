@@ -13,7 +13,7 @@ class Tooltip
     @element = d3.select('body').append('div')
       .attr('class', 'scatterPlot-tooltip')
       .style('opacity', 0)
-      .html(@template({}))
+      .html(@template({meta:{}}))
 
     #return
     @
