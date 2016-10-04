@@ -20,7 +20,7 @@ tooltipTmpl = """
 
 Template.incidentReports.onDestroyed ->
   if @plot
-    @plot.remove()
+    @plot.destroy()
     @plot = null
 
 Template.incidentReports.onCreated ->

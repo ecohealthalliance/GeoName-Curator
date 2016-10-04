@@ -79,7 +79,8 @@ class ScatterPlot
         .attr('height', viewBoxHeight)
 
     if resize
-      window.addEventListener('resize', _.debounce(_.bind(@resize, @), 500))
+      @resizeHandler = _.debounce(_.bind(@resize, this), 500)
+      window.addEventListener('resize', @resizeHandler)
 
     @content = @root.append('g')
       .attr('class', 'scatterPlot-content')
@@ -189,13 +190,25 @@ class ScatterPlot
   # @return {object} this
   ###
   remove: () ->
-    window.removeEventListener('resize', @resize)
+    window.removeEventListener('resize', @resizeHandler)
     @tooltip.remove()
     @axes.remove()
     @markers.remove()
     @content.remove()
     @root.remove()
     @
+
+  ###
+  #  destroy - destroys the plot and any associated elements
+  ###
+  destroy: () ->
+    @remove()
+    @tooltip = null
+    @axes = null
+    @markers = null
+    @content = null
+    @root = null
+    @resizeHandler = null
 
   ###
   # resize - re-renders the plot
