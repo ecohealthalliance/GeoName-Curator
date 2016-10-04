@@ -29,14 +29,8 @@ template(name="navLinks")
           li(class="{{checkActive 'curator-inbox'}}")
             a(href="{{pathFor 'curator-inbox'}}") Inbox
 
-
-      //li(class="{{checkActive 'comments'}}")
-        //a(href="{{pathFor 'adminComments'}}") Comments
     li(class="{{checkActive 'user-events'}}")
       a(href="{{pathFor 'user-events'}}") Tracked Events
-    if currentUser
-      //li(class="{{checkActive 'download'}}")
-        //a(href="{{pathFor 'download'}}") Download
     li(class="{{checkActive 'event-map'}}")
       a(href="{{pathFor 'event-map'}}") Event Map
     li(class="{{checkActive 'contact-us'}}")
