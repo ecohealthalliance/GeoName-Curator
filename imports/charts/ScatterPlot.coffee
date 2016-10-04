@@ -86,16 +86,16 @@ class ScatterPlot
       .attr('class', 'scatterPlot-content')
       .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
 
-    # an svg group of the markers
-    @markers = @content.append('g')
-      .attr('class', 'scatterPlot-markers')
-      .attr('transform', "translate(#{@margins.left}, 0)")
-
     # the axes of the plot
     @axes = new Axes(@, @options)
 
     # the tooltip of the plot
     @tooltip = new Tooltip(@, @options)
+
+    # an svg group of the markers
+    @markers = @content.append('g')
+      .attr('class', 'scatterPlot-markers')
+      .attr('transform', "translate(#{@margins.left}, 0)")
 
     # return
     @
@@ -122,7 +122,7 @@ class ScatterPlot
   # adds rectangular markers to the plot
   # TODO - refactor so that different types of markers can be drawn, at first
   #  glance this may mean abandoning d3 select.data.enter workflow for a
-  #  using a custom loop.
+  #  custom loop.
   #
   # @param {array} data, an array of {object} for each marker
   # @param {number} data.x, the x coordinate of the rect (lower left)

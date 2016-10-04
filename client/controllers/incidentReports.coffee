@@ -17,6 +17,7 @@ tooltipTmpl = """
     </div>
   </div>
 """
+INCIDENT_PLOT_MIN_HEIGHT = 300
 
 Template.incidentReports.onDestroyed ->
   if @plot
@@ -35,11 +36,18 @@ Template.incidentReports.onCreated ->
           return m
       ).value()
 
+    height = INCIDENT_PLOT_MIN_HEIGHT
+    if $('#event-incidents-table').height() > INCIDENT_PLOT_MIN_HEIGHT
+      height = $('#event-incidents-table').height()
+      
     # build the plot
     @plot = new ScatterPlot({
       containerID: 'scatterPlot',
       svgContentClass: 'scatterPlot-content',
+      height: height,
       axes: {
+        # show grid lines
+        grid: true,
         x: {
           title: 'Time',
           type: 'datetime',

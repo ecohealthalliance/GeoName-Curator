@@ -1,3 +1,5 @@
+Grid = require '/imports/charts/Grid.coffee'
+
 class Axes
   ###
   # Axes
@@ -6,6 +8,7 @@ class Axes
   #
   # @param {object} plot, the plot to append the axis
   # @param {object} options, the properties for the axis
+  # @param {boolean} grid, should the grid be displayed?
   # X axis properties
   # @param {object} options.axes.x, the properties for x axis
   # @param {string} options.axes.x.title, the title of the x axis
@@ -22,6 +25,7 @@ class Axes
     ```
     axes = new Axes(plot, {
       axes: {
+        grid: true,
         x: {
           title: 'Time',
           type: 'datetime',
@@ -39,9 +43,12 @@ class Axes
   ###
   constructor: (plot, options) ->
     @options = options
-    @axesOpts = options.axes || {x: {title: 'x', type: 'numeric', minMax: [0,100]}, y: {title: 'y', type: 'numeric', minMax: [0, 100]}}
+    @axesOpts = options.axes || {x: {title: 'x', type: 'numeric', minMax: [0,100]}, y: {title: 'y', type: 'numeric', minMax: [0, 100]}, grid: true}
     @_buildX(plot)
     @_buildY(plot)
+    # the x,y grid lines, requires the axes
+    if @axesOpts.grid
+      @grid = new Grid(@, plot, @options)
     #return
     @
 
@@ -62,11 +69,13 @@ class Axes
       @xAxis = d3.svg.axis()
         .scale(@xScale)
         .orient('bottom')
+        .ticks(10)
         .tickFormat(d3.time.format("%b %d, %Y"))
     else
       @xAxis = d3.svg.axis()
         .scale(@xScale)
         .orient('bottom')
+        .ticks(10)
 
     # append the svg element as a group, store reference
     # xGroup
@@ -127,6 +136,8 @@ class Axes
   remove: () ->
     @xGroup.remove()
     @yGroup.remove()
+    if @grid
+      @grid.remove()
 
 
 module.exports = Axes
