@@ -52,6 +52,12 @@ class ScatterPlot
     @options = options
     @init()
 
+  ###
+  # init - method to initialize the plot, allows the plot to be re-initialized
+  #  on resize while keeping the current plot data in memory
+  #
+  # @returns {object} this, returns self
+  ###
   init: () ->
     scale = @options.scale || false
     resize = @options.resize || true
@@ -113,6 +119,9 @@ class ScatterPlot
   # draw - draw using d3 select.data.enter workflow
   #
   # adds rectangular markers to the plot
+  # TODO - refactor so that different types of markers can be drawn, at first
+  #  glance this may mean abandoning d3 select.data.enter workflow for a
+  #  using a custom loop.
   #
   # @param {array} data, an array of {object} for each marker
   # @param {number} data.x, the x coordinate of the rect (lower left)
@@ -167,32 +176,44 @@ class ScatterPlot
 
   ###
   # clear - removes any markers from the plot
+  #
+  # @return {object} this
   ###
   clear: () ->
     @markers.selectAll('.marker').remove()
+    @
 
   ###
-  # remove - removes the plot from the DOM
+  # remove - removes the plot from the DOM and any event listeners
+  #
+  # @return {object} this
   ###
   remove: () ->
+    window.removeEventListener('resize', @resize)
+    @tooltip.remove()
+    @axes.remove()
+    @markers.remove()
+    @content.remove()
     @root.remove()
-    @content = null
-    @markers = null
-    @axes = null
-    @tooltip = null
+    @
 
   ###
   # resize - re-renders the plot
+  #
+  # @return {object} this
   ###
   resize: () ->
     @remove()
     @init()
     @draw(@data)
+    @
 
   ###
   # showWarn - shows a warning message in the center of the plot
   #
   # @param {string} m, the message to display
+  #
+  # @return {object} this
   ###
   showWarn: (m) ->
     mSize = m.split('').length;
@@ -201,7 +222,7 @@ class ScatterPlot
       .attr('transform', "translate(#{@getWidth() / 2 - mSize}, #{@getHeight() / 2})")
     @warn.append('text')
       .text(m)
-
+    @
 
 ###
 # maxNumeric - determine the maximum value with padding. Padding is determined
@@ -234,7 +255,7 @@ getDatetimeUnit = (min, max) ->
     unit = 'day'
   else if diff > 14 and diff <= 183
     unit = 'week'
-  return unit
+  unit
 
 ###
 # maxDatetime - determine the maximum value with padding

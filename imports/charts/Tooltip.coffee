@@ -14,10 +14,18 @@ class Tooltip
       .attr('class', 'scatterPlot-tooltip')
       .style('opacity', 0)
       .html(@template({meta:{}}))
-
     #return
     @
 
+  ###
+  # mouseover - unbound method for mouseover event
+  #
+  # @param {object} d, the marker with meta data
+  # @param {number} x, the x coordinate
+  # @param {number} y, the y coordinate
+  #
+  # @return {object} this
+  ###
   mouseover: (d, x, y) ->
     box = @element.node().getBoundingClientRect()
     # do not render the tooltip past the right margin
@@ -33,10 +41,21 @@ class Tooltip
     #return
     @
 
+  ###
+  # mouseout - unbound method for mouseout event
+  #
+  # @return {object} this
+  ###
   mouseout: () ->
     @element.transition().duration(500).style('opacity', 0)
     # return
     @
+
+  ###
+  # remove - removes the element from the DOM
+  ###
+  remove: () ->
+    @element.remove()
 
 
 module.exports = Tooltip

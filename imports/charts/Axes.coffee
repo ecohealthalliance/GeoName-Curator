@@ -120,4 +120,13 @@ class Axes
       .style('text-anchor', 'middle')
       .text(@axesOpts.y.title);
 
+
+  ###
+  # remove - removed the axes groups from the DOM
+  ###
+  remove: () ->
+    @xGroup.remove()
+    @yGroup.remove()
+
+
 module.exports = Axes

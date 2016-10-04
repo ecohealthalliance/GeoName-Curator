@@ -18,10 +18,14 @@ tooltipTmpl = """
   </div>
 """
 
+Template.incidentReports.onDestroyed ->
+  if @plot
+    @plot.remove()
+    @plot = null
 
 Template.incidentReports.onCreated ->
-  incidents = Template.instance().data.incidents
-  Meteor.defer ->
+  incidents = @data.incidents
+  Meteor.defer =>
     # format the data
     data = _.chain(incidents)
       .map((incident) ->
@@ -32,7 +36,7 @@ Template.incidentReports.onCreated ->
       ).value()
 
     # build the plot
-    window.plot = new ScatterPlot({
+    @plot = new ScatterPlot({
       containerID: 'scatterPlot',
       svgContentClass: 'scatterPlot-content',
       axes: {
@@ -69,7 +73,7 @@ Template.incidentReports.onCreated ->
       plot.showWarn('Not enough data.')
       return
 
-    plot.draw(data)
+    @plot.draw(data)
 
 Template.incidentReports.helpers
   getSettings: ->

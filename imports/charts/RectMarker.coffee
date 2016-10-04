@@ -25,6 +25,13 @@ class RectMarker
     #return
     @
 
+###
+# createFromIncident - method to construct a RectMarker from an incident
+#
+# @param {object} incident, the incident used to create a marker
+#
+# @return {object} RectMarker, the marker that is created
+###
 RectMarker.createFromIncident = (incident) ->
   if typeof incident == 'undefined'
     return
@@ -48,8 +55,7 @@ RectMarker.createFromIncident = (incident) ->
   m.y = y
   if incident.locations.length > 0
     m.meta.location = incident.locations[0].name
-  marker = new RectMarker(m)
-  return marker
+  new RectMarker(m)
 
 
 module.exports = RectMarker
