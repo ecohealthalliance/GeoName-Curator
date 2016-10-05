@@ -1,3 +1,4 @@
+CuratorSources = require '/imports/collections/curatorSources.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 createInboxSections = () ->
