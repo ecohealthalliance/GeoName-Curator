@@ -68,9 +68,6 @@ Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
     template.textFilter.set($(event.target).val())
 
-  "click .curator-refresh-icon": (event, template) ->
-    template.refresh()
-
   "click .curator-filter-calendar-icon": (event, template) ->
     calendarState = template.calendarState
     calendarState.set not calendarState.get()
@@ -104,7 +101,6 @@ Template.curatorInbox.events
       }
 
       Meteor.call 'fetchPromedPosts', 300, range, () ->
-        console.log 'rawr 1'
         template.sub = Meteor.subscribe "curatorSources", 2000, range, () ->
           template.days = createInboxSections()
           template.ready.set(true)

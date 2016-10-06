@@ -33,8 +33,9 @@ template(name="curatorInbox")
             .text-center
               br
               p Loading...
-      .col-sm-6#curator-article-details
-        .row.curator-inbox-header
+      if isReady
+        .col-sm-6#curator-article-details
+          .row.curator-inbox-header
 
 template(name="curatorInboxSection")
   .col-xs-12.curator-inbox-section-head
