@@ -11,7 +11,7 @@ Template.incidentReports.helpers
             return pluralize("death", object.deaths)
           else
             return object.specify
-        sortFn: (object) ->
+        sortFn: (value, object) ->
           0 + (object.deaths or 0) + (object.cases or 0)
       },
       {
@@ -38,7 +38,7 @@ Template.incidentReports.helpers
             return moment(object.dateRange.start).format(dateFormat) + " - "
             + moment(object.dateRange.end).format(dateFormat)
           return ""
-        sortFn: (object) ->
+        sortFn: (value, object) ->
           +new Date(object.dateRange.end)
       },
       {
