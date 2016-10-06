@@ -22,10 +22,20 @@ Template.curatorEvents.onCreated ->
       hidden: true
     }
   ]
+  @addEventMenuIsOpen = new ReactiveVar false
 
 Template.curatorEvents.helpers
   userEvents: ->
     UserEvents.find()
+
+  associatedUserEvents: ->
+    article = Articles.findOne(this._id)
+    if article?.relatedEvents and article.relatedEvents.length
+      UserEvents.find({ _id: { $in: article.relatedEvents } })
+
+  associated: () ->
+    articleId = Template.instance().data._id
+    Articles.findOne({ _id: articleId, relatedEvents: this._id })
 
   settings: ->
     fields = []
@@ -53,6 +63,9 @@ Template.curatorEvents.helpers
       # showNavigation: 'never'
     }
 
+  addEventMenuIsOpen: ->
+    Template.instance().addEventMenuIsOpen.get()
+
 Template.curatorEvents.events
   "click .curator-events-table .curator-events-table-row": (event, template) ->
     $target = $(event.target)
@@ -66,6 +79,11 @@ Template.curatorEvents.events
       $tr = $("<tr id='tr-incidents'>").addClass("tr-incidents")
       $parentRow.addClass("incidents-open").after($tr)
       Blaze.renderWithData(Template.curatorEventIncidents, this, $tr[0])
+  "click .open-add-event-form": (event, template) ->
+    template.addEventMenuIsOpen.set !template.addEventMenuIsOpen.get()
+  "click #associate-events tr": (event, template) ->
+    articleId = template.data._id
+    Meteor.call 'associateEventWithArticle', articleId, @_id
 
 Template.curatorEventIncidents.onCreated ->
   Meteor.subscribe "eventIncidents", @data._id

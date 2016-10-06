@@ -51,10 +51,12 @@ template(name="curatorArticleDetails")
     h2 {{article.url}}
     i.fa.fa-check-circle.reviewed-icon
   .curator-article-details-content
+    .row.curator-inbox-buttons
+      .col-xs-12.text-center
+        if article.reviewed
+          a.mark-unreviewed.btn.btn-default(href) Mark as unreviewed
+        else
+          a.mark-reviewed.btn.btn-primary(href) Mark as reviewed
     .row
       .col-xs-12
         +curatorEvents
-    .row.curator-inbox-buttons
-      .col-xs-12.text-center
-        a.mark-reviewed.btn.btn-primary(href="") Mark as reviewed
-        a.mark-unreviewed.btn.btn-default(href="") Mark as unreviewed

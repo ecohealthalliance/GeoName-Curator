@@ -105,3 +105,11 @@ Meteor.methods
         $set:
           reviewed: reviewed
       })
+
+  associateEventWithArticle: (articleId, eventId) ->
+    if Articles.findOne( { _id: articleId, relatedEvents: eventId } )
+      Articles.update articleId, $pull:
+        relatedEvents: eventId
+    else
+      Articles.update articleId, $push:
+        relatedEvents: eventId
