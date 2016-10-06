@@ -34,12 +34,10 @@ Template.curatorInbox.onCreated ->
 
   self = @
 
-  @sub = Meteor.subscribe "curatorSources", () ->
-    self.days = createInboxSections()
-    self.ready.set(true)
-
-  Meteor.call 'fetchPromedPosts', 100, () ->
-    self.days = createInboxSections()
+  Meteor.call 'fetchPromedPosts', 100, null, () ->
+    self.sub = Meteor.subscribe "curatorSources", () ->
+      self.days = createInboxSections()
+      self.ready.set(true)
 
 Template.curatorInbox.onRendered ->
   $(document).ready =>
@@ -101,13 +99,15 @@ Template.curatorInbox.events
 
     if startDate and endDate
       range = {
-        startDate: startDate.format(),
+        startDate: startDate.format()
         endDate: endDate.format()
       }
 
-    template.sub = Meteor.subscribe "curatorSources", 2000, range, () ->
-      template.days = createInboxSections()
-      template.ready.set(true)
+      Meteor.call 'fetchPromedPosts', 300, range, () ->
+        console.log 'rawr 1'
+        template.sub = Meteor.subscribe "curatorSources", 2000, range, () ->
+          template.days = createInboxSections()
+          template.ready.set(true)
 
   "click #calendar-btn-reset": (event, template) ->
     template.calendarState.set(false)
@@ -116,9 +116,10 @@ Template.curatorInbox.events
 
     createNewCalendar()
 
-    template.sub = Meteor.subscribe "curatorSources", 100, null, () ->
-      template.days = createInboxSections()
-      template.ready.set(true)
+    Meteor.call 'fetchPromedPosts', 100, null, () ->
+      template.sub = Meteor.subscribe "curatorSources", 100, null, () ->
+        template.days = createInboxSections()
+        template.ready.set(true)
 
   "click #calendar-btn-cancel": (event, template) ->
     template.calendarState.set(false)

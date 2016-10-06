@@ -3,12 +3,17 @@ if Meteor.isServer
   CuratorSources = require '/imports/collections/curatorSources.coffee'
 
   Meteor.methods
-    fetchPromedPosts: (limit) ->
+    fetchPromedPosts: (limit, range) ->
       @unblock
-      console.log 'fetching promed'
       if PromedPosts
-        console.log 'has db'
-        query = {curated: {$ne: true}, scrapeDate: {$exists: true}}
+        query = {scrapeDate: {$exists: true}}
+
+        if range and range.startDate and range.endDate
+          query.scrapeDate = {
+            $exists: true
+            $gte: new Date(range.startDate)
+            $lte: new Date(range.endDate)
+          }
 
         posts = PromedPosts.find(query, {
           sort: {scrapeDate: -1}
@@ -31,7 +36,7 @@ if Meteor.isServer
   recordNewPosts = (posts) ->
     for post in posts
       try
-        # Normalize post for display
+        # Normalize post for display/subscription
         normalizedPost = {
           _source: "promed-mail"
           _sourceId: post.promedId
@@ -46,8 +51,6 @@ if Meteor.isServer
         }
         CuratorSources.upsert({_id: post._id}, {$set: normalizedPost})
 
-        # Mark original post as curated
-        PromedPosts.update({_id: post._id}, {$set: {curated: true}})
       catch e
         console.warn 'Unable to parse ProMED post with id ' + post._id + ' due to malformed data.'
         console.log e
