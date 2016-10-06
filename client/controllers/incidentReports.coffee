@@ -17,7 +17,6 @@ tooltipTmpl = """
     </div>
   </div>
 """
-INCIDENT_PLOT_MIN_HEIGHT = 300
 
 Template.incidentReports.onDestroyed ->
   if @plot
@@ -36,15 +35,11 @@ Template.incidentReports.onCreated ->
           return m
       ).value()
 
-    height = INCIDENT_PLOT_MIN_HEIGHT
-    if $('#event-incidents-table').height() > INCIDENT_PLOT_MIN_HEIGHT
-      height = $('#event-incidents-table').height()
-      
     # build the plot
     @plot = new ScatterPlot({
       containerID: 'scatterPlot',
-      svgContentClass: 'scatterPlot-content',
-      height: height,
+      svgContainerClass: 'scatterPlot-container',
+      height: $('#event-incidents-table').height(),
       axes: {
         # show grid lines
         grid: true,
@@ -65,16 +60,20 @@ Template.incidentReports.onCreated ->
           ]
         }
       },
-      # function to render the tooltip
-      tooltipTemplate: (marker) ->
-        marker.moment = moment # template reference for momentjs
-        marker.incidents = 'incidents'
-        if marker.y <= 1
-          marker.incidents = 'incident'
-        # underscore compiled template
-        tmpl = _.template(tooltipTmpl)
-        # render the template from
-        tmpl(marker)
+      tooltip: {
+        opacity: .8
+        # function to render the tooltip
+        template: (marker) ->
+          marker.moment = moment # template reference for momentjs
+          marker.incidents = 'incidents'
+          if marker.y <= 1
+            marker.incidents = 'incident'
+          # underscore compiled template
+          tmpl = _.template(tooltipTmpl)
+          # render the template from
+          tmpl(marker)
+      },
+      zoom: true,
     })
 
     if data.length <= 0

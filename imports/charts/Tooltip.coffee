@@ -3,12 +3,17 @@ class Tooltip
   # Tooltip
   #
   # @param {object} plot, the plot append the tooltip
-  # @param {function} tooltipTemplate, the compiled template to execute for the tooltip
+  # @param {object} options, the options for the plot
+  # @param {object} options.tooltip, the options for the tooltip
+  # @param {number} options.opacity, the opacity of the tooltip
+  # @param {object} options.template, an underscore compiled template
   #
   # @return {object} this
   ###
   constructor: (plot, options) ->
-    @template = options.tooltipTemplate || _.template("<p>x: <%= obj.x %> y: <%= obj.y %></p>")
+    @tooltipOpts = options.tooltip || { 'opacity': 0.9, 'template': _.template("<p>x: <%= obj.x %> y: <%= obj.y %></p>")}
+    @template = @tooltipOpts.template
+    @opacity = @tooltipOpts.opacity
     # we render the template without data to get the estimated width of the element
     @element = d3.select('body').append('div')
       .attr('class', 'scatterPlot-tooltip')
@@ -37,7 +42,7 @@ class Tooltip
       @element.html(@template(d))
         .style('left', (x) + 'px')
         .style('top', (y) + 'px')
-    @element.transition().duration(200).style('opacity', 0.9)
+    @element.transition().duration(200).style('opacity', @opacity)
     #return
     @
 

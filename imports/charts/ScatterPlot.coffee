@@ -1,10 +1,9 @@
-Axes = require '/imports/charts/Axes.coffee'
-Tooltip = require '/imports/charts/Tooltip.coffee'
+Plot = require '/imports/charts/Plot.coffee'
 
 MINIMUM_MARKER_WIDTH = 10
 MINIMUM_MARKER_HEIGHT = 10
 
-class ScatterPlot
+class ScatterPlot extends Plot
   ###
   # ScatterPlot
   #
@@ -12,8 +11,10 @@ class ScatterPlot
   #
   # @param {object} options, the options to create a ScatterPlot
   # @param {string} containerID, the id of the ScatterPlot container div
-  # @param {string} svgContentClass, the desired class of the constructed svg element
-  # @param {function} tooltipTemplate, the compiled template to execute for the tooltip
+  # @param {string} svgcontainerClass, the desired class of the constructed svg element
+  # @param {object} tooltip,
+  # @param {number} tooltip.opacity, the background opacity for the tooltip
+  # @param {object} tooltip.template, the compiled template
   # @param {boolean} scale, scale the svg on window resize @default false
   # @param {boolean} resize, resize the svg on window resize @default true
   #
@@ -49,72 +50,114 @@ class ScatterPlot
   #
   ###
   constructor: (options) ->
-    @options = options
-    @init()
+    super(options)
+    resize = @options.resize || true
+    if resize
+      @resizeHandler = _.debounce(_.bind(@resize, this), 500)
+      window.addEventListener('resize', @resizeHandler)
+    @
 
   ###
-  # init - method to initialize the plot, allows the plot to be re-initialized
-  #  on resize while keeping the current plot data in memory
+  # init - method to set/re-set the resizeHandler
   #
   # @returns {object} this, returns self
   ###
   init: () ->
-    scale = @options.scale || false
+    super()
+
     resize = @options.resize || true
-
-    @margins = @options.margins || {left: 40, right: 20, top: 20, bottom: 40}
-    @width = @options.width || document.getElementById(@options.containerID).offsetWidth - (@margins.left + @margins.right);
-    @height = @options.height || ScatterPlot.aspectRatio() * @width
-    viewBoxWidth = @width + @margins.left + @margins.right
-    viewBoxHeight = @height + @margins.top + @margins.bottom
-
-    # the root elment of the plot
-    if scale
-      @root = d3.select("\##{@options.containerID}").append('svg')
-        .attr('viewBox', "0 0 #{viewBoxWidth} #{viewBoxHeight}")
-        .attr('preserveAspectRatio','xMinYMin meet')
-    else
-      @root = d3.select("\##{@options.containerID}").append('svg')
-        .attr('width', viewBoxWidth)
-        .attr('height', viewBoxHeight)
-
     if resize
       @resizeHandler = _.debounce(_.bind(@resize, this), 500)
       window.addEventListener('resize', @resizeHandler)
 
-    @content = @root.append('g')
-      .attr('class', 'scatterPlot-content')
-      .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
+    zoom = @options.zoom || false
+    if zoom
+      #
+      @bandPos = [-1, -1];
+      @zoomArea =
+        x1: @options.axes.x.minMax[0],
+        y1: @options.axes.y.minMax[0],
+        x2: @options.axes.x.minMax[1],
+        y2: @options.axes.y.minMax[1]
+      @drag = d3.behavior.drag();
+      @zoomBand = @container.append('rect')
+        .attr('width', 0)
+        .attr('height', 0)
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('class', 'zoomBand')
+      @zoomOverlay = @container.append('rect')
+        .attr('width', @getWidth() - 10)
+        .attr('height', @getHeight())
+        .attr('class', 'zoomOverlay')
+        .call(@drag);
+      @resetZoomGroup = @container.append('g').attr('class', 'scatterPlot-resetZoom')
+      @resetZoomBtn = @resetZoomGroup.append('rect')
+        .attr('class', 'resetZoomBtn')
+        .attr('width', 75)
+        .attr('height', 20)
+        .attr('x', @getWidth() + @margins.right)
+        .attr('y', @getHeight() + (@margins.bottom + 10))
+        .on('click', () => @resetZoom())
+      @resetZoomGroup.append('text')
+        .attr('class', 'resetZoomText')
+        .attr('width', 75)
+        .attr('height', 20)
+        .attr('x', @getWidth() + (@margins.right + 2))
+        .attr('y', @getHeight() + (@margins.bottom + 24))
+        .text('Reset Zoom');
 
-    # the axes of the plot
-    @axes = new Axes(@, @options)
+      self = @
+      @drag.on 'drag', () ->
+        pos = d3.mouse(@);
+        if pos[0] < self.bandPos[0]
+          self.zoomBand.attr('transform', "translate(#{pos[0]}, #{self.bandPos[1]})")
+        if pos[1] < self.bandPos[1]
+          self.zoomBand.attr('transform', "translate(#{pos[0]}, #{pos[1]})")
+        if pos[1] < self.bandPos[1] and pos[0] > self.bandPos[0]
+          self.zoomBand.attr('transform', "translate(#{self.banPos[0]}, #{pos[1]})")
+        if self.bandPos[0] == -1
+          self.bandPos = pos;
+          self.zoomBand.attr('transform', "translate(#{self.bandPos[0]}, #{self.bandPos[1]})")
+        self.zoomBand.transition().duration(1)
+          .attr('width', Math.abs(self.bandPos[0] - pos[0]))
+          .attr('height', Math.abs(self.bandPos[1] - pos[1]))
 
-    # the tooltip of the plot
-    @tooltip = new Tooltip(@, @options)
+      @drag.on 'dragend', () ->
+        pos = d3.mouse(@)
+        x1 = self.axes.xScale.invert(self.bandPos[0])
+        x2 = self.axes.xScale.invert(pos[0])
+        if x1 < x2
+          self.zoomArea.x1 = x1
+          self.zoomArea.x2 = x2
+        else
+          self.zoomArea.x1 = x2
+          self.zoomArea.x2 = x1
 
-    # an svg group of the markers
-    @markers = @content.append('g')
-      .attr('class', 'scatterPlot-markers')
-      .attr('transform', "translate(#{@margins.left}, 0)")
+        y1 = self.axes.yScale.invert(pos[1]);
+        y2 = self.axes.yScale.invert(self.bandPos[1])
+        if x1 < x2
+          self.zoomArea.y1 = y1
+          self.zoomArea.y2 = y2
+        else
+          self.zoomArea.y1 = y2
+          self.zoomArea.y2 = y1
 
-    # return
-    @
+        self.bandPos = [-1, -1];
+        self.zoomBand.transition()
+          .attr('width', 0)
+          .attr('height', 0)
+          .attr('x', self.bandPos[0])
+          .attr('y', self.bandPos[1])
+
+        # TODO: recalculate domains and zoom
+        console.log 'zoom: ', self.zoomArea
 
   ###
-  # getWidth
-  #
-  # @return {number} width (excluding margins) for the root svg
+  # resetZoom -
   ###
-  getWidth: () ->
-    @width - (@margins.left + @margins.right)
-
-  ###
-  # getHeigth
-  #
-  # @return {number} width (excluding margins) for the root svg
-  ###
-  getHeight: () ->
-    @height - (@margins.top + @margins.bottom)
+  resetZoom: () ->
+    console.log 'resetZoom: ', @
 
   ###
   # draw - draw using d3 select.data.enter workflow
@@ -190,25 +233,10 @@ class ScatterPlot
   # @return {object} this
   ###
   remove: () ->
-    window.removeEventListener('resize', @resizeHandler)
-    @tooltip.remove()
-    @axes.remove()
-    @markers.remove()
-    @content.remove()
-    @root.remove()
+    super()
+    if @resizeHandler
+      window.removeEventListener('resize', @resizeHandler)
     @
-
-  ###
-  #  destroy - destroys the plot and any associated elements
-  ###
-  destroy: () ->
-    @remove()
-    @tooltip = null
-    @axes = null
-    @markers = null
-    @content = null
-    @root = null
-    @resizeHandler = null
 
   ###
   # resize - re-renders the plot
@@ -219,22 +247,6 @@ class ScatterPlot
     @remove()
     @init()
     @draw(@data)
-    @
-
-  ###
-  # showWarn - shows a warning message in the center of the plot
-  #
-  # @param {string} m, the message to display
-  #
-  # @return {object} this
-  ###
-  showWarn: (m) ->
-    mSize = m.split('').length;
-    @warn = @root.append('g')
-      .attr('class', 'scatterPlot-warn')
-      .attr('transform', "translate(#{@getWidth() / 2 - mSize}, #{@getHeight() / 2})")
-    @warn.append('text')
-      .text(m)
     @
 
 ###
@@ -293,12 +305,6 @@ ScatterPlot.minDatetime = (data, unit, amount) ->
   max = moment(_.max(data))
   unit = getDatetimeUnit(min, max)
   moment(min).subtract(1, unit).valueOf()
-
-# find the view port aspect ratio
-#
-# @return {number} aspectRatio
-ScatterPlot.aspectRatio = () ->
-  $(window).height() / $(window).width()
 
 
 module.exports = ScatterPlot

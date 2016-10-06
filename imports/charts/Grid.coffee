@@ -25,7 +25,7 @@ class Grid
   ###
   _buildX: (axes, plot) ->
     @xGrid = d3.svg.axis().scale(axes.xScale).orient('bottom').tickFormat('').tickSize((plot.getHeight()) * -1, 0, 0)
-    @xGroup = plot.content.append('g')
+    @xGroup = plot.container.append('g')
       .attr("class", "grid")
       .attr('transform', "translate(#{plot.margins.left}, #{plot.getHeight()})")
       .call(@xGrid)
@@ -38,7 +38,7 @@ class Grid
   ###
   _buildY: (axes, plot) ->
     @yGrid = d3.svg.axis().scale(axes.yScale).orient('left').tickFormat('').tickSize((plot.getWidth()) * -1, 0, 0)
-    @yGroup = plot.content.append('g')
+    @yGroup = plot.container.append('g')
       .attr("class", "grid")
       .attr('transform', "translate(#{plot.margins.left}, 0)")
       .call(@yGrid)
