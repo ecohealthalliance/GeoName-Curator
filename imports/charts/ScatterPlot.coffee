@@ -51,10 +51,7 @@ class ScatterPlot extends Plot
   ###
   constructor: (options) ->
     super(options)
-    resize = @options.resize || true
-    if resize
-      @resizeHandler = _.debounce(_.bind(@resize, this), 500)
-      window.addEventListener('resize', @resizeHandler)
+    @init()
     @
 
   ###
@@ -64,100 +61,10 @@ class ScatterPlot extends Plot
   ###
   init: () ->
     super()
-
-    resize = @options.resize || true
-    if resize
+    resizeEnabled = @options.resize || true
+    if resizeEnabled
       @resizeHandler = _.debounce(_.bind(@resize, this), 500)
       window.addEventListener('resize', @resizeHandler)
-
-    zoom = @options.zoom || false
-    if zoom
-      #
-      @bandPos = [-1, -1];
-      @zoomArea =
-        x1: @options.axes.x.minMax[0],
-        y1: @options.axes.y.minMax[0],
-        x2: @options.axes.x.minMax[1],
-        y2: @options.axes.y.minMax[1]
-      @drag = d3.behavior.drag();
-      @zoomBand = @container.append('rect')
-        .attr('width', 0)
-        .attr('height', 0)
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('class', 'zoomBand')
-      @zoomOverlay = @container.append('rect')
-        .attr('width', @getWidth() - 10)
-        .attr('height', @getHeight())
-        .attr('class', 'zoomOverlay')
-        .call(@drag);
-      @resetZoomGroup = @container.append('g').attr('class', 'scatterPlot-resetZoom')
-      @resetZoomBtn = @resetZoomGroup.append('rect')
-        .attr('class', 'resetZoomBtn')
-        .attr('width', 75)
-        .attr('height', 20)
-        .attr('x', @getWidth() + @margins.right)
-        .attr('y', @getHeight() + (@margins.bottom + 10))
-        .on('click', () => @resetZoom())
-      @resetZoomGroup.append('text')
-        .attr('class', 'resetZoomText')
-        .attr('width', 75)
-        .attr('height', 20)
-        .attr('x', @getWidth() + (@margins.right + 2))
-        .attr('y', @getHeight() + (@margins.bottom + 24))
-        .text('Reset Zoom');
-
-      self = @
-      @drag.on 'drag', () ->
-        pos = d3.mouse(@);
-        if pos[0] < self.bandPos[0]
-          self.zoomBand.attr('transform', "translate(#{pos[0]}, #{self.bandPos[1]})")
-        if pos[1] < self.bandPos[1]
-          self.zoomBand.attr('transform', "translate(#{pos[0]}, #{pos[1]})")
-        if pos[1] < self.bandPos[1] and pos[0] > self.bandPos[0]
-          self.zoomBand.attr('transform', "translate(#{self.banPos[0]}, #{pos[1]})")
-        if self.bandPos[0] == -1
-          self.bandPos = pos;
-          self.zoomBand.attr('transform', "translate(#{self.bandPos[0]}, #{self.bandPos[1]})")
-        self.zoomBand.transition().duration(1)
-          .attr('width', Math.abs(self.bandPos[0] - pos[0]))
-          .attr('height', Math.abs(self.bandPos[1] - pos[1]))
-
-      @drag.on 'dragend', () ->
-        pos = d3.mouse(@)
-        x1 = self.axes.xScale.invert(self.bandPos[0])
-        x2 = self.axes.xScale.invert(pos[0])
-        if x1 < x2
-          self.zoomArea.x1 = x1
-          self.zoomArea.x2 = x2
-        else
-          self.zoomArea.x1 = x2
-          self.zoomArea.x2 = x1
-
-        y1 = self.axes.yScale.invert(pos[1]);
-        y2 = self.axes.yScale.invert(self.bandPos[1])
-        if x1 < x2
-          self.zoomArea.y1 = y1
-          self.zoomArea.y2 = y2
-        else
-          self.zoomArea.y1 = y2
-          self.zoomArea.y2 = y1
-
-        self.bandPos = [-1, -1];
-        self.zoomBand.transition()
-          .attr('width', 0)
-          .attr('height', 0)
-          .attr('x', self.bandPos[0])
-          .attr('y', self.bandPos[1])
-
-        # TODO: recalculate domains and zoom
-        console.log 'zoom: ', self.zoomArea
-
-  ###
-  # resetZoom -
-  ###
-  resetZoom: () ->
-    console.log 'resetZoom: ', @
 
   ###
   # draw - draw using d3 select.data.enter workflow

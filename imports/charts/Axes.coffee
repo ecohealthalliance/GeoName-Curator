@@ -42,27 +42,40 @@ class Axes
   #
   ###
   constructor: (plot, options) ->
+    @plot = plot
     @options = options
     @axesOpts = options.axes || {x: {title: 'x', type: 'numeric', minMax: [0,100]}, y: {title: 'y', type: 'numeric', minMax: [0, 100]}, grid: true}
-    @_buildX(plot)
-    @_buildY(plot)
-    # the x,y grid lines, requires the axes
-    if @axesOpts.grid
-      @grid = new Grid(@, plot, @options)
+    # x
+    @buildXScale()
+    @buildXAxis()
+    @buildXGroup()
+    # y
+    @buildYScale()
+    @buildYAxis()
+    @buildYGroup()
+    # x,y grid lines
+    @buildGrid()
     #return
     @
 
   ###
-  # buildX - build the xScale, xAxis, and append xGroup
-  #
-  # @param {object} plot, the plot to append the axis group
+  # buildGrid - build the x,y grid lines
   ###
-  _buildX: (plot) ->
-    if @axesOpts.x.type == 'datetime'
-      @xScale = d3.time.scale().domain(@axesOpts.x.minMax).range([0, plot.getWidth()]).nice()
-    else
-      @xScale = d3.scale.linear().domain(@axesOpts.x.minMax).range([0, plot.getWidth()])
+  buildGrid: () ->
+    # the x,y grid lines, requires the instance of the axes
+    if @axesOpts.grid
+      @grid = new Grid(@, @plot, @options)
 
+  ###
+  # buildX - build the xScale, xAxis, and append xGroup
+  ###
+  buildXScale: () ->
+    if @axesOpts.x.type == 'datetime'
+      @xScale = d3.time.scale().domain(@axesOpts.x.minMax).range([0, @plot.getWidth()]).nice()
+    else
+      @xScale = d3.scale.linear().domain(@axesOpts.x.minMax).range([0, @plot.getWidth()])
+
+  buildXAxis: () ->
     # create the axes from the scale and position
     # xAxis
     if @axesOpts.x.type == 'datetime'
@@ -77,12 +90,13 @@ class Axes
         .orient('bottom')
         .ticks(10)
 
+  buildXGroup: () ->
     # append the svg element as a group, store reference
     # xGroup
     if @axesOpts.x.type == 'datetime'
-      @xGroup = plot.container.append('g')
+      @xGroup = @plot.container.append('g')
         .attr('class', 'scatterPlot-axis')
-        .attr('transform', "translate(#{plot.margins.left}, #{plot.getHeight()})")
+        .attr('transform', "translate(#{@plot.margins.left}, #{@plot.getHeight()})")
         .call(@xAxis)
       @xGroup.selectAll('text')
         .style('text-anchor', 'end')
@@ -90,45 +104,78 @@ class Axes
         .attr('dy', '.15em')
         .attr('transform', (d) -> 'rotate(-65)')
       @xGroup.append('text')
-        .attr('dx', (plot.width / 2) - ((plot.margins.right + plot.margins.left) / 2))
-        .attr('dy', plot.margins.bottom + 30)
+        .attr('dx', (@plot.width / 2) - ((@plot.margins.right + @plot.margins.left) / 2))
+        .attr('dy', @plot.margins.bottom + 30)
         .attr('class', 'scatterPlot-axis-label')
         .style('text-anchor', 'middle')
         .text(@axesOpts.x.title);
     else
-      @xGroup = plot.container.append('g')
+      @xGroup = @plot.container.append('g')
         .attr('class', 'scatterPlot-axis')
-        .attr('transform', "translate(#{plot.margins.left}, #{plot.getHeight()})")
+        .attr('transform', "translate(#{@plot.margins.left}, #{@plot.getHeight()})")
         .call(@xAxis)
       @xGroup.append('text')
-        .attr('dx', (plot.width / 2) - ((plot.margins.right + plot.margins.left) / 2))
-        .attr('dy', plot.margins.bottom)
+        .attr('dx', (@plot.width / 2) - ((@plot.margins.right + @plot.margins.left) / 2))
+        .attr('dy', @plot.margins.bottom)
         .attr('class', 'scatterPlot-axis-label')
         .style('text-anchor', 'middle')
         .text(@axesOpts.x.title);
 
   ###
   # buildY - build the yScale, yAxis, and append yGroup
-  #
-  # @param {object} plot, the plot to append the axis group
   ###
-  _buildY: (plot) ->
-    @yScale = d3.scale.linear().domain(@axesOpts.y.minMax).range([plot.getHeight(), 0])
+  buildYScale: () ->
+    @yScale = d3.scale.linear().domain(@axesOpts.y.minMax).range([@plot.getHeight(), 0])
+
+  buildYAxis: () ->
     @yAxis = d3.svg.axis()
       .scale(@yScale)
       .orient('left')
-    @yGroup = plot.container.append('g')
+
+  buildYGroup: () ->
+    @yGroup = @plot.container.append('g')
       .attr('class', 'scatterPlot-axis')
-      .attr('transform', "translate(#{plot.margins.left}, 0)")
+      .attr('transform', "translate(#{@plot.margins.left}, 0)")
       .call(@yAxis)
     @yGroup.append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('dx', - (plot.height / 2) + ((plot.margins.top + plot.margins.bottom) / 2))
-      .attr('dy', - plot.margins.left)
+      .attr('dx', - (@plot.height / 2) + ((@plot.margins.top + @plot.margins.bottom) / 2))
+      .attr('dy', - @plot.margins.left)
       .attr('class', 'scatterPlot-axis-label')
       .style('text-anchor', 'middle')
       .text(@axesOpts.y.title);
 
+  reset: () ->
+    @xScale.domain(@axesOpts.x.minMax)
+    @yScale.domain(@axesOpts.y.minMax)
+    @xGroup.remove()
+    @yGroup.remove()
+    @grid.remove()
+    @buildXGroup()
+    @buildYGroup()
+    @buildGrid()
+
+
+  zoom: (zoomArea) ->
+    if zoomArea.x1 > zoomArea.x2
+      @xScale.domain([zoomArea.x2, zoomArea.x1])
+    else
+      @xScale.domain([zoomArea.x1, zoomArea.x2])
+
+    if zoomArea.y1 > zoomArea.y2
+      @yScale.domain([zoomArea.y2, zoomArea.y1])
+    else
+      @yScale.domain([zoomArea.y1, zoomArea.y2])
+
+    @xGroup.remove()
+    @buildXGroup()
+
+    @yGroup.remove()
+    @buildYGroup()
+
+    if @grid
+      @grid.remove()
+      @buildGrid()
 
   ###
   # remove - removed the axes groups from the DOM

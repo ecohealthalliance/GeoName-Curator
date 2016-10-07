@@ -1,5 +1,6 @@
 Axes = require '/imports/charts/Axes.coffee'
 Tooltip = require '/imports/charts/Tooltip.coffee'
+Zoom = require '/imports/charts/Zoom.coffee'
 
 MINIMUM_PLOT_HEIGHT = 300
 
@@ -20,7 +21,6 @@ class Plot
   ###
   constructor: (options) ->
     @options = options
-    @init()
     @
 
   ###
@@ -51,6 +51,7 @@ class Plot
         .attr('width', @viewBoxWidth)
         .attr('height', @viewBoxHeight)
 
+    # the container of the plot
     @container = @root.append('g')
       .attr('class', @options.svgContainerClass)
       .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
@@ -60,6 +61,11 @@ class Plot
 
     # the tooltip of the plot
     @tooltip = new Tooltip(@, @options)
+
+    # is zoom enabled?
+    zoomEnabled = @options.zoom || false
+    if zoomEnabled
+      @zoom = new Zoom(@, @options)
 
     # an svg group of the markers
     @markers = @container.append('g')
@@ -106,6 +112,7 @@ class Plot
   # @return {object} this
   ###
   remove: () ->
+    @zoom.remove()
     @tooltip.remove()
     @axes.remove()
     @markers.remove()
@@ -117,6 +124,7 @@ class Plot
   ###
   destroy: () ->
     @remove()
+    @zoom = null
     @tooltip = null
     @axes = null
     @markers = null
