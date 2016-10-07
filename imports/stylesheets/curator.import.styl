@@ -17,10 +17,11 @@
     font-size 30px
     font-weight 700
 
-.curator-inbox-header
-.curator-inbox-section-head
-  +above(4)
-    padding-left 55px
+.curator-inbox-articles
+  .curator-inbox-header
+  .curator-inbox-section-head
+    +above(4)
+      padding-left 55px
 
 .curator-inbox-articles
   border-right 2px $primary-light solid
@@ -113,12 +114,18 @@
 
 .curator-article-details-content
   padding-top 15px
+  a
+    cursor pointer
   h3
     color $d-gray
     font-weight 400
     margin 5px
   .reactive-table-navigation
     margin 15px 0
+
+.curator-details-articles
+  .open-icon
+    margin-right 30px
 
 .curator-inbox-table-row
   .curator-inbox-curated-row::before

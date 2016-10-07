@@ -1,5 +1,6 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
+CuratorSources = require '/imports/collections/curatorSources.coffee'
 
 Template.curatorEvents.onCreated ->
   @eventFields = [
@@ -29,13 +30,13 @@ Template.curatorEvents.helpers
     UserEvents.find()
 
   associatedUserEvents: ->
-    article = Articles.findOne(this._id)
-    if article?.relatedEvents and article.relatedEvents.length
-      UserEvents.find({ _id: { $in: article.relatedEvents } })
+    source = CuratorSources.findOne(this._id)
+    if source?.relatedEvents and source.relatedEvents.length
+      UserEvents.find({ _id: { $in: source.relatedEvents } })
 
   associated: () ->
     articleId = Template.instance().data._id
-    Articles.findOne({ _id: articleId, relatedEvents: this._id })
+    CuratorSources.findOne({ _id: articleId, relatedEvents: this._id })
 
   settings: ->
     fields = []
@@ -83,7 +84,7 @@ Template.curatorEvents.events
     template.addEventMenuIsOpen.set !template.addEventMenuIsOpen.get()
   "click #associate-events tr": (event, template) ->
     articleId = template.data._id
-    Meteor.call 'associateEventWithArticle', articleId, @_id
+    Meteor.call 'associateEventWithSource', articleId, @_id
 
 Template.curatorEventIncidents.onCreated ->
   Meteor.subscribe "eventIncidents", @data._id

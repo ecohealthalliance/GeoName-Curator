@@ -33,26 +33,8 @@ getEventArticles = (userEventId) ->
 Articles.getEventArticles = getEventArticles
 
 if Meteor.isServer
-  ReactiveTable.publish "recentEventArticles", Articles, {}
-
   Meteor.publish "eventArticles", (ueId) ->
     getEventArticles(ueId)
-
-  Meteor.publish "recentEventArticles", (limit, range) ->
-    query = {addedDate: {$exists: true}}
-    if range and range.startDate and range.endDate
-      query = {
-        addedDate: {
-          $gte: new Date(range.startDate)
-          $lte: new Date(range.endDate)
-        }
-        getFullYear: {}
-      }
-
-    Articles.find(query, {
-      sort: {addedDate: -1}
-      limit: limit || 100
-    })
 
   Articles.allow
     insert: (userID, doc) ->
@@ -98,18 +80,3 @@ Meteor.methods
       Articles.remove(id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
       Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
-
-  curateArticle: (id, reviewed) ->
-    if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
-      Articles.update({_id: id}, {
-        $set:
-          reviewed: reviewed
-      })
-
-  associateEventWithArticle: (articleId, eventId) ->
-    if Articles.findOne( { _id: articleId, relatedEvents: eventId } )
-      Articles.update articleId, $pull:
-        relatedEvents: eventId
-    else
-      Articles.update articleId, $push:
-        relatedEvents: eventId

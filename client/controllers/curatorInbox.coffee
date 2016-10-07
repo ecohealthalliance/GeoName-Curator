@@ -1,13 +1,14 @@
+CuratorSources = require '/imports/collections/curatorSources.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 createInboxSections = () ->
   sections = []
   recordedDates = {}
-  allArticles = grid.Articles.find({}, {sort: {addedDate: -1}}).fetch()
-  if allArticles.length == 0
+  allPosts = CuratorSources.find({}, {sort: {addedDate: -1}}).fetch()
+  if allPosts.length == 0
     return []
-  for article in allArticles
-    date = new Date(article.addedDate.getFullYear(), article.addedDate.getMonth(), article.addedDate.getDate())
+  for post in allPosts
+    date = new Date(post.addedDate.getFullYear(), post.addedDate.getMonth(), post.addedDate.getDate())
     recordedDates[date.getTime()] = date
   for key of recordedDates
     sections.push recordedDates[key]
@@ -32,9 +33,11 @@ Template.curatorInbox.onCreated ->
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
 
   self = @
-  @sub = Meteor.subscribe "recentEventArticles", () ->
-    self.days = createInboxSections()
-    self.ready.set(true)
+
+  Meteor.call 'fetchPromedPosts', 100, null, () ->
+    self.sub = Meteor.subscribe "curatorSources", () ->
+      self.days = createInboxSections()
+      self.ready.set(true)
 
 Template.curatorInbox.onRendered ->
   $(document).ready =>
@@ -58,9 +61,16 @@ Template.curatorInbox.helpers
   isReady: ->
     return Template.instance().ready.get()
 
+  isLoading: ->
+    return !Template.instance().ready.get()
+
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
     template.textFilter.set($(event.target).val())
+
+  "click .curator-filter-calendar-icon": (event, template) ->
+    calendarState = template.calendarState
+    calendarState.set not calendarState.get()
 
   "click .curator-filter-calendar-icon": (event, template) ->
     calendarState = template.calendarState
@@ -77,14 +87,23 @@ Template.curatorInbox.events
     template.ready.set(false)
     template.sub.stop()
 
-    range = {
-      startDate: $('#date-picker').data('daterangepicker').startDate.format()
-      endDate: $('#date-picker').data('daterangepicker').endDate.format()
-    }
+    range = null
+    startDate = $('#date-picker').data('daterangepicker').startDate
+    endDate = $('#date-picker').data('daterangepicker').endDate
 
-    template.sub = Meteor.subscribe "recentEventArticles", 2000, range, () ->
-      template.days = createInboxSections()
-      template.ready.set(true)
+    if startDate and !endDate
+      endDate = startDate
+
+    if startDate and endDate
+      range = {
+        startDate: startDate.format()
+        endDate: endDate.format()
+      }
+
+      Meteor.call 'fetchPromedPosts', 300, range, () ->
+        template.sub = Meteor.subscribe "curatorSources", 2000, range, () ->
+          template.days = createInboxSections()
+          template.ready.set(true)
 
   "click #calendar-btn-reset": (event, template) ->
     template.calendarState.set(false)
@@ -93,9 +112,10 @@ Template.curatorInbox.events
 
     createNewCalendar()
 
-    template.sub = Meteor.subscribe "recentEventArticles", 100, null, () ->
-      template.days = createInboxSections()
-      template.ready.set(true)
+    Meteor.call 'fetchPromedPosts', 100, null, () ->
+      template.sub = Meteor.subscribe "curatorSources", 100, null, () ->
+        template.days = createInboxSections()
+        template.ready.set(true)
 
   "click #calendar-btn-cancel": (event, template) ->
     template.calendarState.set(false)
@@ -114,8 +134,8 @@ Template.curatorInboxSection.onCreated ->
         return ''
     },
     {
-      key: 'url'
-      description: 'The article\'s title.'
+      key: 'title'
+      description: 'The source\'s title.'
       label: 'Title'
       sortDirection: -1
     },
@@ -155,9 +175,11 @@ Template.curatorInboxSection.onCreated ->
     $lt: tomorrow
   })
 
-  @isOpen = new ReactiveVar(@data.index < 3)
+  @isOpen = new ReactiveVar(@data.index < 5)
 
 Template.curatorInboxSection.helpers
+  posts: ->
+    return CuratorSources
   isOpen: ->
     return Template.instance().isOpen.get()
   formattedDate: ->
@@ -194,23 +216,39 @@ Template.curatorInboxSection.events
     $parentRow.addClass("details-open")
     $("#curator-article-details").html("")
     details = document.getElementById("curator-article-details")
-    Blaze.renderWithData(Template.curatorArticleDetails, this, details)
+    Blaze.renderWithData(Template.curatorSourceDetails, {_id: this._id}, details)
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
   "click .curator-inbox-section-head": (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
 
-Template.curatorArticleDetails.onCreated ->
-  @article = ReactiveVar()
-  @autorun =>
-    @article.set grid.Articles.findOne(@data._id)
 
-Template.curatorArticleDetails.helpers
-  article: ->
-    Template.instance().article.get()
+Template.curatorSourceDetails.onCreated ->
+  @contentIsOpen = new ReactiveVar(false)
 
-Template.curatorArticleDetails.events
-  "click .mark-reviewed": (event, template) ->
-    Meteor.call("curateArticle", template.data._id, true)
-  "click .mark-unreviewed": (event, template) ->
-    Meteor.call("curateArticle", template.data._id, false)
+Template.curatorSourceDetails.helpers
+  post: ->
+    return CuratorSources.findOne({_id: @_id})
+  content: ->
+    content = Template.currentData().content
+    if content
+      if Template.instance().contentIsOpen.get()
+        return content
+      return lodash.truncate(content, {length: 250})
+  largeContent: ->
+    if Template.currentData().content and Template.currentData().content.length > 250
+      return true
+    return false
+  contentIsOpen: ->
+    return Template.instance().contentIsOpen.get()
+  formattedScrapeDate: ->
+    return moment(Template.instance().data.sourceDate).format('MMMM DD, YYYY')
+  formattedPromedDate: ->
+    return moment(Template.instance().data.promedDate).format('MMMM DD, YYYY')
+
+Template.curatorSourceDetails.events
+  "click #accept-article": (event, template) ->
+    Meteor.call("curateSource", template.data._id, true)
+    template.data.reviewed = true
+  "click #content-show-more": (event, template) ->
+    template.contentIsOpen.set(!template.contentIsOpen.curValue)
