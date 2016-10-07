@@ -148,10 +148,18 @@ Template.suggestedIncidentsModal.onCreated ->
         incident.dateTerritory = dateTerritory
         incident.locationTerritory = locationTerritory
         incident.countAnnotation = keypoint
+        countValue = keypoint.count.number or keypoint.count.range_end
         if keypoint.count.case
-          incident.cases = keypoint.count.number
+          incident.cases = countValue
         else if keypoint.count.death
-          incident.deaths = keypoint.count.number
+          incident.deaths = countValue
+        # Detect whether count is cumulative
+        if "incremental" of keypoint.count
+          incident.dateRange.cumulative = not keypoint.count.incremental
+        else if "cumulative" of keypoint.count
+          incident.dateRange.cumulative = keypoint.count.cumulative
+        else if incident.dateRange.type == "day" and countValue > 300
+          incident.dateRange.cumulative = true
         incident.url = [@data.article.url]
         @incidentCollection.insert(incident)
       )
