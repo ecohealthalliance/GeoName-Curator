@@ -80,6 +80,7 @@ Template.incidentReports.onCreated ->
       plot.showWarn('Not enough data.')
       return
 
+    window.plot = @plot
     @plot.draw(data)
 
 Template.incidentReports.helpers
@@ -168,6 +169,8 @@ Template.incidentReports.helpers
     }
 
 Template.incidentReports.events
+  "click #scatterPlot-resetZoom": (event, template) ->
+    template.plot.zoom.reset()
   "click #event-incidents-table th": (event, template) ->
     template.$("tr").removeClass("details-open")
     template.$("tr.tr-details").remove()

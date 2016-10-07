@@ -1,3 +1,5 @@
+MINIMUM_ZOOM_THRESHOLD = 5 # move at least 5x5 pixels to zoom
+
 class Zoom
   ###
   # Zoom
@@ -26,33 +28,30 @@ class Zoom
       .attr('transform', "translate(#{plot.margins.left}, 0)")
       .attr('class', 'zoomOverlay')
       .call(@drag);
-    @resetZoomGroup = plot.container.append('g').attr('class', 'scatterPlot-resetZoom')
-    @resetZoomBtn = @resetZoomGroup.append('rect')
-      .attr('class', 'resetZoomBtn')
-      .attr('width', 75)
-      .attr('height', 20)
-      .attr('x', plot.getWidth() + plot.margins.right)
-      .attr('y', plot.getHeight() + (plot.margins.bottom + 10))
-      .on('click', _.bind(@resetZoom,@))
-    @resetZoomGroup.append('text')
-      .attr('class', 'resetZoomText')
-      .attr('width', 75)
-      .attr('height', 20)
-      .attr('x', plot.getWidth() + (plot.margins.right + 2))
-      .attr('y', plot.getHeight() + (plot.margins.bottom + 24))
-      .text('Reset Zoom');
 
     self = @
+    @drag.on 'dragstart.plot', () ->
+      pos = d3.mouse(@)
+      self.dragStart = pos
+
     @drag.on 'drag.plot', () ->
       # Note: @ (this) is not the Zoom class but the DOM event
       pos = d3.mouse(@)
-      self.dragStart = pos[0]
       _.bind(self.ondrag, self)(pos)
 
     @drag.on 'dragend.plot', () ->
       # Note: @ (this) is not the Zoom class but the DOM event
       pos = d3.mouse(@)
-      _.bind(self.ondragend, self)(pos)
+
+      zoomX = false
+      if Math.abs(self.dragStart[0] - pos[0]) > MINIMUM_ZOOM_THRESHOLD
+        zoomX = true
+
+      zoomY = false
+      if Math.abs(self.dragStart[1] - pos[1]) > MINIMUM_ZOOM_THRESHOLD
+        zoomY = true
+
+      _.bind(self.ondragend, self)(pos, zoomX && zoomY)
 
   ###
   # ondrag
@@ -74,7 +73,7 @@ class Zoom
   ###
   # ondragend
   ###
-  ondragend: (pos) ->
+  ondragend: (pos, zoom) ->
     x1 = @plot.axes.xScale.invert(@bandPos[0])
     x2 = @plot.axes.xScale.invert(pos[0])
     if x1 < x2
@@ -99,7 +98,8 @@ class Zoom
       .attr('height', 0)
       .attr('x', @bandPos[0])
       .attr('y', @bandPos[1])
-    @zoom()
+    if zoom
+      @zoom()
 
 
   ###
@@ -107,19 +107,22 @@ class Zoom
   ###
   zoom: () ->
     @plot.axes.zoom(@zoomArea)
+    @plot.clear()
+    @plot.draw()
 
   ###
   # resetZoom -
   ###
-  resetZoom: () ->
+  reset: () ->
     @plot.axes.reset()
+    @plot.clear()
+    @plot.draw()
 
   ###
   # remove
   ###
   remove: () ->
     @zoomGroup.remove()
-    @resetZoomGroup.remove()
     @drag.on('drag.plot', null)
     @drag.on('dragend.plot', null)
 

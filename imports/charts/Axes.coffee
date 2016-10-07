@@ -95,7 +95,7 @@ class Axes
     # xGroup
     if @axesOpts.x.type == 'datetime'
       @xGroup = @plot.container.append('g')
-        .attr('class', 'scatterPlot-axis')
+        .attr('class', 'x scatterPlot-axis')
         .attr('transform', "translate(#{@plot.margins.left}, #{@plot.getHeight()})")
         .call(@xAxis)
       @xGroup.selectAll('text')
@@ -104,11 +104,11 @@ class Axes
         .attr('dy', '.15em')
         .attr('transform', (d) -> 'rotate(-65)')
       @xGroup.append('text')
+        .attr('class', 'scatterPlot-axis-label')
         .attr('dx', (@plot.width / 2) - ((@plot.margins.right + @plot.margins.left) / 2))
         .attr('dy', @plot.margins.bottom + 30)
-        .attr('class', 'scatterPlot-axis-label')
         .style('text-anchor', 'middle')
-        .text(@axesOpts.x.title);
+        .text(@axesOpts.x.title)
     else
       @xGroup = @plot.container.append('g')
         .attr('class', 'scatterPlot-axis')
@@ -119,7 +119,8 @@ class Axes
         .attr('dy', @plot.margins.bottom)
         .attr('class', 'scatterPlot-axis-label')
         .style('text-anchor', 'middle')
-        .text(@axesOpts.x.title);
+        .text(@axesOpts.x.title)
+    @xGroup
 
   ###
   # buildY - build the yScale, yAxis, and append yGroup
@@ -134,7 +135,7 @@ class Axes
 
   buildYGroup: () ->
     @yGroup = @plot.container.append('g')
-      .attr('class', 'scatterPlot-axis')
+      .attr('class', 'y scatterPlot-axis')
       .attr('transform', "translate(#{@plot.margins.left}, 0)")
       .call(@yAxis)
     @yGroup.append('text')
@@ -143,7 +144,8 @@ class Axes
       .attr('dy', - @plot.margins.left)
       .attr('class', 'scatterPlot-axis-label')
       .style('text-anchor', 'middle')
-      .text(@axesOpts.y.title);
+      .text(@axesOpts.y.title)
+    @yGroup
 
   reset: () ->
     @xScale.domain(@axesOpts.x.minMax)
@@ -151,7 +153,9 @@ class Axes
     @xGroup.remove()
     @yGroup.remove()
     @grid.remove()
+    @buildXAxis()
     @buildXGroup()
+    @buildYAxis()
     @buildYGroup()
     @buildGrid()
 
@@ -167,11 +171,14 @@ class Axes
     else
       @yScale.domain([zoomArea.y1, zoomArea.y2])
 
-    @xGroup.remove()
-    @buildXGroup()
-
-    @yGroup.remove()
-    @buildYGroup()
+    trans = @plot.container.transition().duration(750)
+    @xGroup.transition(trans).call(@xAxis)
+    @xGroup.selectAll('.tick.major').selectAll('text')
+      .style('text-anchor', 'end')
+      .attr('dx', '-.8em')
+      .attr('dy', '.15em')
+      .attr('transform', 'rotate(-65)')
+    @yGroup.transition(trans).call(@yAxis)
 
     if @grid
       @grid.remove()

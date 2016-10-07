@@ -83,11 +83,25 @@ class ScatterPlot extends Plot
   # @param {number} data.o, the opacity of the fill
   ###
   draw: (data) ->
-    if typeof data == 'undefined'
-      return
-    @data = data
-    @clear()
-    @markers.selectAll('.marker').data(data).enter().append('rect')
+    if data
+      @data = data
+
+    # filter the data is withing the current domain of the axes (necessary
+    # when zoom is enabled)
+    filtered = _.filter(@data, (d) =>
+      x1 = @axes.xScale.domain()[0]
+      if x1 instanceof Date
+        x1 = x1.getTime()
+      x2 = @axes.xScale.domain()[1]
+      if x2 instanceof Date
+        x2 = x2.getTime()
+      y1 = @axes.yScale.domain()[0]
+      y2 = @axes.yScale.domain()[1]
+      if ((d.x >= x1 && d.x <= x2) && (d.y >= y1 && d.y <= y2))
+        return d
+    )
+
+    @markers.selectAll('.marker').data(filtered).enter().append('rect')
       # if the scale is large enough (e.g. the scale is two years and the span
       # x and w is one day), it is possible to have very small width, such as .2,
       # which isn't visible on the plot. therefore the minimum size will be set
@@ -153,8 +167,15 @@ class ScatterPlot extends Plot
   resize: () ->
     @remove()
     @init()
+    @clear()
     @draw(@data)
     @
+
+  ###
+  # resetZoom - resets the zoom of the axes
+  ###
+  resetZoom: () ->
+    @axes.resetZoom()
 
 ###
 # maxNumeric - determine the maximum value with padding. Padding is determined

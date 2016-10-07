@@ -36,11 +36,11 @@ class Tooltip
     # do not render the tooltip past the right margin
     if (x + box.width) >= (window.innerWidth - 20)
       @element.html(@template(d))
-        .style('left', (x - Math.floor(box.width)) + 'px')
+        .style('left', ((x - 10)  - Math.floor(box.width)) + 'px')
         .style('top', (y) + 'px')
     else
       @element.html(@template(d))
-        .style('left', (x) + 'px')
+        .style('left', (x + 10) + 'px')
         .style('top', (y) + 'px')
     @element.transition().duration(200).style('opacity', @opacity)
     #return
