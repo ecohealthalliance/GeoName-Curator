@@ -59,3 +59,27 @@ module.exports.incidentReportFormToIncident = (form)->
       delete item.alternateNames
     incident.locations.push(item)
   return incident
+
+module.exports.UTCOffsets =
+  ADT:  '-0300'
+  AKDT: '-0800'
+  AKST: '-0900'
+  AST:  '-0400'
+  CDT:  '-0500'
+  CST:  '-0600'
+  EDT:  '-0400'
+  EGST: '+0000'
+  EGT:  '-0100'
+  EST:  '-0500'
+  HADT: '-0900'
+  HAST: '-1000'
+  MDT:  '-0600'
+  MST:  '-0700'
+  NDT:  '-0230'
+  NST:  '-0330'
+  PDT:  '-0700'
+  PMDT: '-0200'
+  PMST: '-0300'
+  PST:  '-0800'
+  WGST: '-0200'
+  WGT: '-0300'

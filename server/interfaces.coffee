@@ -1,4 +1,6 @@
 UserEvents = require '/imports/collections/userEvents.coffee'
+Articles = require '/imports/collections/articles.coffee'
+utils = require '/imports/utils.coffee'
 
 DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
 
@@ -34,7 +36,7 @@ Meteor.methods
       if match
         date = moment(match[1])
         tz = if date.isDST() then 'EDT' else 'EST'
-        offset = UTCOffsets[tz]
+        offset = utils.UTCOffsets[tz]
         dateUTC = match[1].replace(' ', 'T') + offset
         dateUTC
 

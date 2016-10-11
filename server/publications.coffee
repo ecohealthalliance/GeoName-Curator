@@ -1,6 +1,7 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
 CuratorSources = require '/imports/collections/curatorSources.coffee'
+Articles = require '/imports/collections/articles.coffee'
 
 # Incidents
 ReactiveTable.publish "curatorEventIncidents", Incidents
@@ -38,3 +39,6 @@ Meteor.publish "curatorSources", (limit, range) ->
     sort: {addedDate: -1}
     limit: limit || 100
   })
+
+Meteor.publish "eventArticles", (ueId) ->
+  Articles.find({userEventId: ueId})
