@@ -2,7 +2,11 @@ MINIMUM_ZOOM_THRESHOLD = 5 # move at least 5x5 pixels to zoom
 
 class Zoom
   ###
-  # Zoom
+  # Zoom - a zoomable interface for a plot
+  #
+  # @param {object} plot, the plot to enable the zooming interface
+  # @param {object} options, the object containing the passed in options to the plot constructor
+  # @return {object} this
   ###
   constructor: (plot, options) ->
     @plot = plot
@@ -54,7 +58,9 @@ class Zoom
       _.bind(self.ondragend, self)(pos, zoomX && zoomY)
 
   ###
-  # ondrag
+  # ondrag - the event handler for the ondrag event
+  #
+  # @param {array} pos, the x,y position of the mouse
   ###
   ondrag: (pos) ->
     if pos[0] < @bandPos[0]
@@ -71,7 +77,9 @@ class Zoom
       .attr('height', Math.abs(@bandPos[1] - pos[1]))
 
   ###
-  # ondragend
+  # ondragend - the event handler for the ondragend event
+  #
+  # @param {array} pos, the x,y position of the mouse
   ###
   ondragend: (pos, zoom) ->
     x1 = @plot.axes.xScale.invert(@bandPos[0])
@@ -101,9 +109,8 @@ class Zoom
     if zoom
       @zoom()
 
-
   ###
-  # zoom
+  # zoom - the zooming method called an the end of ondragend
   ###
   zoom: () ->
     @plot.axes.zoom(@zoomArea)
@@ -111,7 +118,7 @@ class Zoom
     @plot.draw()
 
   ###
-  # resetZoom -
+  # resetZoom - reset the plot zoom back to the original viewBox
   ###
   reset: () ->
     @plot.axes.reset()
@@ -119,7 +126,7 @@ class Zoom
     @plot.draw()
 
   ###
-  # remove
+  # remove - remove the zoom interface from a plot
   ###
   remove: () ->
     @zoomGroup.remove()

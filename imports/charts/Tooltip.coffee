@@ -1,13 +1,12 @@
 class Tooltip
   ###
-  # Tooltip
+  # Tooltip - allows for an HTML div to be faded in/out on mouseover of a marker
   #
   # @param {object} plot, the plot append the tooltip
   # @param {object} options, the options for the plot
   # @param {object} options.tooltip, the options for the tooltip
   # @param {number} options.opacity, the opacity of the tooltip
   # @param {object} options.template, an underscore compiled template
-  #
   # @return {object} this
   ###
   constructor: (plot, options) ->
@@ -28,7 +27,6 @@ class Tooltip
   # @param {object} d, the marker with meta data
   # @param {number} x, the x coordinate
   # @param {number} y, the y coordinate
-  #
   # @return {object} this
   ###
   mouseover: (d, x, y) ->

@@ -6,7 +6,7 @@ MINIMUM_PLOT_HEIGHT = 300
 
 class Plot
   ###
-  # Plot, creates a new instance of a plot
+  # Plot - creates a new instance of a plot
   #
   # @param {object} options, the options to create a ScatterPlot
   # @param {string} containerID, the id of the ScatterPlot container div
@@ -24,13 +24,9 @@ class Plot
     @
 
   ###
-  # init - method to initialize the plot, allows the plot to be re-initialized
-  #  on resize while keeping the current plot data in memory
-  #
-  # @returns {object} this, returns self
+  # setDimensions - method to set the dimensions of the plot based on the current window
   ###
-  init: () ->
-    # dimensions of the plot
+  setDimensions: () ->
     @margins = @options.margins || {left: 40, right: 20, top: 20, bottom: 40}
     @width = @options.width || document.getElementById(@options.containerID).offsetWidth - (@margins.left + @margins.right);
     @height = @options.height || Plot.aspectRatio() * @width
@@ -38,7 +34,38 @@ class Plot
       @height = MINIMUM_PLOT_HEIGHT
     @viewBoxWidth = @width + @margins.left + @margins.right
     @viewBoxHeight = @height + @margins.top + @margins.bottom
+    @
 
+  ###
+  # update - update the width and height attributes of the root and container
+  #  elements. then call update on the plot axes
+  #
+  # @returns {object} this
+  ###
+  update: () ->
+    @setDimensions()
+    @root
+      .attr('width', @viewBoxWidth)
+      .attr('height', @viewBoxHeight)
+    @container
+      .attr('width', @width)
+      .attr('height', @height)
+      .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
+    @axes.update()
+    @
+
+
+  ###
+  # init - method to initialize the plot, allows the plot to be re-initialized
+  #  on resize while keeping the current plot data in memory
+  #
+  # @returns {object} this
+  ###
+  init: () ->
+    # dimensions of the plot
+    @setDimensions()
+
+    # should we scale the svg by aspectRatio?
     scale = @options.scale || false
 
     # the root elment of the plot
@@ -54,6 +81,8 @@ class Plot
     # the container of the plot
     @container = @root.append('g')
       .attr('class', @options.svgContainerClass)
+      .attr('width', @getWidth())
+      .attr('height', @getHeight())
       .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
 
     # the axes of the plot
@@ -71,7 +100,7 @@ class Plot
     @markers = @container.append('g')
       .attr('class', 'scatterPlot-markers')
       .attr('transform', "translate(#{@margins.left}, 0)")
-
+    # return
     @
 
   ###

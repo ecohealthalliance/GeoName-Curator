@@ -45,53 +45,40 @@ class Axes
     @plot = plot
     @options = options
     @axesOpts = options.axes || {x: {title: 'x', type: 'numeric', minMax: [0,100]}, y: {title: 'y', type: 'numeric', minMax: [0, 100]}, grid: true}
-    # x
-    @buildXScale()
-    @buildXAxis()
-    @buildXGroup()
-    # y
-    @buildYScale()
-    @buildYAxis()
-    @buildYGroup()
-    # x,y grid lines
-    @buildGrid()
-    #return
-    @
+    @init()
 
   ###
-  # buildGrid - build the x,y grid lines
+  # init - initialize the plot x,y axes
+  #
+  # @param {array} xDomain, the zoom xDomain or undefined
+  # @param {array} yDomain, the zoom yDomain or undefined
   ###
-  buildGrid: () ->
-    # the x,y grid lines, requires the instance of the axes
-    if @axesOpts.grid
-      @grid = new Grid(@, @plot, @options)
-
-  ###
-  # buildX - build the xScale, xAxis, and append xGroup
-  ###
-  buildXScale: () ->
+  init: (xDomain, yDomain) ->
+    # xScale
     if @axesOpts.x.type == 'datetime'
-      @xScale = d3.time.scale().domain(@axesOpts.x.minMax).range([0, @plot.getWidth()]).nice()
+      if xDomain
+        @xScale = d3.time.scale().domain(xDomain).range([0, @plot.getWidth()]).nice()
+      else
+        @xScale = d3.time.scale().domain(@axesOpts.x.minMax).range([0, @plot.getWidth()]).nice()
     else
-      @xScale = d3.scale.linear().domain(@axesOpts.x.minMax).range([0, @plot.getWidth()])
+      if xDomain
+        @xScale = d3.scale.linear().domain(xDomain).range([0, @plot.getWidth()])
+      else
+        @xScale = d3.scale.linear().domain(@axesOpts.x.minMax).range([0, @plot.getWidth()])
 
-  buildXAxis: () ->
-    # create the axes from the scale and position
     # xAxis
     if @axesOpts.x.type == 'datetime'
       @xAxis = d3.svg.axis()
         .scale(@xScale)
         .orient('bottom')
         .ticks(10)
-        .tickFormat(d3.time.format("%b %d, %Y"))
+        .tickFormat(d3.time.format(@formatDate()))
     else
       @xAxis = d3.svg.axis()
         .scale(@xScale)
         .orient('bottom')
         .ticks(10)
 
-  buildXGroup: () ->
-    # append the svg element as a group, store reference
     # xGroup
     if @axesOpts.x.type == 'datetime'
       @xGroup = @plot.container.append('g')
@@ -120,20 +107,19 @@ class Axes
         .attr('class', 'scatterPlot-axis-label')
         .style('text-anchor', 'middle')
         .text(@axesOpts.x.title)
-    @xGroup
 
-  ###
-  # buildY - build the yScale, yAxis, and append yGroup
-  ###
-  buildYScale: () ->
-    @yScale = d3.scale.linear().domain(@axesOpts.y.minMax).range([@plot.getHeight(), 0])
+    # yScale
+    if yDomain
+      @yScale = d3.scale.linear().domain(yDomain).range([@plot.getHeight(), 0])
+    else
+      @yScale = d3.scale.linear().domain(@axesOpts.y.minMax).range([@plot.getHeight(), 0])
 
-  buildYAxis: () ->
+    # yAxis
     @yAxis = d3.svg.axis()
       .scale(@yScale)
       .orient('left')
 
-  buildYGroup: () ->
+    # yGroup
     @yGroup = @plot.container.append('g')
       .attr('class', 'y scatterPlot-axis')
       .attr('transform', "translate(#{@plot.margins.left}, 0)")
@@ -145,26 +131,41 @@ class Axes
       .attr('class', 'scatterPlot-axis-label')
       .style('text-anchor', 'middle')
       .text(@axesOpts.y.title)
-    @yGroup
 
+
+    # the x,y grid lines, requires the instance of the axes
+    if @axesOpts.grid
+      @grid = new Grid(@, @plot, @options)
+
+  ###
+  # update - update the x,y axes using the zoom domain
+  ###
+  update: () ->
+    @remove()
+    @init(@xScale.domain(), @yScale.domain())
+    @
+
+  ###
+  # reset - resets the x,y axes back to the original domain
+  ###
   reset: () ->
-    @xScale.domain(@axesOpts.x.minMax)
-    @yScale.domain(@axesOpts.y.minMax)
-    @xGroup.remove()
-    @yGroup.remove()
-    @grid.remove()
-    @buildXAxis()
-    @buildXGroup()
-    @buildYAxis()
-    @buildYGroup()
-    @buildGrid()
+    @remove()
+    @init()
+    @
 
-
+  ###
+  # zoom - zooms the x,y axes based on the zoomArea object
+  #
+  # @param {object} zoomArea, an object containing a bounding box of x,y coordinates
+  ###
   zoom: (zoomArea) ->
     if zoomArea.x1 > zoomArea.x2
       @xScale.domain([zoomArea.x2, zoomArea.x1])
     else
       @xScale.domain([zoomArea.x1, zoomArea.x2])
+
+    if @axesOpts.x.type == 'datetime'
+      @xAxis.tickFormat(d3.time.format(@formatDate()))
 
     if zoomArea.y1 > zoomArea.y2
       @yScale.domain([zoomArea.y2, zoomArea.y1])
@@ -182,16 +183,28 @@ class Axes
 
     if @grid
       @grid.remove()
-      @buildGrid()
+      @grid = new Grid(@, @plot, @options)
+    # return
+    @
 
   ###
-  # remove - removed the axes groups from the DOM
+  # remove - removes the x,y axis groups from the plot
   ###
   remove: () ->
     @xGroup.remove()
     @yGroup.remove()
     if @grid
       @grid.remove()
+
+  ###
+  # formatDate - a method that formats the axis date label
+  ###
+  formatDate: () ->
+    xDomain = @xScale.domain()
+    duration = moment.duration(moment(xDomain[1]).diff(xDomain[0])).asDays()
+    if duration <= 4
+      return '%b %d - %H:%M'
+    return '%b %d, %Y'
 
 
 module.exports = Axes

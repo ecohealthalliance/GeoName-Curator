@@ -5,9 +5,7 @@ MINIMUM_MARKER_HEIGHT = 10
 
 class ScatterPlot extends Plot
   ###
-  # ScatterPlot
-  #
-  # constructs the root SVG element to contain the ScatterPlot
+  # ScatterPlot - constructs the root SVG element to contain the ScatterPlot
   #
   # @param {object} options, the options to create a ScatterPlot
   # @param {string} containerID, the id of the ScatterPlot container div
@@ -17,7 +15,6 @@ class ScatterPlot extends Plot
   # @param {object} tooltip.template, the compiled template
   # @param {boolean} scale, scale the svg on window resize @default false
   # @param {boolean} resize, resize the svg on window resize @default true
-  #
   # @returns {object} this, returns self
   #
   # example usage:
@@ -57,7 +54,7 @@ class ScatterPlot extends Plot
   ###
   # init - method to set/re-set the resizeHandler
   #
-  # @returns {object} this, returns self
+  # @returns {object} this
   ###
   init: () ->
     super()
@@ -81,6 +78,7 @@ class ScatterPlot extends Plot
   # @param {number} data.h, the height of the rect
   # @param {string} data.f, the hex color code to fill
   # @param {number} data.o, the opacity of the fill
+  # @returns {object} this
   ###
   draw: (data) ->
     if data
@@ -140,6 +138,20 @@ class ScatterPlot extends Plot
     @
 
   ###
+  # update the dimensions of the plot (axes, gridlines, then redraw)
+  ###
+  update: () ->
+    super()
+    @redraw()
+
+  ###
+  # clears the data, then redraws
+  ###
+  redraw: () ->
+    @clear()
+    @draw()
+
+  ###
   # clear - removes any markers from the plot
   #
   # @return {object} this
@@ -165,10 +177,7 @@ class ScatterPlot extends Plot
   # @return {object} this
   ###
   resize: () ->
-    @remove()
-    @init()
-    @clear()
-    @draw(@data)
+    @update()
     @
 
   ###

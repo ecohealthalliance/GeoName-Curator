@@ -1,6 +1,6 @@
 class RectMarker
   ###
-  # RectMarker
+  # RectMarker - a rectangular marker
   #
   # @param {object} options, the options used to construct the RectMarker
   # @param {number} options.x, the value for x position
@@ -10,7 +10,6 @@ class RectMarker
   # @param {string} options.f, the fill of the marker
   # @param {number} options.o, the opacity of the marker
   # @param {object} options.meta, the optional meta data associated with the marker (e.g. used in the Tooltip)
-  #
   # @return {object} this
   ###
   constructor: (options) ->
@@ -29,7 +28,6 @@ class RectMarker
 # createFromIncident - method to construct a RectMarker from an incident
 #
 # @param {object} incident, the incident used to create a marker
-#
 # @return {object} RectMarker, the marker that is created
 ###
 RectMarker.createFromIncident = (incident) ->
