@@ -18,6 +18,8 @@ Template.articles.helpers
         label: "Added"
         fn: (value, object, key) ->
           return moment(value).fromNow()
+        sortFn: (value) ->
+          value
       },
       {
         key: "publishDate"
