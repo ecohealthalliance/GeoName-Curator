@@ -1,4 +1,5 @@
 UserEvents = require '/imports/collections/userEvents.coffee'
+Articles = require '/imports/collections/articles.coffee'
 
 Router.route("/event-search/:name", {where: "server"})
 .get ->
@@ -24,10 +25,10 @@ Router.route("/event-article", {where: "server"})
   if userEventId.length and article.length
     userEvent = getUserEvents().findOne(userEventId)
     if userEvent
-      existingArticle = grid.Articles.find({url: article, userEventId: userEventId}).fetch()
+      existingArticle = Articles.find({url: article, userEventId: userEventId}).fetch()
       
       if existingArticle.length is 0
-        grid.Articles.insert({userEventId: userEventId, url: article})
+        Articles.insert({userEventId: userEventId, url: article})
   
   @response.setHeader('Access-Control-Allow-Origin', '*')
   @response.statusCode = 200

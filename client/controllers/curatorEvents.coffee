@@ -181,8 +181,8 @@ Template.curatorEventIncidents.events
         Meteor.call("removeIncidentReport", @_id)
     else if $target.closest(".edit-row").length
       Modal.show("incidentModal", {
-        articles: template.data.articles,
-        userEventId: this.userEventId,
-        edit: true,
+        articles: template.data.articles
+        userEventId: this.userEventId
+        edit: true
         incident: this
-        })
+      })

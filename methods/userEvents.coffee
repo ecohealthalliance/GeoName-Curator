@@ -9,17 +9,17 @@ Meteor.methods
       now = new Date()
 
       if trimmedName.length isnt 0
-        UserEvents.insert({
-          eventName: trimmedName,
-          summary: summary,
-          creationDate: now,
-          createdByUserId: user._id,
-          createdByUserName: user.profile.name,
-          lastModifiedDate: now,
-          lastModifiedByUserId: user._id,
+        UserEvents.insert(
+          eventName: trimmedName
+          summary: summary
+          creationDate: now
+          createdByUserId: user._id
+          createdByUserName: user.profile.name
+          lastModifiedDate: now
+          lastModifiedByUserId: user._id
           lastModifiedByUserName: user.profile.name
           articleCount: 0
-        })
+        )
 
   updateUserEvent: (id, name, summary, disease) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])

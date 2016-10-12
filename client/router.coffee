@@ -1,9 +1,7 @@
 require '/imports/ui/helpers.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
-
-Articles = ->
-  @grid.Articles
+Articles = require '/imports/collections/articles.coffee'
 
 Router.configure
   layoutTemplate: "layout"
@@ -103,5 +101,5 @@ Router.route "/user-event/:_id/:_view?",
     ]
   data: ->
     userEvent: UserEvents.findOne({'_id': @params._id})
-    articles: Articles().find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
+    articles: Articles.find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
     incidents: Incidents.find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()

@@ -1,46 +1,4 @@
-@Articles = new Meteor.Collection "articles"
-
-@grid ?= {}
-@grid.Articles = Articles
-
-getEventArticles = (userEventId) ->
-  grid.Articles.find({userEventId: userEventId})
-
-@UTCOffsets =
-  ADT:  '-0300'
-  AKDT: '-0800'
-  AKST: '-0900'
-  AST:  '-0400'
-  CDT:  '-0500'
-  CST:  '-0600'
-  EDT:  '-0400'
-  EGST: '+0000'
-  EGT:  '-0100'
-  EST:  '-0500'
-  HADT: '-0900'
-  HAST: '-1000'
-  MDT:  '-0600'
-  MST:  '-0700'
-  NDT:  '-0230'
-  NST:  '-0330'
-  PDT:  '-0700'
-  PMDT: '-0200'
-  PMST: '-0300'
-  PST:  '-0800'
-  WGST: '-0200'
-  WGT: '-0300'
-
-Articles.getEventArticles = getEventArticles
-
-if Meteor.isServer
-  Meteor.publish "eventArticles", (ueId) ->
-    getEventArticles(ueId)
-
-  Articles.allow
-    insert: (userID, doc) ->
-      return true
-    remove: (userID, doc) ->
-      return Meteor.user()
+Articles = require '/imports/collections/articles.coffee'
 
 Meteor.methods
   addEventSource: (source) -> #eventId, url, publishDate, publishDateTZ
@@ -51,7 +9,7 @@ Meteor.methods
           url: source.url,
           userEventId: source.userEventId
         }
-        existingArticle = grid.Articles.find(insertArticle).fetch()
+        existingArticle = Articles.find(insertArticle).fetch()
         unless existingArticle.length is 0
           throw new Meteor.Error(501, 'This article has already been added')
         else
@@ -76,7 +34,7 @@ Meteor.methods
 
   removeEventSource: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
-      removed = grid.Articles.findOne(id)
+      removed = Articles.findOne(id)
       Articles.remove(id)
       Meteor.call("updateUserEventLastModified", removed.userEventId)
       Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
