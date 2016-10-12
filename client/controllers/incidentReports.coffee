@@ -77,10 +77,9 @@ Template.incidentReports.onCreated ->
     })
 
     if data.length <= 0
-      plot.showWarn('Not enough data.')
+      @plot.showWarn('Not enough data.')
       return
 
-    window.plot = @plot
     @plot.draw(data)
 
 Template.incidentReports.helpers
