@@ -26,6 +26,8 @@ Template.articles.helpers
           if value
             return moment(value).format('MMM D, YYYY')
           return ""
+        sortFn: (value) ->
+          value
       }
     ]
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
