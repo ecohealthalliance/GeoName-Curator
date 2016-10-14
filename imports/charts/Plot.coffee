@@ -40,9 +40,10 @@ class Plot
   # update - update the width and height attributes of the root and container
   #  elements. then call update on the plot axes
   #
+  # @param {array} data, an array of {object} for each marker
   # @returns {object} this
   ###
-  update: () ->
+  update: (data) ->
     @setDimensions()
     @root
       .attr('width', @viewBoxWidth)
@@ -51,7 +52,7 @@ class Plot
       .attr('width', @width)
       .attr('height', @height)
       .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
-    @axes.update()
+    @axes.update(data)
     @
 
 

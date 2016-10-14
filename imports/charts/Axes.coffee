@@ -138,10 +138,34 @@ class Axes
       @grid = new Grid(@, @plot, @options)
 
   ###
-  # update - update the x,y axes using the zoom domain
+  # setDomain - sets the x, y domains based on the passed in data
+  # @note this will overwrite the original x,y minMax options to the plot
+  #
+  # @param {array} data, an array of {object} for each marker
   ###
-  update: () ->
+  setDomain: (data) ->
+    if @axesOpts.x.type == 'datetime'
+      xMin = Axes.minDatetime(_.pluck(data, 'x'))
+      xMax = Axes.maxDatetime(_.pluck(data, 'x'))
+    else
+      xMin = 0
+      xMax = Axes.maxNumeric(_.pluck(data, 'x'))
+    yMin = 0
+    yMax = Axes.maxNumeric(_.pluck(data, 'y'))
+    @xScale.domain([xMin, xMax])
+    @axesOpts.x.minMax = [xMin, xMax]
+    @yScale.domain([yMin, yMax])
+    @axesOpts.y.minMax = [yMin, yMax]
+
+  ###
+  # update - update the x,y axes using the zoom domain
+  #
+  # @param {array} data, an array of {object} for each marker
+  ###
+  update: (data) ->
     @remove()
+    if data
+      @setDomain(data)
     @init(@xScale.domain(), @yScale.domain())
     @
 
@@ -205,6 +229,80 @@ class Axes
     if duration <= 4
       return '%b %d - %H:%M'
     return '%b %d, %Y'
+
+###
+# maxNumeric - determine the maximum value with padding. Padding is determined
+# by the number of digits ^ 10 / 10, unless number of digets == 10 then return
+# 10
+#
+# @param {array} data, an array of positive integers
+# @return {number} max
+###
+Axes.maxNumeric = (data) ->
+  m = _.max(data)
+  l = String(m).split('').length
+  # if the length of the number is 1, (e.g 0 ... 9) then return 10
+  if l == 1
+    return 10
+  p = (Math.pow(10, l)) / 10
+  m + p
+
+###
+# minNumeric - determine the minimum value with padding. Padding is determined
+# by the number of digits ^ 10 / 10, unless number of digets == 10 then return
+# 10
+#
+# @param {array} data, an array of positive integers
+# @return {number} max
+###
+Axes.minNumeric = (data) ->
+  m = _.min(data)
+  l = String(m).split('').length
+  # if the length of the number is 1, (e.g 0 ... 9) then return 10
+  if l == 1
+    return 10
+  p = (Math.pow(10, l)) / 10
+  m + p
+
+###
+# getDatetimeUnit - determine the unit of time for padding the axis
+#
+# @param {object} min, the min moment datetime object
+# @param {object} max, the max moment datetime object
+# @return {string} the datetime unit {day, week, month}
+###
+getDatetimeUnit = (min, max) ->
+  diff = max.diff(min, 'days')
+  unit = 'month' # one of {day, week, month} default is month
+  if diff <= 14
+    unit = 'day'
+  else if diff > 14 and diff <= 183
+    unit = 'week'
+  unit
+
+###
+# maxDatetime - determine the maximum value with padding
+#
+# @param {array} data, an array of timestamps in milliseconds
+# @return {number} max, maximum datetime value
+###
+Axes.maxDatetime = (data) ->
+  min = moment(_.min(data))
+  max = moment(_.max(data))
+  unit = getDatetimeUnit(min, max)
+  moment(max).add(1, unit).valueOf()
+
+###
+# minDatetime - determine the minimum value with padding
+#
+# @param {array} data, an array of timestamps in milliseconds
+# @return {number} min, minimum datetime value
+###
+Axes.minDatetime = (data) ->
+  min = moment(_.min(data))
+  max = moment(_.max(data))
+  unit = getDatetimeUnit(min, max)
+  moment(min).subtract(1, unit).valueOf()
 
 
 module.exports = Axes
