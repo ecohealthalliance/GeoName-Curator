@@ -6,6 +6,14 @@ template(name="incidentReports")
         +reactiveTable collection=incidents settings=getSettings
       else
         p No incident reports are associated with this event.
+    .col-md-6
+      .row
+        div#scatterPlot-toolbar
+          a#scatterPlot-resetZoom.btn.btn-xs.btn-default
+            i.fa.fa-refresh
+            | Reset Zoom
+      .row
+        div#scatterPlot
 
 template(name="addIncidentReport")
   if currentUser
