@@ -22,13 +22,13 @@ class Grid
   init: () ->
     # x
     @xGrid = d3.svg.axis().scale(@axes.xScale).orient('bottom').tickFormat('').tickSize((@plot.getHeight()) * -1, 0, 0)
-    @xGroup = @plot.container.append('g')
+    @xGroup = @plot.container.insert('g', ':first-child')
       .attr('class', 'grid')
       .attr('transform', "translate(#{@plot.margins.left}, #{@plot.getHeight()})")
       .call(@xGrid)
     # y
     @yGrid = d3.svg.axis().scale(@axes.yScale).orient('left').tickFormat('').tickSize((@plot.getWidth()) * -1, 0, 0)
-    @yGroup = @plot.container.append('g')
+    @yGroup = @plot.container.insert('g', ':first-child')
       .attr('class', 'grid')
       .attr('transform', "translate(#{@plot.margins.left}, 0)")
       .call(@yGrid)

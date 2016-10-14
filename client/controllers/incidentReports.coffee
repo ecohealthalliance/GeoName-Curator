@@ -4,7 +4,7 @@ tooltipTmpl = """
   <div class='row'>
     <div class='col-xs-12'>
       <span style='font-weight: bold;'>
-        <%= obj.y %> <%= incidents %> (<%= obj.meta.location %>)</span>
+        <%= obj.y %> <%= type %> (<%= obj.meta.location %>)</span>
       </span>
     </div>
   </div>
@@ -65,9 +65,9 @@ Template.incidentReports.onCreated ->
         # function to render the tooltip
         template: (marker) ->
           marker.moment = moment # template reference for momentjs
-          marker.incidents = 'incidents'
+          marker.type = marker.meta.type
           if marker.y <= 1
-            marker.incidents = 'incident'
+            marker.type = "#{marker.type}s"
           # underscore compiled template
           tmpl = _.template(tooltipTmpl)
           # render the template from

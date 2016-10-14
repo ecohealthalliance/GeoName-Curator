@@ -35,24 +35,35 @@ RectMarker.createFromIncident = (incident) ->
     return
   if typeof incident.dateRange != 'object'
     return
-  m = {}
-  m.meta = {}
-  x = moment(incident.dateRange.start).hours(0).valueOf()
-  if x <= 0
-    return
-  w = moment(incident.dateRange.end).valueOf()
-  if w <= 0
+  m = {
+    meta: {}
+  }
+  x = -1
+  w = -1
+  if incident.dateRange.type == 'precise'
+    x = moment(incident.dateRange.start).valueOf()
+    w = moment(incident.dateRange.end).valueOf()
+  else if incident.dateRange.type == 'day'
+    x = moment(incident.dateRange.start).hours(0).valueOf()
+    w = moment(incident.dateRange.end).hours(0).valueOf()
+  if x <= 0 || w <= 0
     return
   m.x = x
   m.w = w
   y = 0
-  if incident.cases
+  if typeof incident.cases != 'undefined'
+    m.meta.type = 'cases'
+    m.f = '#345e7e'
     y += incident.cases
-  if incident.deaths
+  if typeof incident.deaths != 'undefined'
+    m.meta.type = 'deaths'
+    m.f = '#f07382'
     y += incident.deaths
   m.y = y
   if incident.locations.length > 0
     m.meta.location = incident.locations[0].name
+  if incident.dateRange.cumulative
+    m.meta.cumulative = true
   new RectMarker(m)
 
 
