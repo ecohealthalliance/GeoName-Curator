@@ -146,10 +146,18 @@ class Axes
   setDomain: (data) ->
     if @axesOpts.x.type == 'datetime'
       xMin = Axes.minDatetime(_.pluck(data, 'x'))
-      xMax = Axes.maxDatetime(_.pluck(data, 'x'))
+      # check for 'width' property on the x-axis
+      if data.hasOwnProperty('w')
+        xMax = Axes.maxDatetime(_.pluck(data, 'w'))
+      else
+        xMax = Axes.maxDatetime(_.pluck(data, 'x'))
     else
       xMin = 0
-      xMax = Axes.maxNumeric(_.pluck(data, 'x'))
+      # check for 'width' property on the x-axis
+      if data.hasOwnProperty('w')
+        xMax = Axes.maxNumeric(_.pluck(data, 'w'))
+      else
+        xMax = Axes.maxNumeric(_.pluck(data, 'x'))
     yMin = 0
     yMax = Axes.maxNumeric(_.pluck(data, 'y'))
     @xScale.domain([xMin, xMax])
