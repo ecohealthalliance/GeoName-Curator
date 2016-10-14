@@ -33,3 +33,20 @@ Router.route("/event-article", {where: "server"})
   @response.setHeader('Access-Control-Allow-Origin', '*')
   @response.statusCode = 200
   @response.end("")
+
+Router.route("/api/events-with-source", {where: "server"})
+.get ->
+  articles = Articles.find(
+    url: @request.query.url
+  ).fetch()
+  events = UserEvents.find(
+    _id:
+      $in: _.pluck(articles, 'userEventId')
+  ).map (event)->
+    event.articles = Articles.find(
+      userEventId: event._id
+    ).fetch()
+    event
+  @response.setHeader('Access-Control-Allow-Origin', '*')
+  @response.statusCode = 200
+  @response.end(JSON.stringify(events))
