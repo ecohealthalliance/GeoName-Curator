@@ -60,9 +60,9 @@ Template.eventMap.onRendered ->
       # Remove events that have no locations to plot on the map
       filteredEvents = []
       for event in allEvents
-        incidentLocations = Incidents.find({userEventId: event._id, locations: {$ne: null}}, {fields: {locations: 1}}).fetch()
-        if incidentLocations.length
-          event.incidents = incidentLocations
+        incidents = Incidents.find({userEventId: event._id, locations: {$ne: null}}, {sort: {date: -1}}).fetch()
+        if incidents.length
+          event.incidents = incidents
           filteredEvents.push event
 
       if filteredEvents.length
@@ -71,7 +71,7 @@ Template.eventMap.onRendered ->
           rgbColor = chroma(colorScale[templateEvents.length]).rgb()
           templateEvents.push
             _id: event._id
-            name: event.eventName
+            eventName: event.eventName
             date: event.creationDate
             lastIncidentDate: event.lastIncidentDate
             rgbColor: rgbColor
@@ -96,7 +96,6 @@ Template.eventMap.onRendered ->
       MapHelpers.addMarkersToMap map, instance, selecedMapLocations
     else
       MapHelpers.addMarkersToMap map, instance, instance.filteredMapLocations
-
 
 Template.eventMap.helpers
   getQuery: ->
@@ -128,6 +127,31 @@ Template.eventMap.events
   "click .event-list-prev:not('.disabled')": (event, template) ->
     paginate template, 1
 
+
 Template.markerPopup.helpers
-  getEvents: ->
+  getEvents: () ->
     Template.instance().data.events
+  getMostSevere: (incidents) ->
+    instance = Template.instance()
+    byLocation = _.chain(incidents).filter((incident) ->
+      if incident.locations[0].name == instance.data.location
+        count = 0
+        # we only look as cases
+        if typeof incident.cases != 'undefined'
+          count += incident.cases
+          if count == 1
+            incident.type = 'case'
+          else
+            incident.type = 'cases'
+        incident.count = count
+        return incident
+    ).sortBy((incident) ->
+      return -incident.count
+    ).value()
+    if byLocation.length <= 0
+      return {}
+    if byLocation[0].count <= 0
+      return {}
+    return byLocation[0]
+  formatDate: (d) ->
+    moment(d).format('MMM D, YYYY')
