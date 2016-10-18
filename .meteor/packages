@@ -10,7 +10,7 @@ stylus@2.513.5_1
 iron:router
 twbs:bootstrap
 d3
-natestrauser:analyticsjs
+okgrow:analytics
 http@1.2.9_1
 fortawesome:fontawesome
 aslagle:reactive-table

@@ -7,11 +7,6 @@ Router.configure
   layoutTemplate: "layout"
   loadingTemplate: "loading"
 
-Router.onRun ->
-  if Session.equals('AnalyticsJS_loaded', true)
-    analytics.page @path
-  @next()
-
 Router.onAfterAction ->
   window.scroll 0, 0
 
