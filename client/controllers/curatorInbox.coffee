@@ -19,6 +19,8 @@ Template.curatorInbox.onCreated ->
     endDate: new Date()
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
+  @reviewFilter.set({$ne: true})
+
   
   @autorun =>
     Meteor.call 'fetchPromedPosts', 100, @dateRange.get(), (err) ->
