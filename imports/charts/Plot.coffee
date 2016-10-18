@@ -21,6 +21,7 @@ class Plot
   ###
   constructor: (options) ->
     @options = options
+    @drawn = false
     @
 
   ###
@@ -78,6 +79,7 @@ class Plot
       @root = d3.select("\##{@options.containerID}").append('svg')
         .attr('width', @viewBoxWidth)
         .attr('height', @viewBoxHeight)
+    @root.style('opacity', 0)
 
     # the container of the plot
     @container = @root.append('g')
@@ -101,8 +103,27 @@ class Plot
     @markers = @container.append('g')
       .attr('class', 'scatterPlot-markers')
       .attr('transform', "translate(#{@margins.left}, 0)")
+
     # return
     @
+
+  ###
+  # draw - draws the markers on the plot
+  #
+  # @note this will automatically show/hide a warning message if the data
+  # is empty. Do not call super() to override this behavior.
+  #
+  # @param {array} data, an array of {object} for each marker
+  ###
+  draw: (data) ->
+    if !@drawn
+      @drawn = true
+      @root.transition().style('opacity', 1)
+    if typeof data != 'undefined'
+      if data.length <= 0
+        @showWarn()
+        return
+    @removeWarn()
 
   ###
   # getWidth
@@ -128,12 +149,29 @@ class Plot
   # @return {object} this
   ###
   showWarn: (m) ->
-    mSize = m.split('').length;
-    @warn = @root.append('g')
+    if typeof m == 'undefined'
+      m = 'No data to display'
+    if @warn
+      @removeWarn()
+    @warn = @container.append('g')
+      .style('opacity', 0)
       .attr('class', 'scatterPlot-warn')
-      .attr('transform', "translate(#{@getWidth() / 2 - mSize}, #{@getHeight() / 2})")
-    @warn.append('text')
+    text = @warn.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('x', @width / 2)
+      .attr('y', @getHeight() / 2)
       .text(m)
+    @warn.transition().style('opacity', 1)
+    @
+
+  ###
+  # removeWarn - removes the warning message from the plot
+  #
+  # @return {object} this
+  ###
+  removeWarn: () ->
+    if @warn
+      @warn.remove()
     @
 
   ###

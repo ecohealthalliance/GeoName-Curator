@@ -44,7 +44,11 @@ class Axes
   constructor: (plot, options) ->
     @plot = plot
     @options = options
-    @axesOpts = options.axes || {x: {title: 'x', type: 'numeric', minMax: [0,100]}, y: {title: 'y', type: 'numeric', minMax: [0, 100]}, grid: true}
+    @axesOpts = options.axes || {x: {title: 'x', type: 'numeric', minMax: [0, 0]}, y: {title: 'y', type: 'numeric', minMax: [0, 0]}, grid: true}
+    if typeof @axesOpts.x.minMax == 'undefined'
+      @axesOpts.x.minMax = [0, 0]
+    if typeof @axesOpts.y.minMax == 'undefined'
+      @axesOpts.y.minMax = [0, 0]
     @init()
 
   ###
@@ -147,14 +151,16 @@ class Axes
     if @axesOpts.x.type == 'datetime'
       xMin = Axes.minDatetime(_.pluck(data, 'x'))
       # check for 'width' property on the x-axis
-      if data.hasOwnProperty('w')
+      w = _.pluck(data, 'w')
+      if w.length > 0
         xMax = Axes.maxDatetime(_.pluck(data, 'w'))
       else
         xMax = Axes.maxDatetime(_.pluck(data, 'x'))
     else
       xMin = 0
       # check for 'width' property on the x-axis
-      if data.hasOwnProperty('w')
+      w = _.pluck(data, 'w')
+      if w.length > 0
         xMax = Axes.maxNumeric(_.pluck(data, 'w'))
       else
         xMax = Axes.maxNumeric(_.pluck(data, 'x'))

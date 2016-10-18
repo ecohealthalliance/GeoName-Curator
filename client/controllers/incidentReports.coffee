@@ -30,70 +30,54 @@ Template.incidentReports.onCreated ->
   # therefore we will setup a reactive cursor to use with the plot as an
   # instance variable.
   @incidents = Incidents.find({userEventId: @data.userEvent._id}, {sort: {date: -1}})
-  Meteor.defer =>
-    # format the data
-    @autorun =>
-      # anytime the incidents cursur changes, refetch the data and format
-      data = _.chain(@incidents.fetch())
-        .map((incident) ->
-          RectMarker.createFromIncident(incident)
-        ).filter((m) ->
-          if typeof m != 'undefined'
-            return m
-        ).value()
 
-      # we have an existing plot, update plot with new data array
-      if @plot instanceof ScatterPlot
-        @plot.update(data)
-        return
+Template.incidentReports.onRendered ->
+  @plot = new ScatterPlot({
+    containerID: 'scatterPlot',
+    svgContainerClass: 'scatterPlot-container',
+    height: $('#event-incidents-table').parent().height(),
+    axes: {
+      # show grid lines
+      grid: true,
+      x: {
+        title: 'Time',
+        type: 'datetime',
+      },
+      y: {
+        title: 'Incidents',
+        type: 'numeric',
+      }
+    },
+    tooltip: {
+      opacity: .8
+      # function to render the tooltip
+      template: (marker) ->
+        marker.moment = moment # template reference for momentjs
+        marker.type = marker.meta.type
+        if marker.y != 1
+          marker.type = "#{marker.type}s"
+        # underscore compiled template
+        tmpl = _.template(tooltipTmpl)
+        # render the template from
+        tmpl(marker)
+    },
+    zoom: true,
+  })
+  # deboune how many consecutive calls to update the plot during reactive changes
+  @updatePlot = _.debounce(_.bind(@plot.update, @plot), 300)
 
-      # build the plot
-      @plot = new ScatterPlot({
-        containerID: 'scatterPlot',
-        svgContainerClass: 'scatterPlot-container',
-        height: $('#event-incidents-table').parent().height(),
-        axes: {
-          # show grid lines
-          grid: true,
-          x: {
-            title: 'Time',
-            type: 'datetime',
-            minMax: [
-              Axes.minDatetime(_.pluck(data, 'x')),
-              Axes.maxDatetime(_.pluck(data, 'w')),
-            ],
-          },
-          y: {
-            title: 'Incidents',
-            type: 'numeric',
-            minMax: [
-              0,
-              Axes.maxNumeric(_.pluck(data, 'y')),
-            ]
-          }
-        },
-        tooltip: {
-          opacity: .8
-          # function to render the tooltip
-          template: (marker) ->
-            marker.moment = moment # template reference for momentjs
-            marker.type = marker.meta.type
-            if marker.y != 1
-              marker.type = "#{marker.type}s"
-            # underscore compiled template
-            tmpl = _.template(tooltipTmpl)
-            # render the template from
-            tmpl(marker)
-        },
-        zoom: true,
-      })
-
-      if data.length <= 0
-        @plot.showWarn('Not enough data.')
-        return
-
-      @plot.draw(data)
-
+  @autorun =>
+    # anytime the incidents cursur changes, refetch the data and format
+    incidents = @incidents.fetch().map((incident) =>
+      return RectMarker.createFromIncident(incident)
+    ).filter((incident) =>
+      if incident
+        return incident
+    )
+    # we have an existing plot, update plot with new data array
+    if @plot instanceof ScatterPlot
+      @updatePlot(incidents)
+      return
 
 Template.incidentReports.helpers
   getSettings: ->
@@ -182,7 +166,7 @@ Template.incidentReports.helpers
 
 Template.incidentReports.events
   "click #scatterPlot-resetZoom": (event, template) ->
-    template.plot.zoom.reset()
+    template.plot.resetZoom()
   "click #event-incidents-table th": (event, template) ->
     template.$("tr").removeClass("details-open")
     template.$("tr.tr-details").remove()
