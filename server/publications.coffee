@@ -43,3 +43,6 @@ Meteor.publish "curatorSources", (range) ->
 
 Meteor.publish "eventArticles", (ueId) ->
   Articles.find({userEventId: ueId})
+
+Meteor.publish "articles", (query={}) ->
+  Articles.find(query)

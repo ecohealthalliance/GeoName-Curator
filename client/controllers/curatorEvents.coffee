@@ -1,6 +1,7 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
 CuratorSources = require '/imports/collections/curatorSources.coffee'
+Articles = require '/imports/collections/articles.coffee'
 
 Template.curatorEvents.onCreated ->
   @eventFields = [
@@ -24,15 +25,29 @@ Template.curatorEvents.onCreated ->
     }
   ]
   @addEventMenuIsOpen = new ReactiveVar false
+  @subscribe("articles", {
+    url:
+      $regex: "post\/" + @data._sourceId + "$"
+  })
+  @associatedEventIds = new ReactiveVar([])
+  @autorun =>
+    @associatedEventIds.set Articles.find(
+      url:
+        $regex: "post\/" + @data._sourceId + "$"
+    ).map((article)-> article.userEventId)
 
 Template.curatorEvents.helpers
   userEvents: ->
-    UserEvents.find()
+    UserEvents.find(
+      _id:
+        $nin: Template.instance().associatedEventIds.get()
+    )
 
   associatedUserEvents: ->
-    source = CuratorSources.findOne(this._id)
-    if source?.relatedEvents and source.relatedEvents.length
-      UserEvents.find({ _id: { $in: source.relatedEvents } })
+    UserEvents.find(
+      _id:
+        $in: Template.instance().associatedEventIds.get()
+    )
 
   associated: () ->
     articleId = Template.instance().data._id
@@ -83,106 +98,110 @@ Template.curatorEvents.events
   "click .open-add-event-form": (event, template) ->
     template.addEventMenuIsOpen.set !template.addEventMenuIsOpen.get()
   "click #associate-events tr": (event, template) ->
-    articleId = template.data._id
-    Meteor.call 'associateEventWithSource', articleId, @_id
+    Meteor.call('addEventSource', {
+      url: "http://www.promedmail.org/post/" + template.data._sourceId,
+      userEventId: @_id
+      publishDate: template.data.publishDate
+      publishDateTZ: "EST"
+    })
 
-Template.curatorEventIncidents.onCreated ->
-  Meteor.subscribe "eventIncidents", @data._id
-  @filter = new ReactiveTable.Filter("incidentFilter_"+@data._id, ["userEventId"])
-  @filter.set(@data._id)
+# Template.curatorEventIncidents.onCreated ->
+#   Meteor.subscribe "eventIncidents", @data._id
+#   @filter = new ReactiveTable.Filter("incidentFilter_"+@data._id, ["userEventId"])
+#   @filter.set(@data._id)
 
-  @fields = [
-    {
-      key: "count"
-      label: "Incident"
-      fn: (value, object, key) ->
-        if object.cases
-          return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
-        else if object.deaths
-          return object.deaths + " death" + (if object.deaths isnt "1" then "s" else "")
-        else
-          return object.specify
-    },
-    {
-      key: "locations"
-      label: "Locations"
-      fn: (value, object, key) ->
-        if object.locations
-          return $.map(object.locations, (element, index) ->
-            return element.displayName
-          ).toString()
-        return ""
-    },
-    {
-      key: "dateRange"
-      label: "Date"
-      fn: (value, object, key) ->
-        dateFormat = "M/D/YYYY"
-        if object.dateRange?.type is "day"
-          if object.dateRange.cumulative
-            return "Before " + moment(object.dateRange.end).format(dateFormat)
-          else
-            return moment(object.dateRange.start).format(dateFormat)
-        else if object.dateRange?.type is "precise"
-          return moment(object.dateRange.start).format(dateFormat) + " - " + moment(object.dateRange.end).format(dateFormat)
-        return ""
-    },
-    {
-      key: "delete"
-      label: ""
-      cellClass: "remove-row"
-    },
-    {
-      key: "Edit"
-      label: ""
-      cellClass: "edit-row"
-    }
-  ]
+#   @fields = [
+#     {
+#       key: "count"
+#       label: "Incident"
+#       fn: (value, object, key) ->
+#         if object.cases
+#           return object.cases + " case" + (if object.cases isnt "1" then "s" else "")
+#         else if object.deaths
+#           return object.deaths + " death" + (if object.deaths isnt "1" then "s" else "")
+#         else
+#           return object.specify
+#     },
+#     {
+#       key: "locations"
+#       label: "Locations"
+#       fn: (value, object, key) ->
+#         if object.locations
+#           return $.map(object.locations, (element, index) ->
+#             return element.displayName
+#           ).toString()
+#         return ""
+#     },
+#     {
+#       key: "dateRange"
+#       label: "Date"
+#       fn: (value, object, key) ->
+#         dateFormat = "M/D/YYYY"
+#         if object.dateRange?.type is "day"
+#           if object.dateRange.cumulative
+#             return "Before " + moment(object.dateRange.end).format(dateFormat)
+#           else
+#             return moment(object.dateRange.start).format(dateFormat)
+#         else if object.dateRange?.type is "precise"
+#           return moment(object.dateRange.start).format(dateFormat) + " - " + moment(object.dateRange.end).format(dateFormat)
+#         return ""
+#     },
+#     {
+#       key: "delete"
+#       label: ""
+#       cellClass: "remove-row"
+#     },
+#     {
+#       key: "Edit"
+#       label: ""
+#       cellClass: "edit-row"
+#     }
+#   ]
 
-Template.curatorEventIncidents.helpers
-  incidents: ->
-    return Incidents.find()
+# Template.curatorEventIncidents.helpers
+#   incidents: ->
+#     return Incidents.find()
 
-  settings: ->
-    fields = []
-    for field in Template.instance().fields
-      fields.push {
-        key: field.key
-        label: field.label
-        cellClass: field.cellClass
-        fn: field.fn
-        sortOrder: field.sortOrder || 99
-        sortDirection: field.sortDirection || 99
-        sortable: false
-        hidden: field.hidden
-      }
+#   settings: ->
+#     fields = []
+#     for field in Template.instance().fields
+#       fields.push {
+#         key: field.key
+#         label: field.label
+#         cellClass: field.cellClass
+#         fn: field.fn
+#         sortOrder: field.sortOrder || 99
+#         sortDirection: field.sortDirection || 99
+#         sortable: false
+#         hidden: field.hidden
+#       }
 
-    return {
-      id: 'curator-event-incidents-table'
-      collection: 'curatorEventIncidents'
-      fields: fields
-      filters: ['incidentFilter_'+@_id]
-      showFilter: false
-      showNavigationRowsPerPage: false
-      showColumnToggles: false
-      showRowCount: false
-      class: 'table table-hover curator-events-incidents-table'
-      showNavigation: 'never'
-    }
+#     return {
+#       id: 'curator-event-incidents-table'
+#       collection: 'curatorEventIncidents'
+#       fields: fields
+#       filters: ['incidentFilter_'+@_id]
+#       showFilter: false
+#       showNavigationRowsPerPage: false
+#       showColumnToggles: false
+#       showRowCount: false
+#       class: 'table table-hover curator-events-incidents-table'
+#       showNavigation: 'never'
+#     }
 
-Template.curatorEventIncidents.events
-  "click .reactive-table tbody tr": (event, template) ->
-    $target = $(event.target)
-    $parentRow = $target.closest("tr")
-    currentOpen = template.$("tr.tr-details")
-    if $target.closest(".remove-row").length
-      if window.confirm("Are you sure you want to delete this incident report?")
-        currentOpen.remove()
-        Meteor.call("removeIncidentReport", @_id)
-    else if $target.closest(".edit-row").length
-      Modal.show("incidentModal", {
-        articles: template.data.articles
-        userEventId: this.userEventId
-        edit: true
-        incident: this
-      })
+# Template.curatorEventIncidents.events
+#   "click .reactive-table tbody tr": (event, template) ->
+#     $target = $(event.target)
+#     $parentRow = $target.closest("tr")
+#     currentOpen = template.$("tr.tr-details")
+#     if $target.closest(".remove-row").length
+#       if window.confirm("Are you sure you want to delete this incident report?")
+#         currentOpen.remove()
+#         Meteor.call("removeIncidentReport", @_id)
+#     else if $target.closest(".edit-row").length
+#       Modal.show("incidentModal", {
+#         articles: template.data.articles
+#         userEventId: this.userEventId
+#         edit: true
+#         incident: this
+#       })
