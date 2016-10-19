@@ -1,5 +1,6 @@
 convertDate = require "/imports/convertDate.coffee"
 utils = require '/imports/utils.coffee'
+Articles = require '/imports/collections/articles.coffee'
 
 Template.sourceModal.onCreated ->
   @tzIsSpecified = false
