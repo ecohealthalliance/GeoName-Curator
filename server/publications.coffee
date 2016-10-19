@@ -16,7 +16,6 @@ Meteor.publish "mapIncidents", () ->
       "dateRange.cumulative": 1
       locations: 1
       cases: 1
-      deaths: 1
   })
 
 # User Events

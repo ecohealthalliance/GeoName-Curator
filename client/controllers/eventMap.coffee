@@ -134,7 +134,8 @@ Template.markerPopup.helpers
   getMostSevere: (incidents) ->
     instance = Template.instance()
     byLocation = _.chain(incidents).filter((incident) ->
-      if incident.locations[0].name == instance.data.location
+      locationNames = _.pluck(incident.locations, 'name')
+      if locationNames.indexOf(instance.data.location) >= 0
         count = 0
         # we only look as cases
         if typeof incident.cases != 'undefined'
@@ -143,8 +144,9 @@ Template.markerPopup.helpers
             incident.type = 'case'
           else
             incident.type = 'cases'
-        incident.count = count
-        return incident
+        if count > 0
+          incident.count = count
+          return incident
     ).sortBy((incident) ->
       return -incident.count
     ).value()
