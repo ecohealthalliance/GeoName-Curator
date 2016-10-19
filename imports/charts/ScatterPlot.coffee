@@ -81,6 +81,7 @@ class ScatterPlot extends Plot
   # @returns {object} this
   ###
   draw: (data) ->
+    super(data)
     if data
       @data = data
 
@@ -147,7 +148,7 @@ class ScatterPlot extends Plot
     if data
       @data = data
     super(data)
-    @redraw()
+    @redraw(data)
     @
 
   ###
@@ -155,8 +156,8 @@ class ScatterPlot extends Plot
   #
   # @returns {object} this
   ###
-  redraw: () ->
-    @clear().draw()
+  redraw: (draw) ->
+    @clear().draw(draw)
     @
 
   ###
@@ -192,7 +193,10 @@ class ScatterPlot extends Plot
   # resetZoom - resets the zoom of the axes
   ###
   resetZoom: () ->
-    @axes.resetZoom()
+    if !@data || @data.length <= 0
+      return
+    if @zoom
+      @zoom.reset()
 
 
 module.exports = ScatterPlot
