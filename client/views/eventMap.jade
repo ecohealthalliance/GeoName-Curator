@@ -12,7 +12,17 @@ template(name="eventMap")
 template(name="markerPopup")
   h4 {{location}}
   each getEvents
-    p
-      svg.marker-color-spot(height="10" width="10")
-        circle(fill="rgb({{mapColorRGB}})" r="5" cx="5" cy="5")
-      a(href="{{pathFor 'user-event' _id=id}}") {{name}}
+    div.row.popup-row
+      div.col-md-1
+        svg.marker-color-spot(height="10" width="10")
+          circle(fill="rgb({{mapColorRGB}})" r="5" cx="5" cy="5")
+      div.col-md-10
+        a(href="{{pathFor 'user-event' _id=id}}") {{eventName}}
+    div.row.popup-row
+      div.popup-incidents-text
+        div.col-md-1
+        div.col-md-11
+          with getMostSevere incidents
+            if count
+              span.popup-incidents-label Most Severe:&nbsp;
+              span {{count}} {{type}} on {{formatDate dateRange.start}}
