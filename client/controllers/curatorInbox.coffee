@@ -195,7 +195,7 @@ Template.curatorInboxSection.events
     $parentRow.addClass("details-open")
     $("#curator-article-details").html("")
     details = document.getElementById("curator-article-details")
-    Blaze.renderWithData(Template.curatorSourceDetails, {_id: this._id}, details)
+    Blaze.renderWithData(Template.curatorSourceDetails, @, details)
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
   "click .curator-inbox-section-head": (event, template) ->
