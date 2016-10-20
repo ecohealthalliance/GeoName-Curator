@@ -22,7 +22,7 @@ class Plot
   constructor: (options) ->
     @options = options
     @drawn = false
-    @filters = {}
+    @filters = options.filters || {}
     @
 
   ###
