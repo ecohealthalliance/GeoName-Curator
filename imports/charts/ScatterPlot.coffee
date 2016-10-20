@@ -87,18 +87,7 @@ class ScatterPlot extends Plot
 
     # filter the data is withing the current domain of the axes (necessary
     # when zoom is enabled)
-    filtered = _.filter(@data, (d) =>
-      x1 = @axes.xScale.domain()[0]
-      if x1 instanceof Date
-        x1 = x1.getTime()
-      x2 = @axes.xScale.domain()[1]
-      if x2 instanceof Date
-        x2 = x2.getTime()
-      y1 = @axes.yScale.domain()[0]
-      y2 = @axes.yScale.domain()[1]
-      if ((d.x >= x1 && d.x <= x2) && (d.y >= y1 && d.y <= y2))
-        return d
-    )
+    filtered = @applyFilters()
 
     @markers.selectAll('.marker').data(filtered).enter().append('rect')
       # if the scale is large enough (e.g. the scale is two years and the span

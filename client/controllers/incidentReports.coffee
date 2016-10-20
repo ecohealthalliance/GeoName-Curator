@@ -32,6 +32,14 @@ Template.incidentReports.onCreated ->
   @incidents = Incidents.find({userEventId: @data.userEvent._id}, {sort: {date: -1}})
 
 Template.incidentReports.onRendered ->
+  @filters =
+    notCumulative: (d) ->
+      if typeof d.meta.cumulative == 'undefined' || d.meta.cumulative == false
+        return d
+    cumulative: (d) ->
+      if d.meta.cumulative
+        return d
+
   @plot = new ScatterPlot({
     containerID: 'scatterPlot',
     svgContainerClass: 'scatterPlot-container',
@@ -62,6 +70,10 @@ Template.incidentReports.onRendered ->
         tmpl(marker)
     },
     zoom: true,
+    # initially active filters
+    filters: {
+      notCumulative: @filters.notCumulative
+    }
   })
   # deboune how many consecutive calls to update the plot during reactive changes
   @updatePlot = _.debounce(_.bind(@plot.update, @plot), 300)
@@ -74,6 +86,7 @@ Template.incidentReports.onRendered ->
       if incident
         return incident
     )
+
     # we have an existing plot, update plot with new data array
     if @plot instanceof ScatterPlot
       @updatePlot(incidents)
@@ -165,6 +178,22 @@ Template.incidentReports.helpers
     }
 
 Template.incidentReports.events
+  "click #scatterPlot-toggleCumulative": (event, template) ->
+    $target = $(event.currentTarget)
+    $icon = $target.find('i.fa')
+    if $target.hasClass('active')
+      $target.removeClass('active')
+      $icon.removeClass('fa-check-circle').addClass('fa-circle-o')
+      template.plot.removeFilter('cumulative')
+      template.plot.addFilter('notCumulative', template.filters.notCumulative)
+      template.updatePlot()
+    else
+      $target.addClass('active')
+      $icon.removeClass('fa-circle-o').addClass('fa-check-circle')
+      template.plot.removeFilter('notCumulative')
+      template.plot.addFilter('cumulative', template.filters.cumulative)
+      template.updatePlot()
+
   "click #scatterPlot-resetZoom": (event, template) ->
     template.plot.resetZoom()
   "click #event-incidents-table th": (event, template) ->
