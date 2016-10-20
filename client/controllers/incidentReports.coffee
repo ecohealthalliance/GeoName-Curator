@@ -74,6 +74,7 @@ Template.incidentReports.onRendered ->
       if incident
         return incident
     )
+
     # we have an existing plot, update plot with new data array
     if @plot instanceof ScatterPlot
       @updatePlot(incidents)
@@ -165,6 +166,22 @@ Template.incidentReports.helpers
     }
 
 Template.incidentReports.events
+  "click #scatterPlot-toggleCumulative": (event, template) ->
+    $target = $(event.currentTarget)
+    $icon = $target.find('i.fa')
+    if $target.hasClass('active')
+      $target.removeClass('active')
+      $icon.removeClass('fa-check-circle').addClass('fa-circle-o')
+      template.plot.removeFilter('cumulative')
+      template.updatePlot()
+    else
+      $target.addClass('active')
+      $icon.removeClass('fa-circle-o').addClass('fa-check-circle')
+      template.plot.addFilter 'cumulative', (d) ->
+        if d.meta.cumulative
+          return d
+      template.updatePlot()
+
   "click #scatterPlot-resetZoom": (event, template) ->
     template.plot.resetZoom()
   "click #event-incidents-table th": (event, template) ->

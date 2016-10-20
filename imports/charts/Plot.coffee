@@ -22,6 +22,7 @@ class Plot
   constructor: (options) ->
     @options = options
     @drawn = false
+    @filters = {}
     @
 
   ###
@@ -90,6 +91,20 @@ class Plot
 
     # the axes of the plot
     @axes = new Axes(@, @options)
+
+    # add the default filter by axes domain
+    @addFilter('_domain', (d) ->
+      x1 = @axes.xScale.domain()[0]
+      if x1 instanceof Date
+        x1 = x1.getTime()
+      x2 = @axes.xScale.domain()[1]
+      if x2 instanceof Date
+        x2 = x2.getTime()
+      y1 = @axes.yScale.domain()[0]
+      y2 = @axes.yScale.domain()[1]
+      if ((d.x >= x1 && d.x <= x2) && (d.y >= y1 && d.y <= y2))
+        return d
+    )
 
     # the tooltip of the plot
     @tooltip = new Tooltip(@, @options)
@@ -200,10 +215,68 @@ class Plot
     @root = null
     @resizeHandler = null
 
+  ###
+  # addFilter - add a filter to the plot
+  #
+  # @param {string} name, the name of the filter
+  # @param {function} fn, the function to be applied to the data
+  # @return {object} this
+  ###
+  addFilter: (name, fn) ->
+    @filters[name] = _.bind(fn, @)
+    @
+
+  ###
+  # removeFilter - removes a filter from the plot
+  #
+  # @param {string} name, the name of the filter
+  # @return {object} this
+  ###
+  removeFilter: (name) ->
+    if @filters[name] != 'undefined'
+      delete @filters[name]
+    @
+
+  ###
+  # applyFilters - apply any filters to the plot
+  #
+  # @returns {array} filtered, the filtered data
+  ###
+  applyFilters: () ->
+    filtered = []
+    filters = @filters
+    if @data
+      filtered = @data.filter (d) ->
+        valid = true
+        keys = Object.keys(filters)
+        i = 0
+        keysLen = keys.length
+        while i < keysLen
+          key = keys[i++]
+          f = filters[key](d)
+          if typeof f == 'undefined'
+            valid = false
+            break
+        if valid
+          return d
+    return filtered
+
+  ###
+  # getData - return the current data array
+  #
+  # @return {array} data, the current data array (markers) with filters applied
+  ###
+  getData: () ->
+    if @data
+      return @applyFilters()
+    else
+      return []
+
 # find the view port aspect ratio
 #
 # @return {number} aspectRatio
 Plot.aspectRatio = () ->
   $(window).height() / $(window).width()
+
 
 module.exports = Plot

@@ -9,7 +9,10 @@ template(name="incidentReports")
     .col-md-6
       .row
         div#scatterPlot-toolbar
-          a#scatterPlot-resetZoom.btn.btn-xs.btn-default
+          a#scatterPlot-toggleCumulative.btn.btn-xs.btn-default.scatterPlot-toolbar-button
+            i.fa.fa-circle-o
+            | Toggle Cumulative
+          a#scatterPlot-resetZoom.btn.btn-xs.btn-default.scatterPlot-toolbar-button
             i.fa.fa-refresh
             | Reset Zoom
       .row
