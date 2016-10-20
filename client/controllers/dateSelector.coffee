@@ -22,7 +22,8 @@ Template.dateSelector.events
     picker = instance.picker
     start = picker.startDate
     end = picker.endDate
-
+    if not end
+      return alert("You must select an end date first.")
     $target.val(start.format(dateFormat) + " - " + end.format(dateFormat))
     setVariables instance, 'on', [start.toDate(), end.toDate()]
     instance.$(event.target).blur()
