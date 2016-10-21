@@ -20,7 +20,6 @@ Template.curatorInbox.onCreated ->
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
   @reviewFilter.set({$ne: true})
-
   
   @autorun =>
     Meteor.call 'fetchPromedPosts', 100, @dateRange.get(), (err) ->
@@ -172,6 +171,10 @@ Template.curatorInboxSection.onCreated ->
   @isOpen = new ReactiveVar(@data.index < 5)
 
 Template.curatorInboxSection.helpers
+  post: ->
+    return CuratorSources.findOne(
+      publishDate: Template.instance().filter.get()
+    )
   posts: ->
     return CuratorSources
   isOpen: ->

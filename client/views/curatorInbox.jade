@@ -38,17 +38,18 @@ template(name="curatorInbox")
           .row.curator-inbox-header
 
 template(name="curatorInboxSection")
-  .col-xs-12.curator-inbox-section-head
-    .pull-left
-      b {{formattedDate}}
-    .pull-right
-      i.fa.fa-lg
-        if isOpen
-          i.fa.fa-chevron-circle-down
-        else
-          i.fa.fa-chevron-circle-left
-  if isOpen
-    +reactiveTable collection=posts settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
+  if post
+    .col-xs-12.curator-inbox-section-head
+      .pull-left
+        b {{formattedDate}}
+      .pull-right
+        i.fa.fa-lg
+          if isOpen
+            i.fa.fa-chevron-circle-down
+          else
+            i.fa.fa-chevron-circle-left
+    if isOpen
+      +reactiveTable collection=posts settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
 
 template(name="curatorSourceDetails")
   with post
