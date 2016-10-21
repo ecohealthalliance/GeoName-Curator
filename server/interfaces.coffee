@@ -41,7 +41,7 @@ Meteor.methods
     # Collect related event source ID's
     notOneOfThese = []
     Articles.find(userEventId: eventId).forEach (relatedEventSource) ->
-      url = relatedEventSource.url?[0]
+      url = relatedEventSource.url
       if url
         notOneOfThese.push url.match(/\d+/)?[0]
     # Query the remote server API
