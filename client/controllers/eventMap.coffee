@@ -9,8 +9,8 @@ Template.eventMap.onCreated ->
   @pageNum = new ReactiveVar(0)
   @eventsPerPage = 8
   @templateEvents = new ReactiveVar null
-  @disablePrev = new ReactiveVar false
-  @disableNext = new ReactiveVar true
+  @disablePrev = new ReactiveVar true
+  @disableNext = new ReactiveVar false
   @selectedEvents = new Meteor.Collection null
 
 Template.eventMap.onRendered ->
@@ -80,8 +80,8 @@ Template.eventMap.onRendered ->
           eventIndex += 1
 
     instance.templateEvents.set templateEvents
-    instance.disablePrev.set if eventIndex < filteredEvents?.length then false else true
-    instance.disableNext.set if currentPage is 0 then true else false
+    instance.disableNext.set if eventIndex < filteredEvents?.length then false else true
+    instance.disablePrev.set if currentPage is 0 then true else false
     if instance.allMapMarkers
       map.removeLayer instance.allMapMarkers
     MapHelpers.addMarkersToMap map, instance, filteredMapLocations
@@ -122,11 +122,9 @@ paginate = (template, direction) ->
 
 Template.eventMap.events
   "click .event-list-next:not('.disabled')": (event, template) ->
-    paginate template, -1
-
-  "click .event-list-prev:not('.disabled')": (event, template) ->
     paginate template, 1
-
+  "click .event-list-prev:not('.disabled')": (event, template) ->
+    paginate template, -1
 
 Template.markerPopup.helpers
   getEvents: () ->
