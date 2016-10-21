@@ -108,6 +108,10 @@ Template.curatorInbox.events
   "click #calendar-btn-cancel": (event, template) ->
     template.calendarState.set(false)
 
+Template.curatorInboxSection.onRendered ->
+  # select the first item in the inbox
+  $(".curator-inbox-table tbody tr:first").click()
+
 Template.curatorInboxSection.onCreated ->
   @curatorInboxFields = [
     {
