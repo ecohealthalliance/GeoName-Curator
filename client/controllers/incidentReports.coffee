@@ -52,7 +52,7 @@ Template.incidentReports.onRendered ->
         type: 'datetime',
       },
       y: {
-        title: 'Incidents',
+        title: 'Count',
         type: 'numeric',
       }
     },
