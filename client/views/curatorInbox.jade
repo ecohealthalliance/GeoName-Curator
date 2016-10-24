@@ -54,6 +54,11 @@ template(name="curatorSourceDetails")
   with post
     .row.curator-inbox-header.curator-source-details-header(class="{{#if isReviewed}} reviewed {{/if}}")
       h2= title
+      i.fa.fa-align-left.toggle-source-content(
+        class="{{#if contentIsOpen}} active {{/if}}"
+        data-toggle="tooltip"
+        data-placement="bottom"
+        title="Toggle source text")
       .curator-source-details-options
         button.btn.btn-success.toggle-reviewed(class="{{#if isReviewed}} reviewed {{/if}}")
           if isReviewed
@@ -61,5 +66,8 @@ template(name="curatorSourceDetails")
           else
             span Mark Reviewed
     .curator-source-details-content
+      if contentIsOpen
+        .curator-source-details-copy-wrapper
+          .curator-source-details-copy= content
       .row
         +curatorEvents

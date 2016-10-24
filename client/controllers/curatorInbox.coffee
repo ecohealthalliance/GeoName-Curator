@@ -181,7 +181,7 @@ Template.curatorInboxSection.helpers
   count: ->
     sectionDate = Template.instance().data.date
     filterArray = [
-                {  "publishDate": { 
+                {  "publishDate": {
                     $gte: sectionDate
                     $lt: moment(sectionDate).add(1, 'day').toDate()
                   }
@@ -231,28 +231,18 @@ Template.curatorInboxSection.events
   "click .curator-inbox-section-head": (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
 
-
 Template.curatorSourceDetails.onCreated ->
   @contentIsOpen = new ReactiveVar(false)
   @reviewed = new ReactiveVar @data.reviewed or false
 
 # Template.curatorSourceDetails.onRendered ->
 
+Template.curatorSourceDetails.onRendered ->
+  @$('.toggle-source-content').tooltip()
+
 Template.curatorSourceDetails.helpers
   post: ->
     return CuratorSources.findOne({_id: @_id})
-
-  content: ->
-    content = Template.currentData().content
-    if content
-      if Template.instance().contentIsOpen.get()
-        return content
-      return lodash.truncate(content, {length: 250})
-
-  largeContent: ->
-    if Template.currentData().content and Template.currentData().content.length > 250
-      return true
-    return false
 
   contentIsOpen: ->
     Template.instance().contentIsOpen.get()
@@ -272,5 +262,6 @@ Template.curatorSourceDetails.events
     reviewed.set not reviewed.get()
     Meteor.call('curateSource', template.data._id, reviewed.get())
 
-  "click #content-show-more": (event, template) ->
-    template.contentIsOpen.set(!template.contentIsOpen.curValue)
+  'click .toggle-source-content': (event, template) ->
+    open = template.contentIsOpen
+    open.set not open.get()

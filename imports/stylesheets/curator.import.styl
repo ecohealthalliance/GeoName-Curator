@@ -19,6 +19,16 @@
     font-size 1.75em
     font-weight 600
 
+.toggle-source-content
+  font-size 1.5em
+  color lighten($primary, 95%)
+  cursor pointer
+  padding .15em
+  &:hover
+    color darken(@color, 10%)
+  &.active
+    color $positive
+
 .curator-inbox-sources
   .curator-inbox-header
   .curator-inbox-section-head
@@ -173,6 +183,29 @@
     font-size 1.25em
   .reactive-table-navigation
     margin 15px 0
+
+.curator-source-details-copy-wrapper
+  position relative
+  margin 0 -15px
+  &::before
+  &::after
+    content ''
+    height 20px
+    position absolute
+    left 0
+    right 0
+  &::before
+    background linear-gradient(to bottom, white, alpha(white, 0%))
+    top 0
+  &::after
+    background linear-gradient(to bottom, alpha(white, 0%), white)
+    bottom 0
+
+.curator-source-details-copy
+  max-height 25vh
+  overflow scroll
+  padding 1em 4em
+  white-space pre-wrap
 
 .curator-details-articles
   .open-icon
