@@ -172,13 +172,14 @@ Template.sourceModal.events
       articleId = Number(match[1])
       Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
         if result
-          date = moment(result)
-          if !templateInstance.tzIsSpecified
-            tz = if date.isDST() then 'EDT' else 'EST'
-            templateInstance.$("#publishDateTZ option[value='#{tz}']")
-              .prop('selected', true)
+          date = moment.utc(result)
+          tz = if date.isDST() then 'EDT' else 'EST'
+          date = date.utcOffset(utils.UTCOffsets[tz])
+          templateInstance.$("#publishDateTZ option[value='#{tz}']")
+            .prop('selected', true)
           templateInstance.$('#publishDate').data("DateTimePicker").date(date)
           templateInstance.$('#publishTime').data("DateTimePicker").date(date)
+
   "click #suggested-articles a": (event, templateInstance) ->
     event.preventDefault()
     url = event.currentTarget.getAttribute 'href'

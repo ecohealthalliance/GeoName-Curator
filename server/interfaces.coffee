@@ -1,6 +1,7 @@
 UserEvents = require '/imports/collections/userEvents.coffee'
 Articles = require '/imports/collections/articles.coffee'
 utils = require '/imports/utils.coffee'
+PromedPosts = require '/imports/collections/promedPosts.coffee'
 
 DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
 
@@ -23,22 +24,8 @@ Meteor.methods
       throw new Meteor.Error("grits-error", result.data.error)
     return result.data
 
-  retrieveProMedArticleDate: _.memoize (articleId) ->
-    check articleId, Number
-    result = HTTP.call "GET", "http://www.promedmail.org/ajax/getPost.php",
-      params:
-        alert_id: articleId
-      headers:
-        Referer: "http://www.promedmail.org/"
-    if result.statusCode is 200
-      post = JSON.parse(result.content).post
-      match = DateRegEx.exec(post)
-      if match
-        date = moment(match[1])
-        tz = if date.isDST() then 'EDT' else 'EST'
-        offset = utils.UTCOffsets[tz]
-        dateUTC = match[1].replace(' ', 'T') + offset
-        dateUTC
+  retrieveProMedArticleDate: (articleId) ->
+    return PromedPosts.findOne(promedId: "" + articleId)?.promedDate
 
   queryForSuggestedArticles: (eventId) ->
     check eventId, String
@@ -54,7 +41,7 @@ Meteor.methods
     # Collect related event source ID's
     notOneOfThese = []
     Articles.find(userEventId: eventId).forEach (relatedEventSource) ->
-      url = relatedEventSource.url?[0]
+      url = relatedEventSource.url
       if url
         notOneOfThese.push url.match(/\d+/)?[0]
     # Query the remote server API
