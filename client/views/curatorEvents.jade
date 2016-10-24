@@ -1,22 +1,29 @@
 template(name="curatorEvents")
-  if associatedUserEvents
-    .curator-events-section
-      .heading Associated Events
-    table#associated-events.table
-      tbody
-        each associatedUserEvents
-          tr
-            td
-              i.fa.fa-minus-circle.deassociate-event
-              a(href="/user-event/#{_id}")=eventName
-  .curator-events-section
-    .heading Search Events
-    {{> reactiveTableFilter id="curatorEventsFilter" label=" " }}
-  +reactiveTable collection=userEvents settings=settings
+  .associated-events.curator-events
+    .curator-events-header
+      h3 Associated Events
+    if associatedUserEvents.count
+      table#associated-events.table
+        tbody
+          each associatedUserEvents
+            tr
+              td
+                i.fa.fa-minus-circle.deassociate-event
+                a(href="/user-event/#{_id}")=eventName
+    else
+      p.no-events.muted-text Currently no associated events
+
+  .all-events.curator-events
+    .curator-events-header
+      h4 All Events
+      +reactiveTableFilter id="curatorEventsFilter" label=" "
+    +reactiveTable collection=userEvents settings=settings
+
+template(name="noAssociatedEvents")
+  p.muted-text Currently no associated events
 
 template(name="noCuratorEvents")
-  .no-curator-events
-    i.fa.fa-search
+  .no-results
     p No Events Found
 
 template(name="curatorEventSearchRow")

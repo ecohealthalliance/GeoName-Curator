@@ -17,6 +17,9 @@ Template.curatorEvents.onCreated ->
       [article.userEventId, article]
     ))
 
+Template.curatorEvents.onRendered ->
+  @$('#curatorEventsFilter input').attr 'placeholder', 'Search events'
+
 Template.curatorEvents.helpers
   userEvents: ->
     UserEvents.find(
@@ -83,5 +86,4 @@ Template.curatorEvents.events
       publishDateTZ: "EST"
     })
   "click .deassociate-event": (event, template) ->
-    console.log template.associatedEventIdToArticle.get(), @_id
     Meteor.call('removeEventSource', template.associatedEventIdToArticle.get()[@_id])
