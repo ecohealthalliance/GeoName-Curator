@@ -1,26 +1,27 @@
 template(name="curatorEvents")
-  //h3 Suggested Events
-  //+reactiveTable collection=userEvents settings=settings class="table curator-events-table" rowClass="curator-events-table-row"
-  .row.curator-inbox-buttons
-    .col-xs-12
-      a.btn.btn-primary.open-add-event-form(href="")
-        i.fa.fa-plus
-        span Edit Associated Events
-  if addEventMenuIsOpen
-    table#associate-events.table.table-hover
-      tbody
-        each userEvents
-          tr(class="{{#if associated}}details-open{{/if}}")
-            td {{eventName}}
   if associatedUserEvents
+    .curator-events-section
+      .heading Associated Events
     table#associated-events.table
-      thead
-        tr
-          th.eventName Associated Events
       tbody
         each associatedUserEvents
           tr
-            td {{eventName}}
+            td
+              i.fa.fa-minus-circle.deassociate-event
+              a(href="/user-event/#{_id}")=eventName
+  .curator-events-section
+    .heading Search Events
+    {{> reactiveTableFilter id="curatorEventsFilter" label=" " }}
+  +reactiveTable collection=userEvents settings=settings
+
+template(name="noCuratorEvents")
+  .no-curator-events
+    i.fa.fa-search
+    p No Events Found
+
+template(name="curatorEventSearchRow")
+  i.fa.fa-plus-circle.associate-event
+  a(href="/user-event/#{_id}")=eventName
 
 template(name="curatorEventIncidents")
   td(colspan="2" class="tr-incidents-wrapper")

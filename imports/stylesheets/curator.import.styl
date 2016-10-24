@@ -115,9 +115,9 @@
       color $primary
 
 .curator-article-details-content
-  padding-top 15px
   a
     cursor pointer
+    color $d-gray
   h3
     color $d-gray
     font-weight 400
@@ -165,16 +165,43 @@
     .tr-incidents-wrapper
       padding 0
 
-.curator-events-incidents-table
-  thead
-    display table-header-group
-    background $l-gray
-  tbody
-    background $ll-gray
-  .fa-sort-asc,
-  .fa-sort-desc
-    display none
-
 #associate-events
   tr
     cursor pointer
+
+.deassociate-event
+.associate-event
+  margin-right 10px
+  color $positive
+
+.deassociate-event
+  color red
+
+#curator-events-table
+  thead
+    display none
+
+.curator-events-section
+  border 2px solid $l-gray
+  border-left 0
+  border-right 0
+  .heading
+    font-weight bold
+    display inline
+    line-height 3em
+    vertical-align middle
+    margin-left 10px
+    margin-right 10px
+  #curatorEventsFilter
+    display inline-block
+    vertical-align middle
+    input
+      height 2em
+  .input-group-addon
+    display none
+
+.no-curator-events
+  color gray
+  text-align center
+  i
+    font-size 5em
