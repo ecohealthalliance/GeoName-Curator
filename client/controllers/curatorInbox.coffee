@@ -177,6 +177,23 @@ Template.curatorInboxSection.helpers
     )
   posts: ->
     return CuratorSources
+  count: ->
+    sectionDate = Template.instance().data.date
+    filterArray = [
+                {  "publishDate": { 
+                    $gte: sectionDate
+                    $lt: moment(sectionDate).add(1, 'day').toDate()
+                  }
+                }
+    ]
+    # adjust counts based on whether we are showing accepted sources or not
+    if !Template.instance().data.reviewedState
+      filterArray.push {reviewed: {$ne: true}}
+    filter = {
+              $and: filterArray
+            }
+    return CuratorSources.find(filter).fetch().length
+
   isOpen: ->
     return Template.instance().isOpen.get()
   formattedDate: ->

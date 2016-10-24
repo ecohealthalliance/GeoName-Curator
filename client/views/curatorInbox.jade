@@ -28,7 +28,7 @@ template(name="curatorInbox")
         .row
           if isReady
             each day in days
-              +curatorInboxSection date=day index=@index
+              +curatorInboxSection date=day index=@index reviewedState=reviewedState
           else
             .text-center
               br
@@ -42,6 +42,8 @@ template(name="curatorInboxSection")
     .col-xs-12.curator-inbox-section-head
       .pull-left
         b {{formattedDate}}
+        .spacer
+        {{count}} Articles
       .pull-right
         i.fa.fa-lg
           if isOpen
