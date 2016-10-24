@@ -8,9 +8,9 @@ Template.curatorEvents.onCreated ->
     url:
       $regex: "post\/" + @data._sourceId + "$"
   })
-  @associatedEventIdToArticle = new ReactiveVar([])
+  @associatedEventIdsToArticles = new ReactiveVar([])
   @autorun =>
-    @associatedEventIdToArticle.set _.object(Articles.find(
+    @associatedEventIdsToArticles.set _.object(Articles.find(
       url:
         $regex: "post\/" + @data._sourceId + "$"
     ).map((article)->
@@ -24,13 +24,13 @@ Template.curatorEvents.helpers
   userEvents: ->
     UserEvents.find(
       _id:
-        $nin: _.keys(Template.instance().associatedEventIdToArticle.get())
+        $nin: _.keys(Template.instance().associatedEventIdsToArticles.get())
     )
 
   associatedUserEvents: ->
     UserEvents.find(
       _id:
-        $in: _.keys(Template.instance().associatedEventIdToArticle.get())
+        $in: _.keys(Template.instance().associatedEventIdsToArticles.get())
     )
 
   associated: () ->
@@ -86,4 +86,4 @@ Template.curatorEvents.events
       publishDateTZ: "EST"
     })
   "click .deassociate-event": (event, template) ->
-    Meteor.call('removeEventSource', template.associatedEventIdToArticle.get()[@_id])
+    Meteor.call('removeEventSource', template.associatedEventIdsToArticles.get()[@_id])
