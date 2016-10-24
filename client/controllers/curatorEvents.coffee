@@ -16,6 +16,7 @@ Template.curatorEvents.onCreated ->
     ).map((article)->
       [article.userEventId, article]
     ))
+  Template.curatorEvents.associatedEventIdsToArticles = @associatedEventIdsToArticles
 
 Template.curatorEvents.onRendered ->
   @$('#curatorEventsFilter input').attr 'placeholder', 'Search events'

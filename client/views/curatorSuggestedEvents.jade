@@ -1,0 +1,11 @@
+template(name='suggestedEvents')
+  .curator-events-header.curator-collapse
+    h4
+      | Suggested Events
+    .curator-events-collapse
+      if isOpen
+        i.fa.fa-lg.fa-chevron-circle-down
+      else
+        i.fa.fa-lg.fa-chevron-circle-left
+  if isOpen
+    +reactiveTable collection=events settings=settings class='table curator-events-table'}
