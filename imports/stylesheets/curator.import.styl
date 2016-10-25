@@ -91,6 +91,8 @@
 
 .curator-inbox-source-list
   border-right 1px solid $border-primary
+  .reactive-table-options
+    display none
 
 .curator-inbox-table
   margin-bottom 0
@@ -100,22 +102,20 @@
   tr
     padding-left 7px
     padding-right 7px
-  .details-open
-    background $secondary-light
-    &:hover
-      background $secondary-light
   .title
     max-width 400px
 
 .curator-inbox-section-head
   color $primary
   background $primary-l-light
-  border-top 1px $primary-light solid
-  border-bottom 1px $primary-light solid
+  border-top 1px solid $border-primary
+  border-bottom 1px solid $border-primary
   height 37px
   font-size 14px
   padding-top 8px
   cursor pointer
+  &:hover
+    background darken(@background, 4%)
 
 .curator-inbox-buttons
   margin-bottom 30px
@@ -124,6 +124,7 @@
   padding 0
 
 .curator-source-details-header
+  position relative
   background none
   border-bottom 2px solid $border-primary
   h2
@@ -138,6 +139,37 @@
   &.reviewed
     h2
       color darken($positive, 35%)
+  .notification
+    position absolute
+    top 0
+    bottom 0
+    left 0
+    right 0
+    z-index 101
+    background desaturate(lighten($positive, 20%), 10%)
+    display flex
+    align-items center
+    justify-content center
+    height 50px
+    overflow hidden
+    p
+      margin 0
+      color $primary-dark
+      font-size 1.2em
+      font-weight 300
+      text-transform uppercase
+      letter-spacing .03em
+    i
+    .confirmation
+      color white
+    .confirmation
+      font-size 6em
+      margin-right .2em
+    .fa-spin
+      color alpha($primary, 30%)
+      margin-left .5em
+      font-size 1.5em
+
 
 .curator-source-details-options
   display flex
@@ -224,18 +256,36 @@
   .open-icon
     margin-right 30px
 
-.curator-inbox-table-row
-  .curator-inbox-curated-row::before
-    content "\f058"
-    font-family FontAwesome
-    color $positive
-  td:first-of-type
-    width 45px
-    text-align right
-  td:nth-of-type(-n+2)
-    display table-cell !important
-    padding-top 8px
-    padding-bottom 8px
+.curator-inbox-table
+  border-radius 0
+  border 0
+  tr
+    position relative
+    &:first-of-type
+      td
+        border 0
+    .curator-inbox-curated-row
+      &::before
+        content "\f058"
+        font-family FontAwesome
+        color $positive
+    td
+      border-color $border-primary-light
+      &:first-of-type
+        width 45px
+        text-align right
+      &:nth-of-type(-n+2)
+        display table-cell !important
+        padding-top 8px
+        padding-bottom 8px
+    &.selected
+      background $selected
+      cursor default
+      &:hover
+        background @background
+    .details-row
+      position relative
+      color $border-primary
 
 .curator-events
   margin-bottom 2em
