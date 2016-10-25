@@ -280,7 +280,7 @@ Template.curatorSourceDetails.events
         nextSource = CuratorSources.findOne {reviewed: false},  sort: publishDate: -1
         template.data.selectedSourceId.set nextSource._id
         notifying.set false
-      , 700
+      , 1200
 
   'click .toggle-source-content': (event, template) ->
     open = template.contentIsOpen

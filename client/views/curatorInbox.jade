@@ -71,9 +71,11 @@ template(name="curatorSourceDetails")
             span Mark Reviewed
       if notifying
         .notification
-          i.fa.fa-check-circle.confirmation
+          .checks
+            i.fa.fa-check-circle.confirmation
+            .circle
           p Preparing next source
-          i.fa.fa-cog.fa-spin
+      .transition(class="{{#if notifying}} active {{/if}}")
     .curator-source-details-content
       if contentIsOpen
         .curator-source-details-copy-wrapper
