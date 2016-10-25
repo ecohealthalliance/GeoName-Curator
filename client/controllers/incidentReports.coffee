@@ -86,7 +86,6 @@ Template.incidentReports.onRendered ->
       if incident
         return incident
     )
-
     # we have an existing plot, update plot with new data array
     if @plot instanceof ScatterPlot
       @updatePlot(incidents)
