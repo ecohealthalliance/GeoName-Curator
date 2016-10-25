@@ -10,7 +10,7 @@ template(name="curatorInbox")
                 i.fa.fa-refresh.fa-spin
             a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
               i.fa.fa-calendar
-            a.curator-filter-reviewed-icon(class="{{#if reviewedState}} active {{/if}}")
+            a.curator-filter-reviewed-icon(class="{{#unless reviewFilterActive}} active {{/unless}}")
               i.fa.fa-check-circle
             .input-group
               input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
@@ -39,6 +39,8 @@ template(name="curatorInboxSection")
     .col-xs-12.curator-inbox-section-head
       .pull-left
         b {{formattedDate}}
+        .spacer
+        {{count}} Articles
       .pull-right
         i.fa.fa-lg
           if isOpen

@@ -47,8 +47,11 @@ Template.curatorInbox.helpers
   calendarState: ->
     Template.instance().calendarState.get()
 
-  isReviewed: ->
-    if Template.instance().reviewFilter.get() then false else true
+  reviewFilter: ->
+    Template.instance().reviewFilter
+
+  reviewFilterActive: ->
+    Template.instance().reviewFilter.get()
 
   isReady: ->
     Template.instance().ready.get()
@@ -174,6 +177,27 @@ Template.curatorInboxSection.helpers
 
   posts: ->
     CuratorSources
+
+  count: ->
+    sectionDate = Template.instance().data.date
+    filterArray = [
+                {  "publishDate": { 
+                    $gte: sectionDate
+                    $lt: moment(sectionDate).add(1, 'day').toDate()
+                  }
+                }
+    ]
+    reviewFilter = Template.instance().data.reviewFilter.get()
+    # adjust counts based on whether we are showing accepted sources or not
+    if reviewFilter
+      filterArray.push _.object(Template.instance().data.reviewFilter.fields.map((field)->
+        [field, reviewFilter]
+      ))
+    console.log filterArray
+    filter = {
+              $and: filterArray
+            }
+    CuratorSources.find(filter).fetch().length
 
   isOpen: ->
     Template.instance().isOpen.get()
