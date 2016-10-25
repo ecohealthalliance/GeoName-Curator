@@ -20,7 +20,7 @@ Template.curatorInbox.onCreated ->
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
   @reviewFilter.set({$ne: true})
-  
+
   @autorun =>
     Meteor.call 'fetchPromedPosts', 100, @dateRange.get(), (err) ->
       if err
@@ -42,21 +42,22 @@ Template.curatorInbox.helpers
         minutes:0
         seconds:0
       ).toDate()
-    return days.reverse()
+    days.reverse()
 
   calendarState: ->
-    return Template.instance().calendarState.get()
+    Template.instance().calendarState.get()
 
-  reviewedState: ->
-    if Template.instance().reviewFilter.get()
-      return false
-    return true
+  reviewFilter: ->
+    Template.instance().reviewFilter
+
+  reviewFilterActive: ->
+    Template.instance().reviewFilter.get()
 
   isReady: ->
-    return Template.instance().ready.get()
+    Template.instance().ready.get()
 
   isLoading: ->
-    return !Template.instance().ready.get()
+    !Template.instance().ready.get()
 
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
@@ -119,10 +120,10 @@ Template.curatorInboxSection.onCreated ->
       label: ''
       cellClass: (value) ->
         if value
-          return 'curator-inbox-curated-row'
+          'curator-inbox-curated-row'
       sortDirection: -1
       fn: (value) ->
-        return ''
+        ''
     },
     {
       key: 'title'
@@ -143,7 +144,7 @@ Template.curatorInboxSection.onCreated ->
           moment(value).fromNow()
         else
           moment(value).format('YYYY-MM-DD')
-    }, 
+    },
     {
       key: 'addedDate'
       description: 'Date the article was added.'
@@ -151,7 +152,7 @@ Template.curatorInboxSection.onCreated ->
       sortDirection: -1
       hidden: true
       fn: (value) ->
-        return moment(value).format('YYYY-MM-DD')
+        moment(value).format('YYYY-MM-DD')
     },
     {
       key: "expand"
@@ -172,11 +173,11 @@ Template.curatorInboxSection.onCreated ->
 
 Template.curatorInboxSection.helpers
   post: ->
-    return CuratorSources.findOne(
-      publishDate: Template.instance().filter.get()
-    )
+    CuratorSources.findOne publishDate: Template.instance().filter.get()
+
   posts: ->
-    return CuratorSources
+    CuratorSources
+
   count: ->
     sectionDate = Template.instance().data.date
     filterArray = [
@@ -186,31 +187,35 @@ Template.curatorInboxSection.helpers
                   }
                 }
     ]
+    reviewFilter = Template.instance().data.reviewFilter.get()
     # adjust counts based on whether we are showing accepted sources or not
-    if !Template.instance().data.reviewedState
-      filterArray.push {reviewed: {$ne: true}}
+    if reviewFilter
+      filterArray.push _.object(Template.instance().data.reviewFilter.fields.map((field)->
+        [field, reviewFilter]
+      ))
+    console.log filterArray
     filter = {
               $and: filterArray
             }
-    return CuratorSources.find(filter).fetch().length
+    CuratorSources.find(filter).fetch().length
 
   isOpen: ->
-    return Template.instance().isOpen.get()
+    Template.instance().isOpen.get()
+
   formattedDate: ->
-    return moment(Template.instance().data.date).format('MMMM DD, YYYY')
+    moment(Template.instance().data.date).format('MMMM DD, YYYY')
+
   settings: ->
     fields = Template.instance().curatorInboxFields
 
-    return {
-      id: 'article-curation-table'
-      showColumnToggles: false
-      fields: fields
-      showRowCount: false
-      showFilter: false
-      rowsPerPage: 200
-      showNavigation: 'never'
-      filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
-    }
+    id: 'article-curation-table'
+    showColumnToggles: false
+    fields: fields
+    showRowCount: false
+    showFilter: false
+    rowsPerPage: 200
+    showNavigation: 'never'
+    filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
 
 Template.curatorInboxSection.events
   "click .curator-inbox-table tbody tr": (event, template) ->
@@ -222,36 +227,50 @@ Template.curatorInboxSection.events
     Blaze.renderWithData(Template.curatorSourceDetails, @, details)
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
+
   "click .curator-inbox-section-head": (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
 
 
 Template.curatorSourceDetails.onCreated ->
   @contentIsOpen = new ReactiveVar(false)
+  @reviewed = new ReactiveVar @data.reviewed or false
+
+# Template.curatorSourceDetails.onRendered ->
 
 Template.curatorSourceDetails.helpers
   post: ->
     return CuratorSources.findOne({_id: @_id})
+
   content: ->
     content = Template.currentData().content
     if content
       if Template.instance().contentIsOpen.get()
         return content
       return lodash.truncate(content, {length: 250})
+
   largeContent: ->
     if Template.currentData().content and Template.currentData().content.length > 250
       return true
     return false
+
   contentIsOpen: ->
-    return Template.instance().contentIsOpen.get()
+    Template.instance().contentIsOpen.get()
+
   formattedScrapeDate: ->
-    return moment(Template.instance().data.sourceDate).format('MMMM DD, YYYY')
+    moment(Template.instance().data.sourceDate).format('MMMM DD, YYYY')
+
   formattedPromedDate: ->
-    return moment(Template.instance().data.promedDate).format('MMMM DD, YYYY')
+    moment(Template.instance().data.promedDate).format('MMMM DD, YYYY')
+
+  isReviewed: ->
+    Template.instance().reviewed.get()
 
 Template.curatorSourceDetails.events
-  "click #accept-article": (event, template) ->
-    Meteor.call("curateSource", template.data._id, true)
-    template.data.reviewed = true
+  "click .toggle-reviewed": (event, template) ->
+    reviewed = template.reviewed
+    reviewed.set not reviewed.get()
+    Meteor.call('curateSource', template.data._id, reviewed.get())
+
   "click #content-show-more": (event, template) ->
     template.contentIsOpen.set(!template.contentIsOpen.curValue)

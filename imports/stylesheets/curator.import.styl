@@ -11,24 +11,25 @@
   background $primary
   padding 10px 15px
   min-height 54px
+  display flex
+  align-items center
   h2
     color $ll-gray
     margin 0
-    font-size 30px
-    font-weight 700
+    font-size 1.75em
+    font-weight 600
 
-.curator-inbox-articles
+.curator-inbox-sources
   .curator-inbox-header
   .curator-inbox-section-head
     +above(4)
       padding-left 55px
 
-.curator-inbox-articles
-  border-right 2px solid $border-primary
-
 .curator-inbox-options
   position relative
   color $primary-light
+  display flex
+  margin-left auto
   input
     padding 5px 5px 5px 30px
     border 1px $primary-light solid
@@ -72,6 +73,9 @@
   .calendar
     margin 0
 
+.curator-inbox-source-list
+  border-right 1px solid $border-primary
+
 .curator-inbox-table
   margin-bottom 0
   color $primary
@@ -100,21 +104,60 @@
 .curator-inbox-buttons
   margin-bottom 30px
 
-.curator-article-details-header
-  .reviewed-icon
-    color $positive
-    position absolute
-    top 12px
-    right 20px
-    font-size 32px
+.curator-source-details-header
+  background none
+  border-bottom 2px solid $border-primary
+  h2
+    color $primary
+    flex 1
+    max-width 75%
+    white-space nowrap
+    text-overflow ellipsis
+    overflow hidden
+    line-height 1.5
   &.reviewed
-    background $positive
     h2
-      color $primary
-    .reviewed-icon
-      color $primary
+      color darken($positive, 35%)
 
-.curator-article-details-content
+.curator-source-details-options
+  margin-left auto
+  .btn
+    transition .3s
+    &.toggle-reviewed
+      background lighten($positive, 90%)
+      padding .45em 1.75em
+      color darken($positive, 40%)
+      &:hover
+        background darken(@background, 10%)
+        color darken(@color, 10%)
+    &.reviewed
+      min-width 125px
+      transition .3s
+      background $positive
+      border-color darken($positive, 30%)
+      color darken($positive, 60%)
+      &::before
+      &::after
+        display none
+        vertical-align middle
+      &:before
+        content '\f0e2'
+        margin-right .25em
+        font-family FontAwesome
+        font-size .9em
+      &::after
+        content 'Undo'
+      &:hover
+        background lighten($delete, 99%)
+        border-color $delete
+        color darken($delete, 10%)
+        &::before
+        &::after
+          display inline-block
+        span
+          display none
+
+.curator-source-details-content
   a
     cursor pointer
     color $d-gray
@@ -150,6 +193,9 @@
 
 .curator-events
   margin-bottom 2em
+  &:first-of-type
+    .curator-events-header
+      border-top 0
 
 .curator-events-table
   margin-bottom 0
@@ -183,6 +229,9 @@
     a
       &:hover
         color $primary
+    &:first-of-type
+      td
+        border-top 0
     &:hover
       background none
 
