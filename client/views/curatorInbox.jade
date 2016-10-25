@@ -31,8 +31,8 @@ template(name="curatorInbox")
               br
               p Loading...
       if isReady
-        .col-sm-6#curator-article-details
-          .row.curator-inbox-header
+        .col-sm-6.curator-source-details
+          .curator-inbox-header
 
 template(name="curatorInboxSection")
   if post
@@ -52,14 +52,15 @@ template(name="curatorInboxSection")
 
 template(name="curatorSourceDetails")
   with post
-    .row.curator-inbox-header.curator-source-details-header(class="{{#if isReviewed}} reviewed {{/if}}")
+    .curator-inbox-header.curator-source-details-header(class="{{#if isReviewed}} reviewed {{/if}}")
       h2= title
-      i.fa.fa-align-left.toggle-source-content(
-        class="{{#if contentIsOpen}} active {{/if}}"
-        data-toggle="tooltip"
-        data-placement="bottom"
-        title="Toggle source text")
       .curator-source-details-options
+        .controls
+          i.fa.fa-align-left.toggle-source-content(
+            class="{{#if contentIsOpen}} active {{/if}}"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Toggle source text")
         button.btn.btn-success.toggle-reviewed(class="{{#if isReviewed}} reviewed {{/if}}")
           if isReviewed
             span Reviewed
@@ -69,5 +70,4 @@ template(name="curatorSourceDetails")
       if contentIsOpen
         .curator-source-details-copy-wrapper
           .curator-source-details-copy= content
-      .row
-        +curatorEvents
+      +curatorEvents

@@ -13,21 +13,27 @@
   min-height 54px
   display flex
   align-items center
+  min-height 50px
+  max-height 50px
   h2
     color $ll-gray
     margin 0
     font-size 1.75em
     font-weight 600
+  .controls
+    margin-left 1.5em
+    margin-right 1.35em
 
 .toggle-source-content
   font-size 1.5em
-  color lighten($primary, 95%)
+  color lighten($primary, 55%)
   cursor pointer
   padding .15em
+  margin-top 2px
   &:hover
     color darken(@color, 10%)
   &.active
-    color $positive
+    color darken($positive, 20%)
 
 .curator-inbox-sources
   .curator-inbox-header
@@ -114,6 +120,9 @@
 .curator-inbox-buttons
   margin-bottom 30px
 
+.curator-source-details
+  padding 0
+
 .curator-source-details-header
   background none
   border-bottom 2px solid $border-primary
@@ -125,11 +134,14 @@
     text-overflow ellipsis
     overflow hidden
     line-height 1.5
+    font-size 1.5em
   &.reviewed
     h2
       color darken($positive, 35%)
 
 .curator-source-details-options
+  display flex
+  align-items center
   margin-left auto
   .btn
     transition .3s
@@ -177,16 +189,15 @@
     margin 0
   h3
     color $primary
-    font-size 1.5em
+    font-size 1.25em
   h4
     color $m-gray
-    font-size 1.25em
+    font-size 1.2em
   .reactive-table-navigation
     margin 15px 0
 
 .curator-source-details-copy-wrapper
   position relative
-  margin 0 -15px
   &::before
   &::after
     content ''
@@ -203,9 +214,11 @@
 
 .curator-source-details-copy
   max-height 25vh
+  padding 1em 10%
   overflow scroll
-  padding 1em 4em
   white-space pre-wrap
+  +above(4)
+    padding 1em 15%
 
 .curator-details-articles
   .open-icon
@@ -226,7 +239,7 @@
 
 .curator-events
   margin-bottom 2em
-  &:first-of-type
+  &:first-child
     .curator-events-header
       border-top 0
 
@@ -322,9 +335,13 @@
 
 .spacer
   display inline
-  border-right:1px solid #ddd
+  border-right 1px solid #ddd
   margin-left 8px
   margin-right 8px
+  &.dark
+    border-color $border-primary
+  &.light
+    border-color $border-primary-light
 
 .no-curator-events
   color gray
