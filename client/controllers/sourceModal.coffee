@@ -173,10 +173,12 @@ Template.sourceModal.events
       Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
         if result
           date = moment.utc(result)
-          tz = if date.isDST() then 'EDT' else 'EST'
+          daylightSavings = moment.utc(date.year() + "-03-08") <= date
+          daylightSavings = daylightSavings and moment.utc(
+            date.year() + "-11-01") >= date
+          tz = if daylightSavings then "EDT" else "EST"
           date = date.utcOffset(utils.UTCOffsets[tz])
-          templateInstance.$("#publishDateTZ option[value='#{tz}']")
-            .prop('selected', true)
+          templateInstance.$("#publishDateTZ").val(tz)
           templateInstance.$('#publishDate').data("DateTimePicker").date(date)
           templateInstance.$('#publishTime').data("DateTimePicker").date(date)
 

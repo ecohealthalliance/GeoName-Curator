@@ -2,8 +2,6 @@ userEventSchema = new SimpleSchema(
   _id:
     type: String
     optional: true
-  url:
-    type: String
   articleCount:
     type: Number
   createdByUserId:
