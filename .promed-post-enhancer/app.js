@@ -68,7 +68,8 @@ const enhance = (target)=>{
   if(!postIdMatch) return enhancing=false;
   let postId = window.__debugPostId || postIdMatch[1];
   let url = "http://promedmail.org/post/" + postId;
-  $.getJSON(EIDR_CONNECT_URL + "/api/events-with-source", {
+  let eidrConnectUrl = window.__debugEidrConnectUrl || EIDR_CONNECT_URL;
+  $.getJSON(eidrConnectUrl + "/api/events-with-source", {
     url: url
   }, (events)=>{
     if(!events || events.length === 0) return enhancing=false;
