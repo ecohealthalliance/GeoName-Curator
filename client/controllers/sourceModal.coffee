@@ -1,13 +1,15 @@
 convertDate = require "/imports/convertDate.coffee"
-utils = require '/imports/utils.coffee'
 Articles = require '/imports/collections/articles.coffee'
+
+import {UTCOffsets, cleanUrl} from '/imports/utils.coffee'
+
 
 Template.sourceModal.onCreated ->
   @tzIsSpecified = false
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
   if @data.publishDate
     @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
-                                              utils.UTCOffsets[@data.publishDateTZ])
+                                              UTCOffsets[@data.publishDateTZ])
   @suggestedArticles = new Mongo.Collection(null)
   Meteor.call 'queryForSuggestedArticles', @data.userEventId, (error, result) =>
     if result
@@ -41,7 +43,7 @@ Template.sourceModal.helpers
   timezones: ->
     timezones = []
     defaultTimezone = if moment().isDST() then 'EDT' else 'EST'
-    for tzKey, tzOffset of utils.UTCOffsets
+    for tzKey, tzOffset of UTCOffsets
       timezones.push({name: tzKey, offset: tzOffset})
       if @publishDateTZ
         if @publishDateTZ is tzKey
@@ -86,7 +88,7 @@ Template.sourceModal.events
 
     source = {
       userEventId: templateInstance.data.userEventId
-      url: article
+      url: cleanUrl(article)
       publishDateTZ: form.publishDateTZ.value
     }
 
@@ -99,7 +101,7 @@ Template.sourceModal.events
       if form.publishTime.value.length
         selectedDate.set({hour: time.get("hour"), minute: time.get("minute")})
         selectedDate = convertDate(selectedDate,
-                                    utils.UTCOffsets[source.publishDateTZ], "local")
+                                    UTCOffsets[source.publishDateTZ], "local")
       source.publishDate = selectedDate.toDate()
 
     enhance = form.enhance.checked
@@ -148,7 +150,7 @@ Template.sourceModal.events
       if form.publishTime.value.length
         selectedDate.set({hour: time.get("hour"), minute: time.get("minute")})
         selectedDate = convertDate(selectedDate,
-                                    utils.UTCOffsets[source.publishDateTZ], "local")
+                                    UTCOffsets[source.publishDateTZ], "local")
       source.publishDate = selectedDate.toDate()
 
     Meteor.call("updateEventSource", source, (error, result) ->
