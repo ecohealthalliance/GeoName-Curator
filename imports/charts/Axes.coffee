@@ -240,7 +240,7 @@ class Axes
   formatDate: () ->
     xDomain = @xScale.domain()
     duration = moment.duration(moment(xDomain[1]).diff(xDomain[0])).asDays()
-    if duration <= 4
+    if duration <= 7
       return '%b %d - %H:%M'
     return '%b %d, %Y'
 
