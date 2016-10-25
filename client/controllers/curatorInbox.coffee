@@ -113,9 +113,8 @@ Template.curatorInbox.events
     template.calendarState.set(false)
 
 Template.curatorInboxSection.onRendered ->
-  # select the first item in the inbox
-  if $(".details-open").length == 0
-    $(".curator-inbox-table tbody tr:first").click()
+  firstSource = CuratorSources.findOne {reviewed: false},  sort: publishDate: -1
+  @data.selectedSourceId.set firstSource._id
 
 Template.curatorInboxSection.onCreated ->
   @selectedSourceId = new ReactiveVar null
@@ -235,16 +234,21 @@ Template.curatorInboxSection.events
 
 Template.curatorSourceDetails.onCreated ->
   @contentIsOpen = new ReactiveVar(false)
-  @reviewed = new ReactiveVar @data.reviewed or false
   @notifying = new ReactiveVar false
+  @source = new ReactiveVar null
+  @reviewed = new ReactiveVar false
 
 Template.curatorSourceDetails.onRendered ->
   @$('.toggle-source-content').tooltip()
-  
-Template.curatorSourceDetails.helpers
-  post: ->
+  @autorun =>
     sourceId = Template.instance().data.selectedSourceId.get()
-    CuratorSources.findOne _id: sourceId
+    source = CuratorSources.findOne _id: sourceId
+    @reviewed.set source.reviewed or false
+    @source.set source
+
+Template.curatorSourceDetails.helpers
+  source: ->
+    Template.instance().source.get()
 
   contentIsOpen: ->
     Template.instance().contentIsOpen.get()
@@ -256,7 +260,7 @@ Template.curatorSourceDetails.helpers
     moment(Template.instance().data.promedDate).format('MMMM DD, YYYY')
 
   isReviewed: ->
-    Template.instance().reviewed.get()
+    Template.instance().source.get().reviewed
 
   notifying: ->
     Template.instance().notifying.get()
@@ -269,13 +273,14 @@ Template.curatorSourceDetails.events
     reviewed = template.reviewed
     notifying = template.notifying
     reviewed.set not reviewed.get()
-    Meteor.call('curateSource', template.data._id, reviewed.get())
+    Meteor.call('markSourceReviewed', template.source.get()._id, reviewed.get())
     if reviewed.get()
       notifying.set true
       Meteor.setTimeout ->
-        $(".curator-inbox-table tbody tr:first").click()
+        nextSource = CuratorSources.findOne {reviewed: false},  sort: publishDate: -1
+        template.data.selectedSourceId.set nextSource._id
         notifying.set false
-      , 1000
+      , 700
 
   'click .toggle-source-content': (event, template) ->
     open = template.contentIsOpen

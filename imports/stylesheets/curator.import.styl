@@ -58,7 +58,7 @@
     left 10px
     z-index 10
   a
-    color $primary-light
+    color lighten($primary, 60%)
     position relative
     top 5px
     margin-right 15px
@@ -67,9 +67,10 @@
     +below(4)
       display none
     &:hover
-      color $l-gray
+      color lighten(@color, 50%)
   .curator-filter-reviewed-icon,
   .curator-filter-calendar-icon
+    cursor pointer
     &.active
       color $positive
 
@@ -261,6 +262,8 @@
   border 0
   tr
     position relative
+    &:hover
+      background-color $border-primary-light
     &:first-of-type
       td
         border 0
