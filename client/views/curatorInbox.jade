@@ -1,13 +1,10 @@
 template(name="curatorInbox")
   .container-fluid
-    h1.curator-heading CURATOR INBOX
-  section.container-fluid
     .row
-      .col-sm-6.curator-inbox-articles
+      .col-sm-6.curator-inbox-sources
         .row.curator-inbox-header
-          .pull-left
-            h2 Sources
-          .curator-inbox-options.pull-right.form-inline
+          h2 Sources
+          .curator-inbox-options
             if isLoading
               a.curator-refresh-icon
                 i.fa.fa-refresh.fa-spin
@@ -22,13 +19,13 @@ template(name="curatorInbox")
           .text-center
             #date-picker.inlineRangePicker
           .text-center
-            a#calendar-btn-apply.btn.btn-primary(href="") APPLY
-            a#calendar-btn-reset.btn.btn-primary(href="") RESET
-            a#calendar-btn-cancel.btn.btn-default(href="") CANCEL
-        .row
+            a#calendar-btn-apply.btn.btn-primary(href="") Apply
+            a#calendar-btn-reset.btn.btn-primary(href="") Reset
+            a#calendar-btn-cancel.btn.btn-default(href="") Cancel
+        .curator-inbox-source-list.row
           if isReady
             each day in days
-              +curatorInboxSection date=day index=@index
+              +curatorInboxSection date=day index=@index reviewFilter=reviewFilter
           else
             .text-center
               br
@@ -53,29 +50,14 @@ template(name="curatorInboxSection")
 
 template(name="curatorSourceDetails")
   with post
-    div(class="row curator-inbox-header curator-article-details-header {{#if reviewed}} reviewed {{/if}}")
-      h2 {{title}}
-      i.fa.fa-check-circle.reviewed-icon
-    .curator-article-details-content
+    .row.curator-inbox-header.curator-source-details-header(class="{{#if isReviewed}} reviewed {{/if}}")
+      h2= title
+      .curator-source-details-options
+        button.btn.btn-success.toggle-reviewed(class="{{#if isReviewed}} reviewed {{/if}}")
+          if isReviewed
+            span Reviewed
+          else
+            span Mark Reviewed
+    .curator-source-details-content
       .row
-        +curatorEvents
-      br
-      .row.curator-inbox-buttons
-        .col-xs-12.text-center
-          a#accept-article.btn.btn-primary(href="") ACCEPT SOURCE
-          a#decline-article.btn.btn-default.disabled(href="") DECLINE
-
-template(name="curatorArticleDetails")
-  div(class="row curator-inbox-header curator-article-details-header {{#if article.reviewed}} reviewed {{/if}}")
-    h2 {{article.url}}
-    i.fa.fa-check-circle.reviewed-icon
-  .curator-article-details-content
-    .row.curator-inbox-buttons
-      .col-xs-12.text-center
-        if article.reviewed
-          a.mark-unreviewed.btn.btn-default(href) Mark as unreviewed
-        else
-          a.mark-reviewed.btn.btn-primary(href) Mark as reviewed
-    .row
-      .col-xs-12
         +curatorEvents
