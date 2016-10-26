@@ -1,3 +1,7 @@
 Template.footer.helpers
   hideFooter: ->
-    Router.current().route.getName() is 'event-map'
+    pagesWithoutFooter = [
+      'event-map'
+      'curator-inbox'
+    ]
+    Router.current().route.getName() in pagesWithoutFooter
