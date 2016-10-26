@@ -8,6 +8,7 @@ UserEvents = require '/imports/collections/userEvents.coffee'
 #
 #   The table is reactively updated by an autorun that listens to changes
 #   on the Template.currentEvents reactive var `associatedEventIdsToArticles`.
+#   Note: this reactive var is passed to this template throught jade.
 ###
 
 Template.suggestedEvents.onCreated ->
@@ -51,6 +52,7 @@ Template.suggestedEvents.onCreated ->
   # TODO: this is domain specific to ProMed. If other feeds are added, we would
   # need to do some conditional logic `if feed.isPromed then remove first token`.
   search = if tokens.length > 1 then tokens.slice(1, tokens.length).join(' ') else ''
+
   # call the server-side meteor method to perform full-text search sorted by score
   Meteor.call 'searchUserEvents', search, (err, res) =>
     if err
@@ -62,8 +64,8 @@ Template.suggestedEvents.onCreated ->
   # reactively compute changes to associatedEventIdsToArticles object and
   # update the suggested events
   @autorun =>
-    if Template.curatorEvents.associatedEventIdsToArticles
-      associated = Template.curatorEvents.associatedEventIdsToArticles.get()
+    if @data.associatedEventIdsToArticles
+      associated = @data.associatedEventIdsToArticles.get()
       @updateSuggestedEvents(associated)
 
 Template.suggestedEvents.helpers

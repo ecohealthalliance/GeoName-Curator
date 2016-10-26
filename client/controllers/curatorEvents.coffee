@@ -16,7 +16,6 @@ Template.curatorEvents.onCreated ->
     ).map((article)->
       [article.userEventId, article]
     ))
-  Template.curatorEvents.associatedEventIdsToArticles = @associatedEventIdsToArticles
 
 Template.curatorEvents.onRendered ->
   @$('#curatorEventsFilter input').attr 'placeholder', 'Search events'
@@ -33,6 +32,12 @@ Template.curatorEvents.helpers
       _id:
         $in: _.keys(Template.instance().associatedEventIdsToArticles.get())
     )
+
+  associatedEventIdsToArticles: ->
+    Template.instance().associatedEventIdsToArticles
+
+  title: ->
+    Template.instance().data.title
 
   associated: () ->
     articleId = Template.instance().data._id
