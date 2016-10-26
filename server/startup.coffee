@@ -3,6 +3,7 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 articleSchema = require '/imports/schemas/article.coffee'
 Articles = require '/imports/collections/articles.coffee'
 PromedPosts = require '/imports/collections/promedPosts.coffee'
+CuratorSources = require '/imports/collections/curatorSources'
 
 Meteor.startup ->
   incidents = Incidents.find().fetch()
@@ -12,6 +13,7 @@ Meteor.startup ->
     catch error
       console.log error
       console.log JSON.stringify(incident, 0, 2)
+
   for article in Articles.find().fetch()
     promedId = /promedmail\.org\/post\/(\d+)$/ig.exec(article.url)?[1]
     if promedId
@@ -33,3 +35,9 @@ Meteor.startup ->
         console.log JSON.stringify(article, 0, 2)
     else
       console.log "non-ProMED Article:", article.url
+
+  CuratorSources.update
+    reviewed:
+      $exists: false
+    {$set: reviewed: false}
+    {multi: true}
