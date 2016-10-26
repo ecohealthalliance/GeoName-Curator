@@ -27,8 +27,9 @@ template(name="noCuratorEvents")
     p No Events Found
 
 template(name="curatorEventSearchRow")
-  i.fa.fa-plus-circle.associate-event
-  a(href="/user-event/#{_id}")=eventName
+  i.fa.fa-plus-circle.associate-event(tabindex="0")
+  span=eventName
+  a.fa.fa-info-circle.event-info(href="/user-event/#{_id}" target="_blank")
 
 template(name="curatorEventIncidents")
   td(colspan="2" class="tr-incidents-wrapper")

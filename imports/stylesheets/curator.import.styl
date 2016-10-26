@@ -9,7 +9,7 @@
 
 .curator-inbox-header
   background $primary
-  padding 10px 15px
+  padding .5em 1.5em
   min-height 54px
   display flex
   align-items center
@@ -150,6 +150,7 @@
       padding .45em 1.75em
       color darken($positive, 40%)
       &:hover
+      &:focus
         background darken(@background, 10%)
         color darken(@color, 10%)
     &.reviewed
@@ -293,8 +294,11 @@
   font-size 1.2em
   transition .1s ease-in-out
   &:hover
+  &:focus
     color darken(@color, 20%)
     transform scale(1.25)
+    outline 0
+    box-shadow 0
 
 .deassociate-event
   color darken($delete, 5%)
@@ -302,12 +306,31 @@
     color darken(@color, 20%)
 
 #curator-events-table
+  width calc(100% - 15px)
   thead
     display none
+  tr
+    cursor default
+  td
+    display flex
+    align-items center
+    padding-right 1.5em
+    .event-info
+      margin-left auto
+      color $border-primary
+      font-size 1.2em
+      transition .1s ease-in-out
+      &:hover
+      &:focus
+        color darken(@color, 30%)
+        transform scale(1.25)
+        text-decoration none
+        outline 0
+        box-shadow 0
 
 .curator-events-header
   min-height 50px
-  padding .5em 2em .5em 1.5em
+  padding .5em 1.5em
   border-top 1px solid $border-primary
   border-bottom 1px solid $border-primary
   display flex
