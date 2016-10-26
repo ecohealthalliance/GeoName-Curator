@@ -173,10 +173,10 @@ Template.suggestedIncidentsModal.helpers
   loading: ->
     Template.instance().loading.get()
   annotatedCount: ->
-    total = Template.instance().incidentCollection.find().fetch().length
+    total = Template.instance().incidentCollection.find().count()
     if total
-      count = Template.instance().incidentCollection.find({accepted: true}).fetch().length
-      count + " of " + total + " incidents reviewed"
+      count = Template.instance().incidentCollection.find({accepted: true}).count()
+      count + " of " + total + " incidents accepted"
 
   annotatedContent: ->
     content = Template.instance().content.get()
