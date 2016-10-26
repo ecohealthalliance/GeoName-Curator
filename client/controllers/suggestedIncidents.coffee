@@ -183,9 +183,7 @@ Template.suggestedIncidentsModal.helpers
     content = Template.instance().content.get()
     lastEnd = 0
     html = ""
-    count = 0;
     Template.instance().incidentCollection.find().map (incident)->
-      count++
       [start, end] = incident.countAnnotation.textOffsets[0]
       html += (
         Handlebars._escape("#{content.slice(lastEnd, start)}") +
