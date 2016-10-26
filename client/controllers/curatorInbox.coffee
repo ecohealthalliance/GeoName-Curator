@@ -182,7 +182,7 @@ Template.curatorInboxSection.helpers
   count: ->
     sectionDate = Template.instance().data.date
     filterArray = [
-                {  "publishDate": { 
+                {  "publishDate": {
                     $gte: sectionDate
                     $lt: moment(sectionDate).add(1, 'day').toDate()
                   }
@@ -194,9 +194,7 @@ Template.curatorInboxSection.helpers
       filterArray.push _.object(Template.instance().data.reviewFilter.fields.map((field)->
         [field, reviewFilter]
       ))
-    filter = {
-              $and: filterArray
-            }
+    filter = $and: filterArray
     CuratorSources.find(filter).fetch().length
 
   isOpen: ->
@@ -218,39 +216,29 @@ Template.curatorInboxSection.helpers
     filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
 
 Template.curatorInboxSection.events
-  "click .curator-inbox-table tbody tr": (event, template) ->
-    $(".details-open").removeClass("details-open")
-    $parentRow = $(event.target).closest("tr")
-    $parentRow.addClass("details-open")
-    $("#curator-article-details").html("")
-    details = document.getElementById("curator-article-details")
+  'click .curator-inbox-table tbody tr': (event, template) ->
+    $('.details-open').removeClass('details-open')
+    $parentRow = $(event.target).closest('tr')
+    $parentRow.addClass('details-open')
+    $('.curator-source-details').html('')
+    details = $('.curator-source-details')[0]
     Blaze.renderWithData(Template.curatorSourceDetails, @, details)
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
 
-  "click .curator-inbox-section-head": (event, template) ->
+  'click .curator-inbox-section-head': (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
-
 
 Template.curatorSourceDetails.onCreated ->
   @contentIsOpen = new ReactiveVar(false)
   @reviewed = new ReactiveVar @data.reviewed or false
 
+Template.curatorSourceDetails.onRendered ->
+  @$('.toggle-source-content').tooltip()
+  
 Template.curatorSourceDetails.helpers
   post: ->
     return CuratorSources.findOne({_id: @_id})
-
-  content: ->
-    content = Template.currentData().content
-    if content
-      if Template.instance().contentIsOpen.get()
-        return content
-      return lodash.truncate(content, {length: 250})
-
-  largeContent: ->
-    if Template.currentData().content and Template.currentData().content.length > 250
-      return true
-    return false
 
   contentIsOpen: ->
     Template.instance().contentIsOpen.get()
@@ -270,5 +258,6 @@ Template.curatorSourceDetails.events
     reviewed.set not reviewed.get()
     Meteor.call('curateSource', template.data._id, reviewed.get())
 
-  "click #content-show-more": (event, template) ->
-    template.contentIsOpen.set(!template.contentIsOpen.curValue)
+  'click .toggle-source-content': (event, template) ->
+    open = template.contentIsOpen
+    open.set not open.get()
