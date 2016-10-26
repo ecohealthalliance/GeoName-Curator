@@ -1,5 +1,4 @@
 incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
-Incidents = require '/imports/collections/incidentReports.coffee'
 # A annotation's territory is the sentence containing it,
 # and all the following sentences until the next annotation.
 # Annotations in the same sentence are grouped.
