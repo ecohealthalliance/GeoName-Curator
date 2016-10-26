@@ -17,6 +17,26 @@ Template.sourceModal.onCreated ->
           subject: suggestedArticle.subject.raw
         }
 
+Template.sourceModal.onRendered ->
+  pickerOptions = {
+    format: 'M/D/YYYY'
+    inline: true
+    useCurrent: false
+  }
+  if @timezoneFixedPublishDate
+    pickerOptions.defaultDate = moment(
+      year: @timezoneFixedPublishDate.year()
+      month: @timezoneFixedPublishDate.month()
+      date: @timezoneFixedPublishDate.date()
+    )
+  @$(".datePicker").datetimepicker pickerOptions
+  pickerOptions = {
+    format: 'h:mm A'
+    useCurrent: false
+  }
+  if @timezoneFixedPublishDate
+    pickerOptions.defaultDate = @timezoneFixedPublishDate
+  $picker = @$(".timePicker").datetimepicker pickerOptions
 Template.sourceModal.helpers
   timezones: ->
     timezones = []
@@ -29,32 +49,7 @@ Template.sourceModal.helpers
       else if tzKey is defaultTimezone
         timezones[timezones.length-1].selected = true
     timezones
-  initDatePicker: ->
-    templateInstance = Template.instance()
-    pickerOptions = {
-      format: 'M/D/YYYY'
-      inline: true
-      useCurrent: false
-    }
-    if templateInstance.timezoneFixedPublishDate
-      pickerOptions.defaultDate = moment(
-        year: templateInstance.timezoneFixedPublishDate.year()
-        month: templateInstance.timezoneFixedPublishDate.month()
-        date: templateInstance.timezoneFixedPublishDate.date()
-      )
-    Meteor.defer ->
-      templateInstance.$(".datePicker").datetimepicker pickerOptions
-  initTimePicker: ->
-    templateInstance = Template.instance()
-    fixed = templateInstance.timezoneFixedPublishDate
-    pickerOptions = {
-      format: 'h:mm A'
-      useCurrent: false
-    }
-    if templateInstance.timezoneFixedPublishDate
-      pickerOptions.defaultDate = templateInstance.timezoneFixedPublishDate
-    Meteor.defer ->
-      $picker = templateInstance.$(".timePicker").datetimepicker pickerOptions
+
   saveButtonClass: ->
     if @edit
       return "save-edit-modal"
@@ -173,10 +168,13 @@ Template.sourceModal.events
       Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
         if result
           date = moment.utc(result)
-          tz = if date.isDST() then 'EDT' else 'EST'
+          # Aproximate DST for New York timezone
+          daylightSavings = moment.utc(date.year() + "-03-08") <= date
+          daylightSavings = daylightSavings and moment.utc(
+            date.year() + "-11-01") >= date
+          tz = if daylightSavings then "EDT" else "EST"
           date = date.utcOffset(utils.UTCOffsets[tz])
-          templateInstance.$("#publishDateTZ option[value='#{tz}']")
-            .prop('selected', true)
+          templateInstance.$("#publishDateTZ").val(tz)
           templateInstance.$('#publishDate').data("DateTimePicker").date(date)
           templateInstance.$('#publishTime').data("DateTimePicker").date(date)
 
