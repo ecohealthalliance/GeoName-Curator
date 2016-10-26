@@ -31,7 +31,7 @@ template(name="curatorInbox")
             .loading
       if isReady
         .col-sm-6.curator-source-details
-          +curatorSourceDetails selectedSourceId=selectedSourceId
+          +curatorSourceDetails selectedSourceId=selectedSourceId query=query
 
 template(name="curatorInboxSection")
   if post

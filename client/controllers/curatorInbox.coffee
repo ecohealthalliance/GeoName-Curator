@@ -21,13 +21,31 @@ Template.curatorInbox.onCreated ->
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
   @reviewFilter.set({$ne: true})
   @selectedSourceId = new ReactiveVar null
+  @query = new ReactiveVar null
 
   @autorun =>
-    Meteor.call 'fetchPromedPosts', 100, @dateRange.get(), (err) ->
+    range = @dateRange.get()
+    endDate = range?.endDate || new Date()
+    startDate = moment(endDate).subtract(2, 'weeks').toDate()
+    if range?.startDate
+      startDate = range.startDate
+    query =
+      publishDate:
+        $gte: new Date(startDate)
+        $lte: new Date(endDate)
+    @query.set query
+
+    Meteor.call 'fetchPromedPosts', 100, range, (err) ->
       if err
         console.log(err)
         return toastr.error(err.reason)
-    @subscribe "curatorSources", @dateRange.get(), () =>
+
+    @subscribe "curatorSources", query, () =>
+      unReviewedQuery = $and: [ {reviewed: false}, query ]
+      firstSource = CuratorSources.findOne unReviewedQuery,
+        sort:
+          publishDate: -1
+      @selectedSourceId.set firstSource._id
       @ready.set(true)
 
 Template.curatorInbox.onRendered ->
@@ -62,6 +80,9 @@ Template.curatorInbox.helpers
 
   selectedSourceId: ->
     Template.instance().selectedSourceId
+
+  query: ->
+    Template.instance().query
 
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
@@ -113,8 +134,8 @@ Template.curatorInbox.events
     template.calendarState.set(false)
 
 Template.curatorInboxSection.onRendered ->
-  firstSource = CuratorSources.findOne {reviewed: false},  sort: publishDate: -1
-  @data.selectedSourceId.set firstSource._id
+  # firstSource = CuratorSources.findOne {reviewed: false},  sort: publishDate: -1
+  # @data.selectedSourceId.set firstSource._id
 
 Template.curatorInboxSection.onCreated ->
   @selectedSourceId = new ReactiveVar null
@@ -243,7 +264,7 @@ Template.curatorSourceDetails.onRendered ->
   @autorun =>
     sourceId = Template.instance().data.selectedSourceId.get()
     source = CuratorSources.findOne _id: sourceId
-    @reviewed.set source.reviewed or false
+    @reviewed.set source?.reviewed or false
     @source.set source
 
 Template.curatorSourceDetails.helpers
@@ -277,7 +298,10 @@ Template.curatorSourceDetails.events
     if reviewed.get()
       notifying.set true
       Meteor.setTimeout ->
-        nextSource = CuratorSources.findOne {reviewed: false},  sort: publishDate: -1
+        unReviewedQuery = $and: [ {reviewed: false}, template.data.query.get()]
+        nextSource = CuratorSources.findOne unReviewedQuery,
+          sort:
+            publishDate: -1
         template.data.selectedSourceId.set nextSource._id
         notifying.set false
       , 1200
