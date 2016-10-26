@@ -61,8 +61,3 @@ Meteor.methods
         $unset:
           lastIncidentDate: ""
       })
-
-if Meteor.isServer
-    Meteor.methods
-      searchUserEvents: (search) ->
-        UserEvents.find({$text: {$search: search}}, {fields: {score: {$meta: 'textScore'}}, sort: {score: {$meta: 'textScore'}}}).fetch()
