@@ -29,13 +29,13 @@ template(name="sourceModal")
             .form-group
               .col-md-12
                 label.control-label Publication Date
-                #publishDate.datePicker(init="{{initDatePicker}}")
+                #publishDate.datePicker
             .form-group
               .col-md-6
                 .input-group
                   span.input-group-addon
                     i.fa.fa-clock-o
-                  input#publishTime.timePicker.form-control(type="text" name="publishTime" placeholder="Time" init="{{initTimePicker}}")
+                  input#publishTime.timePicker.form-control(type="text" name="publishTime" placeholder="Time")
               .col-md-6
                 .input-group
                   span.input-group-addon
