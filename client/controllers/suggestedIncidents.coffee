@@ -1,4 +1,5 @@
 incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
+Incidents = require '/imports/collections/incidentReports.coffee'
 # A annotation's territory is the sentence containing it,
 # and all the following sentences until the next annotation.
 # Annotations in the same sentence are grouped.
@@ -53,6 +54,7 @@ Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar("")
+  @annotationCount = new ReactiveVar(null)
   Meteor.call("getArticleEnhancements", @data.article.url, (error, result) =>
     if error
       Modal.hide(@)
@@ -172,11 +174,18 @@ Template.suggestedIncidentsModal.helpers
     Template.instance().incidentCollection.find().count() > 0
   loading: ->
     Template.instance().loading.get()
+  annotatedCount: ->
+    if Template.instance().annotationCount.get()
+      count = Incidents.find({userEventId: Template.instance().data.userEventId}).fetch().length
+      count + " of " + Template.instance().annotationCount.get() + " incidents reviewed"
+
   annotatedContent: ->
     content = Template.instance().content.get()
     lastEnd = 0
     html = ""
+    count = 0;
     Template.instance().incidentCollection.find().map (incident)->
+      count++
       [start, end] = incident.countAnnotation.textOffsets[0]
       html += (
         Handlebars._escape("#{content.slice(lastEnd, start)}") +
@@ -186,6 +195,7 @@ Template.suggestedIncidentsModal.helpers
         >#{Handlebars._escape(content.slice(start, end))}</span>"""
       )
       lastEnd = end
+    Template.instance().annotationCount.set(count)
     html += Handlebars._escape("#{content.slice(lastEnd)}")
     new Spacebars.SafeString(html)
 
