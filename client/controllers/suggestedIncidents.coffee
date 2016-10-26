@@ -54,7 +54,6 @@ Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar("")
-  @annotationCount = new ReactiveVar(null)
   Meteor.call("getArticleEnhancements", @data.article.url, (error, result) =>
     if error
       Modal.hide(@)
@@ -175,9 +174,10 @@ Template.suggestedIncidentsModal.helpers
   loading: ->
     Template.instance().loading.get()
   annotatedCount: ->
-    if Template.instance().annotationCount.get()
-      count = Incidents.find({userEventId: Template.instance().data.userEventId}).fetch().length
-      count + " of " + Template.instance().annotationCount.get() + " incidents reviewed"
+    total = Template.instance().incidentCollection.find().fetch().length
+    if total
+      count = Template.instance().incidentCollection.find({accepted: true}).fetch().length
+      count + " of " + total + " incidents reviewed"
 
   annotatedContent: ->
     content = Template.instance().content.get()
@@ -195,7 +195,6 @@ Template.suggestedIncidentsModal.helpers
         >#{Handlebars._escape(content.slice(start, end))}</span>"""
       )
       lastEnd = end
-    Template.instance().annotationCount.set(count)
     html += Handlebars._escape("#{content.slice(lastEnd)}")
     new Spacebars.SafeString(html)
 
