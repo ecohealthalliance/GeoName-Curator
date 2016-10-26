@@ -172,6 +172,12 @@ Template.suggestedIncidentsModal.helpers
     Template.instance().incidentCollection.find().count() > 0
   loading: ->
     Template.instance().loading.get()
+  annotatedCount: ->
+    total = Template.instance().incidentCollection.find().count()
+    if total
+      count = Template.instance().incidentCollection.find({accepted: true}).count()
+      count + " of " + total + " incidents accepted"
+
   annotatedContent: ->
     content = Template.instance().content.get()
     lastEnd = 0

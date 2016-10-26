@@ -4,7 +4,8 @@ template(name="suggestedIncidentsModal")
       .modal-content
         .modal-header
           +modalCloseButton
-          h4.modal-title Suggested Incident Reports
+          h4.modal-title Suggested Incident Reports 
+            .small-text {{annotatedCount}}
         .modal-body
           if loading
             i.fa.fa-circle-o-notch.fa-spin
