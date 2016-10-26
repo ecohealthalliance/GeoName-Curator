@@ -110,7 +110,8 @@ Template.curatorInbox.events
 
 Template.curatorInboxSection.onRendered ->
   # select the first item in the inbox
-  $(".curator-inbox-table tbody tr:first").click()
+  if $(".details-open").length == 0
+    $(".curator-inbox-table tbody tr:first").click()
 
 Template.curatorInboxSection.onCreated ->
   @curatorInboxFields = [
@@ -232,11 +233,9 @@ Template.curatorSourceDetails.onCreated ->
   @contentIsOpen = new ReactiveVar(false)
   @reviewed = new ReactiveVar @data.reviewed or false
 
-# Template.curatorSourceDetails.onRendered ->
-
 Template.curatorSourceDetails.onRendered ->
   @$('.toggle-source-content').tooltip()
-
+  
 Template.curatorSourceDetails.helpers
   post: ->
     return CuratorSources.findOne({_id: @_id})
