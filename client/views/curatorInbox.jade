@@ -1,37 +1,39 @@
 template(name="curatorInbox")
-  .container-fluid
-    .row
-      .col-sm-6.curator-inbox-sources
-        .row.curator-inbox-header
-          h2 Sources
-          .curator-inbox-options
-            a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
-              i.fa.fa-calendar
-            a.curator-filter-reviewed-icon(class="{{#unless reviewFilterActive}} active {{/unless}}")
-              i.fa.fa-check-circle
-            .input-group
-              input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
-              i.fa.fa-search.search-icon
-        .row.curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
-          .text-center
-            #date-picker.inlineRangePicker
-          .text-center
-            a#calendar-btn-apply.btn.btn-primary(href="") Apply
-            a#calendar-btn-reset.btn.btn-primary(href="") Reset
-            a#calendar-btn-cancel.btn.btn-default(href="") Cancel
-        .curator-inbox-source-list.row
-          if isReady
-            each day in days
-              +curatorInboxSection(
-                date=day
-                index=@index
-                reviewFilter=reviewFilter
-                selectedSourceId=selectedSourceId)
-          else
-            .loading
-      if isReady
-        .col-sm-6.curator-source-details
-          +curatorSourceDetails selectedSourceId=selectedSourceId query=query
+  .pane-container.curator-inbox
+    .curator-inbox-header.pane-head.pane-head-l
+      h2 Sources
+      .curator-inbox-options
+        if isLoading
+          a.curator-refresh-icon
+            i.fa.fa-refresh.fa-spin
+        a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
+          i.fa.fa-calendar
+        a.curator-filter-reviewed-icon(class="{{#unless reviewFilterActive}} active {{/unless}}")
+          i.fa.fa-check-circle
+        .input-group
+          input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
+          i.fa.fa-search.search-icon
+    .curator-inbox-sources.pane.pane-l.curator-inbox--pane
+      .curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
+        .text-center
+          #date-picker.inlineRangePicker
+        .text-center
+          a#calendar-btn-apply.btn.btn-primary(href="") Apply
+          a#calendar-btn-reset.btn.btn-primary(href="") Reset
+          a#calendar-btn-cancel.btn.btn-default(href="") Cancel
+      .curator-inbox-source-list
+        if isReady
+          each day in days
+            +curatorInboxSection(
+              date=day
+              index=@index
+              reviewFilter=reviewFilter
+              selectedSourceId=selectedSourceId)
+        else
+          .loading
+    if isReady
+      .curator-source-details.pane.pane-r.curator-inbox--pane
+        +curatorSourceDetails selectedSourceId=selectedSourceId query=query
 
 template(name="curatorInboxSection")
   if post

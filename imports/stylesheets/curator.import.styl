@@ -9,7 +9,7 @@
 
 .curator-inbox-header
   background $primary
-  padding .5em 1.5em
+  padding 10px 15px 10px 55px
   min-height 54px
   display flex
   align-items center
@@ -91,13 +91,14 @@
     margin 0
 
 .curator-inbox-source-list
-  border-right 1px solid $border-primary
   .reactive-table-options
     display none
 
 .curator-inbox-table
   margin-bottom 0
   color $primary
+  max-width calc(100% + 1px)
+  width calc(100% + 1px)
   thead
     display none
   tr
@@ -115,6 +116,8 @@
   font-size 14px
   padding-top 8px
   cursor pointer
+  &:first-of-type
+    border-top 0
   &:hover
     background darken(@background, 4%)
 
@@ -129,6 +132,7 @@
   background none
   border-bottom 2px solid $border-primary
   overflow hidden
+  padding-left 1.5em
   h2
     color $primary
     flex 1
@@ -408,7 +412,7 @@
 
 .curator-events-header
   min-height 50px
-  padding .5em 1.5em
+  padding .5em 2em .5em 1.5em
   border-top 1px solid $border-primary
   border-bottom 1px solid $border-primary
   display flex

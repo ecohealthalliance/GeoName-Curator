@@ -51,3 +51,10 @@ centerPosition($h=-50%,$v=-50%)
 
 icon()
   font-family FontAwesome
+
+addBorder($sides, $h, $color)
+  if $sides == all
+    border unit($h, 'px') solid $color
+  else
+    for $side in $sides
+      border-{$side} unit($h,'px') solid $color
