@@ -3,4 +3,4 @@
 
 #Run our meteor app in production mode
 export METEOR_SETTINGS=$(cat /shared/settings-production.json)
-cd /build/bundle && node main.js
+cd /home/meteor/build/bundle && node main.js

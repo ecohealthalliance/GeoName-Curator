@@ -16,6 +16,7 @@ ENV PATH $PATH:/node-v4.4.7-linux-x64/bin
 
 #Add in the repo
 ADD . /eidr-connect
+ADD eidr-connect.sh .
 WORKDIR /eidr-connect
 
 # Install Meteor
@@ -27,11 +28,10 @@ RUN chown -R meteor:meteor /eidr-connect
 USER meteor
 
 RUN meteor npm install
-RUN meteor build /build --directory
-WORKDIR /build/bundle/programs/server
+RUN meteor build /home/meteor/build --directory
+WORKDIR /home/meteor/build/bundle/programs/server
 RUN npm install
 WORKDIR /
-ADD eidr-connect.sh .
 
 #Switch back to root user
 USER root
