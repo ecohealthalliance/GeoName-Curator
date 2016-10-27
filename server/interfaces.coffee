@@ -52,3 +52,13 @@ Meteor.methods
       response.data
     else
       throw new Meteor.Error 500, "Unable to reach the API"
+
+  ###
+  # searchUserEvents - perform a full-text search on `eventName` and `summary`,
+  #   sorted by matching score.
+  #
+  # @param {string} search, the text to search for matches
+  # @returns {array} userEvents, an array of userEvents
+  ###
+  searchUserEvents: (search) ->
+    UserEvents.find({$text: {$search: search}}, {fields: {score: {$meta: 'textScore'}}, sort: {score: {$meta: 'textScore'}}}).fetch()

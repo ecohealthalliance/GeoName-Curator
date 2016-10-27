@@ -13,6 +13,9 @@ template(name="curatorEvents")
     else
       p.no-events.muted-text Currently no associated events
 
+  .suggested-events.curator-events
+    +suggestedEvents title=title associatedEventIdsToArticles=associatedEventIdsToArticles
+
   .all-events.curator-events
     .curator-events-header
       h4 All Events

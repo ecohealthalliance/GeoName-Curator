@@ -33,6 +33,12 @@ Template.curatorEvents.helpers
         $in: _.keys(Template.instance().associatedEventIdsToArticles.get())
     )
 
+  associatedEventIdsToArticles: ->
+    Template.instance().associatedEventIdsToArticles
+
+  title: ->
+    Template.instance().data.title
+
   associated: () ->
     articleId = Template.instance().data._id
     CuratorSources.findOne({ _id: articleId, relatedEvents: this._id })
