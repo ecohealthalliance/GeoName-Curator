@@ -5,9 +5,6 @@ template(name="curatorInbox")
         .row.curator-inbox-header
           h2 Sources
           .curator-inbox-options
-            if isLoading
-              a.curator-refresh-icon
-                i.fa.fa-refresh.fa-spin
             a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
               i.fa.fa-calendar
             a.curator-filter-reviewed-icon(class="{{#unless reviewFilterActive}} active {{/unless}}")
@@ -25,14 +22,16 @@ template(name="curatorInbox")
         .curator-inbox-source-list.row
           if isReady
             each day in days
-              +curatorInboxSection date=day index=@index reviewFilter=reviewFilter
+              +curatorInboxSection(
+                date=day
+                index=@index
+                reviewFilter=reviewFilter
+                selectedSourceId=selectedSourceId)
           else
-            .text-center
-              br
-              p Loading...
+            .loading
       if isReady
         .col-sm-6.curator-source-details
-          .curator-inbox-header
+          +curatorSourceDetails selectedSourceId=selectedSourceId query=query
 
 template(name="curatorInboxSection")
   if post
@@ -48,10 +47,14 @@ template(name="curatorInboxSection")
           else
             i.fa.fa-chevron-circle-left
     if isOpen
-      +reactiveTable collection=posts settings=settings selector=selector class="table table-hover curator-inbox-table" rowClass="curator-inbox-table-row"
+      +reactiveTable(
+        collection=posts
+        settings=settings
+        selector=selector
+        class="table table-hover curator-inbox-table")
 
 template(name="curatorSourceDetails")
-  with post
+  with source
     .curator-inbox-header.curator-source-details-header(class="{{#if isReviewed}} reviewed {{/if}}")
       h2= title
       .curator-source-details-options
@@ -66,8 +69,17 @@ template(name="curatorSourceDetails")
             span Reviewed
           else
             span Mark Reviewed
+      if notifying
+        .notification
+          .checks
+            i.fa.fa-check-circle.confirmation
+            .circle
+          p Preparing next source
+      .transition(class="{{#if notifying}} active {{/if}}")
     .curator-source-details-content
       if contentIsOpen
         .curator-source-details-copy-wrapper
           .curator-source-details-copy= content
-      +curatorEvents
+      +curatorEvents selectedSourceId=selectedSourceId
+      if notifying
+        .veil

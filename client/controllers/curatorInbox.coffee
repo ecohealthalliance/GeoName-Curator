@@ -20,13 +20,32 @@ Template.curatorInbox.onCreated ->
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
   @reviewFilter.set({$ne: true})
+  @selectedSourceId = new ReactiveVar null
+  @query = new ReactiveVar null
 
   @autorun =>
-    Meteor.call 'fetchPromedPosts', 100, @dateRange.get(), (err) ->
+    range = @dateRange.get()
+    endDate = range?.endDate || new Date()
+    startDate = moment(endDate).subtract(2, 'weeks').toDate()
+    if range?.startDate
+      startDate = range.startDate
+    query =
+      publishDate:
+        $gte: new Date(startDate)
+        $lte: new Date(endDate)
+    @query.set query
+
+    Meteor.call 'fetchPromedPosts', 100, range, (err) ->
       if err
         console.log(err)
         return toastr.error(err.reason)
-    @subscribe "curatorSources", @dateRange.get(), () =>
+
+    @subscribe "curatorSources", query, () =>
+      unReviewedQuery = $and: [ {reviewed: false}, query ]
+      firstSource = CuratorSources.findOne unReviewedQuery,
+        sort:
+          publishDate: -1
+      @selectedSourceId.set firstSource._id
       @ready.set(true)
 
 Template.curatorInbox.onRendered ->
@@ -58,6 +77,12 @@ Template.curatorInbox.helpers
 
   isLoading: ->
     !Template.instance().ready.get()
+
+  selectedSourceId: ->
+    Template.instance().selectedSourceId
+
+  query: ->
+    Template.instance().query
 
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
@@ -109,11 +134,11 @@ Template.curatorInbox.events
     template.calendarState.set(false)
 
 Template.curatorInboxSection.onRendered ->
-  # select the first item in the inbox
-  if $(".details-open").length == 0
-    $(".curator-inbox-table tbody tr:first").click()
+  # firstSource = CuratorSources.findOne {reviewed: false},  sort: publishDate: -1
+  # @data.selectedSourceId.set firstSource._id
 
 Template.curatorInboxSection.onCreated ->
+  @selectedSourceId = new ReactiveVar null
   @curatorInboxFields = [
     {
       key: 'reviewed'
@@ -204,7 +229,8 @@ Template.curatorInboxSection.helpers
     moment(Template.instance().data.date).format('MMMM DD, YYYY')
 
   settings: ->
-    fields = Template.instance().curatorInboxFields
+    instance = Template.instance()
+    fields = instance.curatorInboxFields
 
     id: 'article-curation-table'
     showColumnToggles: false
@@ -214,15 +240,13 @@ Template.curatorInboxSection.helpers
     rowsPerPage: 200
     showNavigation: 'never'
     filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
+    rowClass: (source) ->
+      if source._id._str is instance.data.selectedSourceId.get()?._str
+        'selected'
 
 Template.curatorInboxSection.events
   'click .curator-inbox-table tbody tr': (event, template) ->
-    $('.details-open').removeClass('details-open')
-    $parentRow = $(event.target).closest('tr')
-    $parentRow.addClass('details-open')
-    $('.curator-source-details').html('')
-    details = $('.curator-source-details')[0]
-    Blaze.renderWithData(Template.curatorSourceDetails, @, details)
+    template.data.selectedSourceId.set @_id
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)
 
@@ -231,14 +255,21 @@ Template.curatorInboxSection.events
 
 Template.curatorSourceDetails.onCreated ->
   @contentIsOpen = new ReactiveVar(false)
-  @reviewed = new ReactiveVar @data.reviewed or false
+  @notifying = new ReactiveVar false
+  @source = new ReactiveVar null
+  @reviewed = new ReactiveVar false
 
 Template.curatorSourceDetails.onRendered ->
   @$('.toggle-source-content').tooltip()
-  
+  @autorun =>
+    sourceId = Template.instance().data.selectedSourceId.get()
+    source = CuratorSources.findOne _id: sourceId
+    @reviewed.set source?.reviewed or false
+    @source.set source
+
 Template.curatorSourceDetails.helpers
-  post: ->
-    return CuratorSources.findOne({_id: @_id})
+  source: ->
+    Template.instance().source.get()
 
   contentIsOpen: ->
     Template.instance().contentIsOpen.get()
@@ -250,13 +281,30 @@ Template.curatorSourceDetails.helpers
     moment(Template.instance().data.promedDate).format('MMMM DD, YYYY')
 
   isReviewed: ->
-    Template.instance().reviewed.get()
+    Template.instance().source.get().reviewed
+
+  notifying: ->
+    Template.instance().notifying.get()
+
+  selectedSourceId: ->
+    Template.instance().data.selectedSourceId
 
 Template.curatorSourceDetails.events
   "click .toggle-reviewed": (event, template) ->
     reviewed = template.reviewed
+    notifying = template.notifying
     reviewed.set not reviewed.get()
-    Meteor.call('curateSource', template.data._id, reviewed.get())
+    Meteor.call('markSourceReviewed', template.source.get()._id, reviewed.get())
+    if reviewed.get()
+      notifying.set true
+      Meteor.setTimeout ->
+        unReviewedQuery = $and: [ {reviewed: false}, template.data.query.get()]
+        nextSource = CuratorSources.findOne unReviewedQuery,
+          sort:
+            publishDate: -1
+        template.data.selectedSourceId.set nextSource._id
+        notifying.set false
+      , 1200
 
   'click .toggle-source-content': (event, template) ->
     open = template.contentIsOpen

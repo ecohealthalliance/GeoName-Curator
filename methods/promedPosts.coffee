@@ -36,6 +36,7 @@ if Meteor.isServer
         addedDate: new Date()
         publishDate: post.promedDate
         content: post.content
+        reviewed: false
         metadata:
           links: post.links
-      CuratorSources.upsert({_id: post._id}, {$set: normalizedPost})
+      CuratorSources.upsert({_id: post._id}, {$setOnInsert: normalizedPost})
