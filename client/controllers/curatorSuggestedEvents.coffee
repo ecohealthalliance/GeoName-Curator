@@ -86,6 +86,7 @@ Template.suggestedEvents.helpers
       showFilter: false
       showColumnToggles: false
       showNavigationRowsPerPage: false
+      showNavigation: 'never'
       currentPage: 1
       rowsPerPage: 5
       class: "table table-hover col-sm-12"
