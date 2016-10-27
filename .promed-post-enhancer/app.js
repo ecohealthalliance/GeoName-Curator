@@ -1,6 +1,6 @@
 import 'd3';
-import 'event-drops';
-import 'event-drops/dist/eventDrops.css';
+import './EventDrops/lib/eventDrops.js';
+import './EventDrops/style.css';
 import './styles.css';
 const EIDR_CONNECT_URL = "https://eidr-connect.eha.io";
 
@@ -59,6 +59,13 @@ const hideTooltip = () => {
   .style('opacity', 0);
 };
 
+const pointAdd = (point0, ...points) => point0.map((el, idx)=>{
+    return points.reduce((sofar, el2)=>sofar+el2[idx], el);
+  });
+const pointScale = (p, s) => p.map((el, idx)=>{
+    return el * s;
+  });
+
 var enhancing = false;
 if(window.obs) window.obs.disconnect();
 const enhance = (target)=>{
@@ -73,9 +80,7 @@ const enhance = (target)=>{
     url: url
   }, (events)=>{
     if(!events || events.length === 0) return enhancing=false;
-    $(target)
-    .find(".printable")
-    .after(`
+    let enhancementHTML = `
       <p>EIDR-Connect Events:&nbsp;
         ${events.map((event)=>{
           return `<a href="https://eidr-connect.eha.io/user-event/${event._id}">
@@ -84,11 +89,15 @@ const enhance = (target)=>{
         }).join(", ")}
       </p>
       <div id="plotContainer">
+        <button class="zoom-btn zoom-out">-</button>
+        <button class="zoom-btn zoom-in">+</button>
         <p class="timeline-title">Event timeline:</p>
         <div class="eidr-chart"></div>
       </div>
-    `);
-    
+    `;
+    let $seeAlso = $(target).find("h2");
+    if($seeAlso.length > 0) $seeAlso.before(enhancementHTML);
+    else $(target).append(enhancementHTML);
     var minPubDate = new Date();
     events.forEach((event)=>{
       event.articles.forEach((article)=>{
@@ -125,6 +134,30 @@ const enhance = (target)=>{
 
     chart(element);
 
+    const zoom = element[0][0].zoom;
+    $(".zoom-in").click(()=>zoomBy(1.5));
+    $(".zoom-out").click(()=>zoomBy(1/1.5));
+
+    let zoomBy = (factor) => {
+      // Temporarily set zoom center
+      zoom.center([$(".eidr-chart").width() / 2, 0]);
+      // Based on http://bl.ocks.org/mbostock/7ec977c95910dd026812
+      element.call(zoom.event);
+      let center0 = zoom.center();
+      let translate0 = zoom.translate();
+      let coordinates0 = pointScale(
+        pointAdd(center0,  pointScale(zoom.translate(), -1)),
+        1 / zoom.scale()
+      );
+      zoom.scale(zoom.scale() * factor);
+      let center1 = pointAdd(
+        zoom.translate(),
+        pointScale(coordinates0, zoom.scale())
+      );
+      zoom.translate(pointAdd(translate0, center0, pointScale(center1, -1)));
+      element.transition().duration(500).call(zoom.event);
+      zoom.center(null);
+    };
     // A timeout is used for debouncing
     setTimeout(()=>{
       enhancing = false;

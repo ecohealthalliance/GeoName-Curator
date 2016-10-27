@@ -34,3 +34,12 @@
     font-weight: bold;
     margin-bottom: 0px;
 }
+.zoom-btn {
+    float: right;
+    height: 2em;
+    width: 2em;
+    font-weight: bold;
+    background: white;
+    border: 1px solid lightgray;
+    margin-left: 4px;
+}
