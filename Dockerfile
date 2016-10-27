@@ -14,6 +14,10 @@ RUN wget https://nodejs.org/download/release/v4.4.7/node-v4.4.7-linux-x64.tar.gz
     rm node-v4.4.7-linux-x64.tar.gz
 ENV PATH $PATH:/node-v4.4.7-linux-x64/bin
 
+#Create and use meteor user
+RUN groupadd meteor && adduser --ingroup meteor --home /home/meteor meteor
+USER meteor
+
 # Install Meteor
 RUN curl https://install.meteor.com/ | sh
 
@@ -25,6 +29,9 @@ WORKDIR /build/bundle/programs/server
 RUN npm install
 WORKDIR /
 ADD eidr-connect.sh .
+
+#Switch back to root user
+USER root
 
 # Add the application files
 ADD supervisor-eidr-connect.conf /etc/supervisor/conf.d/eidr-connect.conf
