@@ -1,0 +1,63 @@
+.pane-container
+  @extend .gradient-bottom
+  position fixed
+  top $header-height
+  bottom 0
+  left 0
+  right 0
+  z-index $mid-layer
+  .loading
+    loading(false)
+    position absolute
+    top 100px
+    transform translate(-50%, 0)
+    left 50%
+
+.pane
+  position absolute
+  top 0
+  bottom 0
+  padding-bottom 5em
+  z-index $mid-layer
+  overflow-y auto
+  background white
+  .text-center
+    padding 0 15px
+
+.pane-l
+  left 0
+  top $curator-pane-head-height
+
+.pane-m
+  width 55%
+  left 22.5%
+  addBorder(left right, 1, $border-primary-light)
+  .pane-actions
+    padding-right 20px
+    padding-left 20px
+
+.pane-r
+  right 0
+
+.pane-head
+  position absolute
+  min-height $curator-pane-head-height
+  max-height $curator-pane-head-height
+  overflow hidden
+  z-index $top-layer
+  width $curator-pane-width
+  addBorder(bottom, 1, $border-primary)
+  input
+    margin-bottom 0
+
+.pane-head-l
+  left 0
+
+.pane-head-r
+  right 0
+
+.curator-inbox--pane
+  width $curator-pane-width
+  border-right 1px solid $border-primary
+  &:last-of-type
+    border 0
