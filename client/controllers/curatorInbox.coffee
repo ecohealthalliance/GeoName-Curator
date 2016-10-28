@@ -17,7 +17,7 @@ Template.curatorInbox.onCreated ->
   @dateRange = new ReactiveVar
     startDate: moment().subtract(1, 'weeks').toDate()
     endDate: new Date()
-  @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['url'])
+  @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['title'])
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
   @reviewFilter.set({$ne: true})
   @selectedSourceId = new ReactiveVar null
@@ -72,6 +72,9 @@ Template.curatorInbox.helpers
   reviewFilterActive: ->
     Template.instance().reviewFilter.get()
 
+  textFilter: ->
+    Template.instance().textFilter
+
   isReady: ->
     Template.instance().ready.get()
 
@@ -86,7 +89,8 @@ Template.curatorInbox.helpers
 
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
-    template.textFilter.set($(event.target).val())
+    template.textFilter.set
+      $regex: $(event.target).val()
 
   "click .curator-filter-calendar-icon": (event, template) ->
     calendarState = template.calendarState
@@ -194,23 +198,27 @@ Template.curatorInboxSection.onCreated ->
 
   @isOpen = new ReactiveVar(@data.index < 5)
 
+uniteReactiveTableFilters = (filters) ->
+  reactiveFilters = []
+  _.each filters, (filter) ->
+    _filter = filter.get()
+    if _filter
+      reactiveFilters.push _.object filter.fields.map (field)->
+        [field, _filter]
+  reactiveFilters
+
 Template.curatorInboxSection.onRendered ->
   @autorun =>
-    sectionDate = @data.date
-    reactiveFilters = @data.reviewFilter
-    filters = @data.reviewFilter.get()
-    filterArray = [
+    data = @data
+    sectionDate = data.date
+    dateFilters =
       'publishDate':
         $gte: sectionDate
         $lt: moment(sectionDate).add(1, 'day').toDate()
-    ]
-    # adjust counts based on whether we are showing accepted sources or not
-    if filters
-      filterArray.push _.object(reactiveFilters.fields.map((field)->
-        [field, filters]
-      ))
-    filter = $and: filterArray
-    @sourceCount.set CuratorSources.find(filter).count()
+    filters = uniteReactiveTableFilters [ data.textFilter, data.reviewFilter ]
+    filters.push dateFilters
+    query = $and: filters
+    @sourceCount.set CuratorSources.find(query).count()
 
 Template.curatorInboxSection.helpers
   post: ->
@@ -247,8 +255,6 @@ Template.curatorInboxSection.helpers
 Template.curatorInboxSection.events
   'click .curator-inbox-table tbody tr': (event, template) ->
     template.data.selectedSourceId.set @_id
-    if (window.scrollY > 0 and window.innerHeight < 700)
-      $(document.body).animate({scrollTop: 0}, 400)
 
   'click .curator-inbox-section-head': (event, template) ->
     template.isOpen.set(!template.isOpen.curValue)
