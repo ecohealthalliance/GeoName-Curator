@@ -175,7 +175,7 @@ Template.sourceModal.events
           daylightSavings = daylightSavings and moment.utc(
             date.year() + "-11-01") >= date
           tz = if daylightSavings then "EDT" else "EST"
-          date = date.utcOffset(utils.UTCOffsets[tz])
+          date = date.utcOffset(UTCOffsets[tz])
           templateInstance.$("#publishDateTZ").val(tz)
           templateInstance.$('#publishDate').data("DateTimePicker").date(date)
           templateInstance.$('#publishTime').data("DateTimePicker").date(date)
