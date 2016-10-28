@@ -36,7 +36,7 @@ template(name="curatorInbox")
         +curatorSourceDetails selectedSourceId=selectedSourceId query=query
 
 template(name="curatorInboxSection")
-  if post
+  if count
     .col-xs-12.curator-inbox-section-head
       .pull-left
         b {{formattedDate}}
