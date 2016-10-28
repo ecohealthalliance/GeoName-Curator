@@ -48,7 +48,7 @@ Template.suggestedEvents.onCreated ->
     @events.set(events)
 
   @autorun =>
-    source = CuratorSources.find({_id: @data.selectedSourceId.get()}).fetch()[0]
+    source = CuratorSources.findOne({_id: @data.selectedSourceId.get()})
     if source
       # strip punctuation and create tokens
       tokens = if source.title then source.title.replace(/[~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').split(' ') else []
