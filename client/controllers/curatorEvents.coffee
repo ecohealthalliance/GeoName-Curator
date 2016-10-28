@@ -5,6 +5,7 @@ Articles = require '/imports/collections/articles.coffee'
 
 Template.curatorEvents.onCreated ->
   instance = @
+  @suggestedEventsHeaderState = new ReactiveVar true
   @autorun ->
     sourceId = instance.data.selectedSourceId.get()
 
@@ -27,16 +28,14 @@ Template.curatorEvents.onRendered ->
 
 Template.curatorEvents.helpers
   userEvents: ->
-    UserEvents.find(
+    UserEvents.find
       _id:
         $nin: _.keys(Template.instance().associatedEventIdsToArticles.get())
-    )
 
   associatedUserEvents: ->
-    UserEvents.find(
+    UserEvents.find
       _id:
         $in: _.keys(Template.instance().associatedEventIdsToArticles.get())
-    )
 
   associatedEventIdsToArticles: ->
     Template.instance().associatedEventIdsToArticles
@@ -76,6 +75,9 @@ Template.curatorEvents.helpers
       class: "table table-hover col-sm-12"
     }
 
+  allEventsOpen: ->
+    Template.instance().suggestedEventsHeaderState.get()
+
 Template.curatorEvents.events
   "click .curator-events-table .curator-events-table-row": (event, template) ->
     $target = $(event.target)
@@ -98,3 +100,11 @@ Template.curatorEvents.events
     })
   "click .deassociate-event": (event, template) ->
     Meteor.call('removeEventSource', template.associatedEventIdsToArticles.get()[@_id])
+
+  'click .curator-events-header.all-events': (event, template) ->
+    suggestedEventsHeaderState = template.suggestedEventsHeaderState
+    suggestedEventsHeaderState.set not suggestedEventsHeaderState.get()
+
+  'click #curatorEventsFilter': (event, template) ->
+    event.stopPropagation()
+    template.suggestedEventsHeaderState.set true

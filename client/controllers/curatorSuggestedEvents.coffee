@@ -12,8 +12,8 @@ UserEvents = require '/imports/collections/userEvents.coffee'
 ###
 
 Template.suggestedEvents.onCreated ->
-  @isOpen = new ReactiveVar(true)
-  @events = new ReactiveVar([])
+  @headerState = new ReactiveVar true
+  @events = new ReactiveVar []
   @initialEvents = []
 
   # sets the suggestedEvents table fields
@@ -71,7 +71,7 @@ Template.suggestedEvents.onCreated ->
 Template.suggestedEvents.helpers
   # controls the visiblity of the suggested-events-table and toggles the chevron
   isOpen: ->
-    Template.instance().isOpen.get()
+    Template.instance().headerState.get()
   # the reactive array that populates the reactive-`table
   events: ->
     Template.instance().events.get()
@@ -94,8 +94,6 @@ Template.suggestedEvents.helpers
 
 Template.suggestedEvents.events
   # event handler to toggle the reactive var isOpen
-  'click .curator-collapse': (event, template) ->
-    if template.isOpen.get()
-      template.isOpen.set false
-    else
-      template.isOpen.set true
+  'click .curator-events-header.suggested-events': (event, template) ->
+    headerState = template.headerState
+    headerState.set not headerState.get()
