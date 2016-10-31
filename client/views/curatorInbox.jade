@@ -28,6 +28,7 @@ template(name="curatorInbox")
               date=day
               index=@index
               reviewFilter=reviewFilter
+              textFilter=textFilter
               selectedSourceId=selectedSourceId)
         else
           .loading
@@ -36,7 +37,7 @@ template(name="curatorInbox")
         +curatorSourceDetails selectedSourceId=selectedSourceId query=query
 
 template(name="curatorInboxSection")
-  if post
+  if count
     .col-xs-12.curator-inbox-section-head
       .pull-left
         b {{formattedDate}}
