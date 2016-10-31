@@ -1,5 +1,8 @@
 formatLocation = require '/imports/formatLocation.coffee'
 
+Template.locationList.onRendered ->
+  @$('#locationFilter input').attr 'placeholder', 'Search locations'
+
 Template.locationList.helpers
   incidentLocations: ->
     locations = {}

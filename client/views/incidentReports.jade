@@ -1,31 +1,27 @@
 template(name="incidentReports")
-  .row
-    .col-md-6
+  .container-flex.no-gutter
+    .flex-col.bordered
       +addIncidentReport
       if incidents.length
         +reactiveTable collection=incidents settings=getSettings
       else
         p No incident reports are associated with this event.
-    .col-md-6
-      .row
-        div#scatterPlot-toolbar
-          a#scatterPlot-toggleCumulative.btn.btn-xs.btn-default.scatterPlot-toolbar-button
-            i.fa.fa-circle-o
-            | Toggle Cumulative
-          a#scatterPlot-resetZoom.btn.btn-xs.btn-default.scatterPlot-toolbar-button
-            i.fa.fa-refresh
-            | Reset Zoom
-      .row
-        div#scatterPlot
+    .flex-col
+      #scatterPlot-toolbar
+        a#scatterPlot-toggleCumulative.btn.btn-xs.btn-default.scatterPlot-toolbar-button
+          i.fa.fa-circle-o
+          | Toggle Cumulative
+        a#scatterPlot-resetZoom.btn.btn-xs.btn-default.scatterPlot-toolbar-button
+          i.fa.fa-refresh
+          | Reset Zoom
+      #scatterPlot
 
 template(name="addIncidentReport")
   if currentUser
     .tab-form
-      .row
-        .col-md-6.col-sm-12
-          button.btn.btn-primary.open-incident-form(type="button")
-            i.fa.fa-plus-circle
-            | Add Incident Report
+      button.btn.btn-primary.open-incident-form(type="button")
+        i.fa.fa-plus-circle
+        span Add Incident Report
 
 template(name="incidentReport")
   td(colspan="7")

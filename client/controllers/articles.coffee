@@ -7,6 +7,9 @@ import {formatUrl} from '/imports/utils.coffee'
 Template.articles.onCreated ->
   @selectedSourceId = new ReactiveVar null
 
+Template.articles.onRendered ->
+  @$('#sourceFilter input').attr 'placeholder', 'Search sources'
+
 Template.articles.helpers
   getSettings: ->
     fields = [

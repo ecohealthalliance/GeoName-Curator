@@ -1,16 +1,13 @@
 template(name="userEvent")
   .event
-    .row
-      .event-head
-        .basic-info
-          with userEvent
-            .row
-              .col-md-12
-                +summary
+    section.event--basic-info.container-fluid-padded
+      with userEvent
+        +summary
 
+    section.event--detailed-info
       if incidents.length
-        .row
-          ul.nav.nav-tabs.primary-tabs(role="tablist")
+        .tabs-wrapper
+          ul.tabs.primary-tabs.container-fluid-padded(role="tablist")
             li(class="{{#if incidentView}}active{{/if}}" role="presentation")
               a(href="{{pathFor route='user-event' _id=userEvent._id _view='incidents'}}") Incident Reports
             li(class="{{#if locationView}}active{{/if}}" role="presentation")
@@ -20,16 +17,14 @@ template(name="userEvent")
           .tab-pane.active(role="tabpanel")
             +Template.dynamic template=view data=templateData
       else
-        .row
-          +addIncidentReport
+        +addIncidentReport
 
-      .row
-        col-lg-6
-          +articles
+    section.event--articles
+      +articles
 
 template(name="summary")
-  .row.event-summary
-    .col-md-6.event-details
+  .event-summary.container-flex
+    .flex-col.event-details
       .event-name-wrap
         h1.event-name= eventName
         if isInRole "admin"
@@ -57,9 +52,8 @@ template(name="summary")
               data-toggle="modal"
               data-target="#edit-event-modal"
               data-editing='summary')
-    .col-md-6
-      .col-sm-4.col-sm-offset-8.space-btm-1.space-top-1
-      table#countTable.col-md-12
+    .flex-col
+      table#countTable
         tr.col-md-12
           td.col-md-6.count-cell.count-cell-left.text-center
             .col-md-12.count-cell-value= caseCount
@@ -80,9 +74,18 @@ template(name="summary")
               | Copy Event Link
   +editEventDetailsModal
 
-
-
 template(name="locationList")
+  .container-flex.no-gutter
+    .flex-col.bordered
+      if incidentLocations.length
+        .tab-form
+          +reactiveTableFilter id="locationFilter" label=" " class="input-group table-filter"
+        +reactiveTable collection=incidentLocations settings=getSettings
+      else
+        p No locations are associated with this event.
+    .flex-col
+      if incidentLocations.length
+        +map event=userEvent incidentLocations=incidentLocations
   #proMedModal.modal.fade(role='dialog')
     .modal-dialog.modal-lg(role='document')
       .modal-content
@@ -92,19 +95,6 @@ template(name="locationList")
             a#proMedURL
         .modal-body
           iframe#proMedIFrame
-  .row
-    .col-md-6
-      if incidentLocations.length
-        .tab-form
-          .row
-            .col-lg-12
-              +reactiveTableFilter id="locationFilter" label=" " class="input-group table-filter"
-        +reactiveTable collection=incidentLocations settings=getSettings
-      else
-        p No locations are associated with this event.
-    .col-md-6
-      if incidentLocations.length
-        +map event=userEvent incidentLocations=incidentLocations
 
 template(name="location")
   td(colspan="4")

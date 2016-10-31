@@ -1,52 +1,50 @@
 template(name="articles")
-  .panel.panel-default
-    .panel-heading
-      h2 Event Sources
-    .row
-      .col-md-6
-        if articles.length
-          .tab-form
-            .row
-              .col-lg-8
-                +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
-              .col-lg-4.col-sm-12
-                +sourceModalButton
-          +reactiveTable collection=articles settings=getSettings
-
-        else
-          .col-lg-8
-            p There are no articles currently associated with this event.
-          .col-lg-4.col-sm-12
+  .heading.container-fluid-padded
+    h2 Event Sources
+  .container-flex.no-gutter
+    .flex-col.bordered
+      if articles.length
+        .tab-form.container-flex.no-border
+          .flex-col
+            +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
+          .flex-col.no-grow
             +sourceModalButton
-            button.btn.btn-primary.btn-block.open-source-form(type="button")
-              i.fa.fa-plus-circle
-              | Add Source
-      .col-md-6.event-sources-detail
-        if selectedSource
-          h2= formatUrl(selectedSource.url)
-          .row.event-source-info
-            .col-lg-1
-              a.ref-link(href="{{selectedSource.url}}" target="_blank" rel="noopener noreferrer")
-                i.fa.fa-external-link
-            .col-lg-4 Published on {{formatDate selectedSource.publishDate}}
-            .col-lg-7 Submitted by {{selectedSource.addedByUserName}} on {{formatDate selectedSource.addedDate}}
-          .row.event-source-summary
-            .col-lg-6
-              h3 Locations
-                ul
-                  each locationsForSource selectedSource.url
-                    li= this
-                  else
-                    li No locations
-            .col-lg-6
-              h3 Incident Reports
-                ul
-                  each incidentsForSource selectedSource.url
-                    li {{incidentToText this}}
-                  else
-                    li No cases
-        else
-          h2 Please select the source on the left
+        +reactiveTable collection=articles settings=getSettings
+
+      else
+        .col-lg-8
+          p There are no articles currently associated with this event.
+        .col-lg-4.col-sm-12
+          +sourceModalButton
+          button.btn.btn-primary.btn-block.open-source-form(type="button")
+            i.fa.fa-plus-circle
+            | Add Source
+    .flex-col.event-sources-detail
+      if selectedSource
+        h2= formatUrl(selectedSource.url)
+        .row.event-source-info
+          .col-lg-1
+            a.ref-link(href="{{selectedSource.url}}" target="_blank" rel="noopener noreferrer")
+              i.fa.fa-external-link
+          .col-lg-4 Published on {{formatDate selectedSource.publishDate}}
+          .col-lg-7 Submitted by {{selectedSource.addedByUserName}} on {{formatDate selectedSource.addedDate}}
+        .row.event-source-summary
+          .col-lg-6
+            h3 Locations
+              ul
+                each locationsForSource selectedSource.url
+                  li= this
+                else
+                  li No locations
+          .col-lg-6
+            h3 Incident Reports
+              ul
+                each incidentsForSource selectedSource.url
+                  li {{incidentToText this}}
+                else
+                  li No cases
+      else
+        h3.make-selection Please select a source
 
 
 template(name="article")

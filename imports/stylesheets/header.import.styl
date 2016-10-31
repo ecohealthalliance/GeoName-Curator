@@ -4,6 +4,7 @@
 
 .navbar
   min-height $header-height - 2
+  padding 0 $page-padding
   background-color #FFF
   border-bottom 2px solid $secondary
   z-index 1010
@@ -22,7 +23,6 @@
     min-height $mobile-header-height
 
 .navbar-nav
-  margin-right 60px
   float right
   +below(3)
     float none
@@ -64,7 +64,6 @@
   padding-top 15px
 
 .navbar-brand
-  margin-left 60px
   bg('/images/eidr-connect-logo', 100px, 47px, 'svg')
   margin-top 10px
   +below(3)
