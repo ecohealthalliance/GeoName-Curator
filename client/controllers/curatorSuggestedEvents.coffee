@@ -1,4 +1,5 @@
-UserEvents = require '/imports/collections/userEvents.coffee'
+import UserEvents from '/imports/collections/userEvents.coffee'
+import CuratorSources from '/imports/collections/curatorSources.coffee'
 
 ###
 # Template.suggestedEvents - creates a reactive table to be display as part of
@@ -46,20 +47,23 @@ Template.suggestedEvents.onCreated ->
     events = _.filter(@initialEvents, (e) -> diff.indexOf(e._id) >= 0)
     @events.set(events)
 
-  # strip punctuation and create tokens
-  tokens = if @data.title then @data.title.replace(/[~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').split(' ') else []
-  # remove the first token from the search string (PRO/AH/EDR> without the special chars)
-  # TODO: this is domain specific to ProMed. If other feeds are added, we would
-  # need to do some conditional logic `if feed.isPromed then remove first token`.
-  search = if tokens.length > 1 then tokens.slice(1, tokens.length).join(' ') else ''
+  @autorun =>
+    source = CuratorSources.findOne({_id: @data.selectedSourceId.get()})
+    if source
+      # strip punctuation and create tokens
+      tokens = if source.title then source.title.replace(/[~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').split(' ') else []
+      # remove the first token from the search string (PRO/AH/EDR> without the special chars)
+      # TODO: this is domain specific to ProMed. If other feeds are added, we would
+      # need to do some conditional logic `if feed.isPromed then remove first token`.
+      search = if tokens.length > 1 then tokens.slice(1, tokens.length).join(' ') else ''
 
-  # call the server-side meteor method to perform full-text search sorted by score
-  Meteor.call 'searchUserEvents', search, (err, res) =>
-    if err
-      return
-    # set the initialEvents to the result and update the reactive array
-    @initialEvents = res
-    @events.set(res)
+      # call the server-side meteor method to perform full-text search sorted by score
+      Meteor.call 'searchUserEvents', search, (err, res) =>
+        if err
+          return
+        # set the initialEvents to the result and update the reactive array
+        @initialEvents = res
+        @events.set(res)
 
   # reactively compute changes to associatedEventIdsToArticles object and
   # update the suggested events
