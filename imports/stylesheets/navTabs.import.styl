@@ -1,39 +1,70 @@
-.nav-tabs.primary-tabs
-  padding-left 50px
+.tabs-wrapper
   border-bottom 2px solid $primary
-  > li
-    margin-bottom 0
-  > li.active > a,
-  > li.active > a:hover,
-  > li.active > a:focus
-    color white
-    background-color $primary
-    border 1px solid $primary
-    font-weight bold
-  > li > a
-    background-color #F9F9F9
-    color #95989A
-    border 1px solid #F0F0F0
-    border-bottom-color #F9F9F9
-    width 200px
-    text-align center
-    font-size 18px
-    margin-left 5px
 
-.nav-tabs.secondary-tabs
-  padding-left 30px
-  border-bottom 2px solid $secondary
+.tabs
+  position relative
+  display flex
+  align-items stretch
+  margin-bottom 0
+  width 100%
+  padding 0
+  +above(2)
+    flex-direction row
+  +above(3)
+    margin-top 40px
+  +above(5)
+    width 65%
+    max-width $max-ui-width
+    justify-content center
+    margin-right auto
+    margin-left auto
+
   > li
-    margin-bottom 0
-  > li.active > a,
-  > li.active > a:hover,
-  > li.active > a:focus
-    color primary
-    background-color $secondary
-    border 1px solid $secondary
-  > li > a
-    background-color transparent
-    color primary
-    border-color transparent
-    border-bottom-color transparent
-    margin-left 5px
+    display flex
+    flex 1
+    justify-content center
+    align-items center
+    letter-spacing $letter-spacing
+    background-color lighten($primary-light, 20%)
+    border 1px solid lighten($primary, 60%)
+    border-bottom 0
+    +above(3)
+      &:first-of-type
+        border-top-left-radius 5px
+      &:last-of-type
+        border-top-right-radius 5px
+    +above(4)
+      margin 0 .35em
+
+.tabs > li > a
+  flex 1
+
+.tabs > li > a
+.tabs > li > a:hover
+.tabs > li > a:focus
+.tabs > li > a:active
+  padding .75em 1em
+  border-bottom 0
+  font-size 1.25em
+  text-align center
+  color lighten($primary, 20%)
+  text-transform uppercase
+  display block
+  text-decoration none
+  +above(2)
+    font-size 1.25em
+  +above(4)
+    border-top-left-radius 4px
+    border-top-right-radius 4px
+
+.tabs > li:hover
+  background-color darken($primary-light, 3%)
+
+.tabs > li.active
+.tabs > li.active:hover
+.tabs > li.active:focus
+  border-color $primary
+  background-color $primary
+
+.tabs > li.active > a
+  color white

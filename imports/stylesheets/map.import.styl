@@ -1,17 +1,16 @@
 .leaflet-container
-  font-size 1em
   background $map-background
 
 #map
   width 100%
+  height 100%
   min-height 500px
-  border 1px solid $l-gray
-  .leaflet-container .leaflet-control-attribution
-  .leaflet-container .leaflet-control-scale
-      font-size 9px
-
-    .leaflet-right .leaflet-control
+  font-size 1em
+  .leaflet-control-scale
+  .leaflet-control-attribution
+    font-size .75em
+  .leaflet-control-attribution
+    padding-right 2em
+  .leaflet-right
+    .leaflet-control
       float none
-
-    .leaflet-bottom
-      left 0

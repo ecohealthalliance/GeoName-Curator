@@ -43,10 +43,12 @@ UI.registerHelper 'incidentToText', (incident) ->
       ", and " + formatLocation(@locations.slice(-1)[0])
     )
 
-  result = "#{incidentDescription} in #{formattedLocations}"
+  result = """
+    <span>#{incidentDescription}</span> in <span>#{formattedLocations}</span>
+  """
   if @dateRange
-    result += " #{formatDateRange(@dateRange, true)}"
-  result
+    result += "<span> #{formatDateRange(@dateRange, true)}</span>"
+  Spacebars.SafeString result
 
 UI.registerHelper 'formatDate', (date) ->
   moment(date).format("MMM DD, YYYY")

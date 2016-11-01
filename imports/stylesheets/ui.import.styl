@@ -1,0 +1,34 @@
+.container-fluid-padded
+  padding-left $page-padding-small-screen
+  padding-right $page-padding-small-screen
+  +above(3)
+    padding-left $page-padding
+    padding-right $page-padding
+
+.container-flex
+  display flex
+  +below(3)
+    flex-direction column
+  .break-2
+    flex-direction row
+    +below(1)
+      flex-direction column
+  &.no-gutter
+    .flex-col
+      margin 0
+
+.flex-col
+  flex 1
+  margin-right $page-padding
+  +below(3)
+    margin-right 0
+  &.bordered
+    border-right 1px solid $border-primary
+    +below(3)
+      border-right 0
+      border-bottom 1px solid $border-primary
+  &.no-grow
+    flex-grow 0
+  &:last-of-type
+    margin 0
+    border-right 0

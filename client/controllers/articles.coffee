@@ -7,11 +7,19 @@ import {formatUrl} from '/imports/utils.coffee'
 Template.articles.onCreated ->
   @selectedSourceId = new ReactiveVar null
 
+Template.articles.onRendered ->
+  @$('#sourceFilter input').attr 'placeholder', 'Search sources'
+  instance = @
+  @autorun ->
+    instance.selectedSourceId.get()
+    Meteor.defer -> instance.$('.ref-link').tooltip()
+
+
 Template.articles.helpers
   getSettings: ->
     fields = [
       {
-        key: "url"
+        key: "title"
         label: "Title"
         fn: (value, object, key) ->
           return value
