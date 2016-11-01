@@ -17,10 +17,18 @@ template(name="curatorEvents")
     +suggestedEvents selectedSourceId=selectedSourceId associatedEventIdsToArticles=associatedEventIdsToArticles
 
   .all-events.curator-events
-    .curator-events-header
+    .curator-events-header.all-events.toggleable
       h4 All Events
-      +reactiveTableFilter id="curatorEventsFilter" label=" "
-    +reactiveTable collection=userEvents settings=settings
+      .curator-events--options
+        .filter-wrapper(class="{{#unless allEventsOpen }} subtle {{/unless}}")
+          +reactiveTableFilter id="curatorEventsFilter" label=" "
+        .curator-events-collapse
+          if allEventsOpen
+            i.fa.fa-lg.fa-chevron-circle-down
+          else
+            i.fa.fa-lg.fa-chevron-circle-left
+    if allEventsOpen
+      +reactiveTable collection=userEvents settings=settings
 
 template(name="noAssociatedEvents")
   p.muted-text Currently no associated events

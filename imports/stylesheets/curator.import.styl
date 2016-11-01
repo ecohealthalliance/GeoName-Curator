@@ -1,3 +1,6 @@
+$header-BG = $border-primary-light
+$header-BG-hover = darken($header-BG, 4%)
+
 .curator-heading
   color $primary
   font-weight 400
@@ -108,18 +111,22 @@
     max-width 400px
 
 .curator-inbox-section-head
+.curator-events-header
   color $primary
-  background $primary-l-light
+  background $header-BG
   border-top 1px solid $border-primary
   border-bottom 1px solid $border-primary
-  height 37px
-  font-size 14px
+
+.curator-inbox-section-head
+  min-height 40px
+  font-size 1em
+  padding-bottom 8px
   padding-top 8px
   cursor pointer
+  &:hover
+    background $header-BG-hover
   &:first-of-type
     border-top 0
-  &:hover
-    background darken(@background, 4%)
 
 .curator-inbox-buttons
   margin-bottom 30px
@@ -343,10 +350,16 @@
     .tr-incidents-wrapper
       padding 0
 
-.curator-collapse
-  cursor pointer
-.curator-events-collapse
+.curator-events--options
   margin-left auto
+  display flex
+  align-items center
+  justify-content flex-end
+  min-width 50%
+
+.curator-events-collapse
+  color $primary
+  cursor pointer
 
 #associated-events
 #suggested-events-table
@@ -396,7 +409,7 @@
   td
     display flex
     align-items center
-    padding-right 1.5em
+    padding-right 2em
     .event-info
       margin-left auto
       color $border-primary
@@ -413,30 +426,46 @@
 .curator-events-header
   min-height 50px
   padding .5em 2em .5em 1.5em
-  border-top 1px solid $border-primary
-  border-bottom 1px solid $border-primary
   display flex
   align-items center
-  #curatorEventsFilter
-    position relative
-    margin-left auto
-    min-width 30%
-    &::after
-      content '\f002'
-      position absolute
-      right 1em
-      top 50%
-      transform translate(0, -50%)
-      z-index 10
-      font-family FontAwesome
-      color $m-gray
-    input
-      border-radius 4px
-      border-color $border-primary
-      box-shadow none
-      padding-right 2em
   .input-group-addon
     display none
+  &.toggleable
+    cursor pointer
+    &:hover
+      background $header-BG-hover
+      .curator-events-collapse
+        transition transform .1s ease-in-out
+        transform scale(1.2)
+      h4
+        color $primary
+
+#curatorEventsFilter
+  position relative
+  display block
+  &::after
+    content '\f002'
+    position absolute
+    right 1em
+    top 50%
+    transform translate(0, -50%)
+    z-index 10
+    font-family FontAwesome
+    color $m-gray
+  input
+    float none
+    border-radius 4px
+    border-color $border-primary
+    box-shadow none
+    padding-right 2em
+
+.filter-wrapper
+  opacity 1
+  transition .3s
+  margin-right 1em
+  min-width 70%
+  &.subtle
+    opacity .4
 
 .spacer
   display inline
