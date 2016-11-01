@@ -9,7 +9,6 @@ coffeescript@1.11.1_1
 stylus@2.513.5_1
 iron:router
 twbs:bootstrap
-d3
 okgrow:analytics
 http@1.2.9_1
 fortawesome:fontawesome
@@ -51,4 +50,3 @@ shell-server@0.2.1
 aldeed:simple-schema
 dangrossman:bootstrap-daterangepicker
 stevezhu:lodash
-d3js:d3

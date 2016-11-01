@@ -1,10 +1,14 @@
-Axes = require '/imports/charts/Axes.coffee'
-Tooltip = require '/imports/charts/Tooltip.coffee'
-Zoom = require '/imports/charts/Zoom.coffee'
+import d3 from 'd3'
+import Axes from '/imports/charts/Axes.coffee'
+import Tooltip from '/imports/charts/Tooltip.coffee'
+import Zoom from '/imports/charts/Zoom.coffee'
+import Group from '/imports/charts/Group.coffee'
+import { InvalidGroupError } from '/imports/charts/Errors.coffee'
 
 MINIMUM_PLOT_HEIGHT = 300
 
 class Plot
+  name: 'Plot'
   ###
   # Plot - creates a new instance of a plot
   #
@@ -23,40 +27,8 @@ class Plot
     @options = options
     @drawn = false
     @filters = options.filters || {}
+    @groups_ = {}
     @
-
-  ###
-  # setDimensions - method to set the dimensions of the plot based on the current window
-  ###
-  setDimensions: () ->
-    @margins = @options.margins || {left: 40, right: 20, top: 20, bottom: 40}
-    @width = @options.width || document.getElementById(@options.containerID).offsetWidth - (@margins.left + @margins.right);
-    @height = @options.height || Plot.aspectRatio() * @width
-    if @height < MINIMUM_PLOT_HEIGHT
-      @height = MINIMUM_PLOT_HEIGHT
-    @viewBoxWidth = @width + @margins.left + @margins.right
-    @viewBoxHeight = @height + @margins.top + @margins.bottom
-    @
-
-  ###
-  # update - update the width and height attributes of the root and container
-  #  elements. then call update on the plot axes
-  #
-  # @param {array} data, an array of {object} for each marker
-  # @returns {object} this
-  ###
-  update: (data) ->
-    @setDimensions()
-    @root
-      .attr('width', @viewBoxWidth)
-      .attr('height', @viewBoxHeight)
-    @container
-      .attr('width', @width)
-      .attr('height', @height)
-      .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
-    @axes.update(data)
-    @
-
 
   ###
   # init - method to initialize the plot, allows the plot to be re-initialized
@@ -90,21 +62,7 @@ class Plot
       .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
 
     # the axes of the plot
-    @axes = new Axes(@, @options)
-
-    # add the default filter by axes domain
-    @addFilter('_domain', (d) ->
-      x1 = @axes.xScale.domain()[0]
-      if x1 instanceof Date
-        x1 = x1.getTime()
-      x2 = @axes.xScale.domain()[1]
-      if x2 instanceof Date
-        x2 = x2.getTime()
-      y1 = @axes.yScale.domain()[0]
-      y2 = @axes.yScale.domain()[1]
-      if ((d.x >= x1 && d.x <= x2) && (d.y >= y1 && d.y <= y2))
-        return d
-    )
+    @axes = new Axes(@, @options.axes)
 
     # the tooltip of the plot
     @tooltip = new Tooltip(@, @options)
@@ -114,12 +72,54 @@ class Plot
     if zoomEnabled
       @zoom = new Zoom(@, @options)
 
-    # an svg group of the markers
-    @markers = @container.append('g')
-      .attr('class', 'scatterPlot-markers')
+    # an svg container for the plot's groups
+    @groups = @container.append('g')
+      .attr('class', 'scatterPlot-groups')
       .attr('transform', "translate(#{@margins.left}, 0)")
 
     # return
+    @
+
+  ###
+  # setDimensions - method to set the dimensions of the plot based on the current window
+  ###
+  setDimensions: () ->
+    @margins = @options.margins || {left: 40, right: 20, top: 20, bottom: 40}
+    @width = @options.width || document.getElementById(@options.containerID).offsetWidth - (@margins.left + @margins.right);
+    @height = @options.height || Plot.aspectRatio() * @width
+    if @height < MINIMUM_PLOT_HEIGHT
+      @height = MINIMUM_PLOT_HEIGHT
+    @viewBoxWidth = @width + @margins.left + @margins.right
+    @viewBoxHeight = @height + @margins.top + @margins.bottom
+    @
+
+  ###
+  # update - update the width and height attributes of the root and container
+  #  elements. then call update on the plot axes
+  #
+  # @param {array} nodes, an array of {object} for each node
+  # @returns {object} this
+  ###
+  update: (nodes) ->
+    @setDimensions()
+    @root
+      .attr('width', @viewBoxWidth)
+      .attr('height', @viewBoxHeight)
+    @container
+      .attr('width', @width)
+      .attr('height', @height)
+      .attr('transform', "translate(#{@margins.left}, #{@margins.top})")
+    if typeof nodes != 'undefined'
+      if nodes instanceof Array
+        @axes.update(nodes)
+      else
+        shouldSetInitialMinMax = @mergeGroups(nodes)
+        @axes.update(@getGroupsNodes())
+        if shouldSetInitialMinMax
+          @axes.setInitialMinMax(@axes.currentMinMax)
+    else
+      @axes.update(@getGroupsNodes())
+    #return
     @
 
   ###
@@ -128,17 +128,64 @@ class Plot
   # @note this will automatically show/hide a warning message if the data
   # is empty. Do not call super() to override this behavior.
   #
-  # @param {array} data, an array of {object} for each marker
+  # @param {array} nodes, an array of {object} for each marker
   ###
-  draw: (data) ->
+  draw: (nodes) ->
     if !@drawn
       @drawn = true
       @root.transition().style('opacity', 1)
-    if typeof data != 'undefined'
-      if data.length <= 0
+    if typeof nodes != 'undefined'
+      if nodes instanceof Array
+        group = @defaultGroup(nodes)
+        if group.size() <= 0
+          @showWarn()
+          return
+      else
+        if @getGroupsSize() <= 0
+          @showWarn()
+          return
+    else
+      if @getGroupsSize() <= 0
         @showWarn()
         return
     @removeWarn()
+
+  ###
+  # defaultGroup - creats a defaul group for data passed directly to the draw
+  #   method
+  #
+  # @param {array} nodes, an array of Node's
+  ###
+  defaultGroup: (nodes) ->
+    group = @getGroups().find((group) -> group.id == 'default_')
+    if typeof group == 'undefined'
+      group = new Group(@, {id: 'default_', onEnter: @options.group.onEnter})
+    nodes.forEach((d) -> group.addNode(d))
+    #return
+    group
+
+  ###
+  # mergeGroups - merge groups from data passed directly to the draw method
+  #
+  # @param {object} nodes, a grouping of nodes
+  # @return {boolean} shouldReset, should the axes domain be reset to currentMinMax
+  ###
+  mergeGroups: (groups) ->
+    notMerged = Object.keys(@groups_)
+    Object.keys(groups).forEach (k) =>
+      group = @groups_[k]
+      if typeof group == 'undefined'
+        group = new Group(@, {id: k, onEnter: @options.group.onEnter})
+      else
+        idx = notMerged.indexOf(k)
+        if idx >= 0
+          notMerged.splice(idx, 1)
+      groups[k].forEach((m) -> group.addNode(m))
+    if notMerged.length > 0
+      # remove groups that haven't been merged
+      notMerged.forEach((k) => @removeGroup(k))
+      return true
+    return false
 
   ###
   # getWidth
@@ -160,7 +207,6 @@ class Plot
   # showWarn - shows a warning message in the center of the plot
   #
   # @param {string} m, the message to display
-  #
   # @return {object} this
   ###
   showWarn: (m) ->
@@ -198,7 +244,6 @@ class Plot
     @zoom.remove()
     @tooltip.remove()
     @axes.remove()
-    @markers.remove()
     @container.remove()
     @root.remove()
 
@@ -210,10 +255,61 @@ class Plot
     @zoom = null
     @tooltip = null
     @axes = null
-    @markers = null
     @container = null
     @root = null
     @resizeHandler = null
+
+  ###
+  # addGroup
+  #
+  # @param {object} group, add a group to the plot
+  # @throws {InvalidGroupError} error
+  # @return {Plot} this
+  ###
+  addGroup: (group) ->
+    if group instanceof Group == false
+      throw new InvalidGroupError()
+    @groups_[group.id] = group
+    # return
+    @
+
+  ###
+  # removeGroup
+  #
+  # @param {string} id, the group to remove
+  ###
+  removeGroup: (id) ->
+    if @groups_.hasOwnProperty(id)
+      delete @groups_[id]
+
+  ###
+  # getGroups - returns the groups associated with this plot
+  #
+  # @return {array} groups, the groups associated with this plot
+  ###
+  getGroups: () ->
+    return Object.values(@groups_)
+
+  ###
+  # getGroups - returns the size of all the groups
+  #
+  # @param {boolean} shouldFilter, should the nodes be filtered
+  # @return {Number} size, the size of all the groups
+  ###
+  getGroupsSize: () ->
+    @getGroups().reduce((prev, nextObj) ->
+      prev + nextObj.applyFilters().length
+    , 0)
+
+  ###
+  # getGroupsNodes - returns all the nodes for each group
+  #
+  # @return {array} nodes, an array of nodes
+  ###
+  getGroupsNodes: () ->
+    @getGroups().reduce((prevArr, nextObj) ->
+      prevArr.concat(nextObj.applyFilters())
+    , [])
 
   ###
   # addFilter - add a filter to the plot
@@ -237,40 +333,6 @@ class Plot
       delete @filters[name]
     @
 
-  ###
-  # applyFilters - apply any filters to the plot
-  #
-  # @returns {array} filtered, the filtered data
-  ###
-  applyFilters: () ->
-    filtered = []
-    filters = @filters
-    if @data
-      filtered = @data.filter (d) ->
-        valid = true
-        keys = Object.keys(filters)
-        i = 0
-        keysLen = keys.length
-        while i < keysLen
-          key = keys[i++]
-          f = filters[key](d)
-          if typeof f == 'undefined'
-            valid = false
-            break
-        if valid
-          return d
-    return filtered
-
-  ###
-  # getData - return the current data array
-  #
-  # @return {array} data, the current data array (markers) with filters applied
-  ###
-  getData: () ->
-    if @data
-      return @applyFilters()
-    else
-      return []
 
 # find the view port aspect ratio
 #
