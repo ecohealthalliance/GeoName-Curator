@@ -4,7 +4,7 @@ template(name="articles")
   .container-flex.no-gutter
     .flex-col.bordered
       if articles.length
-        .tab-form.container-flex.no-border
+        .tab-form.container-flex.no-border.break-2
           .flex-col
             +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
           .flex-col.no-grow
@@ -21,30 +21,37 @@ template(name="articles")
             | Add Source
     .flex-col.event-sources-detail
       if selectedSource
-        h2= formatUrl(selectedSource.url)
-        .row.event-source-info
-          .col-lg-1
-            a.ref-link(href="{{selectedSource.url}}" target="_blank" rel="noopener noreferrer")
+        .event-sources-detail--header
+          h4= selectedSource.title
+        ul.event-source-info.container-flex.list-unstyled
+          li
+            a.ref-link(
+              href="http://{{selectedSource.url}}"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="View Original Source")
               i.fa.fa-external-link
-          .col-lg-4 Published on {{formatDate selectedSource.publishDate}}
-          .col-lg-7 Submitted by {{selectedSource.addedByUserName}} on {{formatDate selectedSource.addedDate}}
-        .row.event-source-summary
-          .col-lg-6
-            h3 Locations
-              ul
-                each locationsForSource selectedSource.url
-                  li= this
-                else
-                  li No locations
-          .col-lg-6
-            h3 Incident Reports
-              ul
-                each incidentsForSource selectedSource.url
-                  li {{incidentToText this}}
-                else
-                  li No cases
+          li Published on {{formatDate selectedSource.publishDate}}
+          li Submitted by {{selectedSource.addedByUserName}} on {{formatDate selectedSource.addedDate}}
+        .event-source-summary.container-flex
+          .event-source-summary--item
+            h5 Locations
+            ul.list-unstyled
+              each locationsForSource selectedSource.url
+                li= this
+              else
+                li No locations
+          .event-source-summary--item
+            h5 Incident Reports
+            ul.list-unstyled
+              each incidentsForSource selectedSource.url
+                li {{incidentToText this}}
+              else
+                li No cases
       else
-        h3.make-selection Please select a source
+        h4.make-selection Please select a source
 
 
 template(name="article")

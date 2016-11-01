@@ -1,10 +1,6 @@
 @import 'event-icons.import'
 
 .event
-  .table td:first-child
-  td:first-child
-    +below(3)
-      width 100%
   .table
     border 0
     thead
@@ -13,7 +9,22 @@
         th
         td
           &:first-of-type
-            padding-left $page-padding
+            padding-left $page-padding-small-screen
+            +above(3)
+              padding-left $page-padding
+    thead
+      tr
+        th
+          border-color $border-primary-light
+    td
+      &:first-child
+        +below(3)
+          width 100%
+      &.title
+        max-width 200px
+        text-overflow ellipsis
+        white-space nowrap
+        overflow hidden
   section
     padding-top 0
     padding-bottom 0
@@ -270,9 +281,11 @@
 .tab-form
   display flex
   align-items center
-  padding 15px 15px 15px $page-padding
+  padding 15px 15px 15px $page-padding-small-screen
   background-color $primary-l-light
   border-bottom 1px solid lighten($m-gray, 70%)
+  +above(3)
+    padding 15px 15px 15px $page-padding
   input
     max-width 50%
     border-left 0
@@ -370,44 +383,59 @@ td.col-md-6.countCell.text-center
   float left
 
 .event-sources-detail
-  color #95989A
-  font-size 12px
-  h2
-  h3
-    color #95989A
-  h2
-    font-size 17px
-    margin 20px 0 10px 0
-  h3
-    font-size 14px
+  h4
+  h5
+    color $primary
+  h4
+    font-size 1.5em
+    margin 0
     &.make-selection
       text-align center
       padding 2em
       font-weight 400
       font-size 1.5em
-      color $m-gray
+      color lighten($m-gray, 20%)
+  h5
+    margin 0 0 .75em 0
+    font-size 1.2em
+  .event-sources-detail--header
+    padding 1.25em
   .event-source-info
+    margin 0
     font-style italic
-    border-top 1px #F2F2F2 solid
-    border-bottom 1px #F2F2F2 solid
-    div
-      padding 4px 12px
-    & div + div
-      border-left 1px #F5F5F5 solid
-  .event-source-summary .col-lg-6 + .col-lg-6
-    border-left 1px #D5D5D5 solid
+    border-top 1px solid $border-primary-light
+    border-bottom 1px solid $border-primary-light
+    li
+      padding .75em 2em
+      border-right 1px solid $border-primary-light
+      &:first-of-type
+        padding 0
+      &:last-of-type
+        border 0
   a
-    color #C6C6C6
+    display block
+    flex 1
+    padding .75em 1.8em .75em 2em
+    color darken($border-primary, 20%)
+    text-align center
+    &:hover
+      background $border-primary-light
   .event-source-summary
-    div
-      padding 12px
     ul
-      list-style none
-      margin-top 10px
+      margin 0
       padding 0
+      font-size .9em
+      color lighten($body-text, 30%)
       li
-        color #95989A
-        padding 4px 0
+        padding 0 0 1em 0
+  .event-source-summary--item
+    border-right 1px solid $border-primary-light
+    padding 1.5em 1.25em
+    min-width 20%
+    &:last-of-type
+      margin 0
+      border 0
+
 
 #suggested-articles
   list-style none

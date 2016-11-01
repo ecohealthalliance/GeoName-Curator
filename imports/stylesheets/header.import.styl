@@ -4,10 +4,12 @@
 
 .navbar
   min-height $header-height - 2
-  padding 0 $page-padding
+  padding 0 $page-padding-small-screen
   background-color #FFF
   border-bottom 2px solid $secondary
   z-index 1010
+  +above(3)
+    padding 0 $page-padding
   li
     > a
       padding 25px 15px
