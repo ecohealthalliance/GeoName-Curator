@@ -68,13 +68,12 @@ const pointScale = (p, s) => p.map((el, idx)=>{
 
 var enhancing = false;
 if(window.obs) window.obs.disconnect();
-const enhance = ()=>{
+const enhance = (target)=>{
   if(enhancing) return;
   enhancing  = true;
-  let target = document.querySelector("#preview");
   let printLink = document.querySelector(".printable a");
   if(!printLink) return enhancing=false;
-  let postIdMatch = document.querySelector(".printable a").onclick.toString().match(/post\/(\d+)/);
+  let postIdMatch = printLink.onclick.toString().match(/post\/(\d+)/);
   if(!postIdMatch) return enhancing=false;
   let postId = window.__debugPostId || postIdMatch[1];
   let url = "http://promedmail.org/post/" + postId;
@@ -167,6 +166,23 @@ const enhance = ()=>{
     }, 100);
   });
 };
-window.obs = new MutationObserver(enhance);
-window.obs.observe(document.body, { childList: true });
-enhance();
+window.previewSectionPromise = new Promise((resolve, reject)=>{
+  let remainingAttempts = 10;
+  const id = setInterval(()=>{
+    remainingAttempts--;
+    const previewSection = document.querySelector("#preview");
+    if(previewSection) {
+      clearInterval(id);
+      resolve(previewSection);
+    } else if(remainingAttempts <= 0){
+      clearInterval(id);
+    }
+  }, 100);
+});
+previewSectionPromise.then((previewSection)=>{
+  window.obs = new MutationObserver((mutations)=>{
+    enhance(previewSection);
+  });
+  window.obs.observe(previewSection, { childList: true });
+  enhance(previewSection);
+});
