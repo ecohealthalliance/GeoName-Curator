@@ -6,19 +6,17 @@ Articles = require '/imports/collections/articles.coffee'
 Template.curatorEvents.onCreated ->
   instance = @
   @suggestedEventsHeaderState = new ReactiveVar true
-  @autorun ->
-    sourceId = instance.data.selectedSourceId.get()
-
+  @autorun =>
     instance.subscribe("articles", {
       url:
-        $regex: "post\/" + sourceId + "$"
+        $regex: "post\/" + CuratorSources.findOne(@data.selectedSourceId.get())._sourceId + "$"
     })
-    instance.associatedEventIdsToArticles = new ReactiveVar([])
+    instance.associatedEventIdsToArticles = new ReactiveVar {}
 
   @autorun =>
     @associatedEventIdsToArticles.set _.object(Articles.find(
       url:
-        $regex: "post\/" + instance.data.selectedSourceId.get() + "$"
+        $regex: "post\/" + CuratorSources.findOne(@data.selectedSourceId.get())._sourceId + "$"
     ).map((article)->
       [article.userEventId, article]
     ))
@@ -93,7 +91,7 @@ Template.curatorEvents.events
       Blaze.renderWithData(Template.curatorEventIncidents, this, $tr[0])
   "click .associate-event": (event, template) ->
     Meteor.call('addEventSource', {
-      url: "promedmail.org/post/" + template.data.selectedSourceId.get(),
+      url: "promedmail.org/post/" + CuratorSources.findOne(template.data.selectedSourceId.get())._sourceId
       userEventId: @_id
       publishDate: template.data.publishDate
       publishDateTZ: "EST"
