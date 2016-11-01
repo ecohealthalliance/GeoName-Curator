@@ -378,10 +378,11 @@ $header-BG-hover = darken($header-BG, 4%)
       background none
 
 .associated-events
+  &::before
   .no-events
     padding 1em 2em
 
-.deassociate-event
+.disassociate-event
 .associate-event
   margin-right 10px
   cursor pointer
@@ -395,8 +396,18 @@ $header-BG-hover = darken($header-BG, 4%)
     outline 0
     box-shadow 0
 
-.deassociate-event
+.disassociate-event
+.suggest-incidents
+  color $m-gray
+
+.associate-event
+  &::before
+    content '\f055'
+
+.disassociate-event
   color darken($delete, 5%)
+  &::before
+    content '\f056'
   &:hover
     color darken(@color, 20%)
 
