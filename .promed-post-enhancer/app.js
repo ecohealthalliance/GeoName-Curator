@@ -31,11 +31,12 @@ const showTooltip = (article)=> {
     d3.event.pageX - rightOrLeftLimit :
     d3.event.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
 
+  const formattedURL = article.url.startsWith("http") ? article.url : "https://" + article.url;
   tooltip.html(`
     <div class="marker">
       <div class="content">
         <p>
-          <a href="${article.url}" class="author">${article.url}</a>
+          <a href="${formattedURL}">${formattedURL}</a>
         </p>
         <p>
           Published on <span class="date">${(new Date(article.publishDate)).toLocaleString()}</span>
