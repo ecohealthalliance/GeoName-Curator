@@ -13,6 +13,13 @@ template(name="sourceModal")
           form#add-source.form-horizontal(novalidate)
             .form-group
               .col-md-12
+                label.control-label Title
+                if edit
+                  p.form-control-static {{title}}
+                else
+                  input#title.form-control.new-title(type="text" name="title" required)
+            .form-group
+              .col-md-12
                 label.control-label Article URL
                 if edit
                   p.form-control-static {{url}}

@@ -7,6 +7,7 @@ Meteor.methods
       if source.url.length
         insertArticle = {
           url: source.url,
+          title: source.title,
           userEventId: source.userEventId
         }
         existingArticle = Articles.find(insertArticle).fetch()

@@ -182,8 +182,11 @@ Template.sourceModal.events
 
   "click #suggested-articles a": (event, templateInstance) ->
     event.preventDefault()
-    templateInstance.currentTitle.set(event.currentTarget.innerText)
+    title = event.currentTarget.innerText
+    templateInstance.currentTitle.set(title)
     url = event.currentTarget.getAttribute 'href'
     input = templateInstance.find('#article')
     input.value = url
+    titleInput = templateInstance.find('#title')
+    titleInput.value = title
     $(input).trigger('input').trigger('input')
