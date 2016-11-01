@@ -68,9 +68,12 @@ const pointScale = (p, s) => p.map((el, idx)=>{
 
 var enhancing = false;
 if(window.obs) window.obs.disconnect();
-const enhance = (target)=>{
+const enhance = ()=>{
   if(enhancing) return;
   enhancing  = true;
+  let target = document.querySelector("#preview");
+  let printLink = document.querySelector(".printable a");
+  if(!printLink) return enhancing=false;
   let postIdMatch = document.querySelector(".printable a").onclick.toString().match(/post\/(\d+)/);
   if(!postIdMatch) return enhancing=false;
   let postId = window.__debugPostId || postIdMatch[1];
@@ -164,8 +167,6 @@ const enhance = (target)=>{
     }, 100);
   });
 };
-window.obs = new MutationObserver((mutations)=>{
-  enhance(mutations[0].target);
-});
-window.obs.observe(document.querySelector("#preview"), { childList:true });
-enhance(document.querySelector("#preview"));
+window.obs = new MutationObserver(enhance);
+window.obs.observe(document.body, { childList: true });
+enhance();
