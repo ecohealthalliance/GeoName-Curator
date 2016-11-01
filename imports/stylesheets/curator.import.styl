@@ -328,27 +328,49 @@ $header-BG-hover = darken($header-BG, 4%)
       border-top 0
 
 .curator-events-table
+  width calc(100% - 15px)
+  margin-left 15px
   margin-bottom 0
   color $primary
   thead
     display none
-  tr
-    padding-left 7px
-    padding-right 7px
-  .open-row::before
-    content "\f138"
-    font-family FontAwesome
-  .incidents-open
-    background $secondary-light
-    &:hover
-      background $secondary-light
-    .open-row::before
-      content "\f13a"
-      font-family FontAwesome
-  .tr-incidents
-    padding 0
-    .tr-incidents-wrapper
-      padding 0
+  tbody
+    tr
+      cursor default
+      &:hover
+        td
+          display flex
+      td
+        display flex
+        align-items center
+        padding-right 2em
+        border-color $border-primary-light
+        .event-info
+          transition .1s ease-in-out
+      &:first-of-type
+        td
+          border-top 0
+      &:hover
+        background none
+      .secondary-actions
+        margin-left auto
+        display flex
+        align-items center
+        opacity 0
+        transition opacity .2s ease-in-out
+        a
+          font-size 1.2em
+          color $border-primary
+          &:hover
+          &:focus
+            color darken(@color, 30%)
+            transform scale(1.25)
+            text-decoration none
+            outline 0
+            box-shadow 0
+      &:hover
+        .secondary-actions
+          opacity 1
 
 .curator-events--options
   margin-left auto
@@ -361,22 +383,6 @@ $header-BG-hover = darken($header-BG, 4%)
   color $primary
   cursor pointer
 
-#associated-events
-#suggested-events-table
-#curator-events-table
-  margin-left 15px
-  tr
-    td
-      border-color $border-primary-light
-    a
-      &:hover
-        color $primary
-    &:first-of-type
-      td
-        border-top 0
-    &:hover
-      background none
-
 .associated-events
   &::before
   .no-events
@@ -384,6 +390,7 @@ $header-BG-hover = darken($header-BG, 4%)
 
 .disassociate-event
 .associate-event
+.suggest-incidents
   margin-right 10px
   cursor pointer
   color darken($positive, 20%)
@@ -411,34 +418,13 @@ $header-BG-hover = darken($header-BG, 4%)
   &:hover
     color darken(@color, 20%)
 
-#curator-events-table
-  width calc(100% - 15px)
-  thead
-    display none
-  tr
-    cursor default
-  td
-    display flex
-    align-items center
-    padding-right 2em
-    .event-info
-      margin-left auto
-      color $border-primary
-      font-size 1.2em
-      transition .1s ease-in-out
-      &:hover
-      &:focus
-        color darken(@color, 30%)
-        transform scale(1.25)
-        text-decoration none
-        outline 0
-        box-shadow 0
-
 .curator-events-header
   min-height 50px
   padding .5em 2em .5em 1.5em
   display flex
   align-items center
+  border-top 1px solid $border-primary
+  border-bottom 1px solid $border-primary
   .input-group-addon
     display none
   &.toggleable
