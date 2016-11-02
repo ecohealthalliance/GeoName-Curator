@@ -91,6 +91,7 @@ Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
     template.textFilter.set
       $regex: $(event.target).val()
+      $options: 'i'
 
   "click .curator-filter-calendar-icon": (event, template) ->
     calendarState = template.calendarState
