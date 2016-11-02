@@ -91,6 +91,7 @@ Template.curatorEvents.events
     Meteor.call('addEventSource', {
       url: "promedmail.org/post/" + CuratorSources.findOne(template.data.selectedSourceId.get())._sourceId
       userEventId: @_id
+      title: template.data.title
       publishDate: template.data.publishDate
       publishDateTZ: "EST"
     })

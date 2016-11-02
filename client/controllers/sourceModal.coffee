@@ -7,6 +7,8 @@ import {UTCOffsets, cleanUrl} from '/imports/utils.coffee'
 Template.sourceModal.onCreated ->
   @tzIsSpecified = false
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
+  @currentTitle = new ReactiveVar()
+  @currentTitle.set @data.title
   if @data.publishDate
     @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
                                               UTCOffsets[@data.publishDateTZ])
@@ -56,6 +58,8 @@ Template.sourceModal.helpers
     if @edit
       return "save-edit-modal"
     return "save-modal"
+  title: ->
+    Template.instance().currentTitle.get()
   suggestedArticles: ->
     templateInstance = Template.instance()
     articles = templateInstance.suggestedArticles.find()
@@ -90,6 +94,7 @@ Template.sourceModal.events
       userEventId: templateInstance.data.userEventId
       url: cleanUrl(article)
       publishDateTZ: form.publishDateTZ.value
+      title: form.title.value
     }
 
     if date
@@ -182,7 +187,11 @@ Template.sourceModal.events
 
   "click #suggested-articles a": (event, templateInstance) ->
     event.preventDefault()
+    title = event.currentTarget.innerText
+    templateInstance.currentTitle.set(title)
     url = event.currentTarget.getAttribute 'href'
     input = templateInstance.find('#article')
     input.value = url
+    titleInput = templateInstance.find('#title')
+    titleInput.value = title
     $(input).trigger('input').trigger('input')
