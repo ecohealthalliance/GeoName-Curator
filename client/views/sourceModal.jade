@@ -14,10 +14,7 @@ template(name="sourceModal")
             .form-group
               .col-md-12
                 label.control-label Title
-                if edit
-                  p.form-control-static {{title}}
-                else
-                  input#title.form-control.new-title(type="text" name="title" required)
+                input#title.form-control.new-title(type="text" name="title" value="{{title}}" required)
             .form-group
               .col-md-12
                 label.control-label Article URL

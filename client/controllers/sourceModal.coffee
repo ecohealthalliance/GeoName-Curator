@@ -6,6 +6,7 @@ Template.sourceModal.onCreated ->
   @tzIsSpecified = false
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
   @currentTitle = new ReactiveVar()
+  @currentTitle.set @data.title
   if @data.publishDate
     @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
                                               utils.UTCOffsets[@data.publishDateTZ])
@@ -55,6 +56,8 @@ Template.sourceModal.helpers
     if @edit
       return "save-edit-modal"
     return "save-modal"
+  title: ->
+    Template.instance().currentTitle.get()
   suggestedArticles: ->
     templateInstance = Template.instance()
     articles = templateInstance.suggestedArticles.find()
@@ -89,7 +92,7 @@ Template.sourceModal.events
       userEventId: templateInstance.data.userEventId
       url: article
       publishDateTZ: form.publishDateTZ.value
-      title: templateInstance.currentTitle.get()
+      title: form.title.value
     }
 
     if date
