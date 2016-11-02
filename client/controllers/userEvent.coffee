@@ -3,44 +3,59 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 Modal.allowMultiple = true
 
 Template.userEvent.onCreated ->
-  @editState = new ReactiveVar(false)
+  @editState = new ReactiveVar false
 
 Template.userEvent.onRendered ->
-  $(document).ready ->
-    board = new Clipboard(".copy-link")
-    $(document.body).on("focus", "#eventLink", ->
-      $(this).select()
-    )
-
-Template.summary.helpers
-  formatDate: (date) ->
-    return moment(date).format("MMM D, YYYY")
-  articleCount: ->
-    return Template.instance().data.articleCount
-  caseCount: ->
-    return Incidents.find({userEventId:this._id}).count()
+  new Clipboard '.copy-link'
 
 Template.userEvent.helpers
   isEditing: ->
     return Template.instance().editState.get()
+
   incidentView: ->
     viewParam = Router.current().getParams()._view
     return typeof viewParam is "undefined" or viewParam is "incidents"
+
   locationView: ->
     return Router.current().getParams()._view is "locations"
+
   view: ->
     currentView = Router.current().getParams()._view
     if currentView is "locations"
       return "locationList"
     return "incidentReports"
+
   templateData: ->
     return Template.instance().data
 
 Template.userEvent.events
-  "click .copy-link": (event, template) ->
-    toastr.success("Event link copied.")
   "click .edit-link, click #cancel-edit": (event, template) ->
     template.editState.set(not template.editState.get())
+
+
+Template.summary.onCreated ->
+  @copied = new ReactiveVar false
+
+Template.summary.helpers
+  formatDate: (date) ->
+    return moment(date).format("MMM D, YYYY")
+
+  articleCount: ->
+    return Template.instance().data.articleCount
+
+  caseCount: ->
+    return Incidents.find({userEventId:this._id}).count()
+
+  copied: ->
+    Template.instance().copied.get()
+
+Template.summary.events
+  "click .copy-link": (event, template) ->
+    copied = template.copied
+    copied.set true
+    setTimeout ->
+      copied.set false
+    , 1000
 
 Template.createEvent.events
   "submit #add-event": (e) ->
