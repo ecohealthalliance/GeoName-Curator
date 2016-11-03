@@ -1,5 +1,6 @@
 .tabs-wrapper
   border-bottom 2px solid $primary
+  background $border-primary-light
 
 .tabs
   position relative
@@ -25,24 +26,11 @@
     justify-content center
     align-items center
     letter-spacing $letter-spacing
-    background-color lighten($primary-light, 20%)
-    border-top 1px solid lighten($primary, 60%)
-    border-left 1px solid lighten($primary, 60%)
-    border-right 1px solid lighten($primary, 60%)
+    background-color lighten($border-primary, 40%)
+    border 1px solid $border-primary
     border-bottom 0
-    &:last-of-type
-      border-right 0
-    &:first-of-type
-      border-right 0
     +above(4)
-      &:first-of-type
-        border-left 1px solid lighten($primary, 60%)
-        border-top-left-radius 5px
-      &:last-of-type
-        border-top-right-radius 5px
-        border-right 1px solid lighten($primary, 60%)
-    +above(4)
-      margin 0 .35em
+      margin 0 .5em
 
 .tabs > li > a
   flex 1
@@ -55,7 +43,7 @@
   border-bottom 0
   font-size 1.25em
   text-align center
-  color lighten($primary, 20%)
+  color $primary
   text-transform uppercase
   display block
   text-decoration none
@@ -76,3 +64,4 @@
 
 .tabs > li.active > a
   color white
+  cursor default
