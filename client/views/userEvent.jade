@@ -23,8 +23,8 @@ template(name="userEvent")
       +articles
 
 template(name="summary")
-  .event-summary.container-flex
-    .event-details.flex-col
+  .container-flex
+    .event--details
       .event-name-wrap
         h1.event-name= eventName
         if isInRole "admin"
@@ -52,23 +52,19 @@ template(name="summary")
               data-toggle="modal"
               data-target="#edit-event-modal"
               data-editing='summary')
-    .flex-row.container-flex
-      .event-summary--counts.container-flex.no-gutter
+    .event--metadata.container-flex
+      .event--metadata--counts.container-flex.no-gutter
         .count.flex-col
           span= caseCount
           h4 Incident Reports
         .count.flex-col
           span= articleCount
           h4 Sources
-      .event-summary--secondary-content.container-flex.flex-col
+      .event--metadata--secondary-content.container-flex
         .secondary-content
-          span Created by:
-          span #{createdByUserName}
-          span on {{formatDate creationDate}}
+          p Created by: #{createdByUserName} on {{formatDate creationDate}}
         .secondary-content
-          span Last Modified by:
-          span #{lastModifiedByUserName}
-          span on {{formatDate lastModifiedDate}}
+          p Last Modified by: #{lastModifiedByUserName} on {{formatDate lastModifiedDate}}
         .secondary-content
           button.copy-link.btn.btn-xs.btn-default(
             type="button"
