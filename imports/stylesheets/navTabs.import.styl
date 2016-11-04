@@ -26,13 +26,21 @@
     align-items center
     letter-spacing $letter-spacing
     background-color lighten($primary-light, 20%)
-    border 1px solid lighten($primary, 60%)
+    border-top 1px solid lighten($primary, 60%)
+    border-left 1px solid lighten($primary, 60%)
+    border-right 1px solid lighten($primary, 60%)
     border-bottom 0
-    +above(3)
+    &:last-of-type
+      border-right 0
+    &:first-of-type
+      border-right 0
+    +above(4)
       &:first-of-type
+        border-left 1px solid lighten($primary, 60%)
         border-top-left-radius 5px
       &:last-of-type
         border-top-right-radius 5px
+        border-right 1px solid lighten($primary, 60%)
     +above(4)
       margin 0 .35em
 

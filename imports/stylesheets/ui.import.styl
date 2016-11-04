@@ -18,7 +18,10 @@
       margin 0
 
 .flex-col
+.flex-row
   flex 1
+
+.flex-col
   margin-right $page-padding
   +below(3)
     margin-right 0
@@ -30,5 +33,8 @@
   &.no-grow
     flex-grow 0
   &:last-of-type
-    margin 0
+    margin-right 0
     border-right 0
+
+.flex-row
+  flex-direction column

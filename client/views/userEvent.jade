@@ -23,8 +23,8 @@ template(name="userEvent")
       +articles
 
 template(name="summary")
-  .event-summary.container-flex
-    .flex-col.event-details
+  .container-flex
+    .event--details
       .event-name-wrap
         h1.event-name= eventName
         if isInRole "admin"
@@ -52,26 +52,31 @@ template(name="summary")
               data-toggle="modal"
               data-target="#edit-event-modal"
               data-editing='summary')
-    .flex-col
-      table#countTable
-        tr.col-md-12
-          td.col-md-6.count-cell.count-cell-left.text-center
-            .col-md-12.count-cell-value= caseCount
-            .col-md-12.count-cell-title Incident Reports
-          td.col-md-6.count-cell.text-center
-            .col-md-12.count-cell-value= articleCount
-            .col-md-12.count-cell-title Sources
-        tr.col-md-12.count-table-detail
-          td.col-md-5.gi
-            span Created:
-            | {{formatDate creationDate}} by #{createdByUserName}
-          td.col-md-5.gi.gi-cell-center
-            span Last Modified:
-            | {{formatDate lastModifiedDate}} by #{lastModifiedByUserName}
-          td.col-md-2.gi
-            button.copy-link.btn.btn-xs.btn-default(type="button" data-clipboard-text="{{urlFor 'user-event'}}")
+    .event--metadata.container-flex
+      .event--metadata--counts.container-flex.no-gutter
+        .count.flex-col
+          span= caseCount
+          h4 Incident Reports
+        .count.flex-col
+          span= articleCount
+          h4 Sources
+      .event--metadata--secondary-content.container-flex
+        .secondary-content
+          p Created by: #{createdByUserName} on {{formatDate creationDate}}
+        .secondary-content
+          p Last Modified by: #{lastModifiedByUserName} on {{formatDate lastModifiedDate}}
+        .secondary-content
+          button.copy-link.btn.btn-xs.btn-default(
+            type="button"
+            data-clipboard-text="{{urlFor 'user-event'}}"
+            class="{{#if copied}} copied {{/if}}")
+            if copied
+              i.fa.fa-check
+              span Coppied
+            else
               i.fa.fa-share-alt
-              | Copy Event Link
+              span Copy Event Link
+
   +editEventDetailsModal
 
 template(name="locationList")
