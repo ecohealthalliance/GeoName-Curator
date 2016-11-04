@@ -33,6 +33,7 @@ Template.incidentReports.onCreated ->
   # therefore we will setup a reactive cursor to use with the plot as an
   # instance variable.
   @incidents = Incidents.find({userEventId: @data.userEvent._id}, {sort: {date: -1}})
+  console.log @incidents.fetch()
 
 Template.incidentReports.onRendered ->
   @filters =
@@ -143,7 +144,7 @@ Template.incidentReports.helpers
     fields.push
       key: "expand"
       label: ""
-      cellClass : "open-row"
+      cellClass : "action open-down"
 
     id: 'event-incidents-table'
     fields: fields
@@ -173,7 +174,7 @@ Template.incidentReports.events
     template.plot.resetZoom()
 
   'click #event-incidents-table th': (event, template) ->
-    template.$('tr').removeClass('details-open')
+    template.$('tr').removeClass('open')
     template.$('tr.details').remove()
 
   'click .reactive-table tbody tr': (event, template) ->
@@ -187,10 +188,10 @@ Template.incidentReports.events
     else if $target.closest('.edit-row').length
       Modal.show('incidentModal', {articles: template.data.articles, userEventId: template.data.userEvent._id, edit: true, incident: this})
     else if not $parentRow.hasClass('details')
-      closeRow = $parentRow.hasClass('details-open')
+      closeRow = $parentRow.hasClass('open')
       if currentOpen
-        template.$('tr').removeClass('details-open')
+        template.$('tr').removeClass('open')
         currentOpen.remove()
       if not closeRow
         $tr = $('<tr>').addClass('details').html(Blaze.toHTMLWithData(Template.incidentReport, this))
-        $parentRow.addClass('details-open').after($tr)
+        $parentRow.addClass('open').after($tr)

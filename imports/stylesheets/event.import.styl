@@ -291,10 +291,11 @@ $max-event-details-width = $max-ui-width+300
     margin 0
 
 .ref-link
+  color $primary
   span
     padding-right 5px
   &:hover
-    text-decoration none
+    color $secondary-dark
 
 @media (max-width: 1200px)
   .main-facts
@@ -426,32 +427,123 @@ $max-event-details-width = $max-ui-width+300
     tr
       &:not(.details)
         cursor pointer
-      &:hover
-        .open-row
-          &:after
-            transform scale(1.3)
-    .open-row
-      max-width 1em
-      padding-right 1em
-      text-align right
-      &:after
-        font-family FontAwesome
-        content '\f137'
-        color $border-primary
-    .details-open
+    .open
+      background-color $selected
+      td
+        border-top 1px solid $border-primary
+        border-bottom 1px solid $border-primary
       .open-row
         &:after
           content '\f13a'
           color $primary
+    .details
+      background lighten($selected, 70%)
+      td
+        border-bottom 1px solid $border-primary
 
 .details-open
   background-color $selected
   position relative
 
 .details-container
-  padding 0 50px
+  margin-bottom .75em
+  margin-top .75em
   ul
     margin-bottom 0
+  .sources
+    margin-bottom 1em
+  .detail-icon
+    min-width 1.5em
+    &.fa
+      font-size 1.5em
+      color desaturate(darken($border-primary, 5%), 25%)
+  .metadata
+    li
+      margin-bottom 1em
+      align-items flex-start
+      &.single
+        span
+          margin-top .2em
+      &:last-of-type
+        margin 0
+      span
+        font-size .85em
+      li
+        &:last-of-type
+          margin-bottom 0
+  h5
+    font-size 1em
+    color lighten($primary, 20%)
+    margin-top 0
+    margin-bottom 1em
+
+.incident-report--details--important
+.incident-report--details--metadata
+  align-self center
+  margin-right 1.75em
+
+.incident-report--details--important
+  display flex
+  flex-direction column
+  div
+    margin-bottom 1em
+    text-align center
+    &:last-of-type
+      margin-bottom 0
+  h6
+    text-transform uppercase
+    margin .25em 0 0 0
+  .fa
+    font-size 2.5em
+
+.incident-report--details--metadata
+  margin-right 3em
+  &.bordered
+    border-left 1px solid lighten($border-primary, 40%)
+    padding-left 1.75em
+  ul
+    &:last-of-type
+      margin-bottom 0
+
+.incident-report--details--actions
+  margin-left auto
+  a
+    font-size 1.5em
+    color lighten($m-gray, 20%)
+    margin-right .5em
+    &:hover
+      color $primary
+    &:first-of-type
+      margin-top .07em
+    &:last-of-type
+      &:hover
+        color $delete
+
+.incident-report--details--counts
+  .incident-count
+    font-size 2.5em
+    font-weight 800
+    line-height 1
+    color $m-gray
+
+.incident-report--details--status
+  .confirmed
+    color $positive
+    &:before
+      content '\f058'
+  .suspected
+    color $warning
+    &:before
+      content '\f059'
+  .revoked
+    color $delete
+    &:before
+      content '\f05c'
+
+.incident-report--details--travel-related
+  .fa
+    color $delete
+
 
 .annotation-text
   color red
@@ -478,6 +570,11 @@ $max-event-details-width = $max-ui-width+300
 
 .warn
   background-color yellow
+
+.event-sources
+  tbody
+    tr
+      cursor pointer
 
 .event-sources-detail
   h4

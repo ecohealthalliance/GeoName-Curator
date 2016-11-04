@@ -183,9 +183,9 @@ Template.curatorInboxSection.onCreated ->
         moment(value).format('YYYY-MM-DD')
     },
     {
-      key: "expand"
-      label: ""
-      cellClass: "details-row"
+      key: 'expand'
+      label: ''
+      cellClass: 'action open-right'
     }
   ]
 

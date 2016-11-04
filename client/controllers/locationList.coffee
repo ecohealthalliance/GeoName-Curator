@@ -29,21 +29,21 @@ Template.locationList.helpers
   getSettings: ->
     fields = [
       {
-        key: "name"
-        label: "Name"
+        key: 'name'
+        label: 'Name'
         fn: (value, object, key) ->
           return formatLocation(object)
       },
       {
-        key: "addedDate"
-        label: "Added"
+        key: 'addedDate'
+        label: 'Added'
         fn: (value, object, key) ->
           return moment(value).fromNow()
       },
       {
-        key: "expand"
-        label: ""
-        cellClass: "open-row"
+        key: 'expand'
+        label: ''
+        cellClass: 'action open-down'
       }
     ]
 
@@ -53,27 +53,29 @@ Template.locationList.helpers
       showFilter: false
       showNavigationRowsPerPage: false
       showRowCount: false
-      class: "table"
-      filters: ["locationFilter"]
+      class: 'table'
+      filters: ['locationFilter']
     }
 
 Template.locationList.events
-  "keyup .reactive-table-input": (event, template) ->
+  'keyup .reactive-table-input': (event, template) ->
     if event.target.value.length
-      template.$("tr").removeClass("details-open")
-      template.$("tr.tr-details").remove()
-  "click #event-locations-table th": (event, template) ->
-    template.$("tr").removeClass("details-open")
-    template.$("tr.tr-details").remove()
-  "click .reactive-table tbody tr": (event, template) ->
+      template.$('tr').removeClass('open')
+      template.$('tr.tr-details').remove()
+
+  'click #event-locations-table th': (event, template) ->
+    template.$('tr').removeClass('open')
+    template.$('tr.tr-details').remove()
+
+  'click .reactive-table tbody tr': (event, template) ->
     $target = $(event.target)
-    $parentRow = $target.closest("tr")
-    if not $parentRow.hasClass("tr-details")
-      currentOpen = template.$("tr.tr-details")
-      closeRow = $parentRow.hasClass("details-open")
+    $parentRow = $target.closest('tr')
+    if not $parentRow.hasClass('tr-details')
+      currentOpen = template.$('tr.tr-details')
+      closeRow = $parentRow.hasClass('open')
       if currentOpen
-        template.$("tr").removeClass("details-open")
+        template.$('tr').removeClass('open')
         currentOpen.remove()
       if not closeRow
-        $tr = $("<tr>").addClass("tr-details").html(Blaze.toHTMLWithData(Template.location, this))
-        $parentRow.addClass("details-open").after($tr)
+        $tr = $('<tr>').addClass('tr-details').html(Blaze.toHTMLWithData(Template.location, this))
+        $parentRow.addClass('open').after($tr)

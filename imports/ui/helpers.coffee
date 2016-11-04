@@ -3,10 +3,10 @@ formatLocation = require '/imports/formatLocation.coffee'
 UI.registerHelper 'formatLocation', (location)->
   return formatLocation(location)
 
-@pluralize = (word, count) ->
+@pluralize = (word, count, showCount=true) ->
   if Number(count) isnt 1
     word += "s"
-  "#{count} #{word}"
+  if showCount then "#{count} #{word}" else word
 
 formatDateRange = (dateRange, readable)->
   dateFormat = "MMM D, YYYY"

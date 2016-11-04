@@ -25,46 +25,62 @@ template(name="addIncidentReport")
 
 template(name="incidentReport")
   td(colspan="7")
-    .details-container.incident-report--details
-      ul.list-unstyled
-        li
-          h5 Source:
-          ul.list-unstyled
-            each val in url
-              li
-                a.ref-link(href="{{formatUrl(val)}}" target="_blank") {{formatUrl(val)}}
-        if dateRange
-          li
-            h5 Date:
-            span {{formatDateRange(dateRange)}}
-        li
-          h5 Location:
-          if locations.length
-            ul.list-unstyled
-              each locations
-                li {{formatLocation(this)}}
-          else
-            span No location specified.
-        li
-          h5 Species:
-          span=species
-        li
-          h5 Status:
-          span=status
-        li
-          if cases
-            +incidentDetails label="Cases" value=cases
-          if deaths
-            +incidentDetails label="Deaths" value=deaths
-          if specify
-            +incidentDetails label="Other" value=specify
-        li
+    .details-container.incident-report--details.container-flex
+      if importantDetails
+        .incident-report--details--important
+          if status
+            .incident-report--details--status
+              i.fa(class=status)
+              h6=status
+          if caseCounts
+            .incident-report--details--counts
+              if deaths
+                +incidentCount label=deathsLabel count=deaths
+              if cases
+                +incidentCount label=casesLabel count=cases
           if travelRelated
-            i.fa.fa-lg.fa-plane
+            .incident-report--details--travel-related
+              i.fa.fa-lg.fa-plane
+              h6 Travel Related
 
-template(name="incidentDetails")
-  h5 #{label}:
-  span=value
+      .incident-report--details--metadata(class="{{#if importantDetails}} bordered {{/if}}")
+        if specify
+          h5=specify
+
+        ul.metadata.list-unstyled
+          li.container-flex
+            i.detail-icon.fa.fa-globe
+            if locations.length
+              ul.list-unstyled.locations
+                each locations
+                  li
+                    span {{formatLocation(this)}}
+            else
+              span No location specified.
+          if species
+            li.container-flex.single
+              i.detail-icon.fa.fa-paw
+              span=species
+          li.container-flex.single
+            i.detail-icon.fa.fa-calendar
+            span {{formatDateRange(dateRange)}}
+          li.container-flex
+            i.detail-icon.fa.fa-link
+            ul.list-unstyled
+              each val in url
+                li
+                  a.ref-link(href="{{formatUrl(val)}}" target="_blank")
+                    span {{formatUrl(val)}}
+
+      .incident-report--details--actions.container-flex
+        a.edit
+          i.fa.fa-edit
+        a.delete
+          i.fa.fa-trash
+
+template(name="incidentCount")
+  span.incident-count=count
+  h6.type=label
 
 template(name="incidentModal")
   .modal.fade(role="dialog")

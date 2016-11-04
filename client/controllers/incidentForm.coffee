@@ -19,11 +19,11 @@ Template.incidentForm.onCreated ->
         url: @incidentData.url[0]
       })?._id
     if @incidentData.cases
-      @incidentType.set("cases")
+      @incidentType.set('cases')
     else if @incidentData.deaths
-      @incidentType.set("deaths")
+      @incidentType.set('deaths')
     else if @incidentData.specify
-      @incidentType.set("other")
+      @incidentType.set('other')
 
 Template.incidentForm.onRendered ->
   $(document).ready =>
@@ -31,33 +31,40 @@ Template.incidentForm.onRendered ->
     if @incidentData.dateRange.start and @incidentData.dateRange.end
       datePickerOptions.startDate = @incidentData.dateRange.start
       datePickerOptions.endDate = @incidentData.dateRange.end
-    createInlineDateRangePicker(@.$("#rangePicker"), datePickerOptions)
+    createInlineDateRangePicker(@.$('#rangePicker'), datePickerOptions)
     datePickerOptions.singleDatePicker = true
-    createInlineDateRangePicker(@.$("#singleDatePicker"), datePickerOptions)
+    createInlineDateRangePicker(@.$('#singleDatePicker'), datePickerOptions)
 
 Template.incidentForm.helpers
   incidentData: ->
     Template.instance().incidentData
+
   incidentStatus: ->
-    "#{Template.instance().incidentData.status}": true
+    '#{Template.instance().incidentData.status}': true
+
   incidentType: ->
-    "#{Template.instance().incidentType.get()}": true
+    '#{Template.instance().incidentType.get()}': true
+
   articles: ->
-    return Template.instance().data.articles
+    Template.instance().data.articles
+
   showCountForm: ->
     type = Template.instance().incidentType.get()
-    return type is "cases" or type is "deaths"
+    type is 'cases' or type is 'deaths'
+
   showOtherForm: ->
-    return Template.instance().incidentType.get() is "other"
+    Template.instance().incidentType.get() is 'other'
+
   dayTabClass: ->
-    if Template.instance().incidentData.dateRange.type is "day"
-      return "active"
+    if Template.instance().incidentData.dateRange.type is 'day'
+      'active'
+
   rangeTabClass: ->
-    if Template.instance().incidentData.dateRange.type is "precise"
-      return "active"
+    if Template.instance().incidentData.dateRange.type is 'precise'
+      'active'
 
 Template.incidentForm.events
-  "change select[name='incidentType']": (e, template) ->
+  'change select[name=incidentType]': (e, template) ->
     template.incidentType.set($(e.target).val())
-  "change input[name='daterangepicker_start']": (e, template) ->
+  'change input[name=daterangepicker_start]': (e, template) ->
     $('#singleDatePicker').data('daterangepicker').clickApply()
