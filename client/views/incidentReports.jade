@@ -25,52 +25,46 @@ template(name="addIncidentReport")
 
 template(name="incidentReport")
   td(colspan="7")
-    .tr-detail-container.form-horizontal
-      .row
-        .col-sm-2.control-label Source:
-        .col-sm-10
-          each val in url
-            p.form-control-static
-              a.ref-link(href="{{formatUrl(val)}}" target="_blank") {{formatUrl(val)}}
-      if dateRange
-        .row
-          .col-sm-2.control-label Date:
-          .col-sm-10
-            p.form-control-static {{formatDateRange(dateRange)}}
-      .row
-        .col-sm-2.control-label Location:
-        .col-sm-10
+    .details-container.incident-report--details
+      ul.list-unstyled
+        li
+          h5 Source:
+          ul.list-unstyled
+            each val in url
+              li
+                a.ref-link(href="{{formatUrl(val)}}" target="_blank") {{formatUrl(val)}}
+        if dateRange
+          li
+            h5 Date:
+            span {{formatDateRange(dateRange)}}
+        li
+          h5 Location:
           if locations.length
-            each locations
-              p.form-control-static {{formatLocation(this)}}
+            ul.list-unstyled
+              each locations
+                li {{formatLocation(this)}}
           else
-            p.form-control-static No location specified.
-      .row
-        .col-sm-2.control-label Species:
-        .col-sm-10
-          p.form-control-static {{species}}
-      .row
-        .col-sm-2.control-label Status:
-        .col-sm-10
-          p.form-control-static {{status}}
-      .row
-        if cases
-          +incidentDetails label="Cases" value=cases
-        if deaths
-          +incidentDetails label="Deaths" value=deaths
-        if specify
-          +incidentDetails label="Other" value=specify
-      .row
-        .col-sm-2.control-label Travel Related:
-        .col-sm-10
+            span No location specified.
+        li
+          h5 Species:
+          span=species
+        li
+          h5 Status:
+          span=status
+        li
+          if cases
+            +incidentDetails label="Cases" value=cases
+          if deaths
+            +incidentDetails label="Deaths" value=deaths
+          if specify
+            +incidentDetails label="Other" value=specify
+        li
           if travelRelated
-            p.form-control-static
-              i.fa.fa-lg.fa-check
+            i.fa.fa-lg.fa-plane
 
 template(name="incidentDetails")
-  .col-sm-2.control-label {{label}}:
-  .col-sm-10
-    p.form-control-static {{value}}
+  h5 #{label}:
+  span=value
 
 template(name="incidentModal")
   .modal.fade(role="dialog")

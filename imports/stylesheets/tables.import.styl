@@ -11,5 +11,14 @@
 .table > tbody > tr > td
   border-color $border-primary-light
 
-table tr:last-child
-  border 0
+.reactive-table
+  tr
+    &.tr-details
+      cursor default
+
+.table
+  > tbody
+    > tr
+      &:last-of-type
+      td
+        border-bottom 1px solid $border-primary-light
