@@ -16,5 +16,5 @@ Template.incidentReport.helpers
     @deaths or @cases or @status
 
 Template.addIncidentReport.events
-  "click .open-incident-form": (event, template) ->
-    Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id, add: true})
+  'click .open-incident-form': (event, template) ->
+    Modal.show('incidentModal', {articles: template.data.articles, userEventId: template.data.userEvent._id, add: true})

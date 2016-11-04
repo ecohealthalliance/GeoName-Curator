@@ -33,34 +33,30 @@ Template.incidentReports.onCreated ->
   # therefore we will setup a reactive cursor to use with the plot as an
   # instance variable.
   @incidents = Incidents.find({userEventId: @data.userEvent._id}, {sort: {date: -1}})
-  console.log @incidents.fetch()
 
 Template.incidentReports.onRendered ->
   @filters =
     notCumulative: (d) ->
       if typeof d.meta.cumulative == 'undefined' || d.meta.cumulative == false
-        return d
+        d
     cumulative: (d) ->
       if d.meta.cumulative
-        return d
+        d
 
-  @plot = new ScatterPlot({
-    containerID: 'scatterPlot',
-    svgContainerClass: 'scatterPlot-container',
-    height: $('#event-incidents-table').parent().height(),
-    axes: {
+  @plot = new ScatterPlot
+    containerID: 'scatterPlot'
+    svgContainerClass: 'scatterPlot-container'
+    height: $('#event-incidents-table').parent().height()
+    axes:
       # show grid lines
-      grid: true,
-      x: {
-        title: 'Time',
-        type: 'datetime',
-      },
-      y: {
-        title: 'Count',
-        type: 'numeric',
-      }
-    },
-    tooltip: {
+      grid: true
+      x:
+        title: 'Time'
+        type: 'datetime'
+      y:
+        title: 'Count'
+        type: 'numeric'
+    tooltip:
       opacity: .8
       # function to render the tooltip
       template: (marker) ->
@@ -72,24 +68,22 @@ Template.incidentReports.onRendered ->
         tmpl = _.template(tooltipTmpl)
         # render the template from
         tmpl(marker)
-    },
-    zoom: true,
+    zoom: true
     # initially active filters
-    filters: {
+    filters:
       notCumulative: @filters.notCumulative
-    }
-  })
+
   # deboune how many consecutive calls to update the plot during reactive changes
   @updatePlot = _.debounce(_.bind(@plot.update, @plot), 300)
 
   @autorun =>
     # anytime the incidents cursur changes, refetch the data and format
-    incidents = @incidents.fetch().map((incident) =>
-      return RectMarker.createFromIncident(incident)
-    ).filter((incident) =>
-      if incident
-        return incident
-    )
+    incidents = @incidents.fetch()
+      .map (incident) ->
+        RectMarker.createFromIncident(incident)
+      .filter (incident) ->
+        if incident
+          incident
     # we have an existing plot, update plot with new data array
     if @plot instanceof ScatterPlot
       @updatePlot(incidents)
@@ -123,35 +117,36 @@ Template.incidentReports.helpers
           return ""
       },
       {
-        key: "dateRange"
-        label: "Date"
+        key: 'dateRange'
+        label: 'Date'
         fn: (value, object, key) ->
-          dateFormat = "M/D/YYYY"
-          if object.dateRange?.type is "day"
+          dateFormat = 'M/D/YYYY'
+          if object.dateRange?.type is 'day'
             if object.dateRange.cumulative
               return "Before " + moment(object.dateRange.end).format(dateFormat)
             else
               return moment(object.dateRange.start).format(dateFormat)
-          else if object.dateRange?.type is "precise"
-            return moment(object.dateRange.start).format(dateFormat) + " - "
+          else if object.dateRange?.type is 'precise'
+            return moment(object.dateRange.start).format(dateFormat) + ' - '
             + moment(object.dateRange.end).format(dateFormat)
-          return ""
+          return ''
         sortFn: (value, object) ->
           +new Date(object.dateRange.end)
       },
     ]
 
     fields.push
-      key: "expand"
-      label: ""
-      cellClass : "action open-down"
+      key: 'expand'
+      label: ''
+      cellClass : 'action open-down'
 
     id: 'event-incidents-table'
     fields: fields
     showFilter: false
     showNavigationRowsPerPage: false
     showRowCount: false
-    class: "table event-incidents"
+    class: 'table event-incidents'
+    rowClass: 'event-incident'
 
 Template.incidentReports.events
   'click #scatterPlot-toggleCumulative': (event, template) ->
@@ -177,21 +172,33 @@ Template.incidentReports.events
     template.$('tr').removeClass('open')
     template.$('tr.details').remove()
 
-  'click .reactive-table tbody tr': (event, template) ->
+  'click .reactive-table tbody tr.event-incident': (event, template) ->
     $target = $(event.target)
     $parentRow = $target.closest('tr')
     currentOpen = template.$('tr.details')
-    if $target.closest('.remove-row').length
-      if window.confirm('Are you sure you want to delete this incident report?')
-        currentOpen.remove()
-        Meteor.call('removeIncidentReport', @_id)
-    else if $target.closest('.edit-row').length
-      Modal.show('incidentModal', {articles: template.data.articles, userEventId: template.data.userEvent._id, edit: true, incident: this})
-    else if not $parentRow.hasClass('details')
-      closeRow = $parentRow.hasClass('open')
-      if currentOpen
-        template.$('tr').removeClass('open')
-        currentOpen.remove()
-      if not closeRow
-        $tr = $('<tr>').addClass('details').html(Blaze.toHTMLWithData(Template.incidentReport, this))
-        $parentRow.addClass('open').after($tr)
+    closeRow = $parentRow.hasClass('open')
+    if currentOpen
+      template.$('tr').removeClass('open')
+      currentOpen.remove()
+    if not closeRow
+      $parentRow.addClass('open').after $('<tr>').addClass('details')
+      Blaze.renderWithData Template.incidentReport, @, $('tr.details')[0]
+
+  'click .reactive-table tbody tr .edit': (event, template) ->
+    templateData = template.data
+    Modal.show 'incidentModal',
+      articles: templateData.articles
+      userEventId: templateData.userEvent._id
+      edit: true
+      incident: @
+
+  'click .reactive-table tbody tr .delete': (event, template) ->
+    if window.confirm('Are you sure you want to delete this incident report?')
+      template.$('tr.details').remove()
+      Meteor.call('removeIncidentReport', @_id)
+
+  # Remove any open incident report details elements on pagination
+  'click .next-page,
+   click .prev-page,
+   change .reactive-table-navigation .form-control': (event, template) ->
+    template.$('tr.details').remove()
