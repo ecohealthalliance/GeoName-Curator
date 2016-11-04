@@ -49,7 +49,7 @@ template(name="incidentReport")
 
         ul.metadata.list-unstyled
           li.container-flex
-            i.detail-icon.fa.fa-globe
+            +detailIcon icon="globe" title="Locations"
             if locations.length
               ul.list-unstyled.locations
                 each locations
@@ -59,13 +59,13 @@ template(name="incidentReport")
               span No location specified.
           if species
             li.container-flex.single
-              i.detail-icon.fa.fa-paw
+              +detailIcon icon="paw" title="Species"
               span=species
           li.container-flex.single
-            i.detail-icon.fa.fa-calendar
+            +detailIcon icon="calendar" title="Dates"
             span {{formatDateRange(dateRange)}}
           li.container-flex
-            i.detail-icon.fa.fa-link
+            +detailIcon icon="link" title="Source"
             ul.list-unstyled
               each val in url
                 li
@@ -81,6 +81,13 @@ template(name="incidentReport")
 template(name="incidentCount")
   span.incident-count=count
   h6.type=label
+
+template(name="detailIcon")
+  i.detail-icon.fa(
+    class="fa-#{icon}"
+    data-toggle="tooltip"
+    data-placement="top"
+    title=title)
 
 template(name="incidentModal")
   .modal.fade(role="dialog")
