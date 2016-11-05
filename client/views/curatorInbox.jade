@@ -38,12 +38,10 @@ template(name="curatorInbox")
 
 template(name="curatorInboxSection")
   if count
-    .col-xs-12.curator-inbox-section-head
-      .pull-left
-        b {{formattedDate}}
-        .spacer
-        | {{count}} Articles
-      .pull-right
+    .curator-inbox-section-head
+      .date= formattedDate
+      .count #{count} sources
+      .toggle
         i.fa.fa-lg
           if isOpen
             i.fa.fa-chevron-circle-down

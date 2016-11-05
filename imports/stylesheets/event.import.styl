@@ -36,13 +36,16 @@ $max-event-details-width = $max-ui-width+300
       margin-bottom 0
       border-color $primary
     .heading
-      border-bottom 1px solid $primary
+      border-bottom 1px solid $border-primary
       padding-bottom 1em
       padding-top 1em
+      background $border-primary-light
     h2
       font-size 2em
       font-weight 400
       text-transform uppercase
+  .reactive-table-options
+    display none
 
 .event--basic-info
   margin 2em 0 0 0
@@ -376,7 +379,6 @@ $max-event-details-width = $max-ui-width+300
           width 100%
           margin-bottom 15px
 
-
 .abstract
   white-space pre-wrap
 
@@ -387,8 +389,7 @@ $max-event-details-width = $max-ui-width+300
   display flex
   align-items center
   padding 15px 15px 15px $page-padding-small-screen
-  background-color $primary-l-light
-  border-bottom 1px solid lighten($m-gray, 70%)
+  border-bottom 2px solid $border-primary-light
   +above(3)
     padding 15px 15px 15px $page-padding
   input
@@ -398,14 +399,15 @@ $max-event-details-width = $max-ui-width+300
   input.form-control
   select.form-control
   .input-group-addon
-    border-color $primary
-  .table-filter .input-group-addon
-    background-color white
-    color $primary
-    padding-right 0
-    &:before
-      content "\f002"
-      font-family FontAwesome
+    border-color $border-primary
+  .table-filter
+    .input-group-addon
+      background-color white
+      color lighten($primary, 20%)
+      padding-right 0
+      &:before
+        content "\f002"
+        font-family FontAwesome
   .btn
     background white
     text-transform uppercase
@@ -414,9 +416,6 @@ $max-event-details-width = $max-ui-width+300
     &:hover
       border-color $primary-dark
       background darken($primary-l-light, 5%)
-
-.tab-pane .col-md-6
-  padding 0
 
 .disease-separator
   border-top 1px solid #DDD
@@ -449,7 +448,7 @@ $max-event-details-width = $max-ui-width+300
   content "\f054"
 
 .details-open
-  background-color $secondary-light
+  background-color $selected
   .open-row::before
     content "\f106"
 
