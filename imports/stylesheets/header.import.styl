@@ -10,7 +10,8 @@
   z-index 1010
   +above(3)
     padding 0 $page-padding
-  li
+  > li
+    margin-right 1px
     > a
       padding 25px 15px
       font-size 15px
@@ -26,8 +27,11 @@
 
 .navbar-nav
   float right
-  +below(3)
+  > li
+    margin-right 1px
+  +below(2)
     float none
+  +below(3)
     border-bottom 2px solid white
     .icon
       display none
@@ -49,15 +53,40 @@
 .navbar-default .navbar-nav > .open > a
 .navbar-default .navbar-nav > .open > a:hover
 .navbar-default .navbar-nav > .open > a:focus
-    background-color $secondary
-    color $primary
+  background-color $secondary
+  color $primary
 
 .navbar-nav .open .dropdown-menu
   background-color $secondary-light
+  overflow hidden
 
 .navbar-nav .dropdown-menu
   > li > a
-    padding 20px
+    padding .75em 1em
+
+.dropdown-toggle-nav
+  font-size 0
+  &::before
+  &::after
+    vAlign()
+  span
+    &:first-of-type
+      +above(3)
+        display none
+
+.dropdown-menu > .active > a
+.dropdown-menu > .active > a:hover
+.dropdown-menu > .active
+  background-color $secondary
+
+.dropdown-menu
+  max-width 300px
+  border 0
+  border-top 2px solid $secondary
+
+.dropdown-menu
+  &.nav-dd
+    padding 0
 
 .logo
   height 50px
@@ -66,15 +95,14 @@
   padding-top 15px
 
 .navbar-brand
-  bg('/images/eidr-connect-logo', 100px, 47px, 'svg')
+  bg('/images/eidr-connect-logo-long', 200px, 30px, 'svg')
   margin-top 10px
   +below(3)
-    margin-left 20px
-    background-size 63px 35px
+    background-size 150px 20px
     background-repeat no-repeat
-    width 63px
-    margin-top 5px
-    height 45px
+    width 150px
+    height 20px
+    margin-top 15px
   +between(3,4)
     margin-left 20px
 
@@ -119,10 +147,12 @@ li > a
     margin-left -30px
 
 .navbar-fixed-top .navbar-collapse
-  +below(3)
+  +below(2)
+    background $secondary-light
     max-height 400px
 
 .navbar-toggle
+  padding .35em .75em
   +below(3)
     margin-right 0
     margin-top 10px

@@ -1,21 +1,30 @@
 template(name="admins")
   .container-fluid
+    +createAccount
     .container.content-block
-      h3 Admins
-      +each adminUsers
-        +adminUser
-      h3 Curators
-      +each curatorUsers
-        +adminUser
-      h3 Users
-      +each defaultUsers
-        +adminUser
+      if adminUsers.count
+        h3 Admins
+        ul.list-group
+          +each adminUsers
+            +adminUser
+      if curatorUsers.count
+        h3 Curators
+        ul.list-group
+          +each curatorUsers
+            +adminUser
+      if defaultUsers.count
+        h3 Users
+        ul.list-group
+          +each defaultUsers
+            +adminUser
 
 template(name="adminUser")
-  p
-    | {{name}} - {{email}}
+  li.list-group-item.clearfix
+    .pull-left
+      p= name
+      p=email
     unless isCurrentUser
-      .btn-group
+      .btn-group.pull-right
         if isCurator
           button.btn.btn-primary.remove-curator
             i.fa.fa-check
