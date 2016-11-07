@@ -51,14 +51,19 @@ $max-event-details-width = $max-ui-width+300
   margin 2em 0 0 0
   padding-top 2em
   +above(4)
-    margin-right $page-padding*-1
+    padding-right 0
 
 .event--details
 .event--metadata
-  min-width 50%
+  width 100%
+  +above(4)
+    width 50%
 
 .event--details
   margin-right 5%
+  margin-bottom 2em
+  +above(4)
+    margin-bottom 0
 
 .event--metadata
   flex-direction column
@@ -100,7 +105,7 @@ $max-event-details-width = $max-ui-width+300
 .event--metadata--secondary-content
   flex-grow 0
   flex-direction column
-  align-items stretch
+  align-items center
   +between(3,4)
     flex-direction row
     align-items center
