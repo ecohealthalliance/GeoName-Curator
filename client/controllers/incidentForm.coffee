@@ -26,24 +26,23 @@ Template.incidentForm.onCreated ->
       @incidentType.set('other')
 
 Template.incidentForm.onRendered ->
-  $(document).ready =>
-    datePickerOptions = {}
-    if @incidentData.dateRange.start and @incidentData.dateRange.end
-      datePickerOptions.startDate = @incidentData.dateRange.start
-      datePickerOptions.endDate = @incidentData.dateRange.end
-    createInlineDateRangePicker(@.$('#rangePicker'), datePickerOptions)
-    datePickerOptions.singleDatePicker = true
-    createInlineDateRangePicker(@.$('#singleDatePicker'), datePickerOptions)
+  datePickerOptions = {}
+  if @incidentData.dateRange.start and @incidentData.dateRange.end
+    datePickerOptions.startDate = @incidentData.dateRange.start
+    datePickerOptions.endDate = @incidentData.dateRange.end
+  createInlineDateRangePicker(@.$('#rangePicker'), datePickerOptions)
+  datePickerOptions.singleDatePicker = true
+  createInlineDateRangePicker(@.$('#singleDatePicker'), datePickerOptions)
 
 Template.incidentForm.helpers
   incidentData: ->
     Template.instance().incidentData
 
   incidentStatus: ->
-    '#{Template.instance().incidentData.status}': true
+    "#{Template.instance().incidentData.status}": true
 
   incidentType: ->
-    '#{Template.instance().incidentType.get()}': true
+    "#{Template.instance().incidentType.get()}": true
 
   articles: ->
     Template.instance().data.articles
@@ -66,5 +65,6 @@ Template.incidentForm.helpers
 Template.incidentForm.events
   'change select[name=incidentType]': (e, template) ->
     template.incidentType.set($(e.target).val())
+
   'change input[name=daterangepicker_start]': (e, template) ->
     $('#singleDatePicker').data('daterangepicker').clickApply()

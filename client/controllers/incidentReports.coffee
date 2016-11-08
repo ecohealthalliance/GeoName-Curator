@@ -132,7 +132,7 @@ Template.incidentReports.helpers
           return ''
         sortFn: (value, object) ->
           +new Date(object.dateRange.end)
-      },
+      }
     ]
 
     fields.push
@@ -146,7 +146,7 @@ Template.incidentReports.helpers
     showNavigationRowsPerPage: false
     showRowCount: false
     class: 'table event-incidents'
-    rowClass: 'event-incident'
+    rowClass: "event-incident"
 
 Template.incidentReports.events
   'click #scatterPlot-toggleCumulative': (event, template) ->
@@ -186,11 +186,12 @@ Template.incidentReports.events
 
   'click .reactive-table tbody tr .edit': (event, template) ->
     templateData = template.data
-    Modal.show 'incidentModal',
+    incident =
       articles: templateData.articles
       userEventId: templateData.userEvent._id
       edit: true
       incident: @
+    Modal.show 'incidentModal', incident
 
   'click .reactive-table tbody tr .delete': (event, template) ->
     if window.confirm('Are you sure you want to delete this incident report?')

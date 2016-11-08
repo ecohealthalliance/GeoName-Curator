@@ -40,7 +40,7 @@ Template.incidentModal.events
       Meteor.call 'editIncidentReport', incident, (error, result) ->
         if not error
           $('.reactive-table tr').removeClass('open')
-          $('.reactive-table tr.tr-details').remove()
+          $('.reactive-table tr.details').remove()
           toastr.success('Incident report updated.')
         else
           toastr.error(error.reason)
