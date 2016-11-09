@@ -3,16 +3,13 @@ template(name="curatorInbox")
     .curator-inbox-header.pane-head.pane-head-l
       h2 Sources
       .curator-inbox-options
-        if isLoading
-          a.curator-refresh-icon
-            i.fa.fa-refresh.fa-spin
-        a.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
-          i.fa.fa-calendar
-        a.curator-filter-reviewed-icon(class="{{#unless reviewFilterActive}} active {{/unless}}")
+        a.option.curator-filter-reviewed-icon(class="{{#unless reviewFilterActive}} active {{/unless}}")
           i.fa.fa-check-circle
-        .input-group
-          input#curator-inbox-article-filter.map-search.form-control(type="text" placeholder="Filter by event name")
-          i.fa.fa-search.search-icon
+        a.option.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
+          i.fa.fa-calendar
+        .option.input-wrapper(class="{{#unless searching}} stagged {{/unless}}")
+          input#curator-inbox-article-filter.form-control.icon-right(type="text" placeholder="Search sources")
+          i.fa.fa-search.search-icon.right
     .curator-inbox-sources.pane.pane-l.curator-inbox--pane
       .curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
         .text-center

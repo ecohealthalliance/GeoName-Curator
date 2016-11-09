@@ -10,18 +10,19 @@ $header-BG = $border-primary-light
     padding-left 40px
 
 .curator-inbox-header
-  background $primary
-  padding 10px 15px 10px 55px
-  min-height 54px
+  padding 0 15px 0 $page-padding
   display flex
   align-items center
   min-height 50px
   max-height 50px
+  border-bottom 2px solid $primary
+  border-right 2px solid $primary
   h2
-    color $ll-gray
+    color $primary
     margin 0
     font-size 1.75em
     font-weight 600
+    text-transform uppercase
   .controls
     margin-left 1.5em
     margin-right 1.35em
@@ -40,37 +41,56 @@ $header-BG = $border-primary-light
 .curator-inbox-sources
   .curator-inbox-header
   .curator-inbox-section-head
+    background lighten($border-primary-light, 50%)
     &:hover
     &:focus
       i
         transform scale(1.1)
         transition transform 0.1s ease-in-out
     +above(4)
-      padding-left 55px
+      padding-left $page-padding
 
 .curator-inbox-options
   position relative
   color $primary-light
   display flex
+  align-items center
   margin-left auto
-  input
-    padding 5px 5px 5px 30px
-    border 1px $primary-light solid
+  .option
+    margin-right .75em
+    &:last-child
+      margin 0
+  .input-wrapper
+    transition .3s
+    width 260px
+    border 1px solid $border-primary
     border-radius 3px
-    background $primary
-    color $l-gray
-  .search-icon
-    position absolute
-    top 10px
-    left 10px
-    z-index 10
+    .search-icon
+      font-size 1.2em
+      cursor pointer
+      transition .1s ease-in-out
+    input
+      transition .3s
+      opacity 1
+    &.stagged
+      border 0
+      width 35px
+      input
+        visibility hidden
+        opacity 0
+      .search-icon
+        font-size 1.75em
+        color $primary
+  input
+    box-shadow none
+    min-width 250px
+    border 0
+    &:focus
+      box-shadow none
+      outline 0
   a
-    color lighten($primary, 60%)
-    position relative
-    top 5px
-    margin-right 15px
-    font-size 25px
-    line-height 0.5
+    color $primary
+    font-size 1.75em
     +below(4)
       display none
     &:hover
@@ -80,6 +100,10 @@ $header-BG = $border-primary-light
     cursor pointer
     &.active
       color $positive
+
+.curator-filter--search-show
+  display flex
+  align-items center
 
 .curator-inbox-datepicker
   display none
@@ -113,7 +137,7 @@ $header-BG = $border-primary-light
   display flex
   align-items center
   justify-content space-around
-  min-height 40px
+  min-height 50px
   font-size 1em
   padding .5em 1em
   cursor pointer
@@ -126,6 +150,7 @@ $header-BG = $border-primary-light
   .toggle
     margin-left auto
   .date
+    font-size 1.25em
     font-weight 600
   .count
     font-size .9em
@@ -142,9 +167,9 @@ $header-BG = $border-primary-light
 .curator-source-details-header
   position relative
   background none
-  border-bottom 2px solid $border-primary
   overflow hidden
   padding-left 1.5em
+  border-right 0
   h2
     color $primary
     flex 1
@@ -320,8 +345,10 @@ $header-BG = $border-primary-light
         color $positive
     td
       border-color $border-primary-light
+      &.title
+        padding-left 0
       &:first-of-type
-        width 45px
+        width $page-padding
         text-align right
       &:nth-of-type(-n+2)
         display table-cell !important
@@ -473,6 +500,7 @@ $header-BG = $border-primary-light
     border-color $border-primary
     box-shadow none
     padding-right 2em
+
 
 .filter-wrapper
   opacity 1
