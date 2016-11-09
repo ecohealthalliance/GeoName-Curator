@@ -9,7 +9,7 @@ Meteor.methods
       now = new Date()
 
       if trimmedName.length isnt 0
-        UserEvents.insert(
+        UserEvents.insert
           eventName: trimmedName
           summary: summary
           creationDate: now
@@ -19,19 +19,19 @@ Meteor.methods
           lastModifiedByUserId: user._id
           lastModifiedByUserName: user.profile.name
           articleCount: 0
-        )
 
   updateUserEvent: (id, name, summary, disease) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       user = Meteor.user()
-      UserEvents.update(id, {$set: {
-        eventName: name,
-        summary: summary,
-        disease: disease,
-        lastModifiedDate: new Date(),
-        lastModifiedByUserId: user._id,
-        lastModifiedByUserName: user.profile.name
-      }})
+      UserEvents.upsert id,
+        $set:
+          eventName: name,
+          summary: summary,
+          disease: disease,
+          lastModifiedDate: new Date(),
+          lastModifiedByUserId: user._id,
+          lastModifiedByUserName: user.profile.name
+
   deleteUserEvent: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       UserEvents.remove(id)
@@ -39,25 +39,29 @@ Meteor.methods
   updateUserEventLastModified: (id) ->
     user = Meteor.user()
     if user
-      UserEvents.update(id, {$set: {
-        lastModifiedDate: new Date(),
-        lastModifiedByUserId: user._id,
-        lastModifiedByUserName: user.profile.name
-      }})
+      UserEvents.update id,
+        $set:
+          lastModifiedDate: new Date(),
+          lastModifiedByUserId: user._id,
+          lastModifiedByUserName: user.profile.name
+
   updateUserEventArticleCount: (id, countModifier) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       event = UserEvents.findOne(id)
-      UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
+      UserEvents.update id,
+        $set:
+          articleCount: event.articleCount + countModifier
+
   updateUserEventLastIncidentDate: (id) ->
     event = UserEvents.findOne(id)
-    latestEventIncident = Incidents.findOne({userEventId: event._id}, {sort: {addedDate: -1}})
+    latestEventIncident = Incidents.findOne
+      userEventId: event._id
+      {sort: addedDate: -1}
     if latestEventIncident
-      UserEvents.update(id, {
+      UserEvents.update id,
         $set:
           lastIncidentDate: latestEventIncident.dateRange.end
-      })
     else
-      UserEvents.update(id, {
+      UserEvents.update id,
         $unset:
-          lastIncidentDate: ""
-      })
+          lastIncidentDate: ''

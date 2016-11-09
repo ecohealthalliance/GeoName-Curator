@@ -27,7 +27,7 @@ Template.userEvents.onCreated ->
       fieldName: 'creationDate',
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
-        return value.toLocaleString()
+        return value?.toLocaleString()
     },
     {
       arrayName: '',
@@ -36,7 +36,7 @@ Template.userEvents.onCreated ->
       fieldName: 'lastModifiedDate',
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
-        return value.toLocaleString()
+        return value?.toLocaleString()
     },
     {
       arrayName: '',

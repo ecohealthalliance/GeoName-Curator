@@ -1,3 +1,5 @@
+CuratorSources = require '/imports/collections/curatorSources.coffee'
+
 Template.editEventDetailsModal.onCreated ->
   @confirmingDeletion = new ReactiveVar false
 
@@ -20,21 +22,34 @@ Template.editEventDetailsModal.helpers
   confirmingDeletion: ->
     Template.instance().confirmingDeletion.get()
 
+  adding: ->
+    Template.instance().data.action is 'add'
+
 Template.editEventDetailsModal.events
-  'submit #editEvent': (event, template) ->
+  'submit #editEvent': (event, instance) ->
     event.preventDefault()
     valid = event.target.eventName.checkValidity()
     unless valid
       toastr.error('Please provide a new name')
       event.target.eventName.focus()
       return
-    updatedName = event.target.eventName.value.trim()
-    updatedSummary = event.target.eventSummary.value.trim()
-    disease = event.target.eventDisease.value.trim()
-    if updatedName.length isnt 0
-      Meteor.call 'updateUserEvent', @_id, updatedName, updatedSummary, disease, (error, result) ->
+    name = event.target.eventName.value.trim()
+    summary = event.target.eventSummary.value.trim()
+    disease = event.target.eventDisease?.value.trim()
+    if name.length isnt 0
+      source = CuratorSources.findOne(instance.data.sourceId)
+      eventId = @_id
+      Meteor.call 'updateUserEvent', eventId, name, summary, disease, (error, result) ->
         if not error
-          $('#edit-event-modal').modal 'hide'
+          Modal.hide 'editEventDetailsModal'
+          $('#edit-event-modal').modal('hide')
+          if instance.data.addToSource
+            Meteor.call 'addEventSource',
+              url: "promedmail.org/post/#{source._sourceId}"
+              userEventId: result.insertedId
+              title: source.title
+              publishDate: source.publishDate
+              publishDateTZ: "EST"
 
   'click .delete-event': (event, instance) ->
     instance.confirmingDeletion.set true
@@ -45,7 +60,8 @@ Template.editEventDetailsModal.events
   'click .delete-event-confirmation': (event, instance) ->
     Meteor.call 'deleteUserEvent', @_id, (error, result) ->
       if not error
-        instance.$('#edit-event-modal').modal('hide')
+        Modal.hide 'editEventDetailsModal'
+        $('#edit-event-modal').modal('hide')
         $('.modal-backdrop').remove()
         $('body').removeClass 'modal-open'
         Router.go 'user-events'

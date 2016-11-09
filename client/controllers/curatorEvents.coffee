@@ -116,9 +116,8 @@ Template.curatorEvents.events
     instance.suggestedEventsHeaderState.set true
 
   "click .add-new-event": (event, instance) ->
-    console.log instance
     Modal.show 'editEventDetailsModal',
       action: 'add'
       saveActionMessage: 'Save & Add to Source'
       addToSource: true
-      sourceId: instance.selectedSourceId.get()
+      sourceId: instance.data.selectedSourceId.get()

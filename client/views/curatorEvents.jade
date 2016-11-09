@@ -2,6 +2,10 @@ template(name="curatorEvents")
   .associated-events.curator-events
     .curator-events-header
       h3 Associated Events
+      .curator-events--options
+        button.btn.btn-default.btn-sm.btn-wide.add-new-event
+          i.fa.fa-plus-circle
+          span Add New Event
     if associatedUserEvents.count
       table#associated-events.table.curator-events-table.static-rows
         tbody
@@ -31,6 +35,10 @@ template(name="curatorEvents")
             i.fa.fa-lg.fa-chevron-circle-left
     if allEventsOpen
       +reactiveTable collection=userEvents settings=settings
+
+  button.btn.btn-primary.add-new-event Add New Event
+  +editEventDetailsModal
+
 
 template(name="noAssociatedEvents")
   p.muted-text Currently no associated events

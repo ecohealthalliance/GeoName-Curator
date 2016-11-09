@@ -1,4 +1,3 @@
-
 template(name="editEventDetailsModal")
   #edit-event-modal.modal.fade(role="dialog")
     .modal-dialog
@@ -6,15 +5,20 @@ template(name="editEventDetailsModal")
         form#editEvent
           .close-modal(data-dismiss="modal" aria-label="Close")
           .modal-header
-            h4.modal-title Edit Event Details
+            h4.modal-title
+              if adding
+                | Add New Event
+              else
+                | Edit Event Details
           .modal-body.clearfix
             unless confirmingDeletion
               .form-group
                 label Event Name
                 input.form-control(type='text' name='eventName' value=eventName required)
-              .form-group
-                label Event Disease
-                input.form-control(type="text" name="eventDisease" value=disease)
+              unless adding
+                .form-group
+                  label Event Disease
+                  input.form-control(type="text" name="eventDisease" value=disease)
               .form-group
                 label Event Summary
                 textarea.form-control(name="eventSummary" rows="15")= summary
@@ -31,6 +35,11 @@ template(name="editEventDetailsModal")
 
           unless confirmingDeletion
             .modal-footer
-              button.btn.btn-danger.delete-event.pull-left(type="button") Delete Event
+              unless adding
+                button.btn.btn-danger.delete-event.pull-left(type="button") Delete Event
               button.btn.btn-default(type="button" data-dismiss="modal") Cancel
-              button.btn.btn-success.btn-wide.save-modal(type="submit") Save
+              button.btn.btn-success.btn-wide.save-modal(type="submit")
+                if saveActionMessage
+                  {{saveActionMessage}}
+                 else
+                  | Save
