@@ -50,8 +50,11 @@ Template.curatorInbox.onCreated ->
       @ready.set(true)
 
 Template.curatorInbox.onRendered ->
-  $(document).ready =>
+  Meteor.defer ->
     createNewCalendar()
+    @$('[data-toggle="tooltip"]').tooltip
+      container: 'body'
+      placement: 'bottom'
 
 Template.curatorInbox.helpers
   days: ->

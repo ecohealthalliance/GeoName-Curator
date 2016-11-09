@@ -3,11 +3,20 @@ template(name="curatorInbox")
     .curator-inbox-header.pane-head.pane-head-l
       h2 Sources
       .curator-inbox-options
-        a.option.curator-filter-reviewed-icon(class="{{#unless reviewFilterActive}} active {{/unless}}")
+        a.option.curator-filter-reviewed-icon(
+          class="{{#unless reviewFilterActive}} active {{/unless}}"
+          data-toggle="tooltip"
+          title="{{#if reviewFilterActive}} Show{{else}} Hide{{/if}} Reviewed Sources")
           i.fa.fa-check-circle
-        a.option.curator-filter-calendar-icon(class="{{#if calendarState}} active {{/if}}")
+        a.option.curator-filter-calendar-icon(
+          class="{{#if calendarState}} active {{/if}}"
+          data-toggle="tooltip"
+          title="Filter by Date Range")
           i.fa.fa-calendar
-        .option.input-wrapper(class="{{#unless searching}} stagged {{/unless}}")
+        .option.input-wrapper(
+          class="{{#unless searching}} stagged {{/unless}}"
+          data-toggle="tooltip"
+          title="Search Sources")
           input#curator-inbox-article-filter.form-control.icon-right(type="text" placeholder="Search sources")
           i.fa.fa-search.search-icon.right
     .curator-inbox-sources.pane.pane-l.curator-inbox--pane
