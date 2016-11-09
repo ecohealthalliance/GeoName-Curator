@@ -407,7 +407,6 @@ $header-BG = $border-primary-light
 
 .disassociate-event
 .associate-event
-.suggest-incidents
   margin-right 10px
   cursor pointer
   color darken($positive, 20%)
@@ -423,6 +422,26 @@ $header-BG = $border-primary-light
 .disassociate-event
 .suggest-incidents
   color $m-gray
+
+.suggest-incidents
+  font-size .75em
+  padding .25em .75em
+  margin-right 1em
+  background none
+  opacity .75
+  border-color $border-primary
+  color darken($border-primary, 20%)
+  &:hover
+    opacity 1
+
+#associated-events
+  .secondary-actions
+    opacity 1
+    visibility visible
+  tr
+    td
+      > span
+        padding-right 1em
 
 .associate-event
   &::before
