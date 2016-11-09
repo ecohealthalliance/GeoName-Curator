@@ -15,8 +15,8 @@ $header-BG = $border-primary-light
   align-items center
   min-height 50px
   max-height 50px
-  border-bottom 2px solid $primary
-  border-right 2px solid $primary
+  border-bottom 2px solid darken($border-primary, 10%)
+  border-right 1px solid darken($border-primary, 10%)
   h2
     color $primary
     margin 0
@@ -137,6 +137,8 @@ $header-BG = $border-primary-light
 
 .curator-inbox-section-head
 .curator-events-header
+  display flex
+  align-items center
   color $primary
   border-top 1px solid darken($border-primary-light, 5%)
   border-bottom 1px solid darken($border-primary-light, 5%)
@@ -144,8 +146,6 @@ $header-BG = $border-primary-light
     border-color $border-primary
 
 .curator-inbox-section-head
-  display flex
-  align-items center
   justify-content space-around
   min-height 50px
   font-size 1em
@@ -180,6 +180,7 @@ $header-BG = $border-primary-light
   overflow hidden
   padding-left 1.5em
   border-right 0
+  padding-right 2em
   h2
     color $primary
     flex 1

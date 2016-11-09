@@ -121,3 +121,4 @@ Template.curatorEvents.events
       saveActionMessage: 'Save & Add to Source'
       addToSource: true
       sourceId: instance.data.selectedSourceId.get()
+      eventName: $('#curatorEventsFilter input').val().trim() or ''
