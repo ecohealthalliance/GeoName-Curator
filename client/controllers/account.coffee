@@ -1,7 +1,3 @@
-Template.account.events
-  "click #logOut": ->
-    Meteor.logout()
-
 AccountsTemplates.configureRoute 'signIn',
   layoutTemplate: 'layout',
   redirect: ->

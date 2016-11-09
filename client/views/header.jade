@@ -10,40 +10,35 @@ template(name="header")
 
 template(name="navLinks")
   ul.nav.navbar-nav
-    if isInRole "admin"
-      li(class="dropdown {{checkActive 'create-account'}} {{checkActive 'admins'}}")
-        a.dropdown-toggle-nav(id="admins-menu" href="#" role="button" data-toggle="dropdown") Admins
-          span.caret
-        ul.dropdown-menu.nav-dd
-          li(class="{{checkActive 'create-account'}}")
-            a(href="{{pathFor 'create-account'}}") Create User Account
-          li(class="{{checkActive 'admins'}}")
-            a(href="{{pathFor 'admins'}}") Current User Accounts
-
     //- TODO: Replace with curator role
     if isCurator
-      li(class="dropdown {{checkActive 'curator-inbox'}}")
-        a.dropdown-toggle-nav(id="curators-menu" href="#" role="button" data-toggle="dropdown") Curators
-          span.caret
-        ul.dropdown-menu.nav-dd
-          li(class="{{checkActive 'curator-inbox'}}")
-            a(href="{{pathFor 'curator-inbox'}}") Inbox
+      li(class="{{checkActive 'curator-inbox'}}")
+        a(href="{{pathFor 'curator-inbox'}}") Inbox
 
     li(class="{{checkActive 'user-events'}}")
       a(href="{{pathFor 'user-events'}}") Tracked Events
     li(class="{{checkActive 'event-map'}}")
       a(href="{{pathFor 'event-map'}}") Event Map
-    li(class="{{checkActive 'contact-us'}}")
-      a(href="{{pathFor 'contact-us'}}") Contact Us
-    li(class="{{checkActive 'sign-in'}}")
-      +account
 
-template(name="account")
-  if currentUser
-    a.withIcon(href="" title="Sign Out")#logOut
-      span.link-text-nav Sign Out
-      span.fa.fa-sign-out.show-large
-  else
-    a.withIcon(href="/sign-in" title="Sign In")
-      span.link-text-nav Sign In
-      span.fa.fa-sign-in.show-large
+    unless currentUser
+      li(class="{{checkActive 'sign-in'}}")
+        a.withIcon(href="/sign-in" title="Sign In")
+          span.link-text-nav Sign In
+          span.fa.fa-sign-in.show-large
+
+    if isInRole "admin"
+      li.dropdown
+        a.dropdown-toggle-nav(id="admins-menu" href="#" role="button" data-toggle="dropdown")
+          span Settings
+          span
+            i.fa.fa-cog
+            i.fa.fa-angle-down
+        ul.dropdown-menu.dropdown-menu-right.nav-dd
+          li
+            a(href="{{pathFor 'admins'}}")
+              span.fa.fa-user
+              span Manage User Accounts
+          li
+            a#logOut.withIcon(href="" title="Sign Out")
+              span.fa.fa-sign-out
+              span.link-text-nav Sign Out

@@ -1,25 +1,17 @@
 template(name="createAccount")
   .container-fluid
-    .container
-      .row
-        .col-md-12
-          h1 Create New Account
-
-          form#add-account.form-horizontal
-            .form-group
-              label.control-label.col-sm-2 Email
-              .col-sm-8
-                input.form-control(type='text', name='email')
-            .form-group
-              label.control-label.col-sm-2 Name
-              .col-sm-8
-                input.form-control(type='text', name='name')
-            .form-group
-              .col-sm-8.col-sm-offset-2
-                .checkbox
-                  label
-                    input(type="checkbox", name="admin")
-                    | Grant Admin Rights
-            .row
-              .col-sm-3.col-sm-offset-7
-                button.btn.btn-primary.btn-block.btn-spacious.btn-action(type='submit') Add User
+    .container.content-block
+      h2 Create New Account
+      form#add-account.space-top-2
+        .form-group
+          label Email
+            input.form-control(type='text', name='email')
+        .form-group
+          label Name
+            input.form-control(type='text', name='name')
+        .form-group
+          .checkbox
+            label
+              input(type="checkbox", name="admin")
+              | Grant Admin Rights
+        button.btn.btn-primary.space-top-2(type='submit') Add User
