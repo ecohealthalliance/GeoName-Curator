@@ -25,52 +25,69 @@ template(name="addIncidentReport")
 
 template(name="incidentReport")
   td(colspan="7")
-    .tr-detail-container.form-horizontal
-      .row
-        .col-sm-2.control-label Source:
-        .col-sm-10
-          each val in url
-            p.form-control-static
-              a.ref-link(href="{{formatUrl(val)}}" target="_blank") {{formatUrl(val)}}
-      if dateRange
-        .row
-          .col-sm-2.control-label Date:
-          .col-sm-10
-            p.form-control-static {{formatDateRange(dateRange)}}
-      .row
-        .col-sm-2.control-label Location:
-        .col-sm-10
-          if locations.length
-            each locations
-              p.form-control-static {{formatLocation(this)}}
-          else
-            p.form-control-static No location specified.
-      .row
-        .col-sm-2.control-label Species:
-        .col-sm-10
-          p.form-control-static {{species}}
-      .row
-        .col-sm-2.control-label Status:
-        .col-sm-10
-          p.form-control-static {{status}}
-      .row
-        if cases
-          +incidentDetails label="Cases" value=cases
-        if deaths
-          +incidentDetails label="Deaths" value=deaths
-        if specify
-          +incidentDetails label="Other" value=specify
-      .row
-        .col-sm-2.control-label Travel Related:
-        .col-sm-10
+    .details-container.incident-report--details.container-flex
+      if importantDetails
+        .incident-report--details--important
+          if status
+            .incident-report--details--status
+              i.fa(class=status)
+              h6=status
+          if caseCounts
+            .incident-report--details--counts
+              if deaths
+                +incidentCount label=deathsLabel count=deaths
+              if cases
+                +incidentCount label=casesLabel count=cases
           if travelRelated
-            p.form-control-static
-              i.fa.fa-lg.fa-check
+            .incident-report--details--travel-related
+              i.fa.fa-lg.fa-plane
+              h6 Travel Related
 
-template(name="incidentDetails")
-  .col-sm-2.control-label {{label}}:
-  .col-sm-10
-    p.form-control-static {{value}}
+      .incident-report--details--metadata(class="{{#if importantDetails}} bordered {{/if}}")
+        if specify
+          h5=specify
+
+        ul.metadata.list-unstyled
+          li.container-flex
+            +detailIcon icon="globe" title="Locations"
+            if locations.length
+              ul.list-unstyled.locations
+                each locations
+                  li
+                    span {{formatLocation(this)}}
+            else
+              span No location specified.
+          if species
+            li.container-flex.single
+              +detailIcon icon="paw" title="Species"
+              span=species
+          li.container-flex.single
+            +detailIcon icon="calendar" title="Dates"
+            span {{formatDateRange(dateRange)}}
+          li.container-flex
+            +detailIcon icon="link" title="Source"
+            ul.list-unstyled
+              each val in url
+                li
+                  a.ref-link(href="{{formatUrl(val)}}" target="_blank")
+                    span {{formatUrl(val)}}
+
+      .incident-report--details--actions.container-flex
+        a.edit
+          i.fa.fa-edit
+        a.delete
+          i.fa.fa-trash
+
+template(name="incidentCount")
+  span.incident-count=count
+  h6.type=label
+
+template(name="detailIcon")
+  i.detail-icon.fa(
+    class="fa-#{icon}"
+    data-toggle="tooltip"
+    data-placement="top"
+    title=title)
 
 template(name="incidentModal")
   .modal.fade(role="dialog")

@@ -16,6 +16,10 @@ $max-event-details-width = $max-ui-width+300
       tr
         th
           border-color $border-primary-light
+    tr
+      &:not(.details)
+        &:hover
+          background $border-primary-light
     td
       &:first-child
         +below(3)
@@ -292,10 +296,11 @@ $max-event-details-width = $max-ui-width+300
     margin 0
 
 .ref-link
+  color $primary
   span
     padding-right 5px
   &:hover
-    text-decoration none
+    color $secondary-dark
 
 @media (max-width: 1200px)
   .main-facts
@@ -422,72 +427,160 @@ $max-event-details-width = $max-ui-width+300
       border-color $primary-dark
       background darken($primary-l-light, 5%)
 
-.disease-separator
-  border-top 1px solid #DDD
-  margin 10px 0
-
-.remove-row::before
-.edit-row::before
-.open-row::before
-.details-row::before
-.open-row-right::before
-  font-family FontAwesome
-
-.remove-row::before
-  content "\f014"
-
-.edit-row::before
-  content "\f044"
-
-.open-row::before
-  content "\f107"
-
-.details-row::before
-  content "\f105"
-  position absolute
-  right 1em
-  top 50%
-  transform translate(0, -50%)
-
-.open-row-right::before
-  content "\f054"
+.tab-content
+  .table
+    tr
+      &:not(.details)
+        cursor pointer
+    .open
+      background-color $selected
+      td
+        border-top 1px solid $border-primary
+        border-bottom 1px solid $border-primary
+      .open-row
+        &:after
+          content '\f13a'
+          color $primary
+    .details
+      background lighten($selected, 70%)
+      td
+        border-bottom 1px solid $border-primary
 
 .details-open
   background-color $selected
-  .open-row::before
-    content "\f106"
+  position relative
 
-.reactive-table tr.tr-details
-  cursor default
-
-.tr-detail-container
-  padding 0 50px
+.details-container
+  margin-bottom .75em
+  margin-top .75em
   ul
     margin-bottom 0
+  .sources
+    margin-bottom 1em
+  .detail-icon
+    margin-right .5em
+    &.fa
+      font-size 1.5em
+      color desaturate(darken($border-primary, 5%), 25%)
+  .metadata
+    li
+      margin-bottom 1em
+      align-items flex-start
+      &.single
+        span
+          margin-top .2em
+      &:last-of-type
+        margin 0
+      span
+        font-size .85em
+      li
+        margin-bottom .25em
+        &:last-of-type
+          margin-bottom 0
+  h5
+    font-size 1em
+    color lighten($primary, 20%)
+    margin-top 0
+    margin-bottom 1em
+
+.incident-report--details--important
+.incident-report--details--metadata
+  align-self center
+  margin-right 1.75em
+
+.incident-report--details--important
+  display flex
+  flex-direction column
+  div
+    margin-bottom 1em
+    text-align center
+    &:last-of-type
+      margin-bottom 0
+  h6
+    text-transform uppercase
+    margin .25em 0 0 0
+  .fa
+    font-size 2.5em
+
+.incident-report--details--metadata
+  margin-right 3em
+  &.bordered
+    border-left 1px solid lighten($border-primary, 40%)
+    padding-left 1.75em
+  ul
+    &:last-of-type
+      margin-bottom 0
+
+.incident-report--details--actions
+  margin-left auto
+  a
+    font-size 1.5em
+    color lighten($m-gray, 20%)
+    margin-right .5em
+    &:hover
+      color $primary
+    &:first-of-type
+      margin-top .07em
+    &:last-of-type
+      &:hover
+        color $delete
+
+.incident-report--details--counts
+  .incident-count
+    font-size 2.5em
+    font-weight 800
+    line-height 1
+    color $m-gray
+
+.incident-report--details--status
+  .confirmed
+    color $positive
+    &:before
+      content '\f058'
+  .suspected
+    color $warning
+    &:before
+      content '\f059'
+  .revoked
+    color $delete
+    &:before
+      content '\f05c'
+
+.incident-report--details--travel-related
+  .fa
+    color $delete
+
 
 .annotation-text
   color red
+
 .annotation
   text-decoration underline
   cursor pointer
+
 .annotation.accepted
   color green
+
 .suggested-incidents
   width 800px
   .modal-body
     height 500px
     overflow-y scroll
+
 .annotated-content
   white-space pre-wrap
+
 .snippet
   max-height 250px
   overflow-y scroll
+
 .warn
   background-color yellow
 
-td.col-md-6.countCell.countCellLeft.text-center
-td.col-md-6.countCell.text-center
-  float left
+.event-sources
+  tbody
+    tr
+      cursor pointer
 
 .event-sources-detail
   h4

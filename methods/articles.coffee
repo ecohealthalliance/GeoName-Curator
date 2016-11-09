@@ -5,11 +5,10 @@ Meteor.methods
     user = Meteor.user()
     if user and Roles.userIsInRole(user._id, ['admin'])
       if source.url.length
-        insertArticle = {
-          url: source.url,
-          title: source.title,
+        insertArticle =
+          url: source.url
+          title: source.title
           userEventId: source.userEventId
-        }
         existingArticle = Articles.find(insertArticle).fetch()
         unless existingArticle.length is 0
           throw new Meteor.Error(501, 'This article has already been added')

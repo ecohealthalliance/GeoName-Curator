@@ -11,5 +11,42 @@
 .table > tbody > tr > td
   border-color $border-primary-light
 
-table tr:last-child
-  border 0
+.reactive-table
+  tbody
+    tr
+      cursor default
+  tr
+    &.tr-details
+      cursor default
+
+.table
+  > tbody
+    > tr
+      &:last-of-type
+      td
+        border-bottom 1px solid $border-primary-light
+      &.selected
+      &.open
+        .action
+          color $primary
+          &.open-down
+            &::after
+              content '\f13a'
+      &:hover
+        .action
+          &::after
+            color $primary
+      .action
+        min-width 1em
+        max-width 1em
+        text-align right
+        color $border-primary
+        padding-right 1.5em
+        &:after
+          font-family FontAwesome
+        &.open-down
+          &::after
+            content '\f137'
+        &.open-right
+          &::after
+            content '\f105'

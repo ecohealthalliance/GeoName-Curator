@@ -38,28 +38,25 @@ Template.incidentReports.onRendered ->
   @filters =
     notCumulative: (d) ->
       if typeof d.meta.cumulative == 'undefined' || d.meta.cumulative == false
-        return d
+        d
     cumulative: (d) ->
       if d.meta.cumulative
-        return d
+        d
 
-  @plot = new ScatterPlot({
-    containerID: 'scatterPlot',
-    svgContainerClass: 'scatterPlot-container',
-    height: $('#event-incidents-table').parent().height(),
-    axes: {
+  @plot = new ScatterPlot
+    containerID: 'scatterPlot'
+    svgContainerClass: 'scatterPlot-container'
+    height: $('#event-incidents-table').parent().height()
+    axes:
       # show grid lines
-      grid: true,
-      x: {
-        title: 'Time',
-        type: 'datetime',
-      },
-      y: {
-        title: 'Count',
-        type: 'numeric',
-      }
-    },
-    tooltip: {
+      grid: true
+      x:
+        title: 'Time'
+        type: 'datetime'
+      y:
+        title: 'Count'
+        type: 'numeric'
+    tooltip:
       opacity: .8
       # function to render the tooltip
       template: (marker) ->
@@ -71,32 +68,29 @@ Template.incidentReports.onRendered ->
         tmpl = _.template(tooltipTmpl)
         # render the template from
         tmpl(marker)
-    },
-    zoom: true,
+    zoom: true
     # initially active filters
-    filters: {
+    filters:
       notCumulative: @filters.notCumulative
-    }
-  })
+
   # deboune how many consecutive calls to update the plot during reactive changes
   @updatePlot = _.debounce(_.bind(@plot.update, @plot), 300)
 
   @autorun =>
     # anytime the incidents cursur changes, refetch the data and format
-    incidents = @incidents.fetch().map((incident) =>
-      return RectMarker.createFromIncident(incident)
-    ).filter((incident) =>
-      if incident
-        return incident
-    )
+    incidents = @incidents.fetch()
+      .map (incident) ->
+        RectMarker.createFromIncident(incident)
+      .filter (incident) ->
+        if incident
+          incident
     # we have an existing plot, update plot with new data array
     if @plot instanceof ScatterPlot
       @updatePlot(incidents)
       return
 
 Template.incidentReports.helpers
-  formatUrl: (url) ->
-    formatUrl(url)
+  formatUrl: formatUrl
   getSettings: ->
     fields = [
       {
@@ -123,66 +117,39 @@ Template.incidentReports.helpers
           return ""
       },
       {
-        key: "dateRange"
-        label: "Date"
+        key: 'dateRange'
+        label: 'Date'
         fn: (value, object, key) ->
-          dateFormat = "M/D/YYYY"
-          if object.dateRange?.type is "day"
+          dateFormat = 'M/D/YYYY'
+          if object.dateRange?.type is 'day'
             if object.dateRange.cumulative
               return "Before " + moment(object.dateRange.end).format(dateFormat)
             else
               return moment(object.dateRange.start).format(dateFormat)
-          else if object.dateRange?.type is "precise"
-            return moment(object.dateRange.start).format(dateFormat) + " - "
+          else if object.dateRange?.type is 'precise'
+            return moment(object.dateRange.start).format(dateFormat) + ' - '
             + moment(object.dateRange.end).format(dateFormat)
-          return ""
+          return ''
         sortFn: (value, object) ->
           +new Date(object.dateRange.end)
-      },
-      {
-        key: "travelRelated"
-        label: "Travel Related"
-        fn: (value, object, key) ->
-          if value
-            return "Yes"
-          return ""
-      },
-      {
-        key: "species"
-        label: "Species"
       }
     ]
 
-    if Meteor.user()
-      fields.push({
-        key: "delete"
-        label: ""
-        cellClass: "remove-row"
-      })
+    fields.push
+      key: 'expand'
+      label: ''
+      cellClass : 'action open-down'
 
-      fields.push({
-        key: "Edit"
-        label: ""
-        cellClass: "edit-row"
-      })
-
-    fields.push({
-      key: "expand"
-      label: ""
-      cellClass: "open-row"
-    })
-
-    return {
-      id: 'event-incidents-table'
-      fields: fields
-      showFilter: false
-      showNavigationRowsPerPage: false
-      showRowCount: false
-      class: "table"
-    }
+    id: 'event-incidents-table'
+    fields: fields
+    showFilter: false
+    showNavigationRowsPerPage: false
+    showRowCount: false
+    class: 'table event-incidents'
+    rowClass: "event-incident"
 
 Template.incidentReports.events
-  "click #scatterPlot-toggleCumulative": (event, template) ->
+  'click #scatterPlot-toggleCumulative': (event, template) ->
     $target = $(event.currentTarget)
     $icon = $target.find('i.fa')
     if $target.hasClass('active')
@@ -197,26 +164,42 @@ Template.incidentReports.events
       template.plot.removeFilter('notCumulative')
       template.plot.addFilter('cumulative', template.filters.cumulative)
       template.updatePlot()
-  "click #scatterPlot-resetZoom": (event, template) ->
+
+  'click #scatterPlot-resetZoom': (event, template) ->
     template.plot.resetZoom()
-  "click #event-incidents-table th": (event, template) ->
-    template.$("tr").removeClass("details-open")
-    template.$("tr.tr-details").remove()
-  "click .reactive-table tbody tr": (event, template) ->
+
+  'click #event-incidents-table th': (event, template) ->
+    template.$('tr').removeClass('open')
+    template.$('tr.details').remove()
+
+  'click .reactive-table tbody tr.event-incident': (event, template) ->
     $target = $(event.target)
-    $parentRow = $target.closest("tr")
-    currentOpen = template.$("tr.tr-details")
-    if $target.closest(".remove-row").length
-      if window.confirm("Are you sure you want to delete this incident report?")
-        currentOpen.remove()
-        Meteor.call("removeIncidentReport", @_id)
-    else if $target.closest(".edit-row").length
-      Modal.show("incidentModal", {articles: template.data.articles, userEventId: template.data.userEvent._id, edit: true, incident: this})
-    else if not $parentRow.hasClass("tr-details")
-      closeRow = $parentRow.hasClass("details-open")
-      if currentOpen
-        template.$("tr").removeClass("details-open")
-        currentOpen.remove()
-      if not closeRow
-        $tr = $("<tr>").addClass("tr-details").html(Blaze.toHTMLWithData(Template.incidentReport, this))
-        $parentRow.addClass("details-open").after($tr)
+    $parentRow = $target.closest('tr')
+    currentOpen = template.$('tr.details')
+    closeRow = $parentRow.hasClass('open')
+    if currentOpen
+      template.$('tr').removeClass('open')
+      currentOpen.remove()
+    if not closeRow
+      $parentRow.addClass('open').after $('<tr>').addClass('details')
+      Blaze.renderWithData Template.incidentReport, @, $('tr.details')[0]
+
+  'click .reactive-table tbody tr .edit': (event, template) ->
+    templateData = template.data
+    incident =
+      articles: templateData.articles
+      userEventId: templateData.userEvent._id
+      edit: true
+      incident: @
+    Modal.show 'incidentModal', incident
+
+  'click .reactive-table tbody tr .delete': (event, template) ->
+    if window.confirm('Are you sure you want to delete this incident report?')
+      template.$('tr.details').remove()
+      Meteor.call('removeIncidentReport', @_id)
+
+  # Remove any open incident report details elements on pagination
+  'click .next-page,
+   click .prev-page,
+   change .reactive-table-navigation .form-control': (event, template) ->
+    template.$('tr.details').remove()
