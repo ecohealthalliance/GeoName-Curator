@@ -3,7 +3,7 @@ template(name="curatorEvents")
     .curator-events-header
       h3 Associated Events
     if associatedUserEvents.count
-      table#associated-events.table.curator-events-table
+      table#associated-events.table.curator-events-table.static-rows
         tbody
           each associatedUserEvents
             tr

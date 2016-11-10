@@ -81,20 +81,17 @@ Template.suggestedEvents.helpers
     Template.instance().events.get()
   # settings for the reactive-table
   settings: ->
-    fields = Template.instance().eventFields
-    return {
-      id: 'suggested-events-table'
-      noDataTmpl: Template.noCuratorEvents
-      fields: fields
-      showRowCount: false
-      showFilter: false
-      showColumnToggles: false
-      showNavigationRowsPerPage: false
-      showNavigation: 'never'
-      currentPage: 1
-      rowsPerPage: 5
-      class: "table table-hover col-sm-12"
-    }
+    id: 'suggested-events-table'
+    noDataTmpl: Template.noCuratorEvents
+    fields: Template.instance().eventFields
+    showRowCount: false
+    showFilter: false
+    showColumnToggles: false
+    showNavigationRowsPerPage: false
+    showNavigation: 'never'
+    currentPage: 1
+    rowsPerPage: 5
+    class: 'table static-rows curator-events-table'
 
 Template.suggestedEvents.events
   # event handler to toggle the reactive var isOpen
