@@ -354,8 +354,8 @@ $header-BG = $border-primary-light
         text-align right
       &:nth-of-type(-n+2)
         display table-cell !important
-        padding-top 8px
-        padding-bottom 8px
+        padding-top .5em
+        padding-bottom .5em
     &.selected
       background $selected
       cursor default
@@ -389,6 +389,8 @@ $header-BG = $border-primary-light
       td
         display flex
         align-items center
+        padding-top 0
+        padding-bottom 0
         padding-right 2em
         border-color $border-primary-light
         .event-info
@@ -436,21 +438,38 @@ $header-BG = $border-primary-light
 
 .disassociate-event
 .associate-event
-  margin-right 10px
-  cursor pointer
-  color darken($positive, 20%)
-  font-size 1.2em
-  transition .1s ease-in-out
+  padding-top .5em
+  padding-bottom .5em
+  font-size 1em
+  color $primary
   &:hover
   &:focus
-    color darken(@color, 20%)
-    transform scale(1.25)
+    color $primary-dark
     outline 0
     box-shadow 0
+    i
+      transform scale(1.25)
+      transition .1s ease-in-out
+  i
+    margin-right .5em
+
+.associate-event
+  i
+    color darken($positive, 5%)
+    &:before
+      content '\f055'
+  &:hover
+    i
+      color darken($positive, 20%)
 
 .disassociate-event
-.suggest-incidents
-  color $m-gray
+  i
+    color darken($delete, 5%)
+    &::before
+      content '\f056'
+  &:hover
+    i
+      color darken($delete, 20%)
 
 .suggest-incidents
   font-size .75em
@@ -471,17 +490,6 @@ $header-BG = $border-primary-light
     td
       > span
         padding-right 1em
-
-.associate-event
-  &::before
-    content '\f055'
-
-.disassociate-event
-  color darken($delete, 5%)
-  &::before
-    content '\f056'
-  &:hover
-    color darken(@color, 20%)
 
 .curator-events-header
   min-height 50px
