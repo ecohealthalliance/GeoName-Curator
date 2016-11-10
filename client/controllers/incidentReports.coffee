@@ -194,12 +194,10 @@ Template.incidentReports.events
     Modal.show 'incidentModal', incident
 
   'click .reactive-table tbody tr .delete': (event, template) ->
-    if window.confirm('Are you sure you want to delete this incident report?')
-      template.$('tr.details').remove()
-      Meteor.call('removeIncidentReport', @_id)
+    Modal.show 'incidentDeleteModal', @
 
   # Remove any open incident report details elements on pagination
   'click .next-page,
    click .prev-page,
    change .reactive-table-navigation .form-control': (event, template) ->
-    template.$('tr.details').remove()
+     template.$('tr.details').remove()
