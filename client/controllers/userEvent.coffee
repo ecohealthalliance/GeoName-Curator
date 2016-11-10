@@ -31,6 +31,10 @@ Template.userEvent.helpers
 Template.userEvent.events
   "click .edit-link, click #cancel-edit": (event, template) ->
     template.editState.set(not template.editState.get())
+  'click .open-incident-form-in-details': (event, instance) ->
+    Modal.show 'suggestedIncidentModal', userEventId: instance.data.userEvent._id
+  'click .open-source-form-in-details': (event, instance) ->
+    Modal.show 'sourceModal', userEventId: instance.data.userEvent._id
 
 
 Template.summary.onCreated ->
@@ -48,6 +52,9 @@ Template.summary.helpers
 
   copied: ->
     Template.instance().copied.get()
+
+  allowAddingReports: ->
+    Template.instance().articleCount and not Incidents.findOne(userEventId:this._id)
 
 Template.summary.events
   "click .copy-link": (event, template) ->
