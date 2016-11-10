@@ -39,7 +39,7 @@ Template.editEventDetailsModal.events
     if name.length isnt 0
       source = CuratorSources.findOne(instance.data.sourceId)
       eventId = @_id
-      Meteor.call 'updateUserEvent', eventId, name, summary, disease, (error, result) ->
+      Meteor.call 'editUserEvent', eventId, name, summary, disease, (error, result) ->
         if not error
           Modal.hide 'editEventDetailsModal'
           $('#edit-event-modal').modal('hide')

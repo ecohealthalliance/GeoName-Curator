@@ -11,8 +11,8 @@ Meteor.methods
     incident.addedByUserName = user.profile.name
     incident.addedDate = new Date()
     newId = Incidents.insert(incident)
-    Meteor.call("updateUserEventLastModified", incident.userEventId)
-    Meteor.call("updateUserEventLastIncidentDate", incident.userEventId)
+    Meteor.call("editUserEventLastModified", incident.userEventId)
+    Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return newId
 
   editIncidentReport: (incident) ->
@@ -21,8 +21,8 @@ Meteor.methods
     if not Roles.userIsInRole(user._id, ['admin'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     res = Incidents.update(incident._id, incident)
-    Meteor.call("updateUserEventLastModified", incident.userEventId)
-    Meteor.call("updateUserEventLastIncidentDate", incident.userEventId)
+    Meteor.call("editUserEventLastModified", incident.userEventId)
+    Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return incident._id
 
   addIncidentReports: (incidents) ->
@@ -34,5 +34,5 @@ Meteor.methods
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     incident = Incidents.findOne(id)
     Incidents.remove(id)
-    Meteor.call("updateUserEventLastModified", incident.userEventId)
-    Meteor.call("updateUserEventLastIncidentDate", incident.userEventId)
+    Meteor.call("editUserEventLastModified", incident.userEventId)
+    Meteor.call("editUserEventLastIncidentDate", incident.userEventId)

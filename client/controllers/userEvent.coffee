@@ -10,47 +10,46 @@ Template.userEvent.onRendered ->
 
 Template.userEvent.helpers
   isEditing: ->
-    return Template.instance().editState.get()
+    Template.instance().editState.get()
 
   incidentView: ->
     viewParam = Router.current().getParams()._view
-    return typeof viewParam is "undefined" or viewParam is "incidents"
+    typeof viewParam is 'undefined' or viewParam is 'incidents'
 
   locationView: ->
-    return Router.current().getParams()._view is "locations"
+    Router.current().getParams()._view is 'locations'
 
   view: ->
     currentView = Router.current().getParams()._view
-    if currentView is "locations"
-      return "locationList"
-    return "incidentReports"
+    if currentView is 'locations'
+      return 'locationList'
+    'incidentReports'
 
   templateData: ->
-    return Template.instance().data
+    Template.instance().data
 
 Template.userEvent.events
-  "click .edit-link, click #cancel-edit": (event, template) ->
+  'click .edit-link, click #cancel-edit': (event, template) ->
     template.editState.set(not template.editState.get())
-
 
 Template.summary.onCreated ->
   @copied = new ReactiveVar false
 
 Template.summary.helpers
   formatDate: (date) ->
-    return moment(date).format("MMM D, YYYY")
+    moment(date).format('MMM D, YYYY')
 
   articleCount: ->
-    return Template.instance().data.articleCount
+    Template.instance().data.articleCount
 
   caseCount: ->
-    return Incidents.find({userEventId:this._id}).count()
+    Incidents.find({userEventId:this._id}).count()
 
   copied: ->
     Template.instance().copied.get()
 
 Template.summary.events
-  "click .copy-link": (event, template) ->
+  'click .copy-link': (event, template) ->
     copied = template.copied
     copied.set true
     setTimeout ->
@@ -58,7 +57,7 @@ Template.summary.events
     , 1000
 
 Template.createEvent.events
-  "submit #add-event": (e) ->
+  'submit #add-event': (e) ->
     e.preventDefault()
     valid = e.target.eventName.checkValidity()
     unless valid
@@ -68,7 +67,6 @@ Template.createEvent.events
     newEvent = e.target.eventName.value
     summary = e.target.eventSummary.value
 
-    Meteor.call("addUserEvent", newEvent, summary, (error, result) ->
+    Meteor.call 'addUserEvent', null, newEvent, summary, (error, result) ->
       if result
-        Router.go('user-event', {_id: result})
-    )
+        Router.go 'user-event', _id: result

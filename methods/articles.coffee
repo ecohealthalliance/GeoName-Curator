@@ -18,8 +18,8 @@ Meteor.methods
           insertArticle.addedByUserName = user.profile.name
           insertArticle.addedDate = new Date()
           newId = Articles.insert(insertArticle)
-          Meteor.call("updateUserEventLastModified", insertArticle.userEventId)
-          Meteor.call("updateUserEventArticleCount", insertArticle.userEventId, 1)
+          Meteor.call("editUserEventLastModified", insertArticle.userEventId)
+          Meteor.call("editUserEventArticleCount", insertArticle.userEventId, 1)
           return newId
     else
       throw new Meteor.Error("auth", "User does not have permission to add source articles")
@@ -28,7 +28,7 @@ Meteor.methods
     user = Meteor.user()
     if user and Roles.userIsInRole(user._id, ['admin'])
       Articles.update(source._id, {$set: {publishDate: source.publishDate, publishDateTZ: source.publishDateTZ}})
-      Meteor.call("updateUserEventLastModified", source.userEventId)
+      Meteor.call("editUserEventLastModified", source.userEventId)
     else
       throw new Meteor.Error("auth", "User does not have permission to edit source articles")
 
@@ -36,5 +36,5 @@ Meteor.methods
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       removed = Articles.findOne(id)
       Articles.remove(id)
-      Meteor.call("updateUserEventLastModified", removed.userEventId)
-      Meteor.call("updateUserEventArticleCount", removed.userEventId, -1)
+      Meteor.call("editUserEventLastModified", removed.userEventId)
+      Meteor.call("editUserEventArticleCount", removed.userEventId, -1)

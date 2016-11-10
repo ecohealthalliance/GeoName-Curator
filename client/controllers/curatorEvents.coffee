@@ -118,7 +118,7 @@ Template.curatorEvents.events
   "click .add-new-event": (event, instance) ->
     Modal.show 'editEventDetailsModal',
       action: 'add'
-      saveActionMessage: 'Save & Add to Source'
+      saveActionMessage: 'Add Event & Associate with Source'
       addToSource: true
       sourceId: instance.data.selectedSourceId.get()
       eventName: $('#curatorEventsFilter input').val().trim() or ''
