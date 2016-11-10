@@ -47,7 +47,9 @@ template(name="curatorEventSearchRow")
   span=eventName
   .secondary-actions
     if associated
-      a.fa.fa-file-o.suggest-incidents
+      button.btn.btn-sm.btn-primary.suggest-incidents
+        i.fa.fa-plus-circle
+        span Incident
     a.fa.fa-info-circle.event-info(href="/user-event/#{_id}" target="_blank")
 
 template(name="curatorEventIncidents")
