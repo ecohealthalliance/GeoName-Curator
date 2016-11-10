@@ -22,6 +22,7 @@ Template.curatorInbox.onCreated ->
   @reviewFilter.set({$ne: true})
   @selectedSourceId = new ReactiveVar null
   @query = new ReactiveVar null
+  @searching = new ReactiveVar false
 
   @autorun =>
     range = @dateRange.get()
@@ -49,8 +50,11 @@ Template.curatorInbox.onCreated ->
       @ready.set(true)
 
 Template.curatorInbox.onRendered ->
-  $(document).ready =>
+  Meteor.defer ->
     createNewCalendar()
+    @$('[data-toggle="tooltip"]').tooltip
+      container: 'body'
+      placement: 'bottom'
 
 Template.curatorInbox.helpers
   days: ->
@@ -86,6 +90,9 @@ Template.curatorInbox.helpers
 
   query: ->
     Template.instance().query
+
+  searching: ->
+    Template.instance().searching.get()
 
 Template.curatorInbox.events
   "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
@@ -137,6 +144,11 @@ Template.curatorInbox.events
 
   "click #calendar-btn-cancel": (event, template) ->
     template.calendarState.set(false)
+
+  'click .search-icon': (event, instance) ->
+    searching = instance.searching
+    searching.set not searching.get()
+    $('#curator-inbox-article-filter').focus()
 
 Template.curatorInboxSection.onCreated ->
   @selectedSourceId = new ReactiveVar null
