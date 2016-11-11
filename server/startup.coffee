@@ -33,6 +33,9 @@ Meteor.startup ->
       post = PromedPosts.findOne(
         promedId: promedId
       )
+      if not post
+        console.log "Post has not been scraped yet. Post Id:", post
+        continue
       article.publishDate = post.promedDate
       # Aproximate DST for New York timezone
       daylightSavings = moment.utc(
