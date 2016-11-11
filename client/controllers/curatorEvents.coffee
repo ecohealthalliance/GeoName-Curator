@@ -70,6 +70,7 @@ Template.curatorEvents.helpers
     showRowCount: false
     currentPage: 1
     rowsPerPage: 5
+    class: 'curator-events-table static-rows table'
 
   allEventsOpen: ->
     Template.instance().suggestedEventsHeaderState.get()

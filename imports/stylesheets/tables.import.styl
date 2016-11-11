@@ -11,10 +11,12 @@
 .table > tbody > tr > td
   border-color $border-primary-light
 
+.table
 .reactive-table
-  tbody
-    tr
-      cursor default
+  &.static-rows
+    tbody
+      tr
+        cursor default
   tr
     &.tr-details
       cursor default
@@ -22,8 +24,8 @@
 .table
   > tbody
     > tr
-      &:last-of-type
       td
+        border-top 0
         border-bottom 1px solid $border-primary-light
       &.selected
       &.open

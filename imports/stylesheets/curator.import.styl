@@ -383,18 +383,12 @@ $header-BG = $border-primary-light
       border-top 0
 
 .curator-events-table
-  width calc(100% - 15px)
-  margin-left 15px
   margin-bottom 0
   color $primary
   thead
     display none
   tbody
     tr
-      cursor default
-      &:hover
-        td
-          display flex
       td
         display flex
         align-items center
@@ -404,6 +398,8 @@ $header-BG = $border-primary-light
         border-color $border-primary-light
         .event-info
           transition .1s ease-in-out
+        &:first-of-type
+          padding-left 1.5em
       &:first-of-type
         td
           border-top 0
