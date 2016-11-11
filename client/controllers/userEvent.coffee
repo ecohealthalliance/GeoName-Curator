@@ -57,16 +57,18 @@ Template.summary.events
     , 1000
 
 Template.createEvent.events
-  'submit #add-event': (e) ->
-    e.preventDefault()
-    valid = e.target.eventName.checkValidity()
+  'submit #add-event': (event) ->
+    target = event.target
+    eventName = target.eventName
+    event.preventDefault()
+    valid = eventName.checkValidity()
     unless valid
       toastr.error('Please specify a valid name')
-      e.target.eventName.focus()
+      eventName.focus()
       return
-    newEvent = e.target.eventName.value
-    summary = e.target.eventSummary.value
+    newEvent = eventName.value
+    summary = target.eventSummary.value
 
-    Meteor.call 'addUserEvent', null, newEvent, summary, (error, result) ->
+    Meteor.call 'editUserEvent', null, newEvent, summary, (error, result) ->
       if result
-        Router.go 'user-event', _id: result
+        Router.go 'user-event', _id: result.insertedId
