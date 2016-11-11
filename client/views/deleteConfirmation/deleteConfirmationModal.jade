@@ -1,0 +1,10 @@
+template(name="deleteConfirmationModal")
+  .modal.fade(id="#{objNameToDelete}-delete-modal" role="dialog")
+    .modal-dialog
+      .modal-content
+        form#delete-obj
+          .close-modal(data-dismiss="modal" aria-label="Close")
+          .modal-header
+            h4.modal-title Confirm Delete
+          .modal-body.clearfix
+            +deleteConfirmationModalBody data
