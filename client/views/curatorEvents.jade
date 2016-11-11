@@ -39,12 +39,11 @@ template(name="noCuratorEvents")
   .no-results
     p No Events Found
 
-
 template(name="curatorEventSearchRow")
-  i.fa(
-    tabindex="0"
-    class="{{#if associated}} disassociate{{else}} associate{{/if}}-event")
-  span=eventName
+  a(class="{{#if associated}} disassociate{{else}} associate{{/if}}-event"
+    tabindex="0")
+    i.fa
+    span=eventName
   .secondary-actions
     if associated
       button.btn.btn-sm.btn-primary.suggest-incidents
