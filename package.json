@@ -2,13 +2,13 @@
   "name": "EIDR",
   "private": true,
   "scripts": {
-    "start": "meteor -p 3000 --settings settings-dev.json",
+    "start": "meteor -p 13000 --settings settings-dev.json",
     "start-test": "meteor -p 13000 --settings settings-dev.json",
     "chimp-test": "bash run-tests.sh",
     "chimp-watch": "WATCH=true bash run-tests.sh"
   },
   "devDependencies": {
-    "chimp": "^0.40.7",
+    "chimp": "^0.41.2",
     "mongodb-prebuilt": "^5.0.6",
     "coffee-script": "^1.6.3"
   },
