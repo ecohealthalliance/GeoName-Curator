@@ -1,4 +1,5 @@
-Grid = require '/imports/charts/Grid.coffee'
+import d3 from 'd3'
+import Grid from '/imports/charts/Grid.coffee'
 
 class Axes
   ###
@@ -43,12 +44,10 @@ class Axes
   ###
   constructor: (plot, options) ->
     @plot = plot
-    @options = options
-    @axesOpts = options.axes || {x: {title: 'x', type: 'numeric', minMax: [0, 0]}, y: {title: 'y', type: 'numeric', minMax: [0, 0]}, grid: true}
-    if typeof @axesOpts.x.minMax == 'undefined'
-      @axesOpts.x.minMax = [0, 0]
-    if typeof @axesOpts.y.minMax == 'undefined'
-      @axesOpts.y.minMax = [0, 0]
+    @options = options || {x: {title: 'x', type: 'numeric'}, y: {title: 'y', type: 'numeric'}, grid: true, filter: true}
+    @initialized = false
+    @initialMinMax = [[0,0],[0,0]]
+    @currentMinMax = [[0,0],[0,0]]
     @init()
 
   ###
@@ -59,32 +58,30 @@ class Axes
   ###
   init: (xDomain, yDomain) ->
     # xScale
-    if @axesOpts.x.type == 'datetime'
+    if @options.x.type == 'datetime'
       if xDomain
-        @xScale = d3.time.scale().domain(xDomain).range([0, @plot.getWidth()]).nice()
+        @xScale = d3.scaleTime().domain(xDomain).range([0, @plot.getWidth()]).nice()
       else
-        @xScale = d3.time.scale().domain(@axesOpts.x.minMax).range([0, @plot.getWidth()]).nice()
+        @xScale = d3.scaleTime().domain(@currentMinMax[0]).range([0, @plot.getWidth()]).nice()
     else
       if xDomain
-        @xScale = d3.scale.linear().domain(xDomain).range([0, @plot.getWidth()])
+        @xScale = d3.scaleLinear().domain(xDomain).range([0, @plot.getWidth()])
       else
-        @xScale = d3.scale.linear().domain(@axesOpts.x.minMax).range([0, @plot.getWidth()])
+        @xScale = d3.scaleLinear().domain(@currentMinMax[0]).range([0, @plot.getWidth()])
 
     # xAxis
-    if @axesOpts.x.type == 'datetime'
-      @xAxis = d3.svg.axis()
+    if @options.x.type == 'datetime'
+      @xAxis = d3.axisBottom()
         .scale(@xScale)
-        .orient('bottom')
         .ticks(10)
-        .tickFormat(d3.time.format(@formatDate()))
+        .tickFormat(d3.timeFormat(@formatDate()))
     else
-      @xAxis = d3.svg.axis()
+      @xAxis = d3.axisBottom()
         .scale(@xScale)
-        .orient('bottom')
         .ticks(10)
 
     # xGroup
-    if @axesOpts.x.type == 'datetime'
+    if @options.x.type == 'datetime'
       @xGroup = @plot.container.append('g')
         .attr('class', 'x scatterPlot-axis')
         .attr('transform', "translate(#{@plot.margins.left}, #{@plot.getHeight()})")
@@ -99,7 +96,7 @@ class Axes
         .attr('dx', (@plot.width / 2) - ((@plot.margins.right + @plot.margins.left) / 2))
         .attr('dy', @plot.margins.bottom + 30)
         .style('text-anchor', 'middle')
-        .text(@axesOpts.x.title)
+        .text(@options.x.title)
     else
       @xGroup = @plot.container.append('g')
         .attr('class', 'scatterPlot-axis')
@@ -110,18 +107,17 @@ class Axes
         .attr('dy', @plot.margins.bottom)
         .attr('class', 'scatterPlot-axis-label')
         .style('text-anchor', 'middle')
-        .text(@axesOpts.x.title)
+        .text(@options.x.title)
 
     # yScale
     if yDomain
-      @yScale = d3.scale.linear().domain(yDomain).range([@plot.getHeight(), 0])
+      @yScale = d3.scaleLinear().domain(yDomain).range([@plot.getHeight(), 0])
     else
-      @yScale = d3.scale.linear().domain(@axesOpts.y.minMax).range([@plot.getHeight(), 0])
+      @yScale = d3.scaleLinear().domain(@currentMinMax[1]).range([@plot.getHeight(), 0])
 
     # yAxis
-    @yAxis = d3.svg.axis()
+    @yAxis = d3.axisLeft()
       .scale(@yScale)
-      .orient('left')
 
     # yGroup
     @yGroup = @plot.container.append('g')
@@ -134,21 +130,20 @@ class Axes
       .attr('dy', - @plot.margins.left)
       .attr('class', 'scatterPlot-axis-label')
       .style('text-anchor', 'middle')
-      .text(@axesOpts.y.title)
+      .text(@options.y.title)
 
 
     # the x,y grid lines, requires the instance of the axes
-    if @axesOpts.grid
-      @grid = new Grid(@, @plot, @options)
+    if @options.grid
+      @grid = new Grid(@, @plot)
 
   ###
   # setDomain - sets the x, y domains based on the passed in data
-  # @note this will overwrite the original x,y minMax options to the plot
   #
   # @param {array} data, an array of {object} for each marker
   ###
   setDomain: (data) ->
-    if @axesOpts.x.type == 'datetime'
+    if @options.x.type == 'datetime'
       xMin = Axes.minDatetime(_.pluck(data, 'x'))
       # check for 'width' property on the x-axis
       w = _.pluck(data, 'w')
@@ -167,9 +162,40 @@ class Axes
     yMin = 0
     yMax = Axes.maxNumeric(_.pluck(data, 'y'))
     @xScale.domain([xMin, xMax])
-    @axesOpts.x.minMax = [xMin, xMax]
     @yScale.domain([yMin, yMax])
-    @axesOpts.y.minMax = [yMin, yMax]
+
+    # add the filter the first time the domain is set
+    if @initialized == false
+      @initialMinMax = [[xMin, xMax], [yMin, yMax]]
+      if @options.filter
+        @plot.addFilter '_domain', (d) ->
+          x1 = @axes.xScale.domain()[0]
+          if x1 instanceof Date
+            x1 = x1.getTime()
+          x2 = @axes.xScale.domain()[1]
+          if x2 instanceof Date
+            x2 = x2.getTime()
+          y1 = @axes.yScale.domain()[0]
+          y2 = @axes.yScale.domain()[1]
+          if d.hasOwnProperty('w')
+            if ((d.x >= x1 && d.w <= x2) && (d.y >= y1 && d.y <= y2))
+              return d
+          else
+            if ((d.x >= x1 && d.x <= x2) && (d.y >= y1 && d.y <= y2))
+              return d
+    else
+      @currentMinMax = [[xMin, xMax], [yMin, yMax]]
+
+    @initialized = true
+
+  ###
+  # setDomain - sets the x, y domains based on the passed in data
+  # @note this will overwrite the original x,y minMax options to the plot
+  #
+  # @param {array} data, an array of {object} for each marker
+  ###
+  setInitialMinMax: (newMinMax) ->
+    @initialMinMax = newMinMax
 
   ###
   # update - update the x,y axes using the zoom domain
@@ -188,7 +214,7 @@ class Axes
   ###
   reset: () ->
     @remove()
-    @init()
+    @init(@initialMinMax[0], @initialMinMax[1])
     @
 
   ###
@@ -202,8 +228,8 @@ class Axes
     else
       @xScale.domain([zoomArea.x1, zoomArea.x2])
 
-    if @axesOpts.x.type == 'datetime'
-      @xAxis.tickFormat(d3.time.format(@formatDate()))
+    if @options.x.type == 'datetime'
+      @xAxis.tickFormat(d3.timeFormat(@formatDate()))
 
     if zoomArea.y1 > zoomArea.y2
       @yScale.domain([zoomArea.y2, zoomArea.y1])
@@ -212,7 +238,7 @@ class Axes
 
     trans = @plot.container.transition().duration(750)
     @xGroup.transition(trans).call(@xAxis)
-    @xGroup.selectAll('.tick.major').selectAll('text')
+    @xGroup.selectAll('.tick').selectAll('text')
       .style('text-anchor', 'end')
       .attr('dx', '-.8em')
       .attr('dy', '.15em')
@@ -221,7 +247,7 @@ class Axes
 
     if @grid
       @grid.remove()
-      @grid = new Grid(@, @plot, @options)
+      @grid = new Grid(@, @plot)
     # return
     @
 

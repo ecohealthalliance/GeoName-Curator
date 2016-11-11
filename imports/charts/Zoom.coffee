@@ -1,3 +1,5 @@
+import d3 from 'd3'
+
 MINIMUM_ZOOM_THRESHOLD = 5 # move at least 5x5 pixels to zoom
 
 class Zoom
@@ -14,11 +16,11 @@ class Zoom
 
     @bandPos = [-1, -1];
     @zoomArea =
-      x1: @options.axes.x.minMax[0],
-      y1: @options.axes.y.minMax[0],
-      x2: @options.axes.x.minMax[1],
-      y2: @options.axes.y.minMax[1]
-    @drag = d3.behavior.drag();
+      x1: 0,
+      y1: 0,
+      x2: 0,
+      y2: 0
+    @drag = d3.drag();
     @zoomGroup = plot.container.append('g').attr('class', 'scatterPlot-zoom')
     @zoomBand = @zoomGroup.append('rect')
       .attr('width', 0)
@@ -34,7 +36,7 @@ class Zoom
       .call(@drag);
 
     self = @
-    @drag.on 'dragstart.plot', () ->
+    @drag.on 'start.plot', () ->
       pos = d3.mouse(@)
       self.dragStart = pos
 
@@ -43,7 +45,7 @@ class Zoom
       pos = d3.mouse(@)
       _.bind(self.ondrag, self)(pos)
 
-    @drag.on 'dragend.plot', () ->
+    @drag.on 'end.plot', () ->
       # Note: @ (this) is not the Zoom class but the DOM event
       pos = d3.mouse(@)
 
@@ -114,7 +116,6 @@ class Zoom
   ###
   zoom: () ->
     @plot.axes.zoom(@zoomArea)
-    @plot.clear()
     @plot.draw()
 
   ###
@@ -122,7 +123,6 @@ class Zoom
   ###
   reset: () ->
     @plot.axes.reset()
-    @plot.clear()
     @plot.draw()
 
   ###
@@ -131,7 +131,7 @@ class Zoom
   remove: () ->
     @zoomGroup.remove()
     @drag.on('drag.plot', null)
-    @drag.on('dragend.plot', null)
-
+    @drag.on('end.plot', null)
+    @drag.on('start.plot', null)
 
 module.exports = Zoom

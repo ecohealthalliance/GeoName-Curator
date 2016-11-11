@@ -1,3 +1,5 @@
+import d3 from 'd3'
+
 class Tooltip
   ###
   # Tooltip - allows for an HTML div to be faded in/out on mouseover of a marker
@@ -10,21 +12,21 @@ class Tooltip
   # @return {object} this
   ###
   constructor: (plot, options) ->
-    @tooltipOpts = options.tooltip || { 'opacity': 0.9, 'template': _.template("<p>x: <%= obj.x %> y: <%= obj.y %></p>")}
+    @tooltipOpts = options.tooltip || { 'opacity': 1, 'template': _.template("<p>x: <%= obj.x %> y: <%= obj.y %></p>")}
     @template = @tooltipOpts.template
     @opacity = @tooltipOpts.opacity
     # we render the template without data to get the estimated width of the element
     @element = d3.select('body').append('div')
       .attr('class', 'scatterPlot-tooltip')
       .style('opacity', 0)
-      .html(@template({meta:{}}))
+      .html(@template({}))
     #return
     @
 
   ###
   # mouseover - unbound method for mouseover event
   #
-  # @param {object} d, the marker with meta data
+  # @param {object} d, the data
   # @param {number} x, the x coordinate
   # @param {number} y, the y coordinate
   # @return {object} this
@@ -59,6 +61,5 @@ class Tooltip
   ###
   remove: () ->
     @element.remove()
-
 
 module.exports = Tooltip

@@ -1,27 +1,11 @@
-Incidents = require '/imports/collections/incidentReports.coffee'
-ScatterPlot = require '/imports/charts/ScatterPlot.coffee'
-Axes = require '/imports/charts/Axes.coffee'
-RectMarker = require '/imports/charts/RectMarker.coffee'
-tooltipTmpl = """
-  <div class='row'>
-    <div class='col-xs-12'>
-      <span style='font-weight: bold;'>
-        <%= obj.y %> <%= type %> (<%= obj.meta.location %>)</span>
-      </span>
-    </div>
-  </div>
-  <div class='row'>
-    <div class='col-xs-12'>
-      <span style='text-align: left; padding-left: 5px;'>
-        from <%= obj.moment(obj.x).format('MMM Do YYYY') %>
-        to <%= obj.moment(obj.w).format('MMM Do YYYY') %>
-      </span>
-    </div>
-  </div>
-"""
-
+import pluralize from 'pluralize'
+import d3 from 'd3'
+import Incidents from '/imports/collections/incidentReports.coffee'
+import ScatterPlot from '/imports/charts/ScatterPlot.coffee'
+import Axes from '/imports/charts/Axes.coffee'
+import Group from '/imports/charts/Group.coffee'
+import SegmentMarker from '/imports/charts/SegmentMarker.coffee'
 import { formatUrl } from '/imports/utils.coffee'
-
 
 Template.incidentReports.onDestroyed ->
   if @plot
@@ -32,7 +16,32 @@ Template.incidentReports.onCreated ->
   # iron router returns an array and not a cursor for data.incidents,
   # therefore we will setup a reactive cursor to use with the plot as an
   # instance variable.
-  @incidents = Incidents.find({userEventId: @data.userEvent._id}, {sort: {date: -1}})
+  @incidents = Incidents.find({userEventId: @data.userEvent._id}, {sort: {'dateRange.end': 1}})
+  # underscore template for the mouseover event of a group
+  @tooltipTmpl = """
+    <% if ('applyFilters' in obj) { %>
+      <% _.each(obj.applyFilters(), function(node) { %>
+        <div class='row'>
+          <div class='col-xs-12'>
+            <i class='fa fa-circle <%= node.meta.type%>'></i>
+            <span style='font-weight: bold;'>
+              <%= node.y %> <%= obj.pluralize(node.meta.type, node.y) %> (<%= node.meta.location %>)</span>
+            </span>
+          </div>
+        </div>
+        <% if (node.hasOwnProperty('w')) { %>
+          <div class='row'>
+            <div class='col-xs-12'>
+              <span style='text-align: left; padding-left: 5px;'>
+                from <%= obj.moment(node.x).format('MMM Do YYYY') %>
+                to <%= obj.moment(node.w).format('MMM Do YYYY') %>
+              </span>
+            </div>
+          </div>
+        <% } %>
+      <% }); %>
+    <% } %>
+  """
 
 Template.incidentReports.onRendered ->
   @filters =
@@ -43,50 +52,78 @@ Template.incidentReports.onRendered ->
       if d.meta.cumulative
         d
 
-  @plot = new ScatterPlot
-    containerID: 'scatterPlot'
-    svgContainerClass: 'scatterPlot-container'
-    height: $('#event-incidents-table').parent().height()
-    axes:
+  # compiled the template into the variable tmpl
+  tmpl = _.template(@tooltipTmpl)
+
+  @plot = new ScatterPlot({
+    containerID: 'scatterPlot',
+    svgContainerClass: 'scatterPlot-container',
+    height: $('#event-incidents-table').parent().height(),
+    axes: {
       # show grid lines
-      grid: true
-      x:
-        title: 'Time'
-        type: 'datetime'
-      y:
-        title: 'Count'
-        type: 'numeric'
-    tooltip:
-      opacity: .8
+      grid: true,
+      # use built-in domain bounds filter
+      filter: true,
+      x: {
+        title: 'Time',
+        type: 'datetime',
+      },
+      y: {
+        title: 'Count',
+        type: 'numeric',
+      }
+    },
+    tooltip: {
+      opacity: 1
       # function to render the tooltip
-      template: (marker) ->
-        marker.moment = moment # template reference for momentjs
-        marker.type = marker.meta.type
-        if marker.y != 1
-          marker.type = "#{marker.type}s"
-        # underscore compiled template
-        tmpl = _.template(tooltipTmpl)
+      template: (group) ->
+        # template reference for momentjs
+        group.moment = moment
+        # template reference for pluralize
+        group.pluralize = pluralize
         # render the template from
-        tmpl(marker)
-    zoom: true
+        tmpl(group)
+    },
+    zoom: true,
     # initially active filters
-    filters:
+    filters: {
       notCumulative: @filters.notCumulative
+    },
+    # group events
+    group: {
+      # methods to be applied when a new group is created
+      onEnter: () ->
+        # bind mouseover/mouseout events to the plot tooltip
+        @.group.on('mouseover', () =>
+          if @plot.tooltip
+            @plot.tooltip.mouseover(@, d3.event.pageX, d3.event.pageY)
+        ).on('mouseout', () =>
+          if @plot.tooltip
+            @plot.tooltip.mouseout()
+        )
+    },
+  })
 
   # deboune how many consecutive calls to update the plot during reactive changes
   @updatePlot = _.debounce(_.bind(@plot.update, @plot), 300)
 
   @autorun =>
-    # anytime the incidents cursur changes, refetch the data and format
-    incidents = @incidents.fetch()
-      .map (incident) ->
-        RectMarker.createFromIncident(incident)
-      .filter (incident) ->
-        if incident
-          incident
+    # anytime the incidents cursor changes, refetch the data and format
+    segments = @incidents.fetch().map((incident) =>
+      return SegmentMarker.createFromIncident(@plot, incident)
+    ).filter((incident) ->
+      if incident
+        return incident
+    )
+
+    # each overlapping group will be a 'layer' on the plot. overlapping is when
+    #   segments have same y value and any portion of line segment overlaps
+    groups = SegmentMarker.groupOverlappingSegments(segments)
+
     # we have an existing plot, update plot with new data array
     if @plot instanceof ScatterPlot
-      @updatePlot(incidents)
+      # we can pass an array of SegmentMarkers or a grouped set
+      @updatePlot(groups)
       return
 
 Template.incidentReports.helpers
@@ -157,13 +194,13 @@ Template.incidentReports.events
       $icon.removeClass('fa-check-circle').addClass('fa-circle-o')
       template.plot.removeFilter('cumulative')
       template.plot.addFilter('notCumulative', template.filters.notCumulative)
-      template.updatePlot()
+      template.plot.applyFilters()
     else
       $target.addClass('active')
       $icon.removeClass('fa-circle-o').addClass('fa-check-circle')
       template.plot.removeFilter('notCumulative')
       template.plot.addFilter('cumulative', template.filters.cumulative)
-      template.updatePlot()
+      template.plot.applyFilters()
 
   'click #scatterPlot-resetZoom': (event, template) ->
     template.plot.resetZoom()

@@ -1,9 +1,9 @@
-Plot = require '/imports/charts/Plot.coffee'
-
-MINIMUM_MARKER_WIDTH = 10
-MINIMUM_MARKER_HEIGHT = 10
+import d3 from 'd3'
+import Plot from '/imports/charts/Plot.coffee'
+import Group from '/imports/charts/Group.coffee'
 
 class ScatterPlot extends Plot
+  name: 'ScatterPlot'
   ###
   # ScatterPlot - constructs the root SVG element to contain the ScatterPlot
   #
@@ -66,64 +66,18 @@ class ScatterPlot extends Plot
   ###
   # draw - draw using d3 select.data.enter workflow
   #
-  # adds rectangular markers to the plot
-  # TODO - refactor so that different types of markers can be drawn, at first
-  #  glance this may mean abandoning d3 select.data.enter workflow for a
-  #  custom loop.
-  #
   # @param {array} data, an array of {object} for each marker
-  # @param {number} data.x, the x coordinate of the rect (lower left)
-  # @param {number} data.y, the y coordinate of the rect (lower left)
-  # @param {number} data.w, the width of the rect
-  # @param {number} data.h, the height of the rect
-  # @param {string} data.f, the hex color code to fill
-  # @param {number} data.o, the opacity of the fill
   # @returns {object} this
   ###
   draw: (data) ->
     super(data)
-    if data
-      @data = data
-
-    # filter the data is withing the current domain of the axes (necessary
-    # when zoom is enabled)
-    filtered = @applyFilters()
-
-    @markers.selectAll('.marker').data(filtered).enter().append('rect')
-      # if the scale is large enough (e.g. the scale is two years and the span
-      # x and w is one day), it is possible to have very small width, such as .2,
-      # which isn't visible on the plot. therefore the minimum size will be set
-      # by MINIMUM_MARKER_WIDTH and MINIMUM_MARKER_HEIGHT
-      .attr('class', 'marker')
-      .attr('x', (d) =>
-        @axes.xScale(d.x)
-      )
-      .attr('y', (d) =>
-        height = d.h
-        if height < MINIMUM_MARKER_HEIGHT
-          height = MINIMUM_MARKER_HEIGHT
-        @axes.yScale(d.y) - height/2
-      )
-      .attr('width', (d) =>
-        width = @axes.xScale(d.w) - @axes.xScale(d.x)
-        if width < MINIMUM_MARKER_WIDTH
-          width = MINIMUM_MARKER_WIDTH
-        width
-      )
-      .attr('height', (d) ->
-        height = d.h
-        if height < MINIMUM_MARKER_HEIGHT
-          height = MINIMUM_MARKER_HEIGHT
-        height
-      )
-      .style('fill', (d) -> d.f)
-      .style('opacity', (d) -> d.o)
-      .on('mouseover', (d) =>
-        @tooltip.mouseover(d, d3.event.pageX, d3.event.pageY)
-      )
-      .on('mouseout', (d) =>
-        @tooltip.mouseout()
-      )
+    groups = @groups.selectAll('.group').data(@getGroups(), (d) -> d.id)
+    # create
+    groups.enter().append((group) -> group.detached())
+    # update
+    groups.each((group) -> group.update())
+    # remove
+    groups.exit().remove()
     #return
     @
 
@@ -134,29 +88,16 @@ class ScatterPlot extends Plot
   # @returns {object} this
   ###
   update: (data) ->
-    if data
-      @data = data
     super(data)
-    @redraw(data)
+    @draw(data)
+    # return
     @
 
   ###
-  # clears the data, updates the axes, then redraws
-  #
-  # @returns {object} this
+  # applyFilters - draw the plot without updating the axes
   ###
-  redraw: (draw) ->
-    @clear().draw(draw)
-    @
-
-  ###
-  # clear - removes any markers from the plot
-  #
-  # @return {object} this
-  ###
-  clear: () ->
-    @markers.selectAll('.marker').remove()
-    @
+  applyFilters: () ->
+    @draw()
 
   ###
   # remove - removes the plot from the DOM and any event listeners
@@ -182,8 +123,8 @@ class ScatterPlot extends Plot
   # resetZoom - resets the zoom of the axes
   ###
   resetZoom: () ->
-    if !@data || @data.length <= 0
-      return
+    #if !@data || @data.length <= 0
+    #  return
     if @zoom
       @zoom.reset()
 
