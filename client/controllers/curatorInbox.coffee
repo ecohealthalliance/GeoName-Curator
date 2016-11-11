@@ -54,7 +54,7 @@ Template.curatorInbox.onRendered ->
     createNewCalendar()
     @$('[data-toggle="tooltip"]').tooltip
       container: 'body'
-      placement: 'bottom'
+      placement: 'left'
 
 Template.curatorInbox.helpers
   days: ->
@@ -100,19 +100,18 @@ Template.curatorInbox.events
       $regex: $(event.target).val()
       $options: 'i'
 
-  "click .curator-filter-calendar-icon": (event, template) ->
-    calendarState = template.calendarState
-    calendarState.set not calendarState.get()
-
-  "click .curator-filter-calendar-icon": (event, template) ->
-    calendarState = template.calendarState
-    calendarState.set not calendarState.get()
-
   "click .curator-filter-reviewed-icon": (event, template) ->
-    if template.reviewFilter.get()
-      template.reviewFilter.set(null)
+    reviewFilter = template.reviewFilter
+    if reviewFilter.get()
+      reviewFilter.set null
     else
-      template.reviewFilter.set({$ne: true})
+      reviewFilter.set $ne: true
+    $(event.currentTarget).tooltip 'destroy'
+
+  "click .curator-filter-calendar-icon": (event, template) ->
+    calendarState = template.calendarState
+    calendarState.set not calendarState.get()
+    $(event.currentTarget).tooltip 'destroy'
 
   "click #calendar-btn-apply": (event, template) ->
     template.calendarState.set(false)
@@ -148,7 +147,8 @@ Template.curatorInbox.events
   'click .search-icon': (event, instance) ->
     searching = instance.searching
     searching.set not searching.get()
-    $('#curator-inbox-article-filter').focus()
+    $('#curator-inbox-article-filter').focus().click()
+    $(event.currentTarget).tooltip 'destroy'
 
 Template.curatorInboxSection.onCreated ->
   @selectedSourceId = new ReactiveVar null
@@ -279,7 +279,8 @@ Template.curatorSourceDetails.onCreated ->
   @reviewed = new ReactiveVar false
 
 Template.curatorSourceDetails.onRendered ->
-  @$('.toggle-source-content').tooltip()
+  Meteor.defer =>
+    @$('.toggle-source-content').tooltip()
   @autorun =>
     sourceId = Template.instance().data.selectedSourceId.get()
     source = CuratorSources.findOne _id: sourceId
@@ -328,3 +329,4 @@ Template.curatorSourceDetails.events
   'click .toggle-source-content': (event, template) ->
     open = template.contentIsOpen
     open.set not open.get()
+    $(event.currentTarget).tooltip 'destroy'

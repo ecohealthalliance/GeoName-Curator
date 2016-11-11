@@ -37,3 +37,14 @@
 .tooltip-arrow
   +below(3)
     top 0 !important
+
+.tooltip
+  &.in
+    opacity .95
+  $tooltip-BG-color = darken($primary, 20%)
+  for direction in top bottom right left
+    &.{direction}
+      & > .tooltip-inner
+        background-color $tooltip-BG-color
+      & > .tooltip-arrow
+        border-{direction}-color $tooltip-BG-color
