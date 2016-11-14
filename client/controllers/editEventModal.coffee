@@ -1,4 +1,5 @@
 CuratorSources = require '/imports/collections/curatorSources.coffee'
+{ dismissModal } = require '/imports/ui/modals'
 
 Template.editEventDetailsModal.onCreated ->
   @confirmingDeletion = new ReactiveVar false

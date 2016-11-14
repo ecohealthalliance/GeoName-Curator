@@ -1,4 +1,5 @@
 UserEvents = require '/imports/collections/userEvents.coffee'
+
 Template.userEvents.onCreated ->
   @userEventFields = [
     {
