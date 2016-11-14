@@ -2,6 +2,10 @@ template(name="curatorEvents")
   .associated-events.curator-events
     .curator-events-header
       h3 Associated Events
+      .curator-events--options
+        button.btn.btn-default.btn-sm.btn-wide.add-new-event
+          i.fa.fa-plus-circle
+          span Add New Event
     if associatedUserEvents.count
       table#associated-events.table.curator-events-table.static-rows
         tbody
@@ -14,6 +18,7 @@ template(name="curatorEvents")
                   _id=_id)
     else
       p.no-events.muted-text Currently no associated events
+
 
   .suggested-events.curator-events
     +suggestedEvents selectedSourceId=selectedSourceId associatedEventIdsToArticles=associatedEventIdsToArticles
@@ -32,12 +37,17 @@ template(name="curatorEvents")
     if allEventsOpen
       +reactiveTable collection=userEvents settings=settings
 
+  +editEventDetailsModal
+
+
 template(name="noAssociatedEvents")
   p.muted-text Currently no associated events
 
 template(name="noCuratorEvents")
   .no-results
     p No Events Found
+    button.btn.btn-primary.btn-wide.add-new-event.space-top-2(data-editing='name')
+      | Add New Event
 
 template(name="curatorEventSearchRow")
   a(class="{{#if associated}} disassociate{{else}} associate{{/if}}-event"

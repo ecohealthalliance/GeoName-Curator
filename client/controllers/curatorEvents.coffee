@@ -76,39 +76,49 @@ Template.curatorEvents.helpers
     Template.instance().suggestedEventsHeaderState.get()
 
 Template.curatorEvents.events
-  "click .curator-events-table .curator-events-table-row": (event, template) ->
+  'click .curator-events-table .curator-events-table-row': (event, instance) ->
     $target = $(event.target)
-    $parentRow = $target.closest("tr")
-    $currentOpen = template.$("tr.tr-incidents")
-    closeRow = $parentRow.hasClass("incidents-open")
+    $parentRow = $target.closest('tr')
+    $currentOpen = instance.$('tr.tr-incidents')
+    closeRow = $parentRow.hasClass('incidents-open')
     if $currentOpen
-      template.$("tr").removeClass("incidents-open")
+      instance.$('tr').removeClass('incidents-open')
       $currentOpen.remove()
     if not closeRow
       $tr = $("<tr id='tr-incidents'>").addClass("tr-incidents")
-      $parentRow.addClass("incidents-open").after($tr)
+      $parentRow.addClass('incidents-open').after($tr)
       Blaze.renderWithData(Template.curatorEventIncidents, this, $tr[0])
-  "click .associate-event": (event, template) ->
-    Meteor.call('addEventSource', {
-      url: "promedmail.org/post/" + CuratorSources.findOne(template.data.selectedSourceId.get())._sourceId
-      userEventId: @_id
-      title: template.data.title
-      publishDate: template.data.publishDate
-      publishDateTZ: "EST"
-    })
-  "click .disassociate-event": (event, template) ->
-    Meteor.call('removeEventSource', template.associatedEventIdsToArticles.get()[@_id])
 
-  "click .suggest-incidents": (event, template) ->
-    Modal.show("suggestedIncidentsModal", {
+  'click .associate-event': (event, instance) ->
+    source = CuratorSources.findOne(instance.data.selectedSourceId.get())
+    Meteor.call 'addEventSource',
+      url: "promedmail.org/post/#{source._sourceId}"
+      userEventId: @_id
+      title: source.title
+      publishDate: source.publishDate
+      publishDateTZ: 'EST'
+
+  'click .disassociate-event': (event, instance) ->
+    Meteor.call('removeEventSource', instance.associatedEventIdsToArticles.get()[@_id])
+
+  'click .suggest-incidents': (event, instance) ->
+    Modal.show('suggestedIncidentsModal', {
         userEventId: @_id
-        article: template.associatedEventIdsToArticles.get()[@_id]
+        article: instance.associatedEventIdsToArticles.get()[@_id]
       })
 
-  'click .curator-events-header.all-events': (event, template) ->
-    suggestedEventsHeaderState = template.suggestedEventsHeaderState
+  'click .curator-events-header.all-events': (event, instance) ->
+    suggestedEventsHeaderState = instance.suggestedEventsHeaderState
     suggestedEventsHeaderState.set not suggestedEventsHeaderState.get()
 
-  'click #curatorEventsFilter': (event, template) ->
+  'click #curatorEventsFilter': (event, instance) ->
     event.stopPropagation()
-    template.suggestedEventsHeaderState.set true
+    instance.suggestedEventsHeaderState.set true
+
+  "click .add-new-event": (event, instance) ->
+    Modal.show 'editEventDetailsModal',
+      action: 'add'
+      saveActionMessage: 'Add Event & Associate with Source'
+      addToSource: true
+      sourceId: instance.data.selectedSourceId.get()
+      eventName: $('#curatorEventsFilter input').val().trim() or ''

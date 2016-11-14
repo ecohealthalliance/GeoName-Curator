@@ -2,62 +2,57 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
 
 Meteor.methods
-  addUserEvent: (name, summary) ->
+  editUserEvent: (id, name, summary, disease) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
-      trimmedName = name.trim()
       user = Meteor.user()
       now = new Date()
+      trimmedName = name.trim()
 
-      if trimmedName.length isnt 0
-        UserEvents.insert(
-          eventName: trimmedName
-          summary: summary
-          creationDate: now
-          createdByUserId: user._id
-          createdByUserName: user.profile.name
-          lastModifiedDate: now
-          lastModifiedByUserId: user._id
-          lastModifiedByUserName: user.profile.name
-          articleCount: 0
-        )
+      if trimmedName.length
+        UserEvents.upsert id,
+          $set:
+            eventName: trimmedName
+            summary: summary
+            disease: disease
+            lastModifiedDate: now
+            lastModifiedByUserId: user._id
+            lastModifiedByUserName: user.profile.name
+          $setOnInsert:
+            creationDate: now
+            createdByUserId: user._id
+            createdByUserName: user.profile.name
+            articleCount: 0
 
-  updateUserEvent: (id, name, summary, disease) ->
-    if Roles.userIsInRole(Meteor.userId(), ['admin'])
-      user = Meteor.user()
-      UserEvents.update(id, {$set: {
-        eventName: name,
-        summary: summary,
-        disease: disease,
-        lastModifiedDate: new Date(),
-        lastModifiedByUserId: user._id,
-        lastModifiedByUserName: user.profile.name
-      }})
   deleteUserEvent: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       UserEvents.remove(id)
 
-  updateUserEventLastModified: (id) ->
+  editUserEventLastModified: (id) ->
     user = Meteor.user()
     if user
-      UserEvents.update(id, {$set: {
-        lastModifiedDate: new Date(),
-        lastModifiedByUserId: user._id,
-        lastModifiedByUserName: user.profile.name
-      }})
-  updateUserEventArticleCount: (id, countModifier) ->
+      UserEvents.update id,
+        $set:
+          lastModifiedDate: new Date(),
+          lastModifiedByUserId: user._id,
+          lastModifiedByUserName: user.profile.name
+
+  editUserEventArticleCount: (id, countModifier) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       event = UserEvents.findOne(id)
-      UserEvents.update(id, {$set: {articleCount: event.articleCount + countModifier}})
-  updateUserEventLastIncidentDate: (id) ->
+      UserEvents.update id,
+        $set:
+          articleCount: event.articleCount + countModifier
+
+  editUserEventLastIncidentDate: (id) ->
     event = UserEvents.findOne(id)
-    latestEventIncident = Incidents.findOne({userEventId: event._id}, {sort: {addedDate: -1}})
+    latestEventIncident = Incidents.findOne
+      userEventId: event._id
+      {sort: addedDate: -1}
     if latestEventIncident
-      UserEvents.update(id, {
+      UserEvents.update id,
         $set:
           lastIncidentDate: latestEventIncident.dateRange.end
-      })
     else
-      UserEvents.update(id, {
+      UserEvents.update id,
         $unset:
-          lastIncidentDate: ""
-      })
+          lastIncidentDate: ''

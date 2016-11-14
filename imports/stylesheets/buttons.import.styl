@@ -3,10 +3,11 @@ $warning-btn-color = lighten($warning, 50%)
 
 $btn-types = {
   '.btn-default': {
-    text: $m-gray
-    border: lighten($m-gray, 50%)
+    text: darken($border-primary, 30%)
+    text-hover: $primary
+    border: lighten($border-primary, 50%)
     bg: white
-    bg-hover: $l-gray
+    bg-hover: $border-primary-light
   },
   '.btn-primary': {
     text: $primary
