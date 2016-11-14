@@ -1,10 +1,9 @@
 template(name="userEvents")
-  .container
+  .container-fluid-padded.page-heading.container-flex
     h1 Tracked Events
-  section.container.events
-    if isInRole "admin"
-      .row
-        .col-md-2.col-md-offset-10.form-group
-          a.btn.btn-primary.btn-block(href="{{pathFor 'create-event'}}") Create New Event
-
+    .page-options.container-flex
+      if isInRole "admin"
+        a.btn.btn-primary(href="{{pathFor 'create-event'}}") Create New Event
+      +reactiveTableFilter id="eventFilter" label=" " class="event-search with-icon no-addon page-options--search"
+  .featured-table
     +reactiveTable collection="userEvents" settings=settings

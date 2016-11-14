@@ -7,7 +7,7 @@ Template.userEvents.onCreated ->
       displayName: 'Event Name',
       fieldName: 'eventName',
       defaultSortDirection: 1
-    },
+    }
     {
       arrayName: '',
       description: 'Date last incident occured.',
@@ -19,25 +19,7 @@ Template.userEvents.onCreated ->
           return value.toLocaleString()
         else
           return "No incidents"
-    },
-    {
-      arrayName: '',
-      description: 'Date the event was created.',
-      displayName: 'Creation Date',
-      fieldName: 'creationDate',
-      defaultSortDirection: -1,
-      displayFn: (value, object, key) ->
-        return value?.toLocaleString()
-    },
-    {
-      arrayName: '',
-      description: 'Date the event was last modified.',
-      displayName: 'Last Modified Date',
-      fieldName: 'lastModifiedDate',
-      defaultSortDirection: -1,
-      displayFn: (value, object, key) ->
-        return value?.toLocaleString()
-    },
+    }
     {
       arrayName: '',
       description: 'The number of articles associated with the event.',
@@ -76,32 +58,37 @@ Template.userEvents.onCreated ->
       Session.set 'events-field-sort-order-' + field.fieldName, @sortOrder[field.fieldName].get()
       Session.set 'events-field-sort-direction-' + field.fieldName, @sortDirection[field.fieldName].get()
 
+Template.userEvents.onRendered ->
+  @$('#eventFilter input').attr 'placeholder', 'Search events'
+
 Template.userEvents.helpers
   userEvents: ->
     UserEvents.find()
   settings: ->
     fields = []
     for field in Template.instance().userEventFields
-      tableField = {
+      tableField =
         key: field.fieldName
         label: field.displayName
         isVisible: Template.instance().fieldVisibility[field.fieldName]
         sortOrder: Template.instance().sortOrder[field.fieldName]
         sortDirection: Template.instance().sortDirection[field.fieldName]
         sortable: not field.arrayName
-      }
+
       if field.displayFn
         tableField.fn = field.displayFn
       fields.push(tableField)
 
-    return {
-      id: 'user-events-table'
-      showColumnToggles: true
-      fields: fields
-      currentPage: Template.instance().currentPage
-      rowsPerPage: Template.instance().rowsPerPage
-      showRowCount: true
-    }
+    id: 'user-events-table'
+    showColumnToggles: true
+    fields: fields
+    currentPage: Template.instance().currentPage
+    rowsPerPage: Template.instance().rowsPerPage
+    showRowCount: true
+    showColumnToggles: false
+    showFilter: false
+    class: 'table featured'
+    filters: ['eventFilter']
 
 Template.userEvents.events
   "click .reactive-table tbody tr": (event) ->
