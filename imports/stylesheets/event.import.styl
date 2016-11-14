@@ -40,6 +40,8 @@ $max-event-details-width = $max-ui-width+300
     &:nth-of-type(2)
       margin-bottom 0
       border-color $primary
+    &:empty
+      border-bottom 0
     .heading
       border-bottom 1px solid $border-primary
       padding-bottom 1em
@@ -89,6 +91,7 @@ $max-event-details-width = $max-ui-width+300
     display flex
     flex-direction column
     align-items center
+    justify-content center
     border-right 1px solid lighten($secondary, 40%)
     font-weight 800
     text-align center
@@ -102,10 +105,14 @@ $max-event-details-width = $max-ui-width+300
       color $primary
       +above(3)
         font-size 1.5em
-    span
+    > span
       font-size 3.5em
       color $primary
       line-height 1
+    button
+      margin-top .5em
+      font-size .75em
+      padding .5
 
 .event--metadata--secondary-content
   flex-grow 0
@@ -120,6 +127,7 @@ $max-event-details-width = $max-ui-width+300
     flex-direction column
   +above($max-event-details-width)
     flex-direction row
+    justify-content flex-end
   +between(3,4)
     margin-top 1em
   .secondary-content

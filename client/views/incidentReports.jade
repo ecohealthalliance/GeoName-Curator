@@ -1,7 +1,8 @@
 template(name="incidentReports")
   .container-flex.no-gutter
     .flex-col.bordered
-      +addIncidentReport
+      .tab-form
+        +addIncidentReport
       if incidents.length
         +reactiveTable collection=incidents settings=getSettings
       else
@@ -18,10 +19,9 @@ template(name="incidentReports")
 
 template(name="addIncidentReport")
   if currentUser
-    .tab-form
-      button.btn.btn-primary.open-incident-form(type="button")
-        i.fa.fa-plus-circle
-        span Add Incident Report
+    button.btn.btn-primary(type="button" class="open-incident-form#{class}")
+      i.fa.fa-plus-circle
+      span Add Incident Report
 
 template(name="incidentReport")
   td(colspan="7")
