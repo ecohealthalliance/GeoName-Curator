@@ -231,7 +231,12 @@ Template.incidentReports.events
     Modal.show 'incidentModal', incident
 
   'click .reactive-table tbody tr .delete': (event, template) ->
-    Modal.show 'incidentDeleteModal', @
+    date = moment(@dateRange.start).format("MMM D, YYYY")
+    location = @locations[0].name
+    Modal.show 'deleteConfirmationModal',
+      objNameToDelete: 'incident'
+      objId: @_id
+      displayName: "#{location} on #{date}"
 
   # Remove any open incident report details elements on pagination
   'click .next-page,

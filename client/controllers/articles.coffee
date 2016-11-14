@@ -12,7 +12,8 @@ Template.articles.onRendered ->
   instance = @
   @autorun ->
     instance.selectedSourceId.get()
-    Meteor.defer -> instance.$('.ref-link').tooltip()
+    Meteor.defer ->
+      instance.$('[data-toggle=tooltip]').tooltip delay: show: '300'
 
 
 Template.articles.helpers
@@ -78,42 +79,29 @@ Template.articles.helpers
     formatUrl(url)
 
 Template.articles.events
-  'click .reactive-table tbody tr': (event, template) ->
-    $target = $(event.target)
-    $parentRow = $target.closest('tr')
-    currentOpen = template.$('tr.tr-details')
-    if $target.closest('.remove-row').length
-      incidentCount = Incidents.find({userEventId: this.userEventId, url: this.url}).count()
-      if incidentCount
-        plural = if incidentCount is 1 then '' else 's'
-        message = 'There ' +
-          (if incidentCount is 1 then 'is an incident report' else "are #{incidentCount} incident reports") +
-          " associated with this article. Please delete the incident report#{plural} before deleting the article."
-        toastr.error(message)
-      else if window.confirm('Are you sure you want to delete this event source?')
-        currentOpen.remove()
-        Meteor.call('removeEventSource', @_id)
-    else if $target.closest('.edit-row').length
-      modalData = @
-      modalData.edit = true
-      Modal.show("sourceModal", modalData)
-    else if not $parentRow.hasClass('tr-details')
-      closeRow = $parentRow.hasClass('open')
-      ###
-      if currentOpen
-        template.$("tr").removeClass("details-open")
-        currentOpen.remove()
-      if not closeRow
-        #TODO: Display event source details.
-      ###
-  'click #event-sources-table tbody tr': (event, templateInstance) ->
+  'click #event-sources-table tbody tr': (event, instance) ->
     event.preventDefault()
-    templateInstance.selectedSourceId.set @_id
-    $(event.currentTarget).parent().find('tr').removeClass('open')
-    $(event.currentTarget).addClass('open')
-  'click .open-source-form': (event, template) ->
-    Modal.show('sourceModal', {userEventId: template.data.userEvent._id})
+    instance.selectedSourceId.set @_id
+    $(event.currentTarget).parent().find('tr').removeClass 'open'
+    $(event.currentTarget).addClass 'open'
 
+  'click .open-source-form': (event, instance) ->
+    Modal.show 'sourceModal', userEventId: instance.data.userEvent._id
+
+  'click .delete-source': (event, instance) ->
+    source = Articles.findOne instance.selectedSourceId.get()
+    Modal.show 'deleteConfirmationModal',
+      userEventId: instance.data.userEvent._id
+      objNameToDelete: 'source'
+      objId: source._id
+      displayName: source.title
+    instance.$(event.currentTarget).tooltip('destroy')
+
+  'click .edit-source': (event, instance) ->
+    source = Articles.findOne instance.selectedSourceId.get()
+    source.edit = true
+    Modal.show 'sourceModal', source
+    instance.$(event.currentTarget).tooltip('destroy')
 
 Template.articleSelect2.onRendered ->
   $input = @$('select')
