@@ -1,0 +1,76 @@
+.event-sources
+  tbody
+    tr
+      cursor pointer
+
+.event-sources-detail
+  h4
+  h5
+    color $primary
+  h4
+    font-size 1.5em
+    margin 0
+    &.make-selection
+      text-align center
+      padding 2em
+      font-weight 400
+      font-size 1.5em
+      color lighten($m-gray, 20%)
+  h5
+    margin 0 0 .75em 0
+    font-size 1.2em
+  .event-sources-detail--header
+    padding 1.25em
+  .event-source-info
+    margin 0
+    font-style italic
+    border-top 1px solid $border-primary-light
+    border-bottom 1px solid $border-primary-light
+    li
+      padding .75em 2em
+      border-right 1px solid $border-primary-light
+      &.link
+        padding 0
+        color darken($border-primary, 20%)
+        cursor pointer
+        span
+        a
+          padding-left 1em
+          padding-right 1em
+        &:hover
+          background $border-primary-light
+        &.delete-source
+          &:hover
+            background desaturate(lighten($delete, 80%), 20%)
+            span
+              color darken($delete, 20%)
+        &.edit-source
+          padding-left .2em
+      &:last-of-type
+        border 0
+  .link span
+  a
+    display block
+    flex 1
+    padding .75em 1.8em .75em 2em
+    text-align center
+    font-size 1.1em
+    color darken($border-primary, 20%)
+    &:hover
+      color darken($border-primary, 40%)
+
+  .event-source-summary
+    ul
+      margin 0
+      padding 0
+      font-size .9em
+      color lighten($body-text, 30%)
+      li
+        padding 0 0 1em 0
+  .event-source-summary--item
+    border-right 1px solid $border-primary-light
+    padding 1.5em 1.25em
+    min-width 20%
+    &:last-of-type
+      margin 0
+      border 0

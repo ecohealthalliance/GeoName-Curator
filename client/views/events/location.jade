@@ -1,0 +1,14 @@
+template(name="location")
+  td(colspan="4")
+    .details-container.location-details.container-flex
+      .info
+        a(href="http://www.geonames.org/{{id}}"
+          target="_blank"
+          data-toggle="tooltip" title="Location Info" data-placement="bottom")
+          i.fa.fa-globe
+      ul.list-unstyled
+        each source in sources
+          li
+            a(href="https://#{source}" target="_blank") {{ sourceName source }}
+      p.date-added
+        em Added on {{formatDate addedDate}}

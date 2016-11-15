@@ -2,7 +2,6 @@
 
 Template.createEventModal.events
   'submit #createEvent': (event, instance) ->
-    console.log
     target = event.target
     eventName = target.eventName
     event.preventDefault()
