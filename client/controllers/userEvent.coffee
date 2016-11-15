@@ -62,20 +62,3 @@ Template.summary.events
     setTimeout ->
       copied.set false
     , 1000
-
-Template.createEvent.events
-  'submit #add-event': (event) ->
-    target = event.target
-    eventName = target.eventName
-    event.preventDefault()
-    valid = eventName.checkValidity()
-    unless valid
-      toastr.error('Please specify a valid name')
-      eventName.focus()
-      return
-    newEvent = eventName.value
-    summary = target.eventSummary.value
-
-    Meteor.call 'editUserEvent', null, newEvent, summary, (error, result) ->
-      if result
-        Router.go 'user-event', _id: result.insertedId

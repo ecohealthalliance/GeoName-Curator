@@ -4,12 +4,17 @@
   border-radius $tableRadius $tableRadius 0 0
   border 1px solid #CCC
 
-.table-hover > tbody > tr:hover
-  background-color lighten($border-primary-light, 35%)
-
 .table > tbody > tr > th
 .table > tbody > tr > td
   border-color $border-primary-light
+
+.table
+  border 0
+  > tbody
+    > tr
+      &:hover
+      &:focus
+        background lighten($border-primary-light, 50%)
 
 .table
 .reactive-table
@@ -17,9 +22,11 @@
     tbody
       tr
         cursor default
+        background none
   tr
     &.tr-details
       cursor default
+      background none
 
 .table
   > tbody
@@ -52,3 +59,24 @@
         &.open-right
           &::after
             content '\f105'
+  &.featured
+    thead
+      background $border-primary-light
+      > tr
+        > th
+          border-top 0
+          border-bottom 1px solid $border-primary
+    > thead
+    > tbody
+      > tr
+        th
+        td
+          &:first-of-type
+          &:last-of-type
+            padding-left $page-padding
+
+.featured-table
+  .reactive-table-options
+    display none
+  .reactive-table-navigation
+    padding 0 $page-padding

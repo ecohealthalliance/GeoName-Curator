@@ -15,7 +15,6 @@ Template.articles.onRendered ->
     Meteor.defer ->
       instance.$('[data-toggle=tooltip]').tooltip delay: show: '300'
 
-
 Template.articles.helpers
   getSettings: ->
     fields = [

@@ -38,3 +38,45 @@
 
 .flex-row
   flex-direction column
+
+.page-heading
+  min-height 75px
+  align-items center
+  border-bottom 2px solid $border-primary
+  padding-top 1em
+  padding-bottom 1em
+  h1
+    margin 0 0 1em 0
+    color $primary
+    font-size 1.5em
+    font-weight 600
+    text-transform uppercase
+    +above(2)
+      margin-bottom 0
+
+.page-options
+  @extend .container-flex
+  +above(2)
+    margin-left auto
+  div
+  button
+    margin-bottom 1em
+    +above(2)
+      margin-left 1em
+      margin-bottom 0
+  .page-options--search
+    min-width 300px
+
+.page-heading
+.page-options
+  flex-direction column
+  +above(2)
+    flex-direction row
+  +between(2,3)
+    button
+      padding 0
+      border 0
+      background none
+      font-size 1.5em
+      span
+        display none
