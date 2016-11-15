@@ -28,6 +28,15 @@ Template.userEvents.onCreated ->
       fieldName: 'articleCount',
       defaultSortDirection: 1
     }
+    {
+      arrayName: '',
+      description: 'Date the event was last modified.',
+      displayName: 'Last Modified Date',
+      fieldName: 'lastModifiedDate',
+      defaultSortDirection: -1,
+      displayFn: (value, object, key) ->
+        return value?.toLocaleString()
+    }
   ]
 
   @currentPage = new ReactiveVar(Session.get('events-current-page') or 0)

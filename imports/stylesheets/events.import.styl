@@ -7,15 +7,12 @@
   tr
     +below(3)
       display block
-
-  thead tr
-    +below(3)
-      position absolute
-      top -9999px
-      left -9999px
-
+  thead
     tr
       +below(3)
+        position absolute
+        top -9999px
+        left -9999px
         border 0
 
     td
@@ -25,10 +22,10 @@
         position relative
         padding-left 50%
 
-    .table-striped > tbody > tr:nth-child(odd) > td
-    .table-striped > tbody > tr:nth-child(odd) > th
-      +below(3)
-        background none
+  &.table-striped > tbody > tr:nth-child(odd) > td
+  &.table-striped > tbody > tr:nth-child(odd) > th
+    +below(3)
+      background none
 
 #proMedIFrame
   width 100%
@@ -38,6 +35,8 @@
   .featured-table
     position relative
     background white
+    .lastModifiedDate
+      font-size .8em
   .loading
     position absolute
     left 50%
