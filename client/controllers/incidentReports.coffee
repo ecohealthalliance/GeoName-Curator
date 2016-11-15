@@ -1,4 +1,3 @@
-import pluralize from 'pluralize'
 import d3 from 'd3'
 import Incidents from '/imports/collections/incidentReports.coffee'
 import ScatterPlot from '/imports/charts/ScatterPlot.coffee'
@@ -6,6 +5,7 @@ import Axes from '/imports/charts/Axes.coffee'
 import Group from '/imports/charts/Group.coffee'
 import SegmentMarker from '/imports/charts/SegmentMarker.coffee'
 import { formatUrl } from '/imports/utils.coffee'
+import { pluralize } from '/imports/ui/helpers'
 
 Template.incidentReports.onDestroyed ->
   if @plot
@@ -25,7 +25,7 @@ Template.incidentReports.onCreated ->
           <div class='col-xs-12'>
             <i class='fa fa-circle <%= node.meta.type%>'></i>
             <span style='font-weight: bold;'>
-              <%= node.y %> <%= obj.pluralize(node.meta.type, node.y) %> (<%= node.meta.location %>)</span>
+              <%= obj.pluralize(node.meta.type, node.y) %> (<%= node.meta.location %>)</span>
             </span>
           </div>
         </div>
@@ -55,25 +55,22 @@ Template.incidentReports.onRendered ->
   # compiled the template into the variable tmpl
   tmpl = _.template(@tooltipTmpl)
 
-  @plot = new ScatterPlot({
-    containerID: 'scatterPlot',
-    svgContainerClass: 'scatterPlot-container',
-    height: $('#event-incidents-table').parent().height(),
-    axes: {
+  @plot = new ScatterPlot
+    containerID: 'scatterPlot'
+    svgContainerClass: 'scatterPlot-container'
+    height: $('#event-incidents-table').parent().height()
+    axes:
       # show grid lines
-      grid: true,
+      grid: true
       # use built-in domain bounds filter
-      filter: true,
-      x: {
-        title: 'Time',
-        type: 'datetime',
-      },
-      y: {
-        title: 'Count',
-        type: 'numeric',
-      }
-    },
-    tooltip: {
+      filter: true
+      x:
+        title: 'Time'
+        type: 'datetime'
+      y:
+        title: 'Count'
+        type: 'numeric'
+    tooltip:
       opacity: 1
       # function to render the tooltip
       template: (group) ->
@@ -83,38 +80,35 @@ Template.incidentReports.onRendered ->
         group.pluralize = pluralize
         # render the template from
         tmpl(group)
-    },
-    zoom: true,
+    zoom: true
     # initially active filters
-    filters: {
+    filters:
       notCumulative: @filters.notCumulative
-    },
     # group events
-    group: {
+    group:
       # methods to be applied when a new group is created
       onEnter: () ->
         # bind mouseover/mouseout events to the plot tooltip
-        @.group.on('mouseover', () =>
-          if @plot.tooltip
-            @plot.tooltip.mouseover(@, d3.event.pageX, d3.event.pageY)
-        ).on('mouseout', () =>
-          if @plot.tooltip
-            @plot.tooltip.mouseout()
-        )
-    },
-  })
+        @.group
+          .on 'mouseover', () =>
+            if @plot.tooltip
+              @plot.tooltip.mouseover(@, d3.event.pageX, d3.event.pageY)
+          .on 'mouseout', () =>
+            if @plot.tooltip
+              @plot.tooltip.mouseout()
 
   # deboune how many consecutive calls to update the plot during reactive changes
   @updatePlot = _.debounce(_.bind(@plot.update, @plot), 300)
 
   @autorun =>
     # anytime the incidents cursor changes, refetch the data and format
-    segments = @incidents.fetch().map((incident) =>
-      return SegmentMarker.createFromIncident(@plot, incident)
-    ).filter((incident) ->
-      if incident
-        return incident
-    )
+    segments = @incidents
+      .fetch()
+      .map (incident) =>
+        SegmentMarker.createFromIncident(@plot, incident)
+      .filter (incident) ->
+        if incident
+          return incident
 
     # each overlapping group will be a 'layer' on the plot. overlapping is when
     #   segments have same y value and any portion of line segment overlaps
@@ -131,28 +125,29 @@ Template.incidentReports.helpers
   getSettings: ->
     fields = [
       {
-        key: "count"
-        label: "Incident"
+        key: 'count'
+        label: 'Incident'
         fn: (value, object, key) ->
           if object.cases
-            return pluralize("case", object.cases)
+            return pluralize('case', object.cases)
           else if object.deaths
-            return pluralize("death", object.deaths)
+            return pluralize('death', object.deaths)
           else
             return object.specify
         sortFn: (value, object) ->
           0 + (object.deaths or 0) + (object.cases or 0)
-      },
+      }
       {
-        key: "locations"
-        label: "Locations"
+        key: 'locations'
+        label: 'Locations'
         fn: (value, object, key) ->
           if object.locations
-            return $.map(object.locations, (element, index) ->
-              return element.name
+            $.map(object.locations, (element, index) ->
+              element.name
             ).toString()
-          return ""
-      },
+          else
+            ''
+      }
       {
         key: 'dateRange'
         label: 'Date'
@@ -160,13 +155,14 @@ Template.incidentReports.helpers
           dateFormat = 'M/D/YYYY'
           if object.dateRange?.type is 'day'
             if object.dateRange.cumulative
-              return "Before " + moment(object.dateRange.end).format(dateFormat)
+              "Before " + moment(object.dateRange.end).format(dateFormat)
             else
-              return moment(object.dateRange.start).format(dateFormat)
+              moment(object.dateRange.start).format(dateFormat)
           else if object.dateRange?.type is 'precise'
-            return moment(object.dateRange.start).format(dateFormat) + ' - '
-            + moment(object.dateRange.end).format(dateFormat)
-          return ''
+            "#{moment(object.dateRange.start).format(dateFormat)} -
+              #{moment(object.dateRange.end).format(dateFormat)}"
+          else
+            ''
         sortFn: (value, object) ->
           +new Date(object.dateRange.end)
       }
