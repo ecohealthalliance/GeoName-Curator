@@ -21,23 +21,22 @@ Template.incidentReports.onCreated ->
   @tooltipTmpl = """
     <% if ('applyFilters' in obj) { %>
       <% _.each(obj.applyFilters(), function(node) { %>
-        <div class='row'>
-          <div class='col-xs-12'>
+        <div class='report'>
+          <p>
             <i class='fa fa-circle <%= node.meta.type%>'></i>
-            <span style='font-weight: bold;'>
-              <%= obj.pluralize(node.meta.type, node.y) %> (<%= node.meta.location %>)</span>
+            <span class='count'>
+              <%= obj.pluralize(node.meta.type, node.y) %>
             </span>
-          </div>
-        </div>
-        <% if (node.hasOwnProperty('w')) { %>
-          <div class='row'>
-            <div class='col-xs-12'>
-              <span style='text-align: left; padding-left: 5px;'>
-                from <%= obj.moment(node.x).format('MMM Do YYYY') %>
-                to <%= obj.moment(node.w).format('MMM Do YYYY') %>
+            <span>(<%= node.meta.location %>)</span>
+          </p>
+          <% if (node.hasOwnProperty('w')) { %>
+            <p>
+              <span class='dates'>
+                <%= obj.moment(node.x).format('MMM Do YYYY') %>
+                - <%= obj.moment(node.w).format('MMM Do YYYY') %>
               </span>
-            </div>
-          </div>
+            </p>
+        </div>
         <% } %>
       <% }); %>
     <% } %>
@@ -197,9 +196,11 @@ Template.incidentReports.events
       template.plot.removeFilter('notCumulative')
       template.plot.addFilter('cumulative', template.filters.cumulative)
       template.plot.applyFilters()
+    $(event.currentTarget).blur()
 
   'click #scatterPlot-resetZoom': (event, template) ->
     template.plot.resetZoom()
+    $(event.currentTarget).blur()
 
   'click #event-incidents-table th': (event, template) ->
     template.$('tr').removeClass('open')
