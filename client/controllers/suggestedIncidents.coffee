@@ -3,6 +3,17 @@ incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
 # and all the following sentences until the next annotation.
 # Annotations in the same sentence are grouped.
 getTerritories = (annotationsWithOffsets, sents) ->
+  # Split annotations with multiple offsets
+  # and sort by offset.
+  annotationsWithSingleOffsets = []
+  annotationsWithOffsets.forEach (annotation)->
+    annotation.textOffsets.forEach (textOffset)->
+      splitAnnotation = Object.create(annotation)
+      splitAnnotation.textOffsets = [textOffset]
+      annotationsWithSingleOffsets.push(splitAnnotation)
+  annotationsWithOffsets = _.sortBy(annotationsWithSingleOffsets, (annotation)->
+    annotation.textOffsets[0]
+  )
   annotationIdx = 0
   sentStart = 0
   sentEnd = 0
@@ -58,9 +69,10 @@ Template.suggestedIncidentsModal.onCreated ->
       Modal.hide(@)
       toastr.error error.reason
       return
-    geonameIds = result.keypoints
-      .filter((k)->k.location)
-      .map((k)->k.location.geonameid)
+    locationAnnotations = result.features.filter (f)->f.type == "location"
+    datetimeAnnotations = result.features.filter (f)->f.type == "datetime"
+    countAnnotations = result.features.filter (f)->f.type == "count"
+    geonameIds = locationAnnotations.map((r)->r.geoname.geonameid)
     new Promise((resolve, reject) =>
       if geonameIds.length == 0
         resolve([])
@@ -94,72 +106,93 @@ Template.suggestedIncidentsModal.onCreated ->
       @loading.set(false)
       @content.set result.source.cleanContent.content
       sents = parseSents(result.source.cleanContent.content)
-      keypoints = result.keypoints
-      locTerritories = getTerritories(keypoints.filter((keypoint)->keypoint.location), sents)
-      dateKeypoints = keypoints
-        .map (keypoint)=>
-          time = keypoint.time
-          if not time
-            return
-          if keypoint.time.label == "PRESENT_REF" or keypoint.text == "today"
-            time.timeRange =
+      locTerritories = getTerritories(locationAnnotations, sents)
+      datetimeAnnotations = datetimeAnnotations
+        .map (timeAnnotation)=>
+          if (timeAnnotation.label == "PRESENT_REF" or
+            timeAnnotation.text == "today"
+          )
+            timeAnnotation.timeRange =
               begin: moment.utc(@data.article.publishDate).toObject()
               end: moment.utc(@data.article.publishDate).add(1, "day").toObject()
-            time.precision = 1
-            return keypoint
-          if not (time.timeRange and time.timeRange.begin and time.timeRange.end)
-            #console.log "No Timerange", keypoint
+            timeAnnotation.precision = 1
+            return timeAnnotation
+          if not (timeAnnotation.timeRange and
+            timeAnnotation.timeRange.begin and
+            timeAnnotation.timeRange.end
+          )
+            #console.log "No Timerange", timeAnnotation
             return
           # moment parses 0 based month indecies
-          if time.timeRange.begin.month then time.timeRange.begin.month--
-          if time.timeRange.end.month then time.timeRange.end.month--
-          time.precision = Object.keys(time.timeRange.end).length + Object.keys(time.timeRange.end).length
-          return keypoint
-        .filter (keypoint)-> keypoint
-      dateTerritories = getTerritories(dateKeypoints, sents)
-      result.keypoints.forEach((keypoint) =>
-        unless keypoint.count then return
-        [kStart, kEnd] = keypoint.textOffsets[0]
+          if timeAnnotation.timeRange.begin.month
+            timeAnnotation.timeRange.begin.month--
+          if timeAnnotation.timeRange.end.month
+            timeAnnotation.timeRange.end.month--
+          timeAnnotation.precision = (
+            Object.keys(timeAnnotation.timeRange.end).length +
+            Object.keys(timeAnnotation.timeRange.end).length
+          )
+          return timeAnnotation
+        .filter (x)-> x
+      dateTerritories = getTerritories(datetimeAnnotations, sents)
+      countAnnotations.forEach((countAnnotation) =>
+        [start, end] = countAnnotation.textOffsets[0]
         locationTerritory = _.find locTerritories, ({territoryStart, territoryEnd})->
-          if kStart <= territoryEnd and kStart >= territoryStart
+          if start <= territoryEnd and start >= territoryStart
             return true
         dateTerritory = _.find dateTerritories, ({territoryStart, territoryEnd})->
-          if kStart <= territoryEnd and kStart >= territoryStart
+          if start <= territoryEnd and start >= territoryStart
             return true
         incident =
-          locations: locationTerritory.annotations.map(({location})->geonamesById[location.geonameid])
+          locations: locationTerritory.annotations.map(({geoname})->geonamesById[geoname.geonameid])
         maxPrecision = 0
-        dateTerritory.annotations.forEach (annotation)->
-          time = annotation.time
-          fromTime = _.clone(time.timeRange.begin)
-          toTime = _.clone(time.timeRange.end)
+        # Use the article's date as the default
+        incident.dateRange =
+          start: @data.article.publishDate
+          end: moment(@data.article.publishDate).add(1, "day")
+          type: "day"
+        dateTerritory.annotations.forEach (timeAnnotation)->
+          fromTime = _.clone(timeAnnotation.timeRange.begin)
+          toTime = _.clone(timeAnnotation.timeRange.end)
           momentFromTime = moment.utc(fromTime)
           # Round up the to day end
-          momentToTime = moment.utc(_.extend({hours:23, minutes: 59}, toTime))
-          if time.precision > maxPrecision and momentToTime.isValid() and momentFromTime.isValid()
-            maxPrecision = time.precision
+          momentToTime = moment.utc(_.extend({
+            hours:23, minutes: 59
+          }, toTime))
+          if (timeAnnotation.precision > maxPrecision and
+            momentToTime.isValid() and
+            momentFromTime.isValid()
+          )
+            maxPrecision = timeAnnotation.precision
             incident.dateRange =
               start: momentFromTime.toDate()
               end: momentToTime.toDate()
-            if moment(incident.dateRange.end).diff(incident.dateRange.start, "hours") <= 24
+            rangeHours = moment(incident.dateRange.end)
+              .diff(incident.dateRange.start, "hours")
+            if rangeHours <= 24
               incident.dateRange.type = "day"
             else
               incident.dateRange.type = "precise"
         incident.dateTerritory = dateTerritory
         incident.locationTerritory = locationTerritory
-        incident.countAnnotation = keypoint
-        countValue = keypoint.count.number or keypoint.count.range_end
-        if keypoint.count.case
-          incident.cases = countValue
-        else if keypoint.count.death
-          incident.deaths = countValue
+        incident.countAnnotation = countAnnotation
+        { count, attributes } = countAnnotation
+        if "death" in attributes
+          incident.deaths = count
+        else
+          incident.cases = count
         # Detect whether count is cumulative
-        if "incremental" of keypoint.count
-          incident.dateRange.cumulative = not keypoint.count.incremental
-        else if "cumulative" of keypoint.count
-          incident.dateRange.cumulative = keypoint.count.cumulative
-        else if incident.dateRange.type == "day" and countValue > 300
+        if "incremental" in attributes
+          incident.dateRange.cumulative = false
+        else if "cumulative" in attributes
           incident.dateRange.cumulative = true
+        else if incident.dateRange.type == "day" and count > 300
+          incident.dateRange.cumulative = true
+        suspectedAttributes = _.intersection([
+          "approximate", "average", "suspected"
+        ], attributes)
+        if suspectedAttributes.length > 0
+          incident.suspected = true
         incident.url = [@data.article.url]
         @incidentCollection.insert(incident)
       )
@@ -175,8 +208,8 @@ Template.suggestedIncidentsModal.helpers
   annotatedCount: ->
     total = Template.instance().incidentCollection.find().count()
     if total
-      count = Template.instance().incidentCollection.find({accepted: true}).count()
-      count + " of " + total + " incidents accepted"
+      count = Template.instance().incidentCollection.find(accepted: true).count()
+      "#{count} of #{total} incidents accepted"
 
   annotatedContent: ->
     content = Template.instance().content.get()

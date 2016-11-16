@@ -19,7 +19,6 @@ Meteor.methods
       params:
         api_key: "Cr9LPAtL"
         returnSourceContent: true
-        showKeypoints: true
         # formatUrl takes a database cleanUrl and adds 'http://'
         url: formatUrl(url)
     })
