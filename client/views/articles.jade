@@ -6,9 +6,12 @@ template(name="articles")
       if articles.length
         .tab-form.container-flex.no-border.break-2
           .flex-col
-            +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
-          .flex-col.no-grow
             +sourceModalButton
+          .flex-col
+            +reactiveTableFilter(
+              id="sourceFilter"
+              label=" "
+              class="table-filter with-icon no-addon")
         +reactiveTable collection=articles settings=getSettings
 
       else

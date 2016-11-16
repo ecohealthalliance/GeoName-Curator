@@ -147,7 +147,9 @@ Template.curatorInbox.events
   'click .search-icon': (event, instance) ->
     searching = instance.searching
     searching.set not searching.get()
-    $('#curator-inbox-article-filter').focus().click()
+    setTimeout ->
+      $('#curator-inbox-article-filter').focus()
+    , 200
     $(event.currentTarget).tooltip 'destroy'
 
 Template.curatorInboxSection.onCreated ->

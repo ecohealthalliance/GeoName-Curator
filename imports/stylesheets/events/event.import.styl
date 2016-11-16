@@ -170,21 +170,14 @@ $max-event-details-width = $max-ui-width+300
   +above(3)
     padding 15px 15px 15px $page-padding
   input
-    max-width 50%
-    border-left 0
     box-shadow none
   input.form-control
   select.form-control
   .input-group-addon
     border-color $border-primary
   .table-filter
-    .input-group-addon
-      background-color white
-      color lighten($primary, 20%)
-      padding-right 0
-      &:before
-        content "\f002"
-        font-family FontAwesome
+    min-width 50%
+    margin-left auto
   .btn
     background white
     text-transform uppercase
