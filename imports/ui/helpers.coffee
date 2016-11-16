@@ -3,28 +3,6 @@ formatLocation = require '/imports/formatLocation.coffee'
 UI.registerHelper 'formatLocation', (location)->
   return formatLocation(location)
 
-@pluralize = (word, count, showCount=true) ->
-  if Number(count) isnt 1
-    word += "s"
-  if showCount then "#{count} #{word}" else word
-
-formatDateRange = (dateRange, readable)->
-  dateFormat = "MMM D, YYYY"
-  if dateRange.type is "day"
-    if dateRange.cumulative
-      return "before " + moment(dateRange.end).format(dateFormat)
-    else
-      if readable
-        return "on " + moment(dateRange.start).format(dateFormat)
-      else
-        return moment(dateRange.start).format(dateFormat)
-  else if dateRange.type is "precise"
-    if readable
-      return "between " + moment(dateRange.start).format(dateFormat) + " and " + moment(dateRange.end).format(dateFormat)
-    else
-      return moment(dateRange.start).format(dateFormat) + " - " + moment(dateRange.end).format(dateFormat)
-  return ""
-
 UI.registerHelper 'formatDateRange', (dateRange)->
   return formatDateRange(dateRange)
 
@@ -52,3 +30,29 @@ UI.registerHelper 'incidentToText', (incident) ->
 
 UI.registerHelper 'formatDate', (date) ->
   moment(date).format("MMM DD, YYYY")
+
+pluralize = (word, count, showCount=true) ->
+  if Number(count) isnt 1
+    word += "s"
+  if showCount then "#{count} #{word}" else word
+
+formatDateRange = (dateRange, readable)->
+  dateFormat = "MMM D, YYYY"
+  if dateRange.type is "day"
+    if dateRange.cumulative
+      return "before " + moment(dateRange.end).format(dateFormat)
+    else
+      if readable
+        return "on " + moment(dateRange.start).format(dateFormat)
+      else
+        return moment(dateRange.start).format(dateFormat)
+  else if dateRange.type is "precise"
+    if readable
+      return "between " + moment(dateRange.start).format(dateFormat) + " and " + moment(dateRange.end).format(dateFormat)
+    else
+      return moment(dateRange.start).format(dateFormat) + " - " + moment(dateRange.end).format(dateFormat)
+  return ""
+
+module.exports =
+  pluralize: pluralize
+  formatDateRange: formatDateRange

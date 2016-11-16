@@ -59,6 +59,7 @@
         &.open-right
           &::after
             content '\f105'
+
   &.featured
     thead
       background $border-primary-light
@@ -79,4 +80,10 @@
   .reactive-table-options
     display none
   .reactive-table-navigation
-    padding 0 $page-padding
+    +above(3)
+      padding 0 $page-padding
+
+.reactive-table-navigation
+  width calc(100% - 30px)
+  margin-right 1em
+  margin-left 1em

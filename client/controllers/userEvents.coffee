@@ -11,22 +11,25 @@ Template.userEvents.onCreated ->
     }
     {
       arrayName: '',
+      description: 'The number of articles associated with the event.',
+      displayName: 'Article Count',
+      fieldName: 'articleCount',
+      defaultSortDirection: 1
+      displayFn: (value, object, key) ->
+        new Spacebars.SafeString("<span data-heading='Article Count'>#{value}</span>")
+    }
+    {
+      arrayName: '',
       description: 'Date last incident occured.',
       displayName: 'Last Incident Date',
       fieldName: 'lastIncidentDate',
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
         if value != null
-          return value.toLocaleString()
+          content = value.toLocaleString()
         else
-          return "No incidents"
-    }
-    {
-      arrayName: '',
-      description: 'The number of articles associated with the event.',
-      displayName: 'Article Count',
-      fieldName: 'articleCount',
-      defaultSortDirection: 1
+          content = "No incidents"
+        new Spacebars.SafeString("<span data-heading='Last Incident Date'>#{content}</span>")
     }
     {
       arrayName: '',
@@ -35,7 +38,7 @@ Template.userEvents.onCreated ->
       fieldName: 'lastModifiedDate',
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
-        return value?.toLocaleString()
+        new Spacebars.SafeString("<span data-heading='Last Modified Date'>#{value.toLocaleString()}</span>")
     }
   ]
 
