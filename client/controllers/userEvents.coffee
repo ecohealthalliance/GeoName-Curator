@@ -16,7 +16,7 @@ Template.userEvents.onCreated ->
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
         if value != null
-          return value.toLocaleString()
+          return moment(value.toLocaleString()).format('MMM D, YYYY')
         else
           return "No incidents"
     },
@@ -27,7 +27,10 @@ Template.userEvents.onCreated ->
       fieldName: 'creationDate',
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
-        return value?.toLocaleString()
+        if value != null
+          return moment(value.toLocaleString()).format('MMM D, YYYY')
+        else
+          return "No date"
     },
     {
       arrayName: '',
@@ -36,7 +39,10 @@ Template.userEvents.onCreated ->
       fieldName: 'lastModifiedDate',
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
-        return value?.toLocaleString()
+        if value != null
+          return moment(value.toLocaleString()).format('MMM D, YYYY')
+        else
+          return "No date"
     },
     {
       arrayName: '',
