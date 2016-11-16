@@ -1,0 +1,104 @@
+.event--metadata
+  flex-direction column
+
+.event--metadata--counts
+.event--metadata--secondary-content
+  +above(4)
+    padding-right $page-padding
+
+.event--metadata--counts
+  border-bottom 1px solid $secondary
+  flex-direction row
+  +between(4, $max-ui-width)
+    flex-direction column
+  +above($max-event-details-width)
+    flex-direction row
+  .count
+    display flex
+    flex-direction column
+    align-items center
+    justify-content center
+    border-right 1px solid lighten($secondary, 40%)
+    font-weight 800
+    text-align center
+    padding 1em
+    &:last-of-type
+      border-right 0
+    h4
+      font-size 1.25em
+      font-weight 300
+      text-transform uppercase
+      color $primary
+      +above(3)
+        font-size 1.5em
+    > span
+      font-size 3.5em
+      color $primary
+      line-height 1
+    button
+      margin-top .5em
+      font-size .75em
+      padding .5
+
+.event--metadata--secondary-content
+  flex-grow 0
+  flex-direction column
+  align-items center
+  +between(3,4)
+    flex-direction row
+    align-items center
+    justify-content space-between
+  +between(4, $max-event-details-width)
+    align-items center
+    flex-direction column
+  +above($max-event-details-width)
+    flex-direction row
+    justify-content flex-end
+  +between(3,4)
+    margin-top 1em
+  .secondary-content
+    font-size .8em
+    display flex
+    align-items center
+    text-align center
+    margin-bottom .75em
+    &:first-of-type
+      margin-top 1.2em
+    &:last-of-type
+      margin-top 1.5em
+    &
+    &:first-of-type
+    &:last-of-type
+      +at(3)
+        margin 0
+      +above($max-event-details-width)
+        margin 0
+    +above($max-event-details-width)
+      padding 1em 1.5em
+      text-align left
+      margin-bottom 0
+    +above($max-event-details-width)
+      border-right 1px solid lighten($secondary, 40%)
+    &:last-of-type
+      border 0
+    p
+      margin-bottom 0
+  .btn
+    font-size .95em
+    border-color lighten($primary, 10%)
+    color $primary
+    padding .5em 1.5em
+    min-width 140px
+    .fa
+      margin-right .5em
+    &.copied
+      &
+      &:hover
+        background lighten($positive, 20%)
+        border-color darken($positive, 10%)
+    &:hover
+    &:focus
+      background $primary-l-light
+    &:active
+      background darken($primary-light, 10%)
+      color $primary
