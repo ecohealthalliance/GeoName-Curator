@@ -1,0 +1,15 @@
+template(name="feeds")
+  .feeds
+    .container-fluid-padded.page-heading.container-flex
+      h1 Feeds
+      form.add-feed.container-flex
+        input.form-control(name="feedUrl" placeholder="Enter new feed URL")
+        button.btn.btn-primary
+          i.fa.fa-plus-circle
+          | Add Feed
+
+    .container-fluid-padded
+      if feeds.count
+        ul.list-group
+          each feeds
+            li.list-group-item=url

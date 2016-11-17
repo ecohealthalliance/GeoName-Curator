@@ -91,3 +91,10 @@ Router.route "/user-event/:_id/:_view?",
     userEvent: UserEvents.findOne({'_id': @params._id})
     articles: Articles.find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
     incidents: Incidents.find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()
+
+Router.route "/feeds",
+  onBeforeAction: ->
+    unless Roles.userIsInRole(Meteor.userId(), ['admin'])
+      @redirect '/'
+    @next()
+  name: 'feeds'
