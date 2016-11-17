@@ -23,16 +23,18 @@
     padding 1.25em
   .event-source-info
     margin 0
-    font-style italic
     border-top 1px solid $border-primary-light
     border-bottom 1px solid $border-primary-light
     li
       padding .75em 2em
       border-right 1px solid $border-primary-light
+      display flex
+      align-items center
       &.link
         padding 0
         color darken($border-primary, 20%)
         cursor pointer
+        align-self stretch
         span
         a
           padding-left 1em
@@ -46,6 +48,8 @@
               color darken($delete, 20%)
         &.edit-source
           padding-left .2em
+      &:not(.link)
+        font-size .8em
       &:last-of-type
         border 0
   .link span
