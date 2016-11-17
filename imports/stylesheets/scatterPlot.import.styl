@@ -1,65 +1,100 @@
+#scatterPlot
+  > svg
+    margin-top .5em
+
 #scatterPlot-toolbar
-  margin-top 10px
-  margin-bottom -5px
-  margin-right 15px
-  float right
+  margin-left $page-padding
+  margin-top 1em
 
 .scatterPlot-toolbar-button
   padding-top 2px
   padding-bottom 2px
   font-size 12px
+  &:focus
+  &:active
+    border-color $border-primary
+    background $border-primary-light
+  &:active:focus
+  &:active
+    background $border-primary
+    color $primary
+  &.active
+    background $primary
+    color white
+    box-shadow none
+    border-color $primary
+    &:focus
+    &:hover
+      background $primary
+      color @color
+      outline 0
+      box-shadow none
+      border-color @border-color
 
 .scatterPlot-container
   overflow hidden
 
 .scatterPlot-axis
   font-family sans-serif
-  font-size 8px
+  font-size .75em
+  color $primary
 
-.scatterPlot-axis path, .scatterPlot-axis line
-  fill none
-  stroke #000
-  shape-rendering crispEdges
+.scatterPlot-axis
+  path
+  line
+    fill none
+    stroke darken($border-primary, 20%)
+    shape-rendering crispEdges
 
 .scatterPlot-axis-label
-  font-size 12px
+  font-size .9em
   font-weight bold
 
 .scatterPlot-warn
-  fill orangered
+  fill $delete
   font-size 1.5em
   font-weight 200
   text-transform uppercase
 
 .scatterPlot-tooltip
   position absolute
-  padding 5px
-  background #f4e8e3
+  padding .75em 1.25em
+  background alpha(lighten($secondary, 50%), 95%)
   border 0px
-  border-radius 8px
+  border-radius 3px
   pointer-events none
+  font-size .9em
+  .report
+    margin-bottom .25em
+  .count
+    font-weight 600
+  .dates
+    font-size .8em
+    text-align right
+    display block
+    margin-top -.2em
+  p
+    margin-bottom 0
+  .case
+  .death
+    margin-right .15em
+  .case
+    color $primary
+  .death
+    color $delete
 
-.scatterPlot-tooltip
-  font-size 10px
-
-i.case
-  color #345e7e
-
-i.death
-  color #f07382
-
-.grid .tick line
-  stroke lightgrey
-  opacity 0.7
-
-.grid path
-  stroke-width 0
+.grid
+  .tick
+    line
+      stroke lighten(desaturate($border-primary, 20%), 50%)
+  path
+    stroke-width 0
 
 .zoomOverlay
   pointer-events all
   fill none
 
 .zoomBand
-  fill none
+  fill alpha($secondary, 30%)
   stroke-width 1px
-  stroke red
+  stroke $secondary
