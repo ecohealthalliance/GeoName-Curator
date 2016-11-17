@@ -1,4 +1,5 @@
 CuratorSources = require '/imports/collections/curatorSources.coffee'
+{ dismissModal } = require '/imports/ui/modals'
 
 Template.editEventDetailsModal.onCreated ->
   @confirmingDeletion = new ReactiveVar false
@@ -56,12 +57,3 @@ Template.editEventDetailsModal.events
 
   'click .back-to-editing': (event, instance) ->
     instance.confirmingDeletion.set false
-
-  'click .delete-event-confirmation': (event, instance) ->
-    Meteor.call 'deleteUserEvent', @_id, (error, result) ->
-      if not error
-        Modal.hide 'editEventDetailsModal'
-        $('#edit-event-modal').modal('hide')
-        $('.modal-backdrop').remove()
-        $('body').removeClass 'modal-open'
-        Router.go 'user-events'

@@ -6,9 +6,12 @@ template(name="articles")
       if articles.length
         .tab-form.container-flex.no-border.break-2
           .flex-col
-            +reactiveTableFilter id="sourceFilter" label=" " class="input-group table-filter"
-          .flex-col.no-grow
             +sourceModalButton
+          .flex-col
+            +reactiveTableFilter(
+              id="sourceFilter"
+              label=" "
+              class="table-filter with-icon no-addon")
         +reactiveTable collection=articles settings=getSettings
 
       else
@@ -21,7 +24,19 @@ template(name="articles")
         .event-sources-detail--header
           h4= selectedSource.title
         ul.event-source-info.container-flex.list-unstyled
-          li
+          li.edit-source.link(
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="Edit Source")
+            span
+              i.fa.fa-edit
+          li.delete-source.link(
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="Delete Source")
+            span
+              i.fa.fa-trash
+          li.link
             a.ref-link(
               href="http://{{selectedSource.url}}"
               target="_blank"
@@ -29,7 +44,7 @@ template(name="articles")
               data-toggle="tooltip"
               data-placement="bottom"
               title="View Original Source")
-              i.fa.fa-external-link
+              i.fa.fa-link
           li Published on {{formatDate selectedSource.publishDate}}
           li Submitted by {{selectedSource.addedByUserName}} on {{formatDate selectedSource.addedDate}}
         .event-source-summary.container-flex

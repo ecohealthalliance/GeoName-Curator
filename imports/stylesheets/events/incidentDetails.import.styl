@@ -1,0 +1,69 @@
+.incident-report--details--important
+.incident-report--details--metadata
+  align-self center
+  margin-right 1.75em
+
+.incident-report--details--important
+  display flex
+  flex-direction column
+  padding-top 1em
+  padding-bottom 1em
+  div
+    margin-bottom 1.75em
+    text-align center
+    &:last-of-type
+      margin-bottom 0
+  h6
+    text-transform uppercase
+    margin .25em 0 0 0
+  .fa
+    padding-bottom .1em
+    font-size 2.5em
+
+.incident-report--details--metadata
+  margin-right 3em
+  &.bordered
+    border-left 1px solid lighten($border-primary, 40%)
+    padding-left 1.75em
+  ul
+    &:last-of-type
+      margin-bottom 0
+
+.incident-report--details--actions
+  margin-left auto
+  a
+    font-size 1.5em
+    color lighten($m-gray, 20%)
+    margin-right .5em
+    &:hover
+      color $primary
+    &:first-of-type
+      margin-top .07em
+    &:last-of-type
+      &:hover
+        color $delete
+
+.incident-report--details--counts
+  .incident-count
+    font-size 2.5em
+    font-weight 800
+    line-height 1
+    color $m-gray
+
+.incident-report--details--status
+  .confirmed
+    color $positive
+    &:before
+      content '\f058'
+  .suspected
+    color $warning
+    &:before
+      content '\f059'
+  .revoked
+    color $delete
+    &:before
+      content '\f05c'
+
+.incident-report--details--travel-related
+  .fa
+    color $delete

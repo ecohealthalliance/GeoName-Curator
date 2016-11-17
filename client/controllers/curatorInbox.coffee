@@ -147,7 +147,9 @@ Template.curatorInbox.events
   'click .search-icon': (event, instance) ->
     searching = instance.searching
     searching.set not searching.get()
-    $('#curator-inbox-article-filter').focus().click()
+    setTimeout ->
+      $('#curator-inbox-article-filter').focus()
+    , 200
     $(event.currentTarget).tooltip 'destroy'
 
 Template.curatorInboxSection.onCreated ->
@@ -280,7 +282,9 @@ Template.curatorSourceDetails.onCreated ->
 
 Template.curatorSourceDetails.onRendered ->
   Meteor.defer =>
-    @$('.toggle-source-content').tooltip()
+    @$('[data-toggle=tooltip]').tooltip
+      delay: show: '300'
+
   @autorun =>
     sourceId = Template.instance().data.selectedSourceId.get()
     source = CuratorSources.findOne _id: sourceId

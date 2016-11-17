@@ -1,0 +1,246 @@
+$max-event-details-width = $max-ui-width+300
+
+@import 'sources.import'
+@import 'metadata.import'
+@import 'metadata.import'
+@import 'locations.import'
+@import 'incidentDetails.import'
+
+.event
+  .table
+    border 0
+    thead
+    tbody
+      tr
+        th
+        td
+          &:first-of-type
+            padding-left $page-padding-small-screen
+            +above(3)
+              padding-left $page-padding
+    thead
+      tr
+        th
+          border-color $border-primary-light
+    tbody
+      tr
+        &:not(.details)
+          &:hover
+            background $border-primary-light
+        &.details
+          cursor default
+    td
+      &:first-child
+        +below(3)
+          width 100%
+      &.title
+        max-width 200px
+        text-overflow ellipsis
+        white-space nowrap
+        overflow hidden
+  section
+    padding-top 0
+    padding-bottom 0
+    margin-bottom 4em
+    border-bottom 1px solid $border-primary
+    &:first-of-type
+      border 0
+    &:nth-of-type(2)
+      margin-bottom 0
+      border-color $primary
+    &:empty
+      border-bottom 0
+    .heading
+      border-bottom 1px solid $border-primary
+      padding-bottom 1em
+      padding-top 1em
+      background $border-primary-light
+    h2
+      font-size 2em
+      font-weight 400
+      text-transform uppercase
+  .reactive-table-options
+    display none
+
+.event--basic-info
+  margin 2em 0 0 0
+  padding-top 2em
+  +above(4)
+    padding-right 0
+
+.event--details
+.event--metadata
+  width 100%
+  +above(4)
+    width 50%
+
+.event--details
+  margin-right 5%
+  margin-bottom 2em
+  +above(4)
+    margin-bottom 0
+
+.fact-sheet-wrap
+  padding 20px 0 0 0
+  background $secondary-light
+  padding-bottom 20px
+
+.event-name-wrap
+  display flex
+  align-items flex-start
+  margin-bottom .25em
+
+.event-name
+  margin 0
+  font-size 2.25em
+  color $highlight
+  font-weight 600
+
+.edit-event-details
+  margin-left 10px
+  cursor pointer
+  font-size 1.25em
+  color $m-gray
+  &:hover
+    color $primary
+
+.disease-name
+  span
+    font-size 1.5em
+    color $primary
+    &.not-available
+      font-size 1em
+
+.summary
+  line-height 1.75em
+
+.summary
+.disease-name
+  .not-available
+    color $m-gray
+    font-style italic
+  .fa
+    font-size 95%
+  &.shift-up
+    margin-top -10px
+
+.event-head
+  .minor
+    font-size 20px
+    +below(3)
+      font-size 1.2em
+      margin .3em 0
+  h1
+    +below(3)
+      font-size 20px
+  h2
+    margin 5px 0 5px 0
+    color #666
+    font-size 18px
+  h3
+    font-size 14px
+    +below(3)
+      font-size 1.1em
+
+.disease
+  h3
+    display inline-block
+    margin 5px 5px 10px 0
+
+.panel-heading
+  background lightslategrey
+  h2
+    color white
+
+.ref-link
+  color $primary
+  span
+    padding-right 5px
+  &:hover
+    color $secondary-dark
+
+.abstract
+  white-space pre-wrap
+
+.tab-form
+  display flex
+  align-items center
+  padding 15px 15px 15px $page-padding-small-screen
+  border-bottom 2px solid $border-primary-light
+  +above(3)
+    padding 15px 15px 15px $page-padding
+  input
+    box-shadow none
+  input.form-control
+  select.form-control
+  .input-group-addon
+    border-color $border-primary
+  .table-filter
+    min-width 50%
+    margin-left auto
+  .btn
+    background white
+    text-transform uppercase
+    font-weight 200
+    font-size 1.2em
+    &:hover
+      border-color $primary-dark
+      background darken($primary-l-light, 5%)
+
+.tab-content
+  .table
+    tr
+      &:not(.details)
+        cursor pointer
+    .open
+      background-color $selected
+      td
+        border-top 1px solid $border-primary
+        border-bottom 1px solid $border-primary
+      .open-row
+        &:after
+          content '\f13a'
+          color $primary
+    .details
+      background lighten($selected, 70%)
+      td
+        border-bottom 1px solid $border-primary
+  .chart
+    padding-right $page-padding
+
+.details-open
+  background-color $selected
+  position relative
+
+.details-container
+  margin-bottom .75em
+  margin-top .75em
+  ul
+    margin-bottom 0
+  .sources
+    margin-bottom 1em
+  .detail-icon
+    margin-right .5em
+    &.fa
+      font-size 1.5em
+      color desaturate(darken($border-primary, 5%), 25%)
+  .metadata
+    li
+      margin-bottom 1em
+      align-items flex-start
+      &.single
+        span
+          margin-top .2em
+      &:last-of-type
+        margin 0
+      span
+        font-size .85em
+      li
+        margin-bottom .25em
+        &:last-of-type
+          margin-bottom 0
+  h5
+    font-size 1em
+    color lighten($primary, 20%)
+    margin-top 0
+    margin-bottom 1em
