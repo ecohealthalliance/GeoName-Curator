@@ -7,8 +7,9 @@
 
 .container-flex
   display flex
-  +below(3)
-    flex-direction column
+  &:not(.no-break)
+    +below(3)
+      flex-direction column
   .break-2
     flex-direction row
     +below(1)
@@ -16,6 +17,8 @@
   &.no-gutter
     .flex-col
       margin 0
+  &.central
+    justify-content center
 
 .flex-col
 .flex-row
