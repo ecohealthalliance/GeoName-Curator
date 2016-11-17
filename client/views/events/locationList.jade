@@ -6,7 +6,7 @@ template(name="locationList")
           +reactiveTableFilter(
             id="locationFilter"
             label=" "
-            class="input-group table-filter")
+            class="table-filter with-icon no-addon")
         +reactiveTable collection=incidentLocations settings=getSettings
       else
         p No locations are associated with this event.
