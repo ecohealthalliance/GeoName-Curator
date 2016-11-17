@@ -26,11 +26,11 @@ Template.userEvents.onCreated ->
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
         if value != null
-          content = value.toLocaleString()
+          content = moment(value).format('MMM D, YYYY')
         else
           content = "No incidents"
         new Spacebars.SafeString("<span data-heading='Last Incident Date'>#{content}</span>")
-    }
+    },
     {
       arrayName: '',
       description: 'Date the event was last modified.',
@@ -38,7 +38,11 @@ Template.userEvents.onCreated ->
       fieldName: 'lastModifiedDate',
       defaultSortDirection: -1,
       displayFn: (value, object, key) ->
-        new Spacebars.SafeString("<span data-heading='Last Modified Date'>#{value.toLocaleString()}</span>")
+        if value != null
+          content =  moment(value).format('MMM D, YYYY')
+        else
+          content =  "No date"
+        new Spacebars.SafeString("<span data-heading='Last Modified Date'>#{content}</span>")
     }
   ]
 

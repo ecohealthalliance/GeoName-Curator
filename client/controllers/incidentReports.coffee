@@ -151,7 +151,7 @@ Template.incidentReports.helpers
         key: 'dateRange'
         label: 'Date'
         fn: (value, object, key) ->
-          dateFormat = 'M/D/YYYY'
+          dateFormat = 'MMM D, YYYY'
           if object.dateRange?.type is 'day'
             if object.dateRange.cumulative
               "Before " + moment(object.dateRange.end).format(dateFormat)
