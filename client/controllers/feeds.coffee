@@ -1,7 +1,7 @@
 Feeds = require '/imports/collections/feeds.coffee'
 
 Template.feeds.onCreated ->
-  Meteor.subscribe 'feeds'
+  @subscribe 'feeds'
 
 Template.feeds.helpers
   feeds: Feeds.find()
@@ -13,7 +13,13 @@ Template.feeds.events
     if !/^(f|ht)tps?:\/\//i.test(feedUrl)
       feedUrl = "http://#{feedUrl}"
 
+    if Feeds.findOne(url: feedUrl)
+      toastr.warning "'#{feedUrl}' has already been added"
+      return
+
     Meteor.call 'addFeed', url: feedUrl, (error, result) ->
-      unless error
+      if error
+        toastr.warning error.reason
+      else
         toastr.success "#{feedUrl} has been added"
         event.target.reset()
