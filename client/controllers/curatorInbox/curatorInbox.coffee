@@ -114,9 +114,6 @@ Template.curatorInbox.events
     $(event.currentTarget).tooltip 'destroy'
 
   "click #calendar-btn-apply": (event, template) ->
-    template.calendarState.set(false)
-    template.ready.set(false)
-
     range = null
     startDate = $('#date-picker').data('daterangepicker').startDate
     endDate = $('#date-picker').data('daterangepicker').endDate
@@ -125,6 +122,11 @@ Template.curatorInbox.events
       endDate = startDate
 
     if startDate and endDate
+      if moment(endDate).diff(startDate, 'days') > 30
+        alert "The selected date range is too long."
+        return
+      template.calendarState.set(false)
+      template.ready.set(false)
       range = {
         startDate: startDate.toDate()
         endDate: endDate.toDate()
