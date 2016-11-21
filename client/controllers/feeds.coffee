@@ -10,12 +10,8 @@ Template.feeds.events
   'submit .add-feed': (event, instance) ->
     event.preventDefault()
     feedUrl = event.target.feedUrl.value
-    if !/^(f|ht)tps?:\/\//i.test(feedUrl)
+    if !/^https?:\/\//i.test(feedUrl)
       feedUrl = "http://#{feedUrl}"
-
-    if Feeds.findOne(url: feedUrl)
-      toastr.warning "'#{feedUrl}' has already been added"
-      return
 
     Meteor.call 'addFeed', url: feedUrl, (error, result) ->
       if error
