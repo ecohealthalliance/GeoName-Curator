@@ -53,16 +53,14 @@ Router.route "/download",
   action: ->
     @render('preparingDownload')
     controller = @
-    Meteor.call('download', (err, result) ->
+    Meteor.call 'download', (err, result) ->
       unless err
         csvData = "data:text/csv;charset=utf-8," + result.csv
         jsonData = "data:application/json;charset=utf-8," + result.json
-        controller.render('download',
+        controller.render 'download',
           data:
             jsonData: encodeURI(jsonData)
             csvData: encodeURI(csvData)
-        )
-    )
 
 Router.route "/contact-us",
   name: 'contact-us'
@@ -91,3 +89,10 @@ Router.route "/user-event/:_id/:_view?",
     userEvent: UserEvents.findOne({'_id': @params._id})
     articles: Articles.find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
     incidents: Incidents.find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()
+
+Router.route "/feeds",
+  onBeforeAction: ->
+    unless Roles.userIsInRole(Meteor.userId(), ['admin'])
+      @redirect '/sign-in'
+    @next()
+  name: 'feeds'

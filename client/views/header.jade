@@ -35,6 +35,10 @@ template(name="navLinks")
             i.fa.fa-angle-down
         ul.dropdown-menu.dropdown-menu-right.nav-dd
           li
+            a(href="{{pathFor 'feeds'}}")
+              span.fa.fa-rss
+              span Add Feed
+          li
             a(href="{{pathFor 'admins'}}")
               span.fa.fa-user
               span Manage User Accounts
