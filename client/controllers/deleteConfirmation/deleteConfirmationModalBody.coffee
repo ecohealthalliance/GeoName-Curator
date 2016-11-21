@@ -1,7 +1,7 @@
 { commonPostDeletionTasks } = require '/imports/ui/deletion'
 
 Template.deleteConfirmationModalBody.events
-  'click  .delete': (event, instance) ->
+  'click .confirm-deletion': (event, instance) ->
     event.preventDefault()
     data = instance.data
     id = data.objId
