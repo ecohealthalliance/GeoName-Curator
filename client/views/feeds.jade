@@ -10,6 +10,9 @@ template(name="feeds")
 
     .container-fluid-padded
       if feeds.count
-        ul.list-group
+        ul.feeds--list.list-group.anchored-top
           each feeds
-            li.list-group-item=url
+            li.list-group-item.container-flex
+              span=url
+              a.delete.flex-col.on-right.no-grow
+                i.fa.fa-trash

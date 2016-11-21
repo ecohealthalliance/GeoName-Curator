@@ -19,3 +19,6 @@ Template.feeds.events
       else
         toastr.success "#{feedUrl} has been added"
         event.target.reset()
+
+  'click .delete': (event, instance) ->
+    Meteor.call 'removeFeed', @_id

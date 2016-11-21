@@ -21,3 +21,6 @@ Meteor.methods
     feed.addedByUserName = user.profile.name
     feed.addedDate = new Date()
     Feeds.insert feed
+
+  removeFeed: (feedId) ->
+    Feeds.remove feedId
