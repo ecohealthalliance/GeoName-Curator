@@ -28,7 +28,7 @@ template(name="addIncidentReport")
 
 template(name="incidentReport")
   td(colspan="7")
-    .details-container.incident-report--details.container-flex
+    .details-container.incident-report--details.container-flex.no-break
       if importantDetails
         .incident-report--details--important
           if status
@@ -51,7 +51,7 @@ template(name="incidentReport")
           h5=specify
 
         ul.metadata.list-unstyled
-          li.container-flex
+          li.container-flex.no-break
             +detailIcon icon="globe" title="Locations"
             if locations.length
               ul.list-unstyled.locations
@@ -61,13 +61,13 @@ template(name="incidentReport")
             else
               span No location specified.
           if species
-            li.container-flex.single
+            li.container-flex.single.no-break
               +detailIcon icon="paw" title="Species"
               span=species
-          li.container-flex.single
+          li.container-flex.single.no-break
             +detailIcon icon="calendar" title="Dates"
             span {{formatDateRange(dateRange)}}
-          li.container-flex
+          li.container-flex.no-break
             +detailIcon icon="link" title="Source"
             ul.list-unstyled
               each val in url
@@ -75,7 +75,7 @@ template(name="incidentReport")
                   a.ref-link(href="{{formatUrl(val)}}" target="_blank")
                     span {{formatUrl(val)}}
 
-      .incident-report--details--actions.container-flex
+      .incident-report--details--actions.container-flex.no-break
         a.edit
           i.fa.fa-edit
         a.delete

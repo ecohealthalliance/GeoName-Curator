@@ -29,7 +29,7 @@ template(name="summary")
               data-target="#edit-event-modal"
               data-editing='summary')
     .event--metadata.container-flex
-      .event--metadata--counts.container-flex.no-gutter
+      .event--metadata--counts.container-flex.no-gutter.no-break
         .count.flex-col
           span= caseCount
           h4 Incident Reports
@@ -40,7 +40,7 @@ template(name="summary")
           h4 Sources
           unless articleCount
             +sourceModalButton class='-in-details'
-      .event--metadata--secondary-content.container-flex
+      .event--metadata--secondary-content.container-flex.no-break
         .secondary-content
           p Created by: #{createdByUserName} on {{formatDate creationDate}}
         .secondary-content
