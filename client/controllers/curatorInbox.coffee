@@ -284,6 +284,7 @@ Template.curatorSourceDetails.onRendered ->
   Meteor.defer =>
     @$('[data-toggle=tooltip]').tooltip
       delay: show: '300'
+      container: 'body'
 
   @autorun =>
     sourceId = Template.instance().data.selectedSourceId.get()
