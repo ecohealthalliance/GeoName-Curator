@@ -1,7 +1,7 @@
 Feeds = require '/imports/collections/feeds.coffee'
 
 Template.feeds.onCreated ->
-  @subscribe 'feeds'
+  @subscribe('feeds')
 
 Template.feeds.helpers
   feeds: Feeds.find()
@@ -15,10 +15,12 @@ Template.feeds.events
 
     Meteor.call 'addFeed', url: feedUrl, (error, result) ->
       if error
-        toastr.warning error.reason
+        toastr.warning(error.reason)
       else
         toastr.success "#{feedUrl} has been added"
         event.target.reset()
 
   'click .delete': (event, instance) ->
-    Meteor.call 'removeFeed', @_id
+    Meteor.call 'removeFeed', @_id, (error) ->
+      if error
+        toastr.error(error.reason)
