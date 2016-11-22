@@ -4,6 +4,7 @@ incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 Template.suggestedIncidentModal.onCreated ->
   @incidentCollection = @data.incidentCollection
   @incident = @data.incident
+
 Template.suggestedIncidentModal.events
   "click .reject": (event, templateInstance) ->
     Template.instance().incidentCollection.update(templateInstance.incident._id, {

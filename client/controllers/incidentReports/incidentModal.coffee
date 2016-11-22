@@ -85,6 +85,10 @@ Template.incidentModal.helpers
   travelRelated: ->
     Template.instance().travelRelated.get()
 
+  type: ->
+    Template.instance().incidentType.get()
+
+
 Template.incidentModal.events
   'change input[name=daterangepicker_start]': (e, instance) ->
     $('#singleDatePicker').data('daterangepicker').clickApply()
@@ -106,8 +110,6 @@ Template.incidentModal.events
   'click .save-modal, click .save-modal-duplicate': (event, instance) ->
     duplicate = $(event.target).hasClass('save-modal-duplicate')
     form = instance.$('form')[0]
-    console.log instance
-    debugger
     incident = utils.incidentReportFormToIncident(form, instance)
 
     if not incident

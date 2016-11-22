@@ -1,30 +1,3 @@
-template(name="incidentReports")
-  .container-flex.no-gutter
-    .flex-col.bordered
-      .tab-form
-        +addIncidentReport
-      if incidents.length
-        +reactiveTable collection=incidents settings=getSettings
-      else
-        p No incident reports are associated with this event.
-    .flex-col
-      .chart
-        #scatterPlot-toolbar.container-flex
-          .flex-col
-            button#scatterPlot-toggleCumulative.btn.btn-xs.btn-default.scatterPlot-toolbar-button
-              i.fa.fa-circle-o
-              span Cumulative
-          .flex-col.on-right.items-right
-            button#scatterPlot-resetZoom.btn.btn-xs.btn-default.scatterPlot-toolbar-button
-              i.fa.fa-search-plus
-              span Reset
-        #scatterPlot
-
-template(name="addIncidentReport")
-  if currentUser
-    button.btn.btn-primary(type="button" class="open-incident-form#{class}")
-      i.fa.fa-plus-circle
-      span Add Incident Report
 
 template(name="incidentReport")
   td(colspan="7")
@@ -80,35 +53,3 @@ template(name="incidentReport")
           i.fa.fa-edit
         a.delete
           i.fa.fa-trash
-
-template(name="incidentCount")
-  span.incident-count=count
-  h6.type=label
-
-template(name="detailIcon")
-  i.detail-icon.fa(
-    class="fa-#{icon}"
-    data-toggle="tooltip"
-    data-placement="top"
-    title=title)
-
-template(name="incidentModal")
-  .modal.fade(role="dialog")
-    .modal-dialog
-      .modal-content
-        .modal-header
-          +modalCloseButton
-          if edit
-            h4.modal-title Edit Incident Report
-          else
-            h4.modal-title Add Incident Report
-        .modal-body
-          if edit
-            +incidentForm articles=articles incident=incident edit=true
-          else
-            +incidentForm
-        .modal-footer
-          button.btn.btn-default(type="button" data-dismiss="modal") Close
-          if add
-            button.btn.btn-primary.save-modal-duplicate(type="button") Save then Duplicate
-          button.btn.btn-primary.save-modal(type="button") Save
