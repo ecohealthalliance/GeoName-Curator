@@ -87,14 +87,19 @@ Template.incidentModal.helpers
     Template.instance().travelRelated.get()
 
   selectedIncidentType: ->
-    Template.instance().incidentType.get()
+    Template.instance().incidentType.get().slice(0, -1)
 
 Template.incidentModal.events
   'change input[name=daterangepicker_start]': (event, instance) ->
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()
 
   'click .status li': (event, instance) ->
-    instance.incidentStatus.set(instance.$(event.target).data('value'))
+    status = instance.incidentStatus
+    selectedStatus = instance.$(event.target).data('value')
+    if status.get() is selectedStatus
+      status.set('')
+    else
+      status.set(selectedStatus)
 
   'click .type li': (event, instance) ->
     instance.incidentType.set(instance.$(event.target).data('value'))
@@ -112,8 +117,6 @@ Template.incidentModal.events
     form = instance.$('form')[0]
     incident = utils.incidentReportFormToIncident(form, instance)
     instanceData = instance.data
-
-    console.log incident, instance
 
     if not incident
       return

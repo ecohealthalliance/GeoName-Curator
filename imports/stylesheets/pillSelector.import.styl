@@ -26,7 +26,8 @@
       border-color $border-primary
       color $primary
       &::before
-        color $primary
+        color alpha(lighten($primary, 20%), 50%)
+        content '\f058'
     &:last-of-type
       margin-right 0
     &::before
