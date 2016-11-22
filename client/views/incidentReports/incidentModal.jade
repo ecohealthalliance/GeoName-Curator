@@ -4,11 +4,17 @@ template(name="incidentModal")
       .modal-content
         .modal-header
           +modalCloseButton
-          if edit
-            h4.modal-title Edit Incident Report
-          else
-            h4.modal-title Add Incident Report
+          h4.modal-title
+            if edit
+              | Edit
+              if suggested
+                |  and Confirm
+              |  Incident Report
+            else
+              | Add Incident Report
         .modal-body
+          if suggested
+            .well.annotated-content.snippet {{incidentText}}
 
           form#add-incident(novalidate)
             .form-group
@@ -75,4 +81,8 @@ template(name="incidentModal")
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           if add
             button.btn.btn-primary.save-modal-duplicate(type="button") Save then Duplicate
-          button.btn.btn-primary.save-modal(type="button") Save
+          if suggested
+            button.btn.btn-default.reject(type="button" data-dismiss="modal") Reject
+            button.btn.btn-primary.save-modal(type="button") Confirm
+          else
+            button.btn.btn-primary.save-modal(type="button") Save

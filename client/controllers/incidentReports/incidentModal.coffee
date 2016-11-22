@@ -3,10 +3,10 @@ incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 Template.incidentModal.onCreated ->
-  @incidentStatus = new ReactiveVar null
-  @incidentType = new ReactiveVar()
-  @cumulative = new ReactiveVar false
-  @travelRelated = new ReactiveVar false
+  @incidentStatus = new ReactiveVar(null)
+  @incidentType = new ReactiveVar(null)
+  @cumulative = new ReactiveVar(false)
+  @travelRelated = new ReactiveVar(false)
   @incidentData =
     species: 'Human'
     dateRange:
@@ -20,9 +20,9 @@ Template.incidentModal.onCreated ->
     @incidentData.value = @incidentData.cases or @incidentData.deaths or @incidentData.specify
 
     if @incidentData.url
-      @incidentData.articleSource = _.findWhere(@data.articles, {
+      @incidentData.articleSource = _.findWhere(@data.articles,
         url: @incidentData.url[0]
-      })?._id
+      )?._id
 
     if @incidentData.cases
       @incidentType.set('cases')
@@ -31,6 +31,7 @@ Template.incidentModal.onCreated ->
     else if @incidentData.specify
       @incidentType.set('other')
 
+    @incidentStatus.set incident.status or ''
     @cumulative.set incident.cumulative or false
     @travelRelated.set incident.travelRelated or false
 
@@ -90,8 +91,8 @@ Template.incidentModal.helpers
 
 
 Template.incidentModal.events
-  'change input[name=daterangepicker_start]': (e, instance) ->
-    $('#singleDatePicker').data('daterangepicker').clickApply()
+  'change input[name=daterangepicker_start]': (event, instance) ->
+    instance.$('#singleDatePicker').data('daterangepicker').clickApply()
 
   'click .status li': (event, instance) ->
     instance.incidentStatus.set(instance.$(event.target).data('value'))
@@ -111,10 +112,13 @@ Template.incidentModal.events
     duplicate = $(event.target).hasClass('save-modal-duplicate')
     form = instance.$('form')[0]
     incident = utils.incidentReportFormToIncident(form, instance)
+    instanceData = instance.data
+
+    console.log incident, instance
 
     if not incident
       return
-    incident.userEventId = instance.data.userEventId
+    incident.userEventId = instanceData.userEventId
 
     if @add
       Meteor.call 'addIncidentReport', incident, (error, result) ->
@@ -122,15 +126,8 @@ Template.incidentModal.events
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.tr-details').remove()
           if !duplicate
-            $(event.target).reset()
-            $('#articleSource').val(null).trigger('change')
-            #  $(form.date).val('')
-            #  $('#incident-location-select2').val(null).trigger('change')
-            #  $(form.species).val('')
-            #  $(form.status).val(null)
-            #  $(form.count).val('')
-            #  $(form.incidentType).val(null).trigger('change')
-            #  $(form.travelRelated).attr('checked', false)
+            form.reset()
+            Modal.hide('incidentModal')
           toastr.success('Incident report added to event.')
         else
           errorString = error.reason
@@ -138,7 +135,17 @@ Template.incidentModal.events
             errorString = 'You must specify at least one loction'
           toastr.error(errorString)
 
-    if @edit
+    if @edit and @suggested
+      incident.accepted = true
+      instanceData.incidentCollection.update instanceData.incident._id,
+        $unset:
+          cases: true
+          deaths: true
+          specify: true
+        $set: incident
+      Modal.hide('incidentModal')
+
+    else if @edit
       incident._id = @incident._id
       incident.addedByUserId = @incident.addedByUserId
       incident.addedByUserName = @incident.addedByUserName
@@ -150,3 +157,9 @@ Template.incidentModal.events
           toastr.success('Incident report updated.')
         else
           toastr.error(error.reason)
+
+  "click .reject": (event, instance) ->
+    instanceData = instance.data
+    instanceData.incidentCollection.update instanceData.incident._id,
+      $set:
+        accepted: false
