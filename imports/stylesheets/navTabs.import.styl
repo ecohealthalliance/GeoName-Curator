@@ -34,24 +34,26 @@
 
 .tabs > li > a
   flex 1
-
-.tabs > li > a
-.tabs > li > a:hover
-.tabs > li > a:focus
-.tabs > li > a:active
-  padding .75em 1em
+  width 100%
+  padding-top .75em
+  padding-bottom .75em
   border-bottom 0
   font-size 1.25em
   text-align center
-  color $primary
-  text-transform uppercase
   display block
+  text-transform uppercase
   text-decoration none
   +above(2)
     font-size 1.25em
   +above(4)
     border-top-left-radius 4px
     border-top-right-radius 4px
+
+.tabs > li > a
+.tabs > li > a:hover
+.tabs > li > a:focus
+.tabs > li > a:active
+  color $primary
 
 .tabs > li:hover
   background-color darken($primary-light, 3%)
@@ -65,3 +67,11 @@
 .tabs > li.active > a
   color white
   cursor default
+
+.secondary-tabs
+  border-bottom 1px solid $border-primary
+  > li
+    > a
+      font-size 1em
+      padding-top .35em
+      padding-bottom .35em

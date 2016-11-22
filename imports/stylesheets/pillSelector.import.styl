@@ -22,9 +22,13 @@
       font-size 1em
       flex-grow 0
     &:hover
+    &:focus
       background $border-primary-light
       border-color $border-primary
       color $primary
+      outline 0
+      border-color $primary
+      box-shadow 0
       &::before
         color alpha(lighten($primary, 20%), 50%)
         content '\f058'
@@ -43,3 +47,6 @@
       &::before
         content '\f058'
         color $primary
+      &:focus
+      &:hover
+        border-color $primary

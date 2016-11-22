@@ -1,5 +1,5 @@
 template(name="incidentModal")
-  .modal.fade(role="dialog")
+  .incident-report.modal.fade(role="dialog")
     .modal-dialog
       .modal-content
         .modal-header
@@ -19,11 +19,13 @@ template(name="incidentModal")
           form#add-incident(novalidate)
             .form-group
               label.control-label Article URL
-              +articleSelect2 selectId="articleSource" articles=articles selected=incidentData.articleSource
+              +articleSelect2(
+                selectId="articleSource"
+                articles=articles
+                selected=incidentData.articleSource)
 
-            .form-group
-              label.control-label Date
-              ul.nav.nav-tabs.secondary-tabs(role="tablist")
+            .form-group.incident--dates
+              ul.tabs.secondary-tabs(role="tablist")
                 li(role="presentation" class="{{dayTabClass}}")
                   a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab") Single Date
                 li(role="presentation" class="{{rangeTabClass}}")
@@ -38,7 +40,10 @@ template(name="incidentModal")
 
             .form-group
               label.control-label Location
-              +locationSelect2 selectId="incident-location-select2" multiple="true" selected=incidentData.locations
+              +locationSelect2(
+                selectId="incident-location-select2"
+                multiple="true"
+                selected=incidentData.locations)
 
             .form-group
               label.control-label Species
@@ -47,35 +52,45 @@ template(name="incidentModal")
             .form-group
               label.control-label Status
               ul.status.pill-selector
-                li(data-value="suspected" class="{{statusActive 'suspected'}}") Suspected
-                li(data-value="confirmed" class="{{statusActive 'confirmed'}}") Confirmed
-                li(data-value="revoked" class="{{statusActive 'revoked'}}") Revoked
+                li(data-value="suspected" class="{{statusActive 'suspected'}}" tabindex="0") Suspected
+                li(data-value="confirmed" class="{{statusActive 'confirmed'}}" tabindex="0") Confirmed
+                li(data-value="revoked" class="{{statusActive 'revoked'}}" tabindex="0") Revoked
 
             .form-group
               label.control-label Incident Type
               ul.type.pill-selector
-                li(data-value="cases" class="{{typeActive 'cases'}}") Cases
-                li(data-value="deaths" class="{{typeActive 'deaths'}}") Deaths
-                li(data-value="other" class="{{typeActive 'other'}}") Other
+                li(data-value="cases" class="{{typeActive 'cases'}}" tabindex="0") Cases
+                li(data-value="deaths" class="{{typeActive 'deaths'}}" tabindex="0") Deaths
+                li(data-value="other" class="{{typeActive 'other'}}" tabindex="0") Other
 
             if showCountForm
-              .form-group
+              .form-group.space-top--1
                 label.control-label #{selectedIncidentType} Count
-                input.form-control(name="count" type="number" min="0" required value=incidentData.value)
+                input.form-control(
+                  name="count"
+                  type="number"
+                  min="0"
+                  required value=incidentData.value
+                  tabindex="0")
 
             if showOtherForm
-              .form-group
+              .form-group.space-top--1
                 label.control-label Specify Other
-                input.form-control(name="other" type="text" required value=incidentData.value)
+                input.form-control(
+                  name="other"
+                  type="text"
+                  required
+                  value=incidentData.value
+                  tabindex="0")
 
             .form-group
               label.control-label Other Information
               .container-flex.other-metadata
                 ul.travel-related.pill-selector
-                  li(class="{{#if travelRelated}} active {{/if}}") Travel related
+                  li(class="{{#if travelRelated}} active {{/if}}" tabindex="0") Travel related
 
                 ul.cumulative.pill-selector
-                  li(class="{{#if cumulative}} active {{/if}}") Cumulative
+                  li(class="{{#if cumulative}} active {{/if}}" tabindex="0") Cumulative
 
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close

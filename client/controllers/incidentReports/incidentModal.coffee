@@ -89,11 +89,16 @@ Template.incidentModal.helpers
   selectedIncidentType: ->
     Template.instance().incidentType.get().slice(0, -1)
 
+keyboardSelect = (event) ->
+  keyCode = event.keyCode
+  keyCode in [13, 32]
+
 Template.incidentModal.events
   'change input[name=daterangepicker_start]': (event, instance) ->
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()
 
-  'click .status li': (event, instance) ->
+  'click .status li, keyup .status li': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     status = instance.incidentStatus
     selectedStatus = instance.$(event.target).data('value')
     if status.get() is selectedStatus
@@ -101,14 +106,17 @@ Template.incidentModal.events
     else
       status.set(selectedStatus)
 
-  'click .type li': (event, instance) ->
+  'click .type li, keyup .type li': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     instance.incidentType.set(instance.$(event.target).data('value'))
 
-  'click .travel-related li': (event, instance) ->
+  'click .travel-related li, keyup .travel-related li': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     travelRelated = instance.travelRelated
     travelRelated.set not travelRelated.get()
 
-  'click .cumulative li': (event, instance) ->
+  'click .cumulative li, keyup .cumulative li': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     cumulative = instance.cumulative
     cumulative.set not cumulative.get()
 
@@ -165,3 +173,9 @@ Template.incidentModal.events
     instanceData.incidentCollection.update instanceData.incident._id,
       $set:
         accepted: false
+
+  'click .select2-selection': (event, instance) ->
+    # Remove selected empty item
+    firstItem = $('.select2-results__options').children().first()
+    if firstItem[0]?.id is ''
+      firstItem.remove()
