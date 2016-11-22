@@ -12,6 +12,7 @@ SPA_API_URL = process.env.SPA_API_URL or "http://spa.eha.io/api/v1"
 
 Meteor.methods
   getArticleEnhancements: (url) ->
+    @unblock()
     check url, String
     geonameIds = []
     console.log "Calling GRITS API @ " + GRITS_API_URL
@@ -27,9 +28,11 @@ Meteor.methods
     return result.data
 
   retrieveProMedArticleDate: (articleId) ->
+    @unblock()
     return PromedPosts.findOne(promedId: "" + articleId)?.promedDate
 
   queryForSuggestedArticles: (eventId) ->
+    @unblock()
     check eventId, String
     event = UserEvents.findOne(eventId)
     console.log "Calling SPA API @ " + SPA_API_URL
@@ -63,4 +66,15 @@ Meteor.methods
   # @returns {array} userEvents, an array of userEvents
   ###
   searchUserEvents: (search) ->
-    UserEvents.find({$text: {$search: search}}, {fields: {score: {$meta: 'textScore'}}, sort: {score: {$meta: 'textScore'}}}).fetch()
+    @unblock()
+    UserEvents.find({
+      $text:
+        $search: search
+    }, {
+        fields:
+          score:
+            $meta: 'textScore'
+        sort:
+          score:
+            $meta: 'textScore'
+    }).fetch()
