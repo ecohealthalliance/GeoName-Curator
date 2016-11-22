@@ -27,6 +27,7 @@ Template.curatorSourceDetails.onRendered ->
   Meteor.defer =>
     @$('[data-toggle=tooltip]').tooltip
       delay: show: '300'
+      container: 'body'
 
   # Create key binding which marks sources as reviewed.
   key 'ctrl + enter, command + enter', (event) =>
