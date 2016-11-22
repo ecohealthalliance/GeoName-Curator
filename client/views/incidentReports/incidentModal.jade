@@ -60,7 +60,7 @@ template(name="incidentModal")
 
             if showCountForm
               .form-group
-                label.control-label #{type} Count
+                label.control-label #{selectedIncidentType} Count
                 input.form-control(name="count" type="number" min="0" required value=incidentData.value)
 
             if showOtherForm

@@ -86,9 +86,8 @@ Template.incidentModal.helpers
   travelRelated: ->
     Template.instance().travelRelated.get()
 
-  type: ->
+  selectedIncidentType: ->
     Template.instance().incidentType.get()
-
 
 Template.incidentModal.events
   'change input[name=daterangepicker_start]': (event, instance) ->
