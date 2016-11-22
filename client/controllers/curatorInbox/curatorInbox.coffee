@@ -2,7 +2,12 @@ CuratorSources = require '/imports/collections/curatorSources.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 createNewCalendar = () ->
-  createInlineDateRangePicker($("#date-picker"), {maxDate: new Date(), useDefaultDate: true})
+  createInlineDateRangePicker($("#date-picker"), {
+    maxDate: new Date()
+    dateLimit:
+      days: 60
+    useDefaultDate: true
+  })
   calendar = $('#date-picker').data('daterangepicker')
   currentMonth = moment({ month: moment().month() })
   lastMonth = moment({ month: moment().subtract(1, 'months').month() })
@@ -114,9 +119,6 @@ Template.curatorInbox.events
     $(event.currentTarget).tooltip 'destroy'
 
   "click #calendar-btn-apply": (event, template) ->
-    template.calendarState.set(false)
-    template.ready.set(false)
-
     range = null
     startDate = $('#date-picker').data('daterangepicker').startDate
     endDate = $('#date-picker').data('daterangepicker').endDate
@@ -125,6 +127,8 @@ Template.curatorInbox.events
       endDate = startDate
 
     if startDate and endDate
+      template.calendarState.set(false)
+      template.ready.set(false)
       range = {
         startDate: startDate.toDate()
         endDate: endDate.toDate()
