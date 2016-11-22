@@ -10,14 +10,14 @@ createInlineDateRangePicker = ($parentElement, options) ->
     $parentElement.prop("id", parentId)
 
   if !options then options = {}
-  allOptions = {
+  allOptions = _.extend({
     parentEl: "#" + parentId
     template: Blaze.toHTML(Template.inlineDateRangePicker)
     singleDatePicker: options.singleDatePicker
     autoUpdateInput: false
     maxDate: options.maxDate
     minDate: options.minDate
-  }
+  }, _.omit(options, 'singleDatePicker'))
 
   if options.startDate and options.endDate
     allOptions.startDate = options.startDate

@@ -2,7 +2,12 @@ CuratorSources = require '/imports/collections/curatorSources.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 createNewCalendar = () ->
-  createInlineDateRangePicker($("#date-picker"), {maxDate: new Date(), useDefaultDate: true})
+  createInlineDateRangePicker($("#date-picker"), {
+    maxDate: new Date()
+    dateLimit:
+      days: 60
+    useDefaultDate: true
+  })
   calendar = $('#date-picker').data('daterangepicker')
   currentMonth = moment({ month: moment().month() })
   lastMonth = moment({ month: moment().subtract(1, 'months').month() })
@@ -122,9 +127,6 @@ Template.curatorInbox.events
       endDate = startDate
 
     if startDate and endDate
-      if moment(endDate).diff(startDate, 'days') > 30
-        alert "The selected date range is too long."
-        return
       template.calendarState.set(false)
       template.ready.set(false)
       range = {
