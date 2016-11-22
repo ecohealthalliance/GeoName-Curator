@@ -45,10 +45,6 @@ export incidentReportFormToIncident = (form)->
     toastr.error('Please select an article.')
     form.articleSource.focus()
     return
-  unless form.incidentType.checkValidity()
-    toastr.error('Please select an incident type.')
-    form.incidentType.focus()
-    return
   if form.count and form.count.checkValidity() is false
     toastr.error('Please provide a valid count.')
     form.count.focus()
@@ -58,18 +54,17 @@ export incidentReportFormToIncident = (form)->
     form.other.focus()
     return
 
-  incident = {
+  incident =
     species: form.species.value
     travelRelated: form.travelRelated.checked
     locations: []
     status: form.status.value
-    dateRange: {
+    dateRange:
       type: rangeType
       start: picker.startDate.toDate()
       end: picker.endDate.toDate()
       cumulative: form.cumulative.checked
-    }
-  }
+
   if form.incidentType.value == "cases"
     incident.cases = parseInt(form.count.value, 10)
   else if form.incidentType.value == "deaths"

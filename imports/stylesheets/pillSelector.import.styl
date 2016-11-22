@@ -1,0 +1,44 @@
+.pill-selector
+  display flex
+  align-items center
+  justify-content flex-start
+  margin 0
+  padding 0
+  li
+    margin-right .5em
+    border-radius 4px
+    background white
+    border 1px solid $border-primary
+    text-align center
+    cursor pointer
+    padding .75em 1em
+    display block
+    color $m-gray
+    font-size .9em
+    line-height 1
+    +above(2)
+      padding-top .5em
+      padding-bottom .5em
+      font-size 1em
+      flex-grow 0
+    &:hover
+      background $border-primary-light
+      border-color $border-primary
+      color $primary
+      &::before
+        color $primary
+    &:last-of-type
+      margin-right 0
+    &::before
+      @extend .font-awesome
+      content '\f10c'
+      display inline-block
+      padding-right .25em
+      color lighten($m-gray, 50%)
+    &.active
+      color $primary
+      background lighten($secondary, 30%)
+      border-color $secondary
+      &::before
+        content '\f058'
+        color $primary
