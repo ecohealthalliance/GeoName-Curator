@@ -29,9 +29,15 @@ Template.userEvent.helpers
     Template.instance().data
 
 Template.userEvent.events
-  'click .edit-link, click #cancel-edit': (event, template) ->
-    template.editState.set(not template.editState.get())
+  'click .edit-link, click #cancel-edit': (event, instance) ->
+    instance.editState.set(not instance.editState.get())
+
   'click .open-incident-form-in-details': (event, instance) ->
-    Modal.show 'suggestedIncidentModal', userEventId: instance.data.userEvent._id
+    data = instance.data
+    Modal.show 'incidentModal',
+      articles: data.articles
+      userEventId: data.userEvent._id
+      add: true
+
   'click .open-source-form-in-details': (event, instance) ->
-    Modal.show 'sourceModal', userEventId: instance.data.userEvent._id
+    Modal.show('sourceModal', userEventId: instance.data.userEvent._id)

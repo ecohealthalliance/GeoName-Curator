@@ -16,9 +16,6 @@ Template.summary.helpers
   copied: ->
     Template.instance().copied.get()
 
-  allowAddingReports: ->
-    Template.instance().articleCount and not Incidents.findOne(userEventId:this._id)
-
 Template.summary.events
   'click .copy-link': (event, template) ->
     copied = template.copied
