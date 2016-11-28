@@ -251,9 +251,8 @@ Template.suggestedIncidentsModal.events
     if endingIndex isnt (content.length - 1)
       followingText += " ..."
 
-    Modal.show "incidentModal",
+    Modal.show 'suggestedIncidentModal',
       edit: true
-      suggested: true
       articles: [instance.data.article]
       userEventId: instance.data.userEventId
       incidentCollection: instance.incidentCollection

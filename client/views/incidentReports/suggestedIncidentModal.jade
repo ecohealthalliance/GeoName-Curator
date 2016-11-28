@@ -1,0 +1,17 @@
+template(name="suggestedIncidentModal")
+  .modal.fade(role="dialog")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          +modalCloseButton
+          h4.modal-title Edit and Confirm Incident Report
+        .modal-body
+          .well.annotated-content.snippet=incidentText
+          +incidentForm(
+            articles=articles
+            incident=incident
+            edit=true
+            incidentFormDetails=incidentFormDetails)
+        .modal-footer
+          button.btn.btn-default.reject(type="button" data-dismiss="modal") Reject
+          button.btn.btn-primary.save-modal(type="button") Confirm

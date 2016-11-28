@@ -7,97 +7,23 @@ template(name="incidentModal")
           h4.modal-title
             if edit
               | Edit
-              if suggested
-                |  and Confirm
-              |  Incident Report
             else
-              | Add Incident Report
+              | Add
+            |  Incident Report
         .modal-body
-          if suggested
-            .well.annotated-content.snippet {{incidentText}}
-
-          form#add-incident(novalidate)
-            .form-group
-              label.control-label Article URL
-              +articleSelect2(
-                selectId="articleSource"
-                articles=articles
-                selected=incidentData.articleSource)
-
-            .form-group.incident--dates
-              ul.tabs.secondary-tabs(role="tablist")
-                li(role="presentation" class="{{dayTabClass}}")
-                  a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab") Single Date
-                li(role="presentation" class="{{rangeTabClass}}")
-                  a(href="#preciseRange" aria-controls="date range" role="tab" data-toggle="tab") Date Range
-
-              .tab-content
-                #singleDate.tab-pane(role="tabpanel" class="{{dayTabClass}}")
-                  #singleDatePicker.inlineRangePicker
-
-                #preciseRange.tab-pane(role="tabpanel" class="{{rangeTabClass}}")
-                  #rangePicker.inlineRangePicker
-
-            .form-group
-              label.control-label Location
-              +locationSelect2(
-                selectId="incident-location-select2"
-                multiple="true"
-                selected=incidentData.locations)
-
-            .form-group
-              label.control-label Species
-              input.form-control(type="text" name="species" value=incidentData.species)
-
-            .form-group
-              label.control-label Status
-              ul.status.pill-selector
-                li(data-value="suspected" class="{{statusActive 'suspected'}}" tabindex="0") Suspected
-                li(data-value="confirmed" class="{{statusActive 'confirmed'}}" tabindex="0") Confirmed
-                li(data-value="revoked" class="{{statusActive 'revoked'}}" tabindex="0") Revoked
-
-            .form-group
-              label.control-label Incident Type
-              ul.type.pill-selector
-                li(data-value="cases" class="{{typeActive 'cases'}}" tabindex="0") Cases
-                li(data-value="deaths" class="{{typeActive 'deaths'}}" tabindex="0") Deaths
-                li(data-value="other" class="{{typeActive 'other'}}" tabindex="0") Other
-
-            if showCountForm
-              .form-group.space-top--1
-                label.control-label #{selectedIncidentType} Count
-                input.form-control(
-                  name="count"
-                  type="number"
-                  min="0"
-                  required value=incidentData.value
-                  tabindex="0")
-
-            if showOtherForm
-              .form-group.space-top--1
-                label.control-label Specify Other
-                input.form-control(
-                  name="other"
-                  type="text"
-                  required
-                  value=incidentData.value
-                  tabindex="0")
-
-            .form-group
-              label.control-label Other Information
-              .container-flex.other-metadata
-                ul.travel-related.pill-selector
-                  li(class="{{#if travelRelated}} active {{/if}}" tabindex="0") Travel related
-
-                ul.cumulative.pill-selector
-                  li(class="{{#if cumulative}} active {{/if}}" tabindex="0") Cumulative
+          if edit
+            +incidentForm(
+              articles=articles
+              incident=incident
+              edit=true
+              incidentFormDetails=incidentFormDetails)
+          else
+            +incidentForm(
+              articles=articles
+              incidentFormDetails=incidentFormDetails)
 
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           if add
             button.btn.btn-primary.save-modal-duplicate(type="button") Save then Duplicate
-          if suggested
-            button.btn.btn-default.reject(type="button" data-dismiss="modal") Reject
-            button.btn.btn-primary.save-modal(type="button") Confirm
-          else
-            button.btn.btn-primary.save-modal(type="button") Save
+          button.btn.btn-primary.save-modal(type="button") Save

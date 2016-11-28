@@ -29,7 +29,7 @@ export formatUrl = (existingUrl) ->
   else
     return 'http://' + existingUrl
 
-export incidentReportFormToIncident = (form, instance)->
+export incidentReportFormToIncident = (form, incidentFormDetails) ->
   $form = $(form)
   $articleSelect = $(form.articleSource)
   if $form.find("#singleDate").hasClass("active")
@@ -45,7 +45,7 @@ export incidentReportFormToIncident = (form, instance)->
     toastr.error('Please select an article.')
     form.articleSource.focus()
     return
-  unless instance.incidentType.get()
+  unless incidentFormDetails.incidentType.get()
     toastr.error('Please select an incident type.')
     return
   if form.count and form.count.checkValidity() is false
@@ -59,16 +59,16 @@ export incidentReportFormToIncident = (form, instance)->
 
   incident =
     species: form.species.value
-    travelRelated: instance.travelRelated.get()
+    travelRelated: incidentFormDetails.travelRelated.get()
     locations: []
-    status: instance.incidentStatus.get()
+    status: incidentFormDetails.incidentStatus.get()
     dateRange:
       type: rangeType
       start: picker.startDate.toDate()
       end: picker.endDate.toDate()
-      cumulative: instance.cumulative.get()
+      cumulative: incidentFormDetails.cumulative.get()
 
-  switch instance.incidentType.get()
+  switch incidentFormDetails.incidentType.get()
     when 'cases'
       incident.cases = parseInt(form.count.value, 10)
     when 'deaths'
