@@ -12,7 +12,7 @@ getTerritories = (annotationsWithOffsets, sents) ->
       splitAnnotation.textOffsets = [textOffset]
       annotationsWithSingleOffsets.push(splitAnnotation)
   annotationsWithOffsets = _.sortBy(annotationsWithSingleOffsets, (annotation)->
-    annotation.textOffsets[0]
+    annotation.textOffsets[0][0]
   )
   annotationIdx = 0
   sentStart = 0
