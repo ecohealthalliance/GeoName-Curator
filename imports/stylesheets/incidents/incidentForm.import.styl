@@ -70,8 +70,10 @@
           background $secondary
     .today
       &:not(.in-range)
-        background $delete
-        color white
+        background lighten($delete, 50%)
+        font-weight 600
+      &.off
+        background desaturate(lighten($delete, 60%), 50%)
       &::after
         border 0
     .today.active

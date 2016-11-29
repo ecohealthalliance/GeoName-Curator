@@ -31,7 +31,7 @@ Template.incidentForm.onCreated ->
       @incidentType.set('other')
 
     @incidentStatus.set incident.status or ''
-    @cumulative.set incident.cumulative or false
+    @cumulative.set incident.dateRange.cumulative or false
     @travelRelated.set incident.travelRelated or false
 
 Template.incidentForm.onRendered ->
@@ -112,12 +112,12 @@ Template.incidentForm.events
   'click .travel-related li, keyup .travel-related li': (event, instance) ->
     return if not keyboardSelect(event) and event.type is 'keyup'
     travelRelated = instance.travelRelated
-    travelRelated.set not travelRelated.get()
+    travelRelated.set(not travelRelated.get())
 
   'click .cumulative li, keyup .cumulative li': (event, instance) ->
     return if not keyboardSelect(event) and event.type is 'keyup'
     cumulative = instance.cumulative
-    cumulative.set not cumulative.get()
+    cumulative.set(not cumulative.get())
 
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
