@@ -3,19 +3,22 @@
   "private": true,
   "scripts": {
     "start": "meteor -p 13000 --settings settings-dev.json",
-    "start-test": "meteor -p 13000 --settings settings-dev.json",
+    "start-test-server": "bash start-test-server.sh",
+    "stop-test-server": "bash stop-test-server.sh",
     "chimp-test": "bash run-tests.sh",
-    "chimp-watch": "WATCH=true bash run-tests.sh"
+    "chimp-watch": "bash run-tests.sh --watch=true"
   },
   "devDependencies": {
     "chimp": "^0.41.2",
-    "mongodb-prebuilt": "^5.0.6",
-    "coffee-script": "^1.6.3"
+    "coffee-script": "^1.6.3",
+    "mongodb-prebuilt": "^5.0.7"
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
     "d3": "^4.3.0",
     "keymaster": "^1.6.2",
-    "rupture": "^0.6.1"
+    "pluralize": "^3.0.0",
+    "rupture": "^0.6.1",
+    "underscore": "^1.8.3"
   }
 }

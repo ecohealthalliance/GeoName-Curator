@@ -13,24 +13,59 @@ Run the newly built image using docker-compose
 
 ## Testing with docker
 
+### Step 1: build the image
+
 ```
 docker build -t eidr-connect-test -f test.Dockerfile .
-docker-compose -f eidr-connect-test.yml up
+```
+
+### Step 2: run docker-compose (Step 1 only needs done once) 
+
+Note: docker-compose will bring up two containers `eidrconnect_app_1` and `eidrconnect_mongodb_1` that have an isoloated IP network.  They can communicate via hostname `app` and `mongodb`, which will be converted into IP addresses via /etc/hosts.
+The default CMD for `app` is to start the test server using `start-test-server.sh`.  See the eird-connect-test.yml for the specifics.
+
+```
+docker-compose -f eidr-connect-test.yml up -d 
+docker exec -it --user meteor eidrconnect_app_1 ./run-tests.sh --mongo_host=mongodb --is_docker=true
+docker-compose -f eidr-connect-test.yml down
 ```
 
 ## Testing on OSX
 
 Install testing dependencies
-`npm install`
+```
+npm install
+```
 
-Run the meteor application on port 13000
-`npm run start-test`
+Run the meteor test application
+```
+npm run-script start-test-server
+```
+
+- Or you may customize the script by running directly with the following optional args:
+```
+./start-test-server.sh --app_port=3001 --mongo_host=127.0.0.1 --mongo_port=27017 --test_db=eidr-connect-test --prod_db=eidr-connect
+```
 
 Execute the test runner to run all tests
-`npm run chimp-test`
+```
+npm run chimp-test
+```
 
-Or include the watch flag to continuously execute watched tests after file changes
-`npm run chimp-watch`
+- Or include the watch flag to continuously execute watched tests after file changes
+```
+npm run chimp-watch
+```
+
+- Or you may customize the script by running directly with the following optional args:
+```
+./run-tests.sh --watch=true --app_uri=http://127.0.0.1 --app_port=3001
+```
+
+Stop the meteor test application
+```
+npm run-script stop-test-server
+```
 
 ## License
 
