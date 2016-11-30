@@ -64,7 +64,7 @@ Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar("")
-  Meteor.call("getArticleEnhancements", @data.article.url, (error, result) =>
+  Meteor.call("getArticleEnhancements", @data.article, (error, result) =>
     if error
       Modal.hide(@)
       toastr.error error.reason

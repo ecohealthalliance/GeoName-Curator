@@ -11,17 +11,18 @@ GRITS_API_URL = process.env.GRITS_API_URL or "https://grits.eha.io/api/v1"
 SPA_API_URL = process.env.SPA_API_URL or "http://spa.eha.io/api/v1"
 
 Meteor.methods
-  getArticleEnhancements: (url) ->
+  getArticleEnhancements: (article) ->
     @unblock()
-    check url, String
+    check article.url, String
     geonameIds = []
     console.log "Calling GRITS API @ " + GRITS_API_URL
     result = HTTP.post(GRITS_API_URL + "/public_diagnose", {
       params:
         api_key: "Cr9LPAtL"
+        content_date: (article.publishDate or article.addedDate).toISOString().replace("Z","")
         returnSourceContent: true
         # formatUrl takes a database cleanUrl and adds 'http://'
-        url: formatUrl(url)
+        url: formatUrl(article.url)
     })
     if result.data.error
       throw new Meteor.Error("grits-error", result.data.error)
