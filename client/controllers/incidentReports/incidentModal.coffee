@@ -1,15 +1,26 @@
 utils = require '/imports/utils.coffee'
-incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
+
+Template.incidentModal.onCreated ->
+  @incidentFormDetails =
+    incidentStatus: new ReactiveVar(null)
+    incidentType: new ReactiveVar(null)
+    cumulative: new ReactiveVar(false)
+    travelRelated: new ReactiveVar(false)
+
+Template.incidentModal.helpers
+  incidentFormDetails: ->
+    Template.instance().incidentFormDetails
 
 Template.incidentModal.events
-  'click .save-modal, click .save-modal-duplicate': (e, templateInstance) ->
-    duplicate = $(e.target).hasClass('save-modal-duplicate')
-    form = templateInstance.$('form')[0]
-    incident = utils.incidentReportFormToIncident(form)
+  'click .save-modal, click .save-modal-duplicate': (event, instance) ->
+    duplicate = $(event.target).hasClass('save-modal-duplicate')
+    form = instance.$('form')[0]
+    incident = utils.incidentReportFormToIncident form, instance.incidentFormDetails
+    instanceData = instance.data
 
     if not incident
       return
-    incident.userEventId = templateInstance.data.userEventId
+    incident.userEventId = instanceData.userEventId
 
     if @add
       Meteor.call 'addIncidentReport', incident, (error, result) ->
@@ -17,14 +28,8 @@ Template.incidentModal.events
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.tr-details').remove()
           if !duplicate
-             $('#articleSource').val(null).trigger('change')
-             $(form.date).val('')
-             $('#incident-location-select2').val(null).trigger('change')
-             $(form.species).val('')
-             $(form.status).val(null)
-             $(form.count).val('')
-             $(form.incidentType).val(null).trigger('change')
-             $(form.travelRelated).attr('checked', false)
+            form.reset()
+            Modal.hide('incidentModal')
           toastr.success('Incident report added to event.')
         else
           errorString = error.reason
@@ -42,5 +47,6 @@ Template.incidentModal.events
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.details').remove()
           toastr.success('Incident report updated.')
+          Modal.hide('incidentModal')
         else
           toastr.error(error.reason)

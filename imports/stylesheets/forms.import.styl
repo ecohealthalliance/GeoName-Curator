@@ -7,6 +7,8 @@ form
 
 input
 .form-control
+  border-color $border-primary
+  box-shadow none
   &.icon-right
     padding-right 2em
   &:focus
@@ -40,3 +42,10 @@ input
 .no-addon
   .input-group-addon
     display none
+
+.form-group
+  margin-bottom 1.75em
+  label
+    margin-bottom .5em
+    text-transform capitalize
+    color $primary

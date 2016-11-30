@@ -229,8 +229,8 @@ Template.suggestedIncidentsModal.helpers
     new Spacebars.SafeString(html)
 
 Template.suggestedIncidentsModal.events
-  "click .annotation": (event, template) ->
-    incident = template.incidentCollection.findOne($(event.target).data("incident-id"))
+  "click .annotation": (event, instance) ->
+    incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
     content = Template.instance().content.get()
     displayCharacters = 150
     [start, end] = incident.countAnnotation.textOffsets[0]
@@ -251,25 +251,27 @@ Template.suggestedIncidentsModal.events
     if endingIndex isnt (content.length - 1)
       followingText += " ..."
 
-    Modal.show("suggestedIncidentModal", {
-      articles: [template.data.article]
-      userEventId: template.data.userEventId
-      incidentCollection: template.incidentCollection
+    Modal.show 'suggestedIncidentModal',
+      edit: true
+      articles: [instance.data.article]
+      userEventId: instance.data.userEventId
+      incidentCollection: instance.incidentCollection
       incident: incident
       incidentText: Spacebars.SafeString(Handlebars._escape(precedingText) + """<span class='annotation-text'>#{Handlebars._escape(content.slice(start, end))}</span>""" + Handlebars._escape(followingText))
-    })
-  "click #add-suggestions": (event, template) ->
+
+  "click #add-suggestions": (event, instance) ->
     incidents = Template.instance().incidentCollection.find({accepted: true}).map (incident)->
       _.pick(incident, incidentReportSchema.objectKeys())
     Meteor.call "addIncidentReports", incidents, (err, result)->
       if err
         toastr.error err.reason
       else
-        Modal.hide(template)
-  "click #non-suggested-incident": (event, template) ->
-    Modal.show("incidentModal", {
-      articles: [template.data.article]
-      userEventId: template.data.userEventId
+        Modal.hide(instance)
+
+  "click #non-suggested-incident": (event, instance) ->
+    Modal.show "incidentModal",
+      articles: [instance.data.article]
+      userEventId: instance.data.userEventId
       add: true
-      incident: {url: [template.data.article.url]}
-    })
+      incident:
+        url: [instance.data.article.url]

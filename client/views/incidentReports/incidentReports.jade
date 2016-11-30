@@ -1,0 +1,21 @@
+template(name="incidentReports")
+  .container-flex.no-gutter
+    .flex-col.bordered
+      .tab-form
+        +addIncidentReport
+      if incidents.length
+        +reactiveTable collection=incidents settings=getSettings
+      else
+        p No incident reports are associated with this event.
+    .flex-col
+      .chart
+        #scatterPlot-toolbar.container-flex
+          .flex-col
+            button#scatterPlot-toggleCumulative.btn.btn-xs.btn-default.scatterPlot-toolbar-button
+              i.fa.fa-circle-o
+              span Cumulative
+          .flex-col.on-right.items-right
+            button#scatterPlot-resetZoom.btn.btn-xs.btn-default.scatterPlot-toolbar-button
+              i.fa.fa-search-plus
+              span Reset
+        #scatterPlot

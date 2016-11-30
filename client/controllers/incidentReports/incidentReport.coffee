@@ -15,14 +15,3 @@ Template.incidentReport.helpers
 
   importantDetails: ->
     @deaths or @cases or @status
-
-Template.addIncidentReport.events
-  'click .open-incident-form': (event, instance) ->
-    data = instance.data
-    Modal.show 'incidentModal',
-      articles: data.articles
-      userEventId: data.userEvent._id
-      add: true
-
-Template.detailIcon.onRendered ->
-  @$('[data-toggle=tooltip]').tooltip()

@@ -1,0 +1,121 @@
+.incident-report
+  .modal-dialog
+    width 550px
+
+#add-incident
+  input
+    &[type=number]
+      max-width 200px
+  .tab-content
+    clear both
+    padding-top 1em
+    padding-bottom .5em
+    background $border-primary-light
+    border-bottom 1px solid $border-primary
+  .daterangepicker
+    position static
+    display flex
+    align-items center
+    justify-content center
+    background none
+    &::before
+    &::after
+      display table
+      content ''
+      clear both
+    .calendar
+      float none
+      margin 0 1em 0 0
+      &:nth-of-type(2)
+        margin-right 0
+    .calendar-table
+      background none
+    td.off
+    td.off.in-range
+    td.off.start-date
+    td.off.end-date
+      background none
+      color desaturate(darken($border-primary, 5%), 100%)
+      font-weight 200
+      &:hover
+        background darken($secondary-light, 5%)
+    td
+      font-size .9em
+    thead
+      color $primary
+      .prev
+      .next
+        color $primary
+        font-size 1.35em
+        &.available
+          &:hover
+            background none
+      .prev
+        padding-left 0
+      .next
+        padding-right 0
+      tr:nth-of-type(2)
+        th
+          font-weight 200
+          color darken($border-primary, 20%)
+    .single
+      width auto
+    .in-range
+    .start-date
+      &:not(.off)
+        font-weight 600
+    .available
+      &:hover
+        &:not(.off)
+          background $secondary
+    .today
+      &:not(.in-range)
+        background lighten($delete, 50%)
+        font-weight 600
+      &.off
+        background desaturate(lighten($delete, 60%), 50%)
+      &::after
+        border 0
+    .today.active
+      background $secondary
+    input
+      border-color $border-primary
+      box-shadow none
+
+.other-metadata
+  ul
+    margin-right 1em
+    padding-right 1em
+    border-right 1px solid $border-primary
+    &:last-of-type
+      border 0
+
+.incident--dates
+  margin-left -35px
+  margin-right -35px
+  padding 0 15px
+  .tabs
+    margin 0
+    width 100%
+    padding 0 15px
+    justify-content flex-start
+    > li
+      flex 0
+      white-space nowrap
+      background white
+      margin-right .25em
+      &:first-of-type
+        border-top-left-radius 4px
+      &:last-of-type
+        border-top-right-radius 4px
+      > a
+        text-transform capitalize
+        padding-left 2em
+        padding-right 2em
+        font-weight 600
+      &.active
+        background $border-primary-light
+        border-color $border-primary
+        margin-bottom -1px
+        > a
+          color $primary

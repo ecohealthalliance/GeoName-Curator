@@ -29,6 +29,7 @@ Template.userEvent.helpers
     Template.instance().data
 
 Template.userEvent.events
+
   'click .edit-link, click #cancel-edit': (event, instance) ->
     instance.editState.set(not instance.editState.get())
 

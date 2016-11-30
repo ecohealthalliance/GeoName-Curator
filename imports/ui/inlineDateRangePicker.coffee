@@ -45,6 +45,12 @@ createInlineDateRangePicker = ($parentElement, options) ->
 
   $(document).off("mousedown.daterangepicker touchend.daterangepicker click.daterangepicker focusin.daterangepicker")
 
+  # Replace two letter day abbreviations with single-letter
+  $rangeContainer.find('.calendar-table').each ->
+    $(@).find('thead tr').last().children().each ->
+      $day = $(@)
+      $day.html($day.html().slice(0,-1))
+
   picker
 
 module.exports = createInlineDateRangePicker

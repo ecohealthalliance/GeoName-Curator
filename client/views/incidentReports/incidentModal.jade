@@ -1,0 +1,29 @@
+template(name="incidentModal")
+  .incident-report.modal.fade(role="dialog")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          +modalCloseButton
+          h4.modal-title
+            if edit
+              | Edit
+            else
+              | Add
+            |  Incident Report
+        .modal-body
+          if edit
+            +incidentForm(
+              articles=articles
+              incident=incident
+              edit=true
+              incidentFormDetails=incidentFormDetails)
+          else
+            +incidentForm(
+              articles=articles
+              incidentFormDetails=incidentFormDetails)
+
+        .modal-footer
+          button.btn.btn-default(type="button" data-dismiss="modal") Close
+          if add
+            button.btn.btn-primary.save-modal-duplicate(type="button") Save then Duplicate
+          button.btn.btn-primary.save-modal(type="button") Save

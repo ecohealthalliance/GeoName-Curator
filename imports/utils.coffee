@@ -29,7 +29,7 @@ export formatUrl = (existingUrl) ->
   else
     return 'http://' + existingUrl
 
-export incidentReportFormToIncident = (form)->
+export incidentReportFormToIncident = (form, incidentFormDetails) ->
   $form = $(form)
   $articleSelect = $(form.articleSource)
   if $form.find("#singleDate").hasClass("active")
@@ -45,9 +45,8 @@ export incidentReportFormToIncident = (form)->
     toastr.error('Please select an article.')
     form.articleSource.focus()
     return
-  unless form.incidentType.checkValidity()
+  unless incidentFormDetails.incidentType.get()
     toastr.error('Please select an incident type.')
-    form.incidentType.focus()
     return
   if form.count and form.count.checkValidity() is false
     toastr.error('Please provide a valid count.')
@@ -58,26 +57,26 @@ export incidentReportFormToIncident = (form)->
     form.other.focus()
     return
 
-  incident = {
+  incident =
     species: form.species.value
-    travelRelated: form.travelRelated.checked
+    travelRelated: incidentFormDetails.travelRelated.get()
     locations: []
-    status: form.status.value
-    dateRange: {
+    status: incidentFormDetails.incidentStatus.get()
+    dateRange:
       type: rangeType
       start: picker.startDate.toDate()
       end: picker.endDate.toDate()
-      cumulative: form.cumulative.checked
-    }
-  }
-  if form.incidentType.value == "cases"
-    incident.cases = parseInt(form.count.value, 10)
-  else if form.incidentType.value == "deaths"
-    incident.deaths = parseInt(form.count.value, 10)
-  else if form.incidentType.value == "other"
-    incident.specify = form.other.value.trim()
-  else
-    throw new Meteor.Error("unknown-type")
+      cumulative: incidentFormDetails.cumulative.get()
+
+  switch incidentFormDetails.incidentType.get()
+    when 'cases'
+      incident.cases = parseInt(form.count.value, 10)
+    when 'deaths'
+      incident.deaths = parseInt(form.count.value, 10)
+    when 'other'
+      incident.specify = form.other.value.trim()
+    else
+      throw new Meteor.Error('unknown-type', 'An incident type was not selected')
 
   for child in $articleSelect.select2("data")
     if child.selected
