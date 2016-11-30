@@ -23,7 +23,7 @@ Meteor.methods
     Feeds.insert feed
 
   removeFeed: (feedId) ->
-    if not Roles.userIsInRole(user._id, ['admin'])
+    if not Roles.userIsInRole(Meteor.user()._id, ['admin'])
       if Meteor.isServer
         throw new Meteor.Error('auth', 'User does not have permission to delete incident reports')
       return
