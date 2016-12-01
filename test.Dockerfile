@@ -20,7 +20,8 @@ USER root
 COPY . .
 
 # Admin chores
-RUN cp /usr/bin/meteor /usr/local/bin/meteor
+RUN ln -s /usr/bin/meteor /usr/local/bin/meteor
+RUN ln -s /home/meteor/eidr-connect/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs /usr/local/bin/phantomjs
 RUN chown -R meteor:meteor /home/meteor/
 
 USER meteor
