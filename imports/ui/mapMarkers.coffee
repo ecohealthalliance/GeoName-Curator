@@ -45,7 +45,7 @@ module.exports =
               name: location.name
               events: []
           mapLocations[latLng].events.push
-            id: event._id
+            id: event.id or event._id
             eventName: event.eventName
             incidents: event.incidents
             mapColorRGB: rgbColor
