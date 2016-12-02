@@ -1,5 +1,17 @@
-eidr-connect-test:
-  image: eidr-connect-test:latest
-  container_name: eidr-connect-test
-  ports:
-   - "80:80"
+version: '2'
+services:
+  app:
+    image: eidr-connect-test:latest
+    container_name: eidrconnect_app_1
+    environment:
+      - ghprbSourceBranch
+    volumes:
+      - /shared/eidr-connect:/shared
+    depends_on:
+      - mongodb
+    command: ['bash', '-c', '/home/meteor/eidr-connect/start-test-server.sh --mongo_host=mongodb --is_docker=true']
+  mongodb:
+    image: mongo:latest
+    container_name: eidrconnect_mongodb_1
+    volumes:
+      - /shared/eidr-connect/data/db:/data/db
