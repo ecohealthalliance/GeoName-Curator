@@ -15,3 +15,10 @@ template(name="markerPopup")
                   if count
                     span.popup--incidents-text--label Most Severe:
                     span #{count} #{type} on {{formatDate dateRange.start}}
+
+template(name="markerPopupMinimal")
+  .popup
+    .popup--title
+      h4= location
+    .popup--content
+      p Added on {{ formatDate addedDate }}

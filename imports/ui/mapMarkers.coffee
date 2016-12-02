@@ -1,7 +1,7 @@
 module.exports =
   getDefaultGradientColors: ->
-    #gradient is made from shades of [red, yellow, blue]
-    ["E30B0B","BFB10F", "1F87FF"]
+    #gradient is made from shades of [red, green, blue]
+    ['F07381', '345E7E', '72BC33']
 
   getMarkerHtml: (events, customSize) ->
     paths = ""
@@ -29,7 +29,7 @@ module.exports =
       arcSweep = 1
 
     for event in events
-      paths += '<path class="map-marker-path" fill="rgba(' + event.mapColorRGB + ', 0.7)" d="M' + radius + ',' + radius + ' L' + radius + ',0 A' + radius + ',' + radius + ' 1 ' + arcSweep + ',1 ' + x + ', ' + y + ' z" transform="rotate(' + rotation + ', ' + radius + ', ' + radius + ')" />'
+      paths += '<path class="map-marker-path" fill="rgba(' + event.mapColorRGB + ', 0.8)" d="M' + radius + ',' + radius + ' L' + radius + ',0 A' + radius + ',' + radius + ' 1 ' + arcSweep + ',1 ' + x + ', ' + y + ' z" transform="rotate(' + rotation + ', ' + radius + ', ' + radius + ')" />'
       rotation += angle
 
     '<svg class="map-marker" width="' + size + '" height="' + size + '">' + paths + '<circle r="' + size * 0.12 + '" cx="' + size * 0.5 + '" cy="' + size * 0.5 + '" fill="rgb(245, 245, 243)" /></svg>'
