@@ -66,7 +66,7 @@ module.exports =
           className: 'map-marker-container'
           iconSize:null
           html: @getMarkerHtml loc.events
-      .bindPopup(popupHtml)
+      .bindPopup(popupHtml, {closeButton: false})
 
       markers.addLayer(marker)
 

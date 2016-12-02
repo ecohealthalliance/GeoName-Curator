@@ -33,26 +33,6 @@
     left $map-menu-width-max
     width $map-width-max
 
-.leaflet-popup-content-wrapper
-  border-radius 5px
-
-.map-marker
-  centerPosition()
-  &:hover
-    .map-marker-path
-      transition .2s
-      fill $secondary
-
-.marker-color-spot
-  margin-right 10px
-  height 10px
-  width 10px
-
-.leaflet-popup-content
-.leaflet-popup-content-wrapper
-  +below(2)
-    max-width 300px
-
 .map-menu
   position absolute
   top 0
@@ -92,7 +72,7 @@
     font-style italic
     font-size 90%
   &.selected
-    background $secondary-light
+    background $selected
   &.selected .circle::before
   .circle
     position absolute
@@ -155,16 +135,3 @@
         padding-right 4em
     &:last-of-type
       margin 0
-
-.popup-row
-  padding-left 5px
-  padding-right 5px
-  line-height 1.5em
-  width 325px
-
-.popup-incidents-text
-  font-size 0.75em
-  color #808080
-
-.popup-incidents-label
-  font-weight bold
