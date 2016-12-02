@@ -21,6 +21,7 @@ Template.feeds.events
         event.target.reset()
 
   'click .delete': (event, instance) ->
-    Meteor.call 'removeFeed', @_id, (error) ->
-      if error
-        toastr.error(error.reason)
+    Modal.show 'deleteConfirmationModal',
+      objId: @_id
+      objNameToDelete: 'feed'
+      displayName: @url
