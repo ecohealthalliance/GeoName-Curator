@@ -41,8 +41,14 @@ module.exports =
         latLng = location.latitude.toString() + "," + location.longitude.toString()
         if latLng not in uniqueEventLocations
           if not mapLocations[latLng]
-            mapLocations[latLng] = {name: location.name, events: []}
-          mapLocations[latLng].events.push({id: event._id, eventName: event.eventName, incidents: event.incidents, mapColorRGB: rgbColor})
+            mapLocations[latLng] =
+              name: location.name
+              events: []
+          mapLocations[latLng].events.push
+            id: event._id
+            eventName: event.eventName
+            incidents: event.incidents
+            mapColorRGB: rgbColor
           uniqueEventLocations.push(latLng)
 
   addMarkersToMap: (map, instance, mapLocations) ->
@@ -51,14 +57,17 @@ module.exports =
     locationCount = 0
     for coordinates, loc of mapLocations
       locationCount++
-      popupHtml = Blaze.toHTMLWithData(Template.markerPopup, {location: loc.name, events: loc.events})
-      marker = L.marker(coordinates.split(","), {
-        icon: L.divIcon({
+      popupHtml = Blaze.toHTMLWithData Template.markerPopup,
+        location: loc.name
+        events: loc.events
+
+      marker = L.marker coordinates.split(","),
+        icon: L.divIcon
           className: 'map-marker-container'
           iconSize:null
           html: @getMarkerHtml loc.events
-        })
-      }).bindPopup(popupHtml)
+      .bindPopup(popupHtml)
+
       markers.addLayer(marker)
 
     map.addLayer markers

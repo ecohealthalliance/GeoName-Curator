@@ -1,0 +1,12 @@
+template(name="markerPopup")
+  h4= location
+  each getEvents
+    .popup-row.container-flex
+      svg.marker-color-spot
+        circle(fill="rgb(#{mapColorRGB})" r="5" cx="5" cy="5")
+      a(href="{{pathFor 'user-event' _id=id}}")=eventName
+    .popup-incidents-text
+      with getMostSevere incidents
+        if count
+          span.popup-incidents-label Most Severe:
+          span #{count} #{type} on {{formatDate dateRange.start}}

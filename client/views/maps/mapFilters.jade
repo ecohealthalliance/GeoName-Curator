@@ -24,11 +24,3 @@ template(name="mapFilters")
             i.fa.fa-chevron-right
           span.deselect-all(
             class="{{#if eventsAreSelected}} active {{/if}}") Deselect events
-
-template(name="dateSelector")
-  .calendar-wrapper
-    .date-picker-container.inlineRangePicker
-    .date-options.centered
-      button.btn.btn-sm.btn-success.apply-date-filters Apply
-      if dateFiltering
-        button.btn.btn-default.btn-sm.clear-date-filters Clear

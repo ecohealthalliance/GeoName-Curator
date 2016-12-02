@@ -9,7 +9,7 @@ Template.map.rendered = ->
   eventMap.on 'mouseout', ->
     eventMap.scrollWheelZoom.disable()
 
-  L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+  L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
     attribution: """Map tiles by <a href="http://cartodb.com/attributions#basemaps">CartoDB</a>, under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>. Data by <a href="http://www.openstreetmap.org/">OpenStreetMap</a>, under ODbL.
     <br>
     CRS:
@@ -22,7 +22,7 @@ Template.map.rendered = ->
     noWrap: true
     minZoom: 1
     maxZoom: 18
-  }).addTo eventMap
+  ).addTo(eventMap)
   markers = []
 
   @autorun ->
@@ -37,9 +37,8 @@ Template.map.rendered = ->
     eventData.mapColorRGB = chroma(colorScale[0]).rgb()
     if locations
       latLngs = ([location.latitude, location.longitude] for location in locations)
-      latLngs = _.filter(latLngs, (latLng) ->
+      latLngs = _.filter latLngs, (latLng) ->
         latLng[0] isnt 'Not Found' and latLng[1] isnt 'Not Found'
-      )
       if latLngs.length is 1
         eventMap.setView(latLngs[0], 4)
       else
@@ -49,13 +48,12 @@ Template.map.rendered = ->
         if latLng[0] isnt 'Not Found' and latLng[1] isnt 'Not Found'
           displayName = location.name
 
-          circle = L.marker(latLng, {
-            icon: L.divIcon({
+          circle = L.marker latLng,
+            icon: L.divIcon
               className: 'map-marker-container'
               iconSize:null
               html: MapHelpers.getMarkerHtml([eventData])
-            })
-          })
           .bindPopup displayName
           .addTo(eventMap)
+
           markers.push circle
