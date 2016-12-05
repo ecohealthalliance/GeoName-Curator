@@ -3,6 +3,18 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
 Articles = require '/imports/collections/articles.coffee'
 
+redirectIfNotAuthorized = (router, roles) ->
+  unless Meteor.userId() and roles.length
+    router.redirect '/sign-in'
+    return
+
+  unless Roles.userIsInRole(Meteor.userId(), roles)
+    if Meteor.userId()
+      router.redirect '/'
+    else
+      router.redirect '/sign-in'
+  router.next()
+
 Router.configure
   layoutTemplate: "layout"
   loadingTemplate: "loading"
@@ -24,9 +36,7 @@ Router.route "/event-map",
 Router.route "/admins",
   name: 'admins'
   onBeforeAction: ->
-    unless Roles.userIsInRole(Meteor.userId(), ['admin'])
-      @redirect '/'
-    @next()
+    redirectIfNotAuthorized(@, ['admin'])
   waitOn: ->
     Meteor.subscribe "allUsers"
   data: ->
@@ -37,9 +47,7 @@ Router.route "/admins",
 Router.route "/create-account",
   name: 'create-account'
   onBeforeAction: () ->
-    unless Roles.userIsInRole(Meteor.userId(), ['admin'])
-      @redirect '/'
-    @next()
+    redirectIfNotAuthorized(@, ['admin'])
   waitOn: ()->
     #Wait on roles subscription so onBeforeAction() doesn't run twice
     Meteor.subscribe "roles"
@@ -47,9 +55,8 @@ Router.route "/create-account",
 Router.route "/download",
   name: 'download',
   onBeforeAction: ->
-    unless Meteor.userId()
-      @redirect '/sign-in'
-    @next()
+    redirectIfNotAuthorized(@, [])
+
   action: ->
     @render('preparingDownload')
     controller = @
@@ -72,10 +79,8 @@ Router.route "/curator-inbox",
   name: 'curator-inbox'
   waitOn: ->
     Meteor.subscribe "userEvents"
-  onBeforeAction: () ->
-    unless Roles.userIsInRole(Meteor.userId(), ['admin', 'curator'])
-      @redirect '/sign-in'
-    @next()
+  onBeforeAction: ->
+    redirectIfNotAuthorized(@, ['admin', 'curator'])
 
 Router.route "/user-event/:_id/:_view?",
   name: 'user-event'
@@ -92,7 +97,5 @@ Router.route "/user-event/:_id/:_view?",
 
 Router.route "/feeds",
   onBeforeAction: ->
-    unless Roles.userIsInRole(Meteor.userId(), ['admin'])
-      @redirect '/sign-in'
-    @next()
+    redirectIfNotAuthorized(@, ['admin'])
   name: 'feeds'

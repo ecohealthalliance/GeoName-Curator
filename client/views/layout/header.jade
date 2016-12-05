@@ -21,7 +21,7 @@ template(name="navLinks")
       a(href="{{pathFor 'event-map'}}") Event Map
 
     unless currentUser
-      li(class="{{checkActive 'sign-in'}}")
+      li
         a.withIcon(href="/sign-in" title="Sign In")
           span.link-text-nav Sign In
           span.fa.fa-sign-in.show-large
@@ -43,6 +43,12 @@ template(name="navLinks")
               span.fa.fa-user
               span Manage User Accounts
           li
-            a#logOut.withIcon(href="" title="Sign Out")
+            a#logOut.withIcon(title="Sign Out")
               span.fa.fa-sign-out
               span.link-text-nav Sign Out
+    else
+      if currentUser
+        li
+          a#logOut.withIcon(title="Sign Out")
+            span.link-text-nav Sign Out
+            span.fa.fa-sign-out.show-large
