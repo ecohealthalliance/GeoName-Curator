@@ -1,0 +1,10 @@
+template(name="eventMap")
+  .fluid-container
+    .event-map-wrapper
+      #event-map
+      +mapFilters(
+        templateEvents=templateEvents
+        selectedEvents=selectedEvents
+        disablePrev=disablePrev
+        disableNext=disableNext
+        query=query)

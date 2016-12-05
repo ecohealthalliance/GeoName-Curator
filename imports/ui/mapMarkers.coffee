@@ -1,7 +1,7 @@
 module.exports =
   getDefaultGradientColors: ->
-    #gradient is made from shades of [red, yellow, blue]
-    ["E30B0B","BFB10F", "1F87FF"]
+    #gradient is made from shades of [red, green, blue]
+    ['F07381', '345E7E', '72BC33']
 
   getMarkerHtml: (events, customSize) ->
     paths = ""
@@ -29,7 +29,7 @@ module.exports =
       arcSweep = 1
 
     for event in events
-      paths += '<path class="map-marker-path" fill="rgba(' + event.mapColorRGB + ', 0.7)" d="M' + radius + ',' + radius + ' L' + radius + ',0 A' + radius + ',' + radius + ' 1 ' + arcSweep + ',1 ' + x + ', ' + y + ' z" transform="rotate(' + rotation + ', ' + radius + ', ' + radius + ')" />'
+      paths += '<path class="map-marker-path" fill="rgba(' + event.mapColorRGB + ', 0.8)" d="M' + radius + ',' + radius + ' L' + radius + ',0 A' + radius + ',' + radius + ' 1 ' + arcSweep + ',1 ' + x + ', ' + y + ' z" transform="rotate(' + rotation + ', ' + radius + ', ' + radius + ')" />'
       rotation += angle
 
     '<svg class="map-marker" width="' + size + '" height="' + size + '">' + paths + '<circle r="' + size * 0.12 + '" cx="' + size * 0.5 + '" cy="' + size * 0.5 + '" fill="rgb(245, 245, 243)" /></svg>'
@@ -41,8 +41,14 @@ module.exports =
         latLng = location.latitude.toString() + "," + location.longitude.toString()
         if latLng not in uniqueEventLocations
           if not mapLocations[latLng]
-            mapLocations[latLng] = {name: location.name, events: []}
-          mapLocations[latLng].events.push({id: event._id, eventName: event.eventName, incidents: event.incidents, mapColorRGB: rgbColor})
+            mapLocations[latLng] =
+              name: location.name
+              events: []
+          mapLocations[latLng].events.push
+            id: event.id or event._id
+            eventName: event.eventName
+            incidents: event.incidents
+            mapColorRGB: rgbColor
           uniqueEventLocations.push(latLng)
 
   addMarkersToMap: (map, instance, mapLocations) ->
@@ -51,14 +57,17 @@ module.exports =
     locationCount = 0
     for coordinates, loc of mapLocations
       locationCount++
-      popupHtml = Blaze.toHTMLWithData(Template.markerPopup, {location: loc.name, events: loc.events})
-      marker = L.marker(coordinates.split(","), {
-        icon: L.divIcon({
+      popupHtml = Blaze.toHTMLWithData Template.markerPopup,
+        location: loc.name
+        events: loc.events
+
+      marker = L.marker coordinates.split(","),
+        icon: L.divIcon
           className: 'map-marker-container'
           iconSize:null
           html: @getMarkerHtml loc.events
-        })
-      }).bindPopup(popupHtml)
+      .bindPopup(popupHtml, {closeButton: false})
+
       markers.addLayer(marker)
 
     map.addLayer markers
