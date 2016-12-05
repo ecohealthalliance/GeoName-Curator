@@ -35,17 +35,29 @@ template(name="incidentForm")
 
     .form-group
       label.control-label Status
-      ul.status.pill-selector
-        li(data-value="suspected" class="{{statusActive 'suspected'}}" tabindex="0") Suspected
-        li(data-value="confirmed" class="{{statusActive 'confirmed'}}" tabindex="0") Confirmed
-        li(data-value="revoked" class="{{statusActive 'revoked'}}" tabindex="0") Revoked
+      .container-flex.check-buttons
+        .check-button
+          input(type="radio" name="status" id="suspected" value="suspected")
+          label(for="suspected") Suspected
+        .check-button
+          input(type="radio" name="status" id="confirmed" value="confirmed")
+          label(for="confirmed") Confirmed
+        .check-button
+          input(type="radio" name="status" id="revoked" value="revoked")
+          label(for="revoked") Revoked
 
     .form-group
       label.control-label Incident Type
-      ul.type.pill-selector
-        li(data-value="cases" class="{{typeActive 'cases'}}" tabindex="0") Cases
-        li(data-value="deaths" class="{{typeActive 'deaths'}}" tabindex="0") Deaths
-        li(data-value="other" class="{{typeActive 'other'}}" tabindex="0") Other
+      .container-flex.check-buttons
+        .check-button
+          input(type="radio" name="incidentType" id="cases" value="cases")
+          label(for="cases") Cases
+        .check-button
+          input(type="radio" name="incidentType" id="deaths" value="deaths")
+          label(for="deaths") Deaths
+        .check-button
+          input(type="radio" name="incidentType" id="other" value="other")
+          label(for="other") Other
 
     if showCountForm
       .form-group.space-top--1
@@ -69,9 +81,10 @@ template(name="incidentForm")
 
     .form-group
       label.control-label Other Information
-      .container-flex.other-metadata
-        ul.travel-related.pill-selector
-          li(class="{{#if travelRelated}} active {{/if}}" tabindex="0") Travel related
-
-        ul.cumulative.pill-selector
-          li(class="{{#if cumulative}} active {{/if}}" tabindex="0") Cumulative
+      .container-flex.other-metadata.check-buttons
+        .check-button
+          input(type="checkbox" name="travelRelated" id="travelRelated")
+          label(for="travelRelated") Travel Related
+        .check-button
+          input(type="checkbox" name="cumulative" id="cumulative")
+          label(for="cumulative") Cumulative

@@ -1,0 +1,29 @@
+.check-button
+  label
+    font-weight normal
+
+  [type="checkbox"]
+  [type="radio"]
+    &:checked
+    &:not(:checked)
+      position absolute
+      left -9999px
+
+    &:not(:checked) + label
+    &:checked + label
+      @extend .pill
+      position relative
+      margin-right .5em !important // Override bootstrap
+
+    &:checked + label
+      &
+      &:focus
+      &:hover
+        color $primary
+        background lighten($secondary, 30%)
+        border-color $secondary
+        &::before
+          color $primary
+      &::before
+        content '\f058'
+        color $primary
