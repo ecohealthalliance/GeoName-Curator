@@ -29,7 +29,7 @@ export formatUrl = (existingUrl) ->
   else
     return 'http://' + existingUrl
 
-export incidentReportFormToIncident = (form, incidentFormDetails) ->
+export incidentReportFormToIncident = (form) ->
   $form = $(form)
   $articleSelect = $(form.articleSource)
   if $form.find("#singleDate").hasClass("active")
@@ -45,36 +45,36 @@ export incidentReportFormToIncident = (form, incidentFormDetails) ->
     toastr.error('Please select an article.')
     form.articleSource.focus()
     return
-  unless incidentFormDetails.incidentType.get()
+  unless form.incidentType.value
     toastr.error('Please select an incident type.')
     return
   if form.count and form.count.checkValidity() is false
     toastr.error('Please provide a valid count.')
     form.count.focus()
     return
-  if form.other and form.other.value.trim().length is 0
+  if form.specify and form.specify.value.trim().length is 0
     toastr.error('Please specify the incident type.')
-    form.other.focus()
+    form.specify.focus()
     return
 
   incident =
     species: form.species.value
-    travelRelated: incidentFormDetails.travelRelated.get()
+    travelRelated: form.travelRelated.checked
     locations: []
-    status: incidentFormDetails.incidentStatus.get()
+    status: form.incidentStatus.value
     dateRange:
       type: rangeType
       start: picker.startDate.toDate()
       end: picker.endDate.toDate()
-      cumulative: incidentFormDetails.cumulative.get()
+      cumulative: form.cumulative.checked
 
-  switch incidentFormDetails.incidentType.get()
+  switch form.incidentType.value
     when 'cases'
       incident.cases = parseInt(form.count.value, 10)
     when 'deaths'
       incident.deaths = parseInt(form.count.value, 10)
     when 'other'
-      incident.specify = form.other.value.trim()
+      incident.specify = form.specify.value.trim()
     else
       throw new Meteor.Error('unknown-type', 'An incident type was not selected')
 

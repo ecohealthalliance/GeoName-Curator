@@ -4,15 +4,6 @@ incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 Template.suggestedIncidentModal.onCreated ->
   @incidentCollection = @data.incidentCollection
   @incident = @data.incident
-  @incidentFormDetails =
-    incidentStatus: new ReactiveVar(null)
-    incidentType: new ReactiveVar(null)
-    cumulative: new ReactiveVar(false)
-    travelRelated: new ReactiveVar(false)
-
-Template.suggestedIncidentModal.helpers
-  incidentFormDetails: ->
-    Template.instance().incidentFormDetails
 
 Template.suggestedIncidentModal.events
   'click .reject': (event, instance) ->
@@ -21,7 +12,7 @@ Template.suggestedIncidentModal.events
         accepted: false
 
   'click .save-modal': (event, instance) ->
-    incident = utils.incidentReportFormToIncident instance.$("form")[0], instance.incidentFormDetails
+    incident = utils.incidentReportFormToIncident(instance.$("form")[0])
 
     return if not incident
     incident.userEventId = instance.data.userEventId

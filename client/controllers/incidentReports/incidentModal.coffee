@@ -1,21 +1,10 @@
 utils = require '/imports/utils.coffee'
 
-Template.incidentModal.onCreated ->
-  @incidentFormDetails =
-    incidentStatus: new ReactiveVar(null)
-    incidentType: new ReactiveVar(null)
-    cumulative: new ReactiveVar(false)
-    travelRelated: new ReactiveVar(false)
-
-Template.incidentModal.helpers
-  incidentFormDetails: ->
-    Template.instance().incidentFormDetails
-
 Template.incidentModal.events
   'click .save-modal, click .save-modal-duplicate': (event, instance) ->
     duplicate = $(event.target).hasClass('save-modal-duplicate')
     form = instance.$('form')[0]
-    incident = utils.incidentReportFormToIncident form, instance.incidentFormDetails
+    incident = utils.incidentReportFormToIncident(form)
     instanceData = instance.data
 
     if not incident

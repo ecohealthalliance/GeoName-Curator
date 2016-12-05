@@ -35,29 +35,65 @@ template(name="incidentForm")
 
     .form-group
       label.control-label Status
-      .container-flex.check-buttons
+      .container-flex.check-buttons.status
         .check-button
-          input(type="radio" name="status" id="suspected" value="suspected")
-          label(for="suspected") Suspected
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="suspected"
+            value="suspected"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'suspected'}}")
+          label(for="suspected" tabindex="0") Suspected
         .check-button
-          input(type="radio" name="status" id="confirmed" value="confirmed")
-          label(for="confirmed") Confirmed
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="confirmed"
+            value="confirmed"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'confirmed'}}")
+          label(for="confirmed" tabindex="0") Confirmed
         .check-button
-          input(type="radio" name="status" id="revoked" value="revoked")
-          label(for="revoked") Revoked
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="revoked"
+            value="revoked"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'revoked'}}")
+          label(for="revoked" tabindex="0") Revoked
 
     .form-group
       label.control-label Incident Type
-      .container-flex.check-buttons
+      .container-flex.check-buttons.type
         .check-button
-          input(type="radio" name="incidentType" id="cases" value="cases")
-          label(for="cases") Cases
+          input(
+            type="radio"
+            name="incidentType"
+            id="cases"
+            value="cases"
+            tabindex="-1"
+            checked="{{incidentTypeChecked 'cases'}}")
+          label(for="cases" tabindex="0") Cases
         .check-button
-          input(type="radio" name="incidentType" id="deaths" value="deaths")
-          label(for="deaths") Deaths
+          input(
+            type="radio"
+            name="incidentType"
+            id="deaths"
+            value="deaths"
+            tabindex="-1"
+            checked="{{incidentTypeChecked 'deaths'}}")
+          label(for="deaths" tabindex="0") Deaths
         .check-button
-          input(type="radio" name="incidentType" id="other" value="other")
-          label(for="other") Other
+          input(
+            type="radio"
+            name="incidentType"
+            id="other"
+            value="other"
+            tabindex="-1"
+            checked="{{incidentTypeChecked 'other'}}")
+          label(for="other" tabindex="0") Other
 
     if showCountForm
       .form-group.space-top--1
@@ -66,14 +102,16 @@ template(name="incidentForm")
           name="count"
           type="number"
           min="0"
-          required value=incidentData.value
+          value=incidentData.value
+          required
           tabindex="0")
 
     if showOtherForm
       .form-group.space-top--1
         label.control-label Specify Other
         input.form-control(
-          name="other"
+          name="specify"
+          id="specify"
           type="text"
           required
           value=incidentData.value
@@ -83,8 +121,18 @@ template(name="incidentForm")
       label.control-label Other Information
       .container-flex.other-metadata.check-buttons
         .check-button
-          input(type="checkbox" name="travelRelated" id="travelRelated")
-          label(for="travelRelated") Travel Related
+          input(
+            type="checkbox"
+            name="travelRelated"
+            id="travelRelated"
+            tabindex="-1"
+            checked=travelRelated)
+          label.travel-related(for="travelRelated" tabindex="0") Travel Related
         .check-button
-          input(type="checkbox" name="cumulative" id="cumulative")
-          label(for="cumulative") Cumulative
+          input(
+            type="checkbox"
+            name="cumulative"
+            id="cumulative"
+            tabindex="-1"
+            checked=cumulative)
+          label.cumulative(for="cumulative" tabindex="0") Cumulative

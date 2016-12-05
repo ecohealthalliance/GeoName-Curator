@@ -1,10 +1,22 @@
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
+_keyboardSelect = (event) ->
+  keyCode = event.keyCode
+  keyCode in [13, 32]
+
+_selectInput = (event, instance, prop, isCheckbox) ->
+  return if not _keyboardSelect(event) and event.type is 'keyup'
+  if isCheckbox is 'checkbox'
+    prop = instance[prop]
+    prop.set(not prop.get())
+  else
+    instance[prop].set(instance.$(event.target).attr('for'))
+
 Template.incidentForm.onCreated ->
-  { @incidentType,
-    @incidentStatus,
-    @cumulative,
-    @travelRelated } = @data.incidentFormDetails
+  @incidentStatus = new ReactiveVar ''
+  @incidentType = new ReactiveVar ''
+  @cumulative = new ReactiveVar false
+  @travelRelated = new ReactiveVar false
 
   @incidentData =
     species: 'Human'
@@ -16,23 +28,30 @@ Template.incidentForm.onCreated ->
     @incidentData = _.extend(@incidentData, incident)
     if incident.dateRange
       @incidentData.dateRange = incident.dateRange
-    @incidentData.value = @incidentData.cases or @incidentData.deaths or @incidentData.specify
+
+    cases = @incidentData.cases
+    deaths = @incidentData.deaths
+    specify = @incidentData.specify
+    @incidentData.value = cases or deaths or specify
+    if cases
+      type = 'cases'
+    else if deaths
+      type = 'deaths'
+    else if specify
+      type = 'other'
+    else
+      type = ''
+
+    @incidentType.set(type)
 
     if @incidentData.url
       @incidentData.articleSource = _.findWhere(@data.articles,
         url: @incidentData.url[0]
       )?._id
 
-    if @incidentData.cases
-      @incidentType.set('cases')
-    else if @incidentData.deaths
-      @incidentType.set('deaths')
-    else if @incidentData.specify
-      @incidentType.set('other')
-
-    @incidentStatus.set incident.status or ''
-    @cumulative.set incident.dateRange.cumulative or false
-    @travelRelated.set incident.travelRelated or false
+    @incidentStatus.set(incident.status or '')
+    @cumulative.set(incident.cumulative or false)
+    @travelRelated.set(incident.travelRelated or false)
 
 Template.incidentForm.onRendered ->
   datePickerOptions = {}
@@ -47,11 +66,11 @@ Template.incidentForm.helpers
   incidentData: ->
     Template.instance().incidentData
 
-  incidentStatus: ->
-    "#{Template.instance().incidentData.status}": true
+  incidentStatusChecked: (status) ->
+    status is Template.instance().incidentStatus.get()
 
-  incidentType: ->
-    "#{Template.instance().incidentType.get()}": true
+  incidentTypeChecked: (type) ->
+    type is Template.instance().incidentType.get()
 
   articles: ->
     Template.instance().data.articles
@@ -71,14 +90,6 @@ Template.incidentForm.helpers
     if Template.instance().incidentData.dateRange.type is 'precise'
       'active'
 
-  statusActive: (status) ->
-    if status is Template.instance().incidentStatus.get()
-      'active'
-
-  typeActive: (type) ->
-    if type is Template.instance().incidentType.get()
-      'active'
-
   cumulative: ->
     Template.instance().cumulative.get()
 
@@ -88,36 +99,21 @@ Template.incidentForm.helpers
   selectedIncidentType: ->
     Template.instance().incidentType.get().slice(0, -1)
 
-keyboardSelect = (event) ->
-  keyCode = event.keyCode
-  keyCode in [13, 32]
-
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()
 
-  'click .status li, keyup .status li': (event, instance) ->
-    return if not keyboardSelect(event) and event.type is 'keyup'
-    status = instance.incidentStatus
-    selectedStatus = instance.$(event.target).data('value')
-    if status.get() is selectedStatus
-      status.set('')
-    else
-      status.set(selectedStatus)
+  'click .status label, keyup .status label': (event, instance) ->
+    _selectInput(event, instance, 'incidentStatus')
 
-  'click .type li, keyup .type li': (event, instance) ->
-    return if not keyboardSelect(event) and event.type is 'keyup'
-    instance.incidentType.set(instance.$(event.target).data('value'))
+  'click .type label, keyup .type label': (event, instance) ->
+    _selectInput(event, instance, 'incidentType')
 
-  'click .travel-related li, keyup .travel-related li': (event, instance) ->
-    return if not keyboardSelect(event) and event.type is 'keyup'
-    travelRelated = instance.travelRelated
-    travelRelated.set(not travelRelated.get())
+  'click .travel-related, keyup .travel-related': (event, instance) ->
+    _selectInput(event, instance, 'travelRelated', true)
 
-  'click .cumulative li, keyup .cumulative li': (event, instance) ->
-    return if not keyboardSelect(event) and event.type is 'keyup'
-    cumulative = instance.cumulative
-    cumulative.set(not cumulative.get())
+  'click .cumulative, keyup .cumulative': (event, instance) ->
+    _selectInput(event, instance, 'cumulative', true)
 
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
