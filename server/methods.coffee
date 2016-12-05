@@ -79,3 +79,34 @@ Meteor.methods
           score:
             $meta: 'textScore'
     }).fetch()
+
+  ###
+  # Create or update an EIDR-C meteor account for a BSVE user with the given
+  # authentication info.
+  # @param authInfo.authTicket - The BSVE authTicket used to verify the account
+  #   with the BSVE. The EIDR-C user's password is set to the authTicket.
+  # @param authInfo.user - The BSVE user's username. The EIDR-C username
+  #   is the BSVE username with bsve- prepended.
+  ###
+  SetBSVEAuthTicketPassword: (authInfo)->
+    # The api path chosen here is aribitrary, the call is only to verify that
+    # the auth ticket works.
+    response = HTTP.get("https://api.bsvecosystem.net/data/v2/sources/PON", {
+      headers:
+        "harbinger-auth-ticket": authInfo.authTicket
+    })
+    if response.data.status != 1
+      throw new Meteor.Error("BSVEAuthFailure", response.data.message)
+    meteorUser = Accounts.findUserByUsername("bsve-" + authInfo.user)
+    if not meteorUser
+      console.log "Creating user"
+      {firstName, lastName} = authInfo.userData
+      userId = Accounts.createUser(
+        username: "bsve-" + authInfo.user
+        profile:
+          name: firstName + " " + lastName
+      )
+    else
+      userId = meteorUser._id
+    Roles.addUsersToRoles([userId], ['admin'])
+    Accounts.setPassword(userId, authInfo.authTicket, logout:false)
