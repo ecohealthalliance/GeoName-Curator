@@ -4,35 +4,36 @@ template(name="admins")
     .container.content-block
       if adminUsers.count
         h3 Admins
-        ul.list-group
+        ul.list-group.users
           +each adminUsers
             +adminUser
       if curatorUsers.count
         h3 Curators
-        ul.list-group
+        ul.list-group.users
           +each curatorUsers
             +adminUser
       if defaultUsers.count
         h3 Users
-        ul.list-group
+        ul.list-group.users
           +each defaultUsers
             +adminUser
 
 template(name="adminUser")
-  li.list-group-item.clearfix
-    .pull-left
+  li.user.list-group-item.container-flex
+    .user--info.flex-col
       p= name
-      p=email
-    unless isCurrentUser
-      .btn-group.pull-right
-        if isCurator
-          button.btn.btn-primary.remove-curator
-            i.fa.fa-check
-            span Curator
-        else
-          button.btn.btn-default.make-curator
-            i.fa.fa-plus
-            span Curator
+      p
+        a(href="mailto:#{email}")=email
+    .user--roles.on-right
+      if isCurator
+        button.btn.btn-primary.remove-curator
+          i.fa.fa-check
+          span Curator
+      else
+        button.btn.btn-default.make-curator
+          i.fa.fa-plus
+          span Curator
+      unless isCurrentUser
         if isAdmin
           button.btn.btn-primary.remove-admin
             i.fa.fa-check
