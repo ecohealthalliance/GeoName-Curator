@@ -9,5 +9,5 @@ Package.onUse(function(api) {
   api.versionsFrom("1.1.0.2");
   api.use("coffeescript");
   api.use("xolvio:cleaner");
-  api.addFiles("fixtures.coffee");
+  api.addFiles("fixtures.coffee", "server");
 });

@@ -187,7 +187,7 @@ class Plot
       # remove groups that haven't been merged
       notMerged.forEach((k) => @removeGroup(k))
       return true
-    if hasNewGroup
+    if hasNewGroup and @axes.initialized == true
       return true
     else
       return false
