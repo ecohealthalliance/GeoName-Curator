@@ -74,6 +74,7 @@ mongo-id@1.0.5
 mquandalle:jade@0.4.9
 mquandalle:jade-compiler@0.4.5
 natestrauser:select2@4.0.3
+new3rs:html2canvas@0.0.5
 npm-bcrypt@0.9.1_1
 npm-mongo@1.5.50
 observe-sequence@1.0.12

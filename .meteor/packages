@@ -49,3 +49,4 @@ shell-server@0.2.1
 aldeed:simple-schema
 dangrossman:bootstrap-daterangepicker
 stevezhu:lodash
+new3rs:html2canvas
