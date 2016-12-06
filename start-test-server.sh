@@ -64,7 +64,7 @@ if [ $is_docker = "true" ]; then
   # copy settings-dev.json from the shared volume
   cp $shared_dir/settings-dev.json ${pwd}/settings-dev.json
   # checkout the correct branch
-  git checkout -f origin/$ghprbSourceBranch
+  git checkout origin/$ghprbSourceBranch
   # perform npm install in case the branch added new dependencies
   npm install .
 else
