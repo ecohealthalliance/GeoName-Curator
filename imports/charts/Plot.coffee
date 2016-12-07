@@ -114,7 +114,7 @@ class Plot
         @axes.update(nodes)
       else
         shouldSetInitialMinMax = @mergeGroups(nodes)
-        @axes.update(@getGroupsNodes())
+        @axes.update(@getGroupsNodes(false))
         if shouldSetInitialMinMax
           @axes.setInitialMinMax(@axes.currentMinMax)
     else
@@ -172,9 +172,11 @@ class Plot
   ###
   mergeGroups: (groups) ->
     notMerged = Object.keys(@groups_)
+    hasNewGroup = false
     Object.keys(groups).forEach (k) =>
       group = @groups_[k]
       if typeof group == 'undefined'
+        hasNewGroup = true
         group = new Group(@, {id: k, onEnter: @options.group.onEnter})
       else
         idx = notMerged.indexOf(k)
@@ -185,7 +187,10 @@ class Plot
       # remove groups that haven't been merged
       notMerged.forEach((k) => @removeGroup(k))
       return true
-    return false
+    if hasNewGroup and @axes.initialized == true
+      return true
+    else
+      return false
 
   ###
   # getWidth
@@ -293,22 +298,35 @@ class Plot
   ###
   # getGroups - returns the size of all the groups
   #
-  # @param {boolean} shouldFilter, should the nodes be filtered
+  # @param {boolean} shouldFilter, should the nodes be filtered by domain
   # @return {Number} size, the size of all the groups
   ###
-  getGroupsSize: () ->
-    @getGroups().reduce((prev, nextObj) ->
-      prev + nextObj.applyFilters().length
+  getGroupsSize: (shouldFilter) ->
+    @getGroups().reduce((prev, nextObj) =>
+      if shouldFilter
+        return prev + nextObj.applyFilters().length
+      else
+        filters = Object.assign({}, @filters)
+        if filters.hasOwnProperty('_domain')
+          delete filters['_domain']
+        return prev + nextObj.applyFilters(filters).length
     , 0)
 
   ###
   # getGroupsNodes - returns all the nodes for each group
   #
+  # @param {boolean} shouldFilter, should the nodes be filtered by domain
   # @return {array} nodes, an array of nodes
   ###
-  getGroupsNodes: () ->
-    @getGroups().reduce((prevArr, nextObj) ->
-      prevArr.concat(nextObj.applyFilters())
+  getGroupsNodes: (shouldFilter) ->
+    @getGroups().reduce((prevArr, nextObj) =>
+      if shouldFilter
+        return prevArr.concat(nextObj.applyFilters())
+      else
+        filters = Object.assign({}, @filters)
+        if filters.hasOwnProperty('_domain')
+          delete filters['_domain']
+        return prevArr.concat(nextObj.applyFilters(filters))
     , [])
 
   ###
