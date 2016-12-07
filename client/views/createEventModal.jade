@@ -2,7 +2,7 @@ template(name="createEventModal")
   #create-event-modal.modal.fade(role="dialog")
     .modal-dialog
       .modal-content
-        form#createEvent
+        form#createEvent(novalidate)
           +modalCloseButton
           .modal-header
             h4.modal-title Create a New Event

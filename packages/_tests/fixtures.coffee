@@ -3,10 +3,10 @@ if Meteor.isAppTest
   exec = Npm.require('child_process').exec
 
   pwd = process.env.PWD
-  mongo_path = Meteor.settings.private.mongo_path || "#{pwd}/node_modules/mongodb-prebuilt/binjs"
-  mongo_host = Meteor.settings.private.mongo_host || '127.0.0.1'
-  mongo_port = Meteor.settings.private.mongo_port || '27017'
-  test_db = Meteor.settings.private.test_db || 'eidr-connect-test'
+  mongo_path = Meteor.settings.private?.mongo_path || "#{pwd}/node_modules/mongodb-prebuilt/binjs"
+  mongo_host = Meteor.settings.private?.mongo_host || '127.0.0.1'
+  mongo_port = Meteor.settings.private?.mongo_port || '27017'
+  test_db = Meteor.settings.private?.test_db || 'eidr-connect-test'
 
   syncExec = Meteor.wrapAsync(exec)
 
