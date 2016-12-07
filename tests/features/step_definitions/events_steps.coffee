@@ -3,18 +3,6 @@ do ->
 
   module.exports = ->
 
-    # @Given /^There is a test event with the name of "([^"]*)"$/, (eventName) ->
-    #   @server.call('createTestingEvent', 'fakeid', eventName, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', eventName)
-    #
-    # @Given /^The test event has a source$/, (eventName) ->
-    #   @client.pause(3000)
-    #   source =
-    #     userEventId: 'fakeid'
-    #     url: 'http://feed.test'
-    #     publishDate: new Date()
-    #     publishDateTZ: 'EST'
-    #   @server.call('addEventSource', source)
-
     @When /^I click on the create new event button$/, ->
       @client.waitForVisible('.create-event')
       @client.click('.create-event')
