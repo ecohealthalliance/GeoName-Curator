@@ -189,13 +189,13 @@ Template.incidentReports.events
       $icon.removeClass('fa-check-circle').addClass('fa-circle-o')
       template.plot.removeFilter('cumulative')
       template.plot.addFilter('notCumulative', template.filters.notCumulative)
-      template.plot.applyFilters()
+      template.plot.draw()
     else
       $target.addClass('active')
       $icon.removeClass('fa-circle-o').addClass('fa-check-circle')
       template.plot.removeFilter('notCumulative')
       template.plot.addFilter('cumulative', template.filters.cumulative)
-      template.plot.applyFilters()
+      template.plot.draw()
     $(event.currentTarget).blur()
 
   'click #scatterPlot-resetZoom': (event, template) ->

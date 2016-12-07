@@ -94,12 +94,6 @@ class ScatterPlot extends Plot
     @
 
   ###
-  # applyFilters - draw the plot without updating the axes
-  ###
-  applyFilters: () ->
-    @draw()
-
-  ###
   # remove - removes the plot from the DOM and any event listeners
   #
   # @return {object} this
