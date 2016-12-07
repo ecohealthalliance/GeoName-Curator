@@ -104,8 +104,6 @@ pauseForApp
 
 chimp=node_modules/chimp/bin/chimp.js
 
-echo $tags
-
 $chimp --watch=$watch --ddp=$app_protocol://$app_host:$app_port \
         --path=tests/ \
         --browser=$browser \
