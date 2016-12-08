@@ -76,6 +76,8 @@
     +above(2)
       margin-left 1em
       margin-bottom 0
+    +between(2,3)
+      margin-left 0
   .page-options--search
     min-width 300px
 
@@ -86,9 +88,18 @@
     flex-direction row
   +between(2,3)
     button
-      padding 0
+      padding .1em .5em
+      margin-right .25em
       border 0
       background none
       font-size 1.5em
+      &:hover
+      &:focus
+      &:focus:hover
+        background none
+        color $secondary-dark
       span
         display none
+      &.btn
+        .fa
+          margin 0
