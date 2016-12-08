@@ -42,3 +42,7 @@ Meteor.publish 'articles', (query={}) ->
 
 Meteor.publish 'feeds', ->
   Feeds.find()
+
+# User status
+Meteor.publish 'userStatus', () ->
+  Meteor.users.find({'status.online': true }, {fields: {'status': 1 }})
