@@ -20,14 +20,15 @@ do ->
       @client.click('input[placeholder="Search for a location..."]')
       @client.clickWhenVisible('#select2-incident-location-select2-results li:first-child')
       # Status
-      @client.click('li[data-value="suspected"]')
+      @client.click('label[for="suspected"]')
       # Type
-      @client.click('li[data-value="cases"]')
+      @client.click('label[for="cases"]')
       # Count
       @client.waitForVisible('input[name="count"]')
       @client.setValue('input[name="count"]', count)
       # Submit
       @client.click('button.save-modal[type="button"]')
+      @client.waitForExist('.toast-success', 1000)
 
     @When /^I should see a scatter plot group with count "([^']*)"$/, (count) ->
       @client.pause(2000)
