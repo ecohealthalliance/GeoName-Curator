@@ -43,3 +43,9 @@
     border: 1px solid lightgray;
     margin-left: 4px;
 }
+.eidr-connect-events {
+    font-weight: bold;
+}
+.eidr-connect-events a {
+    cursor: pointer;
+}
