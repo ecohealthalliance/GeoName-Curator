@@ -1,4 +1,5 @@
 import 'd3';
+import picoModal from 'picomodal';
 import './EventDrops/lib/eventDrops.js';
 import './EventDrops/style.css';
 import './styles.css';
@@ -84,7 +85,8 @@ const enhance = (target)=>{
   }, (events)=>{
     if(!events || events.length === 0) return enhancing=false;
     let enhancementHTML = `
-      <p>EIDR-Connect Events:&nbsp;
+      <p class="eidr-connect-events">EIDR-Connect Events
+        [<a id="aboutEidrConnect">?</a>]:&nbsp;
         ${events.map((event)=>{
           return `<a href="https://eidr-connect.eha.io/user-event/${event._id}">
             ${event.eventName}
@@ -101,6 +103,14 @@ const enhance = (target)=>{
     let $seeAlso = $(target).find("h2");
     if($seeAlso.length > 0) $seeAlso.before(enhancementHTML);
     else $(target).append(enhancementHTML);
+    $("#aboutEidrConnect").click(()=>picoModal(
+      `This information is being displayed because a curator associated
+      this post with an Emerging Infectious Disease event in EIDR-Connect.
+      The timeline below shows all the other ProMED posts associated with the
+      same EID event as this one. Additional information about the EID event,
+      such as case count graphs and maps,
+      is available on the EIDR-Connect website.`
+      ).show());
     var minPubDate = new Date();
     events.forEach((event)=>{
       event.articles.forEach((article)=>{
