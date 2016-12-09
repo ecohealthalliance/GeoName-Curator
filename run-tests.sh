@@ -89,6 +89,10 @@ function pauseForApp {
 }
 
 function finishTest {
+  if [ $browser = "phantomjs" ]; then
+    echo "Killing phantomjs"
+    pkill phantomjs
+  fi
   killed=true
 }
 
@@ -111,9 +115,3 @@ $chimp --watch=$watch --ddp=$app_protocol://$app_host:$app_port \
         --compiler=coffee:coffee-script/register \
         --tags=$tags \
         --chai=true
-
-if [ $browser = "phantomjs" ]; then
-  echo "Killing phantomjs"
-  killall phantomjs
-  exit 1
-fi
