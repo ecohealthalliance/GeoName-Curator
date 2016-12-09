@@ -52,7 +52,7 @@ do ->
       expect(initialLen).not.toEqual(currentLen)
 
     @Given /^I can click on the create new event button$/, ->
-      @client.waitForVisible('button[data-target="#create-event-modal"]')
+      @client.waitForVisible('button[data-target="#create-event-modal"]', 2000)
       @client.click('button[data-target="#create-event-modal"]')
 
     @Then /^I can(not)? create an event with name "([^']*)" and summary "([^']*)"$/, (negated, name, summary) ->
