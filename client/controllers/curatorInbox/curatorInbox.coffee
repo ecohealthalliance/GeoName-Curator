@@ -96,17 +96,10 @@ Template.curatorInbox.helpers
   query: ->
     Template.instance().query
 
-  searchString: ->
-    Template.instance().textFilter.get().$regex
-
-  searchWaiting: ->
-    Template.instance().searching.get()
+  searching: ->
+    Template.instance().searching
 
 Template.curatorInbox.events
-  'keyup #curator-inbox-article-filter, input #curator-inbox-article-filter': (event, instance) ->
-    instance.textFilter.set
-      $regex: instance.$(event.target).val()
-      $options: 'i'
 
   'click .curator-filter-reviewed-icon': (event, instance) ->
     reviewFilter = instance.reviewFilter
@@ -147,24 +140,6 @@ Template.curatorInbox.events
 
   'click #calendar-btn-cancel': (event, instance) ->
     instance.calendarState.set(false)
-
-  'click .search-icon:not(.cancel)': (event, instance) ->
-    searching = instance.searching
-    searching.set not searching.get()
-    setTimeout ->
-      $('#curator-inbox-article-filter').focus()
-    , 200
-    $(event.currentTarget).tooltip 'destroy'
-
-  'click .cancel, keyup #curator-inbox-article-filter': (event, instance) ->
-    isKeyup = event.type is 'keyup'
-    $target = instance.$(event.target)
-    return if isKeyup and event.keyCode isnt 27
-    instance.textFilter.set('')
-    if isKeyup
-      $target.val('')
-    else
-      $target.prev().val('')
 
 Template.curatorInboxSection.onCreated ->
   @selectedSourceId = new ReactiveVar null

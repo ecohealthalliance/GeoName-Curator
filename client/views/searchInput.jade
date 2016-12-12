@@ -1,0 +1,8 @@
+template(name="searchInput")
+  .option.input-wrapper(class="{{#unless searchWaiting}} stagged {{/unless}}")
+    input.search.form-control.icon-right(
+      type="text" placeholder="Search inbox")
+    i.fa.fa-search.search-icon.right(
+      data-toggle="tooltip"
+      title="Search"
+      class="{{#if searchString}} cancel {{/if}}")
