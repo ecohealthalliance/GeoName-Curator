@@ -11,6 +11,16 @@ template(name="sourceModal")
           +modalCloseButton
         .modal-body
           form#add-source(novalidate)
+            if suggestedArticles
+              .form-group.full-width
+                label.control-label.featured Suggested Sources
+                #suggested-articles.modal-block
+                  if loadingArticles
+                    .loading.small
+                  else
+                    ul.list-unstyled
+                      each suggestedArticles
+                        li(class="{{#if articleSelected}} active {{/if}}")= subject
             .form-group
               label.control-label Title
               input#title.form-control.new-title(type="text" name="title" value="{{title}}" required)
@@ -20,16 +30,6 @@ template(name="sourceModal")
                 p.form-control-static {{url}}
               else
                 input#article.form-control.new-article(type="url" name="article" required)
-            if suggestedArticles
-              .form-group
-                label.control-label Suggested Articles
-                #suggested-articles.modal-block.full-width
-                  if loadingArticles
-                    .loading.small
-                  else
-                    ul.list-unstyled
-                      each suggestedArticles
-                        li(class="{{#if articleSelected}} active {{/if}}")= subject
             .form-group
               label.control-label Publication Date
               .modal-block.full-width
@@ -48,7 +48,7 @@ template(name="sourceModal")
                         each timezones
                           option(value=name selected=selected) {{name}} (GMT{{offset}})
             unless edit
-              .form-group
+              .form-group.no-margin
                 .checkbox
                   label
                     input(type="checkbox" value="1" name="enhance" checked)
