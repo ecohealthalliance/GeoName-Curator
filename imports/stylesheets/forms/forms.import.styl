@@ -5,6 +5,21 @@ form
 .input-wrapper
   position relative
 
+.input-group
+  &.with-select
+    position relative
+    select
+      appearance none
+    &::after
+      display block
+      position absolute
+      right .5em
+      top 50%
+      transform translate(0, -50%)
+      z-index 10
+      content '\f107'
+      font(FontAwesome)
+
 input
 .form-control
   border-color $border-primary

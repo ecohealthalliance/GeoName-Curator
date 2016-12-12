@@ -1,46 +1,52 @@
 convertDate = require "/imports/convertDate.coffee"
 Articles = require '/imports/collections/articles.coffee'
+createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 
 import {UTCOffsets, cleanUrl} from '/imports/utils.coffee'
 
+_setDatePicker = (picker, date) ->
+  picker.setStartDate(date)
+  picker.clickApply()
 
 Template.sourceModal.onCreated ->
   @tzIsSpecified = false
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
-  @currentTitle = new ReactiveVar()
-  @currentTitle.set @data.title
+  @selectedArticle = new ReactiveVar()
+  @selectedArticle.set @data
+  @loadingArticles = new ReactiveVar(true)
   if @data.publishDate
     @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
                                               UTCOffsets[@data.publishDateTZ])
   @suggestedArticles = new Mongo.Collection(null)
   Meteor.call 'queryForSuggestedArticles', @data.userEventId, (error, result) =>
+    @loadingArticles.set(false)
     if result
       for suggestedArticle in result
-        @suggestedArticles.insert {
+        @suggestedArticles.insert
           url: "http://www.promedmail.org/post/#{suggestedArticle.promedId}"
           subject: suggestedArticle.subject.raw
-        }
 
 Template.sourceModal.onRendered ->
-  pickerOptions = {
+  pickerOptions =
     format: 'M/D/YYYY'
     inline: true
     useCurrent: false
-  }
+    singleDatePicker: true
   if @timezoneFixedPublishDate
-    pickerOptions.defaultDate = moment(
+    pickerOptions.defaultDate = moment
       year: @timezoneFixedPublishDate.year()
       month: @timezoneFixedPublishDate.month()
       date: @timezoneFixedPublishDate.date()
-    )
-  @$(".datePicker").datetimepicker pickerOptions
-  pickerOptions = {
+  @datePicker = createInlineDateRangePicker(@$('#publishDate'), pickerOptions)
+
+  pickerOptions =
     format: 'h:mm A'
     useCurrent: false
-  }
   if @timezoneFixedPublishDate
     pickerOptions.defaultDate = @timezoneFixedPublishDate
-  $picker = @$(".timePicker").datetimepicker pickerOptions
+
+  $picker = @$('.timePicker').datetimepicker pickerOptions
+
 Template.sourceModal.helpers
   timezones: ->
     timezones = []
@@ -58,24 +64,31 @@ Template.sourceModal.helpers
     if @edit
       return "save-edit-modal"
     return "save-modal"
+
   title: ->
-    Template.instance().currentTitle.get()
+    Template.instance().selectedArticle.get().title
+
   suggestedArticles: ->
-    templateInstance = Template.instance()
-    articles = templateInstance.suggestedArticles.find()
+    instance = Template.instance()
+    articles = instance.suggestedArticles.find()
     if articles.count()
       articles
     else
       false
 
+  articlesLoading: ->
+    Template.instance().loadingArticles.get()
+
+  articleSelected: ->
+    @_id is Template.instance().selectedArticle.get()._id
+
 Template.sourceModal.events
-  "click .save-modal": (e, templateInstance) ->
-    form = templateInstance.$("form")[0]
+  "click .save-modal": (e, instance) ->
+    form = instance.$("form")[0]
     article = form.article.value
     validURL = form.article.checkValidity()
-    datePicker = templateInstance.$('#publishDate').data("DateTimePicker")
-    timePicker = templateInstance.$('#publishTime').data("DateTimePicker")
-    date = datePicker.date()
+    timePicker = instance.$('#publishTime').data('DateTimePicker')
+    date = instance.datePicker.startDate
     time = timePicker.date()
 
     unless validURL
@@ -90,49 +103,44 @@ Template.sourceModal.events
       form.publishDateTZ.focus()
       return
 
-    source = {
-      userEventId: templateInstance.data.userEventId
+    source =
+      userEventId: instance.data.userEventId
       url: cleanUrl(article)
       publishDateTZ: form.publishDateTZ.value
       title: form.title.value
-    }
 
     if date
-      selectedDate = moment(
+      selectedDate = moment
         year: date.year()
         month: date.month()
         date: date.date()
-      )
       if form.publishTime.value.length
-        selectedDate.set({hour: time.get("hour"), minute: time.get("minute")})
+        selectedDate.set({hour: time.get('hour'), minute: time.get('minute')})
         selectedDate = convertDate(selectedDate,
-                                    UTCOffsets[source.publishDateTZ], "local")
+                                    UTCOffsets[source.publishDateTZ], 'local')
       source.publishDate = selectedDate.toDate()
 
     enhance = form.enhance.checked
-    Meteor.call("addEventSource", source, (error, articleId) ->
+    Meteor.call 'addEventSource', source, (error, articleId) ->
       if error
         toastr.error error.reason
       else
-        Modal.hide(templateInstance)
+        Modal.hide(instance)
         form.article.value = ""
-        datePicker.date(null)
+        _setDatePicker(instance.datePicker, null)
         timePicker.date(null)
 
-        templateInstance.tzIsSpecified = false
+        instance.tzIsSpecified = false
 
         if enhance
-          Modal.show("suggestedIncidentsModal", {
-            userEventId: templateInstance.data.userEventId
+          Modal.show 'suggestedIncidentsModal',
+            userEventId: instance.data.userEventId
             article: Articles.findOne(articleId)
-          })
-    )
 
-  "click .save-edit-modal": (e, templateInstance) ->
-    form = templateInstance.$("form")[0]
-    datePicker = templateInstance.$('#publishDate').data("DateTimePicker")
-    timePicker = templateInstance.$('#publishTime').data("DateTimePicker")
-    date = datePicker.date()
+  'click .save-edit-modal': (e, instance) ->
+    form = instance.$("form")[0]
+    timePicker = instance.$('#publishTime').data('DateTimePicker')
+    date = instance.datePicker.startDate
     time = timePicker.date()
 
     if !date and form.publishTime.value.length
@@ -147,51 +155,48 @@ Template.sourceModal.events
     source.publishDateTZ = form.publishDateTZ.value
 
     if date
-      selectedDate = moment(
+      selectedDate = moment
         year: date.year()
         month: date.month()
         date: date.date()
-      )
       if form.publishTime.value.length
-        selectedDate.set({hour: time.get("hour"), minute: time.get("minute")})
+        selectedDate.set({hour: time.get('hour'), minute: time.get('minute')})
         selectedDate = convertDate(selectedDate,
-                                    UTCOffsets[source.publishDateTZ], "local")
+                                    UTCOffsets[source.publishDateTZ], 'local')
       source.publishDate = selectedDate.toDate()
 
-    Meteor.call("updateEventSource", source, (error, result) ->
+    Meteor.call 'updateEventSource', source, (error, result) ->
       if error
         toastr.error error.reason
       else
-        Modal.hide(templateInstance)
-    )
+        Modal.hide(instance)
 
-  "change #publishDateTZ": (e, templateInstance) ->
-    templateInstance.tzIsSpecified = true
-  "input #article": (event, templateInstance) ->
+  'change #publishDateTZ': (e, instance) ->
+    instance.tzIsSpecified = true
+
+  'input #article': (event, instance) ->
     value = event.currentTarget.value.trim()
-    match = templateInstance.proMEDRegEx.exec(value)
+    match = instance.proMEDRegEx.exec(value)
     if match
       articleId = Number(match[1])
       Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
         if result
           date = moment.utc(result)
           # Aproximate DST for New York timezone
-          daylightSavings = moment.utc(date.year() + "-03-08") <= date
+          daylightSavings = moment.utc("#{date.year()}-03-08") <= date
           daylightSavings = daylightSavings and moment.utc(
             date.year() + "-11-01") >= date
-          tz = if daylightSavings then "EDT" else "EST"
+          tz = if daylightSavings then 'EDT' else 'EST'
           date = date.utcOffset(UTCOffsets[tz])
-          templateInstance.$("#publishDateTZ").val(tz)
-          templateInstance.$('#publishDate').data("DateTimePicker").date(date)
-          templateInstance.$('#publishTime').data("DateTimePicker").date(date)
+          instance.$('#publishDateTZ').val(tz)
+          _setDatePicker(instance.datePicker, date)
+          instance.$('#publishTime').data('DateTimePicker').date(date)
 
-  "click #suggested-articles a": (event, templateInstance) ->
+  'click #suggested-articles li': (event, instance) ->
     event.preventDefault()
-    title = event.currentTarget.innerText
-    templateInstance.currentTitle.set(title)
-    url = event.currentTarget.getAttribute 'href'
-    input = templateInstance.find('#article')
-    input.value = url
-    titleInput = templateInstance.find('#title')
-    titleInput.value = title
+    instance.selectedArticle.set(@)
+    input = instance.find('#article')
+    input.value = @url
+    titleInput = instance.find('#title')
+    titleInput.value = @subject
     $(input).trigger('input').trigger('input')
