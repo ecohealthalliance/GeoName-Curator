@@ -96,29 +96,32 @@ Template.curatorInbox.helpers
   query: ->
     Template.instance().query
 
-  searching: ->
+  searchString: ->
+    Template.instance().textFilter.get().$regex
+
+  searchWaiting: ->
     Template.instance().searching.get()
 
 Template.curatorInbox.events
-  "keyup #curator-inbox-article-filter, input #curator-inbox-article-filter": (event, template) ->
-    template.textFilter.set
-      $regex: $(event.target).val()
+  'keyup #curator-inbox-article-filter, input #curator-inbox-article-filter': (event, instance) ->
+    instance.textFilter.set
+      $regex: instance.$(event.target).val()
       $options: 'i'
 
-  "click .curator-filter-reviewed-icon": (event, template) ->
-    reviewFilter = template.reviewFilter
+  'click .curator-filter-reviewed-icon': (event, instance) ->
+    reviewFilter = instance.reviewFilter
     if reviewFilter.get()
       reviewFilter.set null
     else
       reviewFilter.set $ne: true
     $(event.currentTarget).tooltip 'destroy'
 
-  "click .curator-filter-calendar-icon": (event, template) ->
-    calendarState = template.calendarState
+  'click .curator-filter-calendar-icon': (event, instance) ->
+    calendarState = instance.calendarState
     calendarState.set not calendarState.get()
     $(event.currentTarget).tooltip 'destroy'
 
-  "click #calendar-btn-apply": (event, template) ->
+  'click #calendar-btn-apply': (event, instance) ->
     range = null
     startDate = $('#date-picker').data('daterangepicker').startDate
     endDate = $('#date-picker').data('daterangepicker').endDate
@@ -127,34 +130,41 @@ Template.curatorInbox.events
       endDate = moment(startDate).set({hour: 23, minute: 59, second: 59, millisecond: 999})
 
     if startDate and endDate
-      template.calendarState.set(false)
-      template.ready.set(false)
-      range = {
+      instance.calendarState.set(false)
+      instance.ready.set(false)
+      range =
         startDate: startDate.toDate()
         endDate: endDate.toDate()
-      }
-      template.dateRange.set range
+      instance.dateRange.set range
 
-  "click #calendar-btn-reset": (event, template) ->
-    template.calendarState.set(false)
-    template.ready.set(false)
-
+  'click #calendar-btn-reset': (event, instance) ->
+    instance.calendarState.set(false)
+    instance.ready.set(false)
     createNewCalendar()
-
-    template.dateRange.set
+    instance.dateRange.set
       startDate: moment().subtract(1, 'weeks').toDate()
       endDate: new Date()
 
-  "click #calendar-btn-cancel": (event, template) ->
-    template.calendarState.set(false)
+  'click #calendar-btn-cancel': (event, instance) ->
+    instance.calendarState.set(false)
 
-  'click .search-icon': (event, instance) ->
+  'click .search-icon:not(.cancel)': (event, instance) ->
     searching = instance.searching
     searching.set not searching.get()
     setTimeout ->
       $('#curator-inbox-article-filter').focus()
     , 200
     $(event.currentTarget).tooltip 'destroy'
+
+  'click .cancel, keyup #curator-inbox-article-filter': (event, instance) ->
+    isKeyup = event.type is 'keyup'
+    $target = instance.$(event.target)
+    return if isKeyup and event.keyCode isnt 27
+    instance.textFilter.set('')
+    if isKeyup
+      $target.val('')
+    else
+      $target.prev().val('')
 
 Template.curatorInboxSection.onCreated ->
   @selectedSourceId = new ReactiveVar null
@@ -272,8 +282,8 @@ Template.curatorInboxSection.helpers
         'selected'
 
 Template.curatorInboxSection.events
-  'click .curator-inbox-table tbody tr': (event, template) ->
-    template.data.selectedSourceId.set @_id
+  'click .curator-inbox-table tbody tr': (event, instance) ->
+    instance.data.selectedSourceId.set @_id
 
-  'click .curator-inbox-section-head': (event, template) ->
-    template.isOpen.set(!template.isOpen.curValue)
+  'click .curator-inbox-section-head': (event, instance) ->
+    instance.isOpen.set(!instance.isOpen.curValue)

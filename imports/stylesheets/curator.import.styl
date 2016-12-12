@@ -73,9 +73,10 @@ $header-BG = $border-primary-light
       display flex
       align-items center
       font-size 1.2em
-      cursor pointer
       transition .1s ease-in-out
-      color $m-gray
+      &.cancel
+        &::before
+          content '\f057'
     input
       transition .3s
       opacity 1
