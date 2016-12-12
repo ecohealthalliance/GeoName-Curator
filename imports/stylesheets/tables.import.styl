@@ -10,6 +10,7 @@
 
 .table
   border 0
+  margin-bottom 0
   > tbody
     > tr
       &:hover
@@ -46,6 +47,9 @@
         .action
           &::after
             color $primary
+      &:last-of-type
+        td
+          border-bottom-color $border-primary
       .action
         min-width 1em
         max-width 1em
@@ -82,9 +86,82 @@
     display none
   .reactive-table-navigation
     +above(3)
-      padding 0 $page-padding
+      padding .5em 15px
 
 .reactive-table-navigation
-  width calc(100% - 30px)
-  margin-right 1em
-  margin-left 1em
+  padding 1em .5em .9em .5em
+  display flex
+  align-items center
+  +above(3)
+    background lighten($border-primary-light, 60%)
+  .form-control
+    display inline-block
+  .form-inline
+    float none
+    margin-bottom 0
+  input
+  label
+    font-weight normal
+    text-transform none
+    color $m-gray
+  input
+    text-align center
+    border-color $l-gray
+  .rows-per-page-label
+    display none
+  .page-number
+    margin-left auto
+  input
+  .page-number-count
+  .rows-per-page-count
+    font-weight 600
+  i
+    color $m-gray
+  .previous-page
+    padding 1em .2em 1em 1em
+  .next-page
+    padding 1em 1em 1em .2em
+  .next-page
+  .previous-page
+    &:hover
+      color $secondary-dark
+    &:active
+      background $border-primary
+      color $primary-dark
+
+  // Show the pagination as simple previous and next buttons on mobile
+  +below(2)
+    justify-content center
+    margin-bottom .75em
+    .page-number
+      margin auto
+    .rows-per-page
+      display none
+    .page-number
+      display flex
+      width calc(100% - 30px)
+      label
+        display none
+      i
+        flex 1
+        background $border-primary-light
+        text-align center
+        padding .8em .25em
+        min-width 40%
+        color $primary-dark
+        border-radius 4px
+        border 1px solid $border-primary
+        font-size .95em
+        &:hover
+          color $primary
+        &::after
+          font($body-font)
+        &.previous-page
+          &::after
+            buttonContent('previous', left)
+        &.next-page
+          &::before
+            buttonContent('next', right)
+          &::after
+            content '\f0da'
+            font(FontAwesome)

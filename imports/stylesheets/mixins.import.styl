@@ -58,3 +58,9 @@ addBorder($sides, $h, $color)
   else
     for $side in $sides
       border-{$side} unit($h,'px') solid $color
+
+buttonContent($btn-text, $icon-position)
+  content $btn-text
+  margin-{$icon-position} .25em
+  text-transform uppercase
+  font($body-font)
