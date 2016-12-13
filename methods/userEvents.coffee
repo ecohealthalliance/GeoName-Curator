@@ -1,27 +1,26 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
+UserEventSchema = require '/imports/schemas/userEvent.coffee'
 
 Meteor.methods
-  editUserEvent: (id, name, summary, disease) ->
-    if Roles.userIsInRole(Meteor.userId(), ['admin'])
-      user = Meteor.user()
-      now = new Date()
-      trimmedName = name.trim()
-
-      if trimmedName.length
-        UserEvents.upsert id,
-          $set:
-            eventName: trimmedName
-            summary: summary
-            disease: disease
-            lastModifiedDate: now
-            lastModifiedByUserId: user._id
-            lastModifiedByUserName: user.profile.name
-          $setOnInsert:
-            creationDate: now
-            createdByUserId: user._id
-            createdByUserName: user.profile.name
-            articleCount: 0
+  upsertUserEvent: (userEvent) ->
+    if not Roles.userIsInRole(@userId, ['admin'])
+      throw new Meteor.Error("auth", "Admin level permissions are required for this action.")
+    user = Meteor.user()
+    now = new Date()
+    userEvent = _.extend(userEvent, 
+      lastModifiedDate: now
+      lastModifiedByUserId: user._id
+      lastModifiedByUserName: user.profile.name
+    )
+    UserEventSchema.validate(userEvent)
+    UserEvents.upsert userEvent._id,
+      $set: userEvent
+      $setOnInsert:
+        creationDate: now
+        createdByUserId: user._id
+        createdByUserName: user.profile.name
+        articleCount: 0
 
   deleteUserEvent: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
