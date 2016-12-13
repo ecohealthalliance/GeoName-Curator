@@ -12,6 +12,9 @@ template(name="createEventModal")
               label.control-label(for="eventName") Event Name
               input#eventName.form-control(type='text', name='eventName' required)
             .form-group
+              label Event Disease
+              input.form-control(type="text" name="eventDisease" value=disease)
+            .form-group
               label.control-label(for="eventSummary") Event Summary
               textarea#eventSummary.form-control(name='eventSummary', rows='15')
 
