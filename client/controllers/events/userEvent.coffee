@@ -1,4 +1,5 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
+UserEvents = require '/imports/collections/userEvents.coffee'
 #Allow multiple modals or the suggested locations list won't show after the loading modal is hidden
 Modal.allowMultiple = true
 
@@ -18,6 +19,10 @@ Template.userEvent.helpers
 
   locationView: ->
     Router.current().getParams()._view is 'locations'
+  
+  deleted: ->
+    userEvent = UserEvents.findOne({_id: Template.instance().data.userEvent._id})
+    userEvent.deleted
 
   view: ->
     currentView = Router.current().getParams()._view

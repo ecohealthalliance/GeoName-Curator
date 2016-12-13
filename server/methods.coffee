@@ -71,6 +71,7 @@ Meteor.methods
     UserEvents.find({
       $text:
         $search: search
+      deleted: {$in: [null, false]}
     }, {
         fields:
           score:
