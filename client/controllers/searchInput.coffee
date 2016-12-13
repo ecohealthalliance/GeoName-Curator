@@ -1,17 +1,40 @@
+###
+ Seach input options/settings:
+    textFilter:  Either a reactiveVar or ReactiveTableFilter
+    id:          The id associated with the element and ReactiveTableFilter if its passed
+    props:       If a textFilter is null, a ReactiveTableFilter will be created
+                 with the id and props (an array)
+    toggleable:  If set to true, the input will be initially hidden and appear when
+                 the search icon is clicked. When the user clicks on the search
+                 icon within the input, the input returns to its hidden state.
+    placeholder: Defaults to 'Search'
+    classes:     Classes which will be applied to the input's parent element
+####
+
 clearSearch = (instance) ->
   instance.textFilter.set('')
   instance.$('.search').val('')
 
 Template.searchInput.onCreated ->
-  @searching = @data.searching
-  @textFilter = @data.textFilter
+  instanceData = @data
+  searching = true
+  if instanceData.toggleable
+    searching = false
+  @searching = new ReactiveVar(searching)
+  @textFilter = instanceData.textFilter or new ReactiveTable.Filter(instanceData.id, instanceData.props)
 
 Template.searchInput.helpers
   searchString: ->
-    Template.instance().textFilter.get().$regex
+    Template.instance().textFilter.get()
 
   searchWaiting: ->
     Template.instance().searching.get()
+
+  toggleable: ->
+    Template.instance().data.toggleable
+
+  placeholder: ->
+    @placeholder or 'Search'
 
 Template.searchInput.events
   'keyup .search, input .search': (event, instance) ->
@@ -22,14 +45,14 @@ Template.searchInput.events
         $regex: instance.$(event.target).val()
         $options: 'i'
 
-  'click .search-icon:not(.cancel)': (event, instance) ->
+  'click .search-icon.toggleable:not(.cancel)': (event, instance) ->
     searching = instance.searching
     searching.set not searching.get()
     setTimeout ->
-      $('#curator-inbox-article-filter').focus()
+      instance.$(".search").focus()
     , 200
     $(event.currentTarget).tooltip 'destroy'
 
-  'click .cancel, keyup #curator-inbox-article-filter': (event, instance) ->
+  'click .cancel, keyup .search': (event, instance) ->
     return if event.type is 'keyup' and event.keyCode isnt 27
-    clearSearch()
+    clearSearch(instance)

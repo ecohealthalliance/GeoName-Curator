@@ -1,0 +1,51 @@
+.search-icon
+  position absolute
+  top 50%
+  transform translate(0, -50%)
+  color $border-primary
+  cursor default
+  &.toggleable
+    cursor pointer
+  &.right
+    right 10px
+    left auto
+  &.cancel
+    color lighten($delete, 10%)
+    font-size 1.25em
+    transition font-size .1s ease-in-out
+    cursor pointer
+    &::before
+      content '\f057'
+    &:hover
+      color $delete
+      font-size 1.45em
+    &:active
+      color $secondary-dark
+
+.search-wrapper
+  align-self center
+  transition .3s
+  width 260px
+  transform translate(0,0)
+  margin-left auto
+  .search-icon
+    display flex
+    align-items center
+    transition .1s ease-in-out
+  input
+    transition .3s
+    opacity 1
+    border-radius 3px
+    border 1px solid $border-primary
+    &:focus
+      border-color $primary
+  &.stagged
+    width 35px
+    input
+      visibility hidden
+      opacity 0
+    .search-icon
+      font-size 1.75em
+      color $primary
+      &:hover
+        color lighten(@color, 50%)

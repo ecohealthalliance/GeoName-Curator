@@ -1,8 +1,5 @@
 formatLocation = require '/imports/formatLocation.coffee'
 
-Template.locationList.onRendered ->
-  @$('#locationFilter input').attr 'placeholder', 'Search locations'
-
 Template.locationList.helpers
   incidentLocations: ->
     locations = {}
@@ -55,6 +52,12 @@ Template.locationList.helpers
     class: 'table'
     filters: ['locationFilter']
 
+  searchSettings: ->
+    id: 'locationFilter'
+    class: 'table-filter'
+    placeholder: 'Search locations'
+    toggleable: true
+    props: ['name']
 
 Template.locationList.events
   'keyup .reactive-table-input': (event, template) ->

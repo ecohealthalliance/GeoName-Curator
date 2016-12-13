@@ -8,7 +8,6 @@ Template.articles.onCreated ->
   @selectedSourceId = new ReactiveVar null
 
 Template.articles.onRendered ->
-  @$('#sourceFilter input').attr 'placeholder', 'Search sources'
   instance = @
   @autorun ->
     instance.selectedSourceId.get()
@@ -19,44 +18,44 @@ Template.articles.helpers
   getSettings: ->
     fields = [
       {
-        key: "title"
-        label: "Title"
+        key: 'title'
+        label: 'Title'
         fn: (value, object, key) ->
           # switching over to displaying the title in this column.  If that's not loaded in the DB show the URL.
           return object.title || value
       },
       {
-        key: "addedDate"
-        label: "Added"
+        key: 'addedDate'
+        label: 'Added'
         fn: (value, object, key) ->
           return moment(value).fromNow()
         sortFn: (value) ->
           value
       },
       {
-        key: "publishDate"
-        label: "Publication Date"
+        key: 'publishDate'
+        label: 'Publication Date'
         fn: (value, object, key) ->
           if value
             return moment(value).format('MMM D, YYYY')
-          return ""
+          return ''
         sortFn: (value) ->
           value
       }
     ]
 
     fields.push
-      key: "expand"
-      label: ""
-      cellClass: "action open-right"
+      key: 'expand'
+      label: ''
+      cellClass: 'action open-right'
 
     id: 'event-sources-table'
     fields: fields
     showFilter: false
     showNavigationRowsPerPage: false
     showRowCount: false
-    class: "table event-sources"
-    filters: ["sourceFilter"]
+    class: 'table event-sources'
+    filters: ['sourceFilter']
 
   selectedSource: ->
     selectedId = Template.instance().selectedSourceId.get()
@@ -64,18 +63,29 @@ Template.articles.helpers
       Articles.findOne selectedId
 
   incidentsForSource: (sourceUrl) ->
-    Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
+    Incidents.find
+      userEventId: Template.instance().data.userEvent._id
+      url: sourceUrl
 
   locationsForSource: (sourceUrl) ->
     locations = {}
-    incidents = Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).forEach( (incident) ->
-      for location in incident.locations
-        locations[location.id] = location.name
-    )
+    Incidents
+      .find
+        userEventId: Template.instance().data.userEvent._id
+        url: sourceUrl
+      .forEach (incident) ->
+        for location in incident.locations
+          locations[location.id] = location.name
     _.flatten locations
 
   formatUrl: (url) ->
     formatUrl(url)
+
+  searchSettings: ->
+    id: 'sourceFilter'
+    placeholder: 'Search sources'
+    toggleable: true
+    props: ['title']
 
 Template.articles.events
   'click #event-sources-table tbody tr': (event, instance) ->

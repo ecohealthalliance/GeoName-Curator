@@ -2,9 +2,7 @@ template(name="mapFilters")
   .map-menu
     .search-wrap
       i.fa.fa-calendar.toggle-calendar-state(class="{{#if calendarState}} showing {{/if}}")
-      .map-search
-        i.fa.fa-search
-        input.form-control(type="text" placeholder="Search events")
+      +searchInput searchSettings
     if calendarState
       +dateSelector(dateVariables=dateVariables filtering=filtering)
     ul.map-event-list.list-group

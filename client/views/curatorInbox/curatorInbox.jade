@@ -13,7 +13,8 @@ template(name="curatorInbox")
           data-toggle="tooltip"
           title="Filter by Date Range")
           i.fa.fa-calendar
-        +searchInput textFilter=textFilter searching=searching
+        +searchInput searchSettings
+
     .curator-inbox-sources.pane.pane-l.curator-inbox--pane
       .curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
         .text-center

@@ -36,13 +36,17 @@ Template.mapFilters.onRendered ->
         varQuery._id = {$in: eventIds}
         filters.push(varQuery)
 
-    userSearchText = Template.instance().userSearchText.get()
-    nameQuery = []
-    searchWords = userSearchText.split(' ')
-    _.each searchWords, -> nameQuery.push {eventName: new RegExp(userSearchText, 'i')}
-    filters.push $or: nameQuery
+    userSearchText = instance.userSearchText.get().$regex
+    if userSearchText
+      nameQuery = []
+      searchWords = userSearchText.split(' ')
+      _.each searchWords, -> nameQuery.push {eventName: new RegExp(userSearchText, 'i')}
+      filters.push $or: nameQuery
 
-    Template.instance().data.query.set({ $and: filters })
+    if filters.length
+      instance.data.query.set({ $and: filters })
+    else
+      instance.data.query.set({})
 
 Template.mapFilters.helpers
   dateVariables: ->
@@ -75,19 +79,15 @@ Template.mapFilters.helpers
   calendarState: ->
     Template.instance().calendarState.get()
 
+  searchSettings: ->
+    id: 'mapFilters'
+    textFilter: Template.instance().userSearchText
+    placeholder: 'Search events'
+
 Template.mapFilters.events
   'cancel.daterangepicker': (e, instance) ->
     $(e.target).val("")
     setVariables instance, 'on', []
-
-  'input .map-search': _.debounce (e, templateInstance) ->
-    e.preventDefault()
-    text = $(e.target).val()
-    templateInstance.userSearchText.set(text)
-
-  'click .clear-search': (e, instance) ->
-    instance.$('.map-search').val('')
-    Template.instance().userSearchText.set('')
 
   'click .map-event-list--item': (e, instance) ->
     selectedEvents = instance.data.selectedEvents

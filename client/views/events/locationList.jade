@@ -3,10 +3,7 @@ template(name="locationList")
     .flex-col.bordered
       if incidentLocations.length
         .tab-form
-          +reactiveTableFilter(
-            id="locationFilter"
-            label=" "
-            class="table-filter with-icon no-addon")
+          +searchInput searchSettings
         +reactiveTable collection=incidentLocations settings=getSettings
       else
         p No locations are associated with this event.

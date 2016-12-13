@@ -27,7 +27,6 @@ Template.curatorInbox.onCreated ->
   @reviewFilter.set({$ne: true})
   @selectedSourceId = new ReactiveVar null
   @query = new ReactiveVar null
-  @searching = new ReactiveVar false
 
   @autorun =>
     range = @dateRange.get()
@@ -96,11 +95,14 @@ Template.curatorInbox.helpers
   query: ->
     Template.instance().query
 
-  searching: ->
-    Template.instance().searching
+  searchSettings: ->
+    id:"inboxFilter"
+    textFilter: Template.instance().textFilter
+    classes: 'option'
+    placeholder: 'Search inbox'
+    toggleable: true
 
 Template.curatorInbox.events
-
   'click .curator-filter-reviewed-icon': (event, instance) ->
     reviewFilter = instance.reviewFilter
     if reviewFilter.get()

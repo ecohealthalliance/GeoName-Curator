@@ -73,9 +73,6 @@ Template.userEvents.onCreated ->
       Session.set 'events-field-sort-order-' + field.fieldName, @sortOrder[field.fieldName].get()
       Session.set 'events-field-sort-direction-' + field.fieldName, @sortDirection[field.fieldName].get()
 
-Template.userEvents.onRendered ->
-  @$('#eventFilter input').attr 'placeholder', 'Search events'
-
 Template.userEvents.helpers
   settings: ->
     fields = []
@@ -102,6 +99,16 @@ Template.userEvents.helpers
     showFilter: false
     class: 'table featured'
     filters: ['eventFilter']
+
+  textFilter: ->
+    Template.instance().textFilter
+
+  searchSettings: ->
+    id:"eventFilter"
+    classes: 'event-search page-options--search'
+    textFilter: Template.instance().textFilter
+    placeholder: 'Search Events'
+    props: ['eventName']
 
 Template.userEvents.events
   "click .reactive-table tbody tr": (event) ->

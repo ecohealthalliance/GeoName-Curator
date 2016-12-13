@@ -7,10 +7,9 @@ Template.curatorEvents.onCreated ->
   instance = @
   @suggestedEventsHeaderState = new ReactiveVar true
   @autorun =>
-    instance.subscribe("articles", {
+    instance.subscribe "articles",
       url:
         $regex: "post\/" + CuratorSources.findOne(@data.selectedSourceId.get())._sourceId + "$"
-    })
     instance.associatedEventIdsToArticles = new ReactiveVar {}
 
   @autorun =>
@@ -20,9 +19,6 @@ Template.curatorEvents.onCreated ->
     ).map((article)->
       [article.userEventId, article]
     ))
-
-Template.curatorEvents.onRendered ->
-  @$('#curatorEventsFilter input').attr 'placeholder', 'Search events'
 
 Template.curatorEvents.helpers
   userEvents: ->
@@ -74,6 +70,13 @@ Template.curatorEvents.helpers
 
   allEventsOpen: ->
     Template.instance().suggestedEventsHeaderState.get()
+
+  searchSettings: ->
+    id: 'curatorEventsFilter'
+    textFilter: Template.instance().textFilter
+    placeholder: 'Search Events'
+    searching: new ReactiveVar false
+    toggleable: true
 
 Template.curatorEvents.events
   'click .curator-events-table .curator-events-table-row': (event, instance) ->

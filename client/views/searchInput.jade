@@ -1,8 +1,12 @@
 template(name="searchInput")
-  .option.input-wrapper(class="{{#unless searchWaiting}} stagged {{/unless}}")
+  .search-wrapper.input-wrapper(
+    id=id
+    class="{{#unless searchWaiting}} stagged {{/unless}} {{classes}}")
     input.search.form-control.icon-right(
-      type="text" placeholder="Search inbox")
+      type="text"
+      placeholder=placeholder)
     i.fa.fa-search.search-icon.right(
-      data-toggle="tooltip"
-      title="Search"
-      class="{{#if searchString}} cancel {{/if}}")
+      data-toggle="{{#if toggleable}} tooltip {{/if}}"
+      data-placement="left"
+      title="{{#if toggleable}} Search {{/if}}"
+      class="{{#if searchString}} cancel {{/if}} {{#if toggleable}} toggleable {{/if}}")
