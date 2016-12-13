@@ -1,5 +1,3 @@
-UserEvents = require '/imports/collections/userEvents.coffee'
-
 Template.userEvents.onCreated ->
   @userEventFields = [
     {
@@ -79,8 +77,6 @@ Template.userEvents.onRendered ->
   @$('#eventFilter input').attr 'placeholder', 'Search events'
 
 Template.userEvents.helpers
-  userEvents: ->
-    UserEvents.find()
   settings: ->
     fields = []
     for field in Template.instance().userEventFields

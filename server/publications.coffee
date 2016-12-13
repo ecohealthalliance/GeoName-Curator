@@ -20,11 +20,11 @@ Meteor.publish 'mapIncidents', () ->
   })
 
 # User Events
-ReactiveTable.publish 'userEvents', UserEvents, {}
+ReactiveTable.publish 'userEvents', UserEvents, {deleted: {$in: [null, false]}}
 Meteor.publish 'userEvent', (eidID) ->
   UserEvents.find({_id: eidID})
 Meteor.publish 'userEvents', () ->
-  UserEvents.find()
+  UserEvents.find({deleted: {$in: [null, false]}})
 
 # Curator Sources
 ReactiveTable.publish 'curatorSources', CuratorSources, {}
