@@ -229,6 +229,16 @@ Template.suggestedIncidentsModal.helpers
     new Spacebars.SafeString(html)
 
 Template.suggestedIncidentsModal.events
+  "click .confirm-close-modal": (event, instance) ->
+    total = instance.incidentCollection.find().count()
+    count = instance.incidentCollection.find(accepted: true).count();
+    if count > 0
+      Modal.show 'cancelConfirmationModal',
+        modalsToCancel: ['suggestedIncidentsModal', 'cancelConfirmationModal']
+        displayName: "Abandon #{count} of #{total} incidents accepted?"
+    else
+      $('#suggestedIncidentsModal').modal('hide')
+
   "click .annotation": (event, instance) ->
     incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
     content = Template.instance().content.get()
