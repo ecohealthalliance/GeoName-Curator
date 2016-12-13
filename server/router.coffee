@@ -11,6 +11,7 @@ Router.route("/api/event-search/:name", {where: "server"})
       $regex: regex,
       $options: 'i'
     }
+    deleted: {$in: [null, false]}
   }
   matchingEvents = UserEvents.find(mongoProjection, {sort: {eventName: 1}}).fetch()
  
@@ -45,6 +46,8 @@ Router.route("/api/events-with-source", {where: "server"})
   events = UserEvents.find(
     _id:
       $in: _.pluck(articles, 'userEventId')
+    deleted: 
+      {$in: [null, false]}
   ).map (event)->
     event.articles = Articles.find(
       userEventId: event._id
