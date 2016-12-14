@@ -4,13 +4,6 @@ do ->
   module.exports = ->
     url = require('url')
 
-    @Before ->
-      @server.call('load')
-      @client.url(url.resolve(process.env.ROOT_URL, '/'))
-
-    @After ->
-      @server.call('reset')
-
     @When /^I navigate to "([^"]*)"$/, (relativePath) ->
       @client.pause(500)
       @client.url(url.resolve(process.env.ROOT_URL, relativePath))
@@ -22,16 +15,16 @@ do ->
       if @client.isExisting('#logOut')
         return
       @client.click('a.withIcon[title="Sign In"]')
-      @client.pause(1000)
+      @browser.waitForVisible('#at-field-email')
       @client.setValue('#at-field-email', 'chimp@testing1234.com')
       @client.setValue('#at-field-password', 'Pa55w0rd!')
       @client.submitForm('#at-pwd-form')
-      @client.waitForExist('#logOut', 500)
+      @client.waitForExist('#logOut')
 
     @When /^I open the settings dropdown$/, (relativePath) ->
       if @client.isVisible('button.navbar-toggle')
         @client.click('button.navbar-toggle')
-      @browser.waitForVisible('.dropdown', 200)
+      @browser.waitForVisible('.dropdown')
       @client.moveToObject('.dropdown-toggle-nav')
 
     @Then /^I should( not)? see content "([^"]*)"$/, (shouldNot, text) ->
@@ -44,7 +37,7 @@ do ->
           assert.ok(match)
 
     @Then /^I should( not)? see a "([^"]*)" toast$/, (noToast, type) ->
-      @client.waitForVisible('.toast', 500)
+      @client.waitForVisible('.toast')
         # This causes a warning if no toast is visible
       toastClasses = @client.getAttribute('.toast', 'class')
       match = toastClasses?.match(type)

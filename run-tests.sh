@@ -108,10 +108,10 @@ pauseForApp
 
 chimp=node_modules/chimp/bin/chimp.js
 
-$chimp --watch=$watch --ddp=$app_protocol://$app_host:$app_port \
-        --path=tests/ \
-        --browser=$browser \
-        --coffee=true \
-        --compiler=coffee:coffee-script/register \
-        --tags=$tags \
-        --chai=true
+$chimp .config/chimp.js \
+  --watch=$watch \
+  --ddp=$app_protocol://$app_host:$app_port \
+  --browser=$browser \
+  --tags=$tags \
+  --chai=true \
+  --debug=false

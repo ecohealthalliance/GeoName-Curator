@@ -4,8 +4,7 @@ do ->
   module.exports = ->
 
     @When /^I click on the create new event button$/, ->
-      @client.waitForVisible('.create-event')
-      @client.click('.create-event')
+      @client.clickWhenVisible('.create-event')
 
     @When /^I create an event with name "([^']*)" and summary "([^']*)"$/, (name, summary) ->
       @client.waitForVisible('#create-event-modal')
@@ -20,7 +19,5 @@ do ->
       if elements.value.length <= 0
         throw new Error('Tracked Events table is empty')
       @client.click('.reactive-table tbody tr:first-child')
-      @client.pause(100)
-      @client.click('i.edit-event-details')
-      @client.pause(500)
-      @client.click('.delete-event')
+      @client.clickWhenVisible('i.edit-event-details')
+      @client.clickWhenVisible('.delete-event')
