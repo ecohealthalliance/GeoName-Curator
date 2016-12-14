@@ -1,9 +1,9 @@
 template(name="suggestedIncidentsModal")
-  .modal.fade#suggestedIncidentsModal(role="dialog" data-keyboard="false" data-backdrop="static")
+  .modal.fade#suggestedIncidentsModal(role="dialog")
     .modal-dialog.suggested-incidents
       .modal-content
         .modal-header
-          +modalConfirmCloseButton
+          +modalCloseButton
           h4.modal-title Suggested Incident Reports
             .small-text {{annotatedCount}}
         .modal-body
@@ -16,6 +16,6 @@ template(name="suggestedIncidentsModal")
             #suggested-locations-form.form-horizontal
               p.annotated-content=annotatedContent
         .modal-footer
-          button.btn.btn-default.confirm-close-modal(type="button") Close
+          button.btn.btn-default.confirm-close-modal(type="button" data-dismiss="modal") Close
           button.btn.btn-default#non-suggested-incident(type="button") Add New Incident
           button.btn.btn-primary#add-suggestions(type="button") Add Confirmed Suggestions

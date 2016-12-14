@@ -1,9 +1,9 @@
 template(name="cancelConfirmationModalBody")
-  .delete-confirmation
-    i.fa.fa-trash-o
+  .cancel-confirmation
+    i.fa.fa-exclamation-triangle
     p Are you sure you want to abandon your changes?
     p=displayName
     .main-action
-      button.btn.btn-danger.btn-wide.confirm(type="button") Abandon
+      button.btn.btn-warning.btn-wide.confirm(type="button") Abandon
     .other-actions
       button.btn.btn-default.btn-sm(type="button" data-dismiss="modal") Cancel
