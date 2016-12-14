@@ -20,15 +20,15 @@ USER root
 COPY . .
 
 # Admin chores
-RUN ln -s /usr/bin/meteor /usr/local/bin/meteor
-RUN ln -s /home/meteor/eidr-connect/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs /usr/local/bin/phantomjs
-RUN chown -R meteor:meteor /home/meteor/
-
-USER meteor
+RUN ln -s /usr/bin/meteor /usr/local/bin/meteor  && \
+  ln -s /home/meteor/eidr-connect/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs /usr/local/bin/phantomjs  && \
+  chown -R meteor:meteor /home/meteor/
 
 # Setup github
 RUN git config user.email "ecohealth-automation@users.noreply.github.com" && \
-  git config user.name "ecohealth-automation"
-RUN git remote set-url origin https://github.com/ecohealthalliance/eidr-connect.git
+  git config user.name "ecohealth-automation"  && \
+  git remote set-url origin https://github.com/ecohealthalliance/eidr-connect.git
+
+USER meteor
 
 CMD /bin/bash
