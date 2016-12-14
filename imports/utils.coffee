@@ -56,18 +56,21 @@ export incidentReportFormToIncident = (form) ->
     form.articleSource.focus()
     return
 
+  incidentType = $form.find('input[name="incidentType"]:checked').val()
+  incidentStatus = $form.find('input[name="incidentStatus"]:checked').val()
+
   incident =
     species: form.species.value
     travelRelated: form.travelRelated.checked
     locations: []
-    status: form.incidentStatus.value
+    status: incidentStatus
     dateRange:
       type: rangeType
       start: picker.startDate.toDate()
       end: picker.endDate.toDate()
       cumulative: form.cumulative.checked
 
-  switch form.incidentType.value
+  switch incidentType || ''
     when 'cases'
       return if not checkIncidentTypeValue(form, 'count')
       incident.cases = parseInt(form.count.value, 10)
@@ -77,8 +80,11 @@ export incidentReportFormToIncident = (form) ->
     when 'other'
       return if not checkIncidentTypeValue(form, 'specify')
       incident.specify = form.specify.value.trim()
-    else
+    when ''
       toastr.error("Please select an incident type.")
+      return
+    else
+      toastr.error("Unknown incident type [#{incidentType}]")
       return
 
   for child in $articleSelect.select2("data")

@@ -28,7 +28,9 @@ do ->
       @client.setValue('input[name="count"]', count)
       # Submit
       @client.click('button.save-modal[type="button"]')
-      @client.waitForExist('.toast-success', 1000)
+      @client.waitForExist('.toast')
+      console.log @client.getText('.toast')
+      @client.waitForExist('.toast-success')
 
     @When /^I should see a scatter plot group with count "([^']*)"$/, (count) ->
       @client.pause(2000)

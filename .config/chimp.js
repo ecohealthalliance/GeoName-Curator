@@ -24,14 +24,14 @@ module.exports = {
   singleSnippetPerFile: true,
   recommendedFilenameSeparator: '_',
   chai: false,
-  screenshotsOnError: false,
+  screenshotsOnError: true,
   screenshotsPath: '.screenshots',
   captureAllStepScreenshots: false,
-  saveScreenshotsToDisk: true,
+  saveScreenshotsToDisk: false,
   // Note: With a large viewport size and captureAllStepScreenshots enabled,
   // you may run out of memory. Use browser.setViewportSize to make the
   // viewport size smaller.
-  saveScreenshotsToReport: false,
+  saveScreenshotsToReport: true,
   jsonOutput: null,
   coffee: true,
   compiler: 'coffee:coffee-script/register',
@@ -128,8 +128,8 @@ module.exports = {
   serverExecuteTimeout: 10000,
 
   // - - - - PHANTOM  - - - -
-  phantom_w: 1280,
-  phantom_h: 1024,
+  phantom_w: 1024,
+  phantom_h: 768,
   phantom_ignoreSSLErrors: false,
 
   // - - - - DEBUGGING  - - - -
