@@ -5,10 +5,10 @@ template(name="markerPopup")
     ul.list-unstyled
       each getEvents
         li
-          .popup--event-title.container-flex.vertically-centered
-            svg.popup--tittle--marker-color-spot
+          .popup--event.container-flex.vertically-centered
+            svg.popup--event--marker-color-spot
               circle(fill="rgb(#{mapColorRGB})" r="8" cx="8" cy="8")
-            div
+            .popup--event--content
               a(href="{{pathFor 'user-event' _id=id}}")=eventName
               .popup--incidents-text
                 with getMostSevere incidents
