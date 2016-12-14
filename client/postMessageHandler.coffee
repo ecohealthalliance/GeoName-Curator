@@ -32,12 +32,16 @@ postMessageHandler = (event)->
   else if request.type == "eha.authInfo"
     Meteor.call("SetBSVEAuthTicketPassword", request, (error) ->
       if error
-        # TODO: Show Auth error banner instead
-        alert "Authentication failed: " + error
-        console.log error
+        window.parent.postMessage(JSON.stringify({
+          type: 'eha.alert',
+          msg: 'Authentication failed: EIDR-Connect',
+          dismissable: true,
+          cb: null
+        }), event.origin)
       else
         Meteor.loginWithPassword(username: "bsve-" + request.user, request.authTicket, (error)->
-          console.log error
+          if error
+            console.log error
         )
     )
 window.addEventListener("message", postMessageHandler, false)
