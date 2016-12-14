@@ -69,14 +69,9 @@ Template.sourceModal.helpers
     Template.instance().selectedArticle.get().title
 
   suggestedArticles: ->
-    instance = Template.instance()
-    articles = instance.suggestedArticles.find()
-    if articles.count()
-      articles
-    else
-      false
+    Template.instance().suggestedArticles.find()
 
-  articlesLoading: ->
+  loadingArticles: ->
     Template.instance().loadingArticles.get()
 
   articleSelected: ->

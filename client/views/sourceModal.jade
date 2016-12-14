@@ -11,16 +11,19 @@ template(name="sourceModal")
           +modalCloseButton
         .modal-body
           form#add-source(novalidate)
-            if suggestedArticles
-              .form-group.full-width
-                label.control-label.featured Suggested Sources
-                #suggested-articles.modal-block
-                  if loadingArticles
-                    .loading.small
-                  else
+            .form-group.full-width
+              label.control-label.featured Suggested Sources
+              #suggested-articles.modal-block
+                if loadingArticles
+                  .loading.small
+                else
+                  if suggestedArticles.count
                     ul.list-unstyled
                       each suggestedArticles
                         li(class="{{#if articleSelected}} active {{/if}}")= subject
+                  else
+                    .no-results No articles found
+
             .form-group
               label.control-label Title
               input#title.form-control.new-title(type="text" name="title" value="{{title}}" required)
