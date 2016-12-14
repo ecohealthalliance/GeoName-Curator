@@ -124,7 +124,7 @@ Template.curatorInbox.events
     endDate = $('#date-picker').data('daterangepicker').endDate
 
     if startDate and !endDate
-      endDate = startDate
+      endDate = moment(startDate).set({hour: 23, minute: 59, second: 59, millisecond: 999})
 
     if startDate and endDate
       template.calendarState.set(false)
