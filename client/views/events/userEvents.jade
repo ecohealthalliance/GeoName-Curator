@@ -4,7 +4,7 @@ template(name="userEvents")
       h1 Tracked Events
       .page-options.container-flex.no-break.vertically-centered
         if isInRole "admin"
-          button.btn.btn-primary(
+          button.create-event.btn.btn-primary(
             data-toggle="modal"
             data-target="#create-event-modal")
             i.fa.fa-plus-circle

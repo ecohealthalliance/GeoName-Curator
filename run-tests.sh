@@ -44,6 +44,10 @@ case $i in
     browser="${i#*=}"
     shift
     ;;
+    --tags=*)
+    tags="${i#*=}"
+    shift
+    ;;
     *)
     ;;
 esac
@@ -60,6 +64,7 @@ test_db=${test_db:=eidr-connect-test}
 mongo_host=${mongo_host:=localhost}
 mongo_port=${mongo_port:=27017}
 is_docker=${is_docker:=false}
+tags=${tags:=~@ignore}
 pwd=$(pwd)
 pid_file=$pwd/tests/eidr-connect-test-server.pid
 log_file=$pwd/tests/log/eidr-connect-test-server.log
@@ -84,6 +89,10 @@ function pauseForApp {
 }
 
 function finishTest {
+  if [ $browser = "phantomjs" ]; then
+    echo "Killing phantomjs"
+    pkill phantomjs
+  fi
   killed=true
 }
 
@@ -103,4 +112,6 @@ $chimp --watch=$watch --ddp=$app_protocol://$app_host:$app_port \
         --path=tests/ \
         --browser=$browser \
         --coffee=true \
-        --compiler=coffee:coffee-script/register
+        --compiler=coffee:coffee-script/register \
+        --tags=$tags \
+        --chai=true

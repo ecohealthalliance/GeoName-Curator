@@ -8,11 +8,11 @@ Meteor.methods
       throw new Meteor.Error("auth", "Admin level permissions are required for this action.")
     user = Meteor.user()
     now = new Date()
-    userEvent = _.extend(userEvent, 
+    userEvent = _.extend userEvent,
       lastModifiedDate: now
       lastModifiedByUserId: user._id
       lastModifiedByUserName: user.profile.name
-    )
+
     UserEventSchema.validate(userEvent)
     UserEvents.upsert userEvent._id,
       $set: userEvent

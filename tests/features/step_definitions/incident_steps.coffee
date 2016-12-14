@@ -2,24 +2,16 @@ do ->
   'use strict'
 
   module.exports = ->
-    url = require('url')
 
-    @Before ->
-      @server.call('load')
+    firstEvent = '.reactive-table tbody tr:first-child'
 
-    @After ->
-      @server.call('reset')
-
-    @Given /^I can click the first item in the event list$/, ->
-      elements = @client.elements('.reactive-table tbody')
-      if elements.value.length <= 0
-        throw new Error('Tracked Events table is empty')
-      @client.click('.reactive-table tbody tr:first-child')
+    @When /^I click the first item in the event list$/, ->
+      @client.waitForVisible(firstEvent)
+      @client.click(firstEvent)
       @client.pause(1000)
 
-    @Given /^I can add an incident report with count "([^']*)"$/, (count) ->
-      elements = @client.elements('.reactive-table tbody')
-      if elements.value.length <= 0
+    @When /^I add an incident report with count "([^']*)"$/, (count) ->
+      if not @client.waitForVisible(firstEvent)
         throw new Error('Event Incidents table is empty')
       @client.click('button.open-incident-form')
       @client.pause(1000)
@@ -42,9 +34,8 @@ do ->
       @client.setValue('input[name="count"]', count)
       # Submit
       @client.click('button.save-modal[type="button"]')
-      @client.waitForExist('.toast-success')
 
-    @Given /^I can verify scatter plot group with count "([^']*)"$/, (count) ->
+    @When /^I should see a scatter plot group with count "([^']*)"$/, (count) ->
       @client.pause(2000)
       selector = "[id*=\":#{count}:false\"]"
       groups = @client.elements(selector)

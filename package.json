@@ -5,7 +5,7 @@
     "start": "meteor -p 13000 --settings settings-dev.json",
     "start-test-server": "bash start-test-server.sh",
     "stop-test-server": "bash stop-test-server.sh",
-    "chimp-test": "bash run-tests.sh",
+    "chimp-test": "bash run-tests.sh --tags=$TAGS",
     "chimp-watch": "bash run-tests.sh --watch=true"
   },
   "devDependencies": {
