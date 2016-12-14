@@ -60,7 +60,7 @@ Template.eventMap.onRendered ->
       # Remove events that have no locations to plot on the map
       filteredEvents = []
       for event in allEvents
-        incidents = Incidents.find({userEventId: event._id, locations: {$ne: null}}, {sort: {date: -1}}).fetch()
+        incidents = Incidents.find({userEventId: event._id, locations: {$ne: null}, deleted: {$in: [null, false]}}, {sort: {date: -1}}).fetch()
         if incidents.length
           event.incidents = incidents
           filteredEvents.push event

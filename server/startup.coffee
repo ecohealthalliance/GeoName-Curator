@@ -7,7 +7,7 @@ CuratorSources = require '/imports/collections/curatorSources'
 
 Meteor.startup ->
   # set incident dates
-  incidents = Incidents.find().fetch()
+  incidents = Incidents.find({deleted: {$in: [null, false]}}).fetch()
   for incident in incidents
     try
       incidentReportSchema.validate(incident)

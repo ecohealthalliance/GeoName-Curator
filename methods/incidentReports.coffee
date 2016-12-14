@@ -33,6 +33,9 @@ Meteor.methods
     if not Roles.userIsInRole(@userId, ['admin'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     incident = Incidents.findOne(id)
-    Incidents.remove(id)
+    Incidents.update id,
+      $set:
+        deleted: true,
+        deletedDate: new Date()
     Meteor.call("editUserEventLastModified", incident.userEventId)
     Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
