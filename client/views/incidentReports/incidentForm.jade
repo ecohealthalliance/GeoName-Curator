@@ -35,17 +35,65 @@ template(name="incidentForm")
 
     .form-group
       label.control-label Status
-      ul.status.pill-selector
-        li(data-value="suspected" class="{{statusActive 'suspected'}}" tabindex="0") Suspected
-        li(data-value="confirmed" class="{{statusActive 'confirmed'}}" tabindex="0") Confirmed
-        li(data-value="revoked" class="{{statusActive 'revoked'}}" tabindex="0") Revoked
+      .container-flex.check-buttons.status
+        .check-button
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="suspected"
+            value="suspected"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'suspected'}}")
+          label(for="suspected" tabindex="0") Suspected
+        .check-button
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="confirmed"
+            value="confirmed"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'confirmed'}}")
+          label(for="confirmed" tabindex="0") Confirmed
+        .check-button
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="revoked"
+            value="revoked"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'revoked'}}")
+          label(for="revoked" tabindex="0") Revoked
 
     .form-group
       label.control-label Incident Type
-      ul.type.pill-selector
-        li(data-value="cases" class="{{typeActive 'cases'}}" tabindex="0") Cases
-        li(data-value="deaths" class="{{typeActive 'deaths'}}" tabindex="0") Deaths
-        li(data-value="other" class="{{typeActive 'other'}}" tabindex="0") Other
+      .container-flex.check-buttons.type
+        .check-button
+          input(
+            type="radio"
+            name="incidentType"
+            id="cases"
+            value="cases"
+            tabindex="-1"
+            checked="{{incidentTypeChecked 'cases'}}")
+          label(for="cases" tabindex="0") Cases
+        .check-button
+          input(
+            type="radio"
+            name="incidentType"
+            id="deaths"
+            value="deaths"
+            tabindex="-1"
+            checked="{{incidentTypeChecked 'deaths'}}")
+          label(for="deaths" tabindex="0") Deaths
+        .check-button
+          input(
+            type="radio"
+            name="incidentType"
+            id="other"
+            value="other"
+            tabindex="-1"
+            checked="{{incidentTypeChecked 'other'}}")
+          label(for="other" tabindex="0") Other
 
     if showCountForm
       .form-group.space-top--1
@@ -54,14 +102,16 @@ template(name="incidentForm")
           name="count"
           type="number"
           min="0"
-          required value=incidentData.value
+          value=incidentData.value
+          required
           tabindex="0")
 
     if showOtherForm
       .form-group.space-top--1
         label.control-label Specify Other
         input.form-control(
-          name="other"
+          name="specify"
+          id="specify"
           type="text"
           required
           value=incidentData.value
@@ -69,9 +119,20 @@ template(name="incidentForm")
 
     .form-group
       label.control-label Other Information
-      .container-flex.other-metadata
-        ul.travel-related.pill-selector
-          li(class="{{#if travelRelated}} active {{/if}}" tabindex="0") Travel related
-
-        ul.cumulative.pill-selector
-          li(class="{{#if cumulative}} active {{/if}}" tabindex="0") Cumulative
+      .container-flex.other-metadata.check-buttons
+        .check-button
+          input(
+            type="checkbox"
+            name="travelRelated"
+            id="travelRelated"
+            tabindex="-1"
+            checked=travelRelated)
+          label.travel-related(for="travelRelated" tabindex="0") Travel Related
+        .check-button
+          input(
+            type="checkbox"
+            name="cumulative"
+            id="cumulative"
+            tabindex="-1"
+            checked=cumulative)
+          label.cumulative(for="cumulative" tabindex="0") Cumulative

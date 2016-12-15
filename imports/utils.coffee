@@ -29,7 +29,17 @@ export formatUrl = (existingUrl) ->
   else
     return 'http://' + existingUrl
 
-export incidentReportFormToIncident = (form, incidentFormDetails) ->
+checkIncidentTypeValue = (form, input) ->
+  if not form[input].value.trim()
+    messageText = 'count'
+    if input is 'specify'
+      messageText = 'incident type'
+    toastr.error("Please enter a valid #{messageText}.")
+    false
+  else
+    true
+
+export incidentReportFormToIncident = (form) ->
   $form = $(form)
   $articleSelect = $(form.articleSource)
   if $form.find("#singleDate").hasClass("active")
@@ -45,38 +55,37 @@ export incidentReportFormToIncident = (form, incidentFormDetails) ->
     toastr.error('Please select an article.')
     form.articleSource.focus()
     return
-  unless incidentFormDetails.incidentType.get()
-    toastr.error('Please select an incident type.')
-    return
-  if form.count and form.count.checkValidity() is false
-    toastr.error('Please provide a valid count.')
-    form.count.focus()
-    return
-  if form.other and form.other.value.trim().length is 0
-    toastr.error('Please specify the incident type.')
-    form.other.focus()
-    return
+
+  incidentType = $form.find('input[name="incidentType"]:checked').val()
+  incidentStatus = $form.find('input[name="incidentStatus"]:checked').val()
 
   incident =
     species: form.species.value
-    travelRelated: incidentFormDetails.travelRelated.get()
+    travelRelated: form.travelRelated.checked
     locations: []
-    status: incidentFormDetails.incidentStatus.get()
+    status: incidentStatus
     dateRange:
       type: rangeType
       start: picker.startDate.toDate()
       end: picker.endDate.toDate()
-      cumulative: incidentFormDetails.cumulative.get()
+      cumulative: form.cumulative.checked
 
-  switch incidentFormDetails.incidentType.get()
+  switch incidentType || ''
     when 'cases'
+      return if not checkIncidentTypeValue(form, 'count')
       incident.cases = parseInt(form.count.value, 10)
     when 'deaths'
+      return if not checkIncidentTypeValue(form, 'count')
       incident.deaths = parseInt(form.count.value, 10)
     when 'other'
-      incident.specify = form.other.value.trim()
+      return if not checkIncidentTypeValue(form, 'specify')
+      incident.specify = form.specify.value.trim()
+    when ''
+      toastr.error("Please select an incident type.")
+      return
     else
-      throw new Meteor.Error('unknown-type', 'An incident type was not selected')
+      toastr.error("Unknown incident type [#{incidentType}]")
+      return
 
   for child in $articleSelect.select2("data")
     if child.selected

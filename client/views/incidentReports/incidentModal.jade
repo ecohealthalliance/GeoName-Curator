@@ -15,12 +15,9 @@ template(name="incidentModal")
             +incidentForm(
               articles=articles
               incident=incident
-              edit=true
-              incidentFormDetails=incidentFormDetails)
+              edit=true)
           else
-            +incidentForm(
-              articles=articles
-              incidentFormDetails=incidentFormDetails)
+            +incidentForm articles=articles
 
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
