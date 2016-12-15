@@ -80,5 +80,11 @@ IncidentReportSchema = new SimpleSchema(
   "locations.$.population":
     type: Number
     optional: true
+  deleted:
+    type: Boolean
+    optional: true
+  deletedDate:
+    type: Date
+    optional: true
 )
 module.exports = IncidentReportSchema

@@ -5,12 +5,15 @@ Articles = require '/imports/collections/articles.coffee'
 Feeds = require '/imports/collections/feeds.coffee'
 
 # Incidents
-ReactiveTable.publish 'curatorEventIncidents', Incidents
+ReactiveTable.publish 'curatorEventIncidents', Incidents, {deleted: {$in: [null, false]}}
 Meteor.publish 'eventIncidents', (userEventId) ->
-  Incidents.find({userEventId: userEventId})
+  Incidents.find({userEventId: userEventId, deleted: {$in: [null, false]}})
 Meteor.publish 'mapIncidents', () ->
-  Incidents.find({locations: {$ne: null}}, {
-    fields:
+  Incidents.find({
+    locations: {$ne: null}, 
+    deleted: {$in: [null, false]}
+  }, 
+  {fields:
       userEventId: 1
       'dateRange.start': 1
       'dateRange.end': 1
