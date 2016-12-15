@@ -32,20 +32,14 @@ Template.sourceModal.onRendered ->
     inline: true
     useCurrent: false
     singleDatePicker: true
-  if @timezoneFixedPublishDate
-    pickerOptions.defaultDate = moment
-      year: @timezoneFixedPublishDate.year()
-      month: @timezoneFixedPublishDate.month()
-      date: @timezoneFixedPublishDate.date()
+    startDate: @timezoneFixedPublishDate or new Date()
   @datePicker = createInlineDateRangePicker(@$('#publishDate'), pickerOptions)
 
   pickerOptions =
     format: 'h:mm A'
     useCurrent: false
-  if @timezoneFixedPublishDate
-    pickerOptions.defaultDate = @timezoneFixedPublishDate
-
-  $picker = @$('.timePicker').datetimepicker pickerOptions
+    defaultDate:  @timezoneFixedPublishDate or false
+  @$('.timePicker').datetimepicker(pickerOptions)
 
 Template.sourceModal.helpers
   timezones: ->
