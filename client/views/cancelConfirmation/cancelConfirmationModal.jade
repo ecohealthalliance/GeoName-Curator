@@ -1,0 +1,10 @@
+template(name="cancelConfirmationModal")
+  .modal.fade#cancelConfirmationModal(role="dialog")
+    .modal-dialog
+      .modal-content
+        form
+          .close-modal(data-dismiss="modal" aria-label="Close")
+          .modal-header
+            h4.modal-title Confirm Cancel
+          .modal-body.clearfix
+            +cancelConfirmationModalBody data

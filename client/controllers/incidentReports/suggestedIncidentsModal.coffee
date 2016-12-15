@@ -60,8 +60,23 @@ parseSents = (text)->
       idx++
   return sents
 
+# determines if the user should be prompted before leaving the current modal
+#
+# @param {object} event, the DOM event
+# @param {object} instance, the template instance
+confirmAbandonChanges = (event, instance) ->
+  total = instance.incidentCollection.find().count()
+  count = instance.incidentCollection.find(accepted: true).count();
+  if count > 0 && instance.hasBeenWarned.get() == false
+    event.preventDefault()
+    Modal.show 'cancelConfirmationModal',
+      modalsToCancel: ['suggestedIncidentsModal', 'cancelConfirmationModal']
+      displayName: "Abandon #{count} of #{total} incidents accepted?"
+      hasBeenWarned: instance.hasBeenWarned
+
 Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
+  @hasBeenWarned = new ReactiveVar(false)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar("")
   Meteor.call("getArticleEnhancements", @data.article, (error, result) =>
@@ -198,6 +213,7 @@ Template.suggestedIncidentsModal.onCreated ->
       )
     )
   )
+
 Template.suggestedIncidentsModal.helpers
   incidents: ->
     Template.instance().incidentCollection.find()
@@ -229,6 +245,9 @@ Template.suggestedIncidentsModal.helpers
     new Spacebars.SafeString(html)
 
 Template.suggestedIncidentsModal.events
+  'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->
+    confirmAbandonChanges(event, instance)
+
   "click .annotation": (event, instance) ->
     incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
     content = Template.instance().content.get()
