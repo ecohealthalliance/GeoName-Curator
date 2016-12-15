@@ -27,7 +27,11 @@ Meteor.methods
   updateEventSource: (source) ->
     user = Meteor.user()
     if user and Roles.userIsInRole(user._id, ['admin'])
-      Articles.update(source._id, {$set: {publishDate: source.publishDate, publishDateTZ: source.publishDateTZ}})
+      Articles.update source._id,
+        $set:
+          title: source.title
+          publishDate: source.publishDate
+          publishDateTZ: source.publishDateTZ
       Meteor.call("editUserEventLastModified", source.userEventId)
     else
       throw new Meteor.Error("auth", "User does not have permission to edit source articles")

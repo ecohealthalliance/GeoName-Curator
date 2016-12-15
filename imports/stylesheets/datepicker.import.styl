@@ -12,14 +12,23 @@
   background-color darken($secondary-light, 3%)
   color $primary
 
-.bootstrap-datetimepicker-widget table td.active,
-.bootstrap-datetimepicker-widget table td.active:hover,
-.daterangepicker td.active,
+.bootstrap-datetimepicker-widget table td.active
+.bootstrap-datetimepicker-widget table td.active:hover
+.daterangepicker td.active
 .daterangepicker td.active:hover
   color $primary
   background-color $secondary
 
-.inlineRangePicker .daterangepicker,
+.bootstrap-datetimepicker-widget table td
+  height 15px
+  line-height 15px
+  width 5px
+.bootstrap-datetimepicker-widget table td span
+  height auto
+  width auto
+  line-height 0
+
+.inlineRangePicker .daterangepicker
 .daterangepicker .calendar td.today
   position relative
 
@@ -44,11 +53,7 @@
   bottom 4px
   right 4px
 
-td:first-child
-  +below(2)
-    width auto
-
-.daterangepicker td, .daterangepicker th
+// .daterangepicker td, .daterangepicker th
 
 .calendar-wrapper
   .date-picker-container
@@ -121,3 +126,75 @@ td:first-child
   .daterangepicker td.off.end-date
     background none
     color darken($l-gray, 10%)
+
+#event-source
+#add-incident
+  .daterangepicker
+    position static
+    display flex
+    align-items center
+    justify-content center
+    background none
+    &::before
+    &::after
+      display table
+      content ''
+      clear both
+    .calendar
+      float none
+      margin 0 1em 0 0
+      &:nth-of-type(2)
+        margin-right 0
+    .calendar-table
+      background none
+    td.off
+    td.off.in-range
+    td.off.start-date
+    td.off.end-date
+      background none
+      color desaturate(darken($border-primary, 5%), 100%)
+      font-weight 200
+      &:hover
+        background darken($secondary-light, 5%)
+    td
+      font-size .9em
+    thead
+      color $primary
+      .prev
+      .next
+        color $primary
+        font-size 1.35em
+        &.available
+          &:hover
+            background none
+      .prev
+        padding-left 0
+      .next
+        padding-right 0
+      tr:nth-of-type(2)
+        th
+          font-weight 200
+          color darken($border-primary, 20%)
+    .single
+      width auto
+    .in-range
+    .start-date
+      &:not(.off)
+        font-weight 600
+    .available
+      &:hover
+        &:not(.off)
+          background $secondary
+    .today
+      &:not(.in-range)
+        background lighten($delete, 50%)
+        font-weight 600
+      &.off
+        background desaturate(lighten($delete, 60%), 50%)
+      &::after
+        border 0
+    .today.active
+      background $secondary
+    input
+      border-color $border-primary
+      box-shadow none

@@ -1,7 +1,41 @@
-
 #suggested-articles
-  list-style none
-  margin 0
-  padding 7px 0 0 0
-  a
-    color $blue
+  padding-top 0
+  padding-bottom 0
+  position relative
+  border-top-color lighten($border-primary, 25%)
+  ul
+    margin 0
+  li
+    padding .3em 20px
+    border-bottom 1px solid darken($block-BG, 5%)
+    color $primary
+    cursor pointer
+    &:last-of-type
+      border 0
+    &:hover
+      background darken($block-BG, 3%)
+    &.active
+      color $secondary-dark
+      background darken($block-BG, 3%)
+  .no-results
+    margin-bottom 1.25em
+    &::before
+      font-size 200%
+
+#event-source
+  .time
+    margin 1.5em
+  .featured
+    padding .5em 20px
+    display block
+    margin-top -11px
+    margin-bottom 0
+    background $border-primary-light
+    border-top 1px solid $border-primary
+
+#add-source
+  .date-editing
+    margin-bottom -11px
+  .form-group
+    p
+      margin 0
