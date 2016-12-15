@@ -3,8 +3,9 @@ template(name="deleteConfirmationModal")
     .modal-dialog
       .modal-content
         form#delete-obj
-          .close-modal(data-dismiss="modal" aria-label="Close")
+          +modalCloseButton
           .modal-header
-            h4.modal-title Confirm Delete
+            .modal-header--title
+              h4 Confirm Delete
           .modal-body.clearfix
             +deleteConfirmationModalBody data

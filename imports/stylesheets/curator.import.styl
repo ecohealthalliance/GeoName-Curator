@@ -313,19 +313,7 @@ $header-BG = $border-primary-light
 
 .curator-source-details-copy-wrapper
   position relative
-  &::before
-  &::after
-    content ''
-    height 20px
-    position absolute
-    left 0
-    right 0
-  &::before
-    background linear-gradient(to bottom, white, alpha(white, 0%))
-    top 0
-  &::after
-    background linear-gradient(to bottom, alpha(white, 0%), white)
-    bottom 0
+  gradientTopAndBottom()
 
 .curator-source-details-copy
   max-height 25vh
