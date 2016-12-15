@@ -9,31 +9,35 @@ template(name="sourceModal")
             else
               | Add Event Source
           +modalCloseButton
+
         .modal-body
           form#add-source(novalidate)
-            .form-group.full-width
-              label.control-label.featured Suggested Sources
-              #suggested-articles.modal-block
-                if loadingArticles
-                  .loading.small
-                else
-                  if suggestedArticles.count
-                    ul.list-unstyled
-                      each suggestedArticles
-                        li(class="{{#if articleSelected}} active {{/if}}")= subject
+            unless editing
+              .form-group.full-width
+                label.control-label.featured Suggested Sources
+                #suggested-articles.modal-block
+                  if loadingArticles
+                    .loading.small
                   else
-                    .no-results No articles found
+                    if suggestedArticles.count
+                      ul.list-unstyled
+                        each suggestedArticles
+                          li(class="{{#if articleSelected}} active {{/if}}")= subject
+                    else
+                      .no-results No articles found
 
             .form-group
               label.control-label Title
               input#title.form-control.new-title(type="text" name="title" value="{{title}}" required)
+
             .form-group
               label.control-label Article URL
               if edit
                 p.form-control-static {{url}}
               else
                 input#article.form-control.new-article(type="url" name="article" required)
-            .form-group
+
+            .form-group(class="{{#if editing}} date-editing {{/if}}")
               label.control-label Publication Date
               .modal-block.full-width
                 #publishDate.datePicker.inlineRangePicker
@@ -50,12 +54,14 @@ template(name="sourceModal")
                       select#publishDateTZ.form-control(name="publishDateTZ")
                         each timezones
                           option(value=name selected=selected) {{name}} (GMT{{offset}})
+
             unless edit
               .form-group.no-margin
                 .checkbox
                   label
                     input(type="checkbox" value="1" name="enhance" checked)
                     | Suggest incident reports
+
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           button.btn.btn-primary(type="button" class=saveButtonClass) Save

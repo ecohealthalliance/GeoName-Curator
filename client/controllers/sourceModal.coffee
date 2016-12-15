@@ -11,20 +11,22 @@ _setDatePicker = (picker, date) ->
 Template.sourceModal.onCreated ->
   @tzIsSpecified = false
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
-  @selectedArticle = new ReactiveVar()
-  @selectedArticle.set @data
-  @loadingArticles = new ReactiveVar(true)
-  if @data.publishDate
-    @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
-                                              UTCOffsets[@data.publishDateTZ])
-  @suggestedArticles = new Mongo.Collection(null)
-  Meteor.call 'queryForSuggestedArticles', @data.userEventId, (error, result) =>
-    @loadingArticles.set(false)
-    if result
-      for suggestedArticle in result
-        @suggestedArticles.insert
-          url: "http://www.promedmail.org/post/#{suggestedArticle.promedId}"
-          subject: suggestedArticle.subject.raw
+  @selectedArticle = new ReactiveVar(@data)
+
+  if @data.edit
+    if @data.publishDate
+      @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
+                                                UTCOffsets[@data.publishDateTZ])
+  else
+    @loadingArticles = new ReactiveVar(true)
+    @suggestedArticles = new Mongo.Collection(null)
+    Meteor.call 'queryForSuggestedArticles', @data.userEventId, (error, result) =>
+      @loadingArticles.set(false)
+      if result
+        for suggestedArticle in result
+          @suggestedArticles.insert
+            url: "http://www.promedmail.org/post/#{suggestedArticle.promedId}"
+            subject: suggestedArticle.subject.raw
 
 Template.sourceModal.onRendered ->
   pickerOptions =
@@ -70,6 +72,9 @@ Template.sourceModal.helpers
 
   articleSelected: ->
     @_id is Template.instance().selectedArticle.get()._id
+
+  editing: ->
+    Template.instance().data.edit
 
 Template.sourceModal.events
   "click .save-modal": (e, instance) ->
