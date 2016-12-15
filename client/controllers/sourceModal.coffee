@@ -147,6 +147,7 @@ Template.sourceModal.events
 
     source = @
     source.publishDateTZ = form.publishDateTZ.value
+    source.title = form.title.value
 
     if date
       selectedDate = moment
