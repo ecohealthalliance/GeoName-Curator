@@ -11,7 +11,7 @@ Template.summary.helpers
     Template.instance().data.articleCount
 
   caseCount: ->
-    Incidents.find({userEventId:this._id, deleted: {$in: [null, false]}}).count()
+    Incidents.find({userEventId:this._id}).count()
 
   copied: ->
     Template.instance().copied.get()

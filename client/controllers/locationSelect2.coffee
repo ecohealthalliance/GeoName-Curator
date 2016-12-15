@@ -16,7 +16,7 @@ incidentsToLocations = (incidents) ->
 Template.locationSelect2.onCreated ->
   # Display locations relevant to this event
   @suggestLocations = (term, callback) ->
-    locations = incidentsToLocations Incidents.find({deleted: {$in: [null, false]}}).fetch()
+    locations = incidentsToLocations Incidents.find().fetch()
     data = []
     for loc in locations
       data.push { id: loc.id, text: formatLocation(loc), item: loc }

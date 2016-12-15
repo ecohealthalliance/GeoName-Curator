@@ -64,11 +64,11 @@ Template.articles.helpers
       Articles.findOne selectedId
 
   incidentsForSource: (sourceUrl) ->
-    Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl, deleted: {$in: [null, false]}}).fetch()
+    Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).fetch()
 
   locationsForSource: (sourceUrl) ->
     locations = {}
-    incidents = Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl, deleted: {$in: [null, false]}}).forEach( (incident) ->
+    incidents = Incidents.find({userEventId: Template.instance().data.userEvent._id, url: sourceUrl}).forEach( (incident) ->
       for location in incident.locations
         locations[location.id] = location.name
     )

@@ -16,7 +16,7 @@ Template.incidentReports.onCreated ->
   # iron router returns an array and not a cursor for data.incidents,
   # therefore we will setup a reactive cursor to use with the plot as an
   # instance variable.
-  @incidents = Incidents.find({userEventId: @data.userEvent._id, deleted: {$in: [null, false]}}, {sort: {'dateRange.end': 1}})
+  @incidents = Incidents.find({userEventId: @data.userEvent._id}, {sort: {'dateRange.end': 1}})
   # underscore template for the mouseover event of a group
   @tooltipTmpl = """
     <% if ('applyFilters' in obj) { %>
