@@ -3,13 +3,14 @@ template(name="editEventDetailsModal")
     .modal-dialog
       .modal-content
         form#editEvent
-          .close-modal(data-dismiss="modal" aria-label="Close")
+          +modalCloseButton
           .modal-header
-            h4.modal-title
-              if adding
-                | Add New Event
-              else
-                | Edit Event Details
+            .modal-header--title
+              h4
+                if adding
+                  | Add New Event
+                else
+                  | Edit Event Details
           .modal-body.clearfix
             unless confirmingDeletion
               .form-group

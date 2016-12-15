@@ -3,11 +3,12 @@ template(name="sourceModal")
     .modal-dialog
       .modal-content
         .modal-header
-          h4.modal-title
-            if edit
-              | Edit Event Source
-            else
-              | Add Event Source
+          .modal-header--title
+            h4
+              if edit
+                | Edit Event Source
+              else
+                | Add Event Source
           +modalCloseButton
 
         .modal-body

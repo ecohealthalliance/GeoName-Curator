@@ -24,12 +24,14 @@ $modal-side-padding = 20px
   .close
     padding 5px
 
-.modal-title
-  padding .35em .75em .4em .75em
-  text-transform uppercase
-  font-weight 300
-  font-size 2em
-  color $primary
+.modal-header--title
+  padding 1.25em 40px 1em 25px
+  h4
+    margin 0
+    font-weight 300
+    font-size 2em
+    color $primary
+    text-transform uppercase
 
 .modal-header
 .modal-footer
@@ -38,6 +40,13 @@ $modal-side-padding = 20px
 .modal-footer
   padding-top 1.25em
   padding-bottom 2em
+  .btn + .btn
+    margin-bottom 1em
+    +above(2)
+      margin-bottom 0
+  .btn
+    &:last-of-type
+      margin-bottom 0
 
 .modal-block
   padding-top 1em

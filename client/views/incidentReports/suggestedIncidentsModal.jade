@@ -4,17 +4,19 @@ template(name="suggestedIncidentsModal")
       .modal-content
         .modal-header
           +modalCloseButton
-          h4.modal-title Suggested Incident Reports
-            .small-text {{annotatedCount}}
+          .modal-header--title
+            h4 Suggested Incident Reports
+            span.annotation-count=annotatedCount
         .modal-body
-          if loading
-            i.fa.fa-circle-o-notch.fa-spin
-            | Processing article
-          else
-            unless incidentsFound
-              .warn No incident reports could be automatically extracted from the article.
+          .suggested-incidents-wrapper
             #suggested-locations-form.form-horizontal
-              p.annotated-content=annotatedContent
+              if loading
+                i.fa.fa-circle-o-notch.fa-spin
+                | Processing article
+              else
+                unless incidentsFound
+                  .warn No incident reports could be automatically extracted from the article.
+                p.annotated-content=annotatedContent
         .modal-footer
           button.btn.btn-default.confirm-close-modal(type="button" data-dismiss="modal") Close
           button.btn.btn-default#non-suggested-incident(type="button") Add New Incident

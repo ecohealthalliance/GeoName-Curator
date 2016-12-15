@@ -64,3 +64,19 @@ buttonContent($btn-text, $icon-position)
   margin-{$icon-position} .25em
   text-transform uppercase
   font($body-font)
+
+gradientTopAndBottom()
+  &::before
+  &::after
+    content ''
+    height 20px
+    position absolute
+    left 0
+    right 0
+    z-index 10
+  &::before
+    background linear-gradient(to bottom, white, alpha(white, 0%))
+    top 0
+  &::after
+    background linear-gradient(to bottom, alpha(white, 0%), white)
+    bottom 0
