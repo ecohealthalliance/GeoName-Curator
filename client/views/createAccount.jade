@@ -2,13 +2,13 @@ template(name="createAccount")
   .container-fluid
     .container.content-block
       h2 Create New Account
-      form#add-account.space-top-2
+      form#add-account.space-top-2(novalidate)
         .form-group
           label Email
-            input.form-control(type='text', name='email')
+            input.form-control(type='text', name='email' required)
         .form-group
           label Name
-            input.form-control(type='text', name='name')
+            input.form-control(type='text', name='name' required)
         .form-group
           .checkbox
             label
