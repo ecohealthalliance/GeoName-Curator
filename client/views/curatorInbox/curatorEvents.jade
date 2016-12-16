@@ -28,10 +28,8 @@ template(name="curatorEvents")
       h4 All Events
       .curator-events--options
         .filter-wrapper(class="{{#unless allEventsOpen }} subtle {{/unless}}")
-          +reactiveTableFilter(
-            id="curatorEventsFilter"
-            label=" "
-            class="with-icon no-addon")
+          +searchInput searchSettings
+
         .curator-events-collapse
           if allEventsOpen
             i.fa.fa-lg.fa-chevron-circle-down

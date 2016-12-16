@@ -64,42 +64,8 @@ $header-BG = $border-primary-light
     align-self stretch
     &:last-child
       margin 0
-  .input-wrapper
-    align-self center
-    transition .3s
-    width 260px
-    transform translate(0,0)
-    .search-icon
-      display flex
-      align-items center
-      font-size 1.2em
-      cursor pointer
-      transition .1s ease-in-out
-      color $m-gray
-    input
-      transition .3s
-      opacity 1
-      border-radius 3px
-      border 1px solid $border-primary
-      &:focus
-        border-color $primary
-    &.stagged
-      width 35px
-      input
-        visibility hidden
-        opacity 0
-      .search-icon
-        font-size 1.75em
-        color $primary
-        &:hover
-          color lighten(@color, 50%)
   input
-    box-shadow none
     min-width 250px
-    border 0
-    &:focus
-      box-shadow none
-      outline 0
   a
     color $primary
     font-size 1.75em
@@ -431,6 +397,9 @@ $header-BG = $border-primary-light
   min-width 50%
   button
     font-size .85em
+  .search-wrapper.stagged
+    .search-icon
+      font-size 1.5em
 
 .curator-events-collapse
   color $primary

@@ -9,10 +9,7 @@ template(name="userEvents")
             data-target="#create-event-modal")
             i.fa.fa-plus-circle
             span Create New Event
-        +reactiveTableFilter(
-          id="eventFilter"
-          label=" "
-          class="event-search with-icon no-addon page-options--search")
+        +searchInput searchSettings
 
     .featured-table
       .loading

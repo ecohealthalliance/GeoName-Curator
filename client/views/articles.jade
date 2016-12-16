@@ -8,10 +8,7 @@ template(name="articles")
           .flex-col
             +sourceModalButton
           .flex-col
-            +reactiveTableFilter(
-              id="sourceFilter"
-              label=" "
-              class="table-filter with-icon no-addon")
+            +searchInput searchSettings
         +reactiveTable collection=articles settings=getSettings
 
       else
