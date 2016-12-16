@@ -1,4 +1,3 @@
-CuratorSources = require '/imports/collections/curatorSources.coffee'
 { dismissModal } = require '/imports/ui/modals'
 validator = require 'bootstrap-validator'
 
@@ -7,7 +6,11 @@ Template.editEventDetailsModal.onCreated ->
 
 Template.editEventDetailsModal.onRendered ->
   instance = @
-  @$('#edit-event-modal').validator()
+  Meteor.defer ->
+    @$('#editEvent').validator
+      # Do not disable inputs since we don't in other areas of the app
+      disable: false
+
   @$('#edit-event-modal').on 'show.bs.modal', (event) ->
     instance.confirmingDeletion.set false
     fieldToEdit = $(event.relatedTarget).data('editing')
@@ -36,7 +39,6 @@ Template.editEventDetailsModal.events
     summary = event.target.eventSummary.value.trim()
     disease = event.target.eventDisease?.value.trim()
     if name.length isnt 0
-      source = CuratorSources.findOne(instance.data.sourceId)
       eventId = @_id
       Meteor.call 'upsertUserEvent',
         _id: @_id
@@ -45,15 +47,8 @@ Template.editEventDetailsModal.events
         disease: disease
       , (error, result) ->
         if not error
-          Modal.hide 'editEventDetailsModal'
+          Modal.hide('editEventDetailsModal')
           $('#edit-event-modal').modal('hide')
-          if instance.data.addToSource
-            Meteor.call 'addEventSource',
-              url: "promedmail.org/post/#{source._sourceId}"
-              userEventId: result.insertedId
-              title: source.title
-              publishDate: source.publishDate
-              publishDateTZ: "EST"
 
   'click .delete-event': (event, instance) ->
     instance.confirmingDeletion.set true
