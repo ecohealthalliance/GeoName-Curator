@@ -1,11 +1,13 @@
 CuratorSources = require '/imports/collections/curatorSources.coffee'
 { dismissModal } = require '/imports/ui/modals'
+validator = require 'bootstrap-validator'
 
 Template.editEventDetailsModal.onCreated ->
   @confirmingDeletion = new ReactiveVar false
 
 Template.editEventDetailsModal.onRendered ->
   instance = @
+  @$('#edit-event-modal').validator()
   @$('#edit-event-modal').on 'show.bs.modal', (event) ->
     instance.confirmingDeletion.set false
     fieldToEdit = $(event.relatedTarget).data('editing')
@@ -28,24 +30,20 @@ Template.editEventDetailsModal.helpers
 
 Template.editEventDetailsModal.events
   'submit #editEvent': (event, instance) ->
+    return if event.isDefaultPrevented() # Form is invalid
     event.preventDefault()
-    valid = event.target.eventName.checkValidity()
-    unless valid
-      toastr.error('Please provide a new name')
-      event.target.eventName.focus()
-      return
     name = event.target.eventName.value.trim()
     summary = event.target.eventSummary.value.trim()
     disease = event.target.eventDisease?.value.trim()
     if name.length isnt 0
       source = CuratorSources.findOne(instance.data.sourceId)
       eventId = @_id
-      Meteor.call 'upsertUserEvent', {
+      Meteor.call 'upsertUserEvent',
         _id: @_id
         eventName: name
         summary: summary
         disease: disease
-      }, (error, result) ->
+      , (error, result) ->
         if not error
           Modal.hide 'editEventDetailsModal'
           $('#edit-event-modal').modal('hide')
