@@ -23,34 +23,31 @@ Template.locationSelect2.onCreated ->
     callback results: data
   # Retrieve locations from a server
   @ajax = (term, callback) ->
-    $.ajax({
+    $.ajax
       url: "https://geoname-lookup.eha.io/api/lookup"
-      data: {
+      data:
         q: term
         maxRows: 10
-      }
-    })
     .done (data) ->
       callback results: data.hits.map (hit) ->
         { id, latitude, longitude } = hit._source
         # Ensure numeric lat/lng
         hit._source.latitude = parseFloat(latitude)
         hit._source.longitude = parseFloat(longitude)
-        return {
-          id: id
-          text: formatLocation(hit._source)
-          item: hit._source
-        }
+        id: id
+        text: formatLocation(hit._source)
+        item: hit._source
 
 Template.locationSelect2.onRendered ->
   initialValues = []
+  instance = @
   if @data.selected
     initialValues = @data.selected.map (loc)->
       id: loc.id
       text: formatLocation(loc)
       item: loc
   $input = @$("select")
-  $.fn.select2.amd.define('select2/data/queryAdapter',
+  $.fn.select2.amd.define 'select2/data/queryAdapter',
     [ 'select2/data/array', 'select2/utils' ],
     (ArrayAdapter, Utils) =>
       CustomDataAdapter = ($element, options) ->
@@ -64,13 +61,22 @@ Template.locationSelect2.onRendered ->
           @suggestLocations(term, callback)
       , 600
       CustomDataAdapter
-  )
+
   queryDataAdapter = $.fn.select2.amd.require('select2/data/queryAdapter')
   $input.select2
     data: initialValues
     multiple: @data.multiple
-    placeholder: "Search for a location..."
+    placeholder: 'Search for a location...'
     minimumInputLength: 0
     dataAdapter: queryDataAdapter
   if initialValues.length > 0
-    $input.val(initialValues.map((x)->x.id)).trigger("change")
+    $input.val(initialValues.map((x)->x.id)).trigger('change')
+
+  $('.select2-search__field').attr('required', true)
+  # Remove required attr when location is selected and add it back when all
+  # locations are removed/unselected
+  $input.on 'change', ->
+    required = false
+    if $('.select2-selection__rendered li').length is 1
+      required = true
+    $('.select2-search__field').attr('required', required)

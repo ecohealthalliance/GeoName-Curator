@@ -1,7 +1,23 @@
 utils = require '/imports/utils.coffee'
+validator = require 'bootstrap-validator'
+
+Template.incidentModal.onCreated ->
+  @valid = new ReactiveVar(false)
+
+Template.incidentModal.helpers
+  valid: ->
+    Template.instance().valid
+
+  formIsValid: ->
+    Template.instance().valid.get()
 
 Template.incidentModal.events
   'click .save-modal, click .save-modal-duplicate': (event, instance) ->
+    # Submit the form to trigger validation and to update the 'valid'
+    # reactiveVar — its value is based on whether the form's hidden submit
+    # button's default is prevented
+    $('#add-incident').submit()
+    return unless instance.valid.get()
     duplicate = $(event.target).hasClass('save-modal-duplicate')
     form = instance.$('form')[0]
     incident = utils.incidentReportFormToIncident(form)
