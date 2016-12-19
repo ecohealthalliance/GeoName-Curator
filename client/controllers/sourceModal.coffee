@@ -72,7 +72,8 @@ Template.sourceModal.helpers
   saveButtonClass: ->
     if @edit
       'save-edit-modal'
-    'save-modal'
+    else
+      'save-modal'
 
   title: ->
     Template.instance().selectedArticle.get().title
@@ -150,7 +151,9 @@ Template.sourceModal.events
         month: date.month()
         date: date.date()
       if form.publishTime.value.length
-        selectedDate.set({hour: time.get('hour'), minute: time.get('minute')})
+        selectedDate.set
+          hour: time.get('hour')
+          minute: time.get('minute')
         selectedDate = convertDate(selectedDate,
                                     UTCOffsets[source.publishDateTZ], 'local')
       source.publishDate = selectedDate.toDate()
