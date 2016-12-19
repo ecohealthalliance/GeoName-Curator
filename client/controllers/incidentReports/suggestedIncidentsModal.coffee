@@ -124,19 +124,10 @@ Template.suggestedIncidentsModal.onCreated ->
       locTerritories = getTerritories(locationAnnotations, sents)
       datetimeAnnotations = datetimeAnnotations
         .map (timeAnnotation)=>
-          if (timeAnnotation.label == "PRESENT_REF" or
-            timeAnnotation.text == "today"
-          )
-            timeAnnotation.timeRange =
-              begin: moment.utc(@data.article.publishDate).toObject()
-              end: moment.utc(@data.article.publishDate).add(1, "day").toObject()
-            timeAnnotation.precision = 1
-            return timeAnnotation
           if not (timeAnnotation.timeRange and
             timeAnnotation.timeRange.begin and
             timeAnnotation.timeRange.end
           )
-            #console.log "No Timerange", timeAnnotation
             return
           # moment parses 0 based month indecies
           if timeAnnotation.timeRange.begin.month
@@ -147,6 +138,18 @@ Template.suggestedIncidentsModal.onCreated ->
             Object.keys(timeAnnotation.timeRange.end).length +
             Object.keys(timeAnnotation.timeRange.end).length
           )
+          timeAnnotation.beginMoment = moment.utc(timeAnnotation.timeRange.begin)
+          # Round up the to day end
+          timeAnnotation.endMoment = moment.utc(_.extend({
+            hours:23, minutes: 59
+          }, timeAnnotation.timeRange.end))
+          publishMoment = moment.utc(@data.article.publishDate)
+          if timeAnnotation.beginMoment > publishMoment
+            # Omit future dates
+            return
+          if timeAnnotation.endMoment > publishMoment
+            # Truncate ranges that extend into the future
+            timeAnnotation.endMoment = publishMoment
           return timeAnnotation
         .filter (x)-> x
       dateTerritories = getTerritories(datetimeAnnotations, sents)
@@ -167,21 +170,14 @@ Template.suggestedIncidentsModal.onCreated ->
           end: moment(@data.article.publishDate).add(1, "day")
           type: "day"
         dateTerritory.annotations.forEach (timeAnnotation)->
-          fromTime = _.clone(timeAnnotation.timeRange.begin)
-          toTime = _.clone(timeAnnotation.timeRange.end)
-          momentFromTime = moment.utc(fromTime)
-          # Round up the to day end
-          momentToTime = moment.utc(_.extend({
-            hours:23, minutes: 59
-          }, toTime))
           if (timeAnnotation.precision > maxPrecision and
-            momentToTime.isValid() and
-            momentFromTime.isValid()
+            timeAnnotation.beginMoment.isValid() and
+            timeAnnotation.endMoment.isValid()
           )
             maxPrecision = timeAnnotation.precision
             incident.dateRange =
-              start: momentFromTime.toDate()
-              end: momentToTime.toDate()
+              start: timeAnnotation.beginMoment.toDate()
+              end: timeAnnotation.endMoment.toDate()
             rangeHours = moment(incident.dateRange.end)
               .diff(incident.dateRange.start, "hours")
             if rangeHours <= 24
