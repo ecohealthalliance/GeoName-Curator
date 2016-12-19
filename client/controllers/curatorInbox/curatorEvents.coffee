@@ -3,19 +3,22 @@ UserEvents = require '/imports/collections/userEvents.coffee'
 CuratorSources = require '/imports/collections/curatorSources.coffee'
 Articles = require '/imports/collections/articles.coffee'
 
+_getSourceId = (instance) ->
+  CuratorSources.findOne(instance.data.selectedSourceId.get())._sourceId
+
 Template.curatorEvents.onCreated ->
   instance = @
   @suggestedEventsHeaderState = new ReactiveVar true
+  @associatedEventIdsToArticles = new ReactiveVar({})
   @autorun =>
     instance.subscribe "articles",
       url:
-        $regex: "post\/" + CuratorSources.findOne(@data.selectedSourceId.get())._sourceId + "$"
-    instance.associatedEventIdsToArticles = new ReactiveVar {}
+        $regex: "post\/#{_getSourceId(@)}$"
 
   @autorun =>
     @associatedEventIdsToArticles.set _.object(Articles.find(
       url:
-        $regex: "post\/" + CuratorSources.findOne(@data.selectedSourceId.get())._sourceId + "$"
+        $regex: "post\/#{_getSourceId(@)}$"
     ).map((article)->
       [article.userEventId, article]
     ))
@@ -27,9 +30,11 @@ Template.curatorEvents.helpers
         $nin: _.keys(Template.instance().associatedEventIdsToArticles.get())
 
   associatedUserEvents: ->
-    UserEvents.find
+    instance = Template.instance()
+    associatedUserEvents = UserEvents.find
       _id:
-        $in: _.keys(Template.instance().associatedEventIdsToArticles.get())
+        $in: _.keys(instance.associatedEventIdsToArticles.get())
+    associatedUserEvents
 
   associatedEventIdsToArticles: ->
     Template.instance().associatedEventIdsToArticles
@@ -39,7 +44,9 @@ Template.curatorEvents.helpers
 
   associated: () ->
     articleId = Template.instance().data._id
-    CuratorSources.findOne({ _id: articleId, relatedEvents: this._id })
+    CuratorSources.findOne
+      _id: articleId
+      relatedEvents: this._id
 
   settings: ->
     id: 'curator-events-table'
@@ -88,7 +95,7 @@ Template.curatorEvents.events
       instance.$('tr').removeClass('incidents-open')
       $currentOpen.remove()
     if not closeRow
-      $tr = $("<tr id='tr-incidents'>").addClass("tr-incidents")
+      $tr = $('<tr id="tr-incidents">').addClass("tr-incidents")
       $parentRow.addClass('incidents-open').after($tr)
       Blaze.renderWithData(Template.curatorEventIncidents, this, $tr[0])
 
@@ -100,15 +107,17 @@ Template.curatorEvents.events
       title: source.title
       publishDate: source.publishDate
       publishDateTZ: 'EST'
+    , ()->
+      if _.keys(instance.associatedEventIdsToArticles.get()).length <= 1
+        Meteor.call('markSourceReviewed', source._id, true)
 
   'click .disassociate-event': (event, instance) ->
     Meteor.call('removeEventSource', instance.associatedEventIdsToArticles.get()[@_id])
 
   'click .suggest-incidents': (event, instance) ->
-    Modal.show('suggestedIncidentsModal', {
-        userEventId: @_id
-        article: instance.associatedEventIdsToArticles.get()[@_id]
-      })
+    Modal.show 'suggestedIncidentsModal',
+      userEventId: @_id
+      article: instance.associatedEventIdsToArticles.get()[@_id]
 
   'click .curator-events-header.all-events': (event, instance) ->
     suggestedEventsHeaderState = instance.suggestedEventsHeaderState
@@ -116,7 +125,7 @@ Template.curatorEvents.events
 
   'click #curatorEventsFilter': (event, instance) ->
     event.stopPropagation()
-    instance.suggestedEventsHeaderState.set true
+    instance.suggestedEventsHeaderState.set(true)
 
   "click .add-new-event": (event, instance) ->
     Modal.show 'editEventDetailsModal',

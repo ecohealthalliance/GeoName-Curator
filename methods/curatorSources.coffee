@@ -3,7 +3,6 @@ CuratorSources = require '/imports/collections/curatorSources.coffee'
 Meteor.methods
   markSourceReviewed: (id, reviewed) ->
     if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
-      CuratorSources.update({_id: id}, {
+      CuratorSources.update _id: id,
         $set:
           reviewed: reviewed
-      })
