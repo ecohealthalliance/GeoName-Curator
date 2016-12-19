@@ -138,16 +138,18 @@ Template.suggestedIncidentsModal.onCreated ->
             Object.keys(timeAnnotation.timeRange.end).length +
             Object.keys(timeAnnotation.timeRange.end).length
           )
-          timeAnnotation.beginMoment = moment.utc(timeAnnotation.timeRange.begin)
+          timeAnnotation.beginMoment = moment.utc(
+            timeAnnotation.timeRange.begin
+          )
           # Round up the to day end
-          timeAnnotation.endMoment = moment.utc(_.extend({
-            hours:23, minutes: 59
-          }, timeAnnotation.timeRange.end))
+          timeAnnotation.endMoment = moment.utc(
+            timeAnnotation.timeRange.end
+          ).endOf('day')
           publishMoment = moment.utc(@data.article.publishDate)
-          if timeAnnotation.beginMoment > publishMoment
+          if timeAnnotation.beginMoment.isAfter publishMoment, 'day'
             # Omit future dates
             return
-          if timeAnnotation.endMoment > publishMoment
+          if timeAnnotation.endMoment.isAfter publishMoment, 'day'
             # Truncate ranges that extend into the future
             timeAnnotation.endMoment = publishMoment
           return timeAnnotation
@@ -162,7 +164,9 @@ Template.suggestedIncidentsModal.onCreated ->
           if start <= territoryEnd and start >= territoryStart
             return true
         incident =
-          locations: locationTerritory.annotations.map(({geoname})->geonamesById[geoname.geonameid])
+          locations: locationTerritory.annotations.map(({geoname})->
+            geonamesById[geoname.geonameid]
+          )
         maxPrecision = 0
         # Use the article's date as the default
         incident.dateRange =
@@ -276,10 +280,18 @@ Template.suggestedIncidentsModal.events
       userEventId: instance.data.userEventId
       incidentCollection: instance.incidentCollection
       incident: incident
-      incidentText: Spacebars.SafeString(Handlebars._escape(precedingText) + """<span class='annotation-text'>#{Handlebars._escape(content.slice(start, end))}</span>""" + Handlebars._escape(followingText))
+      incidentText: Spacebars.SafeString(
+        Handlebars._escape(precedingText) +
+        "<span class='annotation-text'>" +
+        Handlebars._escape(content.slice(start, end)) +
+        "</span>" +
+        Handlebars._escape(followingText)
+      )
 
   "click #add-suggestions": (event, instance) ->
-    incidents = Template.instance().incidentCollection.find({accepted: true}).map (incident)->
+    incidents = Template.instance().incidentCollection.find(
+      accepted: true
+    ).map (incident)->
       _.pick(incident, incidentReportSchema.objectKeys())
     Meteor.call "addIncidentReports", incidents, (err, result)->
       if err
