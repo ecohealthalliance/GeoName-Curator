@@ -130,15 +130,16 @@ template(name="incidentForm")
             name="travelRelated"
             id="travelRelated"
             tabindex="-1"
-            checked=travelRelated)
+            checked=incidentData.travelRelated)
           label.travel-related(for="travelRelated" tabindex="0") Travel Related
+
         .check-button
           input(
             type="checkbox"
             name="cumulative"
             id="cumulative"
             tabindex="-1"
-            checked=cumulative)
+            checked=incidentData.dateRange.cumulative)
           label.cumulative(for="cumulative" tabindex="0") Cumulative
 
     button.hidden(type="submit")

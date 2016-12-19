@@ -16,8 +16,6 @@ _selectInput = (event, instance, prop, isCheckbox) ->
 Template.incidentForm.onCreated ->
   @incidentStatus = new ReactiveVar('')
   @incidentType = new ReactiveVar('')
-  @cumulative = new ReactiveVar(false)
-  @travelRelated = new ReactiveVar(false)
 
   @incidentData =
     species: 'Human'
@@ -51,8 +49,6 @@ Template.incidentForm.onCreated ->
       )?._id
 
     @incidentStatus.set(incident.status or '')
-    @cumulative.set(incident.cumulative or false)
-    @travelRelated.set(incident.travelRelated or false)
 
 Template.incidentForm.onRendered ->
   instance = @
@@ -99,12 +95,6 @@ Template.incidentForm.helpers
     if Template.instance().incidentData.dateRange.type is 'precise'
       'active'
 
-  cumulative: ->
-    Template.instance().cumulative.get()
-
-  travelRelated: ->
-    Template.instance().travelRelated.get()
-
   selectedIncidentType: ->
     Template.instance().incidentType.get().slice(0, -1)
 
@@ -117,12 +107,6 @@ Template.incidentForm.events
 
   'click .type label, keyup .type label': (event, instance) ->
     _selectInput(event, instance, 'incidentType')
-
-  'click .travel-related, keyup .travel-related': (event, instance) ->
-    _selectInput(event, instance, 'travelRelated', true)
-
-  'click .cumulative, keyup .cumulative': (event, instance) ->
-    _selectInput(event, instance, 'cumulative', true)
 
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
