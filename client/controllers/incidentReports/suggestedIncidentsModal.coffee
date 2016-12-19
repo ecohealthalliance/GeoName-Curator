@@ -124,19 +124,10 @@ Template.suggestedIncidentsModal.onCreated ->
       locTerritories = getTerritories(locationAnnotations, sents)
       datetimeAnnotations = datetimeAnnotations
         .map (timeAnnotation)=>
-          if (timeAnnotation.label == "PRESENT_REF" or
-            timeAnnotation.text == "today"
-          )
-            timeAnnotation.timeRange =
-              begin: moment.utc(@data.article.publishDate).toObject()
-              end: moment.utc(@data.article.publishDate).add(1, "day").toObject()
-            timeAnnotation.precision = 1
-            return timeAnnotation
           if not (timeAnnotation.timeRange and
             timeAnnotation.timeRange.begin and
             timeAnnotation.timeRange.end
           )
-            #console.log "No Timerange", timeAnnotation
             return
           # moment parses 0 based month indecies
           if timeAnnotation.timeRange.begin.month
@@ -147,6 +138,20 @@ Template.suggestedIncidentsModal.onCreated ->
             Object.keys(timeAnnotation.timeRange.end).length +
             Object.keys(timeAnnotation.timeRange.end).length
           )
+          timeAnnotation.beginMoment = moment.utc(
+            timeAnnotation.timeRange.begin
+          )
+          # Round up the to day end
+          timeAnnotation.endMoment = moment.utc(
+            timeAnnotation.timeRange.end
+          ).endOf('day')
+          publishMoment = moment.utc(@data.article.publishDate)
+          if timeAnnotation.beginMoment.isAfter publishMoment, 'day'
+            # Omit future dates
+            return
+          if timeAnnotation.endMoment.isAfter publishMoment, 'day'
+            # Truncate ranges that extend into the future
+            timeAnnotation.endMoment = publishMoment
           return timeAnnotation
         .filter (x)-> x
       dateTerritories = getTerritories(datetimeAnnotations, sents)
@@ -159,7 +164,9 @@ Template.suggestedIncidentsModal.onCreated ->
           if start <= territoryEnd and start >= territoryStart
             return true
         incident =
-          locations: locationTerritory.annotations.map(({geoname})->geonamesById[geoname.geonameid])
+          locations: locationTerritory.annotations.map(({geoname})->
+            geonamesById[geoname.geonameid]
+          )
         maxPrecision = 0
         # Use the article's date as the default
         incident.dateRange =
@@ -167,21 +174,14 @@ Template.suggestedIncidentsModal.onCreated ->
           end: moment(@data.article.publishDate).add(1, "day")
           type: "day"
         dateTerritory.annotations.forEach (timeAnnotation)->
-          fromTime = _.clone(timeAnnotation.timeRange.begin)
-          toTime = _.clone(timeAnnotation.timeRange.end)
-          momentFromTime = moment.utc(fromTime)
-          # Round up the to day end
-          momentToTime = moment.utc(_.extend({
-            hours:23, minutes: 59
-          }, toTime))
           if (timeAnnotation.precision > maxPrecision and
-            momentToTime.isValid() and
-            momentFromTime.isValid()
+            timeAnnotation.beginMoment.isValid() and
+            timeAnnotation.endMoment.isValid()
           )
             maxPrecision = timeAnnotation.precision
             incident.dateRange =
-              start: momentFromTime.toDate()
-              end: momentToTime.toDate()
+              start: timeAnnotation.beginMoment.toDate()
+              end: timeAnnotation.endMoment.toDate()
             rangeHours = moment(incident.dateRange.end)
               .diff(incident.dateRange.start, "hours")
             if rangeHours <= 24
@@ -280,10 +280,18 @@ Template.suggestedIncidentsModal.events
       userEventId: instance.data.userEventId
       incidentCollection: instance.incidentCollection
       incident: incident
-      incidentText: Spacebars.SafeString(Handlebars._escape(precedingText) + """<span class='annotation-text'>#{Handlebars._escape(content.slice(start, end))}</span>""" + Handlebars._escape(followingText))
+      incidentText: Spacebars.SafeString(
+        Handlebars._escape(precedingText) +
+        "<span class='annotation-text'>" +
+        Handlebars._escape(content.slice(start, end)) +
+        "</span>" +
+        Handlebars._escape(followingText)
+      )
 
   "click #add-suggestions": (event, instance) ->
-    incidents = Template.instance().incidentCollection.find({accepted: true}).map (incident)->
+    incidents = Template.instance().incidentCollection.find(
+      accepted: true
+    ).map (incident)->
       _.pick(incident, incidentReportSchema.objectKeys())
     Meteor.call "addIncidentReports", incidents, (err, result)->
       if err
