@@ -8,22 +8,22 @@ Feature: Events
   Scenario: Submit a blank event form
     And I click on the create new event button
     And I create an event with name "" and summary ""
-    Then I should see a "error" toast
+    Then I should see an invalid form
 
   Scenario: Submit an event with only a name
     When I click on the create new event button
-    Then I create an event with name "A test" and summary ""
-    And I should see content "A test"
+    And I create an event with name "A test" and summary ""
+    Then I should see content "A test"
 
   Scenario: Submit an event form with only a summary
     When I click on the create new event button
-    Then I create an event with name "" and summary "A summary"
-    Then I should see a "error" toast
+    And I create an event with name "" and summary "A summary"
+    Then I should see an invalid form
 
   Scenario: Submit an event with a name and summary
     When I click on the create new event button
-    Then I create an event with name "A test" and summary "A summary"
-    And I should see content "A test"
+    And I create an event with name "A test" and summary "A summary"
+    Then I should see content "A test"
     And I should see content "A summary"
 
   Scenario: Delete an existing event
