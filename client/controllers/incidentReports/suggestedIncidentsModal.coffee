@@ -289,14 +289,24 @@ Template.suggestedIncidentsModal.events
       )
 
   "click #add-suggestions": (event, instance) ->
-    incidents = Template.instance().incidentCollection.find(
+    incidentCollection = Template.instance().incidentCollection
+    incidents = incidentCollection.find(
       accepted: true
     ).map (incident)->
       _.pick(incident, incidentReportSchema.objectKeys())
+    count = incidents.length
+    if count <= 0
+      toastr.warning "No incidents have been confirmed"
+      return
     Meteor.call "addIncidentReports", incidents, (err, result)->
       if err
         toastr.error err.reason
       else
+        # we need to allow the modal to close without warning confirmAbandonChanges
+        # since the incidents have been saved to the remote, it makes sense to
+        # empty our collection temporary work.
+        incidentCollection.remove({})
+        # hide the modal
         Modal.hide(instance)
 
   "click #non-suggested-incident": (event, instance) ->
