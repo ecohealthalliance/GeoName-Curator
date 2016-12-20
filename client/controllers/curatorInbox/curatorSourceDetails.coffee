@@ -40,6 +40,14 @@ Template.curatorSourceDetails.onRendered ->
     @source.set source
 
 Template.curatorSourceDetails.helpers
+  getSourceDetailsTitle: ->
+    title = Template.instance().source.get().title
+    if $('#sourceDetailsTitle').length && $('#sourceDetailsTitle')[0].hasAttribute('data-original-title')
+      $('#sourceDetailsTitle').tooltip('hide').attr('data-original-title', title)
+      return ''
+    else
+      return title
+
   source: ->
     Template.instance().source.get()
 
