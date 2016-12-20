@@ -8,7 +8,7 @@ _getSourceId = (instance) ->
 
 Template.curatorEvents.onCreated ->
   instance = @
-  @suggestedEventsHeaderState = new ReactiveVar true
+  @suggestedEventsHeaderState = new ReactiveVar(true)
   @associatedEventIdsToArticles = new ReactiveVar({})
   @autorun =>
     instance.subscribe "articles",
