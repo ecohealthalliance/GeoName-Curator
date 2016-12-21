@@ -1,21 +1,30 @@
 CuratorSources = require '/imports/collections/curatorSources.coffee'
 key = require 'keymaster'
 
-markReviewed = (instance) ->
-  reviewed = instance.reviewed
-  notifying = instance.notifying
-  reviewed.set not reviewed.get()
-  Meteor.call('markSourceReviewed', instance.source.get()._id, reviewed.get())
-  if reviewed.get()
-    notifying.set true
-    Meteor.setTimeout ->
-      unReviewedQuery = $and: [ {reviewed: false}, instance.data.query.get()]
-      nextSource = CuratorSources.findOne unReviewedQuery,
-        sort:
-          publishDate: -1
-      instance.data.selectedSourceId.set nextSource._id
-      notifying.set false
-    , 1200
+_markReviewed = (instance, showNext=true) ->
+  new Promise (resolve) ->
+    reviewed = instance.reviewed
+    notifying = instance.notifying
+    reviewed.set not reviewed.get()
+    Meteor.call('markSourceReviewed', instance.source.get()._id, reviewed.get())
+    if reviewed.get()
+      notifying.set true
+      Meteor.setTimeout ->
+        if showNext
+          unReviewedQuery = $and: [ {reviewed: false}, instance.data.query.get()]
+          nextSource = CuratorSources.findOne unReviewedQuery,
+            sort:
+              publishDate: -1
+          instance.data.selectedSourceId.set nextSource._id
+        notifying.set false
+        resolve()
+      , 1200
+
+_getSource = (instance, sourceId) ->
+  source = CuratorSources.findOne
+    _id: sourceId
+  instance.reviewed.set source?.reviewed or false
+  instance.source.set source
 
 Template.curatorSourceDetails.onCreated ->
   @contentIsOpen = new ReactiveVar(false)
@@ -31,13 +40,12 @@ Template.curatorSourceDetails.onRendered ->
 
   # Create key binding which marks sources as reviewed.
   key 'ctrl + enter, command + enter', (event) =>
-    markReviewed(@)
+    _markReviewed(@)
 
-  @autorun =>
-    sourceId = Template.instance().data.selectedSourceId.get()
-    source = CuratorSources.findOne _id: sourceId
-    @reviewed.set source?.reviewed or false
-    @source.set source
+  instance = @
+  @autorun ->
+    sourceId = instance.data.selectedSourceId.get()
+    _getSource(instance, sourceId)
 
 Template.curatorSourceDetails.helpers
   source: ->
@@ -63,7 +71,7 @@ Template.curatorSourceDetails.helpers
 
 Template.curatorSourceDetails.events
   "click .toggle-reviewed": (event, instance) ->
-    markReviewed(instance)
+    _markReviewed(instance)
 
   'click .toggle-source-content': (event, instance) ->
     open = instance.contentIsOpen

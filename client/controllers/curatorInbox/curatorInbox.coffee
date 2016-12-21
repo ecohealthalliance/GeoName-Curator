@@ -24,7 +24,7 @@ Template.curatorInbox.onCreated ->
     endDate: new Date()
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['title'])
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
-  @reviewFilter.set({$ne: true})
+  @reviewFilter.set($ne: true)
   @selectedSourceId = new ReactiveVar null
   @query = new ReactiveVar null
 
@@ -50,7 +50,7 @@ Template.curatorInbox.onCreated ->
       firstSource = CuratorSources.findOne unReviewedQuery,
         sort:
           publishDate: -1
-      @selectedSourceId.set firstSource._id
+      @selectedSourceId.set(firstSource._id)
       @ready.set(true)
 
 Template.curatorInbox.onRendered ->
@@ -144,7 +144,6 @@ Template.curatorInbox.events
     instance.calendarState.set(false)
 
 Template.curatorInboxSection.onCreated ->
-  @selectedSourceId = new ReactiveVar null
   @sourceCount = new ReactiveVar 0
   @curatorInboxFields = [
     {
@@ -197,10 +196,9 @@ Template.curatorInboxSection.onCreated ->
   sectionDate = Template.instance().data.date
   @filterId = 'inbox-date-filter-'+sectionDate.getTime()
   @filter = new ReactiveTable.Filter(@filterId, ['publishDate'])
-  @filter.set(
+  @filter.set
     $gte: sectionDate
     $lt: moment(sectionDate).add(1, 'day').toDate()
-  )
 
   @isOpen = new ReactiveVar(@data.index < 5)
 
@@ -260,7 +258,7 @@ Template.curatorInboxSection.helpers
 
 Template.curatorInboxSection.events
   'click .curator-inbox-table tbody tr': (event, instance) ->
-    instance.data.selectedSourceId.set @_id
+    instance.data.selectedSourceId.set(@_id)
 
   'click .curator-inbox-section-head': (event, instance) ->
     instance.isOpen.set(!instance.isOpen.curValue)
