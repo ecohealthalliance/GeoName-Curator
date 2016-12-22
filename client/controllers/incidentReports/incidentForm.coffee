@@ -115,5 +115,11 @@ Template.incidentForm.events
       firstItem.remove()
 
   'submit form': (event, instance) ->
-    instance.data.valid.set(not event.isDefaultPrevented())
+    prevented = event.isDefaultPrevented()
+    instance.data.valid.set(not prevented)
+    if prevented
+      # Toggle focus on location input so 'has-error' class is applied
+      if not instance.$('.select2-selection__choice').length
+        instance.$('.select2-search__field').blur()
+        instance.$('.has-error:first-child').focus()
     event.preventDefault()
