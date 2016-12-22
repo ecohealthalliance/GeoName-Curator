@@ -5,7 +5,8 @@
     "d3": "3.5.3",
     "es6-promise": "^4.0.5",
     "event-drops": "0.3.0-alpha1",
-    "picomodal": "^3.0.0"
+    "picomodal": "^3.0.0",
+    "common-tags": "^1.4.0"
   },
   "devDependencies": {
     "async": "^2.0.1",

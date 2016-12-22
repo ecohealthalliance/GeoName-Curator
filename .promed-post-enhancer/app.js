@@ -3,6 +3,7 @@ import picoModal from 'picomodal';
 import './EventDrops/lib/eventDrops.js';
 import './EventDrops/style.css';
 import './styles.css';
+import {html, safeHtml} from 'common-tags'
 const EIDR_CONNECT_URL = "https://eidr-connect.eha.io";
 
 const FONT_SIZE = 16; // in pixels
@@ -33,7 +34,7 @@ const showTooltip = (article)=> {
     d3.event.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
 
   const formattedURL = article.url.startsWith("http") ? article.url : "https://" + article.url;
-  tooltip.html(`
+  tooltip.html(safeHtml`
     <div class="marker">
       <div class="content">
         <p>
@@ -88,7 +89,7 @@ const enhance = (target)=>{
       <p class="eidr-connect-events">EIDR-Connect Events
         [<a id="aboutEidrConnect">?</a>]:&nbsp;
         ${events.map((event)=>{
-          return `<a href="https://eidr-connect.eha.io/user-event/${event._id}">
+          return safeHtml`<a href="https://eidr-connect.eha.io/user-event/${event._id}">
             ${event.eventName}
           </a>`;
         }).join(", ")}
