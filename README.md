@@ -47,18 +47,6 @@ meteor npm run-script start-test-server
 ./start-test-server.sh --app_port=3001 --mongo_host=127.0.0.1 --mongo_port=27017 --test_db=eidr-connect-test --prod_db=eidr-connect
 ```
 
-Tags
-
-To run only tests with certain tags (https://github.com/cucumber/cucumber/wiki/Tags):
-```
-./start-test-server.sh --tags=@dev ...
-```
-- Or if running the NPM script:
-```
-TAGS=@dev meteor npm run-script start-test-server
-```
-
-
 Execute the test runner to run all tests
 ```
 npm run chimp-test
@@ -72,6 +60,13 @@ npm run chimp-watch
 - Or you may customize the script by running directly with the following optional args:
 ```
 ./run-tests.sh --watch=true --app_uri=http://127.0.0.1 --app_port=3001
+```
+
+Tags
+
+To run only tests with certain tags (https://github.com/cucumber/cucumber/wiki/Tags):
+```
+./run-tests.sh --tags=@dev ...
 ```
 
 Stop the meteor test application

@@ -51,3 +51,8 @@ do ->
         @client.click('.cancel')
       else
         @client.click('.delete')
+
+    @Then /^I should see an invalid form$/, ->
+      invalidInputCount = @client.elements('.form-group.has-error').value.length
+      if not invalidInputCount
+        throw new Error('The form is invalid when required inputs are empty')

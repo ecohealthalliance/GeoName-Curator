@@ -1,8 +1,16 @@
-convertDate = require "/imports/convertDate.coffee"
+convertDate = require '/imports/convertDate.coffee'
 Articles = require '/imports/collections/articles.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
+validator = require 'bootstrap-validator'
+
 
 import {UTCOffsets, cleanUrl} from '/imports/utils.coffee'
+
+_checkFormValidity = (instance) ->
+  $form = instance.$('form')
+  $form.validator('validate')
+  $form.submit()
+  instance.formValid.get()
 
 _setDatePicker = (picker, date) ->
   picker.setStartDate(date)
@@ -15,7 +23,7 @@ Template.sourceModal.onCreated ->
 
   if @data.edit
     if @data.publishDate
-      @timezoneFixedPublishDate = convertDate(@data.publishDate, "local",
+      @timezoneFixedPublishDate = convertDate(@data.publishDate, 'local',
                                                 UTCOffsets[@data.publishDateTZ])
   else
     @loadingArticles = new ReactiveVar(true)
@@ -27,6 +35,9 @@ Template.sourceModal.onCreated ->
           @suggestedArticles.insert
             url: "http://www.promedmail.org/post/#{suggestedArticle.promedId}"
             subject: suggestedArticle.subject.raw
+
+Template.sourceModal.onCreated ->
+  @formValid = new ReactiveVar false
 
 Template.sourceModal.onRendered ->
   pickerOptions =
@@ -43,6 +54,8 @@ Template.sourceModal.onRendered ->
     defaultDate:  @timezoneFixedPublishDate or false
   @$('.timePicker').datetimepicker(pickerOptions)
 
+  @$('#add-source').validator()
+
 Template.sourceModal.helpers
   timezones: ->
     timezones = []
@@ -58,8 +71,9 @@ Template.sourceModal.helpers
 
   saveButtonClass: ->
     if @edit
-      return "save-edit-modal"
-    return "save-modal"
+      'save-edit-modal'
+    else
+      'save-modal'
 
   title: ->
     Template.instance().selectedArticle.get().title
@@ -77,25 +91,14 @@ Template.sourceModal.helpers
     Template.instance().data.edit
 
 Template.sourceModal.events
-  "click .save-modal": (e, instance) ->
-    form = instance.$("form")[0]
+  'click .save-modal': (event, instance) ->
+    return unless _checkFormValidity(instance)
+    form = instance.$('form')[0]
     article = form.article.value
     validURL = form.article.checkValidity()
     timePicker = instance.$('#publishTime').data('DateTimePicker')
     date = instance.datePicker.startDate
     time = timePicker.date()
-
-    unless validURL
-      toastr.error('Please enter an article.')
-      form.article.focus()
-      return
-    if !date and form.publishTime.value.length
-      toastr.error('Please select a date.')
-      return
-    unless form.publishDateTZ.checkValidity()
-      toastr.error('Please select a time zone.')
-      form.publishDateTZ.focus()
-      return
 
     source =
       userEventId: instance.data.userEventId
@@ -120,7 +123,7 @@ Template.sourceModal.events
         toastr.error error.reason
       else
         Modal.hide(instance)
-        form.article.value = ""
+        form.article.value = ''
         _setDatePicker(instance.datePicker, null)
         timePicker.date(null)
 
@@ -131,19 +134,12 @@ Template.sourceModal.events
             userEventId: instance.data.userEventId
             article: Articles.findOne(articleId)
 
-  'click .save-edit-modal': (e, instance) ->
-    form = instance.$("form")[0]
+  'click .save-edit-modal': (event, instance) ->
+    return unless _checkFormValidity(instance)
+    form = instance.$('form')[0]
     timePicker = instance.$('#publishTime').data('DateTimePicker')
     date = instance.datePicker.startDate
     time = timePicker.date()
-
-    if !date and form.publishTime.value.length
-      toastr.error('Please select a date.')
-      return
-    unless form.publishDateTZ.checkValidity()
-      toastr.error('Please select a time zone.')
-      form.publishDateTZ.focus()
-      return
 
     source = @
     source.publishDateTZ = form.publishDateTZ.value
@@ -155,7 +151,9 @@ Template.sourceModal.events
         month: date.month()
         date: date.date()
       if form.publishTime.value.length
-        selectedDate.set({hour: time.get('hour'), minute: time.get('minute')})
+        selectedDate.set
+          hour: time.get('hour')
+          minute: time.get('minute')
         selectedDate = convertDate(selectedDate,
                                     UTCOffsets[source.publishDateTZ], 'local')
       source.publishDate = selectedDate.toDate()
@@ -194,4 +192,7 @@ Template.sourceModal.events
     input.value = @url
     titleInput = instance.find('#title')
     titleInput.value = @subject
-    $(input).trigger('input').trigger('input')
+
+  'submit form': (event, instance) ->
+    instance.formValid.set(not event.isDefaultPrevented())
+    event.preventDefault()

@@ -51,11 +51,6 @@ export incidentReportFormToIncident = (form) ->
 
   picker = $pickerContainer.data("daterangepicker")
 
-  unless form.articleSource.checkValidity()
-    toastr.error('Please select an article.')
-    form.articleSource.focus()
-    return
-
   incidentType = $form.find('input[name="incidentType"]:checked').val()
   incidentStatus = $form.find('input[name="incidentStatus"]:checked').val()
 
@@ -72,17 +67,11 @@ export incidentReportFormToIncident = (form) ->
 
   switch incidentType || ''
     when 'cases'
-      return if not checkIncidentTypeValue(form, 'count')
       incident.cases = parseInt(form.count.value, 10)
     when 'deaths'
-      return if not checkIncidentTypeValue(form, 'count')
       incident.deaths = parseInt(form.count.value, 10)
     when 'other'
-      return if not checkIncidentTypeValue(form, 'specify')
       incident.specify = form.specify.value.trim()
-    when ''
-      toastr.error("Please select an incident type.")
-      return
     else
       toastr.error("Unknown incident type [#{incidentType}]")
       return

@@ -1,4 +1,5 @@
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
+validator = require 'bootstrap-validator'
 
 _keyboardSelect = (event) ->
   keyCode = event.keyCode
@@ -13,10 +14,8 @@ _selectInput = (event, instance, prop, isCheckbox) ->
     instance[prop].set(instance.$(event.target).attr('for'))
 
 Template.incidentForm.onCreated ->
-  @incidentStatus = new ReactiveVar ''
-  @incidentType = new ReactiveVar ''
-  @cumulative = new ReactiveVar false
-  @travelRelated = new ReactiveVar false
+  @incidentStatus = new ReactiveVar('')
+  @incidentType = new ReactiveVar('')
 
   @incidentData =
     species: 'Human'
@@ -50,10 +49,9 @@ Template.incidentForm.onCreated ->
       )?._id
 
     @incidentStatus.set(incident.status or '')
-    @cumulative.set(incident.cumulative or false)
-    @travelRelated.set(incident.travelRelated or false)
 
 Template.incidentForm.onRendered ->
+  instance = @
   datePickerOptions = {}
   if @incidentData.dateRange.start and @incidentData.dateRange.end
     datePickerOptions.startDate = @incidentData.dateRange.start
@@ -61,6 +59,13 @@ Template.incidentForm.onRendered ->
   createInlineDateRangePicker(@$('#rangePicker'), datePickerOptions)
   datePickerOptions.singleDatePicker = true
   createInlineDateRangePicker(@$('#singleDatePicker'), datePickerOptions)
+
+  @$('#add-incident').validator()
+  #Update the validator when Blaze adds incident type related inputs
+  @autorun ->
+    instance.incidentType.get()
+    Meteor.defer ->
+      instance.$('#add-incident').validator('update')
 
 Template.incidentForm.helpers
   incidentData: ->
@@ -90,12 +95,6 @@ Template.incidentForm.helpers
     if Template.instance().incidentData.dateRange.type is 'precise'
       'active'
 
-  cumulative: ->
-    Template.instance().cumulative.get()
-
-  travelRelated: ->
-    Template.instance().travelRelated.get()
-
   selectedIncidentType: ->
     Template.instance().incidentType.get().slice(0, -1)
 
@@ -109,14 +108,18 @@ Template.incidentForm.events
   'click .type label, keyup .type label': (event, instance) ->
     _selectInput(event, instance, 'incidentType')
 
-  'click .travel-related, keyup .travel-related': (event, instance) ->
-    _selectInput(event, instance, 'travelRelated', true)
-
-  'click .cumulative, keyup .cumulative': (event, instance) ->
-    _selectInput(event, instance, 'cumulative', true)
-
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
     firstItem = $('.select2-results__options').children().first()
     if firstItem[0]?.id is ''
       firstItem.remove()
+
+  'submit form': (event, instance) ->
+    prevented = event.isDefaultPrevented()
+    instance.data.valid.set(not prevented)
+    if prevented
+      # Toggle focus on location input so 'has-error' class is applied
+      if not instance.$('.select2-selection__choice').length
+        instance.$('.select2-search__field').blur()
+        instance.$('.has-error:first-child').focus()
+    event.preventDefault()

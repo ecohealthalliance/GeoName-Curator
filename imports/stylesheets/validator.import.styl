@@ -1,0 +1,34 @@
+// Boostrap validator
+.has-error .help-block.has-error .control-label
+.has-error .radio
+.has-error .checkbox
+.has-error .radio-inline
+.has-error .checkbox-inline
+.has-error.radio label
+.has-error.checkbox label
+.has-error.radio-inline label
+.has-error.checkbox-inline label
+.has-error
+  .with-errors
+    color $danger
+
+  .input-group-addon
+  .form-control
+    border-color $danger
+    background lighten($danger, 95%)
+    &:focus
+      box-shadow none
+
+  .form-control
+  input
+    box-shadow none
+    &:focus
+      border-color $danger !important
+
+  > label
+  .control-label
+    color darken($danger, 10%) !important
+
+  .input-group-addon
+    background $danger
+    color white

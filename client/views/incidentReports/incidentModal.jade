@@ -16,12 +16,14 @@ template(name="incidentModal")
             +incidentForm(
               articles=articles
               incident=incident
-              edit=true)
+              edit=true
+              valid=valid)
           else
-            +incidentForm articles=articles
+            +incidentForm articles=articles valid=valid
 
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           if add
-            button.btn.btn-primary.save-modal-duplicate(type="button") Save then Duplicate
+            button.btn.btn-primary.save-modal-duplicate(type="button")
+              | Save then Duplicate
           button.btn.btn-primary.save-modal(type="button") Save

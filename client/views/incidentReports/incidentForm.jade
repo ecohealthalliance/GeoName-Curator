@@ -2,13 +2,14 @@ template(name="incidentForm")
 
   form#add-incident(novalidate)
     .form-group
-      label.control-label Article URL
+      label.control-label Source URL
       +articleSelect2(
         selectId="articleSource"
         articles=articles
-        selected=incidentData.articleSource)
+        selected=incidentData.articleSource
+        placeholder='Select a source')
 
-    .form-group.incident--dates
+    .form-group.incident--dates.full-width
       ul.tabs.secondary-tabs(role="tablist")
         li(role="presentation" class="{{dayTabClass}}")
           a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab") Single Date
@@ -33,7 +34,7 @@ template(name="incidentForm")
       label.control-label Species
       input.form-control(type="text" name="species" value=incidentData.species)
 
-    .form-group
+    .form-group.check-buttons
       label.control-label Status
       .container-flex.check-buttons.status
         .check-button
@@ -64,7 +65,7 @@ template(name="incidentForm")
             checked="{{incidentStatusChecked 'revoked'}}")
           label(for="revoked" tabindex="0") Revoked
 
-    .form-group
+    .form-group.check-buttons
       label.control-label Incident Type
       .container-flex.check-buttons.type
         .check-button
@@ -74,7 +75,8 @@ template(name="incidentForm")
             id="cases"
             value="cases"
             tabindex="-1"
-            checked="{{incidentTypeChecked 'cases'}}")
+            checked="{{incidentTypeChecked 'cases'}}"
+            required)
           label(for="cases" tabindex="0") Cases
         .check-button
           input(
@@ -83,7 +85,8 @@ template(name="incidentForm")
             id="deaths"
             value="deaths"
             tabindex="-1"
-            checked="{{incidentTypeChecked 'deaths'}}")
+            checked="{{incidentTypeChecked 'deaths'}}"
+            required)
           label(for="deaths" tabindex="0") Deaths
         .check-button
           input(
@@ -92,7 +95,8 @@ template(name="incidentForm")
             id="other"
             value="other"
             tabindex="-1"
-            checked="{{incidentTypeChecked 'other'}}")
+            checked="{{incidentTypeChecked 'other'}}"
+            required)
           label(for="other" tabindex="0") Other
 
     if showCountForm
@@ -126,13 +130,16 @@ template(name="incidentForm")
             name="travelRelated"
             id="travelRelated"
             tabindex="-1"
-            checked=travelRelated)
+            checked=incidentData.travelRelated)
           label.travel-related(for="travelRelated" tabindex="0") Travel Related
+
         .check-button
           input(
             type="checkbox"
             name="cumulative"
             id="cumulative"
             tabindex="-1"
-            checked=cumulative)
+            checked=incidentData.dateRange.cumulative)
           label.cumulative(for="cumulative" tabindex="0") Cumulative
+
+    button.hidden(type="submit")

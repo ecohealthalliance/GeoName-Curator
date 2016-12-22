@@ -115,10 +115,9 @@ Template.articles.events
 Template.articleSelect2.onRendered ->
   $input = @$('select')
   options = {}
-
   if @data.multiple
     options.multiple = true
-
+  options.placeholder = @data.placeholder or ''
   $input.select2(options)
 
   if @data.selected
