@@ -37,7 +37,7 @@ const showTooltip = (article)=> {
     <div class="marker">
       <div class="content">
         <p>
-          <a href="${formattedURL}">${formattedURL}</a>
+          <a href="${formattedURL}">${article.title || formattedURL}</a>
         </p>
         <p>
           Published on <span class="date">${(new Date(article.publishDate)).toLocaleString()}</span>
