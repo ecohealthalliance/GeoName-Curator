@@ -68,9 +68,8 @@ Template.suggestedEvents.onCreated ->
   # reactively compute changes to associatedEventIdsToArticles object and
   # update the suggested events
   @autorun =>
-    if @data.associatedEventIdsToArticles
-      associated = @data.associatedEventIdsToArticles.get()
-      @updateSuggestedEvents(associated)
+    associated = @data.associatedEventIdsToArticles?.get()
+    @updateSuggestedEvents(associated)
 
 Template.suggestedEvents.helpers
   # controls the visiblity of the suggested-events-table and toggles the chevron
