@@ -1,9 +1,3 @@
-trimMonthHeader = ($rangeContainer) ->
-  $rangeContainer.find('.calendar-table').each ->
-    $(@).find('thead tr').last().children().each ->
-      $day = $(@)
-      $day.html($day.html().slice(0,-1))
-
 createInlineDateRangePicker = ($parentElement, options) ->
   parentId = $parentElement.prop("id")
   if !parentId
@@ -14,6 +8,9 @@ createInlineDateRangePicker = ($parentElement, options) ->
       return v.toString(16)
     $parentElement.prop('id', parentId)
 
+  locale =
+    daysOfWeek: ['S','M','T','W','T','F','S']
+
   if !options then options = {}
   allOptions = _.extend
     parentEl: '#' + parentId
@@ -22,6 +19,7 @@ createInlineDateRangePicker = ($parentElement, options) ->
     autoUpdateInput: false
     maxDate: options.maxDate
     minDate: options.minDate
+    locale: locale
   , _.omit(options, 'singleDatePicker')
 
   if options.startDate and options.endDate
@@ -34,18 +32,13 @@ createInlineDateRangePicker = ($parentElement, options) ->
   $rangeContainer = $parentElement.daterangepicker(allOptions)
   picker = $rangeContainer.data('daterangepicker')
 
-  # Replace two letter day abbreviations with single-letter
-  $rangeContainer.on 'show.daterangepicker', ->
-    trimMonthHeader($rangeContainer)
   $rangeContainer.find('.calendar')
     .off('click.daterangepicker', '.next')
     .off('click.daterangepicker', '.prev')
     .on 'click.daterangepicker', '.next', (event) ->
       picker.clickNext(event)
-      trimMonthHeader($rangeContainer)
     .on 'click.daterangepicker', '.prev', (event) ->
       picker.clickPrev(event)
-      trimMonthHeader($rangeContainer)
 
   if options.singleDatePicker
     $('.singleDatePickerInput').show()
