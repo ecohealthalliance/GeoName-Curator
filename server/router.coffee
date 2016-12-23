@@ -56,4 +56,6 @@ Router.route("/api/events-with-source", {where: "server"})
   console.log sanitizedUrl, events.length
   @response.setHeader('Access-Control-Allow-Origin', '*')
   @response.statusCode = 200
-  @response.end(JSON.stringify(events))
+  # Temporarily return nothing to disable ProMED enhancements 
+  @response.end(JSON.stringify([]))
+  #@response.end(JSON.stringify(events))
