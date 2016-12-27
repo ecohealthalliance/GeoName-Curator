@@ -64,6 +64,9 @@ Template.suggestedEvents.onCreated ->
         # set the initialEvents to the result and update the reactive array
         @initialEvents = res
         @events.set(res)
+        # filter out associated events from the suggested events
+        associated = @data.associatedEventIdsToArticles?.get()
+        @updateSuggestedEvents(associated)
 
   # reactively compute changes to associatedEventIdsToArticles object and
   # update the suggested events
