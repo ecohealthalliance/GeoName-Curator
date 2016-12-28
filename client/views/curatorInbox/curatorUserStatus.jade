@@ -1,3 +1,5 @@
 template(name="curatorUserStatus")
   if hasOnlineUsers
-    span.badge(style="margin-left: 5px" title="#{usersOnlineMessage}") {{usersOnlineCount}}
+    i.curator-viewing-status.fa.fa-eye(
+      title="Currently there are other curators viewing this source"
+      data-toggle="tooltip")
