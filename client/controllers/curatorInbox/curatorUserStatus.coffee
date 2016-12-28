@@ -1,4 +1,5 @@
 Template.curatorUserStatus.onCreated ->
+  @hasOnlineUsers = new ReactiveVar false
   @userStatusHandle = @subscribe('userStatus')
   @autorun =>
     Meteor.call 'updateCuratorUserStatus', @data.selectedSourceId.get(), (err, res) =>
@@ -15,19 +16,16 @@ userCount = (sourceId) ->
 
 Template.curatorUserStatus.helpers
   hasOnlineUsers: () ->
-    hasOnlineUsers = false
-    count = 0
     instance = Template.instance()
     if instance.userStatusHandle.ready()
       sourceId = instance.data.selectedSourceId.get()
-      count = userCount(sourceId)
-    if count > 0
-      hasOnlineUsers = true
-    hasOnlineUsers
+      userCount(sourceId)
+
   usersOnlineCount: () ->
     instance = Template.instance()
     sourceId = instance.data.selectedSourceId.get()
     userCount(sourceId)
+
   usersOnlineMessage: () ->
     instance = Template.instance()
     sourceId = instance.data.selectedSourceId.get()
