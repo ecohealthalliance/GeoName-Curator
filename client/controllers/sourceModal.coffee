@@ -187,11 +187,11 @@ Template.sourceModal.events
   'click #suggested-articles li': (event, instance) ->
     event.preventDefault()
     instance.selectedArticle.set(@)
-    input = instance.find('#article')
-    input.value = @url
+    articleInput = instance.find('#article')
+    articleInput.value = @url
+    $(articleInput).trigger('input')
     titleInput = instance.find('#title')
     titleInput.value = @subject
-    $(input).trigger('input').trigger('input')
 
   'submit form': (event, instance) ->
     instance.formValid.set(not event.isDefaultPrevented())
