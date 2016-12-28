@@ -31,7 +31,7 @@ module.exports = {
   // Note: With a large viewport size and captureAllStepScreenshots enabled,
   // you may run out of memory. Use browser.setViewportSize to make the
   // viewport size smaller.
-  saveScreenshotsToReport: true,
+  saveScreenshotsToReport: false,
   jsonOutput: null,
   coffee: true,
   compiler: 'coffee:coffee-script/register',

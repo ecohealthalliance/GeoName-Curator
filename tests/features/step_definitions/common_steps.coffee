@@ -48,11 +48,15 @@ do ->
 
     @Then /^I "([^"]*)" deletion$/, (action) ->
       if action is 'cancel'
-        @client.click('.cancel')
+        @client.clickWhenVisible('.cancel')
       else
-        @client.click('.delete')
+        @client.clickWhenVisible('.delete')
 
     @Then /^I should see an invalid form$/, ->
       invalidInputCount = @client.elements('.form-group.has-error').value.length
       if not invalidInputCount
         throw new Error('The form is invalid when required inputs are empty')
+
+    @Then /^I close the "([^"]*)" modal$/, (modal) ->
+      @browser.scroll(0, 0)
+      @client.clickWhenVisible("#{modal} .close-modal")
