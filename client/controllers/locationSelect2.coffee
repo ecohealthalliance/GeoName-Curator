@@ -46,7 +46,6 @@ Template.locationSelect2.onCreated ->
 
 Template.locationSelect2.onRendered ->
   initialValues = []
-  instance = @
   required = true
   if @data.selected
     initialValues = @data.selected.map (loc)->

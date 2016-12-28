@@ -24,6 +24,7 @@ Template.incidentForm.onCreated ->
 
   incident = @data.incident
   if incident
+    @suggestedFields = incident.suggestedFields
     @incidentData = _.extend(@incidentData, incident)
     if incident.dateRange
       @incidentData.dateRange = incident.dateRange
@@ -98,21 +99,46 @@ Template.incidentForm.helpers
   selectedIncidentType: ->
     Template.instance().incidentType.get().slice(0, -1)
 
+  suggestedField: (fieldName)->
+    if Template.instance().suggestedFields
+      if fieldName in Template.instance().suggestedFields.get()
+        "suggested"
+
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()
 
   'click .status label, keyup .status label': (event, instance) ->
+    suggestedFields = instance.suggestedFields
+    suggestedFields.set(_.without(suggestedFields.get(), 'status'))
     _selectInput(event, instance, 'incidentStatus')
 
   'click .type label, keyup .type label': (event, instance) ->
+    suggestedFields = instance.suggestedFields
+    suggestedFields.set(_.without(suggestedFields.get(), 'cases', 'deaths'))
     _selectInput(event, instance, 'incidentType')
+
+  'keyup [name="count"]': (event, instance) ->
+    suggestedFields = instance.suggestedFields
+    suggestedFields.set(_.without(suggestedFields.get(), 'cases', 'deaths'))
 
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
     firstItem = $('.select2-results__options').children().first()
     if firstItem[0]?.id is ''
       firstItem.remove()
+
+  'mouseup .select2-selection': (event, instance) ->
+    suggestedFields = instance.suggestedFields
+    suggestedFields.set(_.without(suggestedFields.get(), 'locations'))
+
+  'mouseup .incident--dates': (event, instance) ->
+    suggestedFields = instance.suggestedFields
+    suggestedFields.set(_.without(suggestedFields.get(), 'dateRange'))
+
+  'click .cumulative, keyup .cumulative': (event, instance) ->
+    suggestedFields = instance.suggestedFields
+    suggestedFields.set(_.without(suggestedFields.get(), 'cumulative'))
 
   'submit form': (event, instance) ->
     prevented = event.isDefaultPrevented()

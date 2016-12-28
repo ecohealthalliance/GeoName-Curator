@@ -207,8 +207,20 @@ Template.suggestedIncidentsModal.onCreated ->
           "approximate", "average", "suspected"
         ], attributes)
         if suspectedAttributes.length > 0
-          incident.suspected = true
+          incident.status = "suspected"
         incident.url = [@data.article.url]
+        incident.suggestedFields = _.intersection(
+          Object.keys(incident),
+          [
+            "cases"
+            "deaths"
+            "dateRange"
+            "locations"
+            "status"
+          ]
+        )
+        if incident.dateRange?.cumulative
+          incident.suggestedFields.push("cumulative")
         @incidentCollection.insert(incident)
       )
     )

@@ -9,7 +9,7 @@ template(name="incidentForm")
         selected=incidentData.articleSource
         placeholder='Select a source')
 
-    .form-group.incident--dates.full-width
+    .form-group.incident--dates.full-width(class="{{suggestedField 'dateRange'}}")
       ul.tabs.secondary-tabs(role="tablist")
         li(role="presentation" class="{{dayTabClass}}")
           a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab") Single Date
@@ -23,18 +23,21 @@ template(name="incidentForm")
         #preciseRange.tab-pane(role="tabpanel" class="{{rangeTabClass}}")
           #rangePicker.inlineRangePicker
 
-    .form-group
+    .form-group(class="{{suggestedField 'locations'}}")
       label.control-label Location
       +locationSelect2(
         selectId="incident-location-select2"
         multiple="true"
         selected=incidentData.locations)
 
-    .form-group
+    .form-group(class="{{suggestedField 'species'}}")
       label.control-label Species
-      input.form-control(type="text" name="species" value=incidentData.species)
+      input.form-control(
+        type="text"
+        name="species"
+        value=incidentData.species)
 
-    .form-group.check-buttons
+    .form-group.check-buttons(class="{{suggestedField 'status'}}")
       label.control-label Status
       .container-flex.check-buttons.status
         .check-button
@@ -65,7 +68,7 @@ template(name="incidentForm")
             checked="{{incidentStatusChecked 'revoked'}}")
           label(for="revoked" tabindex="0") Revoked
 
-    .form-group.check-buttons
+    .form-group.check-buttons(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
       label.control-label Incident Type
       .container-flex.check-buttons.type
         .check-button
@@ -100,7 +103,7 @@ template(name="incidentForm")
           label(for="other" tabindex="0") Other
 
     if showCountForm
-      .form-group.space-top--1
+      .form-group.space-top--1(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
         label.control-label #{selectedIncidentType} Count
         input.form-control(
           name="count"
@@ -124,7 +127,7 @@ template(name="incidentForm")
     .form-group
       label.control-label Other Information
       .container-flex.other-metadata.check-buttons
-        .check-button
+        .check-button(class="{{suggestedField 'travelRelated'}}")
           input(
             type="checkbox"
             name="travelRelated"
@@ -133,7 +136,7 @@ template(name="incidentForm")
             checked=incidentData.travelRelated)
           label.travel-related(for="travelRelated" tabindex="0") Travel Related
 
-        .check-button
+        .check-button(class="{{suggestedField 'cumulative'}}")
           input(
             type="checkbox"
             name="cumulative"
