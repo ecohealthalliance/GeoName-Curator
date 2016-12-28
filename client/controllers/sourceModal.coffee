@@ -40,18 +40,17 @@ Template.sourceModal.onCreated ->
   @formValid = new ReactiveVar false
 
 Template.sourceModal.onRendered ->
+  publishDate = @timezoneFixedPublishDate
   pickerOptions =
-    format: 'M/D/YYYY'
-    inline: true
-    useCurrent: false
     singleDatePicker: true
-    startDate: @timezoneFixedPublishDate or new Date()
+  if publishDate
+    pickerOptions.startDate = publishDate
   @datePicker = createInlineDateRangePicker(@$('#publishDate'), pickerOptions)
 
   pickerOptions =
     format: 'h:mm A'
     useCurrent: false
-    defaultDate:  @timezoneFixedPublishDate or false
+    defaultDate:  publishDate or false
   @$('.timePicker').datetimepicker(pickerOptions)
 
   @$('#add-source').validator()
@@ -188,11 +187,15 @@ Template.sourceModal.events
   'click #suggested-articles li': (event, instance) ->
     event.preventDefault()
     instance.selectedArticle.set(@)
-    input = instance.find('#article')
-    input.value = @url
+    articleInput = instance.find('#article')
+    articleInput.value = @url
+    $(articleInput).trigger('input')
     titleInput = instance.find('#title')
     titleInput.value = @subject
 
   'submit form': (event, instance) ->
     instance.formValid.set(not event.isDefaultPrevented())
     event.preventDefault()
+
+  'change input[name=daterangepicker_start]': (event, instance) ->
+    instance.datePicker.clickApply()
