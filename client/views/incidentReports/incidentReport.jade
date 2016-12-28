@@ -25,7 +25,7 @@ template(name="incidentReport")
 
         ul.metadata.list-unstyled
           li.container-flex.no-break
-            +detailIcon icon="globe" title="Locations"
+            .metadata--title Locations:
             if locations.length
               ul.list-unstyled.locations
                 each locations
@@ -35,13 +35,13 @@ template(name="incidentReport")
               span No location specified.
           if species
             li.container-flex.single.no-break
-              +detailIcon icon="paw" title="Species"
+              .metadata--title Species:
               span=species
           li.container-flex.single.no-break
-            +detailIcon icon="calendar" title="Dates"
+            .metadata--title Dates:
             span {{formatDateRange(dateRange)}}
           li.container-flex.no-break
-            +detailIcon icon="link" title="Source"
+            .metadata--title Source:
             ul.list-unstyled
               each val in url
                 li

@@ -235,7 +235,7 @@ $max-event-details-width = $max-ui-width+300
       color desaturate(darken($border-primary, 5%), 25%)
   .metadata
     li
-      margin-bottom 1em
+      margin-bottom .65em
       align-items flex-start
       &.single
         span
@@ -248,6 +248,11 @@ $max-event-details-width = $max-ui-width+300
         margin-bottom .25em
         &:last-of-type
           margin-bottom 0
+  .metadata--title
+    min-width 80px
+    font-size .9em
+    font-weight 600
+    margin 0
   h5
     font-size 1em
     color lighten($primary, 20%)
