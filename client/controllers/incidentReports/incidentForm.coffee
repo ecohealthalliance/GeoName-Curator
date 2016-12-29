@@ -16,6 +16,7 @@ _selectInput = (event, instance, prop, isCheckbox) ->
 Template.incidentForm.onCreated ->
   @incidentStatus = new ReactiveVar('')
   @incidentType = new ReactiveVar('')
+  @suggestedFields = new ReactiveVar([])
 
   @incidentData =
     species: 'Human'
@@ -100,9 +101,8 @@ Template.incidentForm.helpers
     Template.instance().incidentType.get().slice(0, -1)
 
   suggestedField: (fieldName)->
-    if Template.instance().suggestedFields
-      if fieldName in Template.instance().suggestedFields.get()
-        "suggested"
+    if fieldName in Template.instance().suggestedFields.get()
+      "suggested"
 
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->
