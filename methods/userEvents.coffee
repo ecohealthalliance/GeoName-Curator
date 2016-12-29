@@ -12,10 +12,10 @@ Meteor.methods
       lastModifiedDate: now
       lastModifiedByUserId: user._id
       lastModifiedByUserName: user.profile.name
-
+    eventId = userEvent._id
     UserEventSchema.validate(userEvent)
-    UserEvents.upsert userEvent._id,
-      $set: userEvent
+    UserEvents.upsert eventId,
+      $set: _.omit(userEvent, "_id")
       $setOnInsert:
         creationDate: now
         createdByUserId: user._id
