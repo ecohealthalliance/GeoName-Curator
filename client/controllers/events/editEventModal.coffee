@@ -39,12 +39,12 @@ Template.editEventDetailsModal.events
     summary = event.target.eventSummary.value.trim()
     disease = event.target.eventDisease?.value.trim()
     if name.length isnt 0
-      eventId = @_id
       Meteor.call 'upsertUserEvent',
         _id: @_id
         eventName: name
         summary: summary
         disease: disease
+        displayOnPromed: event.target.promed.checked
       , (error, result) ->
         if not error
           Modal.hide('editEventDetailsModal')

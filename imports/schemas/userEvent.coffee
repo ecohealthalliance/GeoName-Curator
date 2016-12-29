@@ -38,5 +38,8 @@ userEventSchema = new SimpleSchema(
   deletedDate:
     type: Date
     optional: true
+  displayOnPromed:
+    type: Boolean
+    optional: true
 )
 module.exports = userEventSchema

@@ -47,7 +47,8 @@ Router.route("/api/events-with-source", {where: "server"})
     _id:
       $in: _.pluck(articles, 'userEventId')
     deleted: 
-      {$in: [null, false]}
+      $in: [null, false]
+    displayOnPromed: true
   ).map (event)->
     event.articles = Articles.find(
       userEventId: event._id
@@ -56,6 +57,4 @@ Router.route("/api/events-with-source", {where: "server"})
   console.log sanitizedUrl, events.length
   @response.setHeader('Access-Control-Allow-Origin', '*')
   @response.statusCode = 200
-  # Temporarily return nothing to disable ProMED enhancements 
-  @response.end(JSON.stringify([]))
-  #@response.end(JSON.stringify(events))
+  @response.end(JSON.stringify(events))

@@ -22,6 +22,7 @@ Template.createEventModal.events
       eventName: eventName.value.trim()
       disease: disease
       summary: summary
+      displayOnPromed: event.target.promed.checked
     , (error, result) ->
       unless error
         dismissModal('#create-event-modal')
