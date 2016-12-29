@@ -5,6 +5,7 @@ template(name="cancelConfirmationModal")
         form
           .close-modal(data-dismiss="modal" aria-label="Close")
           .modal-header
-            h4.modal-title Confirm Cancel
+            .modal-header--title
+              h4 Confirm Cancel
           .modal-body.clearfix
             +cancelConfirmationModalBody data
