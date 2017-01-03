@@ -220,11 +220,12 @@ $header-BG = $border-primary-light
   .btn
     transition .3s
     &.toggle-reviewed
+      padding .45em 1em
       background lighten($positive, 90%)
-      padding .45em 1.75em
       color darken($positive, 40%)
-      padding-left 3em
-      padding-right 3em
+      +above(4)
+        padding-left 3em
+        padding-right 3em
       &:hover
       &:focus
         background darken(@background, 10%)
@@ -516,7 +517,6 @@ $header-BG = $border-primary-light
 
 .curator-viewing-status
   position absolute
-  font-size 1.2em
-  left .05em
-  transform rotate(-90deg)
-  color darken($danger, 20%)
+  font-size 1.1em
+  left .225em
+  color $danger
