@@ -37,7 +37,7 @@ eidr:fixtures@0.0.1
 ejson@1.0.12
 email@1.1.17_1
 fastclick@1.0.12
-fortawesome:fontawesome@4.6.3
+fortawesome:fontawesome@4.7.0
 fuatsengul:leaflet@1.0.1
 geojson-utils@1.0.9
 hot-code-push@1.0.4
