@@ -24,7 +24,7 @@ Template.curatorInbox.onCreated ->
     endDate: new Date()
   @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['title'])
   @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
-  @reviewFilter.set($ne: true)
+  @reviewFilter.set(null)
   @selectedSourceId = new ReactiveVar null
   @query = new ReactiveVar null
 
