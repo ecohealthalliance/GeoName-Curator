@@ -96,6 +96,8 @@ Meteor.methods
       headers:
         "harbinger-auth-ticket": authInfo.authTicket
     })
+    if Meteor.settings.private?.disableBSVEAuthentication
+      throw new Meteor.Error("BSVEAuthFailure", "BSVE Authentication is disabled.")
     if response.data.status != 1
       throw new Meteor.Error("BSVEAuthFailure", response.data.message)
     meteorUser = Accounts.findUserByUsername("bsve-" + authInfo.user)
