@@ -1,6 +1,18 @@
 UserEvents = require '/imports/collections/userEvents.coffee'
 Articles = require '/imports/collections/articles.coffee'
 utils = require '/imports/utils.coffee'
+fs = Npm.require('fs')
+path = Npm.require('path')
+
+Router.route("/revision", {where: "server"})
+.get ->
+  fs.readFile path.join(process.env.PWD, 'revision.txt'), 'utf8', (err, data)=>
+    if err
+      console.log(err)
+      @response.end("Error getting revision. Check the server log for details.")
+    else
+      @response.end(data)
+
 
 Router.route("/api/event-search/:name", {where: "server"})
 .get ->

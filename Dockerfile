@@ -39,6 +39,7 @@ USER root
 # Add the application files
 ADD supervisor-eidr-connect.conf /etc/supervisor/conf.d/eidr-connect.conf
 ADD run.sh /run.sh
+ADD revision.txt /revision.txt
 
 # Prepare for production
 LABEL app="eidr-connect"
