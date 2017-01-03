@@ -103,7 +103,7 @@ template(name="incidentForm")
           label(for="other" tabindex="0") Other
 
     if showCountForm
-      .form-group.space-top--1(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
+      .form-group(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
         label.control-label #{selectedIncidentType} Count
         input.form-control(
           name="count"

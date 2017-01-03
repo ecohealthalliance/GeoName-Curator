@@ -6,6 +6,10 @@ Template.suggestedIncidentModal.onCreated ->
   @incident = @data.incident or {}
   @incident.suggestedFields = new ReactiveVar(@incident.suggestedFields or [])
 
+Template.suggestedIncidentModal.helpers
+  hasSuggestedFields: ->
+    Template.instance().incident.suggestedFields.get()
+
 Template.suggestedIncidentModal.events
   'click .reject': (event, instance) ->
     Template.instance().incidentCollection.update instance.incident._id,

@@ -6,6 +6,8 @@ template(name="suggestedIncidentModal")
           +modalCloseButton
           .modal-header--title
             h4 Edit and Confirm Incident Report
+            if hasSuggestedFields
+              p.warning Fields marked with the #[i(class='fa fa-magic')] icon are suggestions
         .modal-body
           .well.annotated-content.snippet=incidentText
           +incidentForm(

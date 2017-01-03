@@ -1,0 +1,41 @@
+$warning-bg = lighten($warning, 90%)
+$warning-border = darken($warning-bg, 12%)
+
+autofillBG($bordered=true)
+  background $warning-bg
+  if $bordered
+    border-bottom 1px solid $warning-border
+    border-top 1px solid $warning-border
+
+.suggested
+  position relative
+  &:not(.full-width)
+    autofillBG()
+  .tabs
+    li
+      &.active
+        autofillBG(false)
+  &.full-width
+    .tabs.secondary-tabs
+      border-bottom-color $warning-border
+      li
+        border-color $warning-border
+        &.active
+          background $warning-bg
+    .tab-content
+      background $warning-bg !important
+      border-bottom-color $warning-border !important
+  .form-control:last-of-type
+  .select2-container--default
+    margin-bottom .5em
+  &::after
+    content '\f0d0'
+    position absolute
+    right .5em
+    top .25em
+    font(FontAwesome)
+    color darken($warning-bg, 40%)
+  &.incident--dates
+    &:after
+      top 2.5em
+      right 1.5em
