@@ -15,6 +15,9 @@ clearSearch = (instance) ->
   instance.textFilter.set('')
   instance.$('.search').val('')
 
+Template.searchInput.onRendered ->
+  clearSearch(@)
+
 Template.searchInput.onCreated ->
   instanceData = @data
   searching = true
