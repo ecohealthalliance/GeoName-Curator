@@ -227,7 +227,7 @@ Template.suggestedIncidentsModal.onCreated ->
   )
 
 Template.suggestedIncidentsModal.onRendered ->
-  $('#sourceModal').on 'hidden.bs.modal', ->
+  $('#event-source').on 'hidden.bs.modal', ->
     $('body').addClass('modal-open')
 
 Template.suggestedIncidentsModal.helpers
