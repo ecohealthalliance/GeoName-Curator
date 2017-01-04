@@ -233,21 +233,26 @@ $max-event-details-width = $max-ui-width+300
     &.fa
       font-size 1.5em
       color desaturate(darken($border-primary, 5%), 25%)
+  ul
+    font-size 1em
   .metadata
     li
+      line-height .9em
       margin-bottom 1em
       align-items flex-start
-      &.single
-        span
-          margin-top .2em
       &:last-of-type
         margin 0
-      span
-        font-size .85em
       li
-        margin-bottom .25em
+        margin-bottom .45em
         &:last-of-type
           margin-bottom 0
+    span
+      font-size .9em
+  .metadata--title
+    font-size .9em
+    min-width 80px
+    font-weight 600
+    margin 0
   h5
     font-size 1em
     color lighten($primary, 20%)
