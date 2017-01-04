@@ -16,16 +16,15 @@ _selectInput = (event, instance, prop, isCheckbox) ->
 Template.incidentForm.onCreated ->
   @incidentStatus = new ReactiveVar('')
   @incidentType = new ReactiveVar('')
-  @suggestedFields = new ReactiveVar([])
+  incident = @data.incident
+  @suggestedFields = incident?.suggestedFields or new ReactiveVar([])
 
   @incidentData =
     species: 'Human'
     dateRange:
       type: 'day'
 
-  incident = @data.incident
   if incident
-    @suggestedFields = incident.suggestedFields
     @incidentData = _.extend(@incidentData, incident)
     if incident.dateRange
       @incidentData.dateRange = incident.dateRange
