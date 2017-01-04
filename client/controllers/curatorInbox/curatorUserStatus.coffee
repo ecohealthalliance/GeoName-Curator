@@ -1,38 +1,33 @@
 Template.curatorUserStatus.onCreated ->
   @userStatusHandle = @subscribe('userStatus')
+  @otherActiveUser = new ReactiveVar null
   @autorun =>
     Meteor.call 'updateCuratorUserStatus', @data.selectedSourceId.get(), (err, res) =>
       if err
         toastr.error(err.message)
+
+Template.curatorUserStatus.onRendered ->
+  instance = @
+  @autorun ->
+    instance.otherActiveUser.get()
+    Meteor.defer ->
+      $('.curator-viewing-status').tooltip
+        container: 'body'
+        placement: 'bottom'
 
 Template.curatorUserStatus.onDestroyed ->
   Meteor.call 'updateCuratorUserStatus', null, (err, res) =>
     if err
       toastr.error(err.message)
 
-userCount = (sourceId) ->
-  Meteor.users.find({'status.online': true, 'status.curatorInboxSourceId': sourceId}).count() - 1
-
 Template.curatorUserStatus.helpers
-  hasOnlineUsers: () ->
-    hasOnlineUsers = false
-    count = 0
+  hasOnlineUsers: ->
     instance = Template.instance()
-    if instance.userStatusHandle.ready()
-      sourceId = instance.data.selectedSourceId.get()
-      count = userCount(sourceId)
-    if count > 0
-      hasOnlineUsers = true
-    hasOnlineUsers
-  usersOnlineCount: () ->
-    instance = Template.instance()
-    sourceId = instance.data.selectedSourceId.get()
-    userCount(sourceId)
-  usersOnlineMessage: () ->
-    instance = Template.instance()
-    sourceId = instance.data.selectedSourceId.get()
-    count = userCount(sourceId)
-    if count == 1
-      return "There is #{count} other user viewing this source"
-    if count > 1
-      return "There are #{count} other users viewing this source"
+    # Find other users viewing the source selected by the current user
+    otherUser = Meteor.users.findOne
+      'status.online': true
+      'status.curatorInboxSourceId': instance.data.selectedSourceId.get()
+      _id: $ne: Meteor.userId()
+    if otherUser
+      instance.otherActiveUser.set(otherUser._id)
+      true
