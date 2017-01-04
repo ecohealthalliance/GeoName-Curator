@@ -28,7 +28,7 @@ do ->
       @client.moveToObject('.dropdown-toggle-nav')
 
     @Then /^I should( not)? see content "([^"]*)"$/, (shouldNot, text) ->
-      @client.pause 2000 # Give Blaze enough time to populate the <body>
+      @client.pause(2000) # Give Blaze enough time to populate the <body>
       @client.getText 'body', (error, visibleText) ->
         match = visibleText?.toString().match(text)
         if shouldNot
@@ -50,7 +50,7 @@ do ->
       if action is 'cancel'
         @client.clickWhenVisible('.cancel')
       else
-        @client.clickWhenVisible('.delete')
+        @client.clickWhenVisible('.confirm-deletion')
 
     @Then /^I should see an invalid form$/, ->
       invalidInputCount = @client.elements('.form-group.has-error').value.length
@@ -60,3 +60,8 @@ do ->
     @Then /^I close the "([^"]*)" modal$/, (modal) ->
       @browser.scroll(0, 0)
       @client.clickWhenVisible("#{modal} .close-modal")
+
+    @Then /^I dismiss the active toast$/, ->
+      @client.clickWhenVisible('.toast-close-button')
+      # Pause for toast fade animation
+      @client.pause(500)
