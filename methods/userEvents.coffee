@@ -49,6 +49,7 @@ Meteor.methods
     event = UserEvents.findOne(id)
     latestEventIncident = Incidents.findOne
       userEventId: event._id
+      deleted: {$in: [null, false]}
       {sort: addedDate: -1}
     if latestEventIncident
       UserEvents.update id,

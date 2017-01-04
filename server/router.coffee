@@ -1,5 +1,6 @@
 UserEvents = require '/imports/collections/userEvents.coffee'
 Articles = require '/imports/collections/articles.coffee'
+Incidents = require '/imports/collections/incidentReports.coffee'
 utils = require '/imports/utils.coffee'
 fs = Npm.require('fs')
 path = Npm.require('path')
@@ -13,6 +14,32 @@ Router.route("/revision", {where: "server"})
     else
       @response.end(data)
 
+Router.route("/api/events", {where: "server"})
+.get ->
+  @response.setHeader('Content-Type', 'application/ejson')
+  @response.statusCode = 200
+  @response.end(EJSON.stringify(UserEvents.find({}, {
+    skip: parseInt(@request.query.skip or 0)
+    limit: parseInt(@request.query.limit or 100)
+  }).fetch()))
+
+Router.route("/api/incidents", {where: "server"})
+.get ->
+  @response.setHeader('Content-Type', 'application/ejson')
+  @response.statusCode = 200
+  @response.end(EJSON.stringify(Incidents.find({}, {
+    skip: parseInt(@request.query.skip or 0)
+    limit: parseInt(@request.query.limit or 100)
+  }).fetch()))
+
+Router.route("/api/articles", {where: "server"})
+.get ->
+  @response.setHeader('Content-Type', 'application/ejson')
+  @response.statusCode = 200
+  @response.end(EJSON.stringify(Articles.find({}, {
+    skip: parseInt(@request.query.skip or 0)
+    limit: parseInt(@request.query.limit or 100)
+  }).fetch()))
 
 Router.route("/api/event-search/:name", {where: "server"})
 .get ->
@@ -54,11 +81,13 @@ Router.route("/api/events-with-source", {where: "server"})
   articles = Articles.find(
     url:
       $regex: utils.regexEscape(sanitizedUrl) + "$"
+    deleted:
+      $in: [null, false]
   ).fetch()
   events = UserEvents.find(
     _id:
       $in: _.pluck(articles, 'userEventId')
-    deleted: 
+    deleted:
       $in: [null, false]
     displayOnPromed: true
   ).map (event)->
