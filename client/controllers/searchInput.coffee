@@ -23,6 +23,7 @@ Template.searchInput.onCreated ->
   @searching = new ReactiveVar(searching)
   @textFilter = instanceData.textFilter or new ReactiveTable.Filter(instanceData.id, instanceData.props)
 
+
 Template.searchInput.helpers
   searchString: ->
     Template.instance().textFilter.get()
@@ -44,6 +45,15 @@ Template.searchInput.events
       instance.textFilter.set
         $regex: instance.$(event.target).val()
         $options: 'i'
+      if instance.data.tableId
+        Meteor.setTimeout(->
+          count = parseInt($("##{instance.data.tableId}").next().find('span.rows-per-page-count').text(), 10)
+          if count == 0
+            # hide loading indicator
+            $('.loading').hide()
+          else
+            $('.loading').show()
+        , 0)
 
   'click .search-icon.toggleable:not(.cancel)': (event, instance) ->
     searching = instance.searching

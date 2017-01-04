@@ -107,6 +107,7 @@ Template.userEvents.helpers
     id:"eventFilter"
     classes: 'event-search page-options--search'
     textFilter: Template.instance().textFilter
+    tableId: 'user-events-table'
     placeholder: 'Search Events'
     props: ['eventName']
 
