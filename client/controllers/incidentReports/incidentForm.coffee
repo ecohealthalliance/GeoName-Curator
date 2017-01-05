@@ -97,7 +97,9 @@ Template.incidentForm.helpers
       'active'
 
   selectedIncidentType: ->
-    Template.instance().incidentType.get().slice(0, -1)
+    switch Template.instance().incidentType.get()
+      when "cases" then "Case"
+      when "deaths" then "Death"
 
   suggestedField: (fieldName)->
     if fieldName in Template.instance().suggestedFields.get()
