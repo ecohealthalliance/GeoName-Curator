@@ -30,6 +30,8 @@ do ->
       @client.setValue('#article', url)
       @client.setValue('input[name=daterangepicker_start]', formatDate(date))
       @client.setValue('#publishTime', getTime(date))
+      # Disable enhancement
+      @client.click('[name="enhance"]')
       @browser.scroll(0, 1000)
       @client.click('#event-source .save-modal')
 
