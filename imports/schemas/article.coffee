@@ -22,5 +22,11 @@ articleSchema = new SimpleSchema(
   reviewed:
     type: Boolean
     optional: true
+  deleted:
+    type: Boolean
+    optional: true
+  deletedDate:
+    type: Date
+    optional: true
 )
 module.exports = articleSchema

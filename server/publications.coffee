@@ -38,9 +38,13 @@ Meteor.publish 'curatorSources', (query) ->
   })
 
 Meteor.publish 'eventArticles', (ueId) ->
-  Articles.find({userEventId: ueId})
+  Articles.find(
+    userEventId: ueId
+    deleted: {$in: [null, false]}
+  )
 
 Meteor.publish 'articles', (query={}) ->
+  query.deleted = {$in: [null, false]}
   Articles.find(query)
 
 Meteor.publish 'feeds', ->

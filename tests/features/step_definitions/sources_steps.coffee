@@ -30,6 +30,8 @@ do ->
       @client.setValue('#article', url)
       @client.setValue('input[name=daterangepicker_start]', formatDate(date))
       @client.setValue('#publishTime', getTime(date))
+      # Disable enhancement
+      @client.click('[name="enhance"]')
       @browser.scroll(0, 1000)
       @client.click('#event-source .save-modal')
 
@@ -56,5 +58,4 @@ do ->
         throw new Error('New source is not in the source table')
 
     @Then /^I should see an empty sources table$/, ->
-      if getSourcesFromTable(@browser).value.length >= 1
-        throw new Error('The sources table contains sources')
+      @browser.waitForVisible('#event-sources-table tbody tr', 10000, true)

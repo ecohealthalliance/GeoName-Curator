@@ -9,7 +9,12 @@ Meteor.methods
           url: source.url
           title: source.title
           userEventId: source.userEventId
-        existingArticle = Articles.find(insertArticle).fetch()
+        existingArticle = Articles.find(
+          userEventId: source.userEventId
+          url: source.url
+          deleted:
+            $in: [null, false]
+        ).fetch()
         unless existingArticle.length is 0
           throw new Meteor.Error(501, 'This article has already been added')
         else
@@ -39,6 +44,9 @@ Meteor.methods
   removeEventSource: (id) ->
     if Roles.userIsInRole(Meteor.userId(), ['admin'])
       removed = Articles.findOne(id)
-      Articles.remove(id)
+      Articles.update id,
+        $set:
+          deleted: true,
+          deletedDate: new Date()
       Meteor.call("editUserEventLastModified", removed.userEventId)
       Meteor.call("editUserEventArticleCount", removed.userEventId, -1)
