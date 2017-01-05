@@ -56,5 +56,4 @@ do ->
         throw new Error('New source is not in the source table')
 
     @Then /^I should see an empty sources table$/, ->
-      if getSourcesFromTable(@browser).value.length >= 1
-        throw new Error('The sources table contains sources')
+      @browser.waitForVisible('#event-sources-table tbody tr', 10000, true)

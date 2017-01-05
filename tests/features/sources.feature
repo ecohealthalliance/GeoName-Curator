@@ -8,7 +8,7 @@ Feature: Sources
 
   Scenario: I add a custom source to an event without adding incidents
     When I click on the add source button
-    Then I create a source with a title of "Test Source", url of "http://test.com", and datetime of now
+    Then I create a source with a title of "Test Source", url of "http://www.promedmail.org/post/2579682", and datetime of now
     Then I should see content "SUGGESTED INCIDENT REPORTS"
     Then I close the "#suggestedIncidentsModal" modal
     And I should see content "Test Source"
