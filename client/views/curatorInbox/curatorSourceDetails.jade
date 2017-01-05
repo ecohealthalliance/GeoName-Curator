@@ -1,0 +1,32 @@
+template(name="curatorSourceDetails")
+  with source
+    .curator-inbox-header.curator-source-details-header(class="{{#if isReviewed}} reviewed {{/if}}")
+      +curatorUserStatus selectedSourceId=selectedSourceId
+      h2(id="sourceDetailsTitle" data-toggle="tooltip" title=getSourceDetailsTitle data-placement="bottom")
+        a(href="https://promedmail.org/post/#{_sourceId}" target="_blank")= title
+      .curator-source-details-options
+        .controls
+          i.fa.fa-align-left.toggle-source-content(
+            class="{{#if contentIsOpen}} active {{/if}}"
+            data-toggle="tooltip"
+            data-placement="left"
+            title="Toggle source text")
+        button.btn.btn-success.toggle-reviewed(class="{{#if isReviewed}} reviewed {{/if}}")
+          if isReviewed
+            span Reviewed
+          else
+            span Mark Reviewed
+      if notifying
+        .notification
+          .checks
+            i.fa.fa-check-circle.confirmation
+            .circle
+          p Preparing next source
+      .transition(class="{{#if notifying}} active {{/if}}")
+    .curator-source-details-content
+      if contentIsOpen
+        .curator-source-details-copy-wrapper
+          .curator-source-details-copy= content
+      +curatorEvents selectedSourceId=selectedSourceId
+      if notifying
+        .veil

@@ -1,0 +1,17 @@
+template(name="curatorInboxSection")
+  if count
+    .curator-inbox-section-head
+      .date= formattedDate
+      .count #{count} sources
+      .toggle
+        i.fa.fa-lg
+          if isOpen
+            i.fa.fa-chevron-circle-down
+          else
+            i.fa.fa-chevron-circle-left
+    if isOpen
+      +reactiveTable(
+        collection=posts
+        settings=settings
+        selector=selector
+        class="table table-hover curator-inbox-table")

@@ -150,15 +150,39 @@ $header-BG = $border-primary-light
   padding-right 2em
   overflow hidden
   h2
-    color $primary
     flex 1
     max-width 75%
+    margin-left -21px
+    z-index 1
     white-space nowrap
     text-overflow ellipsis
     overflow hidden
-    line-height 1.5
     font-size 1.15em
+    line-height 1.15em
     text-transform capitalize
+    &::before
+      margin-top 2px
+      padding 1em .4em .9em .5em
+      display inline-block
+      vertical-align middle
+      content '\f08e'
+      opacity 0
+      font-size .8em
+      font(FontAwesome)
+      line-height 0
+      font-weight normal
+    &:hover
+      color $warning
+      &::before
+        opacity 1
+        background white
+        color $highlight
+    a
+      vertical-align middle
+      color $primary
+      &:hover
+        color $highlight
+
   &.reviewed
     h2
       color darken($positive, 35%)
