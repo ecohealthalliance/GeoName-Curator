@@ -16,3 +16,5 @@ tests/dump/eidr-connect
 tests/log/
 
 *.pid
+
+**/revision.txt
