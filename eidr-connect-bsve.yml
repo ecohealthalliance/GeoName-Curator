@@ -1,4 +1,4 @@
-eidr-connect.eha.io:
+eidr-connect-bsve.eha.io:
   image: eidr-connect
   container_name: eidr-connect.eha.io
   environment:
