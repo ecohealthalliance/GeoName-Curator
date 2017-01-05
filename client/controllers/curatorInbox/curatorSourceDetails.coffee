@@ -33,10 +33,23 @@ Template.curatorSourceDetails.onCreated ->
   @reviewed = new ReactiveVar false
 
 Template.curatorSourceDetails.onRendered ->
-  Meteor.defer =>
-    @$('[data-toggle=tooltip]').tooltip
+  instance = @
+
+  Meteor.defer ->
+    instance.$('[data-toggle=tooltip]').tooltip
       delay: show: '300'
       container: 'body'
+
+  @autorun ->
+    title = instance.source.get()?.title
+    Meteor.defer ->
+      $title = $('#sourceDetailsTitle')
+      titleEl = $title[0]
+      # Remove title and tooltip if the title is complete & without ellipsis
+      if titleEl.offsetWidth >= titleEl.scrollWidth
+        $title.tooltip('hide').attr('data-original-title', '')
+      else
+        $title.attr('data-original-title', title)
 
   # Create key binding which marks sources as reviewed.
   key 'ctrl + enter, command + enter', (event) =>
@@ -48,14 +61,6 @@ Template.curatorSourceDetails.onRendered ->
     _getSource(instance, sourceId)
 
 Template.curatorSourceDetails.helpers
-  getSourceDetailsTitle: ->
-    title = Template.instance().source.get().title
-    if $('#sourceDetailsTitle').length && $('#sourceDetailsTitle')[0].hasAttribute('data-original-title')
-      $('#sourceDetailsTitle').tooltip('hide').attr('data-original-title', title)
-      return ''
-    else
-      return title
-
   source: ->
     Template.instance().source.get()
 
