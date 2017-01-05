@@ -10,6 +10,7 @@ Meteor.methods
           title: source.title
           userEventId: source.userEventId
         existingArticle = Articles.find(
+          userEventId: source.userEventId
           url: source.url
           deleted:
             $in: [null, false]
