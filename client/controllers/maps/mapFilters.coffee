@@ -38,6 +38,7 @@ Template.mapFilters.onRendered ->
 
     userSearchText = instance.userSearchText.get().$regex
     if userSearchText
+      instance.data.selectedEvents.remove({})
       nameQuery = []
       searchWords = userSearchText.split(' ')
       _.each searchWords, -> nameQuery.push {eventName: new RegExp(userSearchText, 'i')}
