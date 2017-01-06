@@ -51,5 +51,7 @@ Meteor.startup ->
       syncCollection(Incidents, process.env.ONE_WAY_SYNC_URL + "/api/incidents")
       syncCollection(Articles, process.env.ONE_WAY_SYNC_URL + "/api/articles")
 
+    # Do initial sync on startup
+    Meteor.setTimeout(pullRemoteInstanceData, 1000)
     # Pull data every 6 hours
     Meteor.setInterval(pullRemoteInstanceData, 6 * 60 * 60 * 1000)
