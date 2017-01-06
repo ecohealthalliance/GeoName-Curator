@@ -10,6 +10,7 @@ Template.curatorUserStatus.onRendered ->
   instance = @
   @autorun ->
     instance.otherActiveUser.get()
+    instance.data.selectedSourceId.get()
     Meteor.defer ->
       $('.curator-viewing-status').tooltip
         container: 'body'
