@@ -1,9 +1,13 @@
 .check-button
+  flex 1
+  +above(2)
+    flex 0
   label
     font-weight normal
+    white-space nowrap
 
-  [type="checkbox"]
-  [type="radio"]
+  [type=checkbox]
+  [type=radio]
     &:checked
     &:not(:checked)
       position absolute
@@ -14,6 +18,8 @@
       @extend .pill
       position relative
       margin-right .5em !important // Override bootstrap
+      display flex
+      align-items center
 
     &:checked + label
       &

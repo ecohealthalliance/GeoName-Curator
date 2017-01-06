@@ -39,7 +39,7 @@ template(name="incidentForm")
 
     .form-group.check-buttons(class="{{suggestedField 'status'}}")
       label.control-label Status
-      .container-flex.check-buttons.status
+      .container-flex.check-buttons.status.no-break
         .check-button
           input(
             type="radio"
@@ -70,7 +70,7 @@ template(name="incidentForm")
 
     .form-group.check-buttons(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
       label.control-label Incident Type
-      .container-flex.check-buttons.type
+      .container-flex.check-buttons.type.no-break
         .check-button
           input(
             type="radio"
@@ -126,7 +126,7 @@ template(name="incidentForm")
 
     .form-group
       label.control-label Other Information
-      .container-flex.other-metadata.check-buttons
+      .container-flex.other-metadata.check-buttons.no-break
         .check-button(class="{{suggestedField 'travelRelated'}}")
           input(
             type="checkbox"

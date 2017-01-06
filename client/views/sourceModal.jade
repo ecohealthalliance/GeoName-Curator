@@ -71,10 +71,16 @@ template(name="sourceModal")
 
             unless edit
               .form-group.no-margin
-                .checkbox
-                  label
-                    input(type="checkbox" value="1" name="enhance" checked)
-                    | Suggest incident reports
+                .container-flex.check-buttons.options.no-break
+                  .check-button
+                    input(
+                      type="checkbox"
+                      name="enhance"
+                      id="enhance"
+                      value="1"
+                      tabindex="-1"
+                      checked)
+                    label(for="enhance" tabindex="0") Suggest incident reports
 
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close

@@ -3,7 +3,8 @@ $modal-side-padding = 20px
 
 .modal-skinny
   .modal-dialog
-    max-width 550px
+    +above(3)
+      max-width 550px
 
 .modal-content
   border-radius $modal-border-radius
@@ -44,11 +45,18 @@ $modal-side-padding = 20px
 .modal-footer
   padding-top 1.25em
   padding-bottom 2em
-  .btn + .btn
-    margin-bottom 1em
-    +above(2)
-      margin-bottom 0
   .btn
+    &
+    & + .btn
+      width 100%
+      display block
+      margin-bottom 1em
+      margin-left 0
+      +above(2)
+        display inline-block
+        margin-bottom 0
+        width auto
+        margin-left .5em
     &:last-of-type
       margin-bottom 0
 
