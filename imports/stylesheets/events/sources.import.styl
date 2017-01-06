@@ -21,10 +21,15 @@
     font-size 1.2em
   .event-sources-detail--header
     padding 1.25em
+    text-align center
+  .event-source-links
   .event-source-info
     margin 0
     border-top 1px solid $border-primary-light
     border-bottom 1px solid $border-primary-light
+    +below(1)
+      align-items center
+      justify-content center
     li
       padding .75em 2em
       border-right 1px solid $border-primary-light
@@ -35,6 +40,8 @@
         color darken($border-primary, 20%)
         cursor pointer
         align-self stretch
+        +below(1)
+          font-size 1.25em
         span
         a
           padding-left 1em
@@ -52,6 +59,18 @@
         font-size .8em
       &:last-of-type
         border 0
+  .event-source-links
+    border-right 1px solid $border-primary-light
+  .event-source-info
+    flex 1
+    +below(1)
+      border-top 0
+      display flex
+      align-items stretch
+    li
+      min-width 50%
+      text-align center
+
   .link span
   a
     display block
@@ -75,6 +94,9 @@
     border-right 1px solid $border-primary-light
     padding 1.5em 1.25em
     min-width 20%
+    +below(2)
+      padding-bottom 0
+
     &:last-of-type
       margin 0
       border 0
