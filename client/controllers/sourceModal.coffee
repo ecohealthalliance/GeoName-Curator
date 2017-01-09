@@ -3,7 +3,6 @@ Articles = require '/imports/collections/articles.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 validator = require 'bootstrap-validator'
 
-
 import {UTCOffsets, cleanUrl} from '/imports/utils.coffee'
 
 _checkFormValidity = (instance) ->

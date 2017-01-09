@@ -37,9 +37,18 @@
 .inlineRangePicker .daterangepicker .calendar
   border none
 
+.inlineRangePicker .daterangepicker
+  +below(2)
+    width 100%
+
 .inlineRangePicker .daterangepicker.single .calendar.left.single
   width 100%
   max-width 550px
+
+.inlineRangePicker .daterangepicker .calendar
+  float none
+  +above(2)
+    float left
 
 .inlineRangePicker .daterangepicker .calendar .calendar-table
   border none
@@ -54,8 +63,6 @@
   position absolute
   bottom 4px
   right 4px
-
-// .daterangepicker td, .daterangepicker th
 
 .calendar-wrapper
   .date-picker-container
@@ -137,6 +144,7 @@
     align-items center
     justify-content center
     background none
+    flex-wrap wrap
     &::before
     &::after
       display table
@@ -144,7 +152,7 @@
       clear both
     .calendar
       float none
-      margin 0 1em 0 0
+      margin 1em 1em 1em 0
       &:nth-of-type(2)
         margin-right 0
     .calendar-table
