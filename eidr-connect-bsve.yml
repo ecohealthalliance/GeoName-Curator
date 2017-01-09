@@ -1,6 +1,6 @@
 eidr-connect-bsve.eha.io:
   image: eidr-connect
-  container_name: eidr-connect.eha.io
+  container_name: eidr-connect-bsve.eha.io
   environment:
     - MONGO_URL=mongodb://10.0.0.63:27017/eidr-connect
     - ROOT_URL=https://eidr-connect-bsve.eha.io
