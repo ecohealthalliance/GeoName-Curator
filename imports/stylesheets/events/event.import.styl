@@ -106,28 +106,27 @@ $max-event-details-width = $max-ui-width+300
     font-size 1.5em
     color $primary
     &.not-available
+      color $m-gray
       font-size 1em
 
 .summary
   position relative
-  white-space pre-wrap
   line-height 1.75em
+  &.collapsed
+    gradientBottom()
+    max-height 380px
+    overflow-y hidden
+    margin-bottom .5em
+  span
+    white-space pre-wrap
 
 .summary
 .disease-name
   &.not-available
+    color $m-gray
     margin-top -10px
-    span
-      color $m-gray
-      font-style italic
   .fa
     font-size 95%
-
-.summary.collapsed
-  max-height 380px
-  overflow-y hidden
-  margin-bottom 0
-  gradientBottom()
 
 .event-head
   .minor
