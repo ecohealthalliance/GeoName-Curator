@@ -80,3 +80,16 @@ gradientTopAndBottom()
   &::after
     background linear-gradient(to bottom, alpha(white, 0%), white)
     bottom 0
+
+gradientBottom()
+  &::after
+    content ''
+    height 20px
+    position absolute
+    left 0
+    right 0
+    z-index 10
+  &::after
+    background linear-gradient(to bottom, alpha(white, 0%), white)
+    bottom 0
+
