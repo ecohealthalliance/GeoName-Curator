@@ -246,7 +246,7 @@ $header-BG = $border-primary-light
     &.toggle-reviewed
       padding .45em 1em
       background lighten($positive, 90%)
-      color darken($positive, 40%)
+      color $primary-dark
       +above(4)
         padding-left 3em
         padding-right 3em
@@ -257,9 +257,9 @@ $header-BG = $border-primary-light
     &.reviewed
       min-width 125px
       transition .3s
-      background $positive
-      border-color darken($positive, 30%)
-      color darken($positive, 60%)
+      background lighten($positive, 30%)
+      border-color darken($positive, 50%)
+      color $primary-dark
       &::before
       &::after
         display none
@@ -290,11 +290,11 @@ $header-BG = $border-primary-light
     font-weight 400
     margin 0
   h3
-    color $primary
+    color $primary-dark
     font-size 1.1em
     text-transform uppercase
   h4
-    color $m-gray
+    color $d-gray
     font-size 1em
     text-transform uppercase
   .reactive-table-navigation

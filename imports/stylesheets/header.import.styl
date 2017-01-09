@@ -38,11 +38,14 @@
 
 .navbar-default .navbar-nav > li > a
 .navbar-default .navbar-nav .open .dropdown-menu > li > a
-  font-size 14px
-  color $m-gray
+  font-size 1em
+  color $primary-dark
   &:hover
-    background-color $secondary
-    color $primary
+    background-color $secondary-light
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a
+  &:hover
+    background-color darken($secondary-light, 5%)
 
 .navbar-default .navbar-nav > .active > a
 .navbar-default .navbar-nav > .active > a:hover
@@ -54,7 +57,8 @@
 .navbar-default .navbar-nav > .open > a:hover
 .navbar-default .navbar-nav > .open > a:focus
   background-color $secondary
-  color $primary
+  color $primary-dark
+  font-weight 600
 
 .navbar-nav .open .dropdown-menu
   background-color $secondary-light
@@ -90,7 +94,7 @@
 
 .navbar-default .navbar-nav .open .dropdown-menu > li > a
   font-size .9em
-  color $primary
+  color $primary-dark
   span
     vertical-align middle
     &:first-of-type
