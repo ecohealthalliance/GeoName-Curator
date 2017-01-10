@@ -22,18 +22,19 @@ template(name="articles")
           h4= selectedSource.title
         .container-flex.break-2
           ul.event-source-links.container-flex.list-unstyled.no-break
-            li.edit-source.link(
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title="Edit Source")
-              span
-                i.fa.fa-edit(aria-hidden="true")
-            li.delete-source.link(
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title="Delete Source")
-              span
-                i.fa.fa-trash(aria-hidden="true")
+            if isInRole "admin"
+              li.edit-source.link(
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title="Edit Source")
+                span
+                  i.fa.fa-edit(aria-hidden="true")
+              li.delete-source.link(
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title="Delete Source")
+                span
+                  i.fa.fa-trash(aria-hidden="true")
             li.link
               a.ref-link(
                 href="http://{{selectedSource.url}}"
