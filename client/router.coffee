@@ -19,22 +19,35 @@ Router.configure
   layoutTemplate: "layout"
   loadingTemplate: "loading"
 
+Router.onBeforeAction ->
+  routeTitle = @route.options.title
+  title = 'EIDR-Connect'
+  if _.isString(routeTitle)
+    title += ": #{routeTitle}"
+  else if _.isFunction(routeTitle)
+    title += ": #{routeTitle.call(@)}"
+  document.title = title
+  @next()
+
 Router.onAfterAction ->
   window.scroll 0, 0
 
 Router.route "/",
   name: 'splash'
 
-Router.route "/about"
+Router.route "/about",
+  title: 'About'
 
 Router.route "/event-map",
   name: 'event-map'
+  title: 'Event Map'
   waitOn: ->
     Meteor.subscribe "userEvents"
     Meteor.subscribe "mapIncidents"
 
 Router.route "/admins",
   name: 'admins'
+  title: 'Manage User Accounts'
   onBeforeAction: ->
     redirectIfNotAuthorized(@, ['admin'])
   waitOn: ->
@@ -44,16 +57,9 @@ Router.route "/admins",
     curatorUsers: Meteor.users.find({ roles: {$in: ["curator"] }}, {sort: {'profile.name': 1}})
     defaultUsers: Meteor.users.find({ roles: {$not: {$in: ["admin", "curator"]} }}, {sort: {'profile.name': 1}})
 
-Router.route "/create-account",
-  name: 'create-account'
-  onBeforeAction: () ->
-    redirectIfNotAuthorized(@, ['admin'])
-  waitOn: ()->
-    #Wait on roles subscription so onBeforeAction() doesn't run twice
-    Meteor.subscribe "roles"
-
 Router.route "/download",
-  name: 'download',
+  name: 'download'
+  title: 'Download'
   onBeforeAction: ->
     redirectIfNotAuthorized(@, [])
 
@@ -71,12 +77,15 @@ Router.route "/download",
 
 Router.route "/contact-us",
   name: 'contact-us'
+  title: 'Contact Us'
 
 Router.route "/user-events",
   name: 'user-events'
+  title: 'User Events'
 
 Router.route "/curator-inbox",
   name: 'curator-inbox'
+  title: 'Curator Inbox'
   waitOn: ->
     Meteor.subscribe "userEvents"
   onBeforeAction: ->
@@ -84,6 +93,8 @@ Router.route "/curator-inbox",
 
 Router.route "/user-event/:_id/:_view?",
   name: 'user-event'
+  title: ->
+    @data().userEvent.eventName
   waitOn: ->
     [
       Meteor.subscribe "userEvent", @params._id
@@ -99,3 +110,4 @@ Router.route "/feeds",
   onBeforeAction: ->
     redirectIfNotAuthorized(@, ['admin'])
   name: 'feeds'
+  title: 'Feeds'
