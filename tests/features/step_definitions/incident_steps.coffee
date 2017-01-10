@@ -6,8 +6,6 @@ do ->
     scrollWithinModal = (client, selector, element, padding) ->
       client.execute (selector, element, padding) ->
         offset = $(element).first().offset()
-        if typeof offset == 'undefined'
-          throw new Error 'Suggested incident report does not have any annotations.'
         $(selector).scrollTop(offset.top + padding)
       , selector, element, padding
 
@@ -54,27 +52,45 @@ do ->
     @When /^I add the first suggested incident report$/, ->
       # SuggestedIncidentsModal
       @client.waitForVisible('#suggested-locations-form p.annotated-content')
-      # make sure the element is within view (webdriver.io scroll doesn't work
-      # inside eidr-connect modal)
-      scrollWithinModal(@client,
-          '#suggestedIncidentsModal div.suggested-incidents-wrapper',
-          'span.annotation.annotation-text', -200)
-      # we do not know if the suggestedIncidentsModal will have any annotations
+      if @client.isVisible('div.warn')
+        text = @client.getText('div.warn')
+        assert.equal(text.trim(), 'No incident reports could be automatically extracted from the article.')
+        @client.pause(2000)
+        return true
       if @client.isVisible('span.annotation.annotation-text')
-        @client.click('span.annotation.annotation-text')
+        scrollWithinModal(@client,
+            '#suggestedIncidentsModal div.suggested-incidents-wrapper',
+            'span.annotation.annotation-text', -200)
+        @client.clickWhenVisible('span.annotation.annotation-text')
         # SuggestedIncidentModal
         @client.waitForVisible('#suggestedIncidentModal div.modal-footer')
         scrollWithinModal(@client, '#suggestedIncidentModal',
             'button.save-modal[type="button"]', -200)
-        @client.click('button.save-modal[type="button"]')
+        @client.clickWhenVisible('button.save-modal[type="button"]')
         @client.pause(2000)
+        return true
+      throw new Error 'There was a problem loading suggested incident reports.'
 
     @Then /^I can "([^"]*)" suggestions$/, (action) ->
-      # store the number of incident reports / sources from the dom
       if action is 'cancel'
         @client.clickWhenVisible('button.confirm-close-modal[type="button"]')
         # confirm close modal
         @client.waitForVisible('#cancelConfirmationModal')
         @client.click('button.confirm[type="button"]')
-      else
-        @client.clickWhenVisible('#add-suggestions')
+        return true
+      # get the original number of incident reports before button has been clicked
+      elements = @client.elements('div.count :first-child')
+      try
+        expectedNumber = parseInt(@client.elementIdText(elements.value[0].ELEMENT).value, 10) + 1
+      catch
+        throw new Error 'Cound not get actual number of incident reports.'
+      # click add-suggestions button
+      @client.clickWhenVisible('#add-suggestions')
+      @client.pause(2000)
+      # get the actual number of incident reports after button has been clicked
+      elements = @client.elements('div.count :first-child')
+      try
+        actualNumber = parseInt(@client.elementIdText(elements.value[0].ELEMENT).value, 10)
+      catch
+        throw new Error 'Cound not get actual number of incident reports.'
+      assert.equal(expectedNumber, actualNumber)
