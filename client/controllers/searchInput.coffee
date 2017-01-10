@@ -10,6 +10,7 @@
     placeholder: Defaults to 'Search'
     classes:     Classes which will be applied to the input's parent element
 ####
+{ regexEscape } = require '/imports/utils'
 
 clearSearch = (instance) ->
   instance.textFilter.set('')
@@ -46,7 +47,7 @@ Template.searchInput.events
       clearSearch(instance)
     else
       instance.textFilter.set
-        $regex: instance.$(event.target).val()
+        $regex: regexEscape(instance.$(event.target).val())
         $options: 'i'
       if instance.data.tableId
         Meteor.defer ->
