@@ -106,20 +106,27 @@ $max-event-details-width = $max-ui-width+300
     font-size 1.5em
     color $primary
     &.not-available
+      color $m-gray
       font-size 1em
 
 .summary
+  position relative
   line-height 1.75em
+  &.collapsed
+    gradientBottom()
+    max-height 380px
+    overflow-y hidden
+    margin-bottom .5em
+  span
+    white-space pre-wrap
 
 .summary
 .disease-name
-  .not-available
+  &.not-available
     color $m-gray
-    font-style italic
+    margin-top -10px
   .fa
     font-size 95%
-  &.shift-up
-    margin-top -10px
 
 .event-head
   .minor
@@ -155,9 +162,6 @@ $max-event-details-width = $max-ui-width+300
     padding-right 5px
   &:hover
     color $secondary-dark
-
-.abstract
-  white-space pre-wrap
 
 .tab-form
   display flex

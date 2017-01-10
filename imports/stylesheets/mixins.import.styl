@@ -65,18 +65,30 @@ buttonContent($btn-text, $icon-position)
   text-transform uppercase
   font($body-font)
 
-gradientTopAndBottom()
+gradientTopAndBottom($height=20px, $color=white)
   &::before
   &::after
     content ''
-    height 20px
+    height $height
     position absolute
     left 0
     right 0
     z-index 10
   &::before
-    background linear-gradient(to bottom, white, alpha(white, 0%))
+    background linear-gradient(to bottom, $color, alpha($color, 0%))
     top 0
   &::after
-    background linear-gradient(to bottom, alpha(white, 0%), white)
+    background linear-gradient(to bottom, alpha($color, 0%), $color)
     bottom 0
+
+gradientBottom($height=20px, $color=white)
+  &::after
+    position absolute
+    bottom 0
+    left 0
+    right 0
+    content ''
+    height $height
+    z-index $top-layer
+    background linear-gradient(to bottom, alpha($color, 0) 0%, $color 100%)
+    pointer-events none

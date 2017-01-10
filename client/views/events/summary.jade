@@ -18,11 +18,15 @@ template(name="summary")
               data-toggle="modal"
               data-target="#edit-event-modal"
               data-editing='disease')
-      p.abstract.summary(class="{{#unless summary}} shift-up {{/unless}}")
-        if summary
+
+      if summary
+        p.summary(class="{{#if collapsed}}collapsed{{/if}}")
           span= summary
-        else
-          span.not-available No summary available.
+        if collapsed
+          a.expand Expand full event summary
+      else
+        p.summary.not-available
+          span No summary available.
           if isInRole "admin"
             i.fa.fa-plus-circle.edit-event-details(
               data-toggle="modal"
