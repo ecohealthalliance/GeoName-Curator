@@ -43,12 +43,12 @@ template(name="navLinks")
               span.fa.fa-user
               span Manage User Accounts
           li
-            a#logOut.withIcon(title="Sign Out")
+            a#logOut.withIcon(title="Sign Out" tabindex="0")
               span.fa.fa-sign-out(aria-hidden="true")
               span.link-text-nav Sign Out
     else
       if currentUser
         li
-          a#logOut.withIcon(title="Sign Out")
+          a#logOut.withIcon(title="Sign Out" tabindex="0")
             span.link-text-nav Sign Out
             span.fa.fa-sign-out.show-large(aria-hidden="true")

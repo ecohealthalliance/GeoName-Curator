@@ -1,13 +1,17 @@
 template(name="mapFilters")
   .map-menu
     .search-wrap
-      i.fa.fa-calendar.toggle-calendar-state(class="{{#if calendarState}} showing {{/if}}")
+      a.toggle-calendar-state(tabindex="0")
+        i.fa.fa-calendar(
+          class="{{#if calendarState}} showing {{/if}}")
       +searchInput searchSettings
     if calendarState
       +dateSelector(dateVariables=dateVariables filtering=filtering)
     ul.map-event-list.list-group
       each getEvents
-        li.map-event-list--item.list-group-item(class="{{#if selected}} selected {{/if}}")
+        li.map-event-list--item.list-group-item(
+          class="{{#if selected}} selected {{/if}}"
+          tabindex="0")
           span.name=eventName
           span.date Last Incident Date: {{formatDate lastIncidentDate}}
           .circle(style="background-color:rgb(#{rgbColor})")
@@ -16,9 +20,18 @@ template(name="mapFilters")
 
       if getEvents
         .map-event-list--nav
-          .event-list-prev(title="Older" class="{{#if disablePrev}} disabled {{/if}}")
+          .event-list-prev(
+            title="Older"
+            class="{{#if disablePrev}} disabled {{/if}}"
+            role="button"
+            tabindex="0")
             i.fa.fa-chevron-left
-          .event-list-next(title="Newer" class="{{#if disableNext}} disabled {{/if}}")
+          .event-list-next(
+            title="Newer"
+            class="{{#if disableNext}} disabled {{/if}}"
+            role="button"
+            tabindex="0")
             i.fa.fa-chevron-right
-          span.deselect-all(
-            class="{{#if eventsAreSelected}} active {{/if}}") Deselect events
+          a.deselect-all(
+            class="{{#if eventsAreSelected}} active {{/if}}"
+            tabindex="0") Deselect events

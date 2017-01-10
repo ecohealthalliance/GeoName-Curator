@@ -13,6 +13,10 @@ p
 
 ul
   font-weight 400
+  li
+    &:focus
+      noBootstrapFocus()
+      background $border-primary-light
 
 ul
 h1
@@ -77,10 +81,14 @@ h5
 a
   cursor pointer
   color $link-color
-  &:hover
   &:focus
-    color $link-color-hover
+  &:hover
     text-decoration none
+  &:hover
+    color $link-color-hover
+  &:focus
+    color $link-color
+    noBootstrapFocus()
 
 .centered
   text-align center
