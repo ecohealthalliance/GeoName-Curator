@@ -3,20 +3,20 @@ $warning-btn-color = lighten($warning, 50%)
 
 $btn-types = {
   '.btn-default': {
-    text: darken($border-primary, 30%)
+    text: $primary
     text-hover: $primary
     border: lighten($border-primary, 50%)
     bg: white
     bg-hover: $border-primary-light
   },
   '.btn-primary': {
-    text: $primary
+    text: $primary-dark
     border: $border-btn
     bg: $primary-light
     bg-hover: lighten($secondary, 10%)
   },
   '.btn-success': {
-    text: $primary
+    text: $primary-dark
     border: darken($positive, 30%)
     bg: $success-btn-color
     bg-hover: darken($success-btn-color, 25%)
@@ -29,7 +29,7 @@ $btn-types = {
     bg-hover: darken($delete, 10%)
   }
   '.btn-warning': {
-    text: $primary
+    text: $primary-dark
     border: darken($warning, 30%)
     bg: $warning-btn-color
     bg-hover: darken($warning-btn-color, 25%)
