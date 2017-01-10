@@ -6,7 +6,7 @@ template(name="feeds")
         .form-group
           input.form-control(name="feedUrl" placeholder="Enter new feed URL" required)
         button.btn.btn-primary
-          i.fa.fa-plus-circle
+          i.fa.fa-plus-circle(aria-hidden="true")
           | Add Feed
 
     .container-fluid-padded
@@ -15,5 +15,5 @@ template(name="feeds")
           each feeds
             li.list-group-item.container-flex
               span=url
-              a.delete.flex-col.on-right.no-grow
-                i.fa.fa-trash
+              a.delete.flex-col.on-right.no-grow(aria-label="delete")
+                i.fa.fa-trash(title="Delete Feed" aria-hidden="true")

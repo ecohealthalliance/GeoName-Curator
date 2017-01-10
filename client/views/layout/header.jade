@@ -3,7 +3,7 @@ template(name="header")
     nav.navbar.navbar-default.navbar-fixed-top
       .navbar-header
         button.navbar-toggle.collapsed(type='button', data-toggle='collapse' data-target=".navbar-collapse") Menu
-        a.navbar-brand(href="{{pathFor 'splash'}}")
+        a.navbar-brand(href="{{pathFor 'splash'}}") EIDR Connect
 
       .collapse.navbar-collapse
         +navLinks
@@ -31,8 +31,8 @@ template(name="navLinks")
         a.dropdown-toggle-nav(id="admins-menu" href="#" role="button" data-toggle="dropdown")
           span Settings
           span
-            i.fa.fa-cog
-            i.fa.fa-angle-down
+            i.fa.fa-cog(aria-hidden="true")
+            i.fa.fa-angle-down(aria-hidden="true")
         ul.dropdown-menu.dropdown-menu-right.nav-dd
           li
             a.feeds(href="{{pathFor 'feeds'}}")
@@ -44,11 +44,11 @@ template(name="navLinks")
               span Manage User Accounts
           li
             a#logOut.withIcon(title="Sign Out")
-              span.fa.fa-sign-out
+              span.fa.fa-sign-out(aria-hidden="true")
               span.link-text-nav Sign Out
     else
       if currentUser
         li
           a#logOut.withIcon(title="Sign Out")
             span.link-text-nav Sign Out
-            span.fa.fa-sign-out.show-large
+            span.fa.fa-sign-out.show-large(aria-hidden="true")

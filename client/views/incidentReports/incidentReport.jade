@@ -6,7 +6,7 @@ template(name="incidentReport")
         .incident-report--details--important
           if status
             .incident-report--details--status
-              i.fa(class=status)
+              i.fa(class=status aria-hidden="true" title=status)
               h6=status
           if caseCounts
             .incident-report--details--counts
@@ -16,7 +16,7 @@ template(name="incidentReport")
                 +incidentCount label=casesLabel count=cases
           if travelRelated
             .incident-report--details--travel-related
-              i.fa.fa-lg.fa-plane
+              i.fa.fa-lg.fa-plane(aria-hidden="true")
               h6 Travel Related
 
       .incident-report--details--metadata(class="{{#if importantDetails}} bordered {{/if}}")
@@ -49,7 +49,7 @@ template(name="incidentReport")
                     span {{formatUrl(val)}}
 
       .incident-report--details--actions.container-flex.no-break
-        a.edit
-          i.fa.fa-edit
-        a.delete
-          i.fa.fa-trash
+        a.edit(aria-label="Edit")
+          i.fa.fa-edit(aria-hidden="true" title="Edit incident report")
+        a.delete(aria-label="Edit")
+          i.fa.fa-trash(aria-hidden="true" title="Delete incident report")
