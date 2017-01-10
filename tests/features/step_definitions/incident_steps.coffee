@@ -69,7 +69,7 @@ do ->
         @client.click('button.save-modal[type="button"]')
         @client.pause(2000)
 
-    @When /^I can "([^"]*)" suggestions$/, (action) ->
+    @Then /^I can "([^"]*)" suggestions$/, (action) ->
       # store the number of incident reports / sources from the dom
       if action is 'cancel'
         @client.clickWhenVisible('button.confirm-close-modal[type="button"]')
