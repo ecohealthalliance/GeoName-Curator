@@ -10,7 +10,7 @@
 .has-error.checkbox-inline label
 .has-error
   .with-errors
-    color $danger
+    color darken($danger, 20%)
 
   .input-group-addon
   .form-control
@@ -32,3 +32,9 @@
   .input-group-addon
     background $danger
     color white
+
+.help-block
+  &.with-errors
+    ul
+      font-size .9em
+      color darken($danger, 20%)

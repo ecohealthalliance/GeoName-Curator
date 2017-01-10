@@ -6,9 +6,11 @@ template(name="createAccount")
         .form-group
           label Email
             input.form-control(type='text', name='email' required)
+          .help-block.with-errors
         .form-group
           label Name
             input.form-control(type='text', name='name' required)
+          .help-block.with-errors
         .form-group
           .checkbox
             label

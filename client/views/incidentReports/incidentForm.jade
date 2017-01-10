@@ -8,6 +8,7 @@ template(name="incidentForm")
         articles=articles
         selected=incidentData.articleSource
         placeholder='Select a source')
+      .help-block.with-errors
 
     .form-group.incident--dates.full-width(class="{{suggestedField 'dateRange'}}")
       ul.tabs.secondary-tabs(role="tablist")
@@ -29,6 +30,7 @@ template(name="incidentForm")
         selectId="incident-location-select2"
         multiple="true"
         selected=incidentData.locations)
+      .help-block.with-errors
 
     .form-group(class="{{suggestedField 'species'}}")
       label.control-label Species
@@ -101,6 +103,7 @@ template(name="incidentForm")
             checked="{{incidentTypeChecked 'other'}}"
             required)
           label(for="other" tabindex="0") Other
+      .help-block.with-errors
 
     if showCountForm
       .form-group(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
@@ -112,6 +115,7 @@ template(name="incidentForm")
           value=incidentData.value
           required
           tabindex="0")
+        .help-block.with-errors
 
     if showOtherForm
       .form-group.space-top--1

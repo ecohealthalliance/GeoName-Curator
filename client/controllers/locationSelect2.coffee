@@ -79,7 +79,9 @@ Template.locationSelect2.onRendered ->
     required = false
     $input.val(initialValues.map((x)->x.id)).trigger('change')
 
-  $('.select2-search__field').attr('required', required)
+  $('.select2-search__field').attr
+    'required': required
+    'data-error': 'Please select a location.'
   # Remove required attr when location is selected and add it back when all
   # locations are removed/unselected
   $input.on 'change', _setRequiredAttr

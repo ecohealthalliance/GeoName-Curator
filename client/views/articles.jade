@@ -79,7 +79,12 @@ template(name="article")
           button.btn.btn-danger.btn-sm.btn-block.delete-article Delete
 
 template(name="articleSelect2")
-  select.article-select2.form-control.select2(id="{{selectId}}" name="{{selectId}}" multiple="{{multiple}}" required)
+  select.article-select2.form-control.select2(
+    id="{{selectId}}"
+    name="{{selectId}}"
+    multiple="{{multiple}}"
+    required
+    data-error="Please select a source.")
     unless multiple
       option(value="")
     each articles
