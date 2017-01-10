@@ -3,7 +3,6 @@
     margin 0
 
 .navbar
-  min-height $header-height - 2
   padding 0 $page-padding-small-screen
   background-color #FFF
   border-bottom 2px solid $secondary
@@ -21,20 +20,19 @@
         padding 15px 10px
         &:last-child
           border 0
-  +below(3)
-    height $mobile-header-height
-    min-height $mobile-header-height
 
 .navbar-nav
   float right
   > li
     margin-right 1px
-  +below(2)
-    float none
-  +below(3)
-    border-bottom 2px solid white
     .icon
       display none
+  +below(2)
+    float none
+  +above(2)
+    border-bottom 0
+    .icon
+      display inline-block
 
 .navbar-default .navbar-nav > li > a
 .navbar-default .navbar-nav .open .dropdown-menu > li > a
@@ -56,15 +54,21 @@
 .navbar-default .navbar-nav > .open > a
 .navbar-default .navbar-nav > .open > a:hover
 .navbar-default .navbar-nav > .open > a:focus
-  background-color $secondary
+  background-color $secondary-light
   color $primary-dark
   font-weight 600
+
+.navbar-default .navbar-nav > .active > a
+.navbar-default .navbar-nav > .active > a:hover
+.navbar-default .navbar-nav > .active > a:focus
+  background-color $secondary
 
 .navbar-nav .open .dropdown-menu
   background-color $secondary-light
   overflow hidden
 
 .navbar-nav .dropdown-menu
+  box-shadow none
   > li > a
     padding .75em 1em
 
@@ -137,27 +141,16 @@
 .show-small
   display none
 
-.show-small
-.show-large
-  +between(3,4)
-    display inline-block
-    font-size 20px
-
 .link-text-nav
 .navbar-default .navbar-nav > li > a
   +between(3,4)
     font-size 12px
 
-li > a
-  +between(3,4)
-    &.withIcon
-      line-height 0
-
-.container > .navbar-collapse
+header .navbar-collapse
   +below(3)
     padding 0
-    margin-right -30px
-    margin-left -30px
+    margin-right -15px
+    margin-left -15px
 
 .navbar-fixed-top .navbar-collapse
   +below(2)
