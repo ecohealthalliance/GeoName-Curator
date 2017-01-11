@@ -3,6 +3,12 @@ do ->
 
   module.exports = ->
 
+    scrollWithinModal = (client, selector, element, padding) ->
+      client.execute (selector, element, padding) ->
+        offset = $(element).first().offset()
+        $(selector).scrollTop(offset.top + padding)
+      , selector, element, padding
+
     firstEvent = '.reactive-table tbody tr:first-child'
 
     @When /^I click the first item in the event list$/, ->
@@ -35,3 +41,56 @@ do ->
       groups = @client.elements(selector)
       if groups.value.length != 1
         throw new Error('ScatterPlot Group is empty')
+
+    @When /^I add the first suggested event source$/, ->
+      @client.clickWhenVisible('.open-source-form-in-details')
+      @client.waitForVisible('#event-source')
+      @client.clickWhenVisible('#suggested-articles li:first-child')
+      @client.setValue('input[name="publishTime"]', '12:00 PM')
+      @client.click('button.save-modal[type="button"]')
+
+    @When /^I add the first suggested incident report$/, ->
+      # SuggestedIncidentsModal
+      @client.waitForVisible('#suggested-locations-form p.annotated-content')
+      if @client.isVisible('div.warn')
+        text = @client.getText('div.warn')
+        assert.equal(text.trim(), 'No incident reports could be automatically extracted from the article.')
+        @client.pause(2000)
+        return true
+      if @client.isVisible('span.annotation.annotation-text')
+        scrollWithinModal(@client,
+            '#suggestedIncidentsModal div.suggested-incidents-wrapper',
+            'span.annotation.annotation-text', -200)
+        @client.clickWhenVisible('span.annotation.annotation-text')
+        # SuggestedIncidentModal
+        @client.waitForVisible('#suggestedIncidentModal div.modal-footer')
+        scrollWithinModal(@client, '#suggestedIncidentModal',
+            'button.save-modal[type="button"]', -200)
+        @client.clickWhenVisible('button.save-modal[type="button"]')
+        @client.pause(2000)
+        return true
+      throw new Error 'There was a problem loading suggested incident reports.'
+
+    @Then /^I can "([^"]*)" suggestions$/, (action) ->
+      if action is 'cancel'
+        @client.clickWhenVisible('button.confirm-close-modal[type="button"]')
+        # confirm close modal
+        @client.waitForVisible('#cancelConfirmationModal')
+        @client.click('button.confirm[type="button"]')
+        return true
+      # get the original number of incident reports before button has been clicked
+      elements = @client.elements('div.count :first-child')
+      try
+        expectedNumber = parseInt(@client.elementIdText(elements.value[0].ELEMENT).value, 10) + 1
+      catch
+        throw new Error 'Cound not get actual number of incident reports.'
+      # click add-suggestions button
+      @client.clickWhenVisible('#add-suggestions')
+      @client.pause(2000)
+      # get the actual number of incident reports after button has been clicked
+      elements = @client.elements('div.count :first-child')
+      try
+        actualNumber = parseInt(@client.elementIdText(elements.value[0].ELEMENT).value, 10)
+      catch
+        throw new Error 'Cound not get actual number of incident reports.'
+      assert.equal(expectedNumber, actualNumber)
