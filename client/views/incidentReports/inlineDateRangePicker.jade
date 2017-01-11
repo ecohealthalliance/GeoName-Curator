@@ -3,21 +3,19 @@ template(name="inlineDateRangePicker")
     .calendar.left
       .daterangepicker_input
         input.input-mini.form-control.singleDatePickerInput(type="text" name="daterangepicker_start" value="")
-        i.fa.fa-calendar.glyphicon.glyphicon-calendar.singleDatePickerInput
+        i.fa.fa-calendar.singleDatePickerInput
         .calendar-time
-          div
-          i.fa.fa-clock-o.glyphicon.glyphicon-time
+          i.fa.fa-clock-o
 
       .calendar-table
     .calendar.right
       .daterangepicker_input
         input.input-mini.form-control(type="text" name="daterangepicker_end" value="")
-        i.fa.fa-calendar.glyphicon.glyphicon-calendar
+        i.fa.fa-calendar
         .calendar-time
-          div
-          i.fa.fa-clock-o.glyphicon.glyphicon-time
+          i.fa.fa-clock-o
       .calendar-table
     .ranges.hidden
       .range_inputs
-        button.applyBtn(disabled="disabled" type="button")
-        button.cancelBtn(type="button")
+        button.applyBtn(disabled="disabled" type="button" title="Apply" aria-hidden="true")
+        button.cancelBtn(type="button" title="Cancel" aria-hidden="true")

@@ -12,9 +12,17 @@ template(name="incidentForm")
     .form-group.incident--dates.full-width(class="{{suggestedField 'dateRange'}}")
       ul.tabs.secondary-tabs(role="tablist")
         li(role="presentation" class="{{dayTabClass}}")
-          a(href="#singleDate" aria-controls="single Date" role="tab" data-toggle="tab") Single Date
+          a(
+            href="#singleDate"
+            aria-controls="single Date"
+            role="tab"
+            data-toggle="tab") Single Date
         li(role="presentation" class="{{rangeTabClass}}")
-          a(href="#preciseRange" aria-controls="date range" role="tab" data-toggle="tab") Date Range
+          a(
+            href="#preciseRange"
+            aria-controls="date range"
+            role="tab"
+            data-toggle="tab") Date Range
 
       .tab-content
         #singleDate.tab-pane(role="tabpanel" class="{{dayTabClass}}")
@@ -145,4 +153,4 @@ template(name="incidentForm")
             checked=incidentData.dateRange.cumulative)
           label.cumulative(for="cumulative" tabindex="0") Cumulative
 
-    button.hidden(type="submit")
+    button.hidden(type="submit" aria-hidden="true")

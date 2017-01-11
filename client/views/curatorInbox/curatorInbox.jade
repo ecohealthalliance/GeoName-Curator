@@ -7,12 +7,12 @@ template(name="curatorInbox")
           class="{{#unless reviewFilterActive}} active {{/unless}}"
           data-toggle="tooltip"
           title="Show/Hide Reviewed")
-          i.fa.fa-check-circle
+          i.fa.fa-check-circle(aria-hidden="true")
         a.option.curator-filter-calendar-icon(
           class="{{#if calendarState}} active {{/if}}"
           data-toggle="tooltip"
           title="Filter by Date Range")
-          i.fa.fa-calendar
+          i.fa.fa-calendar(aria-hidden="true")
         +searchInput searchSettings
 
     .curator-inbox-sources.pane.pane-l.curator-inbox--pane

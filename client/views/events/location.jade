@@ -5,8 +5,10 @@ template(name="location")
         .info
           a(href="http://www.geonames.org/{{id}}"
             target="_blank"
-            data-toggle="tooltip" title="Location Info" data-placement="bottom")
-            i.fa.fa-globe
+            data-toggle="tooltip"
+            title="Location Info"
+            data-placement="bottom")
+            i.fa.fa-globe(aria-hidden="true")
         ul.list-unstyled
           each source in sources
             li

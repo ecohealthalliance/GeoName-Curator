@@ -7,7 +7,8 @@ template(name="summary")
           i.fa.fa-edit.edit-event-details(
             data-toggle="modal"
             data-target="#edit-event-modal"
-            data-editing='name')
+            data-editing="name"
+            title="Edit event details")
       p.disease-name
         if disease
           span= disease
@@ -17,7 +18,7 @@ template(name="summary")
             i.fa.fa-plus-circle.edit-event-details(
               data-toggle="modal"
               data-target="#edit-event-modal"
-              data-editing='disease')
+              data-editing="disease")
 
       if summary
         p.summary(class="{{#if collapsed}}collapsed{{/if}}")
@@ -31,7 +32,7 @@ template(name="summary")
             i.fa.fa-plus-circle.edit-event-details(
               data-toggle="modal"
               data-target="#edit-event-modal"
-              data-editing='summary')
+              data-editing="summary")
     .event--metadata.container-flex
       .event--metadata--counts.container-flex.no-gutter.no-break
         .count.flex-col
@@ -56,10 +57,10 @@ template(name="summary")
             data-clipboard-text="{{urlFor 'user-event'}}"
             class="{{#if copied}} copied {{/if}}")
             if copied
-              i.fa.fa-check
+              i.fa.fa-check(aria-hidden="true")
               span Coppied
             else
-              i.fa.fa-share-alt
+              i.fa.fa-share-alt(aria-hidden="true")
               span Copy Event Link
 
   +editEventDetailsModal

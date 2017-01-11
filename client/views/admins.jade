@@ -27,18 +27,18 @@ template(name="adminUser")
     .user--roles.on-right
       if isCurator
         button.btn.btn-primary.remove-curator
-          i.fa.fa-check
+          i.fa.fa-check(aria-hidden="true")
           span Curator
       else
         button.btn.btn-default.make-curator
-          i.fa.fa-plus
+          i.fa.fa-plus(aria-hidden="true")
           span Curator
       unless isCurrentUser
         if isAdmin
           button.btn.btn-primary.remove-admin
-            i.fa.fa-check
+            i.fa.fa-check(aria-hidden="true")
             span Admin
         else
           button.btn.btn-default.make-admin
-            i.fa.fa-plus
+            i.fa.fa-plus(aria-hidden="true")
             span Admin

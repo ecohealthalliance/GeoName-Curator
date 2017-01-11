@@ -19,7 +19,7 @@ template(name="curatorSourceDetails")
       if notifying
         .notification
           .checks
-            i.fa.fa-check-circle.confirmation
+            i.fa.fa-check-circle.confirmation(aria-hidden="true")
             .circle
           p Preparing next source
       .transition(class="{{#if notifying}} active {{/if}}")

@@ -27,13 +27,13 @@ template(name="articles")
                 data-placement="bottom"
                 title="Edit Source")
               span
-                i.fa.fa-edit
+                i.fa.fa-edit(aria-hidden="true")
             li.delete-source.link(
                 data-toggle="tooltip"
                 data-placement="bottom"
                 title="Delete Source")
               span
-                i.fa.fa-trash
+                i.fa.fa-trash(aria-hidden="true")
             li.link
               a.ref-link(
                 href="http://{{selectedSource.url}}"
@@ -42,7 +42,7 @@ template(name="articles")
                 data-toggle="tooltip"
                 data-placement="bottom"
                 title="View Original Source")
-                i.fa.fa-link
+                i.fa.fa-link(aria-hidden="true")
           ul.event-source-info.container-flex.list-unstyled.no-break
             li Published on {{formatDate selectedSource.publishDate}}
             li Submitted by {{selectedSource.addedByUserName}} on {{formatDate selectedSource.addedDate}}
@@ -69,11 +69,13 @@ template(name="article")
   li.list-group-item
     .row
       .col-sm-10
-        a.ref-link(href="{{url}}" target="_blank" rel="noopener noreferrer") {{url}}
-          i.fa.fa-external-link
+        a.ref-link(href="{{url}}"
+          target="_blank"
+          rel="noopener noreferrer")=url
+          i.fa.fa-external-link(aria-hidden="true")
         if publishDate
           p
-            small {{publishDate}}
+            small=publishDate
       .col-sm-2.col-xs-6
         if isInRole "admin"
           button.btn.btn-danger.btn-sm.btn-block.delete-article Delete
@@ -88,5 +90,5 @@ template(name="articleSelect2")
 template(name="sourceModalButton")
   if isInRole "admin"
     button.btn.btn-primary(type="button" class="open-source-form#{class}")
-      i.fa.fa-plus-circle
+      i.fa.fa-plus-circle(aria-hidden="true")
       | Add Source
