@@ -34,6 +34,7 @@ template(name="sourceModal")
                 name="title"
                 value="{{title}}"
                 required)
+              .help-block.with-errors
 
             .form-group
               label.control-label Article URL
@@ -44,6 +45,7 @@ template(name="sourceModal")
                   type="url"
                   name="article"
                   required)
+              .help-block.with-errors
 
             .form-group(class="{{#if editing}} date-editing {{/if}}")
               label.control-label Publication Date
@@ -59,7 +61,9 @@ template(name="sourceModal")
                           type="text"
                           name="publishTime"
                           placeholder="Time"
-                          required)
+                          required
+                          data-error="Please select a time.")
+                      .help-block.with-errors
                   .col-sm-6
                     .form-group
                       .input-group.with-select

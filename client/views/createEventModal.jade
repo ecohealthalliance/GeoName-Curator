@@ -12,6 +12,7 @@ template(name="createEventModal")
             .form-group
               label.control-label(for="eventName") Event Name
               input#eventName.form-control(type='text', name='eventName' required)
+              .help-block.with-errors
             .form-group
               label Event Disease
               input.form-control(type="text" name="eventDisease" value=disease)

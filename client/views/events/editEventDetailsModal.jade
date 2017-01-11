@@ -16,6 +16,7 @@ template(name="editEventDetailsModal")
               .form-group
                 label Event Name
                 input.form-control(type='text' name='eventName' value=eventName required)
+                .help-block.with-errors
               unless adding
                 .form-group
                   label Event Disease
