@@ -92,3 +92,9 @@ gradientBottom($height=20px, $color=white)
     z-index $top-layer
     background linear-gradient(to bottom, alpha($color, 0) 0%, $color 100%)
     pointer-events none
+
+autofillBG($bordered=true)
+  background $warning-bg
+  if $bordered
+    border-bottom 1px solid $warning-border
+    border-top 1px solid $warning-border

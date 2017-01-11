@@ -27,7 +27,7 @@ template(name="sourceModal")
                     else
                       .no-results No articles found
 
-            .form-group
+            .form-group.form-group--full
               label.control-label Title
               input#title.form-control.new-title(
                 type="text"
@@ -36,7 +36,7 @@ template(name="sourceModal")
                 required)
               .help-block.with-errors
 
-            .form-group
+            .form-group.form-group--full
               label.control-label Article URL
               if edit
                 p.form-control-static {{url}}
@@ -47,7 +47,7 @@ template(name="sourceModal")
                   required)
               .help-block.with-errors
 
-            .form-group(class="{{#if editing}} date-editing {{/if}}")
+            .form-group.form-group--full(class="{{#if editing}} date-editing {{/if}}")
               label.control-label Publication Date
               .modal-block.full-width
                 #publishDate.datePicker.inlineRangePicker

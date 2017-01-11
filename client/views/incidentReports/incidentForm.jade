@@ -1,7 +1,7 @@
 template(name="incidentForm")
 
   form#add-incident(novalidate)
-    .form-group
+    .form-group.form-group--full
       label.control-label Source URL
       +articleSelect2(
         selectId="articleSource"
@@ -32,7 +32,7 @@ template(name="incidentForm")
         #preciseRange.tab-pane(role="tabpanel" class="{{rangeTabClass}}")
           #rangePicker.inlineRangePicker
 
-    .form-group(class="{{suggestedField 'locations'}}")
+    .form-group.form-group--full(class="{{suggestedField 'locations'}}")
       label.control-label Location
       +locationSelect2(
         selectId="incident-location-select2"
@@ -40,14 +40,14 @@ template(name="incidentForm")
         selected=incidentData.locations)
       .help-block.with-errors
 
-    .form-group(class="{{suggestedField 'species'}}")
+    .form-group.form-group--full(class="{{suggestedField 'species'}}")
       label.control-label Species
       input.form-control(
         type="text"
         name="species"
         value=incidentData.species)
 
-    .form-group.check-buttons(class="{{suggestedField 'status'}}")
+    .form-group.form-group--full.check-buttons(class="{{suggestedField 'status'}}")
       label.control-label Status
       .container-flex.check-buttons.status.no-break
         .check-button
@@ -78,65 +78,89 @@ template(name="incidentForm")
             checked="{{incidentStatusChecked 'revoked'}}")
           label(for="revoked" tabindex="0") Revoked
 
-    .form-group.check-buttons(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
-      label.control-label Incident Type
-      .container-flex.check-buttons.type.no-break
-        .check-button
-          input(
-            type="radio"
-            name="incidentType"
-            id="cases"
-            value="cases"
-            tabindex="-1"
-            checked="{{incidentTypeChecked 'cases'}}"
-            required)
-          label(for="cases" tabindex="0") Cases
-        .check-button
-          input(
-            type="radio"
-            name="incidentType"
-            id="deaths"
-            value="deaths"
-            tabindex="-1"
-            checked="{{incidentTypeChecked 'deaths'}}"
-            required)
-          label(for="deaths" tabindex="0") Deaths
-        .check-button
-          input(
-            type="radio"
-            name="incidentType"
-            id="other"
-            value="other"
-            tabindex="-1"
-            checked="{{incidentTypeChecked 'other'}}"
-            required)
-          label(for="other" tabindex="0") Other
-      .help-block.with-errors
-
-    if showCountForm
-      .form-group(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
-        label.control-label #{selectedIncidentType} Count
-        input.form-control(
-          name="count"
-          type="number"
-          min="0"
-          value=incidentData.value
-          required
-          tabindex="0")
+    .incident-type-wrapper.form-groups(class="{{#if typeIsSelected}} form-groups--highlighted {{/if}}")
+      .form-group.form-group--full.check-buttons(
+        class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
+        label.control-label Incident Type
+        .container-flex.check-buttons.type.no-break
+          .check-button
+            input(
+              type="radio"
+              name="incidentType"
+              id="cases"
+              value="cases"
+              tabindex="-1"
+              checked="{{incidentTypeChecked 'cases'}}"
+              required)
+            label(for="cases" tabindex="0") Cases
+          .check-button
+            input(
+              type="radio"
+              name="incidentType"
+              id="deaths"
+              value="deaths"
+              tabindex="-1"
+              checked="{{incidentTypeChecked 'deaths'}}"
+              required)
+            label(for="deaths" tabindex="0") Deaths
+          .check-button
+            input(
+              type="radio"
+              name="incidentType"
+              id="other"
+              value="other"
+              tabindex="-1"
+              checked="{{incidentTypeChecked 'other'}}"
+              required)
+            label(for="other" tabindex="0") Other
         .help-block.with-errors
 
-    if showOtherForm
-      .form-group.space-top--1
-        label.control-label Specify Other
-        input.form-control(
-          name="specify"
-          id="specify"
-          type="text"
-          required
-          value=incidentData.value
-          tabindex="0")
+      if showCountForm
+        .form-group.form-group--child(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
+          label.control-label #{selectedIncidentType} Count
+          input.form-control(
+            name="count"
+            type="number"
+            min="0"
+            value=incidentData.value
+            required
+            tabindex="0")
+          .help-block.with-errors
 
-    .form-group
+      if showOtherForm
+        .form-group.form-group--child
+          label.control-label Specify Other
+          input.form-control(
+            name="specify"
+            id="specify"
+            type="text"
+            required
+            value=incidentData.value
+            tabindex="0")
+
+      if typeIsSelected
+        .form-group.form-group--child
+          label.control-label Integrity
+          .container-flex.other-metadata.check-buttons.no-break
+            .check-button(class="{{suggestedField 'cumulative'}}")
+              input(
+                type="checkbox"
+                name="cumulative"
+                id="cumulative"
+                tabindex="-1"
+                checked=incidentData.dateRange.cumulative)
+              label.cumulative(for="cumulative" tabindex="0") Cumulative
+
+            .check-button(class="{{suggestedField 'approximate'}}")
+              input(
+                type="checkbox"
+                name="approximate"
+                id="approximate"
+                tabindex="-1"
+                checked=incidentData.approximate)
+              label.cumulative(for="approximate" tabindex="0") Approximate
+
+    .form-group.form-group--full
       label.control-label Other Information
       .container-flex.other-metadata.check-buttons.no-break
         .check-button(class="{{suggestedField 'travelRelated'}}")
@@ -147,14 +171,5 @@ template(name="incidentForm")
             tabindex="-1"
             checked=incidentData.travelRelated)
           label.travel-related(for="travelRelated" tabindex="0") Travel Related
-
-        .check-button(class="{{suggestedField 'cumulative'}}")
-          input(
-            type="checkbox"
-            name="cumulative"
-            id="cumulative"
-            tabindex="-1"
-            checked=incidentData.dateRange.cumulative)
-          label.cumulative(for="cumulative" tabindex="0") Cumulative
 
     button.hidden(type="submit" aria-hidden="true")

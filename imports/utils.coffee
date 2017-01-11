@@ -42,14 +42,14 @@ checkIncidentTypeValue = (form, input) ->
 export incidentReportFormToIncident = (form) ->
   $form = $(form)
   $articleSelect = $(form.articleSource)
-  if $form.find("#singleDate").hasClass("active")
-    rangeType = "day"
-    $pickerContainer = $form.find("#singleDatePicker")
+  if $form.find('#singleDate').hasClass('active')
+    rangeType = 'day'
+    $pickerContainer = $form.find('#singleDatePicker')
   else
-    rangeType = "precise"
-    $pickerContainer = $form.find("#rangePicker")
+    rangeType = 'precise'
+    $pickerContainer = $form.find('#rangePicker')
 
-  picker = $pickerContainer.data("daterangepicker")
+  picker = $pickerContainer.data('daterangepicker')
 
   incidentType = $form.find('input[name="incidentType"]:checked').val()
   incidentStatus = $form.find('input[name="incidentStatus"]:checked').val()
@@ -57,6 +57,7 @@ export incidentReportFormToIncident = (form) ->
   incident =
     species: form.species.value
     travelRelated: form.travelRelated.checked
+    approximate: form.approximate.checked
     locations: []
     status: incidentStatus
     dateRange:
@@ -76,14 +77,14 @@ export incidentReportFormToIncident = (form) ->
       toastr.error("Unknown incident type [#{incidentType}]")
       return
 
-  for child in $articleSelect.select2("data")
+  for child in $articleSelect.select2('data')
     if child.selected
       incident.url = [child.text.trim()]
 
-  $loc = $(form).find("#incident-location-select2")
-  for option in $loc.select2("data")
+  $loc = $(form).find('#incident-location-select2')
+  for option in $loc.select2('data')
     item = option.item
-    if typeof item.alternateNames is "string"
+    if typeof item.alternateNames is 'string'
       delete item.alternateNames
     incident.locations.push(item)
   return incident

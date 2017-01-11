@@ -1,12 +1,6 @@
 $warning-bg = lighten($warning, 90%)
 $warning-border = darken($warning-bg, 12%)
 
-autofillBG($bordered=true)
-  background $warning-bg
-  if $bordered
-    border-bottom 1px solid $warning-border
-    border-top 1px solid $warning-border
-
 .suggested
   position relative
   &:not(.full-width)

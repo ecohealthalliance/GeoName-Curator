@@ -11,8 +11,6 @@
 .incident-report--details--important
   display flex
   flex-direction column
-  padding-top 1em
-  padding-bottom 1em
   flex-direction row
   align-items center
   margin-right 0
@@ -38,7 +36,6 @@
 .incident-report--details--metadata
   margin-left 0
   margin-right 0
-  align-self flex-start
   +above(2)
     margin-right 3em
   &.bordered
@@ -48,6 +45,12 @@
   ul
     &:last-of-type
       margin-bottom 0
+    .integrity
+      margin-top 1.25em
+      li
+        font-size .9em
+        display inline-block
+        padding-right 1em
 
 .incident-report--details--actions
   flex-direction row

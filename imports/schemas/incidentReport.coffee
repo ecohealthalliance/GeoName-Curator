@@ -1,4 +1,4 @@
-IncidentReportSchema = new SimpleSchema(
+IncidentReportSchema = new SimpleSchema
   _id:
     type: String
     optional: true
@@ -41,6 +41,9 @@ IncidentReportSchema = new SimpleSchema(
     type: Boolean
     optional: true
   travelRelated:
+    type: Boolean
+    optional: true
+  approximate:
     type: Boolean
     optional: true
   species:
@@ -86,5 +89,5 @@ IncidentReportSchema = new SimpleSchema(
   deletedDate:
     type: Date
     optional: true
-)
+
 module.exports = IncidentReportSchema
