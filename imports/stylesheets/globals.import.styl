@@ -90,6 +90,25 @@ a
     color $link-color
     noBootstrapFocus()
 
+p a
+.focusable
+a[tabindex="0"]
+  &:not(.plain-focus)
+    &:focus
+      color $primary-dark
+      padding-right .5em
+      padding-left .5em
+      border 1px solid $secondary
+      border-radius 3px
+
+.plain-focus
+  color $link-color
+
+i
+  &:focus
+    noBootstrapFocus()
+    color $link-color
+
 .centered
   text-align center
 

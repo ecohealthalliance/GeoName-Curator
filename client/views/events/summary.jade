@@ -8,7 +8,8 @@ template(name="summary")
             data-toggle="modal"
             data-target="#edit-event-modal"
             data-editing="name"
-            title="Edit event details")
+            title="Edit event details"
+            tabindex="0")
       p.disease-name
         if disease
           span= disease
@@ -18,13 +19,14 @@ template(name="summary")
             i.fa.fa-plus-circle.edit-event-details(
               data-toggle="modal"
               data-target="#edit-event-modal"
-              data-editing="disease")
+              data-editing="disease"
+              tabindex="0")
 
       if summary
         p.summary(class="{{#if collapsed}}collapsed{{/if}}")
           span= summary
         if collapsed
-          a.expand Expand full event summary
+          a.expand(tabindex="0") Expand full event summary
       else
         p.summary.not-available
           span No summary available.
@@ -32,7 +34,9 @@ template(name="summary")
             i.fa.fa-plus-circle.edit-event-details(
               data-toggle="modal"
               data-target="#edit-event-modal"
-              data-editing="summary")
+              data-editing="summary"
+              tabindex="0")
+
     .event--metadata.container-flex
       .event--metadata--counts.container-flex.no-gutter.no-break
         .count.flex-col

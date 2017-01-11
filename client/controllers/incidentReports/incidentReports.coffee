@@ -179,6 +179,7 @@ Template.incidentReports.helpers
     showRowCount: false
     class: 'table event-incidents'
     rowClass: "event-incident"
+    keyboardFocus: true
 
 Template.incidentReports.events
   'click #scatterPlot-toggleCumulative': (event, template) ->

@@ -19,7 +19,7 @@ Template.userEvent.helpers
 
   locationView: ->
     Router.current().getParams()._view is 'locations'
-  
+
   deleted: ->
     userEvent = UserEvents.findOne({_id: Template.instance().data.userEvent._id})
     userEvent.deleted
@@ -34,7 +34,6 @@ Template.userEvent.helpers
     Template.instance().data
 
 Template.userEvent.events
-
   'click .edit-link, click #cancel-edit': (event, instance) ->
     instance.editState.set(not instance.editState.get())
 
@@ -47,3 +46,6 @@ Template.userEvent.events
 
   'click .open-source-form-in-details': (event, instance) ->
     Modal.show('sourceModal', userEventId: instance.data.userEvent._id)
+
+  'click .tabs li a': (event) ->
+    $(event.currentTarget).blur()

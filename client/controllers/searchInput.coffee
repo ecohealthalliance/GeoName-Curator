@@ -57,7 +57,7 @@ Template.searchInput.events
           else
             $('.loading').show()
 
-  'click .search-icon.toggleable:not(.cancel)': (event, instance) ->
+  'click .search-icon.toggleable:not(.cancel), focusin .search-icon': (event, instance) ->
     searching = instance.searching
     searching.set not searching.get()
     setTimeout ->
@@ -68,3 +68,6 @@ Template.searchInput.events
   'click .cancel, keyup .search': (event, instance) ->
     return if event.type is 'keyup' and event.keyCode isnt 27
     clearSearch(instance)
+
+  'focusin .search-icon': ->
+    console.log 'FOCUSSSSSSS!!'
