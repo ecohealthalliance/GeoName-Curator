@@ -11,7 +11,12 @@ _selectInput = (event, instance, prop, isCheckbox) ->
     prop = instance[prop]
     prop.set(not prop.get())
   else
-    instance[prop].set(instance.$(event.target).attr('for'))
+    clickedInput = instance.$(event.target).attr('for')
+    state = instance[prop]
+    if state.get() is clickedInput
+      state.set(null)
+    else
+      state.set(clickedInput)
 
 Template.incidentForm.onCreated ->
   @incidentStatus = new ReactiveVar('')
