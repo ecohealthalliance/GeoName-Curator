@@ -15,6 +15,24 @@ createNewCalendar = () ->
   calendar.leftCalendar.month = lastMonth
   calendar.updateCalendars()
 
+###
+# prevents checking the scrollTop more than every 50 ms to avoid flicker
+# if the scrollTop is greater than zero, show the 'back-to-top' button
+#
+# @param [object] scrollableElement, the dom element from the scroll event
+###
+debounceCheckTop = _.debounce (scrollableElement) ->
+    top = $(scrollableElement).scrollTop()
+    if top > 0
+      $('.back-to-top').fadeIn()
+    else
+      $('.back-to-top').fadeOut()
+, 50
+
+Template.curatorInbox.onDestroyed ->
+  # cleanup the event handler
+  $('.curator-inbox-sources').off 'scroll'
+
 Template.curatorInbox.onCreated ->
   @calendarState = new ReactiveVar false
   @ready = new ReactiveVar false
@@ -54,6 +72,13 @@ Template.curatorInbox.onCreated ->
       @ready.set(true)
 
 Template.curatorInbox.onRendered ->
+  # determine if our `back-to-top` button should be initially displayed
+  $scrollableElement = $('.curator-inbox-sources')
+  debounceCheckTop($scrollableElement)
+  # fadeIn/Out the `back-to-top` button based on if the div has scrollable content
+  $scrollableElement.on 'scroll', ->
+    debounceCheckTop(@)
+
   Meteor.defer ->
     createNewCalendar()
     @$('[data-toggle="tooltip"]').tooltip
@@ -142,6 +167,13 @@ Template.curatorInbox.events
 
   'click #calendar-btn-cancel': (event, instance) ->
     instance.calendarState.set(false)
+
+  'click .back-to-top': (event, instance) ->
+    event.preventDefault()
+    # animate scrolling back to the top of the scrollable div
+    $('.curator-inbox-sources').stop().animate
+      scrollTop: 0
+    , 500
 
 Template.curatorInboxSection.onCreated ->
   @sourceCount = new ReactiveVar 0
