@@ -243,8 +243,7 @@ Template.curatorInboxSection.helpers
   settings: ->
     instance = Template.instance()
     fields = instance.curatorInboxFields
-
-    id: 'article-curation-table'
+    id: "article-curation-table-#{instance.data.index}"
     showColumnToggles: false
     fields: fields
     showRowCount: false
