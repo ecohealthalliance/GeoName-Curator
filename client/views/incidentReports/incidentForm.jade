@@ -10,7 +10,7 @@ template(name="incidentForm")
         placeholder='Select a source')
       .help-block.with-errors
 
-    .form-group.incident--dates.full-width(class="{{suggestedField 'dateRange'}}")
+    .form-group.incident--dates.full-width.with-tabs(class="{{suggestedField 'dateRange'}}")
       ul.tabs.secondary-tabs(role="tablist")
         li(role="presentation" class="{{dayTabClass}}")
           a(
@@ -78,9 +78,9 @@ template(name="incidentForm")
             checked="{{incidentStatusChecked 'revoked'}}")
           label(for="revoked" tabindex="0") Revoked
 
-    .incident-type-wrapper.form-groups(class="{{#if typeIsSelected}} form-groups--highlighted {{/if}}")
-      .form-group.form-group--full.check-buttons(
-        class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
+    .incident-type-wrapper.form-groups(
+      class="{{#if typeIsSelected}} form-groups--highlighted {{/if}} {{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
+      .form-group.form-group--full.check-buttons
         label.control-label Incident Type
         .container-flex.check-buttons.type.no-break
           .check-button
@@ -116,7 +116,7 @@ template(name="incidentForm")
         .help-block.with-errors
 
       if showCountForm
-        .form-group.form-group--child(class="{{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
+        .form-group.form-group--child
           label.control-label #{selectedIncidentType} Count
           input.form-control(
             name="count"
@@ -142,7 +142,7 @@ template(name="incidentForm")
         .form-group.form-group--child
           label.control-label Integrity
           .container-flex.other-metadata.check-buttons.no-break
-            .check-button(class="{{suggestedField 'cumulative'}}")
+            .check-button
               input(
                 type="checkbox"
                 name="cumulative"
@@ -151,7 +151,7 @@ template(name="incidentForm")
                 checked=incidentData.dateRange.cumulative)
               label.cumulative(for="cumulative" tabindex="0") Cumulative
 
-            .check-button(class="{{suggestedField 'approximate'}}")
+            .check-button
               input(
                 type="checkbox"
                 name="approximate"

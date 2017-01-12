@@ -1,6 +1,15 @@
 $warning-bg = lighten($warning, 90%)
 $warning-border = darken($warning-bg, 12%)
 
+
+.suggested-block
+  content '\f0d0'
+  position absolute
+  right .5em
+  top .5em
+  font(FontAwesome)
+  color darken($warning-bg, 40%)
+
 .suggested
   position relative
   &:not(.full-width)
@@ -22,14 +31,12 @@ $warning-border = darken($warning-bg, 12%)
   .form-control:last-of-type
   .select2-container--default
     margin-bottom .5em
-  &::after
-    content '\f0d0'
-    position absolute
-    right .5em
-    top .25em
-    font(FontAwesome)
-    color darken($warning-bg, 40%)
-  &.incident--dates
-    &:after
-      top 2.5em
-      right 1.5em
+
+  &:not(.with-tabs)
+    &::after
+      @extend .suggested-block
+  &.with-tabs
+    .tab-content
+      position relative
+      &:after
+        @extend .suggested-block
