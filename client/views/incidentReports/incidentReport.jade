@@ -48,8 +48,9 @@ template(name="incidentReport")
                   a.ref-link(href="{{formatUrl(val)}}" target="_blank")
                     span {{formatUrl(val)}}
 
-      .incident-report--details--actions.container-flex.no-break
-        a.edit(aria-label="Edit")
-          i.fa.fa-edit(aria-hidden="true" title="Edit incident report")
-        a.delete(aria-label="Edit")
-          i.fa.fa-trash(aria-hidden="true" title="Delete incident report")
+      if isInRole "admin"
+        .incident-report--details--actions.container-flex.no-break
+          a.edit
+            i.fa.fa-edit(aria-hidden="true" title="Edit incident report")
+          a.delete
+            i.fa.fa-trash(aria-hidden="true" title="Delete incident report")
