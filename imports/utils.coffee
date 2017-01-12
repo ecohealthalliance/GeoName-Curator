@@ -61,8 +61,8 @@ export incidentReportFormToIncident = (form) ->
     status: incidentStatus
     dateRange:
       type: rangeType
-      start: picker.startDate.toDate()
-      end: picker.endDate.toDate()
+      start: moment.utc(picker.startDate.format("YYYY-MM-DD")).toDate()
+      end: moment.utc(picker.endDate.format("YYYY-MM-DD")).toDate()
       cumulative: form.cumulative.checked
 
   switch incidentType || ''
