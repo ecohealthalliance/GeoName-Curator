@@ -54,6 +54,12 @@ Template.sourceModal.onRendered ->
 
   @$('#add-source').validator()
 
+  @autorun =>
+    article = @selectedArticle.get()
+    if article.subject
+      # Trigger input event on url field so datetime is updated
+      @$('#article').trigger('input')
+
 Template.sourceModal.helpers
   timezones: ->
     timezones = []
@@ -74,7 +80,10 @@ Template.sourceModal.helpers
       'save-modal'
 
   title: ->
-    Template.instance().selectedArticle.get().title
+    Template.instance().selectedArticle.get().subject
+
+  url: ->
+    Template.instance().selectedArticle.get().url
 
   suggestedArticles: ->
     Template.instance().suggestedArticles.find()
@@ -167,7 +176,7 @@ Template.sourceModal.events
 
   'input #article': (event, instance) ->
     value = event.currentTarget.value.trim()
-    match = instance.proMEDRegEx.exec(value)
+    match = /promedmail\.org\/post\/(\d+)/ig.exec(value)
     if match
       articleId = Number(match[1])
       Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
@@ -186,11 +195,6 @@ Template.sourceModal.events
   'click #suggested-articles li': (event, instance) ->
     event.preventDefault()
     instance.selectedArticle.set(@)
-    articleInput = instance.find('#article')
-    articleInput.value = @url
-    $(articleInput).trigger('input')
-    titleInput = instance.find('#title')
-    titleInput.value = @subject
 
   'submit form': (event, instance) ->
     instance.formValid.set(not event.isDefaultPrevented())
