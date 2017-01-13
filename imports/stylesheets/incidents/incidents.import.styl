@@ -1,14 +1,24 @@
 @import 'incidentForm.import'
 
 .annotation-text
-  color red
+  padding-left .2em
+  padding-right .2em
+  border-radius 2px
+  text-decoration none
+  for $type, $color in $incident-type-colors
+    &.{$type}
+      background-color $color
 
 .annotation
-  text-decoration underline
   cursor pointer
-
-.annotation.accepted
-  color green
+  background-color: $incident-type-colors.case
+  &:hover
+    background-color darken(@background-color, 30%)
+    color white
+  &.accepted
+    background-color: $incident-type-colors.date
+    &:hover
+      background-color darken(@background-color, 50%)
 
 .suggested-incidents
   margin 30px
@@ -55,8 +65,32 @@
   white-space pre-wrap
 
 .snippet
+  gradientBottom(20px, $block-BG)
+  position relative
+  display flex
+  flex-direction column
+  margin-left -20px
+  margin-right -20px
+  margin-top -11px
+  margin-bottom 1em
+  &.modal-block
+    padding 0
+    label
+      display flex
+      border-top 0
+  label
+    padding 10px 20px
+    border-bottom 1px solid darken($border-primary-light, 5%)
+    margin-top 0
+    h5
+      margin 0
+
+.snippet--text
+  flex 1
+  padding 20px
   max-height 250px
   overflow-y scroll
+  position relative
 
 .warn
   background-color yellow

@@ -268,37 +268,46 @@ Template.suggestedIncidentsModal.events
     incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
     content = Template.instance().content.get()
     displayCharacters = 150
-    [start, end] = incident.countAnnotation.textOffsets[0]
-
-    startingIndex = Math.min(incident.locationTerritory?.territoryStart or start,
-      incident.dateTerritory?.territoryStart or start)
-    precedingText = content.slice(startingIndex, start)
-
-    if startingIndex isnt 0
-      precedingText = "... " + precedingText
-
-    endingIndex = Math.max(incident.locationTerritory?.territoryEnd or end,
-      incident.dateTerritory?.territoryEnd or end)
-    followingText = content.slice(end, endingIndex)
-
-    # Split the following text if it contains multiple new lines
-    split = followingText.split(/\n{2,}/g)
-    if endingIndex isnt (content.length - 1)
-      followingText += " ..."
-
+    incidentAnnotations = [incident.countAnnotation]
+      .concat(incident.dateTerritory?.annotations or [])
+      .concat(incident.locationTerritory?.annotations or [])
+      .filter((x)-> x)
+    incidentAnnotations = _.sortBy(incidentAnnotations, (annotation)->
+      annotation.textOffsets[0][0]
+    )
+    [countStart, countEnd] = incident.countAnnotation.textOffsets[0]
+    startingIndex = Math.min(incident.locationTerritory?.territoryStart or countStart,
+      incident.dateTerritory?.territoryStart or countStart)
+    endingIndex = Math.max(incident.locationTerritory?.territoryEnd or countEnd,
+      incident.dateTerritory?.territoryEnd or countEnd)
+    lastEnd = startingIndex
+    html = ""
+    if incidentAnnotations[0].textOffsets[0] isnt 0
+      html += "..."
+    incidentAnnotations.map (annotation)->
+      [start, end] = annotation.textOffsets[0]
+      type = "case"
+      if annotation in incident.dateTerritory?.annotations
+        type = "date"
+      else if annotation in incident.locationTerritory?.annotations
+        type = "location"
+      html += (
+        Handlebars._escape("#{content.slice(lastEnd, start)}") +
+        """<span class='annotation-text #{type}'>#{
+          Handlebars._escape(content.slice(start, end))
+        }</span>"""
+      )
+      lastEnd = end
+    html += Handlebars._escape("#{content.slice(lastEnd, endingIndex)}")
+    if lastEnd < content.length - 1
+      html += "..."
     Modal.show 'suggestedIncidentModal',
       edit: true
       articles: [instance.data.article]
       userEventId: instance.data.userEventId
       incidentCollection: instance.incidentCollection
       incident: incident
-      incidentText: Spacebars.SafeString(
-        Handlebars._escape(precedingText) +
-        "<span class='annotation-text'>" +
-        Handlebars._escape(content.slice(start, end)) +
-        "</span>" +
-        Handlebars._escape(followingText)
-      )
+      incidentText: Spacebars.SafeString(html)
 
   "click #add-suggestions": (event, instance) ->
     incidentCollection = Template.instance().incidentCollection

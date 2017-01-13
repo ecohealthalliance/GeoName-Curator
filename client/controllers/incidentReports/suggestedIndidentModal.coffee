@@ -10,6 +10,8 @@ Template.suggestedIncidentModal.helpers
   hasSuggestedFields: ->
     Template.instance().incident.suggestedFields.get()
 
+  type: -> [ 'case', 'date', 'location' ]
+
 Template.suggestedIncidentModal.events
   'click .reject': (event, instance) ->
     Template.instance().incidentCollection.update instance.incident._id,
