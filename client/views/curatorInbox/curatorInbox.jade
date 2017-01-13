@@ -32,6 +32,9 @@ template(name="curatorInbox")
               reviewFilter=reviewFilter
               textFilter=textFilter
               selectedSourceId=selectedSourceId)
+          button.btn.btn-primary.btn-wide.back-to-top.space-top-2(type="button" title="Click to return on the top page." data-toggle="tooltip")
+            i.fa.fa-caret-square-o-up
+            span Back to Top
         else
           .loading
     if isReady
