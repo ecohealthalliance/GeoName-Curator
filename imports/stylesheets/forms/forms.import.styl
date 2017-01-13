@@ -33,6 +33,35 @@ input
 
 .form-group
   margin-bottom 1.75em
+  border-top 1px solid transparent
+  border-bottom 1px solid transparent
   label
     margin-bottom .5em
     color $d-gray
+
+.form-group--child
+  margin-left 1em
+
+.form-group--full
+  margin-right -20px
+  margin-left -20px
+  padding 5px 20px
+  margin-bottom 10px
+
+.form-groups
+  margin-right -20px
+  margin-left -20px
+  padding-left 20px
+  padding-right 20px
+  border-top 1px solid transparent
+  border-bottom 1px solid transparent
+  .form-group
+    margin-bottom .5em
+    &:first-of-type
+      margin-bottom 0
+
+.form-groups--highlighted
+  margin-bottom 15px
+  padding-bottom 10px
+  background $block-BG
+  border-color $border-primary

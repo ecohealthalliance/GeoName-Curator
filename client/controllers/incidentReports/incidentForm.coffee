@@ -110,6 +110,9 @@ Template.incidentForm.helpers
     if fieldName in Template.instance().suggestedFields.get()
       "suggested"
 
+  typeIsSelected: ->
+    Template.instance().incidentType.get()
+
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()
