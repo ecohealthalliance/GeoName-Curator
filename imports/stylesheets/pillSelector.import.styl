@@ -33,12 +33,12 @@
     box-shadow 0
     &::before
       color alpha(lighten($primary, 20%), 50%)
-      content '\f058'
+      content '\f058' // fa-check-circle
   &:last-of-type
     margin-right 0
   &::before
     @extend .font-awesome
-    content '\f10c'
+    content '\f10c' // fa-circle-o
     padding-right .25em
     color lighten($m-gray, 50%)
   &.active
@@ -46,7 +46,7 @@
     background lighten($secondary, 30%)
     border-color $secondary
     &::before
-      content '\f058'
+      content '\f058' // fa-check-circle
       color $primary
     &:focus
     &:hover

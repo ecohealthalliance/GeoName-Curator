@@ -42,7 +42,7 @@
           color $primary
           &.open-down
             &::after
-              content '\f13a'
+              content '\f13a' // fa-chevron-circle-down
       &:hover
         .action
           &::after
@@ -60,10 +60,10 @@
           font-family FontAwesome
         &.open-down
           &::after
-            content '\f137'
+            content '\f137' // fa-chevron-circle-left
         &.open-right
           &::after
-            content '\f105'
+            content '\f105' // fa-angle-right
 
   &.featured
     thead
@@ -163,5 +163,5 @@
           &::before
             buttonContent('next', right)
           &::after
-            content '\f0da'
+            content '\f0da' // fa-caret-right
             font(FontAwesome)

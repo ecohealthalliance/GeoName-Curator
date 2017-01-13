@@ -11,7 +11,7 @@
     left 10px
     top 50%
     transform translate(0, -50%)
-    content '\f073'
+    content '\f073' // fa-calendar
     @extend .font-awesome
     z-index 10
   input
@@ -111,12 +111,12 @@
         padding-right 4px
       &.uncheck-all
         &::before
-          content '\f096'
+          content '\f096' // fa-square-o
         &::after
           content 'All'
       &.check-all
         &::before
-          content '\f046'
+          content '\f046' // fa-check-square-o
         &::after
           content 'All'
   .checkbox-controls
@@ -158,7 +158,7 @@
       h2
         color white
       &::after
-        content '\f139'
+        content '\f139' // fa-chevron-circle-up
         color white
   .filter-block
     margin-bottom 5px
@@ -198,7 +198,7 @@
 .mobile-control::before
   @extend .font-awesome
   display inline-block
-  content '\f137'
+  content '\f137' // fa-chevron-circle-left
   margin-right 5px
 
 @media (max-width: 768px)
@@ -229,7 +229,7 @@
         background $secondary
         color white
         &::before
-          content '\f0a9'
+          content '\f0a9' // fa-arrow-circle-right
           font-size 150%
         span
           display none
