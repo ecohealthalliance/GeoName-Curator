@@ -60,8 +60,8 @@ Template.incidentForm.onRendered ->
   instance = @
   datePickerOptions = {}
   if @incidentData.dateRange.start and @incidentData.dateRange.end
-    datePickerOptions.startDate = @incidentData.dateRange.start
-    datePickerOptions.endDate = @incidentData.dateRange.end
+    datePickerOptions.startDate = moment(moment.utc(@incidentData.dateRange.start).format("YYYY-MM-DD"))
+    datePickerOptions.endDate = moment(moment.utc(@incidentData.dateRange.end).format("YYYY-MM-DD"))
   createInlineDateRangePicker(@$('#rangePicker'), datePickerOptions)
   datePickerOptions.singleDatePicker = true
   createInlineDateRangePicker(@$('#singleDatePicker'), datePickerOptions)
