@@ -1,3 +1,4 @@
+@incidents
 Feature: Incident
 
   Background:

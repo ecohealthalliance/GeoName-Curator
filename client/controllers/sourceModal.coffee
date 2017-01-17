@@ -56,7 +56,7 @@ Template.sourceModal.onRendered ->
 
   @autorun =>
     article = @selectedArticle.get()
-    if article.subject
+    if article.url and not article.promedDate
       # Trigger input event on url field so datetime is updated
       @$('#article').trigger('input')
 
@@ -93,7 +93,7 @@ Template.sourceModal.helpers
     Template.instance().loadingArticles.get()
 
   articleSelected: ->
-    @_id is Template.instance().selectedArticle.get()._id
+    @subject is Template.instance().selectedArticle.get().subject
 
   editing: ->
     Template.instance().data.edit
@@ -180,9 +180,9 @@ Template.sourceModal.events
     match = /promedmail\.org\/post\/(\d+)/ig.exec(value)
     if match
       articleId = Number(match[1])
-      Meteor.call 'retrieveProMedArticleDate', articleId, (error, result) ->
-        if result
-          date = moment.utc(result)
+      Meteor.call 'retrieveProMedArticle', articleId, (error, article) ->
+        if article
+          date = moment.utc(article.promedDate)
           # Aproximate DST for New York timezone
           daylightSavings = moment.utc("#{date.year()}-03-08") <= date
           daylightSavings = daylightSavings and moment.utc(
@@ -192,6 +192,7 @@ Template.sourceModal.events
           instance.$('#publishDateTZ').val(tz)
           _setDatePicker(instance.datePicker, date)
           instance.$('#publishTime').data('DateTimePicker').date(date)
+          instance.selectedArticle.set(article)
 
   'click #suggested-articles li': (event, instance) ->
     event.preventDefault()
