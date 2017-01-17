@@ -2,9 +2,10 @@ template(name="incidentForm")
 
   form#add-incident(novalidate)
     .form-group.form-group--full
-      label.control-label(
+      label.control-label.with-info-tooltip(
         data-toggle="tooltip"
-        title="The URL of the article where the incident was reported."
+        data-placement="right"
+        title="URL of the article where the incident was reported."
       ) Source URL
       +articleSelect2(
         selectId="articleSource"
@@ -16,9 +17,10 @@ template(name="incidentForm")
     .incident-type-wrapper.form-groups(
       class="{{#if typeIsSelected}} form-groups--highlighted {{/if}} {{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
       .form-group.form-group--full.check-buttons
-        label.control-label(
+        label.control-label.with-info-tooltip(
           data-toggle="tooltip"
-          title="Incidents are generally reports of case counts or death counts with an associated location an time. A free-text description of some other type of incident may be used instead."
+          data-placement="right"
+          title="Incidents are generally reports of case counts or death counts with an associated location and time. A free-text description of some other type of incident may be used instead."
         ) Incident Type
         .container-flex.check-buttons.type.no-break
           .check-button
@@ -77,8 +79,9 @@ template(name="incidentForm")
             tabindex="0")
 
       .form-group.form-group--child(hidden=typeIsNotSelected)
-        label.control-label(
+        label.control-label.with-info-tooltip(
           data-toggle="tooltip"
+          data-placement="right"
           title='Cumulative counts include all cases since the start of the outbreak. E.g. "So far there have been 21 cases."\nApproximate counts specify an imprecise number. E.g. "There were at least 100 deaths."'
         ) Count Attributes
         .container-flex.other-metadata.check-buttons.no-break
@@ -102,19 +105,21 @@ template(name="incidentForm")
 
     .form-group.incident--dates.full-width.with-tabs(class="{{suggestedField 'dateRange'}}")
       ul.tabs.secondary-tabs(role="tablist")
-        li(role="presentation"
+        li.with-info-tooltip(role="presentation"
           class="{{dayTabClass}}"
           data-toggle="tooltip"
+          data-placement="top"
           title='For incidents that occurred on a precise date. E.g. "There were 2 new patients admitted on March 11."')
           a(
             href="#singleDate"
             aria-controls="single Date"
             role="tab"
             data-toggle="tab") Single Date
-        li(
+        li.with-info-tooltip(
           role="presentation"
           class="{{rangeTabClass}}"
           data-toggle="tooltip"
+          data-placement="top"
           title='For incidents that occurred over multiple days or for which a precise date is unspecified. E.g. "There were 5 cases in the month of March."')
           a(
             href="#preciseRange"
@@ -130,9 +135,10 @@ template(name="incidentForm")
           #rangePicker.inlineRangePicker
 
     .form-group.form-group--full(class="{{suggestedField 'locations'}}")
-      label.control-label(
+      label.control-label.with-info-tooltip(
         data-toggle="tooltip"
-        title="The location where the incident occurred. If the most precise location is unavailable use the location one administrative division above. E.g. if the city isn't listed use the state."
+        data-placement="right"
+        title="Location where the incident occurred. If the most precise location is unavailable, use the location one administrative division above. E.g. if the city isn't listed use the state."
       ) Locations
       +locationSelect2(
         selectId="incident-location-select2"
@@ -141,18 +147,20 @@ template(name="incidentForm")
       .help-block.with-errors
 
     .form-group.form-group--full(class="{{suggestedField 'species'}}")
-      label.control-label(
+      label.control-label.with-info-tooltip(
         data-toggle="tooltip"
-        title="The species the case or death count pertains to.") Species
+        data-placement="right"
+        title="Species to which the case or death count pertains.") Species
       input.form-control(
         type="text"
         name="species"
         value=incidentData.species)
 
     .form-group.form-group--full.check-buttons(class="{{suggestedField 'status'}}")
-      label.control-label(
+      label.control-label.with-info-tooltip(
         data-toggle="tooltip"
-        title="The confirmation status of the incident. If unknown leave blank."
+        data-placement="right"
+        title="Confirmation status of the incident. If unknown, leave blank."
       ) Status
       .container-flex.check-buttons.status.no-break
         .check-button

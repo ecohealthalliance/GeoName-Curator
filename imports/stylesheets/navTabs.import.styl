@@ -71,7 +71,14 @@
 .secondary-tabs
   border-bottom 1px solid $border-primary
   > li
+    position relative
     > a
       font-size 1em
       padding-top .35em
       padding-bottom .35em
+    &.with-info-tooltip
+      &:after
+        position absolute
+        top .1em
+        right .5em
+        font-size .8em
