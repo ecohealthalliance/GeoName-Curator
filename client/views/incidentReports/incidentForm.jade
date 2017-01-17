@@ -2,7 +2,10 @@ template(name="incidentForm")
 
   form#add-incident(novalidate)
     .form-group.form-group--full
-      label.control-label Source URL
+      label.control-label(
+        data-toggle="tooltip"
+        title="The URL of the article where the incident was reported."
+      ) Source URL
       +articleSelect2(
         selectId="articleSource"
         articles=articles
@@ -10,78 +13,13 @@ template(name="incidentForm")
         placeholder='Select a source')
       .help-block.with-errors
 
-    .form-group.incident--dates.full-width.with-tabs(class="{{suggestedField 'dateRange'}}")
-      ul.tabs.secondary-tabs(role="tablist")
-        li(role="presentation" class="{{dayTabClass}}")
-          a(
-            href="#singleDate"
-            aria-controls="single Date"
-            role="tab"
-            data-toggle="tab") Single Date
-        li(role="presentation" class="{{rangeTabClass}}")
-          a(
-            href="#preciseRange"
-            aria-controls="date range"
-            role="tab"
-            data-toggle="tab") Date Range
-
-      .tab-content
-        #singleDate.tab-pane(role="tabpanel" class="{{dayTabClass}}")
-          #singleDatePicker.inlineRangePicker
-
-        #preciseRange.tab-pane(role="tabpanel" class="{{rangeTabClass}}")
-          #rangePicker.inlineRangePicker
-
-    .form-group.form-group--full(class="{{suggestedField 'locations'}}")
-      label.control-label Location
-      +locationSelect2(
-        selectId="incident-location-select2"
-        multiple="true"
-        selected=incidentData.locations)
-      .help-block.with-errors
-
-    .form-group.form-group--full(class="{{suggestedField 'species'}}")
-      label.control-label Species
-      input.form-control(
-        type="text"
-        name="species"
-        value=incidentData.species)
-
-    .form-group.form-group--full.check-buttons(class="{{suggestedField 'status'}}")
-      label.control-label Status
-      .container-flex.check-buttons.status.no-break
-        .check-button
-          input(
-            type="radio"
-            name="incidentStatus"
-            id="suspected"
-            value="suspected"
-            tabindex="-1"
-            checked="{{incidentStatusChecked 'suspected'}}")
-          label(for="suspected" tabindex="0") Suspected
-        .check-button
-          input(
-            type="radio"
-            name="incidentStatus"
-            id="confirmed"
-            value="confirmed"
-            tabindex="-1"
-            checked="{{incidentStatusChecked 'confirmed'}}")
-          label(for="confirmed" tabindex="0") Confirmed
-        .check-button
-          input(
-            type="radio"
-            name="incidentStatus"
-            id="revoked"
-            value="revoked"
-            tabindex="-1"
-            checked="{{incidentStatusChecked 'revoked'}}")
-          label(for="revoked" tabindex="0") Revoked
-
     .incident-type-wrapper.form-groups(
       class="{{#if typeIsSelected}} form-groups--highlighted {{/if}} {{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
       .form-group.form-group--full.check-buttons
-        label.control-label Incident Type
+        label.control-label(
+          data-toggle="tooltip"
+          title="Incidents are generally reports of case counts or death counts with an associated location an time. A free-text description of some other type of incident may be used instead."
+        ) Incident Type
         .container-flex.check-buttons.type.no-break
           .check-button
             input(
@@ -138,27 +76,112 @@ template(name="incidentForm")
             value=incidentData.value
             tabindex="0")
 
-      if typeIsSelected
-        .form-group.form-group--child
-          label.control-label Integrity
-          .container-flex.other-metadata.check-buttons.no-break
-            .check-button
-              input(
-                type="checkbox"
-                name="cumulative"
-                id="cumulative"
-                tabindex="-1"
-                checked=incidentData.dateRange.cumulative)
-              label.cumulative(for="cumulative" tabindex="0") Cumulative
+      .form-group.form-group--child(hidden=typeIsNotSelected)
+        label.control-label(
+          data-toggle="tooltip"
+          title='Cumulative counts include all cases since the start of the outbreak. E.g. "So far there have been 21 cases."\nApproximate counts specify an imprecise number. E.g. "There were at least 100 deaths."'
+        ) Count Attributes
+        .container-flex.other-metadata.check-buttons.no-break
+          .check-button
+            input(
+              type="checkbox"
+              name="cumulative"
+              id="cumulative"
+              tabindex="-1"
+              checked=incidentData.dateRange.cumulative)
+            label.cumulative(for="cumulative" tabindex="0") Cumulative
 
-            .check-button
-              input(
-                type="checkbox"
-                name="approximate"
-                id="approximate"
-                tabindex="-1"
-                checked=incidentData.approximate)
-              label.cumulative(for="approximate" tabindex="0") Approximate
+          .check-button
+            input(
+              type="checkbox"
+              name="approximate"
+              id="approximate"
+              tabindex="-1"
+              checked=incidentData.approximate)
+            label.cumulative(for="approximate" tabindex="0") Approximate
+
+    .form-group.incident--dates.full-width.with-tabs(class="{{suggestedField 'dateRange'}}")
+      ul.tabs.secondary-tabs(role="tablist")
+        li(role="presentation"
+          class="{{dayTabClass}}"
+          data-toggle="tooltip"
+          title='For incidents that occurred on a precise date. E.g. "There were 2 new patients admitted on March 11."')
+          a(
+            href="#singleDate"
+            aria-controls="single Date"
+            role="tab"
+            data-toggle="tab") Single Date
+        li(
+          role="presentation"
+          class="{{rangeTabClass}}"
+          data-toggle="tooltip"
+          title='For incidents that occurred over multiple days or for which a precise date is unspecified. E.g. "There were 5 cases in the month of March."')
+          a(
+            href="#preciseRange"
+            aria-controls="date range"
+            role="tab"
+            data-toggle="tab") Date Range
+
+      .tab-content
+        #singleDate.tab-pane(role="tabpanel" class="{{dayTabClass}}")
+          #singleDatePicker.inlineRangePicker
+
+        #preciseRange.tab-pane(role="tabpanel" class="{{rangeTabClass}}")
+          #rangePicker.inlineRangePicker
+
+    .form-group.form-group--full(class="{{suggestedField 'locations'}}")
+      label.control-label(
+        data-toggle="tooltip"
+        title="The location where the incident occurred. If the most precise location is unavailable use the location one administrative division above. E.g. if the city isn't listed use the state."
+      ) Locations
+      +locationSelect2(
+        selectId="incident-location-select2"
+        multiple="true"
+        selected=incidentData.locations)
+      .help-block.with-errors
+
+    .form-group.form-group--full(class="{{suggestedField 'species'}}")
+      label.control-label(
+        data-toggle="tooltip"
+        title="The species the case or death count pertains to.") Species
+      input.form-control(
+        type="text"
+        name="species"
+        value=incidentData.species)
+
+    .form-group.form-group--full.check-buttons(class="{{suggestedField 'status'}}")
+      label.control-label(
+        data-toggle="tooltip"
+        title="The confirmation status of the incident. If unknown leave blank."
+      ) Status
+      .container-flex.check-buttons.status.no-break
+        .check-button
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="suspected"
+            value="suspected"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'suspected'}}")
+          label(for="suspected" tabindex="0") Suspected
+        .check-button
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="confirmed"
+            value="confirmed"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'confirmed'}}")
+          label(for="confirmed" tabindex="0") Confirmed
+        .check-button
+          input(
+            type="radio"
+            name="incidentStatus"
+            id="revoked"
+            value="revoked"
+            tabindex="-1"
+            checked="{{incidentStatusChecked 'revoked'}}")
+          label(for="revoked" tabindex="0") Revoked
 
     .form-group.form-group--full
       label.control-label Other Information

@@ -58,6 +58,7 @@ Template.incidentForm.onCreated ->
 
 Template.incidentForm.onRendered ->
   instance = @
+  @$('[data-toggle=tooltip]').tooltip()
   datePickerOptions = {}
   if @incidentData.dateRange.start and @incidentData.dateRange.end
     datePickerOptions.startDate = moment(moment.utc(@incidentData.dateRange.start).format("YYYY-MM-DD"))
@@ -113,6 +114,8 @@ Template.incidentForm.helpers
   typeIsSelected: ->
     Template.instance().incidentType.get()
 
+  typeIsNotSelected: ->
+    not Template.instance().incidentType.get()
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()
