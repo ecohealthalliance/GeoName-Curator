@@ -3,6 +3,7 @@ do ->
 
   module.exports = ->
 
+    screenshotPath = './screenshots/incident'
     scrollWithinModal = (client, selector, element, padding) ->
       client.execute (selector, element, padding) ->
         offset = $(element).first().offset()
@@ -67,12 +68,17 @@ do ->
         scrollWithinModal(@client, '#suggestedIncidentModal',
             'button.save-modal[type="button"]', -200)
         @client.clickWhenVisible('button.save-modal[type="button"]')
+        @client.saveScreenshot "#{screenshotPath}/add-first-suggested-incident-report.png"
         @client.pause(2000)
         return true
       throw new Error 'There was a problem loading suggested incident reports.'
 
     @Then /^I can "([^"]*)" suggestions$/, (action) ->
-      if action is 'cancel'
+      if action is 'abandon'
+        scrollWithinModal(@client,
+            '#suggestedIncidentsModal div.suggested-incidents-wrapper',
+            'button.confirm-close-modal[type="button"]', -200)
+        @client.saveScreenshot "#{screenshotPath}/abandon-suggested-incidents.png"
         @client.clickWhenVisible('button.confirm-close-modal[type="button"]')
         # confirm close modal
         @client.waitForVisible('#cancelConfirmationModal')
@@ -84,6 +90,7 @@ do ->
         expectedNumber = parseInt(@client.elementIdText(elements.value[0].ELEMENT).value, 10) + 1
       catch
         throw new Error 'Cound not get actual number of incident reports.'
+      @client.saveScreenshot "#{screenshotPath}/confirm-suggested-incidents.png"
       # click add-suggestions button
       @client.clickWhenVisible('#add-suggestions')
       @client.pause(2000)
