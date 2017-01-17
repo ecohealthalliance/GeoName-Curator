@@ -41,7 +41,6 @@ checkIncidentTypeValue = (form, input) ->
 
 export incidentReportFormToIncident = (form) ->
   $form = $(form)
-  $articleSelect = $(form.articleSource)
   if $form.find('#singleDate').hasClass('active')
     rangeType = 'day'
     $pickerContainer = $form.find('#singleDatePicker')
@@ -77,9 +76,13 @@ export incidentReportFormToIncident = (form) ->
       toastr.error("Unknown incident type [#{incidentType}]")
       return
 
-  for child in $articleSelect.select2('data')
-    if child.selected
-      incident.url = [child.text.trim()]
+  articleSourceUrl = form.articleSourceUrl
+  if articleSourceUrl
+    incident.url = [articleSourceUrl.value]
+  else
+    for child in $(form.articleSource).select2('data')
+      if child.selected
+        incident.url = [child.text.trim()]
 
   $loc = $(form).find('#incident-location-select2')
   for option in $loc.select2('data')

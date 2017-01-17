@@ -117,6 +117,10 @@ Template.incidentForm.helpers
 
   typeIsNotSelected: ->
     not Template.instance().incidentType.get()
+
+  articleSourceUrl: ->
+    Template.instance().data.articles[0]?.url
+
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()

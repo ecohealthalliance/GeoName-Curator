@@ -1,18 +1,21 @@
 template(name="incidentForm")
 
   form#add-incident(novalidate)
-    .form-group.form-group--full
-      label.control-label.with-info-tooltip(
-        data-toggle="tooltip"
-        data-placement="right"
-        title="URL of the article where the incident was reported."
-      ) Source URL
-      +articleSelect2(
-        selectId="articleSource"
-        articles=articles
-        selected=incidentData.articleSource
-        placeholder='Select a source')
-      .help-block.with-errors
+    if confirmation
+      input(type="hidden" name="articleSourceUrl" value=articleSourceUrl)
+    else
+      .form-group.form-group--full
+        label.control-label.with-info-tooltip(
+          data-toggle="tooltip"
+          data-placement="right"
+          title="URL of the article where the incident was reported."
+        ) Source URL
+        +articleSelect2(
+          selectId="articleSource"
+          articles=articles
+          selected=incidentData.articleSource
+          placeholder='Select a source')
+        .help-block.with-errors
 
     .incident-type-wrapper.form-groups(
       class="{{#if typeIsSelected}} form-groups--highlighted {{/if}} {{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
