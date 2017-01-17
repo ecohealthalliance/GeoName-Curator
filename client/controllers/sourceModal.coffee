@@ -80,7 +80,8 @@ Template.sourceModal.helpers
       'save-modal'
 
   title: ->
-    Template.instance().selectedArticle.get().subject
+    article = Template.instance().selectedArticle.get()
+    article.title or article.subject
 
   url: ->
     Template.instance().selectedArticle.get().url
