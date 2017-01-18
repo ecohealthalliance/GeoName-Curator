@@ -160,7 +160,6 @@ Template.incidentForm.events
     _removeSuggestedProperties(instance, ['cumulative'])
 
   'submit form': (event, instance) ->
-    instance.$(event.currentTarget).validator()
     prevented = event.isDefaultPrevented()
     instance.data.valid.set(not prevented)
     if prevented

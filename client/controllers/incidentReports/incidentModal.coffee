@@ -8,9 +8,6 @@ Template.incidentModal.helpers
   valid: ->
     Template.instance().valid
 
-  formIsValid: ->
-    Template.instance().valid.get()
-
 Template.incidentModal.events
   'click .save-modal, click .save-modal-duplicate': (event, instance) ->
     # Submit the form to trigger validation and to update the 'valid'
