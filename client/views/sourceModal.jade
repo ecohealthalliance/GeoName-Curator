@@ -32,7 +32,7 @@ template(name="sourceModal")
               input#title.form-control.new-title(
                 type="text"
                 name="title"
-                value="{{title}}"
+                value=title
                 required)
               .help-block.with-errors
 
@@ -43,6 +43,7 @@ template(name="sourceModal")
               else
                 input#article.form-control.new-article(
                   type="url"
+                  value=url
                   name="article"
                   required)
               .help-block.with-errors
