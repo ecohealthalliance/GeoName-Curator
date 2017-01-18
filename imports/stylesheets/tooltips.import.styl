@@ -48,3 +48,14 @@
         background-color $tooltip-BG-color
       & > .tooltip-arrow
         border-{direction}-color $tooltip-BG-color
+
+.with-info-tooltip
+  &::after
+    content '\f05a' // fa-info-circle
+    display inline-block
+    icon()
+    color darken($border-primary, 40%)
+    margin-left .5em
+  &:hover
+    &::after
+      color $primary
