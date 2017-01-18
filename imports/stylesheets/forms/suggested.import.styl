@@ -40,3 +40,24 @@ $warning-border = darken($warning-bg, 12%)
       position relative
       &:after
         @extend .suggested-block
+
+#suggestedIncidentModal
+  +above(4)
+    .modal-dialog
+      width 90%
+    .modal-header
+      border-color $border-primary-m
+    .modal-body
+      padding 0
+      display flex
+    .annotated-content
+    #add-incident
+      flex 1 1 50%
+    #add-incident
+      padding 0 20px
+    .annotated-content
+      margin 0
+      border 0
+      border-right 1px solid $border-primary-m
+    .snippet--text
+      max-height none
