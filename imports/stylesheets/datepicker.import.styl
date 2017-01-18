@@ -1,3 +1,5 @@
+$today-highlight = lighten($highlight, 70%)
+
 .bootstrap-datetimepicker-widget
   &.dropdown-menu
     border 1px solid $border-primary-light
@@ -114,7 +116,7 @@
     min-width 15px
   .daterangepicker .calendar td.today
     border-radius 4px
-    background $highlight
+    background $today-highlight
     color white
     font-weight 600
     &::after
@@ -205,7 +207,7 @@
           background $secondary
     .today
       &:not(.in-range)
-        background lighten($delete, 50%)
+        background $today-highlight
         font-weight 600
       &.off
         background desaturate(lighten($delete, 60%), 50%)
