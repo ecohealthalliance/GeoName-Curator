@@ -9,6 +9,12 @@ do ->
         offset = $(element).first().offset()
         $(selector).scrollTop(offset.top + padding)
       , selector, element, padding
+    # workaround for https://github.com/ariya/phantomjs/issues/13896
+    setCalcHeight = (client, selector) ->
+      client.execute (selector) ->
+        height = $(window).height() - 236
+        $(selector).css({height: "#{height}px"})
+      , selector
 
     firstEvent = '.reactive-table tbody tr:first-child'
 
@@ -74,10 +80,8 @@ do ->
       throw new Error 'There was a problem loading suggested incident reports.'
 
     @Then /^I can "([^"]*)" suggestions$/, (action) ->
+      setCalcHeight(@client, '.suggested-incidents-wrapper')
       if action is 'abandon'
-        scrollWithinModal(@client,
-            '#suggestedIncidentsModal div.suggested-incidents-wrapper',
-            'button.confirm-close-modal[type="button"]', -200)
         @client.saveScreenshot "#{screenshotPath}/abandon-suggested-incidents.png"
         @client.clickWhenVisible('button.confirm-close-modal[type="button"]')
         # confirm close modal
