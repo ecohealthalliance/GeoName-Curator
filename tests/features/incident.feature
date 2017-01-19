@@ -10,7 +10,6 @@ Feature: Incident
     Then I should see a "success" toast
     And I should see a scatter plot group with count "100000001"
 
-  @watch
   Scenario: Add suggested source and abandon changes
     When I navigate to "/user-events"
     And I click the first item in the event list
@@ -18,7 +17,6 @@ Feature: Incident
     And I add the first suggested incident report
     Then I can "abandon" suggestions
 
-  @watch
   Scenario: Add suggested source and confirm changes
     When I navigate to "/user-events"
     And I click the first item in the event list
