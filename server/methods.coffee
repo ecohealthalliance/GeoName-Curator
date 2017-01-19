@@ -22,8 +22,6 @@ Meteor.methods
     params =
       api_key: "Cr9LPAtL"
       returnSourceContent: true
-      # formatUrl takes a database cleanUrl and adds 'http://'
-      url: formatUrl(article.url)
     if article.publishDate or article.addedDate
       params.content_date = moment.utc(
         article.publishDate or article.addedDate
@@ -31,7 +29,8 @@ Meteor.methods
     if article.content
       params.content = article.content
     else if article.url
-      params.url = article.url
+      # formatUrl takes a database cleanUrl and adds 'http://'
+      params.url = formatUrl(article.url)
     else
       Meteor.Error("InvalidArticle", "Content or a URL must be specified")
     result = HTTP.post(GRITS_API_URL + "/public_diagnose", params: params)
