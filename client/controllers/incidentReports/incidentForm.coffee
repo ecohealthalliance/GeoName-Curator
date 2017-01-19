@@ -79,10 +79,6 @@ Template.incidentForm.onRendered ->
     Meteor.defer =>
       @$('#add-incident').validator('update')
 
-  if not @incidentData.locations.length
-    _removeSuggestedProperties(@, ['locations'])
-    @$('#add-incident').validator('validate')
-
 Template.incidentForm.helpers
   incidentData: ->
     Template.instance().incidentData
