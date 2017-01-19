@@ -20,7 +20,8 @@ template(name="suggestedIncidentModal")
           +incidentForm(
             articles=articles
             incident=incident
-            edit=true)
+            edit=true
+            confirmation=true)
         .modal-footer
           button.btn.btn-default.reject(type="button" data-dismiss="modal") Reject
           button.btn.btn-primary.save-modal(type="button") Confirm
