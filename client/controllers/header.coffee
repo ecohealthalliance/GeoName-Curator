@@ -5,8 +5,9 @@ Template.navLinks.events
     $(event.currentTarget).removeClass('open')
   'click': (e) ->
     #check event.target's class to see if the click was meant to open/close a dropdown
-    if not $(e.target).hasClass("dropdown-toggle-nav") and $('.navbar-toggle').is(':visible')
-      $('.navbar-collapse').collapse('toggle')
+    if $(e.target).hasClass('dropown') and $(e.target).hasClass('open')
+      $(event.currentTarget).removeClass('open')
+
   "click #logOut": ->
     Meteor.logout()
 
