@@ -1,7 +1,9 @@
 Template.reactiveTable.onRendered ->
   if @data.settings.keyboardFocus
-    attrs = tabindex: '0'
-    @$('tbody > tr').attr(attrs)
+    @autorun =>
+      if @context.ready.get()
+        Meteor.defer =>
+          @$('tbody > tr').attr(tabindex: '0')
 
 Template.reactiveTable.events
   'click tbody > tr': (event, instance) ->
