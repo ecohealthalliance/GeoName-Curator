@@ -17,7 +17,30 @@ template(name="suggestedIncidentsModal")
                 unless incidentsFound
                   .warn No incident reports could be automatically extracted from the article.
                 p.annotated-content=annotatedContent
+                hr
+                if showTable
+                  table.incident-table
+                    thead
+                      tr
+                        th.count-header Case Count
+                        th.count-header Death Count
+                        th Start Date
+                        th End Date
+                        th.locations-header Locations
+                    tbody
+                      each incidents
+                        tr
+                          td.count(data-incident-id=_id)=cases
+                          td.count(data-incident-id=_id)=deaths
+                          td
+                            unless dateRange.cumulative
+                              | {{formatDateISO dateRange.start}}
+                          td {{formatDateISO dateRange.end}}
+                          td {{formatLocations locations}}
         .modal-footer
           button.btn.btn-default.confirm-close-modal(type="button" data-dismiss="modal") Close
-          button.btn.btn-default#non-suggested-incident(type="button") Add New Incident
-          button.btn.btn-primary#add-suggestions(type="button") Add Confirmed Suggestions
+          if showTable
+            button.btn.btn-default#save-csv(type="button" data-type="csv") Save CSV
+          else
+            button.btn.btn-default#non-suggested-incident(type="button") Add New Incident
+            button.btn.btn-primary#add-suggestions(type="button") Add Confirmed Suggestions

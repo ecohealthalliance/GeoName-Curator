@@ -12,11 +12,15 @@
 .annotation
   cursor pointer
   background-color: $incident-type-colors.case
+  &.uncertain
+    background-color transparent
+    text-decoration underline
   &:hover
     background-color darken(@background-color, 30%)
     color white
   &.accepted
     background-color: $incident-type-colors.date
+    text-decoration none
     &:hover
       background-color darken(@background-color, 50%)
 
@@ -88,3 +92,26 @@
 
 .warn
   background-color yellow
+
+.incident-table
+  tr
+    border-bottom 1px solid gray
+  td
+  th
+    padding 5px
+  .count-header
+    width 50px
+  .locations-header
+    width 300px
+  .count
+    color blue
+    text-decoration underline
+    cursor pointer
+
+.submit-page
+  margin-top 30px
+
+.submit-text
+  min-height 400px
+  @media (max-height:700px)
+    min-height 210px

@@ -3,6 +3,9 @@ formatLocation = require '/imports/formatLocation.coffee'
 UI.registerHelper 'formatLocation', (location)->
   return formatLocation(location)
 
+UI.registerHelper 'formatLocations', (locations)->
+  return locations.map(formatLocation).join('; ')
+
 UI.registerHelper 'formatDateRange', (dateRange)->
   return formatDateRange(dateRange)
 
@@ -31,6 +34,9 @@ UI.registerHelper 'incidentToText', (incident) ->
 UI.registerHelper 'formatDate', (date) ->
   moment(date).format("MMM DD, YYYY")
 
+UI.registerHelper 'formatDateISO', (date) ->
+  moment.utc(date).format("YYYY-MM-DDTHH:mm")
+
 pluralize = (word, count, showCount=true) ->
   if Number(count) isnt 1
     word += "s"
@@ -40,17 +46,17 @@ formatDateRange = (dateRange, readable)->
   dateFormat = "MMM D, YYYY"
   if dateRange.type is "day"
     if dateRange.cumulative
-      return "before " + moment(dateRange.end).format(dateFormat)
+      return "before " + moment.utc(dateRange.end).format(dateFormat)
     else
       if readable
-        return "on " + moment(dateRange.start).format(dateFormat)
+        return "on " + moment.utc(dateRange.start).format(dateFormat)
       else
-        return moment(dateRange.start).format(dateFormat)
+        return moment.utc(dateRange.start).format(dateFormat)
   else if dateRange.type is "precise"
     if readable
-      return "between " + moment(dateRange.start).format(dateFormat) + " and " + moment(dateRange.end).format(dateFormat)
+      return "between " + moment.utc(dateRange.start).format(dateFormat) + " and " + moment.utc(dateRange.end).format(dateFormat)
     else
-      return moment(dateRange.start).format(dateFormat) + " - " + moment(dateRange.end).format(dateFormat)
+      return moment.utc(dateRange.start).format(dateFormat) + " - " + moment.utc(dateRange.end).format(dateFormat)
   return ""
 
 module.exports =
