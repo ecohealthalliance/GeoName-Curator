@@ -1,3 +1,6 @@
+Template.reactiveTable.onCreated ->
+  @data.settings.keyboardFocus ?= true
+
 Template.reactiveTable.onRendered ->
   if @data.settings.keyboardFocus
     @autorun =>

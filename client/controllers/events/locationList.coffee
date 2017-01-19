@@ -52,7 +52,6 @@ Template.locationList.helpers
     showRowCount: false
     class: 'table'
     filters: ['locationFilter']
-    keyboardFocus: true
 
   searchSettings: ->
     id: 'locationFilter'

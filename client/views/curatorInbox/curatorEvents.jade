@@ -25,7 +25,7 @@ template(name="curatorEvents")
       associatedEventIdsToArticles=associatedEventIdsToArticles)
 
   .all-events.curator-events(role="button" title="Toggle All Events")
-    .curator-events-header.all-events.toggleable
+    .curator-events-header.all-events.toggleable(tabindex="0")
       h4 All Events
       .curator-events--options
         .filter-wrapper(class="{{#unless allEventsOpen }} subtle {{/unless}}")
@@ -59,7 +59,11 @@ template(name="curatorEventSearchRow")
       button.btn.btn-sm.btn-primary.suggest-incidents
         i.fa.fa-plus-circle(aria-hidden="true")
         span Incident
-    a.fa.fa-info-circle.event-info(href="/user-event/#{_id}" target="_blank" title="View event details")
+    a.fa.fa-info-circle.event-info(
+      href="/user-event/#{_id}"
+      target="_blank"
+      title="View event details"
+      tabindex="-1")
 
 template(name="curatorEventIncidents")
   td(colspan="2" class="tr-incidents-wrapper")

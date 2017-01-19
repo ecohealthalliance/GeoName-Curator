@@ -50,6 +50,9 @@ $header-BG = $border-primary-light
       i
         transform scale(1.1)
         transition transform 0.1s ease-in-out
+    &:focus
+      noBootstrapFocus()
+      background $focus-secondary
 
 .curator-inbox-options
   position relative
@@ -111,7 +114,11 @@ $header-BG = $border-primary-light
   border-top 1px solid darken($border-primary-light, 5%)
   border-bottom 1px solid darken($border-primary-light, 5%)
   &:hover
+  &:focus
     border-color $border-primary
+  &:focus
+    noBootstrapFocus()
+    background $focus-secondary
 
 .curator-inbox-section-head
   justify-content space-around
@@ -181,6 +188,7 @@ $header-BG = $border-primary-light
       vertical-align middle
       color $primary
       &:hover
+      &:focus
         color $highlight
 
   &.reviewed
@@ -251,9 +259,10 @@ $header-BG = $border-primary-light
         padding-left 3em
         padding-right 3em
       &:hover
-      &:focus
         background darken(@background, 10%)
         color darken(@color, 10%)
+      &:focus
+        @extend .btn-success
     &.reviewed
       min-width 125px
       transition .3s

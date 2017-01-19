@@ -1,5 +1,6 @@
 CuratorSources = require '/imports/collections/curatorSources.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
+{ keyboardSelect } = require '/imports/utils'
 
 createNewCalendar = () ->
   createInlineDateRangePicker($("#date-picker"), {
@@ -288,8 +289,12 @@ Template.curatorInboxSection.helpers
         'selected'
 
 Template.curatorInboxSection.events
-  'click .curator-inbox-table tbody tr': (event, instance) ->
+  'click .curator-inbox-table tbody tr
+    , keyup .curator-inbox-table tbody tr': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     instance.data.selectedSourceId.set(@_id)
 
-  'click .curator-inbox-section-head': (event, instance) ->
+  'click .curator-inbox-section-head
+    , keyup .curator-inbox-section-head': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     instance.isOpen.set(!instance.isOpen.curValue)

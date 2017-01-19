@@ -28,6 +28,14 @@
           > td::after
           > td::before
             color $primary-dark
+      a
+        &:not(.plain-focus)
+          &:focus
+            padding-left 0
+            padding-right 0
+            border 0
+            font-weight 600
+
 .table
 .reactive-table
   &.static-rows

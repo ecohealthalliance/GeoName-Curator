@@ -57,7 +57,6 @@ Template.articles.helpers
     showRowCount: false
     class: 'table event-sources'
     filters: ['sourceFilter']
-    keyboardFocus: true
 
   selectedSource: ->
     selectedId = Template.instance().selectedSourceId.get()
@@ -90,7 +89,8 @@ Template.articles.helpers
     props: ['title']
 
 Template.articles.events
-  'click #event-sources-table tbody tr, keyup #event-sources-table tbody tr': (event, instance) ->
+  'click #event-sources-table tbody tr
+    , keyup #event-sources-table tbody tr': (event, instance) ->
     event.preventDefault()
     return if not keyboardSelect(event) and event.type is 'keyup'
     instance.selectedSourceId.set @_id

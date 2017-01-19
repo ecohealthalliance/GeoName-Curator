@@ -1,5 +1,6 @@
 import UserEvents from '/imports/collections/userEvents.coffee'
 import CuratorSources from '/imports/collections/curatorSources.coffee'
+{ keyboardSelect } = require '/imports/utils'
 
 ###
 # Template.suggestedEvents - creates a reactive table to be display as part of
@@ -94,9 +95,12 @@ Template.suggestedEvents.helpers
     currentPage: 1
     rowsPerPage: 5
     class: 'table static-rows curator-events-table'
+    keyboardFocus: false
 
 Template.suggestedEvents.events
   # event handler to toggle the reactive var isOpen
-  'click .curator-events-header.suggested-events': (event, template) ->
+  'click .curator-events-header.suggested-events
+    , keyup .curator-events-header.suggested-events': (event, template) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     headerState = template.headerState
     headerState.set not headerState.get()
