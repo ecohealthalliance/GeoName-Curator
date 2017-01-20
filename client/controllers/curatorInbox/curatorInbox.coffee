@@ -174,6 +174,7 @@ Template.curatorInbox.events
     $('.curator-inbox-sources').stop().animate
       scrollTop: 0
     , 500
+    $('.back-to-top').fadeOut()
 
 Template.curatorInboxSection.onCreated ->
   @sourceCount = new ReactiveVar 0
