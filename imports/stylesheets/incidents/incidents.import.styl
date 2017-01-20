@@ -28,15 +28,11 @@
     max-width 800px
     margin 30px auto
   .modal-content
-    display flex
-    flex-direction column
-    height calc(100vh - 60px)
-    min-height 400px
+  .modal-header
   .modal-body
     padding 0
-    position relative
     gradientTopAndBottom()
-    flex 1
+    width 100%
   .modal-footer
     margin-top auto
 
@@ -53,12 +49,10 @@
       display inline-block
 
 .suggested-incidents-wrapper
-  position absolute
-  top 0
-  bottom 0
-  left 0
-  right 0
-  padding 25px
+  padding 25px 10px 25px 10px
+  width 100%
+  height calc(100vh - 236px)
+  min-height 250px
   overflow-y scroll
 
 .annotated-content
