@@ -46,7 +46,7 @@ parseSents = (text)->
   sentStart = 0
   while idx < text.length
     char = text[idx]
-    if char == "\n"
+    if char == '\n'
       [match] = text.slice(idx).match(/^\n+/)
       idx += match.length
       if match.length > 1
@@ -78,21 +78,21 @@ Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
   @hasBeenWarned = new ReactiveVar(false)
   @loading = new ReactiveVar(true)
-  @content = new ReactiveVar("")
-  Meteor.call("getArticleEnhancements", @data.article, (error, result) =>
+  @content = new ReactiveVar('')
+  Meteor.call('getArticleEnhancements', @data.article, (error, result) =>
     if error
       Modal.hide(@)
       toastr.error error.reason
       return
-    locationAnnotations = result.features.filter (f)->f.type == "location"
-    datetimeAnnotations = result.features.filter (f)->f.type == "datetime"
-    countAnnotations = result.features.filter (f)->f.type == "count"
-    geonameIds = locationAnnotations.map((r)->r.geoname.geonameid)
+    locationAnnotations = result.features.filter (f) -> f.type == 'location'
+    datetimeAnnotations = result.features.filter (f) -> f.type == 'datetime'
+    countAnnotations = result.features.filter (f) -> f.type == 'count'
+    geonameIds = locationAnnotations.map((r) -> r.geoname.geonameid)
     new Promise((resolve, reject) =>
       if geonameIds.length == 0
         resolve([])
       else
-        HTTP.get("https://geoname-lookup.eha.io/api/geonames", {
+        HTTP.get('https://geoname-lookup.eha.io/api/geonames', {
           params:
             ids: geonameIds
         }, (error, geonamesResult) =>
@@ -105,7 +105,7 @@ Template.suggestedIncidentsModal.onCreated ->
         )
     ).then((locations) =>
       geonamesById = {}
-      locations.forEach (loc)->
+      locations.forEach (loc) ->
         geonamesById[loc.id] =
           id: loc.id
           name: loc.name
@@ -123,7 +123,7 @@ Template.suggestedIncidentsModal.onCreated ->
       sents = parseSents(result.source.cleanContent.content)
       locTerritories = getTerritories(locationAnnotations, sents)
       datetimeAnnotations = datetimeAnnotations
-        .map (timeAnnotation)=>
+        .map (timeAnnotation) =>
           if not (timeAnnotation.timeRange and
             timeAnnotation.timeRange.begin and
             timeAnnotation.timeRange.end
@@ -153,26 +153,26 @@ Template.suggestedIncidentsModal.onCreated ->
             # Truncate ranges that extend into the future
             timeAnnotation.endMoment = publishMoment
           return timeAnnotation
-        .filter (x)-> x
+        .filter (x) -> x
       dateTerritories = getTerritories(datetimeAnnotations, sents)
       countAnnotations.forEach((countAnnotation) =>
         [start, end] = countAnnotation.textOffsets[0]
-        locationTerritory = _.find locTerritories, ({territoryStart, territoryEnd})->
+        locationTerritory = _.find locTerritories, ({territoryStart, territoryEnd}) ->
           if start <= territoryEnd and start >= territoryStart
             return true
-        dateTerritory = _.find dateTerritories, ({territoryStart, territoryEnd})->
+        dateTerritory = _.find dateTerritories, ({territoryStart, territoryEnd}) ->
           if start <= territoryEnd and start >= territoryStart
             return true
         incident =
-          locations: locationTerritory.annotations.map(({geoname})->
+          locations: locationTerritory.annotations.map(({geoname}) ->
             geonamesById[geoname.geonameid]
           )
         maxPrecision = 0
         # Use the article's date as the default
         incident.dateRange =
           start: @data.article.publishDate
-          end: moment(@data.article.publishDate).add(1, "day")
-          type: "day"
+          end: moment(@data.article.publishDate).add(1, 'day')
+          type: 'day'
         dateTerritory.annotations.forEach (timeAnnotation)->
           if (timeAnnotation.precision > maxPrecision and
             timeAnnotation.beginMoment.isValid() and
@@ -183,44 +183,44 @@ Template.suggestedIncidentsModal.onCreated ->
               start: timeAnnotation.beginMoment.toDate()
               end: timeAnnotation.endMoment.toDate()
             rangeHours = moment(incident.dateRange.end)
-              .diff(incident.dateRange.start, "hours")
+              .diff(incident.dateRange.start, 'hours')
             if rangeHours <= 24
-              incident.dateRange.type = "day"
+              incident.dateRange.type = 'day'
             else
-              incident.dateRange.type = "precise"
+              incident.dateRange.type = 'precise'
         incident.dateTerritory = dateTerritory
         incident.locationTerritory = locationTerritory
         incident.countAnnotation = countAnnotation
         { count, attributes } = countAnnotation
-        if "death" in attributes
+        if 'death' in attributes
           incident.deaths = count
         else
           incident.cases = count
         # Detect whether count is cumulative
-        if "incremental" in attributes
+        if 'incremental' in attributes
           incident.dateRange.cumulative = false
-        else if "cumulative" in attributes
+        else if 'cumulative' in attributes
           incident.dateRange.cumulative = true
-        else if incident.dateRange.type == "day" and count > 300
+        else if incident.dateRange.type == 'day' and count > 300
           incident.dateRange.cumulative = true
         suspectedAttributes = _.intersection([
-          "approximate", "average", "suspected"
+          'approximate', 'average', 'suspected'
         ], attributes)
         if suspectedAttributes.length > 0
-          incident.status = "suspected"
+          incident.status = 'suspected'
         incident.url = [@data.article.url]
         incident.suggestedFields = _.intersection(
           Object.keys(incident),
           [
-            "cases"
-            "deaths"
-            "dateRange"
-            "locations"
-            "status"
+            'cases'
+            'deaths'
+            'dateRange'
+            'status'
+            if incident.locations.length then 'locations'
           ]
         )
         if incident.dateRange?.cumulative
-          incident.suggestedFields.push("cumulative")
+          incident.suggestedFields.push('cumulative')
         @incidentCollection.insert(incident)
       )
     )
@@ -246,7 +246,7 @@ Template.suggestedIncidentsModal.helpers
   annotatedContent: ->
     content = Template.instance().content.get()
     lastEnd = 0
-    html = ""
+    html = ''
     Template.instance().incidentCollection.find().map (incident)->
       [start, end] = incident.countAnnotation.textOffsets[0]
       html += (
@@ -264,8 +264,8 @@ Template.suggestedIncidentsModal.events
   'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->
     confirmAbandonChanges(event, instance)
 
-  "click .annotation": (event, instance) ->
-    incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
+  'click .annotation': (event, instance) ->
+    incident = instance.incidentCollection.findOne($(event.target).data('incident-id'))
     content = Template.instance().content.get()
     displayCharacters = 150
     incidentAnnotations = [incident.countAnnotation]
@@ -281,16 +281,16 @@ Template.suggestedIncidentsModal.events
     endingIndex = Math.max(incident.locationTerritory?.territoryEnd or countEnd,
       incident.dateTerritory?.territoryEnd or countEnd)
     lastEnd = startingIndex
-    html = ""
+    html = ''
     if incidentAnnotations[0].textOffsets[0] isnt 0
-      html += "..."
+      html += '...'
     incidentAnnotations.map (annotation)->
       [start, end] = annotation.textOffsets[0]
-      type = "case"
+      type = 'case'
       if annotation in incident.dateTerritory?.annotations
-        type = "date"
+        type = 'date'
       else if annotation in incident.locationTerritory?.annotations
-        type = "location"
+        type = 'location'
       html += (
         Handlebars._escape("#{content.slice(lastEnd, start)}") +
         """<span class='annotation-text #{type}'>#{
@@ -300,7 +300,7 @@ Template.suggestedIncidentsModal.events
       lastEnd = end
     html += Handlebars._escape("#{content.slice(lastEnd, endingIndex)}")
     if lastEnd < content.length - 1
-      html += "..."
+      html += '...'
     Modal.show 'suggestedIncidentModal',
       edit: true
       articles: [instance.data.article]
@@ -309,7 +309,7 @@ Template.suggestedIncidentsModal.events
       incident: incident
       incidentText: Spacebars.SafeString(html)
 
-  "click #add-suggestions": (event, instance) ->
+  'click #add-suggestions': (event, instance) ->
     incidentCollection = Template.instance().incidentCollection
     incidents = incidentCollection.find(
       accepted: true
@@ -317,9 +317,9 @@ Template.suggestedIncidentsModal.events
       _.pick(incident, incidentReportSchema.objectKeys())
     count = incidents.length
     if count <= 0
-      toastr.warning "No incidents have been confirmed"
+      toastr.warning 'No incidents have been confirmed'
       return
-    Meteor.call "addIncidentReports", incidents, (err, result)->
+    Meteor.call 'addIncidentReports', incidents, (err, result)->
       if err
         toastr.error err.reason
       else
@@ -330,8 +330,8 @@ Template.suggestedIncidentsModal.events
         # hide the modal
         Modal.hide(instance)
 
-  "click #non-suggested-incident": (event, instance) ->
-    Modal.show "incidentModal",
+  'click #non-suggested-incident': (event, instance) ->
+    Modal.show 'incidentModal',
       articles: [instance.data.article]
       userEventId: instance.data.userEventId
       add: true

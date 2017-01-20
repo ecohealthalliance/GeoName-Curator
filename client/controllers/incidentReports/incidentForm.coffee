@@ -18,6 +18,10 @@ _selectInput = (event, instance, prop, isCheckbox) ->
     else
       state.set(clickedInput)
 
+_removeSuggestedProperties = (instance, props) ->
+  suggestedFields = instance.suggestedFields
+  suggestedFields.set(_.difference(suggestedFields.get(), props))
+
 Template.incidentForm.onCreated ->
   @incidentStatus = new ReactiveVar('')
   @incidentType = new ReactiveVar('')
@@ -70,10 +74,10 @@ Template.incidentForm.onRendered ->
 
   @$('#add-incident').validator()
   #Update the validator when Blaze adds incident type related inputs
-  @autorun ->
-    instance.incidentType.get()
-    Meteor.defer ->
-      instance.$('#add-incident').validator('update')
+  @autorun =>
+    @incidentType.get()
+    Meteor.defer =>
+      @$('#add-incident').validator('update')
 
 Template.incidentForm.helpers
   incidentData: ->
@@ -105,12 +109,12 @@ Template.incidentForm.helpers
 
   selectedIncidentType: ->
     switch Template.instance().incidentType.get()
-      when "cases" then "Case"
-      when "deaths" then "Death"
+      when 'cases' then 'Case'
+      when 'deaths' then 'Death'
 
   suggestedField: (fieldName)->
     if fieldName in Template.instance().suggestedFields.get()
-      "suggested"
+      'suggested'
 
   typeIsSelected: ->
     Template.instance().incidentType.get()
@@ -126,18 +130,15 @@ Template.incidentForm.events
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()
 
   'click .status label, keyup .status label': (event, instance) ->
-    suggestedFields = instance.suggestedFields
-    suggestedFields.set(_.without(suggestedFields.get(), 'status'))
+    _removeSuggestedProperties(instance, ['status'])
     _selectInput(event, instance, 'incidentStatus')
 
   'click .type label, keyup .type label': (event, instance) ->
-    suggestedFields = instance.suggestedFields
-    suggestedFields.set(_.without(suggestedFields.get(), 'cases', 'deaths'))
+    _removeSuggestedProperties(instance, ['cases', 'deaths'])
     _selectInput(event, instance, 'incidentType')
 
   'keyup [name="count"]': (event, instance) ->
-    suggestedFields = instance.suggestedFields
-    suggestedFields.set(_.without(suggestedFields.get(), 'cases', 'deaths'))
+    _removeSuggestedProperties(instance, ['cases', 'deaths'])
 
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
@@ -146,16 +147,13 @@ Template.incidentForm.events
       firstItem.remove()
 
   'mouseup .select2-selection': (event, instance) ->
-    suggestedFields = instance.suggestedFields
-    suggestedFields.set(_.without(suggestedFields.get(), 'locations'))
+    _removeSuggestedProperties(instance, ['locations'])
 
   'mouseup .incident--dates': (event, instance) ->
-    suggestedFields = instance.suggestedFields
-    suggestedFields.set(_.without(suggestedFields.get(), 'dateRange'))
+    _removeSuggestedProperties(instance, ['dateRange'])
 
   'click .cumulative, keyup .cumulative': (event, instance) ->
-    suggestedFields = instance.suggestedFields
-    suggestedFields.set(_.without(suggestedFields.get(), 'cumulative'))
+    _removeSuggestedProperties(instance, ['cumulative'])
 
   'submit form': (event, instance) ->
     prevented = event.isDefaultPrevented()
