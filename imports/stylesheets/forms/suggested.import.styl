@@ -46,6 +46,14 @@ $warning-border = darken($warning-bg, 12%)
     +below(3)
       flex-direction column
 
+.suggested-minimal
+  .input-group-addon
+  input
+  select
+    background $warning-bg
+    border-color darken($warning-border, 10%) !important // Overide bootstrap
+    color $primary-dark
+
 #suggestedIncidentModal
   +above(4)
     .modal-dialog

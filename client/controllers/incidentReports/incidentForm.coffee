@@ -1,6 +1,6 @@
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 validator = require 'bootstrap-validator'
-{ keyboardSelect } = require '/imports/utils'
+{ keyboardSelect, removeSuggestedProperties } = require '/imports/utils'
 
 _selectInput = (event, instance, prop, isCheckbox) ->
   return if not keyboardSelect(event) and event.type is 'keyup'
@@ -14,10 +14,6 @@ _selectInput = (event, instance, prop, isCheckbox) ->
       state.set(null)
     else
       state.set(clickedInput)
-
-_removeSuggestedProperties = (instance, props) ->
-  suggestedFields = instance.suggestedFields
-  suggestedFields.set(_.difference(suggestedFields.get(), props))
 
 Template.incidentForm.onCreated ->
   @incidentStatus = new ReactiveVar('')
@@ -127,15 +123,15 @@ Template.incidentForm.events
     instance.$('#singleDatePicker').data('daterangepicker').clickApply()
 
   'click .status label, keyup .status label': (event, instance) ->
-    _removeSuggestedProperties(instance, ['status'])
+    removeSuggestedProperties(instance, ['status'])
     _selectInput(event, instance, 'incidentStatus')
 
   'click .type label, keyup .type label': (event, instance) ->
-    _removeSuggestedProperties(instance, ['cases', 'deaths'])
+    removeSuggestedProperties(instance, ['cases', 'deaths'])
     _selectInput(event, instance, 'incidentType')
 
   'keyup [name="count"]': (event, instance) ->
-    _removeSuggestedProperties(instance, ['cases', 'deaths'])
+    removeSuggestedProperties(instance, ['cases', 'deaths'])
 
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
@@ -144,13 +140,13 @@ Template.incidentForm.events
       firstItem.remove()
 
   'mouseup .select2-selection': (event, instance) ->
-    _removeSuggestedProperties(instance, ['locations'])
+    removeSuggestedProperties(instance, ['locations'])
 
   'mouseup .incident--dates': (event, instance) ->
-    _removeSuggestedProperties(instance, ['dateRange'])
+    removeSuggestedProperties(instance, ['dateRange'])
 
   'click .cumulative, keyup .cumulative': (event, instance) ->
-    _removeSuggestedProperties(instance, ['cumulative'])
+    removeSuggestedProperties(instance, ['cumulative'])
 
   'submit form': (event, instance) ->
     prevented = event.isDefaultPrevented()
