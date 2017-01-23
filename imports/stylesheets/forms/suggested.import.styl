@@ -41,6 +41,11 @@ $warning-border = darken($warning-bg, 12%)
       &:after
         @extend .suggested-block
 
+.suggested-incidents
+  .flex-reverse
+    +below(3)
+      flex-direction column
+
 #suggestedIncidentModal
   +above(4)
     .modal-dialog

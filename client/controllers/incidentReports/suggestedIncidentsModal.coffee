@@ -323,6 +323,9 @@ Template.suggestedIncidentsModal.helpers
     html += Handlebars._escape("#{content.slice(lastEnd)}")
     new Spacebars.SafeString(html)
 
+  type: ->
+    ['accepted', 'rejected', 'uncertain']
+
 Template.suggestedIncidentsModal.events
   'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->
     confirmAbandonChanges(event, instance)

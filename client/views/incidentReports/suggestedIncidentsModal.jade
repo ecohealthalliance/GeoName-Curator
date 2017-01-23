@@ -7,20 +7,25 @@ template(name="suggestedIncidentsModal")
           .modal-header--title
             h4 Suggested Incident Reports
             span.annotation-count=annotatedCount
-          if showTable
-            ul.tabs.tabs-traditional.tabs-secondary.tabs-modal-header.list-unstyled
-              li.active
-                a(
-                  href="#suggested-locations-form"
-                  data-tab="text"
-                  role="tab"
-                  data-toggle="tab") Source Text
-              li
-                a(
-                  href="#incident-table"
-                  role="tab"
-                  data-tab="tabs"
-                  data-toggle="tab") Incident Report Table
+          .container-flex(class="{{#if showTable}} flex-reverse {{/if}}")
+            ul.color-legend.list-unstyled.container-flex.no-break(
+              class="{{#if showTable}} with-tabs {{else}} on-left {{/if}}")
+              each type
+                li(class="color-legend--#{this}")=this
+            if showTable
+              ul.tabs.tabs-traditional.tabs-secondary.tabs-modal-header.list-unstyled
+                li.active
+                  a(
+                    href="#suggested-locations-form"
+                    data-tab="text"
+                    role="tab"
+                    data-toggle="tab") Source Text
+                li
+                  a(
+                    href="#incident-table"
+                    role="tab"
+                    data-tab="tabs"
+                    data-toggle="tab") Incident Report Table
         .modal-body
           .suggested-incidents-wrapper.tab-content
             #suggested-locations-form.form-horizontal.tab-pane.active(role="tabpanel")
@@ -29,9 +34,9 @@ template(name="suggestedIncidentsModal")
                 | Processing article
               else
                 unless incidentsFound
-                  .warn No incident reports could be automatically extracted from the article.
-                p.annotated-content=annotatedContent
-                hr
+                  .no-incident-reports No incident reports could be automatically extracted from the article.
+                p.annotated-content(
+                  class="{{#unless incidentsFound}} space-top-4 {{/unless}}")=annotatedContent
             if showTable
               #incident-table.table.incident-table.tab-pane(role="tabpanel")
                 thead
