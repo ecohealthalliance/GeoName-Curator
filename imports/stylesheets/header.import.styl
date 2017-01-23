@@ -58,10 +58,19 @@
   color $primary-dark
   font-weight 600
 
-.navbar-default .navbar-nav > .active > a
-.navbar-default .navbar-nav > .active > a:hover
+.navbar-default .navbar-nav > li > a:hover
+.navbar-default .navbar-nav > li > a:focus
 .navbar-default .navbar-nav > .active > a:focus
-  background-color $secondary
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus
+.navbar-default .navbar-nav > .open > a:focus
+  noBootstrapFocus()
+  background-color darken($secondary, 10%)
+
+.navbar-default .navbar-nav > li > a:hover
+  background-color $secondary-light
+.navbar-default .navbar-nav > li > a:focus
+  background-color darken($secondary-light, 5%)
+
 
 .navbar-nav .open .dropdown-menu
   background-color $secondary-light
@@ -81,6 +90,11 @@
     &:first-of-type
       +above(3)
         display none
+
+.dropdown-menu > li > a:focus
+.dropdown-menu > .active > a:focus
+  background-color $secondary
+  noBootstrapFocus()
 
 .dropdown-menu > .active > a
 .dropdown-menu > .active > a:hover
@@ -122,6 +136,8 @@
     margin-top 15px
   +between(3,4)
     margin-left 20px
+  &:focus
+    transform scale(1.05)
 
 .disclaimer
   width 100%

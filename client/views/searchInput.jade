@@ -9,4 +9,5 @@ template(name="searchInput")
       data-toggle="{{#if toggleable}} tooltip {{/if}}"
       data-placement="left"
       title="{{#if toggleable}} Search {{/if}}"
-      class="{{#if searchString}} cancel {{/if}} {{#if toggleable}} toggleable {{/if}}")
+      class="{{#if searchString}} cancel {{/if}} {{#if toggleable}} toggleable {{/if}}"
+      tabindex="{{#unless searchWaiting}} 0 {{else}} -1 {{/unless}}")

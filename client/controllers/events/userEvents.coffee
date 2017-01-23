@@ -118,6 +118,7 @@ Template.userEvents.events
       window.open(url, "_blank")
     else
       Router.go "user-event", {_id: @_id}
+
   "click .next-page, click .previous-page": ->
     if (window.scrollY > 0 and window.innerHeight < 700)
       $(document.body).animate({scrollTop: 0}, 400)

@@ -1,5 +1,6 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
 Articles = require '/imports/collections/articles.coffee'
+{ keyboardSelect } = require '/imports/utils'
 
 import {formatUrl} from '/imports/utils.coffee'
 
@@ -88,11 +89,14 @@ Template.articles.helpers
     props: ['title']
 
 Template.articles.events
-  'click #event-sources-table tbody tr': (event, instance) ->
+  'click #event-sources-table tbody tr
+    , keyup #event-sources-table tbody tr': (event, instance) ->
     event.preventDefault()
+    return if not keyboardSelect(event) and event.type is 'keyup'
     instance.selectedSourceId.set @_id
-    $(event.currentTarget).parent().find('tr').removeClass 'open'
-    $(event.currentTarget).addClass 'open'
+    instance.$(event.currentTarget).parent().find('tr').removeClass 'open'
+    instance.$(event.currentTarget).addClass('open').blur()
+    instance.$('.event-sources-detail').focus()
 
   'click .open-source-form': (event, instance) ->
     Modal.show 'sourceModal', userEventId: instance.data.userEvent._id

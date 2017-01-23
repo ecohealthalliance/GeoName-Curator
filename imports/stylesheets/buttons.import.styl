@@ -43,6 +43,7 @@ $buttons()
     $bg = $btn-type-props.bg
     $bg-hover = $btn-type-props.bg-hover or lighten($bg, 40%)
     $border = $btn-type-props.border or $border-btn
+    $focus = $btn-type-props.focus or $focus-secondary
     {$btn-type}
       background $bg
       color $text
@@ -52,14 +53,13 @@ $buttons()
         color $text-hover
         border-color darken($bg-hover, 20%)
       &:focus
-        border-color darken($border, 20%)
-        background saturate(darken($bg, 10%), 20%)
+        border-color darken($focus, 20%)
+        background $focus
         color $text
       &:focus
       &:active
       &:active:focus
-        outline 0
-        box-shadow none
+        noBootstrapFocus()
       &:active
       &:active:focus
         color $text

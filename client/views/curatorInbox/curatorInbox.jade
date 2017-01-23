@@ -3,15 +3,17 @@ template(name="curatorInbox")
     .curator-inbox-header.pane-head.pane-head-l
       h2 Inbox
       .curator-inbox-options
-        a.option.curator-filter-reviewed-icon(
+        a.option.curator-filter-reviewed-icon.plain-focus(
           class="{{#unless reviewFilterActive}} active {{/unless}}"
           data-toggle="tooltip"
-          title="Show/Hide Reviewed")
+          title="Show/Hide Reviewed"
+          tabindex="0")
           i.fa.fa-check-circle(aria-hidden="true")
-        a.option.curator-filter-calendar-icon(
+        a.option.curator-filter-calendar-icon.plain-focus(
           class="{{#if calendarState}} active {{/if}}"
           data-toggle="tooltip"
-          title="Filter by Date Range")
+          title="Filter by Date Range"
+          tabindex="0")
           i.fa.fa-calendar(aria-hidden="true")
         +searchInput searchSettings
 

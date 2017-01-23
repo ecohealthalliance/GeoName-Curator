@@ -57,7 +57,8 @@ Template.searchInput.events
           else
             $('.loading').show()
 
-  'click .search-icon.toggleable:not(.cancel)': (event, instance) ->
+  'click .search-icon.toggleable:not(.cancel)
+    , focusin .search-icon': (event, instance) ->
     searching = instance.searching
     searching.set not searching.get()
     setTimeout ->

@@ -13,6 +13,10 @@ p
 
 ul
   font-weight 400
+  li
+    &:focus
+      noBootstrapFocus()
+      background $border-primary-light
 
 ul
 h1
@@ -77,10 +81,33 @@ h5
 a
   cursor pointer
   color $link-color
-  &:hover
   &:focus
-    color $link-color-hover
+  &:hover
     text-decoration none
+  &:hover
+    color $link-color-hover
+  &:focus
+    color $link-color
+    noBootstrapFocus()
+
+p a
+.focusable
+a[tabindex="0"]
+  &:not(.plain-focus)
+    &:focus
+      color $primary-dark
+      padding-right .5em
+      padding-left .5em
+      border 1px solid $secondary
+      border-radius 3px
+
+.plain-focus
+  color $link-color
+
+i
+  &:focus
+    noBootstrapFocus()
+    color $link-color
 
 .centered
   text-align center

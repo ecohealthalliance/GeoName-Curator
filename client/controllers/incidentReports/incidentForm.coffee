@@ -1,12 +1,9 @@
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 validator = require 'bootstrap-validator'
-
-_keyboardSelect = (event) ->
-  keyCode = event.keyCode
-  keyCode in [13, 32]
+{ keyboardSelect } = require '/imports/utils'
 
 _selectInput = (event, instance, prop, isCheckbox) ->
-  return if not _keyboardSelect(event) and event.type is 'keyup'
+  return if not keyboardSelect(event) and event.type is 'keyup'
   if isCheckbox is 'checkbox'
     prop = instance[prop]
     prop.set(not prop.get())

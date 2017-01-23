@@ -2,6 +2,7 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
 CuratorSources = require '/imports/collections/curatorSources.coffee'
 Articles = require '/imports/collections/articles.coffee'
+{ keyboardSelect } = require '/imports/utils'
 
 _getSourceId = (instance) ->
   CuratorSources.findOne(instance.data.selectedSourceId.get())._sourceId
@@ -74,6 +75,7 @@ Template.curatorEvents.helpers
     currentPage: 1
     rowsPerPage: 5
     class: 'curator-events-table static-rows table'
+    keyboardFocus: false
 
   allEventsOpen: ->
     Template.instance().suggestedEventsHeaderState.get()
@@ -99,7 +101,8 @@ Template.curatorEvents.events
       $parentRow.addClass('incidents-open').after($tr)
       Blaze.renderWithData(Template.curatorEventIncidents, this, $tr[0])
 
-  'click .associate-event': (event, instance) ->
+  'click .associate-event, keyup .associate-event': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     source = CuratorSources.findOne(instance.data.selectedSourceId.get())
     Meteor.call 'addEventSource',
       url: "promedmail.org/post/#{source._sourceId}"
@@ -111,7 +114,8 @@ Template.curatorEvents.events
       if _.keys(instance.associatedEventIdsToArticles.get()).length <= 1
         Meteor.call('markSourceReviewed', source._id, true)
 
-  'click .disassociate-event': (event, instance) ->
+  'click .disassociate-event, keyup .disassociate-event': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     Meteor.call('removeEventSource', instance.associatedEventIdsToArticles.get()[@_id])
 
   'click .suggest-incidents': (event, instance) ->
@@ -119,7 +123,9 @@ Template.curatorEvents.events
       userEventId: @_id
       article: instance.associatedEventIdsToArticles.get()[@_id]
 
-  'click .curator-events-header.all-events': (event, instance) ->
+  'click .curator-events-header.all-events,
+    keyup .curator-events-header.all-events': (event, instance) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     suggestedEventsHeaderState = instance.suggestedEventsHeaderState
     suggestedEventsHeaderState.set not suggestedEventsHeaderState.get()
 

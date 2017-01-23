@@ -1,6 +1,5 @@
 .tabs-wrapper
   border-bottom 2px solid $primary
-  background $border-primary-light
 
 .tabs
   position relative
@@ -26,9 +25,8 @@
     justify-content center
     align-items center
     letter-spacing $letter-spacing
-    background-color lighten($border-primary, 40%)
-    border 1px solid $border-primary
-    border-bottom 0
+    border 0
+    border-radius 0
     +above(4)
       margin 0 .5em
 
@@ -37,12 +35,13 @@
   width 100%
   padding-top .75em
   padding-bottom .75em
-  border-bottom 0
   font-size 1.25em
   text-align center
   display block
   text-transform uppercase
   text-decoration none
+  border 1px solid $border-primary
+  border-bottom 0
   +above(2)
     font-size 1.25em
   +above(4)
@@ -55,12 +54,17 @@
 .tabs > li > a:active
   color $primary
 
+.tabs > li > a:focus
+.tabs > li.active a:focus
+  background $focus-secondary
+  border-color darken($secondary, 20%)
+  color $primary-dark
+
 .tabs > li:hover
   background-color darken($primary-light, 3%)
 
-.tabs > li.active
-.tabs > li.active:hover
-.tabs > li.active:focus
+.tabs > li.active a
+.tabs > li.active a:hover
   border-color $primary
   background-color $primary
 
@@ -76,6 +80,14 @@
       font-size 1em
       padding-top .35em
       padding-bottom .35em
+    &.active
+      > a
+        &
+        &:focus
+        &:hover
+        &:active
+          background $block-BG
+          border-color $border-primary
     &.with-info-tooltip
       &:after
         position absolute

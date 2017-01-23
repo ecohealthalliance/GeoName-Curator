@@ -10,7 +10,8 @@ template(name="curatorSourceDetails")
             class="{{#if contentIsOpen}} active {{/if}}"
             data-toggle="tooltip"
             data-placement="left"
-            title="Toggle source text")
+            title="Toggle source text"
+            tabindex="0")
         button.btn.btn-success.toggle-reviewed(class="{{#if isReviewed}} reviewed {{/if}}")
           if isReviewed
             span Reviewed

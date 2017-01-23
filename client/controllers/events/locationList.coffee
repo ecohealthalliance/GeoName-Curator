@@ -1,4 +1,5 @@
 formatLocation = require '/imports/formatLocation.coffee'
+{ keyboardSelect } = require '/imports/utils'
 
 Template.locationList.helpers
   incidentLocations: ->
@@ -69,7 +70,8 @@ Template.locationList.events
     template.$('tr').removeClass('open')
     template.$('tr.details').remove()
 
-  'click .reactive-table tbody tr': (event, template) ->
+  'click .reactive-table tbody tr, keyup .reactive-table tbody tr': (event, template) ->
+    return if not keyboardSelect(event) and event.type is 'keyup'
     $target = $(event.target)
     $parentRow = $target.closest('tr')
     if not $parentRow.hasClass('details')

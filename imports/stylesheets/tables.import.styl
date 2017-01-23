@@ -13,11 +13,28 @@
   margin-bottom 0
   > tbody
     > tr
-      &:hover
-      &:focus
-        background lighten($border-primary-light, 50%)
       > td
         vertical-align middle
+        vertical-align middle
+      &:focus
+        noBootstrapFocus()
+        > td
+          background $focus-secondary
+          font-weight 600
+          &
+          td
+          &::after
+          &::before
+          > td::after
+          > td::before
+            color $primary-dark
+      a
+        &:not(.plain-focus)
+          &:focus
+            padding-left 0
+            padding-right 0
+            border 0
+            font-weight 600
 
 .table
 .reactive-table
