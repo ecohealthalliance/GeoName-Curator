@@ -7,9 +7,23 @@ template(name="suggestedIncidentsModal")
           .modal-header--title
             h4 Suggested Incident Reports
             span.annotation-count=annotatedCount
+          if showTable
+            ul.tabs.tabs-traditional.tabs-secondary.tabs-modal-header.list-unstyled
+              li.active
+                a(
+                  href="#suggested-locations-form"
+                  data-tab="text"
+                  role="tab"
+                  data-toggle="tab") Source Text
+              li
+                a(
+                  href="#incident-table"
+                  role="tab"
+                  data-tab="tabs"
+                  data-toggle="tab") Incident Report Table
         .modal-body
-          .suggested-incidents-wrapper
-            #suggested-locations-form.form-horizontal
+          .suggested-incidents-wrapper.tab-content
+            #suggested-locations-form.form-horizontal.tab-pane.active(role="tabpanel")
               if loading
                 i.fa.fa-circle-o-notch.fa-spin
                 | Processing article
@@ -18,25 +32,25 @@ template(name="suggestedIncidentsModal")
                   .warn No incident reports could be automatically extracted from the article.
                 p.annotated-content=annotatedContent
                 hr
-                if showTable
-                  table.incident-table
-                    thead
-                      tr
-                        th.count-header Case Count
-                        th.count-header Death Count
-                        th Start Date
-                        th End Date
-                        th.locations-header Locations
-                    tbody
-                      each incidents
-                        tr
-                          td.count(data-incident-id=_id)=cases
-                          td.count(data-incident-id=_id)=deaths
-                          td
-                            unless dateRange.cumulative
-                              | {{formatDateISO dateRange.start}}
-                          td {{formatDateISO dateRange.end}}
-                          td {{formatLocations locations}}
+            if showTable
+              #incident-table.table.incident-table.tab-pane(role="tabpanel")
+                thead
+                  tr
+                    th.count-header Case Count
+                    th.count-header Death Count
+                    th Start Date
+                    th End Date
+                    th.locations-header Locations
+                tbody
+                  each incidents
+                    tr
+                      td.count(data-incident-id=_id)=cases
+                      td.count(data-incident-id=_id)=deaths
+                      td
+                        unless dateRange.cumulative
+                          | {{formatDateISO dateRange.start}}
+                      td {{formatDateISO dateRange.end}}
+                      td {{formatLocations locations}}
         .modal-footer
           button.btn.btn-default.confirm-close-modal(type="button" data-dismiss="modal") Close
           if showTable

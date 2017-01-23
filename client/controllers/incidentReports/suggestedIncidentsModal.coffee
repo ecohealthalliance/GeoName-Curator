@@ -124,6 +124,7 @@ Template.suggestedIncidentsModal.onCreated ->
   @hasBeenWarned = new ReactiveVar(false)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar('')
+
   Meteor.call('getArticleEnhancements', @data.article, (error, result) =>
     if error
       Modal.hide(@)
@@ -283,15 +284,18 @@ Template.suggestedIncidentsModal.onRendered ->
 Template.suggestedIncidentsModal.helpers
   showTable: ->
     Template.instance().data.showTable
+
   incidents: ->
-    Template.instance().incidentCollection.find(
+    Template.instance().incidentCollection.find
       accepted: true
       specify: $exists: false
-    )
+
   incidentsFound: ->
     Template.instance().incidentCollection.find().count() > 0
+
   loading: ->
     Template.instance().loading.get()
+
   annotatedCount: ->
     total = Template.instance().incidentCollection.find().count()
     if total
@@ -318,7 +322,6 @@ Template.suggestedIncidentsModal.helpers
       lastEnd = end
     html += Handlebars._escape("#{content.slice(lastEnd)}")
     new Spacebars.SafeString(html)
-
 
 Template.suggestedIncidentsModal.events
   'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->
