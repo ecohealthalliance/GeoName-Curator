@@ -80,11 +80,13 @@ Template.curatorInbox.onRendered ->
   $scrollableElement.on 'scroll', ->
     debounceCheckTop(@)
 
-  Meteor.defer ->
-    createNewCalendar()
-    @$('[data-toggle="tooltip"]').tooltip
-      container: 'body'
-      placement: 'left'
+  @autorun =>
+    if @ready.get()
+      Meteor.defer =>
+        createNewCalendar()
+        @$('[data-toggle="tooltip"]').tooltip
+          container: 'body'
+          placement: 'left'
 
 Template.curatorInbox.helpers
   days: ->

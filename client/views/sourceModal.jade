@@ -18,7 +18,7 @@ template(name="sourceModal")
                 label.control-label.featured Suggested Sources
                 #suggested-articles.modal-block
                   if loadingArticles
-                    .loading.small
+                    +loading small=true
                   else
                     if suggestedArticles.count
                       ul.list-unstyled

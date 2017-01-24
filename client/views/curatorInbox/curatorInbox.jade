@@ -1,32 +1,32 @@
 template(name="curatorInbox")
   .pane-container.curator-inbox
-    .curator-inbox-header.pane-head.pane-head-l
-      h2 Inbox
-      .curator-inbox-options
-        a.option.curator-filter-reviewed-icon.plain-focus(
-          class="{{#unless reviewFilterActive}} active {{/unless}}"
-          data-toggle="tooltip"
-          title="Show/Hide Reviewed"
-          tabindex="0")
-          i.fa.fa-check-circle(aria-hidden="true")
-        a.option.curator-filter-calendar-icon.plain-focus(
-          class="{{#if calendarState}} active {{/if}}"
-          data-toggle="tooltip"
-          title="Filter by Date Range"
-          tabindex="0")
-          i.fa.fa-calendar(aria-hidden="true")
-        +searchInput searchSettings
+    if isReady
+      .curator-inbox-header.pane-head.pane-head-l
+        h2 Inbox
+        .curator-inbox-options
+          a.option.curator-filter-reviewed-icon.plain-focus(
+            class="{{#unless reviewFilterActive}} active {{/unless}}"
+            data-toggle="tooltip"
+            title="Show/Hide Reviewed"
+            tabindex="0")
+            i.fa.fa-check-circle(aria-hidden="true")
+          a.option.curator-filter-calendar-icon.plain-focus(
+            class="{{#if calendarState}} active {{/if}}"
+            data-toggle="tooltip"
+            title="Filter by Date Range"
+            tabindex="0")
+            i.fa.fa-calendar(aria-hidden="true")
+          +searchInput searchSettings
 
-    .curator-inbox-sources.pane.pane-l.curator-inbox--pane
-      .curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
-        .text-center
-          #date-picker.inlineRangePicker
-        .text-center
-          a#calendar-btn-apply.btn.btn-primary(href="") Apply
-          a#calendar-btn-reset.btn.btn-primary(href="") Reset
-          a#calendar-btn-cancel.btn.btn-default(href="") Cancel
-      .curator-inbox-source-list
-        if isReady
+      .curator-inbox-sources.pane.pane-l.curator-inbox--pane
+        .curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
+          .text-center
+            #date-picker.inlineRangePicker
+          .text-center
+            a#calendar-btn-apply.btn.btn-primary(href="") Apply
+            a#calendar-btn-reset.btn.btn-primary(href="") Reset
+            a#calendar-btn-cancel.btn.btn-default(href="") Cancel
+        .curator-inbox-source-list
           each day in days
             +curatorInboxSection(
               date=day
@@ -34,9 +34,6 @@ template(name="curatorInbox")
               reviewFilter=reviewFilter
               textFilter=textFilter
               selectedSourceId=selectedSourceId)
-        else
-          .loading
-    if isReady
       .curator-source-details.pane.pane-r.curator-inbox--pane
         +curatorSourceDetails selectedSourceId=selectedSourceId query=query
       button.btn.btn-primary.btn-wide.back-to-top(
@@ -45,3 +42,5 @@ template(name="curatorInbox")
         data-toggle="tooltip")
         i.fa.fa-chevron-circle-up
         span Back to Top
+    else
+      +loading
