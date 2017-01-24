@@ -9,26 +9,50 @@ postMessageHandler = (event)->
   if request.type == "eha.dossierRequest"
     title = "EIDR-Connect"
     url = window.location.toString()
-    console.log "screenCapture starting..."
-    html2canvas(document.body).then (canvas)->
-      #Crop to viewport
-      tempCanvas = document.createElement("canvas")
-      tempCanvas.height = window.innerHeight
-      tempCanvas.width = window.innerWidth
-      tempCanvas.getContext("2d").drawImage(
-        canvas,
-        0, 0, # The top of the canvas is already cropped to the scrollY position
-        window.innerWidth, window.innerHeight
-        0, 0,
-        window.innerWidth, window.innerHeight
+    if url.match(/extract\-incidents/)
+      if $('#suggestedIncidentsModal:visible').length == 0
+        toastr.error "No article has been submitted"
+        return
+      table = $('table.incident-table')
+      if table.length == 0
+        toastr.error "No article has been submitted"
+        return
+      dataUrl = 'data:text/csv;charset=utf-8;base64,' + table.tableExport(
+        type: 'csv'
+        outputMode: 'base64'
       )
-      console.log "screenCapture done"
-      window.parent.postMessage(JSON.stringify({
+      return window.parent.postMessage(JSON.stringify({
         type: "eha.dossierTag"
-        screenCapture: tempCanvas.toDataURL()
-        url: url
-        title: title
+        html: """
+          <b>Article:</b>
+          <p style="white-space:pre-wrap;max-height:400px;overflow-y:scroll;">#{
+            $('p.annotated-content').html()
+          }</p>
+          <a href='#{dataUrl}'>Download Incident CSV</a>"""
+        title: 'EIDR-Connect Extracted Incidents'
       }), event.origin)
+    else
+      console.log "screenCapture starting..."
+      html2canvas(document.body).then (canvas)->
+        #Crop to viewport
+        tempCanvas = document.createElement("canvas")
+        tempCanvas.height = window.innerHeight
+        tempCanvas.width = window.innerWidth
+        tempCanvas.getContext("2d").drawImage(
+          canvas,
+          0, 0, # The top of the canvas is already cropped to the scrollY position
+          window.innerWidth, window.innerHeight
+          0, 0,
+          window.innerWidth, window.innerHeight
+        )
+        console.log "screenCapture done"
+        window.parent.postMessage(JSON.stringify({
+          type: "eha.dossierTag"
+          screenCapture: tempCanvas.toDataURL()
+          url: url
+          title: title
+        }), event.origin)
+
   else if request.type == "eha.authInfo"
     Meteor.call("SetBSVEAuthTicketPassword", request, (error) ->
       if error

@@ -370,7 +370,6 @@ Template.suggestedIncidentsModal.events
     fileType = $(event.currentTarget).attr('data-type')
     table = instance.$('table.incident-table')
     if table.length
-      console.log table
       table.tableExport(type: fileType)
 
   'click .count': (event, instance) ->
