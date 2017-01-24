@@ -7,17 +7,53 @@ template(name="suggestedIncidentsModal")
           .modal-header--title
             h4 Suggested Incident Reports
             span.annotation-count=annotatedCount
+          .container-flex(class="{{#if showTable}} flex-reverse {{/if}}")
+            ul.color-legend.list-unstyled.container-flex.no-break(
+              class="{{#if showTable}} with-tabs {{else}} on-left {{/if}}")
+              li.color-legend--accepted Accepted
+              li.color-legend--rejected Unconfirmed/Rejected
+            if showTable
+              ul.tabs.tabs-traditional.tabs-secondary.tabs-modal-header.list-unstyled
+                li(class="{{#if annotatedContentVisible}}active{{/if}}")
+                  a.annotated-content Source Text
+                li(class="{{#if tableVisible}}active{{/if}}")
+                  a.incident-table Incident Report Table
         .modal-body
-          .suggested-incidents-wrapper
-            #suggested-locations-form.form-horizontal
+          .suggested-incidents-wrapper.tab-content
+            #suggested-locations-form.form-horizontal(hidden=tableVisible)
               if loading
                 i.fa.fa-circle-o-notch.fa-spin
                 | Processing article
               else
                 unless incidentsFound
-                  .warn No incident reports could be automatically extracted from the article.
-                p.annotated-content=annotatedContent
+                  .no-incident-reports No incident reports could be automatically extracted from the article.
+                p.annotated-content(
+                  class="{{#unless incidentsFound}} space-top-4 {{/unless}}")=annotatedContent
+            if showTable
+              table.table.incident-table(
+                hidden=annotatedContentVisible
+                data-tableexport-display="always")
+                thead
+                  tr
+                    th.count-header Case Count
+                    th.count-header Death Count
+                    th Start Date
+                    th End Date
+                    th.locations-header Locations
+                tbody
+                  each incidents
+                    tr
+                      td.count(data-incident-id=_id)=cases
+                      td.count(data-incident-id=_id)=deaths
+                      td
+                        unless dateRange.cumulative
+                          | {{formatDateISO dateRange.start}}
+                      td {{formatDateISO dateRange.end}}
+                      td {{formatLocations locations}}
         .modal-footer
           button.btn.btn-default.confirm-close-modal(type="button" data-dismiss="modal") Close
-          button.btn.btn-default#non-suggested-incident(type="button") Add New Incident
-          button.btn.btn-primary#add-suggestions(type="button") Add Confirmed Suggestions
+          if showTable
+            button.btn.btn-default#save-csv(type="button" data-type="csv") Download CSV
+          else
+            button.btn.btn-default#non-suggested-incident(type="button") Add New Incident
+            button.btn.btn-primary#add-suggestions(type="button") Add Confirmed Suggestions

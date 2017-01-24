@@ -15,8 +15,14 @@
   &:hover
     background-color darken(@background-color, 30%)
     color white
+  &.uncertain
+    background-color transparent
+    text-decoration underline
+    &:hover
+      background-color: darken($incident-type-colors.date, 20%)
   &.accepted
     background-color: $incident-type-colors.date
+    text-decoration none
     &:hover
       background-color darken(@background-color, 50%)
 
@@ -48,8 +54,11 @@
     +above(3)
       display inline-block
 
+  .tabs
+    margin-bottom -1px
+
 .suggested-incidents-wrapper
-  padding 25px 10px 25px 10px
+  padding 25px
   width 100%
   height calc(100vh - 236px)
   min-height 250px
@@ -86,5 +95,36 @@
   overflow-y scroll
   position relative
 
-.warn
-  background-color yellow
+.no-incident-reports
+  position absolute
+  top -1px
+  left 0
+  right 0
+  padding 1em 25px
+  background-color alpha(lighten($warning, 20%), 90%)
+  color $primary-dark
+  z-index $mid-layer
+  font-weight 600
+
+.incident-table
+  tr
+    border-bottom 1px solid gray
+  td
+  th
+    padding 5px
+  .count-header
+    width 50px
+  .locations-header
+    width 300px
+  .count
+    color blue
+    text-decoration underline
+    cursor pointer
+
+.submit-page
+  margin-top 30px
+
+.submit-text
+  min-height 400px
+  @media (max-height:700px)
+    min-height 210px

@@ -74,11 +74,58 @@ confirmAbandonChanges = (event, instance) ->
       displayName: "Abandon #{count} of #{total} incidents accepted?"
       hasBeenWarned: instance.hasBeenWarned
 
+showSuggestedIncidentModal = (event, instance)->
+    incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
+    content = Template.instance().content.get()
+    displayCharacters = 150
+    incidentAnnotations = [incident.countAnnotation]
+      .concat(incident.dateTerritory?.annotations or [])
+      .concat(incident.locationTerritory?.annotations or [])
+      .filter((x)-> x)
+    incidentAnnotations = _.sortBy(incidentAnnotations, (annotation)->
+      annotation.textOffsets[0][0]
+    )
+    [countStart, countEnd] = incident.countAnnotation.textOffsets[0]
+    startingIndex = Math.min(incident.locationTerritory?.territoryStart or countStart,
+      incident.dateTerritory?.territoryStart or countStart)
+    endingIndex = Math.max(incident.locationTerritory?.territoryEnd or countEnd,
+      incident.dateTerritory?.territoryEnd or countEnd)
+    lastEnd = startingIndex
+    html = ""
+    if incidentAnnotations[0].textOffsets[0] isnt 0
+      html += "..."
+    incidentAnnotations.map (annotation)->
+      [start, end] = annotation.textOffsets[0]
+      type = "case"
+      if annotation in incident.dateTerritory?.annotations
+        type = "date"
+      else if annotation in incident.locationTerritory?.annotations
+        type = "location"
+      html += (
+        Handlebars._escape("#{content.slice(lastEnd, start)}") +
+        """<span class='annotation-text #{type}'>#{
+          Handlebars._escape(content.slice(start, end))
+        }</span>"""
+      )
+      lastEnd = end
+    html += Handlebars._escape("#{content.slice(lastEnd, endingIndex)}")
+    if lastEnd < content.length - 1
+      html += "..."
+    Modal.show 'suggestedIncidentModal',
+      edit: true
+      articles: [instance.data.article]
+      userEventId: instance.data.userEventId
+      incidentCollection: instance.incidentCollection
+      incident: incident
+      incidentText: Spacebars.SafeString(html)
+
 Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
   @hasBeenWarned = new ReactiveVar(false)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar('')
+  @annotatedContentVisible = new ReactiveVar(true)
+
   Meteor.call('getArticleEnhancements', @data.article, (error, result) =>
     if error
       Modal.hide(@)
@@ -194,8 +241,13 @@ Template.suggestedIncidentsModal.onCreated ->
         { count, attributes } = countAnnotation
         if 'death' in attributes
           incident.deaths = count
+        else if "case" in attributes or "hospitalization" in attributes
+          incident.cases = count
         else
           incident.cases = count
+          incident.uncertainCountType = true
+        if @data.acceptByDefault and not incident.uncertainCountType
+          incident.accepted = true
         # Detect whether count is cumulative
         if 'incremental' in attributes
           incident.dateRange.cumulative = false
@@ -231,12 +283,20 @@ Template.suggestedIncidentsModal.onRendered ->
     $('body').addClass('modal-open')
 
 Template.suggestedIncidentsModal.helpers
+  showTable: ->
+    Template.instance().data.showTable
+
   incidents: ->
-    Template.instance().incidentCollection.find()
+    Template.instance().incidentCollection.find
+      accepted: true
+      specify: $exists: false
+
   incidentsFound: ->
     Template.instance().incidentCollection.find().count() > 0
+
   loading: ->
     Template.instance().loading.get()
+
   annotatedCount: ->
     total = Template.instance().incidentCollection.find().count()
     if total
@@ -252,7 +312,11 @@ Template.suggestedIncidentsModal.helpers
       html += (
         Handlebars._escape("#{content.slice(lastEnd, start)}") +
         """<span
-          class='annotation annotation-text#{if incident.accepted then " accepted" else ""}'
+          class='annotation annotation-text#{
+            if incident.accepted then " accepted" else ""
+          }#{
+            if incident.uncertainCountType then " uncertain" else ""
+          }'
           data-incident-id='#{incident._id}'
         >#{Handlebars._escape(content.slice(start, end))}</span>"""
       )
@@ -260,54 +324,18 @@ Template.suggestedIncidentsModal.helpers
     html += Handlebars._escape("#{content.slice(lastEnd)}")
     new Spacebars.SafeString(html)
 
+  annotatedContentVisible: ->
+    Template.instance().annotatedContentVisible.get()
+
+  tableVisible: ->
+    not Template.instance().annotatedContentVisible.get()
+
 Template.suggestedIncidentsModal.events
   'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->
     confirmAbandonChanges(event, instance)
 
-  'click .annotation': (event, instance) ->
-    incident = instance.incidentCollection.findOne($(event.target).data('incident-id'))
-    content = Template.instance().content.get()
-    displayCharacters = 150
-    incidentAnnotations = [incident.countAnnotation]
-      .concat(incident.dateTerritory?.annotations or [])
-      .concat(incident.locationTerritory?.annotations or [])
-      .filter((x)-> x)
-    incidentAnnotations = _.sortBy(incidentAnnotations, (annotation)->
-      annotation.textOffsets[0][0]
-    )
-    [countStart, countEnd] = incident.countAnnotation.textOffsets[0]
-    startingIndex = Math.min(incident.locationTerritory?.territoryStart or countStart,
-      incident.dateTerritory?.territoryStart or countStart)
-    endingIndex = Math.max(incident.locationTerritory?.territoryEnd or countEnd,
-      incident.dateTerritory?.territoryEnd or countEnd)
-    lastEnd = startingIndex
-    html = ''
-    if incidentAnnotations[0].textOffsets[0] isnt 0
-      html += '...'
-    incidentAnnotations.map (annotation)->
-      [start, end] = annotation.textOffsets[0]
-      type = 'case'
-      if annotation in incident.dateTerritory?.annotations
-        type = 'date'
-      else if annotation in incident.locationTerritory?.annotations
-        type = 'location'
-      html += (
-        Handlebars._escape("#{content.slice(lastEnd, start)}") +
-        """<span class='annotation-text #{type}'>#{
-          Handlebars._escape(content.slice(start, end))
-        }</span>"""
-      )
-      lastEnd = end
-    html += Handlebars._escape("#{content.slice(lastEnd, endingIndex)}")
-    if lastEnd < content.length - 1
-      html += '...'
-    Modal.show 'suggestedIncidentModal',
-      edit: true
-      articles: [instance.data.article]
-      userEventId: instance.data.userEventId
-      incidentCollection: instance.incidentCollection
-      incident: incident
-      incidentText: Spacebars.SafeString(html)
+  "click .annotation": (event, instance) ->
+    showSuggestedIncidentModal(event, instance)
 
   'click #add-suggestions': (event, instance) ->
     incidentCollection = Template.instance().incidentCollection
@@ -337,3 +365,18 @@ Template.suggestedIncidentsModal.events
       add: true
       incident:
         url: [instance.data.article.url]
+
+  'click #save-csv': (event, instance) ->
+    fileType = $(event.currentTarget).attr('data-type')
+    table = instance.$('table.incident-table')
+    if table.length
+      table.tableExport(type: fileType)
+
+  'click .count': (event, instance) ->
+    showSuggestedIncidentModal(event, instance)
+
+  'click .annotated-content': (event, instance) ->
+    instance.annotatedContentVisible.set true
+
+  'click .incident-table': (event, instance) ->
+    instance.annotatedContentVisible.set false

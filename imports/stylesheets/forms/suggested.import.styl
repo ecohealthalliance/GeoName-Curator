@@ -19,7 +19,7 @@ $warning-border = darken($warning-bg, 12%)
       &.active
         autofillBG(false)
   &.full-width
-    .tabs.secondary-tabs
+    .tabs.tabs-secondary
       border-bottom-color $warning-border
       li
         border-color $warning-border
@@ -40,6 +40,11 @@ $warning-border = darken($warning-bg, 12%)
       position relative
       &:after
         @extend .suggested-block
+
+.suggested-incidents
+  .flex-reverse
+    +below(3)
+      flex-direction column
 
 #suggestedIncidentModal
   +above(4)

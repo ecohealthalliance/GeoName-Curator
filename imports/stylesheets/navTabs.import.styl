@@ -72,7 +72,7 @@
   color white
   cursor default
 
-.secondary-tabs
+.tabs-secondary
   border-bottom 1px solid $border-primary
   > li
     position relative
@@ -94,3 +94,60 @@
         top .1em
         right .5em
         font-size .8em
+
+.tabs-traditional
+  margin 0
+  width 100%
+  padding 0 20px
+  justify-content center
+  +above(2)
+    justify-content flex-start
+  > li
+    flex 1
+    white-space nowrap
+    background white
+    margin-right .25em
+    +above(2)
+      flex 0 0 auto
+    &:first-of-type
+      border-top-left-radius 4px
+    &:last-of-type
+      border-top-right-radius 4px
+      margin-right 0
+    > a
+      text-transform capitalize
+      padding-left 2em
+      padding-right 2em
+      font-weight 600
+      padding-top 1.2em
+      padding-bottom 1.2em
+      +above(2)
+        padding-top .75em
+        padding-bottom .75em
+    &.active
+      background $block-BG
+      border-color $border-primary
+      margin-bottom -1px
+      &:hover
+        background @background
+        border-color @border-color
+      > a
+        color $primary
+
+.tabs-modal-header
+  > li
+    background none
+    &:hover
+      background darken($border-primary-light, 5%)
+    > a
+      color $primary
+      font-weight normal
+    &.active
+      background $border-primary-light
+      border-color darken($border-primary, 10%)
+      &:hover
+        background @background
+        border-color @border-color
+      > a
+        font-weight 600
+        color $primary-dark

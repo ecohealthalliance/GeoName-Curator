@@ -111,3 +111,7 @@ Router.route "/feeds",
     redirectIfNotAuthorized(@, ['admin'])
   name: 'feeds'
   title: 'Feeds'
+
+Router.route "/extract-incidents",
+  name: 'extractIncidents'
+  layoutTemplate: "extractIncidentsLayout"

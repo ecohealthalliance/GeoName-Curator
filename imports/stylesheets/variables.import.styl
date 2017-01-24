@@ -78,4 +78,7 @@ $incident-type-colors = {
   'location': lighten($primary, 80%)
   'date': lighten($positive, 50%)
   'case': lighten($highlight, 60%)
+  'uncertain': darken($l-gray, 5%)
 }
+$incident-type-colors.accepted = $incident-type-colors.date
+$incident-type-colors.rejected = $incident-type-colors.case
