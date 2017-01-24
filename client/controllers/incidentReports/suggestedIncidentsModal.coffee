@@ -124,6 +124,7 @@ Template.suggestedIncidentsModal.onCreated ->
   @hasBeenWarned = new ReactiveVar(false)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar('')
+  @annotatedContentVisible = new ReactiveVar(true)
 
   Meteor.call('getArticleEnhancements', @data.article, (error, result) =>
     if error
@@ -323,8 +324,11 @@ Template.suggestedIncidentsModal.helpers
     html += Handlebars._escape("#{content.slice(lastEnd)}")
     new Spacebars.SafeString(html)
 
-  type: ->
-    ['accepted', 'rejected', 'uncertain']
+  annotatedContentVisible: ->
+    Template.instance().annotatedContentVisible.get()
+
+  tableVisible: ->
+    not Template.instance().annotatedContentVisible.get()
 
 Template.suggestedIncidentsModal.events
   'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->
@@ -364,9 +368,16 @@ Template.suggestedIncidentsModal.events
 
   'click #save-csv': (event, instance) ->
     fileType = $(event.currentTarget).attr('data-type')
-    table = instance.$('.incident-table')
+    table = instance.$('table.incident-table')
     if table.length
+      console.log table
       table.tableExport(type: fileType)
 
   'click .count': (event, instance) ->
     showSuggestedIncidentModal(event, instance)
+
+  'click .annotated-content': (event, instance) ->
+    instance.annotatedContentVisible.set true
+
+  'click .incident-table': (event, instance) ->
+    instance.annotatedContentVisible.set false

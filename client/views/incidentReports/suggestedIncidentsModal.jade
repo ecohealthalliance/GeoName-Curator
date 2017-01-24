@@ -10,25 +10,17 @@ template(name="suggestedIncidentsModal")
           .container-flex(class="{{#if showTable}} flex-reverse {{/if}}")
             ul.color-legend.list-unstyled.container-flex.no-break(
               class="{{#if showTable}} with-tabs {{else}} on-left {{/if}}")
-              each type
-                li(class="color-legend--#{this}")=this
+              li.color-legend--accepted Accepted
+              li.color-legend--rejected Unconfirmed/Rejected
             if showTable
               ul.tabs.tabs-traditional.tabs-secondary.tabs-modal-header.list-unstyled
-                li.active
-                  a(
-                    href="#suggested-locations-form"
-                    data-tab="text"
-                    role="tab"
-                    data-toggle="tab") Source Text
-                li
-                  a(
-                    href="#incident-table"
-                    role="tab"
-                    data-tab="tabs"
-                    data-toggle="tab") Incident Report Table
+                li(class="{{#if annotatedContentVisible}}active{{/if}}")
+                  a.annotated-content Source Text
+                li(class="{{#if tableVisible}}active{{/if}}")
+                  a.incident-table Incident Report Table
         .modal-body
           .suggested-incidents-wrapper.tab-content
-            #suggested-locations-form.form-horizontal.tab-pane.active(role="tabpanel")
+            #suggested-locations-form.form-horizontal(hidden=tableVisible)
               if loading
                 i.fa.fa-circle-o-notch.fa-spin
                 | Processing article
@@ -38,7 +30,9 @@ template(name="suggestedIncidentsModal")
                 p.annotated-content(
                   class="{{#unless incidentsFound}} space-top-4 {{/unless}}")=annotatedContent
             if showTable
-              #incident-table.table.incident-table.tab-pane(role="tabpanel")
+              table.table.incident-table(
+                hidden=annotatedContentVisible
+                data-tableexport-display="always")
                 thead
                   tr
                     th.count-header Case Count
