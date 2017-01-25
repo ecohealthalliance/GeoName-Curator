@@ -35,17 +35,20 @@ Template.curatorInbox.onDestroyed ->
   $('.curator-inbox-sources').off 'scroll'
 
 Template.curatorInbox.onCreated ->
-  @calendarState = new ReactiveVar false
-  @ready = new ReactiveVar false
+  @calendarState = new ReactiveVar(false)
+  @ready = new ReactiveVar(false)
   @selectedArticle = false
   @dateRange = new ReactiveVar
     startDate: moment().subtract(1, 'weeks').toDate()
     endDate: new Date()
-  @textFilter = new ReactiveTable.Filter('curator-inbox-article-filter', ['title'])
-  @reviewFilter = new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
+  @textFilter =
+    new ReactiveTable.Filter('curator-inbox-article-filter', ['title'])
+  @reviewFilter =
+    new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
   @reviewFilter.set(null)
-  @selectedSourceId = new ReactiveVar null
-  @query = new ReactiveVar null
+  @selectedSourceId = new ReactiveVar(null)
+  @query = new ReactiveVar(null)
+  @currentPaneInView = new ReactiveVar('')
 
   @autorun =>
     range = @dateRange.get()
@@ -129,6 +132,12 @@ Template.curatorInbox.helpers
     classes: 'option'
     placeholder: 'Search inbox'
     toggleable: true
+
+  detailsInView: ->
+    Template.instance().currentPaneInView.get() is 'details'
+
+  currentPaneInView: ->
+    Template.instance().currentPaneInView
 
 Template.curatorInbox.events
   'click .curator-filter-reviewed-icon': (event, instance) ->
@@ -295,7 +304,9 @@ Template.curatorInboxSection.events
   'click .curator-inbox-table tbody tr
     , keyup .curator-inbox-table tbody tr': (event, instance) ->
     return if not keyboardSelect(event) and event.type is 'keyup'
-    instance.data.selectedSourceId.set(@_id)
+    instanceData = instance.data
+    instanceData.selectedSourceId.set(@_id)
+    instanceData.currentPaneInView.set('details')
 
   'click .curator-inbox-section-head
     , keyup .curator-inbox-section-head': (event, instance) ->

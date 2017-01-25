@@ -90,3 +90,6 @@ Template.curatorSourceDetails.events
     open = instance.contentIsOpen
     open.set not open.get()
     $(event.currentTarget).tooltip 'destroy'
+
+  'click .back-to-list': (event, instance) ->
+    instance.data.currentPaneInView.set('')

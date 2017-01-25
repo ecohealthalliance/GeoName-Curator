@@ -1,7 +1,8 @@
 template(name="curatorInbox")
   .pane-container.curator-inbox
     if isReady
-      .curator-inbox-header.pane-head.pane-head-l
+      .curator-inbox-header.pane-head.pane-head-l(
+        class="{{#unless detailsInView }} on-canvas {{/unless}}")
         h2 Inbox
         .curator-inbox-options
           a.option.curator-filter-reviewed-icon.plain-focus(
@@ -18,7 +19,8 @@ template(name="curatorInbox")
             i.fa.fa-calendar(aria-hidden="true")
           +searchInput searchSettings
 
-      .curator-inbox-sources.pane.pane-l.curator-inbox--pane
+      .curator-inbox-sources.pane.pane-l.curator-inbox--pane(
+        class="{{#if detailsInView}} off{{else}}on{{/if}}-canvas")
         .curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
           .text-center
             #date-picker.inlineRangePicker
@@ -33,10 +35,16 @@ template(name="curatorInbox")
               index=@index
               reviewFilter=reviewFilter
               textFilter=textFilter
-              selectedSourceId=selectedSourceId)
-      .curator-source-details.pane.pane-r.curator-inbox--pane
-        +curatorSourceDetails selectedSourceId=selectedSourceId query=query
+              selectedSourceId=selectedSourceId
+              currentPaneInView=currentPaneInView)
+      .curator-source-details.pane.pane-r.curator-inbox--pane(
+        class="{{#if detailsInView}} on{{else}}off{{/if}}-canvas")
+        +curatorSourceDetails(
+          selectedSourceId=selectedSourceId
+          query=query
+          currentPaneInView=currentPaneInView)
       button.btn.btn-primary.btn-wide.back-to-top(
+        class="{{#if detailsInView}} off{{else}}on{{/if}}-canvas"
         type="button"
         title="Click to return on the top page."
         data-toggle="tooltip")
