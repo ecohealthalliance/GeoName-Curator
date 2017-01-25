@@ -37,7 +37,7 @@ template(name="curatorInbox")
               textFilter=textFilter
               selectedSourceId=selectedSourceId
               currentPaneInView=currentPaneInView)
-      .curator-source-details.pane.pane-r.curator-inbox--pane(
+      #touch-stage.curator-source-details.pane.pane-r.curator-inbox--pane(
         class="{{#if detailsInView}} on{{else}}off{{/if}}-canvas")
         +curatorSourceDetails(
           selectedSourceId=selectedSourceId
