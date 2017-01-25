@@ -17,7 +17,13 @@
         vertical-align middle
         vertical-align middle
       &:focus
+      &:active
         noBootstrapFocus()
+        transition background .05s
+      &:active
+        > td
+          background darken($border-primary-light, 2%)
+      &:focus:not(:active)
         > td
           background $focus-secondary
           font-weight 600
@@ -28,6 +34,7 @@
           > td::after
           > td::before
             color $primary-dark
+
       a
         &:not(.plain-focus)
           &:focus
