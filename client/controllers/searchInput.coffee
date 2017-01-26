@@ -49,13 +49,6 @@ Template.searchInput.events
       instance.textFilter.set
         $regex: regexEscape(instance.$(event.target).val())
         $options: 'i'
-      if instance.data.tableId
-        Meteor.defer ->
-          count = parseInt($("##{instance.data.tableId}").next().find('span.rows-per-page-count').text(), 10)
-          if count <= 1
-            $('.loading').hide()
-          else
-            $('.loading').show()
 
   'click .search-icon.toggleable:not(.cancel)
     , focusin .search-icon': (event, instance) ->

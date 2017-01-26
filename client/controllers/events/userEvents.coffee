@@ -99,6 +99,8 @@ Template.userEvents.helpers
     showFilter: false
     class: 'table featured'
     filters: ['eventFilter']
+    showLoader: true
+    noDataTmpl: Template.noResults
 
   textFilter: ->
     Template.instance().textFilter
