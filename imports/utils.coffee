@@ -124,3 +124,7 @@ export regexEscape = (s)->
 export keyboardSelect = (event) ->
   keyCode = event.keyCode
   keyCode in [13, 32]
+
+export removeSuggestedProperties = (instance, props) ->
+  suggestedFields = instance.suggestedFields
+  suggestedFields.set(_.difference(suggestedFields.get(), props))

@@ -3,7 +3,10 @@ Articles = require '/imports/collections/articles.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 validator = require 'bootstrap-validator'
 
-import {UTCOffsets, cleanUrl} from '/imports/utils.coffee'
+import {
+  UTCOffsets,
+  cleanUrl,
+  removeSuggestedProperties } from '/imports/utils.coffee'
 
 _checkFormValidity = (instance) ->
   $form = instance.$('form')
@@ -36,7 +39,8 @@ Template.sourceModal.onCreated ->
             subject: suggestedArticle.subject.raw
 
 Template.sourceModal.onCreated ->
-  @formValid = new ReactiveVar false
+  @formValid = new ReactiveVar(false)
+  @suggestedFields = new ReactiveVar([])
 
 Template.sourceModal.onRendered ->
   publishDate = @timezoneFixedPublishDate
@@ -97,6 +101,10 @@ Template.sourceModal.helpers
 
   editing: ->
     Template.instance().data.edit
+
+  suggested: (field) ->
+    if field in Template.instance().suggestedFields.get()
+      'suggested-minimal'
 
 Template.sourceModal.events
   'click .save-modal': (event, instance) ->
@@ -172,9 +180,6 @@ Template.sourceModal.events
       else
         Modal.hide(instance)
 
-  'change #publishDateTZ': (e, instance) ->
-    instance.tzIsSpecified = true
-
   'input #article': (event, instance) ->
     value = event.currentTarget.value.trim()
     match = /promedmail\.org\/post\/(\d+)/ig.exec(value)
@@ -192,6 +197,10 @@ Template.sourceModal.events
           instance.$('#publishDateTZ').val(tz)
           _setDatePicker(instance.datePicker, date)
           instance.$('#publishTime').data('DateTimePicker').date(date)
+          suggestedFields = ['title', 'date', 'time']
+          unless instance.selectedArticle.get().promedDate
+            suggestedFields.push('url')
+          instance.suggestedFields.set(suggestedFields)
           instance.selectedArticle.set(article)
 
   'click #suggested-articles li': (event, instance) ->
@@ -202,5 +211,21 @@ Template.sourceModal.events
     instance.formValid.set(not event.isDefaultPrevented())
     event.preventDefault()
 
+  'change #publishDateTZ': (e, instance) ->
+    instance.tzIsSpecified = true
+
+  'dp.change #publishTime, change #publishDateTZ': (event, instance) ->
+    removeSuggestedProperties(instance, ['time'])
+
+  'keyup #article': (event, instance) ->
+    removeSuggestedProperties(instance, ['url'])
+
+  'apply.daterangepicker #publishDate': (event, instance) ->
+    removeSuggestedProperties(instance, ['date'])
+
   'change input[name=daterangepicker_start]': (event, instance) ->
+    removeSuggestedProperties(instance, ['date'])
     instance.datePicker.clickApply()
+
+  'input input[name=title], input input[name=url]': (event, instance) ->
+    removeSuggestedProperties(instance, [event.currentTarget.name])
