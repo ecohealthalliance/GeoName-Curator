@@ -1,4 +1,6 @@
 $header-BG = $border-primary-light
+$pane-switch-speed = .3s
+
 
 .curator-heading
   color $primary
@@ -9,16 +11,43 @@ $header-BG = $border-primary-light
   +above(4)
     padding-left 40px
 
+.curator-inbox--pane
+  width 100%
+  &:last-of-type
+    left 100%
+    +below(3)
+      transition transform $pane-switch-speed ease-in-out
+      &.on-canvas
+        transform translate(-100%, 0)
+      &.off-canvas
+        transform translate(0,0)
+  +above($break-point--curator-inbox)
+    width $curator-pane-width
+    border-right 1px solid $border-primary
+    &:last-of-type
+      border 0
+      left auto
+
 .curator-inbox-header
-  padding .5em $page-padding .5em 1.5em
   display flex
   align-items center
+  width 100%
   min-height 50px
   max-height 50px
+  padding .5em $page-padding .5em 1.5em
   border-bottom 2px solid darken($border-primary, 10%)
-  border-right 1px solid darken($border-primary, 10%)
+  +above($break-point--curator-inbox)
+    border-right 1px solid darken($border-primary, 10%)
+
   &.pane-head-l
     padding-right 1em
+    +above($break-point--curator-inbox)
+      width 50%
+    +below($break-point--curator-inbox)
+      transition transform $pane-switch-speed ease-in-out
+      transform translate(0, 0)
+      &:not(.on-canvas)
+        transform translate(-100%, 0)
   h2
     color $primary
     margin 0
@@ -26,8 +55,13 @@ $header-BG = $border-primary-light
     font-weight 600
     text-transform uppercase
   .controls
-    margin-left 1.5em
-    margin-right 1.35em
+    margin-left 3em
+    +above($break-point--curator-inbox)
+      margin-left 1.5em
+      margin-right 1.35em
+
+.curator-inbox-header--back-to-list
+  z-index $top-layer
 
 .toggle-source-content
   font-size 1.5em
@@ -41,6 +75,11 @@ $header-BG = $border-primary-light
     color darken($positive, 20%)
 
 .curator-inbox-sources
+  +below($break-point--curator-inbox)
+    transition transform $pane-switch-speed ease-in-out
+    transform translate(0, 0)
+    &:not(.on-canvas)
+      transform translate(-100%, 0)
   .curator-inbox-header
   .curator-inbox-section-head
     background lighten($border-primary-light, 50%)
@@ -53,6 +92,9 @@ $header-BG = $border-primary-light
     &:focus
       noBootstrapFocus()
       background $focus-secondary
+    &:active
+      background darken($header-BG, 3%)
+
 
 .curator-inbox-options
   position relative
@@ -156,21 +198,28 @@ $header-BG = $border-primary-light
   border-right 0
   padding-right 2em
   overflow hidden
+  +below($break-point--curator-inbox)
+    flex-direction column
+    min-height none
+    max-height none
   h2
     flex 1
-    max-width 75%
-    margin-left -21px
+    width 100%
+    display flex
+    align-items center
     z-index 1
-    white-space nowrap
-    text-overflow ellipsis
-    overflow hidden
-    font-size 1.15em
-    line-height 1.15em
+    margin-bottom 1em
     text-transform capitalize
+    font-size 1.15em
+    +above($break-point--curator-inbox)
+      max-width 75%
+      min-width 0
+      margin-bottom 0
+      margin-left -21px
     &::before
       margin-top 2px
       padding 1em .4em .9em .5em
-      display inline-block
+      display none
       vertical-align middle
       content '\f08e' // fa-external-link
       opacity 0
@@ -178,6 +227,8 @@ $header-BG = $border-primary-light
       font(FontAwesome)
       line-height 0
       font-weight normal
+      +above($break-point--curator-inbox)
+        display inline-block
     &:hover
       color $warning
       &::before
@@ -187,6 +238,12 @@ $header-BG = $border-primary-light
     a
       vertical-align middle
       color $primary
+      +above($break-point--curator-inbox)
+        white-space nowrap
+        text-align left
+        text-overflow ellipsis
+        line-height 1.15em
+        overflow hidden
       &:hover
       &:focus
         color $highlight
@@ -248,16 +305,26 @@ $header-BG = $border-primary-light
   display flex
   align-self stretch
   align-items center
-  margin-left auto
+  flex-direction row-reverse
+  align-items center
+  margin-bottom 1em
+  +above($break-point--curator-inbox)
+    flex-direction row
+    margin-left auto
+    margin-bottom 0
   .btn
     transition .3s
+    flex 1
+    +above($break-point--curator-inbox)
+      flex auto
     &.toggle-reviewed
-      padding .45em 1em
+      padding .45em 3em
       background lighten($positive, 90%)
       color $primary-dark
-      +above(4)
-        padding-left 3em
-        padding-right 3em
+      margin-right auto
+      max-width 225px
+      +above($break-point--curator-inbox)
+        margin-bottom 0
       &:hover
         background darken(@background, 10%)
         color darken(@color, 10%)
@@ -291,6 +358,7 @@ $header-BG = $border-primary-light
           display none
 
 .curator-source-details-content
+  padding-bottom 2em
   a
     cursor pointer
     color $d-gray
@@ -553,13 +621,42 @@ $header-BG = $border-primary-light
   color $danger
 
 .back-to-top
-  font-size 0.85em
-  font-weight 400
+  position absolute
+  left 50%
+  bottom 20px
+  transform translate(-50%, 0px)
+  z-index $top-layer + 1
+  display block
   padding-left 3em
   padding-right 3em
-  left 33%
-  position absolute
-  z-index 20000
-  bottom 20px
-  transform translate(-100%, 0px)
-  display block
+  font-size 0.85em
+  font-weight 400
+  +above($break-point--curator-inbox)
+    left 33%
+    transform translate(-100%, 0px)
+  +below($break-point--curator-inbox)
+    &.off-canvas
+      opacity 0
+      transition opacity .5s ease-in-out
+
+.back-to-list
+  font-size 2.5em
+  margin-right .35em
+  color $primary
+  cursor pointer
+  +above($break-point--curator-inbox)
+    display none
+
+.curator-events
+  +below($break-point--curator-inbox)
+    .reactive-table-navigation
+      padding-top 1em
+      padding-bottom 1em
+      margin-top 0
+      margin-bottom 3em
+      background $block-BG
+      justify-content flex-end
+      margin-right 1em
+      .page-number
+        max-width 65%
+        margin-right 1em

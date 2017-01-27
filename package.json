@@ -17,6 +17,7 @@
     "bcrypt": "^0.8.7",
     "bootstrap-validator": "^0.11.8",
     "d3": "^4.3.0",
+    "hammerjs": "^2.0.8",
     "keymaster": "^1.6.2",
     "pluralize": "^3.0.0",
     "rupture": "^0.6.1",

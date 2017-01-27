@@ -34,15 +34,19 @@ Template.curatorSourceDetails.onCreated ->
 
 Template.curatorSourceDetails.onRendered ->
   instance = @
-
-  Meteor.defer ->
+  Meteor.defer =>
     instance.$('[data-toggle=tooltip]').tooltip
       delay: show: '300'
       container: 'body'
+    if window.innerWidth <= 1000
+      Hamer = require 'hammerjs'
+      swippablePane = new Hammer($('#touch-stage')[0])
+      swippablePane.on 'swiperight', (event) ->
+        instance.data.currentPaneInView.set('')
 
-  @autorun ->
+  @autorun =>
     title = instance.source.get()?.title
-    Meteor.defer ->
+    Meteor.defer =>
       $title = $('#sourceDetailsTitle')
       titleEl = $title[0]
       # Remove title and tooltip if the title is complete & without ellipsis
@@ -55,7 +59,6 @@ Template.curatorSourceDetails.onRendered ->
   key 'ctrl + enter, command + enter', (event) =>
     _markReviewed(@)
 
-  instance = @
   @autorun ->
     sourceId = instance.data.selectedSourceId.get()
     _getSource(instance, sourceId)
@@ -90,3 +93,6 @@ Template.curatorSourceDetails.events
     open = instance.contentIsOpen
     open.set not open.get()
     $(event.currentTarget).tooltip 'destroy'
+
+  'click .back-to-list': (event, instance) ->
+    instance.data.currentPaneInView.set('')
