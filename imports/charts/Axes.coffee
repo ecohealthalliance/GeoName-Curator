@@ -120,12 +120,12 @@ class Axes
         padding = 45
       @xLabel =  @plot.container
         .append('g')
-          .attr('class', 'x d3cf-axis-label')
+          .attr('class', 'x scatterPlot-axis-label')
           .attr('transform', "translate(#{@plot.margins.left}, #{@plot.getHeight() + padding})")
         .append('text')
           .attr('dx', (@plot.width / 2) - (@plot.margins.right + @plot.margins.left) / 2)
           .attr('dy', @plot.margins.bottom)
-          .attr('class', 'd3cf-axis-label')
+          .attr('class', 'scatterPlot-axis-label')
           .style('text-anchor', 'middle')
           .text( =>
             @options.x.title || ''
@@ -135,13 +135,13 @@ class Axes
     if !@yLabel
       @yLabel = @plot.container
         .append('g')
-          .attr('class', 'y d3cf-axis-label')
+          .attr('class', 'y scatterPlot-axis-label')
           .attr('transform', "translate(#{@plot.margins.left}, 0)")
         .append('text')
           .attr('transform', 'rotate(-90)')
           .attr('dx', -(@plot.height / 2) + (@plot.margins.top + @plot.margins.bottom) / 2)
           .attr('dy', -@plot.margins.left)
-          .attr('class', 'd3cf-axis-label')
+          .attr('class', 'scatterPlot-axis-label')
           .style('text-anchor', 'middle')
           .text( =>
             @options.y.title || ''
