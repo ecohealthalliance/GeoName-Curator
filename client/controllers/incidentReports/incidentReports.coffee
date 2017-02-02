@@ -67,7 +67,7 @@ Template.incidentReports.onRendered ->
         title: 'Time'
         type: 'datetime'
       y:
-        title: 'Count'
+        title: 'Count (Case/Death)'
         type: 'numeric'
     tooltip:
       opacity: 1

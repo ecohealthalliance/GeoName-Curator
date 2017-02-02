@@ -91,23 +91,11 @@ class Axes
         .attr('dx', '-.8em')
         .attr('dy', '.15em')
         .attr('transform', (d) -> 'rotate(-65)')
-      @xGroup.append('text')
-        .attr('class', 'scatterPlot-axis-label')
-        .attr('dx', (@plot.width / 2) - ((@plot.margins.right + @plot.margins.left) / 2))
-        .attr('dy', @plot.margins.bottom + 30)
-        .style('text-anchor', 'middle')
-        .text(@options.x.title)
     else
       @xGroup = @plot.container.append('g')
         .attr('class', 'scatterPlot-axis')
         .attr('transform', "translate(#{@plot.margins.left}, #{@plot.getHeight()})")
         .call(@xAxis)
-      @xGroup.append('text')
-        .attr('dx', (@plot.width / 2) - ((@plot.margins.right + @plot.margins.left) / 2))
-        .attr('dy', @plot.margins.bottom)
-        .attr('class', 'scatterPlot-axis-label')
-        .style('text-anchor', 'middle')
-        .text(@options.x.title)
 
     # yScale
     if yDomain
@@ -124,14 +112,40 @@ class Axes
       .attr('class', 'y scatterPlot-axis')
       .attr('transform', "translate(#{@plot.margins.left}, 0)")
       .call(@yAxis)
-    @yGroup.append('text')
-      .attr('transform', 'rotate(-90)')
-      .attr('dx', - (@plot.height / 2) + ((@plot.margins.top + @plot.margins.bottom) / 2))
-      .attr('dy', - @plot.margins.left)
-      .attr('class', 'scatterPlot-axis-label')
-      .style('text-anchor', 'middle')
-      .text(@options.y.title)
 
+    # xLabel
+    if !@xLabel
+      padding = 0
+      if @options.x.type == 'datetime'
+        padding = 45
+      @xLabel =  @plot.container
+        .append('g')
+          .attr('class', 'x scatterPlot-axis-label')
+          .attr('transform', "translate(#{@plot.margins.left}, #{@plot.getHeight() + padding})")
+        .append('text')
+          .attr('dx', (@plot.width / 2) - (@plot.margins.right + @plot.margins.left) / 2)
+          .attr('dy', @plot.margins.bottom)
+          .attr('class', 'scatterPlot-axis-label')
+          .style('text-anchor', 'middle')
+          .text( =>
+            @options.x.title || ''
+          )
+
+    # yLabel
+    if !@yLabel
+      @yLabel = @plot.container
+        .append('g')
+          .attr('class', 'y scatterPlot-axis-label')
+          .attr('transform', "translate(#{@plot.margins.left}, 0)")
+        .append('text')
+          .attr('transform', 'rotate(-90)')
+          .attr('dx', -(@plot.height / 2) + (@plot.margins.top + @plot.margins.bottom) / 2)
+          .attr('dy', -@plot.margins.left)
+          .attr('class', 'scatterPlot-axis-label')
+          .style('text-anchor', 'middle')
+          .text( =>
+            @options.y.title || ''
+          )
 
     # the x,y grid lines, requires the instance of the axes
     if @options.grid
