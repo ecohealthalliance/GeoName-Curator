@@ -330,6 +330,16 @@ Template.suggestedIncidentsModal.helpers
   tableVisible: ->
     not Template.instance().annotatedContentVisible.get()
 
+  incidentProperties: ->
+    properties = []
+    if @travelRelated
+      properties.push "Travel Related"
+    if @dateRange?.cumulative
+      properties.push "Cumulative"
+    if @approximate
+      properties.push "Approximate"
+    properties.join(";")
+
 Template.suggestedIncidentsModal.events
   'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->
     confirmAbandonChanges(event, instance)
