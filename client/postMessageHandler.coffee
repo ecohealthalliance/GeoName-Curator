@@ -68,6 +68,20 @@ postMessageHandler = (event)->
             console.log error
         )
     )
+  else if request.type == "eha.dataExchange"
+    if $("#suggestedIncidentsModal").length > 0
+      $("#suggestedIncidentsModal").modal('hide')
+    else
+      Modal.show 'suggestedIncidentsModal',
+        userEventId: null
+        showTable: true
+        acceptByDefault: true
+        article:
+          publishDate: new Date()
+          addedDate: new Date()
+          url: request.link
+          content: request.content
+
 window.addEventListener("message", postMessageHandler, false)
 # The timeout is used to wait for BSVE.init to be called in the parent frame.
 window.setTimeout ->
