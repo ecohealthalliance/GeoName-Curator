@@ -2,19 +2,33 @@ CuratorSources = require '/imports/collections/curatorSources.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 { keyboardSelect } = require '/imports/utils'
 
-createNewCalendar = () ->
-  createInlineDateRangePicker($("#date-picker"), {
-    maxDate: new Date()
+updateCalendarSelection = (calendar, range) ->
+  {startDate, endDate} = range
+  currentMonth = moment(month: moment().month())
+  lastMonth = moment(month: moment().subtract(1, 'months').month())
+  calendar.rightCalendar.month = currentMonth
+  calendar.leftCalendar.month = lastMonth
+  calendar.setStartDate(startDate)
+  calendar.setEndDate(endDate)
+  calendar.updateCalendars()
+
+createNewCalendar = (latestSourceDate, range) ->
+  {startDate, endDate} = range
+  createInlineDateRangePicker $("#date-picker"),
+    maxDate: latestSourceDate
     dateLimit:
       days: 60
     useDefaultDate: true
-  })
   calendar = $('#date-picker').data('daterangepicker')
-  currentMonth = moment({ month: moment().month() })
-  lastMonth = moment({ month: moment().subtract(1, 'months').month() })
-  calendar.rightCalendar.month = currentMonth
-  calendar.leftCalendar.month = lastMonth
-  calendar.updateCalendars()
+  updateCalendarSelection(calendar, range)
+
+  $('.inlineRangePicker').on 'mouseleave', '.daterangepicker', ->
+    if not calendar.endDate
+      # Remove lingering classes that indicate pending range selection
+      $(@).find('.in-range').each ->
+        $(@).removeClass('in-range')
+      # Update selection to indicate one date selected
+      $(@).find('.start-date').addClass('end-date')
 
 ###
 # prevents checking the scrollTop more than every 50 ms to avoid flicker
@@ -38,9 +52,11 @@ Template.curatorInbox.onCreated ->
   @calendarState = new ReactiveVar(false)
   @ready = new ReactiveVar(false)
   @selectedArticle = false
-  @dateRange = new ReactiveVar
-    startDate: moment().subtract(1, 'weeks').toDate()
-    endDate: new Date()
+  today = new Date()
+  @defaultDateRange =
+    endDate: today
+    startDate: moment(today).subtract(1, 'weeks').toDate()
+  @dateRange = new ReactiveVar(@defaultDateRange)
   @textFilter =
     new ReactiveTable.Filter('curator-inbox-article-filter', ['title'])
   @reviewFilter =
@@ -49,31 +65,8 @@ Template.curatorInbox.onCreated ->
   @selectedSourceId = new ReactiveVar(null)
   @query = new ReactiveVar(null)
   @currentPaneInView = new ReactiveVar('')
-
-  @autorun =>
-    range = @dateRange.get()
-    endDate = range?.endDate || new Date()
-    startDate = moment(endDate).subtract(2, 'weeks').toDate()
-    if range?.startDate
-      startDate = range.startDate
-    query =
-      publishDate:
-        $gte: new Date(startDate)
-        $lte: new Date(endDate)
-    @query.set query
-
-    Meteor.call 'fetchPromedPosts', 100, range, (err) ->
-      if err
-        console.log(err)
-        return toastr.error(err.reason)
-
-    @subscribe "curatorSources", query, () =>
-      unReviewedQuery = $and: [ {reviewed: false}, query ]
-      firstSource = CuratorSources.findOne unReviewedQuery,
-        sort:
-          publishDate: -1
-      @selectedSourceId.set(firstSource._id)
-      @ready.set(true)
+  @latestSourceDate = new ReactiveVar(null)
+  @filtering = new ReactiveVar(false)
 
 Template.curatorInbox.onRendered ->
   # determine if our `back-to-top` button should be initially displayed
@@ -86,10 +79,50 @@ Template.curatorInbox.onRendered ->
   @autorun =>
     if @ready.get()
       Meteor.defer =>
-        createNewCalendar()
+        createNewCalendar(@latestSourceDate.get(), @dateRange.get())
         @$('[data-toggle="tooltip"]').tooltip
           container: 'body'
           placement: 'left'
+
+  @autorun =>
+    @filtering.set(true)
+    range = @dateRange.get()
+    endDate = range?.endDate
+    startDate = range?.startDate
+    query =
+      publishDate:
+        $gte: new Date(startDate)
+        $lte: new Date(endDate)
+    @query.set query
+
+    Meteor.call 'fetchPromedPosts', 100, range, (err) ->
+      if err
+        console.log(err)
+        return toastr.error(err.reason)
+
+
+    calendar = $('#date-picker').data('daterangepicker')
+    if calendar
+      updateCalendarSelection(calendar, range)
+
+    @subscribe "curatorSources", query, () =>
+      unReviewedQuery = $and: [ {reviewed: false}, query ]
+      firstSource = CuratorSources.findOne unReviewedQuery,
+        sort:
+          publishDate: -1
+      @selectedSourceId.set(firstSource._id)
+      @filtering.set(false)
+      if not @latestSourceDate.get()
+        @latestSourceDate.set CuratorSources.findOne({},
+            sort:
+              publishDate: -1
+            fields:
+              publishDate: 1
+          ).publishDate
+        @ready.set(true)
+
+Template.curatorInbox.onDestroyed ->
+  $('.inlineRangePicker').off('mouseleave')
 
 Template.curatorInbox.helpers
   days: ->
@@ -115,10 +148,8 @@ Template.curatorInbox.helpers
     Template.instance().textFilter
 
   isReady: ->
-    Template.instance().ready.get()
-
-  isLoading: ->
-    !Template.instance().ready.get()
+    instance = Template.instance()
+    instance.ready.get() and not instance.filtering.get()
 
   selectedSourceId: ->
     Template.instance().selectedSourceId
@@ -138,6 +169,11 @@ Template.curatorInbox.helpers
 
   currentPaneInView: ->
     Template.instance().currentPaneInView
+
+  userHasFilteredByDate: ->
+    instance = Template.instance()
+    not _.isEqual(instance.defaultDateRange, instance.dateRange.get())
+
 
 Template.curatorInbox.events
   'click .curator-filter-reviewed-icon': (event, instance) ->
@@ -159,26 +195,23 @@ Template.curatorInbox.events
     endDate = $('#date-picker').data('daterangepicker').endDate
 
     if startDate and !endDate
-      endDate = moment(startDate).set({hour: 23, minute: 59, second: 59, millisecond: 999})
+      endDate = moment(startDate).set
+        hour: 23
+        minute: 59
+        second: 59
+        millisecond: 999
 
     if startDate and endDate
-      instance.calendarState.set(false)
-      instance.ready.set(false)
       range =
         startDate: startDate.toDate()
         endDate: endDate.toDate()
-      instance.dateRange.set range
+      instance.dateRange.set(range)
 
   'click #calendar-btn-reset': (event, instance) ->
-    instance.calendarState.set(false)
-    instance.ready.set(false)
-    createNewCalendar()
+    defaultDateRange = Template.instance().defaultDateRange
     instance.dateRange.set
-      startDate: moment().subtract(1, 'weeks').toDate()
-      endDate: new Date()
-
-  'click #calendar-btn-cancel': (event, instance) ->
-    instance.calendarState.set(false)
+      startDate: defaultDateRange.startDate
+      endDate: defaultDateRange.endDate
 
   'click .back-to-top': (event, instance) ->
     event.preventDefault()
