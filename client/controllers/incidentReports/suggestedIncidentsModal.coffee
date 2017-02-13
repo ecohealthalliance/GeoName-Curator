@@ -58,6 +58,8 @@ parseSents = (text)->
       sentStart = idx
     else
       idx++
+  if sentStart < idx
+    sents[sents.length] = text.slice(sentStart, idx)
   return sents
 
 # determines if the user should be prompted before leaving the current modal
