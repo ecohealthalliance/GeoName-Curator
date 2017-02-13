@@ -1,6 +1,13 @@
 utils = require '/imports/utils.coffee'
 incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 
+returnToParentModal = (instance) ->
+  $('#suggestedIncidentsModal').addClass('in')
+  $('#suggestedIncidentModal').removeClass('in').addClass('out')
+  setTimeout ->
+    Modal.hide(instance)
+  , 500
+
 Template.suggestedIncidentModal.onCreated ->
   @incidentCollection = @data.incidentCollection
   @incident = @data.incident or {}
@@ -18,6 +25,7 @@ Template.suggestedIncidentModal.helpers
 
 Template.suggestedIncidentModal.events
   'click .reject': (event, instance) ->
+    returnToParentModal(instance)
     Template.instance().incidentCollection.update instance.incident._id,
       $set:
         accepted: false
@@ -41,4 +49,4 @@ Template.suggestedIncidentModal.events
         specify: true
       $set: incident
 
-    Modal.hide(instance)
+    returnToParentModal(instance)

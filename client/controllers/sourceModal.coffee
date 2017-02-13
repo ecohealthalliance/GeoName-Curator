@@ -18,6 +18,14 @@ _setDatePicker = (picker, date) ->
   picker.setStartDate(date)
   picker.clickApply()
 
+_showNextModal = (instance) ->
+  $('.modal-backdrop').fadeOut()
+  $('#event-source').addClass('off-canvas--left').removeClass('fade in')
+  setTimeout ->
+    Modal.hide(instance)
+  , 500
+
+
 Template.sourceModal.onCreated ->
   @tzIsSpecified = false
   @proMEDRegEx = /promedmail\.org\/post\/(\d+)/ig
@@ -138,7 +146,7 @@ Template.sourceModal.events
       if error
         toastr.error error.reason
       else
-        Modal.hide(instance)
+        _showNextModal(instance)
         form.article.value = ''
         _setDatePicker(instance.datePicker, null)
         timePicker.date(null)
@@ -178,7 +186,7 @@ Template.sourceModal.events
       if error
         toastr.error error.reason
       else
-        Modal.hide(instance)
+        _showNextModal(instance)
 
   'input #article': (event, instance) ->
     value = event.currentTarget.value.trim()

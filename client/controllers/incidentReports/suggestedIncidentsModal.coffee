@@ -123,6 +123,12 @@ showSuggestedIncidentModal = (event, instance)->
       incident: incident
       incidentText: Spacebars.SafeString(html)
 
+dismissModal = (instance) ->
+  $('#suggestedIncidentsModal').addClass('off-canvas--top out').removeClass('in off-canvas--right')
+  setTimeout ->
+    Modal.hide(instance)
+  , 500
+
 Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
   @hasBeenWarned = new ReactiveVar(false)
@@ -292,6 +298,7 @@ Template.suggestedIncidentsModal.onRendered ->
   $('#event-source').on 'hidden.bs.modal', ->
     $('body').addClass('modal-open')
 
+
 Template.suggestedIncidentsModal.helpers
   showTable: ->
     Template.instance().data.showTable
@@ -355,6 +362,7 @@ Template.suggestedIncidentsModal.events
     confirmAbandonChanges(event, instance)
 
   "click .annotation": (event, instance) ->
+    $('#suggestedIncidentsModal').removeClass('in off-canvas--right').addClass('off-canvas--left')
     showSuggestedIncidentModal(event, instance)
 
   'click #add-suggestions': (event, instance) ->
@@ -376,7 +384,7 @@ Template.suggestedIncidentsModal.events
         # empty our collection temporary work.
         incidentCollection.remove({})
         # hide the modal
-        Modal.hide(instance)
+        dismissModal(instance)
 
   'click #non-suggested-incident': (event, instance) ->
     Modal.show 'incidentModal',
@@ -400,3 +408,6 @@ Template.suggestedIncidentsModal.events
 
   'click .incident-table': (event, instance) ->
     instance.annotatedContentVisible.set false
+
+  'click .confirm-close-modal': (event, instance) ->
+    dismissModal(instance)

@@ -49,6 +49,9 @@ Template.incidentModal.events
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.details').remove()
           toastr.success('Incident report updated.')
-          Modal.hide('incidentModal')
+          $('#incidentModal').addClass('off-canvas--left out')
+          setTimeout ->
+            Modal.hide('incidentModal')
+          , 500
         else
           toastr.error(error.reason)

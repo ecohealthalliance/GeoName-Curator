@@ -1,6 +1,23 @@
 $modal-border-radius = 4px
 $modal-side-padding = 20px
 
+.modal
+  &[class*="off-canvas"]
+  &.transitioned
+    transition transform .5s ease-in-out, opacity .4s ease-in-out
+    opacity 1
+  &.off-canvas--left
+    transform translate(-100%, 0)
+  &.off-canvas--right
+    transform translate(100%, 0)
+  &.off-canvas--top
+    transform translate(0, -100%)
+  &[class*="off-canvas"]
+    &.in
+      transform translate(0, 0)
+    &.out
+      opacity 0
+
 .modal-skinny
   .modal-dialog
     +above(3)
