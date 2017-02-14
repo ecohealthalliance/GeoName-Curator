@@ -15,7 +15,7 @@ Template.notification.onRendered ->
   , (delayTime)
   setTimeout ->
     Blaze.remove(instance.view)
-  , 100000
+  , (delayTime + 1000)
 
 Template.notification.helpers
   icon: ->

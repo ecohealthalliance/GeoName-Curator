@@ -313,7 +313,7 @@ Template.suggestedIncidentsModal.helpers
   incidentsFound: ->
     Template.instance().incidentCollection.find().count() > 0
 
-  loading: ->
+  isLoading: ->
     Template.instance().loading.get()
 
   annotatedCount: ->

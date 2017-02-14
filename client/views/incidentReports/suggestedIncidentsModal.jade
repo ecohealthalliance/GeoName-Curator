@@ -21,9 +21,8 @@ template(name="suggestedIncidentsModal")
         .modal-body
           .suggested-incidents-wrapper.tab-content
             #suggested-locations-form.form-horizontal(hidden=tableVisible)
-              if loading
-                i.fa.fa-circle-o-notch.fa-spin
-                | Processing article
+              if isLoading
+                +loading(message="Processing Article")
               else
                 unless incidentsFound
                   .no-incident-reports No incident reports could be automatically extracted from the article.
