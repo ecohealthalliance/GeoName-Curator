@@ -300,7 +300,6 @@ Template.suggestedIncidentsModal.onRendered ->
   $('#event-source').on 'hidden.bs.modal', ->
     $('body').addClass('modal-open')
 
-
 Template.suggestedIncidentsModal.helpers
   showTable: ->
     Template.instance().data.showTable

@@ -9,11 +9,20 @@ returnToParentModal = (instance) ->
     Modal.hide(instance)
   , 500
 
+Template.suggestedIncidentModal.onRendered ->
+  Meteor.defer =>
+    # Add max-height to snippet if it is taller than form
+    formHeight = @$('.add-incident--wrapper').height()
+    $snippet = $('.snippet--text')
+    if $snippet.height() > formHeight
+      $snippet.css('max-height', formHeight)
+
 Template.suggestedIncidentModal.onCreated ->
   @incidentCollection = @data.incidentCollection
   @incident = @data.incident or {}
   @incident.suggestedFields = new ReactiveVar(@incident.suggestedFields or [])
   @valid = new ReactiveVar(false)
+
 
 Template.suggestedIncidentModal.helpers
   hasSuggestedFields: ->
