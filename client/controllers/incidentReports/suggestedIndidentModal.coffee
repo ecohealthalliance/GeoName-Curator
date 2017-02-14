@@ -1,5 +1,6 @@
 utils = require '/imports/utils.coffee'
 incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
+{ notify } = require '/imports/ui/notification'
 
 returnToParentModal = (instance) ->
   $('#suggestedIncidentsModal').addClass('in')
@@ -49,4 +50,5 @@ Template.suggestedIncidentModal.events
         specify: true
       $set: incident
 
+    notify('success', 'Incident Report Accepted', 1200)
     returnToParentModal(instance)

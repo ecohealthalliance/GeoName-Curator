@@ -2,6 +2,7 @@ convertDate = require '/imports/convertDate.coffee'
 Articles = require '/imports/collections/articles.coffee'
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 validator = require 'bootstrap-validator'
+{ notify } = require '/imports/ui/notification'
 
 import {
   UTCOffsets,
@@ -146,7 +147,6 @@ Template.sourceModal.events
       if error
         toastr.error error.reason
       else
-        _showNextModal(instance)
         form.article.value = ''
         _setDatePicker(instance.datePicker, null)
         timePicker.date(null)
@@ -154,9 +154,13 @@ Template.sourceModal.events
         instance.tzIsSpecified = false
 
         if enhance
+          notify('success', 'Source successfully added')
+          _showNextModal(instance)
           Modal.show 'suggestedIncidentsModal',
             userEventId: instance.data.userEventId
             article: Articles.findOne(articleId)
+        else
+          Modal.hide(instance)
 
   'click .save-edit-modal': (event, instance) ->
     return unless _checkFormValidity(instance)

@@ -1,6 +1,8 @@
 incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
 UserEvents = require '/imports/collections/userEvents.coffee'
 Constants = require '/imports/constants.coffee'
+{ notify } = require('/imports/ui/notification')
+
 # A annotation's territory is the sentence containing it,
 # and all the following sentences until the next annotation.
 # Annotations in the same sentence are grouped.
@@ -384,6 +386,7 @@ Template.suggestedIncidentsModal.events
         # empty our collection temporary work.
         incidentCollection.remove({})
         # hide the modal
+        notify('success', 'Incident Reports Added')
         dismissModal(instance)
 
   'click #non-suggested-incident': (event, instance) ->

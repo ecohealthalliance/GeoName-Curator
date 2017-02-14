@@ -1,10 +1,12 @@
 $modal-border-radius = 4px
 $modal-side-padding = 20px
+$modal-transition-time = .35s
+$modal-transition-time-opacity = .25s
 
 .modal
   &[class*="off-canvas"]
   &.transitioned
-    transition transform .5s ease-in-out, opacity .4s ease-in-out
+    transition transform $modal-transition-time ease-in-out, opacity $modal-transition-time-opacity ease-in-out
     opacity 1
   &.off-canvas--left
     transform translate(-100%, 0)
