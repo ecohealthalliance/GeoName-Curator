@@ -94,7 +94,7 @@ showSuggestedIncidentModal = (event, instance)->
       incident.dateTerritory?.territoryEnd or countEnd)
     lastEnd = startingIndex
     html = ""
-    if incidentAnnotations[0].textOffsets[0] isnt 0
+    if incidentAnnotations[0]?.textOffsets[0][0] isnt 0
       html += "..."
     incidentAnnotations.map (annotation)->
       [start, end] = annotation.textOffsets[0]
