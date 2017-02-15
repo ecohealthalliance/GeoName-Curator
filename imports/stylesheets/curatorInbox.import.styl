@@ -130,19 +130,40 @@ $pane-switch-speed = .3s
 
 .curator-inbox-datepicker
   display none
-  margin 5px auto 15px
+  margin 1em 0 0
+  padding-bottom 2em
+  border-bottom 2px solid $border-primary-light
   &.active
     display block
   .inlineRangePicker
     position relative
+    margin-bottom 1em
   .daterangepicker
-    display inline-block
-    left auto !important
-    top 8px !important
-    padding 0
-    margin 0 0 5px
+    position static
+    display flex
+    align-items center
+    justify-content center
+    flex-wrap wrap
   .calendar
-    margin 0
+    margin 0 0 1.5em 0
+    &:first-of-type
+      margin-right 1em
+    +above(2)
+      margin-bottom 0
+    .calendar-table
+    .daterangepicker_input
+      padding 0
+  .btn
+    margin-bottom .5em
+    width 80%
+    margin 0 10% 1em 10%
+    +above(2)
+      width auto
+      margin-left 0
+      margin-right .5em
+      &:first-of-type
+        padding-left 2.5em
+        padding-right 2.5em
 
 .curator-inbox-source-list
   .reactive-table-options

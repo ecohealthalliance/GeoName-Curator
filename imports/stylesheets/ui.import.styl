@@ -7,6 +7,8 @@
 
 .container-flex
   display flex
+  &.column
+    flex-direction column
   &:not(.no-break)
     +below(3)
       flex-direction column
