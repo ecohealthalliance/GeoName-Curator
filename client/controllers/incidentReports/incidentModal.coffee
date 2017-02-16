@@ -1,12 +1,33 @@
 utils = require '/imports/utils.coffee'
 validator = require 'bootstrap-validator'
+{ notify } = require '/imports/ui/notification'
+{ stageModals } = require '/imports/ui/modals'
 
 Template.incidentModal.onCreated ->
   @valid = new ReactiveVar(false)
+  @modals =
+    currentModal: element: '.incident-report'
+    previousModal: element: '#suggestedIncidentsModal'
+
+Template.incidentModal.onRendered ->
+  instance = @
+  $('.incident-report').on 'hide.bs.modal', (event) ->
+    $modal = $(event.currentTarget)
+    if $modal.hasClass('off-canvas--right') and not $modal.hasClass('out')
+      stageModals(instance, instance.modals)
+      event.preventDefault()
 
 Template.incidentModal.helpers
   valid: ->
     Template.instance().valid
+
+  classes: ->
+    classes = ''
+    offCanvas = Template.instance().data.offCanvas
+    if offCanvas
+      classes += " off-canvas--#{offCanvas}"
+    else
+      classes += 'fade'
 
 Template.incidentModal.events
   'click .save-modal, click .save-modal-duplicate': (event, instance) ->
@@ -31,8 +52,11 @@ Template.incidentModal.events
           $('.reactive-table tr.tr-details').remove()
           if !duplicate
             form.reset()
-            Modal.hide('incidentModal')
-          toastr.success('Incident report added to event.')
+            notify('success', 'Incident report added to event')
+            if instance.data.offCanvas
+              stageModals(instance, instance.modals)
+            else
+              Modal.hide('incidentModal')
         else
           errorString = error.reason
           if error.details[0].name is 'locations' and error.details[0].type is 'minCount'
@@ -48,10 +72,7 @@ Template.incidentModal.events
         if not error
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.details').remove()
-          toastr.success('Incident report updated.')
-          $('#incidentModal').addClass('off-canvas--left out')
-          setTimeout ->
-            Modal.hide('incidentModal')
-          , 500
+          notify('success', 'Incident report added to event')
+          Modal.hide('incidentModal')
         else
           toastr.error(error.reason)

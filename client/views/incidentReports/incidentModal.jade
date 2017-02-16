@@ -1,5 +1,8 @@
 template(name="incidentModal")
-  .incident-report.modal.modal-skinny.fade.transitioned(role="dialog")
+  .incident-report.modal.modal-skinny(
+    role="dialog"
+    class=classes
+    data-backdrop="{{#if offCanvas}}false{{/if}}")
     .modal-dialog
       .modal-content
         .modal-header

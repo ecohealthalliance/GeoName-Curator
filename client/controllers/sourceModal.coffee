@@ -21,11 +21,10 @@ _setDatePicker = (picker, date) ->
 
 _showNextModal = (instance) ->
   $('.modal-backdrop').fadeOut()
-  $('#event-source').addClass('off-canvas--left').removeClass('fade in')
+  $('#event-source').addClass('off-canvas--left out').removeClass('fade in')
   setTimeout ->
     Modal.hide(instance)
   , 500
-
 
 Template.sourceModal.onCreated ->
   @tzIsSpecified = false

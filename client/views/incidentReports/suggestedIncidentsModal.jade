@@ -1,5 +1,5 @@
 template(name="suggestedIncidentsModal")
-  .modal#suggestedIncidentsModal.off-canvas--right(role="dialog")
+  .modal#suggestedIncidentsModal.off-canvas--right.flex(role="dialog")
     .modal-dialog.suggested-incidents
       .modal-content
         .modal-header
@@ -63,7 +63,7 @@ template(name="suggestedIncidentsModal")
                       td=species
                       td=incidentProperties
         .modal-footer
-          button.btn.btn-default.confirm-close-modal(type="button") Close
+          button.btn.btn-default.confirm-close-modal(type="button" data-dismiss="modal") Close
           if showTable
             button.btn.btn-default#save-csv(type="button" data-type="csv") Download CSV
           else

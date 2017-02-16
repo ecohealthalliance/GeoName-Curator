@@ -130,4 +130,4 @@ Template.articleSelect2.onRendered ->
 
 Template.articleSelect2.onDestroyed ->
   templateInstance = Template.instance()
-  templateInstance.$('#' + templateInstance.data.selectId).select2('destroy')
+  templateInstance.$('#' + templateInstance.data.selectId)?.select2('destroy')

@@ -1,18 +1,13 @@
 utils = require '/imports/utils.coffee'
 incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 { notify } = require '/imports/ui/notification'
-
-returnToParentModal = (instance) ->
-  $('#suggestedIncidentsModal').addClass('in')
-  $('#suggestedIncidentModal').removeClass('in').addClass('out')
-  setTimeout ->
-    Modal.hide(instance)
-  , 500
+{ stageModals } = require '/imports/ui/modals'
 
 Template.suggestedIncidentModal.onRendered ->
-  Meteor.defer =>
+  instance = @
+  Meteor.defer ->
     # Add max-height to snippet if it is taller than form
-    formHeight = @$('.add-incident--wrapper').height()
+    formHeight = instance.$('.add-incident--wrapper').height()
     $snippet = $('.snippet--text')
     if $snippet.height() > formHeight
       $snippet.css('max-height', formHeight)
@@ -22,7 +17,9 @@ Template.suggestedIncidentModal.onCreated ->
   @incident = @data.incident or {}
   @incident.suggestedFields = new ReactiveVar(@incident.suggestedFields or [])
   @valid = new ReactiveVar(false)
-
+  @modals =
+    currentModal: element: '#suggestedIncidentModal'
+    previousModal: element: '#suggestedIncidentsModal'
 
 Template.suggestedIncidentModal.helpers
   hasSuggestedFields: ->
@@ -35,7 +32,7 @@ Template.suggestedIncidentModal.helpers
 
 Template.suggestedIncidentModal.events
   'click .reject': (event, instance) ->
-    returnToParentModal(instance)
+    stageModals(instance, instance.modals)
     Template.instance().incidentCollection.update instance.incident._id,
       $set:
         accepted: false
@@ -60,4 +57,9 @@ Template.suggestedIncidentModal.events
       $set: incident
 
     notify('success', 'Incident Report Accepted', 1200)
-    returnToParentModal(instance)
+    stageModals(instance, instance.modals)
+
+  'hide.bs.modal #suggestedIncidentModal': (event, instance) ->
+    if $(event.currentTarget).hasClass('in')
+      event.preventDefault()
+      stageModals(instance, instance.modals)
