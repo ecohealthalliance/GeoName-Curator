@@ -36,6 +36,10 @@ template(name="incidentReport")
             li.container-flex.single.no-break
               h6.metadata--title Species:
               span=species
+          if disease
+            li.container-flex.single.no-break
+              h6.metadata--title Disease:
+              span=disease
           li.container-flex.single.no-break
             h6.metadata--title Dates:
             span {{formatDateRange(dateRange)}}

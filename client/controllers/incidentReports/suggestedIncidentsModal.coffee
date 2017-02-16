@@ -1,4 +1,5 @@
 incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
+UserEvents = require '/imports/collections/userEvents.coffee'
 # A annotation's territory is the sentence containing it,
 # and all the following sentences until the next annotation.
 # Annotations in the same sentence are grouped.
@@ -263,9 +264,13 @@ Template.suggestedIncidentsModal.onCreated ->
         if suspectedAttributes.length > 0
           incident.status = 'suspected'
         incident.url = [@data.article.url]
+        event = UserEvents.findOne(@data.article?.userEventId)
+        if event?.disease
+          incident.disease = event.disease
         incident.suggestedFields = _.intersection(
           Object.keys(incident),
           [
+            'disease'
             'cases'
             'deaths'
             'dateRange'

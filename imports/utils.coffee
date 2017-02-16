@@ -55,6 +55,7 @@ export incidentReportFormToIncident = (form) ->
 
   incident =
     species: form.species.value
+    disease: form.disease.value
     travelRelated: form.travelRelated.checked
     approximate: form.approximate.checked
     locations: []

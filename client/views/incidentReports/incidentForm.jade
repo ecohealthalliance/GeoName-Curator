@@ -149,6 +149,16 @@ template(name="incidentForm")
         selected=incidentData.locations)
       .help-block.with-errors
 
+    .form-group.form-group--full(class="{{suggestedField 'disease'}}")
+      label.control-label.with-info-tooltip(
+        data-toggle="tooltip"
+        data-placement="right"
+        title="The disease that caused the cases or deaths.") Disease
+      input.form-control(
+        type="text"
+        name="disease"
+        value=incidentData.disease)
+
     .form-group.form-group--full(class="{{suggestedField 'species'}}")
       label.control-label.with-info-tooltip(
         data-toggle="tooltip"
