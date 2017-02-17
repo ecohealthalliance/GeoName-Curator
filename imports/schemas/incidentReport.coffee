@@ -46,6 +46,9 @@ IncidentReportSchema = new SimpleSchema
   approximate:
     type: Boolean
     optional: true
+  disease:
+    type: String
+    optional: true
   species:
     type: String
     optional: true
