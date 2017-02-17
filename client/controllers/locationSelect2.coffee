@@ -1,5 +1,6 @@
 formatLocation = require '/imports/formatLocation.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
+Constants = require '/imports/constants.coffee'
 
 incidentsToLocations = (incidents) ->
   locations = {}
@@ -30,7 +31,7 @@ Template.locationSelect2.onCreated ->
   # Retrieve locations from a server
   @ajax = (term, callback) ->
     $.ajax
-      url: "https://geoname-lookup.eha.io/api/lookup"
+      url: Constants.GRITS_URL + "/api/geoname_lookup/api/lookup"
       data:
         q: term
         maxRows: 10

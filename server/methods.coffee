@@ -1,14 +1,10 @@
 UserEvents = require '/imports/collections/userEvents.coffee'
 Articles = require '/imports/collections/articles.coffee'
 PromedPosts = require '/imports/collections/promedPosts.coffee'
-
+Constants = require '/imports/constants.coffee'
 import { formatUrl } from '/imports/utils.coffee'
 
-
 DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
-
-GRITS_API_URL = process.env.GRITS_API_URL or "https://grits.eha.io/api/v1"
-SPA_API_URL = process.env.SPA_API_URL or "http://spa.eha.io/api/v1"
 
 Meteor.methods
   getArticleEnhancements: (article) ->
@@ -18,7 +14,7 @@ Meteor.methods
     check article.publishDate, Match.Maybe(Date)
     check article.addedDate, Match.Maybe(Date)
     geonameIds = []
-    console.log "Calling GRITS API @ " + GRITS_API_URL
+    console.log "Calling GRITS API @ " + Constants.GRITS_URL
     params =
       api_key: "Cr9LPAtL"
       returnSourceContent: true
@@ -33,7 +29,7 @@ Meteor.methods
       params.url = formatUrl(article.url)
     else
       Meteor.Error("InvalidArticle", "Content or a URL must be specified")
-    result = HTTP.post(GRITS_API_URL + "/public_diagnose", params: params)
+    result = HTTP.post(Constants.GRITS_URL + "/api/v1/public_diagnose", params: params)
     if result.data.error
       throw new Meteor.Error("grits-error", result.data.error)
     return result.data
@@ -51,7 +47,7 @@ Meteor.methods
     @unblock()
     check eventId, String
     event = UserEvents.findOne(eventId)
-    console.log "Calling SPA API @ " + SPA_API_URL
+    console.log "Calling SPA API @ " + Constants.SPA_API_URL
     unless event
       throw new Meteor.Error 404, "Unable to fetch the requested event record"
     # Construct an array of keywords out of the event's name
@@ -66,7 +62,7 @@ Meteor.methods
       if url
         notOneOfThese.push url.match(/\d+/)?[0]
     # Query the remote server API
-    response = HTTP.call('GET', "#{SPA_API_URL}/search", {
+    response = HTTP.call('GET', "#{Constants.SPA_API_URL}/search", {
       params: { text: keywords.join(' '), not: notOneOfThese.join(' ') }
     })
     if response

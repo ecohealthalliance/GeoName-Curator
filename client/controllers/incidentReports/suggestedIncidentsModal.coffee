@@ -1,5 +1,6 @@
 incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
 UserEvents = require '/imports/collections/userEvents.coffee'
+Constants = require '/imports/constants.coffee'
 # A annotation's territory is the sentence containing it,
 # and all the following sentences until the next annotation.
 # Annotations in the same sentence are grouped.
@@ -138,11 +139,13 @@ Template.suggestedIncidentsModal.onCreated ->
     datetimeAnnotations = result.features.filter (f) -> f.type == 'datetime'
     countAnnotations = result.features.filter (f) -> f.type == 'count'
     geonameIds = locationAnnotations.map((r) -> r.geoname.geonameid)
+    # Query geoname lookup service to get admin names.
+    # The GRITS api reponse only includes admin codes.
     new Promise((resolve, reject) =>
       if geonameIds.length == 0
         resolve([])
       else
-        HTTP.get('https://geoname-lookup.eha.io/api/geonames', {
+        HTTP.get(Constants.GRITS_URL + '/api/geoname_lookup/api/geonames', {
           params:
             ids: geonameIds
         }, (error, geonamesResult) =>
