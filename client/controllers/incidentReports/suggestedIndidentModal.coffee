@@ -21,6 +21,9 @@ Template.suggestedIncidentModal.onCreated ->
     currentModal: element: '#suggestedIncidentModal'
     previousModal: element: '#suggestedIncidentsModal'
 
+Template.suggestedIncidentModal.onDestroyed ->
+  $('#suggestedIncidentModal').off('hide.bs.modal')
+
 Template.suggestedIncidentModal.helpers
   hasSuggestedFields: ->
     Template.instance().incident.suggestedFields.get()
@@ -31,6 +34,11 @@ Template.suggestedIncidentModal.helpers
     Template.instance().valid
 
 Template.suggestedIncidentModal.events
+  'hide.bs.modal #suggestedIncidentModal': (event, instance) ->
+    if $(event.currentTarget).hasClass('in')
+      event.preventDefault()
+      stageModals(instance, instance.modals)
+
   'click .reject': (event, instance) ->
     stageModals(instance, instance.modals)
     Template.instance().incidentCollection.update instance.incident._id,
@@ -58,8 +66,3 @@ Template.suggestedIncidentModal.events
 
     notify('success', 'Incident Report Accepted', 1200)
     stageModals(instance, instance.modals)
-
-  'hide.bs.modal #suggestedIncidentModal': (event, instance) ->
-    if $(event.currentTarget).hasClass('in')
-      event.preventDefault()
-      stageModals(instance, instance.modals)

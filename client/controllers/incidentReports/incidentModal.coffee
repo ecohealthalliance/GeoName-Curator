@@ -7,30 +7,37 @@ Template.incidentModal.onCreated ->
   @valid = new ReactiveVar(false)
   @modals =
     currentModal: element: '.incident-report'
-    previousModal: element: '#suggestedIncidentsModal'
+    previousModal:
+      element: '#suggestedIncidentsModal'
+      add: 'fade'
 
 Template.incidentModal.onRendered ->
   instance = @
-  $('.incident-report').on 'hide.bs.modal', (event) ->
-    $modal = $(event.currentTarget)
-    if $modal.hasClass('off-canvas--right') and not $modal.hasClass('out')
-      stageModals(instance, instance.modals)
-      event.preventDefault()
+  Meteor.defer ->
+    $('.incident-report').on 'hide.bs.modal', (event) ->
+      $modal = $(event.currentTarget)
+      if $modal.hasClass('off-canvas--right') and not $modal.hasClass('out')
+        stageModals(instance, instance.modals)
+        event.preventDefault()
+
+Template.incidentModal.onDestroyed ->
+  $('.incident-report').off('hide.bs.modal')
 
 Template.incidentModal.helpers
   valid: ->
     Template.instance().valid
 
-  classes: ->
-    classes = ''
+  classNames: ->
+    classNames = ''
     offCanvas = Template.instance().data.offCanvas
     if offCanvas
-      classes += " off-canvas--#{offCanvas}"
+      classNames += "transparent-backdrop off-canvas--#{offCanvas}"
     else
-      classes += 'fade'
+      classNames += 'fade'
+    classNames
 
 Template.incidentModal.events
-  'click .save-modal, click .save-modal-duplicate': (event, instance) ->
+  'click .save-incident, click .save-incident-duplicate': (event, instance) ->
     # Submit the form to trigger validation and to update the 'valid'
     # reactiveVar — its value is based on whether the form's hidden submit
     # button's default is prevented

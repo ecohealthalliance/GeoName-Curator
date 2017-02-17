@@ -81,6 +81,8 @@ confirmAbandonChanges = (event, instance) ->
       displayName: "Abandon #{count} of #{total} incidents accepted?"
       hasBeenWarned: instance.hasBeenWarned
     false
+  else
+    true
 
 showSuggestedIncidentModal = (event, instance)->
   incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
@@ -137,7 +139,7 @@ dismissModal = (instance) ->
   stageModals(instance, modal)
 
 sendModalOffStage = (instance) ->
-  modal = modalClasses(instance.modal, 'staged-left', 'off-canvas--right')
+  modal = modalClasses(instance.modal, 'staged-left', 'off-canvas--right fade')
   stageModals(instance, modal, false)
 
 Template.suggestedIncidentsModal.onCreated ->
@@ -309,8 +311,12 @@ Template.suggestedIncidentsModal.onCreated ->
   )
 
 Template.suggestedIncidentsModal.onRendered ->
+  instance = @
   $('#event-source').on 'hidden.bs.modal', ->
     $('body').addClass('modal-open')
+
+Template.suggestedIncidentsModal.onDestroyed ->
+  $('#suggestedIncidentsModal').off('hide.bs.modal')
 
 Template.suggestedIncidentsModal.helpers
   showTable: ->
@@ -378,7 +384,7 @@ Template.suggestedIncidentsModal.events
       dismissModal(instance)
       event.preventDefault()
 
-  "click .annotation": (event, instance) ->
+  'click .annotation': (event, instance) ->
     sendModalOffStage(instance)
     showSuggestedIncidentModal(event, instance)
 

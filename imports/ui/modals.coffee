@@ -6,12 +6,20 @@ module.exports =
 
   stageModals: (instance, modals, hideModal=true) ->
     { currentModal, previousModal } = modals
+    # Ensure associated events
+    currentModal.remove += ' in'
+    currentModal.add += if hideModal then ' out' else ''
+    if previousModal
+      previousModal.remove += ' out'
+      previousModal.add += ' in'
+
     $(currentModal.element)
-      .removeClass("in #{currentModal?.remove}")
-      .addClass("out #{currentModal?.add}")
+      .removeClass(currentModal.remove)
+      .addClass(currentModal?.add)
     if previousModal
       $(previousModal.element)
-        .addClass("in #{previousModal?.add}")
+        .removeClass(previousModal.remove)
+        .addClass(previousModal.add)
     if hideModal
       setTimeout ->
         Modal.hide(instance)

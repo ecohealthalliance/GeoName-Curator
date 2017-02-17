@@ -1,8 +1,7 @@
 template(name="incidentModal")
   .incident-report.modal.modal-skinny(
     role="dialog"
-    class=classes
-    data-backdrop="{{#if offCanvas}}false{{/if}}")
+    class=classNames)
     .modal-dialog
       .modal-content
         .modal-header
@@ -27,6 +26,6 @@ template(name="incidentModal")
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           if add
-            button.btn.btn-primary.save-modal-duplicate(type="button")
+            button.btn.btn-primary.save-incident-duplicate(type="button")
               | Save then Duplicate
-          button.btn.btn-primary.btn-wide.save-modal(type="button") Save
+          button.btn.btn-primary.btn-wide.save-incident(type="button") Save

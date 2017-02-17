@@ -25,6 +25,8 @@ $modal-transition-time-opacity = .25s
       opacity 0
   &[class*='off-canvas']
   &[class*='staged']
+    + .modal-backdrop
+      transition opacity .4s
     .modal-dialog
       &::before
         full-width()
@@ -39,8 +41,12 @@ $modal-transition-time-opacity = .25s
     &:not(.in)
       .modal-dialog
         align-self center
+        transform translate(0,0)
         &::before
           background-color alpha(black, 20%)
+    &.transparent-backdrop
+      + .modal-backdrop
+        opacity 0
   &.staged-left
     &:not(.in)
       .modal-dialog
