@@ -1,4 +1,3 @@
-{ dismissModal } = require '/imports/ui/modals'
 validator = require 'bootstrap-validator'
 
 Template.editEventDetailsModal.onCreated ->
