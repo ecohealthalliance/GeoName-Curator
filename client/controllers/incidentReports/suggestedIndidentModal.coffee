@@ -19,7 +19,9 @@ Template.suggestedIncidentModal.onCreated ->
   @valid = new ReactiveVar(false)
   @modals =
     currentModal: element: '#suggestedIncidentModal'
-    previousModal: element: '#suggestedIncidentsModal'
+    previousModal:
+      element: '#suggestedIncidentsModal'
+      add: 'fade'
 
 Template.suggestedIncidentModal.onDestroyed ->
   $('#suggestedIncidentModal').off('hide.bs.modal')

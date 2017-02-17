@@ -129,5 +129,7 @@ Template.articleSelect2.onRendered ->
   $input.next('.select2-container').css('width', '100%')
 
 Template.articleSelect2.onDestroyed ->
-  templateInstance = Template.instance()
-  templateInstance.$('#' + templateInstance.data.selectId)?.select2('destroy')
+  selectId = @data.selectId
+  if selectId
+    Meteor.defer ->
+      @$("##{selectId}").select2('destroy')

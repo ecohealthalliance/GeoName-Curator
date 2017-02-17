@@ -13,12 +13,11 @@ Template.incidentModal.onCreated ->
 
 Template.incidentModal.onRendered ->
   instance = @
-  Meteor.defer ->
-    $('.incident-report').on 'hide.bs.modal', (event) ->
-      $modal = $(event.currentTarget)
-      if $modal.hasClass('off-canvas--right') and not $modal.hasClass('out')
-        stageModals(instance, instance.modals)
-        event.preventDefault()
+  $('.incident-report').on 'hide.bs.modal', (event) ->
+    $modal = $(event.currentTarget)
+    if $modal.hasClass('off-canvas--right') and not $modal.hasClass('out')
+      stageModals(instance, instance.modals)
+      event.preventDefault()
 
 Template.incidentModal.onDestroyed ->
   $('.incident-report').off('hide.bs.modal')

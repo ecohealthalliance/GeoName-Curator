@@ -389,6 +389,7 @@ Template.suggestedIncidentsModal.events
     showSuggestedIncidentModal(event, instance)
 
   'click #add-suggestions': (event, instance) ->
+    instance.$(event.currentTarget).blur()
     incidentCollection = Template.instance().incidentCollection
     incidents = incidentCollection.find(
       accepted: true
@@ -396,7 +397,7 @@ Template.suggestedIncidentsModal.events
       _.pick(incident, incidentReportSchema.objectKeys())
     count = incidents.length
     if count <= 0
-      toastr.warning 'No incidents have been confirmed'
+      notify('warning', 'No incidents have been confirmed')
       return
     Meteor.call 'addIncidentReports', incidents, (err, result)->
       if err
