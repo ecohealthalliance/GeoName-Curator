@@ -39,7 +39,7 @@ do ->
       @client.waitForVisible('input[name="count"]')
       @client.setValue('input[name="count"]', count)
       # Submit
-      @client.click('button.save-modal[type="button"]')
+      @client.click('button.save-incident[type="button"]')
 
     @When /^I should see a scatter plot group with count "([^']*)"$/, (count) ->
       @client.pause(2000)
@@ -53,7 +53,7 @@ do ->
       @client.waitForVisible('#event-source')
       @client.clickWhenVisible('#suggested-articles li:first-child')
       @client.setValue('input[name="publishTime"]', '12:00 PM')
-      @client.click('button.save-modal[type="button"]')
+      @client.click('button.save-source[type="button"]')
 
     @When /^I add the first suggested incident report$/, ->
       # SuggestedIncidentsModal

@@ -33,7 +33,7 @@ do ->
       # Disable enhancement
       @client.click('[for="enhance"]')
       @browser.scroll(0, 1000)
-      @client.click('#event-source .save-modal')
+      @client.click('#event-source .save-source')
 
     @When /^I select the existing source$/, ->
       @client.clickWhenVisible('#event-sources-table tbody tr:first-child')
@@ -51,7 +51,7 @@ do ->
       @client.setValue('input[name=daterangepicker_start]', formatDate(date))
       @client.setValue('#publishTime', getTime(date))
       @browser.scroll(0, 1000)
-      @client.click('#event-source .save-edit-modal')
+      @client.click('#event-source .save-source-edit')
 
     @Then /^I see the new source in the source table$/, ->
       if getSourcesFromTable(@browser).value.length <= 1
