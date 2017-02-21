@@ -11,7 +11,7 @@ Template.suggestedIncidentModal.helpers
   hasSuggestedFields: ->
     Template.instance().incident.suggestedFields.get()
 
-  type: -> [ 'case', 'date', 'location' ]
+  type: -> [ 'case', 'date', 'location', 'disease' ]
 
   valid: ->
     Template.instance().valid

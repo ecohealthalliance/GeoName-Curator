@@ -85,15 +85,15 @@ showSuggestedIncidentModal = (event, instance)->
     incidentAnnotations = [incident.countAnnotation]
       .concat(incident.dateTerritory?.annotations or [])
       .concat(incident.locationTerritory?.annotations or [])
+      .concat(incident.diseaseTerritory?.annotations or [])
       .filter((x)-> x)
     incidentAnnotations = _.sortBy(incidentAnnotations, (annotation)->
       annotation.textOffsets[0][0]
     )
-    [countStart, countEnd] = incident.countAnnotation.textOffsets[0]
-    startingIndex = Math.min(incident.locationTerritory?.territoryStart or countStart,
-      incident.dateTerritory?.territoryStart or countStart)
-    endingIndex = Math.max(incident.locationTerritory?.territoryEnd or countEnd,
-      incident.dateTerritory?.territoryEnd or countEnd)
+    startingIndex = _.min(incidentAnnotations.map (a)->a.textOffsets[0][0])
+    startingIndex = Math.max(startingIndex - 30, 0)
+    endingIndex = _.max(incidentAnnotations.map (a)->a.textOffsets[0][1])
+    endingIndex = Math.min(endingIndex + 30, content.length - 1)
     lastEnd = startingIndex
     html = ""
     if incidentAnnotations[0]?.textOffsets[0][0] isnt 0
@@ -105,6 +105,8 @@ showSuggestedIncidentModal = (event, instance)->
         type = "date"
       else if annotation in incident.locationTerritory?.annotations
         type = "location"
+      else if annotation in incident.diseaseTerritory?.annotations
+        type = "disease"
       html += (
         Handlebars._escape("#{content.slice(lastEnd, start)}") +
         """<span class='annotation-text #{type}'>#{
@@ -137,6 +139,7 @@ Template.suggestedIncidentsModal.onCreated ->
       return
     locationAnnotations = result.features.filter (f) -> f.type == 'location'
     datetimeAnnotations = result.features.filter (f) -> f.type == 'datetime'
+    diseaseAnnotations = result.features.filter (f) -> f.type == 'diseases'
     countAnnotations = result.features.filter (f) -> f.type == 'count'
     geonameIds = locationAnnotations.map((r) -> r.geoname.geonameid)
     # Query geoname lookup service to get admin names.
@@ -208,14 +211,15 @@ Template.suggestedIncidentsModal.onCreated ->
           return timeAnnotation
         .filter (x) -> x
       dateTerritories = getTerritories(datetimeAnnotations, sents)
+      diseaseTerritories = getTerritories(diseaseAnnotations, sents)
       countAnnotations.forEach((countAnnotation) =>
         [start, end] = countAnnotation.textOffsets[0]
         locationTerritory = _.find locTerritories, ({territoryStart, territoryEnd}) ->
-          if start <= territoryEnd and start >= territoryStart
-            return true
+          return (start <= territoryEnd and start >= territoryStart)
         dateTerritory = _.find dateTerritories, ({territoryStart, territoryEnd}) ->
-          if start <= territoryEnd and start >= territoryStart
-            return true
+          return (start <= territoryEnd and start >= territoryStart)
+        diseaseTerritory = _.find diseaseTerritories, ({territoryStart, territoryEnd}) ->
+          return (start <= territoryEnd and start >= territoryStart)
         incident =
           locations: locationTerritory.annotations.map(({geoname}) ->
             geonamesById[geoname.geonameid]
@@ -243,6 +247,7 @@ Template.suggestedIncidentsModal.onCreated ->
               incident.dateRange.type = 'precise'
         incident.dateTerritory = dateTerritory
         incident.locationTerritory = locationTerritory
+        incident.diseaseTerritory = diseaseTerritory
         incident.countAnnotation = countAnnotation
         { count, attributes } = countAnnotation
         if 'death' in attributes
@@ -267,9 +272,15 @@ Template.suggestedIncidentsModal.onCreated ->
         if suspectedAttributes.length > 0
           incident.status = 'suspected'
         incident.url = [@data.article.url]
+        # The disease field is set to the last disease mentioned,
+        # document classification, or event disease with overides in that order.
         event = UserEvents.findOne(@data.article?.userEventId)
         if event?.disease
           incident.disease = event.disease
+        result.diseases.forEach ({name})->
+          incident.disease = name
+        diseaseTerritory.annotations.forEach ({value})->
+          incident.disease = value
         incident.suggestedFields = _.intersection(
           Object.keys(incident),
           [
