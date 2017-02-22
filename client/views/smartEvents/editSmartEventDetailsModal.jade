@@ -1,0 +1,38 @@
+template(name="editSmartEventDetailsModal")
+  #smart-event-modal.modal.fade(role="dialog")
+    .modal-dialog
+      .modal-content
+        form#editEvent(novalidate)
+          +modalCloseButton
+          .modal-header
+            .modal-header--title
+              h4
+                if adding
+                  | Add New Smart Event
+                else
+                  | Edit Smart Event Details
+          .modal-body.clearfix
+            if confirmingDeletion
+              +deleteConfirmationModalBody(
+                objId=_id
+                displayName=eventName
+                objNameToDelete='smartEvent'
+                allowEdit=true)
+            else
+              .form-group
+                label Event Name
+                input.form-control(type='text' name='eventName' value=eventName required)
+                .help-block.with-errors
+              .form-group
+                label Event Summary
+                textarea.form-control(name="eventSummary" rows="15")= summary
+          unless confirmingDeletion
+            .modal-footer
+              unless adding
+                button.btn.btn-danger.delete-event.pull-left(type="button") Delete Event
+              button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+              button.btn.btn-success.btn-wide.save-modal(type="submit")
+                if saveActionMessage
+                  {{saveActionMessage}}
+                 else
+                  | Save

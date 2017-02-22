@@ -1,0 +1,14 @@
+template(name="smartEvents")
+  .smart-events
+    .container-fluid-padded.page-heading.container-flex.no-break
+      h1 Smart Events
+      .page-options.container-flex.no-break.vertically-centered
+        if isInRole "admin"
+          button.create-event.btn.btn-primary(
+            data-toggle="modal"
+            data-target="#smart-event-modal")
+            i.fa.fa-plus-circle(aria-hidden="true")
+            span Create New Smart Event
+
+    if isInRole "admin"
+      +editSmartEventDetailsModal action="add"

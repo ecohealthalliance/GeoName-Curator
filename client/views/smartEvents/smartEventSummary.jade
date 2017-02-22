@@ -1,0 +1,47 @@
+template(name="smartEventSummary")
+  .container-flex
+    .event--details
+      .event-name-wrap
+        h1.event-name= eventName
+        if isInRole "admin"
+          i.fa.fa-edit.edit-event-details(
+            data-toggle="modal"
+            data-target="#smart-event-modal"
+            data-editing="name"
+            title="Edit event details"
+            tabindex="0")
+      if summary
+        p.summary(class="{{#if collapsed}}collapsed{{/if}}")
+          span= summary
+        if collapsed
+          a.expand(tabindex="0") Expand full event summary
+      else
+        p.summary.not-available
+          span No summary available.
+          if isInRole "admin"
+            i.fa.fa-plus-circle.edit-event-details(
+              data-toggle="modal"
+              data-target="#smart-event-modal"
+              data-editing="summary"
+              tabindex="0")
+
+    .event--metadata.container-flex
+      .event--metadata--secondary-content.container-flex.no-break
+        .secondary-content
+          p Created by: #{createdByUserName} on {{formatDate creationDate}}
+        .secondary-content
+          p Last Modified by: #{lastModifiedByUserName} on
+            | {{formatDate lastModifiedDate}}
+        .secondary-content
+          button.copy-link.btn.btn-xs.btn-default(
+            type="button"
+            data-clipboard-text="{{urlFor 'smart-event'}}"
+            class="{{#if copied}} copied {{/if}}")
+            if copied
+              i.fa.fa-check(aria-hidden="true")
+              span Coppied
+            else
+              i.fa.fa-share-alt(aria-hidden="true")
+              span Copy Event Link
+
+  +editSmartEventDetailsModal

@@ -1,0 +1,34 @@
+smartEventSchema = new SimpleSchema(
+  _id:
+    type: String
+    optional: true
+  createdByUserId:
+    type: String
+    optional: true
+  createdByUserName:
+    type: String
+    optional: true
+  creationDate:
+    type: Date
+    optional: true
+  eventName:
+    type: String
+  lastModifiedByUserId:
+    type: String
+    optional: true
+  lastModifiedByUserName:
+    type: String
+    optional: true
+  lastModifiedDate:
+    type: Date
+    optional: true
+  summary:
+    type: String
+  deleted:
+    type: Boolean
+    optional: true
+  deletedDate:
+    type: Date
+    optional: true
+)
+module.exports = smartEventSchema

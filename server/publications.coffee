@@ -1,5 +1,6 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
 UserEvents = require '/imports/collections/userEvents.coffee'
+SmartEvents = require '/imports/collections/smartEvents.coffee'
 CuratorSources = require '/imports/collections/curatorSources.coffee'
 Articles = require '/imports/collections/articles.coffee'
 Feeds = require '/imports/collections/feeds.coffee'
@@ -28,6 +29,12 @@ Meteor.publish 'userEvent', (eidID) ->
   UserEvents.find({_id: eidID})
 Meteor.publish 'userEvents', () ->
   UserEvents.find({deleted: {$in: [null, false]}})
+
+# Smart Events
+Meteor.publish 'smartEvent', (eidID) ->
+  SmartEvents.find({_id: eidID})
+Meteor.publish 'smartEvents', () ->
+  SmartEvents.find({deleted: {$in: [null, false]}})
 
 # Curator Sources
 ReactiveTable.publish 'curatorSources', CuratorSources, {}
