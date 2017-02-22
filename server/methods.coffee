@@ -16,7 +16,7 @@ Meteor.methods
     geonameIds = []
     console.log "Calling GRITS API @ " + Constants.GRITS_URL
     params =
-      api_key: "Cr9LPAtL"
+      api_key: Constants.GRITS_API_KEY
       returnSourceContent: true
     if article.publishDate or article.addedDate
       params.content_date = moment.utc(
