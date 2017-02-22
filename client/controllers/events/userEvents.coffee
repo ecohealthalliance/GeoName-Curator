@@ -90,7 +90,6 @@ Template.userEvents.helpers
       fields.push(tableField)
 
     id: 'user-events-table'
-    showColumnToggles: true
     fields: fields
     currentPage: Template.instance().currentPage
     rowsPerPage: Template.instance().rowsPerPage

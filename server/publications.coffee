@@ -11,9 +11,9 @@ Meteor.publish 'eventIncidents', (userEventId) ->
   Incidents.find({userEventId: userEventId, deleted: {$in: [null, false]}})
 Meteor.publish 'mapIncidents', () ->
   Incidents.find({
-    locations: {$ne: null}, 
+    locations: {$ne: null},
     deleted: {$in: [null, false]}
-  }, 
+  },
   {fields:
       userEventId: 1
       'dateRange.start': 1
@@ -31,6 +31,8 @@ Meteor.publish 'userEvents', () ->
   UserEvents.find({deleted: {$in: [null, false]}})
 
 # Smart Events
+ReactiveTable.publish 'smartEvents', SmartEvents,
+  deleted: {$in: [null, false]}
 Meteor.publish 'smartEvent', (eidID) ->
   SmartEvents.find({_id: eidID})
 Meteor.publish 'smartEvents', () ->

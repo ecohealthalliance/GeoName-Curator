@@ -9,6 +9,10 @@ template(name="smartEvents")
             data-target="#smart-event-modal")
             i.fa.fa-plus-circle(aria-hidden="true")
             span Create New Smart Event
+        +searchInput searchSettings
 
     if isInRole "admin"
       +editSmartEventDetailsModal action="add"
+
+    .featured-table.table-wrapper
+      +reactiveTable collection="smartEvents" settings=settings
