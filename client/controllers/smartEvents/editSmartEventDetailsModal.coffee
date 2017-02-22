@@ -31,9 +31,10 @@ Template.editSmartEventDetailsModal.events
       if error
         toastr.error error.message
         return
-      $('#edit-smart-event-modal').modal('hide')
-      if instance.data.action == 'add'
-        Router.go('smart-event', _id: result.insertedId)
+      else
+        dismissModal(instance.$('#smart-event-modal')).then ->
+          if instance.data.action == 'add'
+            Router.go('smart-event', _id: result.insertedId)
 
   'click .delete-event': (event, instance) ->
     instance.confirmingDeletion.set true

@@ -25,7 +25,7 @@ Template.createEventModal.events
       displayOnPromed: event.target.promed.checked
     , (error, result) ->
       unless error
-        dismissModal('#create-event-modal')
+        modal = instance.$('#create-event-modal')
         if source
           Meteor.call 'addEventSource',
             url: "promedmail.org/post/#{source._sourceId}"
@@ -33,5 +33,7 @@ Template.createEventModal.events
             title: source.title
             publishDate: source.publishDate
             publishDateTZ: "EST"
+            dismissModal(modal)
         else
-          Router.go('user-event', _id: result.insertedId)
+          dismissModal(modal).then ->
+            Router.go('user-event', _id: result.insertedId)
