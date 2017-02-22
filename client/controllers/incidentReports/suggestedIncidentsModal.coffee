@@ -1,6 +1,9 @@
 incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
 UserEvents = require '/imports/collections/userEvents.coffee'
 Constants = require '/imports/constants.coffee'
+{ notify } = require('/imports/ui/notification')
+{ stageModals } = require('/imports/ui/modals')
+
 # A annotation's territory is the sentence containing it,
 # and all the following sentences until the next annotation.
 # Annotations in the same sentence are grouped.
@@ -77,53 +80,69 @@ confirmAbandonChanges = (event, instance) ->
       modalsToCancel: ['suggestedIncidentsModal', 'cancelConfirmationModal']
       displayName: "Abandon #{count} of #{total} incidents accepted?"
       hasBeenWarned: instance.hasBeenWarned
+    false
+  else
+    true
 
 showSuggestedIncidentModal = (event, instance)->
-    incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
-    content = Template.instance().content.get()
-    displayCharacters = 150
-    incidentAnnotations = [incident.countAnnotation]
-      .concat(incident.dateTerritory?.annotations or [])
-      .concat(incident.locationTerritory?.annotations or [])
-      .concat(incident.diseaseTerritory?.annotations or [])
-      .filter((x)-> x)
-    incidentAnnotations = _.sortBy(incidentAnnotations, (annotation)->
-      annotation.textOffsets[0][0]
+  incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
+  content = Template.instance().content.get()
+  displayCharacters = 150
+  incidentAnnotations = [incident.countAnnotation]
+    .concat(incident.dateTerritory?.annotations or [])
+    .concat(incident.locationTerritory?.annotations or [])
+    .concat(incident.diseaseTerritory?.annotations or [])
+    .filter((x)-> x)
+  incidentAnnotations = _.sortBy(incidentAnnotations, (annotation)->
+    annotation.textOffsets[0][0]
+  )
+  startingIndex = _.min(incidentAnnotations.map (a)->a.textOffsets[0][0])
+  startingIndex = Math.max(startingIndex - 30, 0)
+  endingIndex = _.max(incidentAnnotations.map (a)->a.textOffsets[0][1])
+  endingIndex = Math.min(endingIndex + 30, content.length - 1)
+  lastEnd = startingIndex
+  html = ""
+  if incidentAnnotations[0]?.textOffsets[0][0] isnt 0
+    html += "..."
+  incidentAnnotations.map (annotation)->
+    [start, end] = annotation.textOffsets[0]
+    type = "case"
+    if annotation in incident.dateTerritory?.annotations
+      type = "date"
+    else if annotation in incident.locationTerritory?.annotations
+      type = "location"
+    else if annotation in incident.diseaseTerritory?.annotations
+      type = "disease"
+    html += (
+      Handlebars._escape("#{content.slice(lastEnd, start)}") +
+      """<span class='annotation-text #{type}'>#{
+        Handlebars._escape(content.slice(start, end))
+      }</span>"""
     )
-    startingIndex = _.min(incidentAnnotations.map (a)->a.textOffsets[0][0])
-    startingIndex = Math.max(startingIndex - 30, 0)
-    endingIndex = _.max(incidentAnnotations.map (a)->a.textOffsets[0][1])
-    endingIndex = Math.min(endingIndex + 30, content.length - 1)
-    lastEnd = startingIndex
-    html = ""
-    if incidentAnnotations[0]?.textOffsets[0][0] isnt 0
-      html += "..."
-    incidentAnnotations.map (annotation)->
-      [start, end] = annotation.textOffsets[0]
-      type = "case"
-      if annotation in incident.dateTerritory?.annotations
-        type = "date"
-      else if annotation in incident.locationTerritory?.annotations
-        type = "location"
-      else if annotation in incident.diseaseTerritory?.annotations
-        type = "disease"
-      html += (
-        Handlebars._escape("#{content.slice(lastEnd, start)}") +
-        """<span class='annotation-text #{type}'>#{
-          Handlebars._escape(content.slice(start, end))
-        }</span>"""
-      )
-      lastEnd = end
-    html += Handlebars._escape("#{content.slice(lastEnd, endingIndex)}")
-    if lastEnd < content.length - 1
-      html += "..."
-    Modal.show 'suggestedIncidentModal',
-      edit: true
-      articles: [instance.data.article]
-      userEventId: instance.data.userEventId
-      incidentCollection: instance.incidentCollection
-      incident: incident
-      incidentText: Spacebars.SafeString(html)
+    lastEnd = end
+  html += Handlebars._escape("#{content.slice(lastEnd, endingIndex)}")
+  if lastEnd < content.length - 1
+    html += "..."
+  Modal.show 'suggestedIncidentModal',
+    edit: true
+    articles: [instance.data.article]
+    userEventId: instance.data.userEventId
+    incidentCollection: instance.incidentCollection
+    incident: incident
+    incidentText: Spacebars.SafeString(html)
+
+modalClasses = (modal, add, remove) ->
+  modal.currentModal.add = add
+  modal.currentModal.remove = remove
+  modal
+
+dismissModal = (instance) ->
+  modal = modalClasses(instance.modal, 'off-canvas--top', 'staged-left')
+  stageModals(instance, modal)
+
+sendModalOffStage = (instance) ->
+  modal = modalClasses(instance.modal, 'staged-left', 'off-canvas--right fade')
+  stageModals(instance, modal, false)
 
 Template.suggestedIncidentsModal.onCreated ->
   @incidentCollection = new Meteor.Collection(null)
@@ -131,6 +150,9 @@ Template.suggestedIncidentsModal.onCreated ->
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar('')
   @annotatedContentVisible = new ReactiveVar(true)
+  @modal =
+    currentModal:
+      element: '#suggestedIncidentsModal'
 
   Meteor.call('getArticleEnhancements', @data.article, (error, result) =>
     if error
@@ -300,8 +322,12 @@ Template.suggestedIncidentsModal.onCreated ->
   )
 
 Template.suggestedIncidentsModal.onRendered ->
+  instance = @
   $('#event-source').on 'hidden.bs.modal', ->
     $('body').addClass('modal-open')
+
+Template.suggestedIncidentsModal.onDestroyed ->
+  $('#suggestedIncidentsModal').off('hide.bs.modal')
 
 Template.suggestedIncidentsModal.helpers
   showTable: ->
@@ -315,7 +341,7 @@ Template.suggestedIncidentsModal.helpers
   incidentsFound: ->
     Template.instance().incidentCollection.find().count() > 0
 
-  loading: ->
+  isLoading: ->
     Template.instance().loading.get()
 
   annotatedCount: ->
@@ -361,14 +387,20 @@ Template.suggestedIncidentsModal.helpers
       properties.push "Approximate"
     properties.join(";")
 
+
 Template.suggestedIncidentsModal.events
   'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->
-    confirmAbandonChanges(event, instance)
+    proceed = confirmAbandonChanges(event, instance)
+    if proceed and $(event.currentTarget).hasClass('in')
+      dismissModal(instance)
+      event.preventDefault()
 
-  "click .annotation": (event, instance) ->
+  'click .annotation': (event, instance) ->
+    sendModalOffStage(instance)
     showSuggestedIncidentModal(event, instance)
 
   'click #add-suggestions': (event, instance) ->
+    instance.$(event.currentTarget).blur()
     incidentCollection = Template.instance().incidentCollection
     incidents = incidentCollection.find(
       accepted: true
@@ -376,7 +408,7 @@ Template.suggestedIncidentsModal.events
       _.pick(incident, incidentReportSchema.objectKeys())
     count = incidents.length
     if count <= 0
-      toastr.warning 'No incidents have been confirmed'
+      notify('warning', 'No incidents have been confirmed')
       return
     Meteor.call 'addIncidentReports', incidents, (err, result)->
       if err
@@ -387,15 +419,18 @@ Template.suggestedIncidentsModal.events
         # empty our collection temporary work.
         incidentCollection.remove({})
         # hide the modal
-        Modal.hide(instance)
+        notify('success', 'Incident Reports Added')
+        dismissModal(instance)
 
   'click #non-suggested-incident': (event, instance) ->
+    sendModalOffStage(instance)
     Modal.show 'incidentModal',
       articles: [instance.data.article]
       userEventId: instance.data.userEventId
       add: true
       incident:
         url: [instance.data.article.url]
+      offCanvas: 'right'
 
   'click #save-csv': (event, instance) ->
     fileType = $(event.currentTarget).attr('data-type')

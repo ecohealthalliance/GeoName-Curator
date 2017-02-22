@@ -54,9 +54,7 @@ Template.incidentForm.onCreated ->
     @incidentStatus.set(incident.status or '')
 
 Template.incidentForm.onRendered ->
-  instance = @
   @$('[data-toggle=tooltip]').tooltip()
-
   datePickerOptions = {}
   if @incidentData.dateRange.start and @incidentData.dateRange.end
     datePickerOptions.startDate = moment(moment.utc(@incidentData.dateRange.start).format("YYYY-MM-DD"))

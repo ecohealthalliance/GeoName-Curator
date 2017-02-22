@@ -19,7 +19,9 @@
     background-color transparent
     text-decoration underline
     &:hover
-      background-color: darken($incident-type-colors.date, 20%)
+      background-color: darken($incident-type-colors.uncertain, 5%)
+      color $body-text
+      text-decoration none
   &.accepted
     background-color: $incident-type-colors.date
     text-decoration none
@@ -32,16 +34,18 @@
   +above(3)
     width 65%
     max-width 800px
-    margin 30px auto
   .modal-content
-  .modal-header
+    display flex
+    flex-direction column
+    height calc(100vh - 60px)
+    min-height 400px
   .modal-body
+    flex 1 1 auto
     padding 0
     gradientTopAndBottom()
-    width 100%
+  .modal-header
   .modal-footer
-    margin-top auto
-
+    flex 0 0 auto
   .annotation-count
     display block
     color $primary
@@ -58,10 +62,12 @@
     margin-bottom -1px
 
 .suggested-incidents-wrapper
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
   padding 25px
-  width 100%
-  height calc(100vh - 236px)
-  min-height 250px
   overflow-y scroll
 
 .annotated-content

@@ -1,5 +1,5 @@
 template(name="suggestedIncidentModal")
-  .modal.fade#suggestedIncidentModal(role="dialog")
+  .modal#suggestedIncidentModal.off-canvas--right(role="dialog" data-backdrop="false")
     .modal-dialog
       .modal-content
         .modal-header
@@ -24,5 +24,5 @@ template(name="suggestedIncidentModal")
             confirmation=true
             valid=valid)
         .modal-footer
-          button.btn.btn-default.reject(type="button" data-dismiss="modal") Reject
+          button.btn.btn-default.reject(type="button") Reject
           button.btn.btn-primary.save-modal(type="button") Confirm

@@ -1,15 +1,42 @@
 utils = require '/imports/utils.coffee'
 validator = require 'bootstrap-validator'
+{ notify } = require '/imports/ui/notification'
+{ stageModals } = require '/imports/ui/modals'
 
 Template.incidentModal.onCreated ->
   @valid = new ReactiveVar(false)
+  @modals =
+    currentModal: element: '.incident-report'
+    previousModal:
+      element: '#suggestedIncidentsModal'
+      add: 'fade'
+
+Template.incidentModal.onRendered ->
+  instance = @
+  $('.incident-report').on 'hide.bs.modal', (event) ->
+    $modal = $(event.currentTarget)
+    if $modal.hasClass('off-canvas--right') and not $modal.hasClass('out')
+      stageModals(instance, instance.modals)
+      event.preventDefault()
+
+Template.incidentModal.onDestroyed ->
+  $('.incident-report').off('hide.bs.modal')
 
 Template.incidentModal.helpers
   valid: ->
     Template.instance().valid
 
+  classNames: ->
+    classNames = ''
+    offCanvas = Template.instance().data.offCanvas
+    if offCanvas
+      classNames += "transparent-backdrop off-canvas--#{offCanvas}"
+    else
+      classNames += 'fade'
+    classNames
+
 Template.incidentModal.events
-  'click .save-modal, click .save-modal-duplicate': (event, instance) ->
+  'click .save-incident, click .save-incident-duplicate': (event, instance) ->
     # Submit the form to trigger validation and to update the 'valid'
     # reactiveVar — its value is based on whether the form's hidden submit
     # button's default is prevented
@@ -31,8 +58,11 @@ Template.incidentModal.events
           $('.reactive-table tr.tr-details').remove()
           if !duplicate
             form.reset()
-            Modal.hide('incidentModal')
-          toastr.success('Incident report added to event.')
+            notify('success', 'Incident report added to event')
+            if instance.data.offCanvas
+              stageModals(instance, instance.modals)
+            else
+              Modal.hide('incidentModal')
         else
           errorString = error.reason
           if error.details[0].name is 'locations' and error.details[0].type is 'minCount'
@@ -48,7 +78,7 @@ Template.incidentModal.events
         if not error
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.details').remove()
-          toastr.success('Incident report updated.')
+          notify('success', 'Incident report added to event')
           Modal.hide('incidentModal')
         else
           toastr.error(error.reason)
