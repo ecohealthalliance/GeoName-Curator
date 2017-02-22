@@ -101,13 +101,9 @@ Template.userEvents.helpers
     showLoader: true
     noDataTmpl: Template.noResults
 
-  textFilter: ->
-    Template.instance().textFilter
-
   searchSettings: ->
     id:"eventFilter"
     classes: 'event-search page-options--search'
-    textFilter: Template.instance().textFilter
     tableId: 'user-events-table'
     placeholder: 'Search Events'
     props: ['eventName']

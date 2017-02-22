@@ -1,3 +1,14 @@
+Template.smartEvents.onCreated ->
+  @creatorFilter = new ReactiveTable.Filter('creatorFilter', ['createdByUserName'])
+  @showCurrentUserEvents = new ReactiveVar(false)
+
+Template.smartEvents.onRendered ->
+  @autorun =>
+    if @showCurrentUserEvents.get()
+      @creatorFilter.set(Meteor.user()?.profile.name)
+    else
+      @creatorFilter.set(null)
+
 Template.smartEvents.helpers
   settings: ->
     fields = [
@@ -26,29 +37,33 @@ Template.smartEvents.helpers
     showRowCount: true
     showFilter: false
     class: 'table featured'
-    filters: ['smartEventFilter']
+    filters: ['smartEventFilter', 'creatorFilter']
     showLoader: true
     noDataTmpl: Template.noResults
-
-  textFilter: ->
-    Template.instance().textFilter
 
   searchSettings: ->
     id: 'smartEventFilter'
     classes: 'event-search page-options--search'
-    textFilter: Template.instance().textFilter
     tableId: 'smart-events-table'
     placeholder: 'Search Smart Events'
     props: ['eventName']
 
+  showCurrentUserEventsChecked: ->
+    Template.instance().showCurrentUserEvents.get()
+
 Template.smartEvents.events
-  "click .reactive-table tbody tr": (event) ->
+  'click .reactive-table tbody tr': (event) ->
     if event.metaKey
       url = Router.url "smart-event", _id: @_id
       window.open(url, "_blank")
     else
       Router.go "smart-event", _id: @_id
 
-  "click .next-page, click .previous-page": ->
+  'click .next-page, click .previous-page': ->
     if window.scrollY > 0 and window.innerHeight < 700
       $(document.body).animate({scrollTop: 0}, 400)
+
+  'click .show-current-user-events': (event, instance) ->
+    showCurrentUserEvents = instance.showCurrentUserEvents
+    showCurrentUserEvents.set(not showCurrentUserEvents.get())
+    $(event.currentTarget).blur()
