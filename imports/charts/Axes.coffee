@@ -99,9 +99,13 @@ class Axes
 
     # yScale
     if yDomain
-      @yScale = d3.scaleLinear().domain(yDomain).range([@plot.getHeight(), 0])
+      @yScale = d3.scaleLinear()
+        .domain(yDomain)
+        .range([@plot.getHeight(), 0])
     else
-      @yScale = d3.scaleLinear().domain(@currentMinMax[1]).range([@plot.getHeight(), 0])
+      @yScale = d3.scaleLinear()
+        .domain(@currentMinMax[1])
+        .range([@plot.getHeight(), 0])
 
     # yAxis
     @yAxis = d3.axisLeft()
@@ -136,7 +140,7 @@ class Axes
       @yLabel = @plot.container
         .append('g')
           .attr('class', 'y scatterPlot-axis-label')
-          .attr('transform', "translate(#{@plot.margins.left}, 0)")
+          .attr('transform', "translate(#{@plot.margins.left - 15}, 0)")
         .append('text')
           .attr('transform', 'rotate(-90)')
           .attr('dx', -(@plot.height / 2) + (@plot.margins.top + @plot.margins.bottom) / 2)
