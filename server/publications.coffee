@@ -31,8 +31,7 @@ Meteor.publish 'userEvents', () ->
   UserEvents.find({deleted: {$in: [null, false]}})
 
 # Smart Events
-ReactiveTable.publish 'smartEvents', SmartEvents,
-  deleted: {$in: [null, false]}
+ReactiveTable.publish 'smartEvents', SmartEvents, {deleted: {$in: [null, false]}}
 Meteor.publish 'smartEvent', (eidID) ->
   SmartEvents.find({_id: eidID})
 Meteor.publish 'smartEvents', () ->

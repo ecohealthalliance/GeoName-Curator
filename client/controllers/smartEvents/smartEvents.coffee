@@ -1,28 +1,41 @@
+{ manageTableSorting,
+  tableFields,
+  gotoEvent,
+  scrollToTop } = require('/imports/reactiveTable')
+
 Template.smartEvents.onCreated ->
-  @creatorFilter = new ReactiveTable.Filter('creatorFilter', ['createdByUserName'])
+  tableName = 'smart-events'
+  @creatorFilter = new ReactiveTable.Filter('creatorFilter', ['createdByUserId'])
+  @creatorFilter.set('')
   @showCurrentUserEvents = new ReactiveVar(false)
-
-Template.smartEvents.onRendered ->
-  @autorun =>
-    if @showCurrentUserEvents.get()
-      @creatorFilter.set(Meteor.user()?.profile.name)
-    else
-      @creatorFilter.set(null)
-
-Template.smartEvents.helpers
-  settings: ->
-    fields = [
+  @currentPage = new ReactiveVar(Session.get("#{tableName}-current-page") or 0)
+  @rowsPerPage = new ReactiveVar(Session.get("#{tableName}-rows-per-page") or 10)
+  @tableOptions =
+    name: tableName
+    fieldVisibility: {}
+    sortOrder: {}
+    sortDirection: {}
+    fields: [
       {
-        label: 'Event Name'
-        key: 'eventName'
+        arrayName: ''
+        description: 'The name of the EID.'
+        displayName: 'Event Name'
+        fieldName: 'eventName',
+        defaultSortDirection: 1
       }
       {
-        label: 'Created By'
-        key: 'createdByUserName'
+        arrayName: '',
+        displayName: 'Created By'
+        description: 'User who created the event.'
+        fieldName: 'createdByUserName'
+        defaultSortDirection: 1
       }
       {
-        label: 'Last Modified Date'
-        key: 'lastModifiedDate'
+        arrayName: ''
+        description: 'Date the event was last modified.'
+        displayName: 'Last Modified Date'
+        fieldName: 'lastModifiedDate'
+        defaultSortDirection: -1
         displayFn: (value, object, key) ->
           if value != null
             content =  moment(value).format('MMM D, YYYY')
@@ -31,10 +44,18 @@ Template.smartEvents.helpers
           new Spacebars.SafeString("<span data-heading='Last Modified Date'>#{content}</span>")
       }
     ]
-    id: 'smart-events-table'
-    fields: fields
-    showColumnToggles: false
+  manageTableSorting(@)
+
+Template.smartEvents.helpers
+  settings: ->
+    instance = Template.instance()
+
+    id: "#{instance.tableOptions.name}-table"
+    fields: tableFields(instance)
+    currentPage: instance.currentPage
+    rowsPerPage: instance.rowsPerPage
     showRowCount: true
+    showColumnToggles: false
     showFilter: false
     class: 'table featured'
     filters: ['smartEventFilter', 'creatorFilter']
@@ -44,7 +65,7 @@ Template.smartEvents.helpers
   searchSettings: ->
     id: 'smartEventFilter'
     classes: 'event-search page-options--search'
-    tableId: 'smart-events-table'
+    tableId: "#{Template.instance().tableOptions.name}-table"
     placeholder: 'Search Smart Events'
     props: ['eventName']
 
@@ -52,18 +73,16 @@ Template.smartEvents.helpers
     Template.instance().showCurrentUserEvents.get()
 
 Template.smartEvents.events
-  'click .reactive-table tbody tr': (event) ->
-    if event.metaKey
-      url = Router.url "smart-event", _id: @_id
-      window.open(url, "_blank")
-    else
-      Router.go "smart-event", _id: @_id
+  'click .reactive-table tbody tr': gotoEvent
 
-  'click .next-page, click .previous-page': ->
-    if window.scrollY > 0 and window.innerHeight < 700
-      $(document.body).animate({scrollTop: 0}, 400)
+  'click .next-page, click .previous-page': scrollToTop
 
   'click .show-current-user-events': (event, instance) ->
+    filterSelector = ''
+    createFilter = instance.creatorFilter
     showCurrentUserEvents = instance.showCurrentUserEvents
-    showCurrentUserEvents.set(not showCurrentUserEvents.get())
+    if not createFilter.get()
+      filterSelector = $eq: Meteor.userId()
+      showCurrentUserEvents.set(not showCurrentUserEvents.get())
+    createFilter.set(filterSelector)
     $(event.currentTarget).blur()
