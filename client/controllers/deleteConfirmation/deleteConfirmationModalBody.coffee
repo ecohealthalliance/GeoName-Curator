@@ -21,6 +21,11 @@ Template.deleteConfirmationModalBody.events
           commonPostDeletionTasks(error, objNameToDelete, 'edit-event-modal')
           unless error
             Router.go 'user-events'
+      when 'smartEvent'
+        Meteor.call 'deleteSmartEvent', id, (error, result) ->
+          commonPostDeletionTasks(error, objNameToDelete, 'edit-event-modal')
+          unless error
+            Router.go 'smart-events'
       when 'feed'
         Meteor.call 'removeFeed', id, (error) ->
           commonPostDeletionTasks(error, objNameToDelete)

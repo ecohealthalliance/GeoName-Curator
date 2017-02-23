@@ -2,12 +2,16 @@ module.exports =
   ###
   # dismissModal - Dismisses modals manually
   #
-  # @param {string} element, class or id of element
+  # @param {object} $element, jquery element of modal
+  # @return {object} Promise resolved when modal dismisses
   ###
-  dismissModal: (element) ->
-    $(element).modal 'hide'
-    $('.modal-backdrop').remove()
-    $('body').removeClass 'modal-open'
+  dismissModal: ($element) ->
+    new Promise (resolve) ->
+      $element.modal('hide')
+      $('.modal-backdrop').fadeOut ->
+        @remove()
+        $('body').removeClass('modal-open')
+      $element.on('hidden.bs.modal', resolve)
 
   ###
   # stageModals - Manages which modal is (un)staged or dismissed

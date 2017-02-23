@@ -83,6 +83,10 @@ Router.route "/user-events",
   name: 'user-events'
   title: 'User Events'
 
+Router.route "/smart-events",
+  name: 'smart-events'
+  title: 'Smart Events'
+
 Router.route "/curator-inbox",
   name: 'curator-inbox'
   title: 'Curator Inbox'
@@ -105,6 +109,10 @@ Router.route "/user-event/:_id/:_view?",
     userEvent: UserEvents.findOne({'_id': @params._id})
     articles: Articles.find({'userEventId': @params._id}, {sort: {publishDate: -1}}).fetch()
     incidents: Incidents.find({'userEventId': @params._id}, {sort: {date: -1}}).fetch()
+
+Router.route "/smart-event/:_id/:_view?",
+  name: 'smart-event'
+
 
 Router.route "/feeds",
   onBeforeAction: ->
