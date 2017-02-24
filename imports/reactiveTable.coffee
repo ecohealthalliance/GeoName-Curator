@@ -1,4 +1,10 @@
 module.exports =
+  ###
+  # manageTableSorting - Updates Session variables related to sorting of each
+  # table field
+  #
+  # @param {object} instance, instance of template containing table
+  ###
   manageTableSorting: (instance) ->
     tableOptions = instance.tableOptions
     fields = tableOptions.fields
@@ -23,6 +29,14 @@ module.exports =
         Session.set "#{tableName}-field-sort-order-#{fieldName}", tableOptions.sortOrder[fieldName].get()
         Session.set "#{tableName}-field-sort-direction-#{fieldName}", tableOptions.sortDirection[fieldName].get()
 
+  ###
+  # tableFields - creates the fields array to pass to the ReactiveTable within
+  # settings. Field criterial is added to the fields array of the tableOptions object on
+  # the template instance
+  #
+  # @param {object} instance, instance of template containing table
+  # @return {array} fields, array containing fields for ReactiveTable
+  ###
   tableFields: (instance) ->
     tableOptions = instance.tableOptions
     fields = []
@@ -41,6 +55,12 @@ module.exports =
       fields.push(tableField)
     fields
 
+  ###
+  # gotoEvent - navigates to a selected event
+  #
+  # @param {object} event, DOM event
+  # @param {object} instance, template instance
+  ###
   gotoEvent: (event, instance) ->
     route = instance.tableOptions.name.slice(0, -1)
     if event.metaKey
@@ -49,6 +69,9 @@ module.exports =
     else
       Router.go route, _id: @_id
 
+  ###
+  # scrollToTop - scrolls document to top of window
+  ###
   scrollToTop: ->
     if window.scrollY > 0 and window.innerHeight < 700
       $(document.body).animate({scrollTop: 0}, 400)
