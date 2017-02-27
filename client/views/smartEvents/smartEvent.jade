@@ -7,3 +7,9 @@ template(name="smartEvent")
       else
         with smartEvent
           +smartEventSummary
+
+    if hasAssociatedIncidents
+      section.event--detailed-info
+        .heading.container-fluid-padded
+          h2 Incident Reports
+        +incidentReports incidentReportsTemplateData

@@ -13,7 +13,7 @@ Template.smartEvent.onCreated ->
     @subscribe 'smartEvents', eventId,
       onReady: =>
         event = SmartEvents.findOne(eventId)
-        @subscribe 'smartEventIncidents', disease: event.disease,
+        @subscribe 'smartEventIncidents', disease: event.disease
 
 Template.smartEvent.onRendered ->
   new Clipboard '.copy-link'
@@ -28,8 +28,12 @@ Template.smartEvent.helpers
   deleted: ->
     SmartEvents.findOne(Template.instance().eventId.get())?.deleted
 
-  incidents: ->
-    Incidents.find()
+  hasAssociatedIncidents: ->
+    Incidents.find().count()
+
+  incidentReportsTemplateData: ->
+    incidents: Incidents.find({}, {sort: {'dateRange.end': 1}})
+    eventType: 'smart'
 
 Template.smartEvent.events
   'click .edit-link, click #cancel-edit': (event, instance) ->

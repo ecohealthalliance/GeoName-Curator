@@ -16,7 +16,7 @@ Template.incidentReports.onCreated ->
   # iron router returns an array and not a cursor for data.incidents,
   # therefore we will setup a reactive cursor to use with the plot as an
   # instance variable.
-  @incidents = Incidents.find({userEventId: @data.userEvent._id}, {sort: {'dateRange.end': 1}})
+  @incidents = @data.incidents
   # underscore template for the mouseover event of a group
   @tooltipTmpl = """
     <% if ('applyFilters' in obj) { %>
@@ -181,6 +181,12 @@ Template.incidentReports.helpers
     class: "table #{tableName}"
     rowClass: "#{tableName}"
 
+  incidents: ->
+    Template.instance().incidents
+
+  smartEvent: ->
+    Template.instance().data.eventType is 'smart'
+
 Template.incidentReports.events
   'click #scatterPlot-toggleCumulative': (event, template) ->
     $target = $(event.currentTarget)
@@ -207,7 +213,7 @@ Template.incidentReports.events
     template.$('tr').removeClass('open')
     template.$('tr.details').remove()
 
-  'click .reactive-table tbody tr.event-incident': (event, template) ->
+  'click .reactive-table tbody tr.event-incidents': (event, template) ->
     $target = $(event.target)
     $parentRow = $target.closest('tr')
     currentOpen = template.$('tr.details')
