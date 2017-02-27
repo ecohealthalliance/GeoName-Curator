@@ -55,3 +55,9 @@ Meteor.startup ->
     Meteor.setTimeout(pullRemoteInstanceData, 1000)
     # Pull data every 6 hours
     Meteor.setInterval(pullRemoteInstanceData, 6 * 60 * 60 * 1000)
+
+  Incidents.find(disease: $exists: false).forEach (incident) ->
+    disease = UserEvents.findOne(incident.userEventId)?.disease
+    if disease
+      Incidents.update incident._id,
+        $set: disease: disease
