@@ -1,4 +1,5 @@
-SmartEvents = require '/imports/collections/smartEvents.coffee'
+SmartEvents = require '/imports/collections/smartEvents'
+Incidents = require '/imports/collections/incidentReports'
 #Allow multiple modals or the suggested locations list won't show after the
 #loading modal is hidden
 Modal.allowMultiple = true
@@ -9,20 +10,26 @@ Template.smartEvent.onCreated ->
   @autorun =>
     eventId = Router.current().getParams()._id
     @eventId.set eventId
-    @subscribe 'smartEvents', eventId
+    @subscribe 'smartEvents', eventId,
+      onReady: =>
+        event = SmartEvents.findOne(eventId)
+        @subscribe 'smartEventIncidents', disease: event.disease,
 
 Template.smartEvent.onRendered ->
   new Clipboard '.copy-link'
 
 Template.smartEvent.helpers
   smartEvent: ->
-    SmartEvents.findOne(_id: Template.instance().eventId.get())
+    SmartEvents.findOne(Template.instance().eventId.get())
 
   isEditing: ->
     Template.instance().editState.get()
 
   deleted: ->
-    SmartEvents.findOne(_id: Template.instance().eventId.get())?.deleted
+    SmartEvents.findOne(Template.instance().eventId.get())?.deleted
+
+  incidents: ->
+    Incidents.find()
 
 Template.smartEvent.events
   'click .edit-link, click #cancel-edit': (event, instance) ->

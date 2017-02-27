@@ -122,6 +122,7 @@ Template.incidentReports.onRendered ->
 Template.incidentReports.helpers
   formatUrl: formatUrl
   getSettings: ->
+    tableName = 'event-incidents'
     fields = [
       {
         key: 'count'
@@ -172,13 +173,13 @@ Template.incidentReports.helpers
       label: ''
       cellClass : 'action open-down'
 
-    id: 'event-incidents-table'
+    id: "#{tableName}-table"
     fields: fields
     showFilter: false
     showNavigationRowsPerPage: false
     showRowCount: false
-    class: 'table event-incidents'
-    rowClass: "event-incident"
+    class: "table #{tableName}"
+    rowClass: "#{tableName}"
 
 Template.incidentReports.events
   'click #scatterPlot-toggleCumulative': (event, template) ->

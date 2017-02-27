@@ -1,4 +1,4 @@
-smartEventSchema = new SimpleSchema(
+smartEventSchema = new SimpleSchema
   _id:
     type: String
     optional: true
@@ -13,6 +13,9 @@ smartEventSchema = new SimpleSchema(
     optional: true
   eventName:
     type: String
+  disease:
+    type: String
+    optional: true
   lastModifiedByUserId:
     type: String
     optional: true
@@ -30,5 +33,5 @@ smartEventSchema = new SimpleSchema(
   deletedDate:
     type: Date
     optional: true
-)
+
 module.exports = smartEventSchema
