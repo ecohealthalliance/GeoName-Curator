@@ -79,10 +79,10 @@ Template.smartEvents.events
 
   'click .show-current-user-events': (event, instance) ->
     filterSelector = ''
-    createFilter = instance.creatorFilter
+    creatorFilter = instance.creatorFilter
     showCurrentUserEvents = instance.showCurrentUserEvents
-    if not createFilter.get()
+    if not creatorFilter.get()
       filterSelector = $eq: Meteor.userId()
-      showCurrentUserEvents.set(not showCurrentUserEvents.get())
-    createFilter.set(filterSelector)
+    showCurrentUserEvents.set(not showCurrentUserEvents.get())
+    creatorFilter.set(filterSelector)
     $(event.currentTarget).blur()
