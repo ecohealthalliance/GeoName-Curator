@@ -30,6 +30,15 @@ createNewCalendar = (latestSourceDate, range) ->
       # Update selection to indicate one date selected
       $(@).find('.start-date').addClass('end-date')
 
+uniteReactiveTableFilters = (filters) ->
+  reactiveFilters = []
+  _.each filters, (filter) ->
+    _filter = filter.get()
+    if _filter
+      reactiveFilters.push _.object filter.fields.map (field)->
+        [field, _filter]
+  reactiveFilters
+
 ###
 # prevents checking the scrollTop more than every 50 ms to avoid flicker
 # if the scrollTop is greater than zero, show the 'back-to-top' button
@@ -279,15 +288,6 @@ Template.curatorInboxSection.onCreated ->
     $lt: moment(sectionDate).add(1, 'day').toDate()
 
   @isOpen = new ReactiveVar(@data.index < 5)
-
-uniteReactiveTableFilters = (filters) ->
-  reactiveFilters = []
-  _.each filters, (filter) ->
-    _filter = filter.get()
-    if _filter
-      reactiveFilters.push _.object filter.fields.map (field)->
-        [field, _filter]
-  reactiveFilters
 
 Template.curatorInboxSection.onRendered ->
   @autorun =>
