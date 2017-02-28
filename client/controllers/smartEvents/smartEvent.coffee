@@ -17,10 +17,14 @@ Template.smartEvent.onRendered ->
     event = SmartEvents.findOne(eventId)
     if event
       eventDateRange = event.dateRange
+      locations = event.locations
       query = disease: event.disease
       if eventDateRange
         query['dateRange.start'] = $lte: eventDateRange.end
         query['dateRange.end'] = $gte: eventDateRange.start
+      if locations
+        locationNames = _.flatten(_.pluck(locations, 'alternateNames'))
+        query['locations.name'] = $in: locationNames
       @subscribe 'smartEventIncidents', query,
         onReady: =>
           @loading.set(false)
