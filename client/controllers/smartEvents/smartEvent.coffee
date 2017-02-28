@@ -13,7 +13,12 @@ Template.smartEvent.onCreated ->
     @subscribe 'smartEvents', eventId,
       onReady: =>
         event = SmartEvents.findOne(eventId)
-        @subscribe 'smartEventIncidents', disease: event.disease
+        eventDateRange = event.dateRange
+        query = disease: event.disease
+        if eventDateRange
+          query['dateRange.start'] = $lte: eventDateRange.end
+          query['dateRange.end'] = $gte: eventDateRange.start
+        @subscribe 'smartEventIncidents', query
 
 Template.smartEvent.onRendered ->
   new Clipboard '.copy-link'
@@ -29,6 +34,7 @@ Template.smartEvent.helpers
     SmartEvents.findOne(Template.instance().eventId.get())?.deleted
 
   hasAssociatedIncidents: ->
+    console.log Incidents.find().fetch()
     Incidents.find().count()
 
   incidentReportsTemplateData: ->
