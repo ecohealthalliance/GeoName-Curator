@@ -1,9 +1,10 @@
 template(name="incidentReports")
   .container-flex.no-gutter
     .flex-col.bordered
-      .tab-form
-        +addIncidentReport
-      if incidents.length
+      unless smartEvent
+        .tab-form
+          +addIncidentReport
+      if incidents.count
         +reactiveTable collection=incidents settings=getSettings
       else
         p No incident reports are associated with this event.

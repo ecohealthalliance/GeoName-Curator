@@ -3,7 +3,7 @@ template(name="articles")
     h2 Event Sources
   .container-flex.no-gutter
     .flex-col.bordered
-      if articles.length
+      if articles.count
         .tab-form.container-flex.no-border.break-2
           .flex-col
             +sourceModalButton

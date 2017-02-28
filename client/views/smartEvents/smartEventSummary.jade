@@ -10,6 +10,17 @@ template(name="smartEventSummary")
             data-editing="name"
             title="Edit event details"
             tabindex="0")
+      p.disease-name
+        if disease
+          span= disease
+        else
+          span.not-available No disease available.
+          if isInRole "admin"
+            i.fa.fa-plus-circle.edit-event-details(
+              data-toggle="modal"
+              data-target="#edit-event-modal"
+              data-editing="disease"
+              tabindex="0")
       if summary
         p.summary(class="{{#if collapsed}}collapsed{{/if}}")
           span= summary

@@ -1,5 +1,5 @@
-SmartEvents = require '/imports/collections/smartEvents.coffee'
-SmartEventSchema = require '/imports/schemas/smartEvent.coffee'
+SmartEvents = require '/imports/collections/smartEvents'
+SmartEventSchema = require '/imports/schemas/smartEvent'
 
 Meteor.methods
   upsertSmartEvent: (event) ->

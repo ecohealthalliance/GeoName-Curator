@@ -2,6 +2,8 @@ UserEvents = require '/imports/collections/userEvents.coffee'
 Articles = require '/imports/collections/articles.coffee'
 PromedPosts = require '/imports/collections/promedPosts.coffee'
 Constants = require '/imports/constants.coffee'
+Incidents = require '/imports/collections/incidentReports'
+SmartEvents = require '/imports/collections/smartEvents'
 import { formatUrl } from '/imports/utils.coffee'
 
 DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/

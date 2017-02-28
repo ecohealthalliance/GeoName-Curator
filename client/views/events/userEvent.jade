@@ -9,7 +9,7 @@ template(name="userEvent")
           +summary
 
     section.event--detailed-info
-      if incidents.length
+      if incidents.count
         .tabs-wrapper
           ul.tabs.primary-tabs.container-fluid-padded(role="tablist")
             li(class="{{#if incidentView}}active{{/if}}" role="presentation")
@@ -21,6 +21,6 @@ template(name="userEvent")
           .tab-pane.active(role="tabpanel")
             +Template.dynamic template=view data=templateData
 
-    if articles.length
+    if articles.count
       section.event--articles
         +articles

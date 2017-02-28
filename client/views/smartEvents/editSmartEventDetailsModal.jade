@@ -24,6 +24,10 @@ template(name="editSmartEventDetailsModal")
                 input.form-control(type='text' name='eventName' value=eventName required)
                 .help-block.with-errors
               .form-group
+                label Event Disease
+                input.form-control(type='text' name='eventDisease' value=disease required)
+                .help-block.with-errors
+              .form-group
                 label Event Summary
                 textarea.form-control(name="eventSummary" rows="15")= summary
           unless confirmingDeletion
