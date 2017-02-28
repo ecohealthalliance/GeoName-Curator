@@ -34,15 +34,30 @@ Template.editSmartEventDetailsModal.events
     form = event.target
     return if event.isDefaultPrevented() # Form is invalid
     event.preventDefault()
+
+    # Daterange
     calendar = instance.calendar
+    dateRange =
+      start: calendar.startDate.toDate()
+      end: calendar.endDate.toDate()
+
+    # Locations
+    locations = []
+    $locationsEl = instance.$('#event-locations')
+    for option in $locationsEl.select2('data')
+      item = option.item
+      if typeof item.alternateNames is 'string'
+        delete item.alternateNames
+      locations.push(item)
+
     smartEvent =
       _id: @_id
       eventName: form.eventName.value.trim()
       summary: form.eventSummary.value.trim()
       disease: form.eventDisease.value.trim()
-      dateRange:
-        start: calendar.startDate.toDate()
-        end: calendar.endDate.toDate()
+      locations: locations
+      dateRange: dateRange
+
     Meteor.call 'upsertSmartEvent', smartEvent, (error, {insertedId}) ->
       if error
         notify('error', error.message)

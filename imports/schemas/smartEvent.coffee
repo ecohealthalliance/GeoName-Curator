@@ -40,5 +40,39 @@ smartEventSchema = new SimpleSchema
     type: Date
   "dateRange.end":
     type: Date
+  locations:
+    type: [Object]
+    optional: true
+  "locations.$.admin1Name":
+    type: String
+    optional: true
+  "locations.$.admin2Name":
+    type: String
+    optional: true
+  "locations.$.alternateNames":
+    type: [String]
+    optional: true
+  "locations.$.countryName":
+    type: String
+    optional: true
+  "locations.$.featureClass":
+    type: String
+    optional: true
+  "locations.$.featureCode":
+    type: String
+    optional: true
+  "locations.$.id":
+    type: String
+  "locations.$.latitude":
+    type: Number
+    decimal: true
+  "locations.$.longitude":
+    type: Number
+    decimal: true
+  "locations.$.name":
+    type: String
+  "locations.$.population":
+    type: Number
+    optional: true
 
 module.exports = smartEventSchema
