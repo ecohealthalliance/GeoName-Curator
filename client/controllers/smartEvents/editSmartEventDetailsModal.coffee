@@ -1,7 +1,8 @@
-{ dismissModal } = require '/imports/ui/modals'
-{ notify } = require '/imports/ui/notification'
-createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker'
-require 'bootstrap-validator'
+{ dismissModal } = require('/imports/ui/modals')
+{ notify } = require('/imports/ui/notification')
+createInlineDateRangePicker = require('/imports/ui/inlineDateRangePicker')
+{ updateCalendarSelection } = require('/imports/ui/setRange')
+require('bootstrap-validator')
 
 Template.editSmartEventDetailsModal.onCreated ->
   @confirmingDeletion = new ReactiveVar false
@@ -13,6 +14,13 @@ Template.editSmartEventDetailsModal.onRendered ->
       disable: false
     createInlineDateRangePicker $("#date-picker")
     @calendar = $('#date-picker').data('daterangepicker')
+    instanceData = @data
+    dateRange = instanceData.dateRange
+    if dateRange
+      range =
+        startDate: dateRange.start
+        endDate: dateRange.end
+      updateCalendarSelection(@calendar, range)
 
 Template.editSmartEventDetailsModal.helpers
   confirmingDeletion: ->

@@ -34,7 +34,6 @@ Template.smartEvent.helpers
     SmartEvents.findOne(Template.instance().eventId.get())?.deleted
 
   hasAssociatedIncidents: ->
-    console.log Incidents.find().fetch()
     Incidents.find().count()
 
   incidentReportsTemplateData: ->
