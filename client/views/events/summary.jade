@@ -4,23 +4,14 @@ template(name="summary")
       .event-name-wrap
         h1.event-name= eventName
         if isInRole "admin"
-          i.fa.fa-edit.edit-event-details(
-            data-toggle="modal"
-            data-target="#edit-event-modal"
-            data-editing="name"
-            title="Edit event details"
-            tabindex="0")
+          +editDetailsButton(target="#edit-event-modal" editing="name")
       p.disease-name
         if disease
           span= disease
         else
           span.not-available No disease available.
           if isInRole "admin"
-            i.fa.fa-plus-circle.edit-event-details(
-              data-toggle="modal"
-              data-target="#edit-event-modal"
-              data-editing="disease"
-              tabindex="0")
+            +editDetailsButton(target="#edit-event-modal" editing="disease")
 
       if summary
         p.summary(class="{{#if collapsed}}collapsed{{/if}}")
@@ -31,11 +22,7 @@ template(name="summary")
         p.summary.not-available
           span No summary available.
           if isInRole "admin"
-            i.fa.fa-plus-circle.edit-event-details(
-              data-toggle="modal"
-              data-target="#edit-event-modal"
-              data-editing="summary"
-              tabindex="0")
+            +editDetailsButton(target="#edit-event-modal" editing="summary")
 
     .event--metadata.container-flex
       .event--metadata--counts.container-flex.no-gutter.no-break

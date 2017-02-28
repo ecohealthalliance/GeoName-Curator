@@ -81,51 +81,60 @@ $max-event-details-width = $max-ui-width+300
   background $secondary-light
   padding-bottom 20px
 
-.event-name-wrap
-  display flex
-  align-items flex-start
-  margin-bottom .25em
+.event--details
+  .event-name-wrap
+    display flex
+    align-items flex-start
+    margin-bottom .25em
 
-.event-name
-  margin 0
-  font-size 2.25em
-  font-weight 600
-  color $primary
-
-.edit-event-details
-  margin-left 10px
-  cursor pointer
-  font-size 1.25em
-  color $m-gray
-  &:hover
+  .event-name
+    margin 0
+    font-size 2.25em
+    font-weight 600
     color $primary
 
-.disease-name
-  span
-    font-size 1.5em
+  .edit-event-details
+    margin-left 10px
+    cursor pointer
+    font-size 1.25em
+    color $m-gray
+    &:hover
+      color $primary
+
+  .disease-name
+    span
+      font-size 1.5em
+      color $primary
+      &.not-available
+        color $m-gray
+        font-size 1em
+
+  .date-range
+    margin-bottom 0
+
+  .date-range
+  .locations
     color $primary
+    font-size 1.2em
+
+  .summary
+    position relative
+    line-height 1.75em
+    &.collapsed
+      gradientBottom()
+      max-height 380px
+      overflow-y hidden
+      margin-bottom .5em
+    span
+      white-space pre-wrap
+
+  .summary
+  .disease-name
     &.not-available
       color $m-gray
-      font-size 1em
-
-.summary
-  position relative
-  line-height 1.75em
-  &.collapsed
-    gradientBottom()
-    max-height 380px
-    overflow-y hidden
-    margin-bottom .5em
-  span
-    white-space pre-wrap
-
-.summary
-.disease-name
-  &.not-available
-    color $m-gray
-    margin-top -10px
-  .fa
-    font-size 95%
+      margin-top -10px
+    .fa
+      font-size 95%
 
 .event-head
   .minor
