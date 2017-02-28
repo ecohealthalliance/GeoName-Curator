@@ -7,18 +7,20 @@ Modal.allowMultiple = true
 Template.smartEvent.onCreated ->
   @editState = new ReactiveVar false
   @eventId = new ReactiveVar()
+
+Template.smartEvent.onRendered ->
+  eventId = Router.current().getParams()._id
+  @eventId.set(eventId)
+  @subscribe 'smartEvents', eventId
   @autorun =>
-    eventId = Router.current().getParams()._id
-    @eventId.set eventId
-    @subscribe 'smartEvents', eventId,
-      onReady: =>
-        event = SmartEvents.findOne(eventId)
-        eventDateRange = event.dateRange
-        query = disease: event.disease
-        if eventDateRange
-          query['dateRange.start'] = $lte: eventDateRange.end
-          query['dateRange.end'] = $gte: eventDateRange.start
-        @subscribe 'smartEventIncidents', query
+    event = SmartEvents.findOne(eventId)
+    if event
+      eventDateRange = event.dateRange
+      query = disease: event.disease
+      if eventDateRange
+        query['dateRange.start'] = $lte: eventDateRange.end
+        query['dateRange.end'] = $gte: eventDateRange.start
+      @subscribe 'smartEventIncidents', query
 
 Template.smartEvent.onRendered ->
   new Clipboard '.copy-link'
@@ -37,7 +39,7 @@ Template.smartEvent.helpers
     Incidents.find().count()
 
   incidentReportsTemplateData: ->
-    incidents: Incidents.find({}, {sort: {'dateRange.end': 1}})
+    incidents: Incidents.find({}, sort: 'dateRange.end': 1)
     eventType: 'smart'
 
 Template.smartEvent.events
