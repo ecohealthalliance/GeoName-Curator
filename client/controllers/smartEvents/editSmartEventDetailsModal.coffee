@@ -1,5 +1,6 @@
 { dismissModal } = require '/imports/ui/modals'
 { notify } = require '/imports/ui/notification'
+createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker'
 require 'bootstrap-validator'
 
 Template.editSmartEventDetailsModal.onCreated ->
@@ -10,6 +11,8 @@ Template.editSmartEventDetailsModal.onRendered ->
     @$('#editEvent').validator
       # Do not disable inputs since we don't in other areas of the app
       disable: false
+    createInlineDateRangePicker $("#date-picker")
+    @calendar = $('#date-picker').data('daterangepicker')
 
 Template.editSmartEventDetailsModal.helpers
   confirmingDeletion: ->
