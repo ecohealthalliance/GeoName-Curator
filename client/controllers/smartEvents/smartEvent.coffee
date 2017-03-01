@@ -23,8 +23,21 @@ Template.smartEvent.onRendered ->
         query['dateRange.start'] = $lte: eventDateRange.end
         query['dateRange.end'] = $gte: eventDateRange.start
       if locations
-        locationNames = _.flatten(_.pluck(locations, 'alternateNames'))
-        query['locations.name'] = $in: locationNames
+        locationProps =
+          countryName: []
+          admin1Name: []
+          admin2Name: []
+        locationQuery = []
+        for location in locations
+          featureCode = location.featureCode
+          locationProps['countryName'].push(location.countryName)
+          if featureCode is 'ADM1' or featureCode is 'ADM2'
+            locationProps['admin1Name'].push(location.admin1Name)
+          if featureCode is 'ADM2'
+            locationProps['admin2Name'].push(location.admin2Name)
+        for prop, locations of locationProps
+          if locations.length
+            query["locations.#{prop}"] = $in: _.uniq(locations)
       @subscribe 'smartEventIncidents', query,
         onReady: =>
           @loading.set(false)

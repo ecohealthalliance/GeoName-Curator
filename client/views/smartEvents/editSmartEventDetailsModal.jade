@@ -28,18 +28,18 @@ template(name="editSmartEventDetailsModal")
                 input.form-control(type='text' name='eventDisease' value=disease required)
                 .help-block.with-errors
               .form-group
-                label Summary
-                textarea.form-control(name="eventSummary" rows="15")= summary
-              .form-group.form-group--full
-                label Dates
-                .modal-block.full-width.centered-calendar
-                  #date-picker.inlineRangePicker
-              .form-group
                 label Locations
                 +locationSelect2(
                   selectId="event-locations"
                   multiple="true"
                   selected=locations)
+              .form-group.form-group--full
+                label Dates
+                .modal-block.full-width.centered-calendar
+                  #date-picker.inlineRangePicker
+              .form-group
+                label Summary
+                textarea.form-control(name="eventSummary" rows="15")= summary
 
           unless confirmingDeletion
             .modal-footer
