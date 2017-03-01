@@ -33,10 +33,14 @@ template(name="editSmartEventDetailsModal")
                   selectId="event-locations"
                   multiple="true"
                   selected=locations)
-              .form-group.form-group--full
-                label Dates
-                .modal-block.full-width.centered-calendar
-                  #date-picker.inlineRangePicker
+              if showAddDateButton
+                .form-group
+                  button.btn.btn-primary.add-date(type="button") Add Daterange
+              if showCalendar
+                .form-group.form-group--full
+                  label Dates
+                  .modal-block.full-width.centered-calendar
+                    #date-picker.inlineRangePicker
               .form-group
                 label Summary
                 textarea.form-control(name="eventSummary" rows="15")= summary
