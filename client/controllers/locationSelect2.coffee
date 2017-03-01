@@ -21,6 +21,8 @@ _setRequiredAttr = ->
   $('.select2-search__field').attr('required', required)
 
 Template.locationSelect2.onCreated ->
+  @required = @data.required
+  @required ?= false
   # Display locations relevant to this event
   @suggestLocations = (term, callback) ->
     locations = incidentsToLocations Incidents.find().fetch()
@@ -47,7 +49,7 @@ Template.locationSelect2.onCreated ->
 
 Template.locationSelect2.onRendered ->
   initialValues = []
-  required = true
+  required = @data.required
   if @data.selected
     initialValues = @data.selected.map (loc)->
       id: loc.id
@@ -76,13 +78,15 @@ Template.locationSelect2.onRendered ->
     placeholder: 'Search for a location...'
     minimumInputLength: 0
     dataAdapter: queryDataAdapter
-  if initialValues.length > 0
-    required = false
-    $input.val(initialValues.map((x)->x.id)).trigger('change')
 
-  $('.select2-search__field').attr
-    'required': required
-    'data-error': 'Please select a location.'
-  # Remove required attr when location is selected and add it back when all
-  # locations are removed/unselected
-  $input.on 'change', _setRequiredAttr
+  if required
+    if initialValues.length > 0
+      required = false
+    $('.select2-search__field').attr
+      'required': required
+      'data-error': 'Please select a location.'
+
+    # Remove required attr when location is selected and add it back when all
+    # locations are removed/unselected
+    $input.on 'change', _setRequiredAttr
+  $input.val(initialValues.map((x)->x.id)).trigger('change')

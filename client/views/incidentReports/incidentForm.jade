@@ -146,7 +146,8 @@ template(name="incidentForm")
         +locationSelect2(
           selectId="incident-location-select2"
           multiple="true"
-          selected=incidentData.locations)
+          selected=incidentData.locations
+          required=true)
         .help-block.with-errors
 
       .form-group.form-group--full(class="{{suggestedField 'disease'}}")
