@@ -61,3 +61,10 @@ Meteor.startup ->
     if disease
       Incidents.update incident._id,
         $set: disease: disease
+
+  # Soft delete incident reports of deleted user events
+  UserEvents.find({deleted: true}, {fields: _id:1}).forEach (event) ->
+    Incidents.update {userEventId: event._id, deleted: {$in: [null, false]}},
+      $set:
+        deleted: true
+        deletedDate: new Date()
