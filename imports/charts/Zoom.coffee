@@ -16,9 +16,9 @@ class Zoom
 
     @bandPos = [-1, -1];
     @zoomArea =
-      x1: 0,
-      y1: 0,
-      x2: 0,
+      x1: 0
+      y1: 0
+      x2: 0
       y2: 0
     @drag = d3.drag();
     @zoomGroup = plot.container.append('g').attr('class', 'scatterPlot-zoom')
@@ -122,8 +122,19 @@ class Zoom
   # resetZoom - reset the plot zoom back to the original viewBox
   ###
   reset: () ->
+    @resetZoomArea()
     @plot.axes.reset()
     @plot.draw()
+
+  ###
+  # resetZoomArea - Set all zoomArea properties to 0
+  ###
+  resetZoomArea: ->
+    @zoomArea =
+      x1: 0
+      y1: 0
+      x2: 0
+      y2: 0
 
   ###
   # remove - remove the zoom interface from a plot
