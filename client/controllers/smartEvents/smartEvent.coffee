@@ -5,15 +5,54 @@ Incidents = require '/imports/collections/incidentReports'
 Modal.allowMultiple = true
 
 Template.smartEvent.onCreated ->
-  @editState = new ReactiveVar false
+  @editState = new ReactiveVar(false)
   @eventId = new ReactiveVar()
+  @loading = new ReactiveVar(true)
+
+Template.smartEvent.onRendered ->
+  eventId = Router.current().getParams()._id
+  @eventId.set(eventId)
+  @subscribe 'smartEvents', eventId
   @autorun =>
-    eventId = Router.current().getParams()._id
-    @eventId.set eventId
-    @subscribe 'smartEvents', eventId,
-      onReady: =>
-        event = SmartEvents.findOne(eventId)
-        @subscribe 'smartEventIncidents', disease: event.disease
+    event = SmartEvents.findOne(eventId)
+    if event
+      eventDateRange = event.dateRange
+      locations = event.locations
+      disease = event.disease
+      query = {}
+      if disease
+        query.disease = disease
+      if eventDateRange
+        query['dateRange.start'] = $lte: eventDateRange.end
+        query['dateRange.end'] = $gte: eventDateRange.start
+      locationQueries = []
+      for location in locations
+        locationQueries.push
+          id: location.id
+        locationQuery =
+          countryName: location.countryName
+        featureCode = location.featureCode
+        if featureCode.startsWith("PCL")
+          locationQueries.push(locationQuery)
+        else
+          locationQuery.admin1Name = location.admin1Name
+          if featureCode is 'ADM1'
+            locationQueries.push(locationQuery)
+          else
+            locationQuery.admin2Name = location.admin2Name
+            if featureCode is 'ADM2'
+              locationQueries.push(locationQuery)
+      locationQueries = _.chain(locationQueries).compact().map((x)->
+        result = {}
+        for prop, value of x
+          result['locations.'+prop] = value
+        return result
+      ).value()
+      if locationQueries.length > 0
+        query['$or'] = locationQueries
+      @subscribe 'smartEventIncidents', query,
+        onReady: =>
+          @loading.set(false)
 
 Template.smartEvent.onRendered ->
   new Clipboard '.copy-link'
@@ -28,12 +67,12 @@ Template.smartEvent.helpers
   deleted: ->
     SmartEvents.findOne(Template.instance().eventId.get())?.deleted
 
-  hasAssociatedIncidents: ->
-    Incidents.find().count()
-
   incidentReportsTemplateData: ->
-    incidents: Incidents.find({}, {sort: {'dateRange.end': 1}})
+    incidents: Incidents.find({}, sort: 'dateRange.end': 1)
     eventType: 'smart'
+
+  isLoading: ->
+    Template.instance().loading.get()
 
 Template.smartEvent.events
   'click .edit-link, click #cancel-edit': (event, instance) ->

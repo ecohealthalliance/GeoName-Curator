@@ -1,4 +1,5 @@
 SmartEvents = require '/imports/collections/smartEvents.coffee'
+formatLocation = require '/imports/formatLocation.coffee'
 
 Template.smartEventSummary.onCreated ->
   @copied = new ReactiveVar(false)
@@ -25,6 +26,12 @@ Template.smartEventSummary.helpers
 
   collapsed: ->
     Template.instance().collapsed.get()
+
+  locationNames: ->
+    formattedLocations = []
+    for location in Template.instance().data.locations
+      formattedLocations.push(formatLocation(location))
+    formattedLocations.join('; ')
 
 Template.smartEventSummary.events
   'click .copy-link': (event, instance) ->
