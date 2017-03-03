@@ -25,22 +25,31 @@ Template.smartEvent.onRendered ->
       if eventDateRange
         query['dateRange.start'] = $lte: eventDateRange.end
         query['dateRange.end'] = $gte: eventDateRange.start
-      if locations
-        locationProps =
-          countryName: []
-          admin1Name: []
-          admin2Name: []
-        locationQuery = []
-        for location in locations
-          featureCode = location.featureCode
-          locationProps['countryName'].push(location.countryName)
-          if featureCode is 'ADM1' or featureCode is 'ADM2'
-            locationProps['admin1Name'].push(location.admin1Name)
-          if featureCode is 'ADM2'
-            locationProps['admin2Name'].push(location.admin2Name)
-        for prop, locations of locationProps
-          if locations.length
-            query["locations.#{prop}"] = $in: _.uniq(locations)
+      locationQueries = []
+      for location in locations
+        locationQueries.push
+          id: location.id
+        locationQuery =
+          countryName: location.countryName
+        featureCode = location.featureCode
+        if featureCode.startsWith("PCL")
+          locationQueries.push(locationQuery)
+        else
+          locationQuery.admin1Name = location.admin1Name
+          if featureCode is 'ADM1'
+            locationQueries.push(locationQuery)
+          else
+            locationQuery.admin2Name = location.admin2Name
+            if featureCode is 'ADM2'
+              locationQueries.push(locationQuery)
+      locationQueries = _.chain(locationQueries).compact().map((x)->
+        result = {}
+        for prop, value of x
+          result['locations.'+prop] = value
+        return result
+      ).value()
+      if locationQueries.length > 0
+        query['$or'] = locationQueries
       @subscribe 'smartEventIncidents', query,
         onReady: =>
           @loading.set(false)
