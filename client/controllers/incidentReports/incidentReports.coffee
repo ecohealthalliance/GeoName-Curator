@@ -188,53 +188,53 @@ Template.incidentReports.helpers
     Template.instance().data.eventType is 'smart'
 
 Template.incidentReports.events
-  'click #scatterPlot-toggleCumulative': (event, template) ->
+  'click #scatterPlot-toggleCumulative': (event, instance) ->
     $target = $(event.currentTarget)
     $icon = $target.find('i.fa')
     if $target.hasClass('active')
       $target.removeClass('active')
       $icon.removeClass('fa-check-circle').addClass('fa-circle-o')
-      template.plot.removeFilter('cumulative')
-      template.plot.addFilter('notCumulative', template.filters.notCumulative)
-      template.plot.draw()
+      instance.plot.removeFilter('cumulative')
+      instance.plot.addFilter('notCumulative', instance.filters.notCumulative)
+      instance.plot.draw()
     else
       $target.addClass('active')
       $icon.removeClass('fa-circle-o').addClass('fa-check-circle')
-      template.plot.removeFilter('notCumulative')
-      template.plot.addFilter('cumulative', template.filters.cumulative)
-      template.plot.draw()
+      instance.plot.removeFilter('notCumulative')
+      instance.plot.addFilter('cumulative', instance.filters.cumulative)
+      instance.plot.draw()
     $(event.currentTarget).blur()
 
-  'click #scatterPlot-resetZoom': (event, template) ->
-    template.plot.resetZoom()
+  'click #scatterPlot-resetZoom': (event, instance) ->
+    instance.plot.resetZoom()
     $(event.currentTarget).blur()
 
-  'click #event-incidents-table th': (event, template) ->
-    template.$('tr').removeClass('open')
-    template.$('tr.details').remove()
+  'click #event-incidents-table th': (event, instance) ->
+    instance.$('tr').removeClass('open')
+    instance.$('tr.details').remove()
 
-  'click .reactive-table tbody tr.event-incidents': (event, template) ->
+  'click .reactive-table tbody tr.event-incidents': (event, instance) ->
     $target = $(event.target)
     $parentRow = $target.closest('tr')
-    currentOpen = template.$('tr.details')
+    currentOpen = instance.$('tr.details')
     closeRow = $parentRow.hasClass('open')
     if currentOpen
-      template.$('tr').removeClass('open')
+      instance.$('tr').removeClass('open')
       currentOpen.remove()
     if not closeRow
       $parentRow.addClass('open').after $('<tr>').addClass('details')
       Blaze.renderWithData Template.incidentReport, @, $('tr.details')[0]
 
-  'click .reactive-table tbody tr .edit': (event, template) ->
-    templateData = template.data
+  'click .reactive-table tbody tr .edit': (event, instance) ->
+    instanceData = instance.data
     incident =
-      articles: templateData.articles
-      userEventId: templateData.userEvent._id
+      articles: instanceData.articles
+      userEventId: instanceData.userEvent._id
       edit: true
       incident: @
     Modal.show 'incidentModal', incident
 
-  'click .reactive-table tbody tr .delete': (event, template) ->
+  'click .reactive-table tbody tr .delete': (event, instance) ->
     date = moment(@dateRange.start).format("MMM D, YYYY")
     location = @locations[0].name
     Modal.show 'deleteConfirmationModal',
@@ -245,5 +245,5 @@ Template.incidentReports.events
   # Remove any open incident report details elements on pagination
   'click .next-page,
    click .prev-page,
-   change .reactive-table-navigation .form-control': (event, template) ->
-     template.$('tr.details').remove()
+   change .reactive-table-navigation .form-control': (event, instance) ->
+     instance.$('tr.details').remove()
