@@ -1,5 +1,7 @@
 CuratorSources = require '/imports/collections/curatorSources.coffee'
+Incidents = require '/imports/collections/incidentReports.coffee'
 key = require 'keymaster'
+{ notify } = require '/imports/ui/notification'
 
 _markReviewed = (instance, showNext=true) ->
   new Promise (resolve) ->
@@ -58,9 +60,23 @@ Template.curatorSourceDetails.onRendered ->
   key 'ctrl + enter, command + enter', (event) =>
     _markReviewed(@)
 
-  @autorun ->
-    sourceId = instance.data.selectedSourceId.get()
-    _getSource(instance, sourceId)
+  @autorun =>
+    sourceId = @data.selectedSourceId.get()
+    _getSource(@, sourceId)
+
+  @autorun =>
+    source = @source.get()
+    sourceId = source._sourceId
+    if source
+      @subscribe 'curatorSourceIncidentReports', sourceId,
+        onReady: =>
+          source.url = "http://www.promedmail.org/post/#{sourceId}"
+          unless Incidents.findOne('url.0': $regex: new RegExp("#{sourceId}$"))
+            Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
+              if error
+                console.log error
+              else
+                Meteor.call('addIncidentReportsFromEnhancement', enhancements, source, null, true)
 
 Template.curatorSourceDetails.helpers
   source: ->
