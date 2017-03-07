@@ -27,7 +27,6 @@ _getSource = (instance, sourceId) ->
   instance.source.set source
 
 Template.curatorSourceDetails.onCreated ->
-  @contentIsOpen = new ReactiveVar(false)
   @notifying = new ReactiveVar false
   @source = new ReactiveVar null
   @reviewed = new ReactiveVar false
@@ -67,9 +66,6 @@ Template.curatorSourceDetails.helpers
   source: ->
     Template.instance().source.get()
 
-  contentIsOpen: ->
-    Template.instance().contentIsOpen.get()
-
   formattedScrapeDate: ->
     moment(Template.instance().data.sourceDate).format('MMMM DD, YYYY')
 
@@ -88,11 +84,6 @@ Template.curatorSourceDetails.helpers
 Template.curatorSourceDetails.events
   "click .toggle-reviewed": (event, instance) ->
     _markReviewed(instance)
-
-  'click .toggle-source-content': (event, instance) ->
-    open = instance.contentIsOpen
-    open.set not open.get()
-    $(event.currentTarget).tooltip 'destroy'
 
   'click .back-to-list': (event, instance) ->
     instance.data.currentPaneInView.set('')
