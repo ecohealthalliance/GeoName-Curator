@@ -7,13 +7,6 @@ template(name="curatorSourceDetails")
           i.fa.fa-chevron-circle-left(title="Return to source list")
         a(href="https://promedmail.org/post/#{_sourceId}" target="_blank")= title
       .curator-source-details-options
-        .controls
-          i.fa.fa-align-left.toggle-source-content(
-            class="{{#if contentIsOpen}} active {{/if}}"
-            data-toggle="tooltip"
-            data-placement="left"
-            title="Toggle source text"
-            tabindex="0")
         button.btn.btn-success.toggle-reviewed(class="{{#if isReviewed}} reviewed {{/if}}")
           if isReviewed
             span Reviewed
@@ -27,9 +20,8 @@ template(name="curatorSourceDetails")
           p Preparing next source
       .transition(class="{{#if notifying}} active {{/if}}")
     .curator-source-details-content
-      if contentIsOpen
-        .curator-source-details-copy-wrapper
-          .curator-source-details-copy= content
+      .curator-source-details-copy-wrapper
+        .curator-source-details-copy= content
       +curatorEvents selectedSourceId=selectedSourceId
       if notifying
         .veil
