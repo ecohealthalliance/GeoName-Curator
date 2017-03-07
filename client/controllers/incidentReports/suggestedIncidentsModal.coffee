@@ -91,14 +91,14 @@ Template.suggestedIncidentsModal.onCreated ->
     currentModal:
       element: '#suggestedIncidentsModal'
 
+Template.suggestedIncidentsModal.onRendered ->
   article = @data.article
-  Meteor.call 'getArticleEnhancements', article, (error, result) =>
+  Meteor.call 'getArticleEnhancements', article, (error, enhancements) =>
     if error
       Modal.hide(@)
       toastr.error error.reason
       return
-    Meteor.call 'addIncidentReportsFromEnhancement', result, article,
-                @incidentCollection, @data.acceptByDefault, (error, result) =>
+    Meteor.call 'addIncidentReportsFromEnhancement', enhancements, article, @incidentCollection, @data.acceptByDefault, (error, result) =>
       if error
         notify('error', error.reason)
         return

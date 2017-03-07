@@ -25,6 +25,7 @@ IncidentReportSchema = new SimpleSchema
     optional: true
   locations:
     type: [Object]
+    optional: true
   userEventId:
     type: String
     optional: true

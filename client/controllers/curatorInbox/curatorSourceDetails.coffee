@@ -29,9 +29,10 @@ _getSource = (instance, sourceId) ->
   instance.source.set source
 
 Template.curatorSourceDetails.onCreated ->
-  @notifying = new ReactiveVar false
-  @source = new ReactiveVar null
-  @reviewed = new ReactiveVar false
+  @notifying = new ReactiveVar(false)
+  @source = new ReactiveVar(null)
+  @reviewed = new ReactiveVar(false)
+  @incidentsLoaded = new ReactiveVar(true)
 
 Template.curatorSourceDetails.onRendered ->
   instance = @
@@ -66,17 +67,22 @@ Template.curatorSourceDetails.onRendered ->
 
   @autorun =>
     source = @source.get()
+    @incidentsLoaded.set(false)
     sourceId = source._sourceId
     if source
       @subscribe 'curatorSourceIncidentReports', sourceId,
         onReady: =>
           source.url = "http://www.promedmail.org/post/#{sourceId}"
-          unless Incidents.findOne('url.0': $regex: new RegExp("#{sourceId}$"))
+          if Incidents.findOne('url.0': $regex: new RegExp("#{sourceId}$"))
+            @incidentsLoaded.set(true)
+          else
             Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
               if error
                 console.log error
               else
-                Meteor.call('addIncidentReportsFromEnhancement', enhancements, source, null, true)
+                Meteor.call 'addIncidentReportsFromEnhancement', enhancements,
+                            source, null, true, (error, result) ->
+                  @incidentsLoaded.set(true)
 
 Template.curatorSourceDetails.helpers
   source: ->
@@ -96,6 +102,9 @@ Template.curatorSourceDetails.helpers
 
   selectedSourceId: ->
     Template.instance().data.selectedSourceId
+
+  incidentsLoaded: ->
+    Template.instance().incidentsLoaded.get()
 
 Template.curatorSourceDetails.events
   "click .toggle-reviewed": (event, instance) ->

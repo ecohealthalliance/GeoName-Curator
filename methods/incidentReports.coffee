@@ -196,7 +196,7 @@ Meteor.methods
         # Use the article's date as the default
         incident.dateRange =
           start: article.publishDate
-          end: moment(article.publishDate).add(1, 'day')
+          end: moment(article.publishDate).add(1, 'day').toDate()
           type: 'day'
         dateTerritory.annotations.forEach (timeAnnotation)->
           if (timeAnnotation.precision > maxPrecision and
