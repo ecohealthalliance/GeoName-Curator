@@ -106,7 +106,9 @@ Meteor.methods
     Meteor.call("editUserEventLastModified", incident.userEventId)
     Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
 
-  addIncidentReportsFromEnhancement: (enhancements, article, collection, acceptByDefault) ->
+  createIncidentReportsFromEnhancements: (options) ->
+    { enhancements, source, acceptByDefault, addToCollection } = options
+    incidents = []
     features = enhancements.features
     locationAnnotations = features.filter (f) -> f.type == 'location'
     datetimeAnnotations = features.filter (f) -> f.type == 'datetime'
@@ -169,7 +171,7 @@ Meteor.methods
           timeAnnotation.endMoment = moment.utc(
             timeAnnotation.timeRange.end
           ).endOf('day')
-          publishMoment = moment.utc(article.publishDate)
+          publishMoment = moment.utc(source.publishDate)
           if timeAnnotation.beginMoment.isAfter publishMoment, 'day'
             # Omit future dates
             return
@@ -193,10 +195,10 @@ Meteor.methods
             geonamesById[geoname.geonameid]
           )
         maxPrecision = 0
-        # Use the article's date as the default
+        # Use the source's date as the default
         incident.dateRange =
-          start: article.publishDate
-          end: moment(article.publishDate).add(1, 'day').toDate()
+          start: source.publishDate
+          end: moment(source.publishDate).add(1, 'day').toDate()
           type: 'day'
         dateTerritory.annotations.forEach (timeAnnotation)->
           if (timeAnnotation.precision > maxPrecision and
@@ -239,10 +241,10 @@ Meteor.methods
         ], attributes)
         if suspectedAttributes.length > 0
           incident.status = 'suspected'
-        incident.url = [article.url]
+        incident.url = [source.url]
         # The disease field is set to the last disease mentioned,
         # document classification, or event disease with overides in that order.
-        event = UserEvents.findOne(article?.userEventId)
+        event = UserEvents.findOne(source?.userEventId)
         if event?.disease
           incident.disease = event.disease
         enhancements.diseases.forEach ({name})->
@@ -262,9 +264,10 @@ Meteor.methods
         )
         if incident.dateRange?.cumulative
           incident.suggestedFields.push('cumulative')
-        if collection
-          collection.insert(incident)
-        else
+        incidents.push(incident)
+        if addToCollection
           _incident = _.pick(incident, incidentReportSchema.objectKeys())
           Meteor.call('addIncidentReport', _incident)
-      enhancements.source.cleanContent.content
+
+      content: enhancements.source.cleanContent.content
+      incidents: incidents

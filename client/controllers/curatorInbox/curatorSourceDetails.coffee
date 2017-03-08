@@ -78,10 +78,14 @@ Template.curatorSourceDetails.onRendered ->
           else
             Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
               if error
-                console.log error
+                notify('error', error.reason)
               else
-                Meteor.call 'addIncidentReportsFromEnhancement', enhancements,
-                            source, null, true, (error, result) ->
+                options =
+                  enhancements: enhancements
+                  source: source
+                  acceptByDefault: true
+                  addToCollection: true
+                Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) =>
                   @incidentsLoaded.set(true)
 
 Template.curatorSourceDetails.helpers

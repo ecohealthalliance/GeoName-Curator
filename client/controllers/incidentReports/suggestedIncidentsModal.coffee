@@ -92,24 +92,29 @@ Template.suggestedIncidentsModal.onCreated ->
       element: '#suggestedIncidentsModal'
 
 Template.suggestedIncidentsModal.onRendered ->
-  article = @data.article
-  Meteor.call 'getArticleEnhancements', article, (error, enhancements) =>
+  $('#event-source').on 'hidden.bs.modal', ->
+    $('body').addClass('modal-open')
+
+  source = @data.article
+  Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
     if error
       Modal.hide(@)
       toastr.error error.reason
       return
-    Meteor.call 'addIncidentReportsFromEnhancement', enhancements, article, @incidentCollection, @data.acceptByDefault, (error, result) =>
+    options =
+      enhancements: enhancements
+      source: source
+      acceptByDefault: @data.acceptByDefault
+      addToCollection: false
+    Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) =>
       if error
         notify('error', error.reason)
         return
       else
+        for incident in result.incidents
+          @incidentCollection.insert(incident)
         @loading.set(false)
-        @content.set(result)
-
-Template.suggestedIncidentsModal.onRendered ->
-  instance = @
-  $('#event-source').on 'hidden.bs.modal', ->
-    $('body').addClass('modal-open')
+        @content.set(result.content)
 
 Template.suggestedIncidentsModal.onDestroyed ->
   $('#suggestedIncidentsModal').off('hide.bs.modal')
