@@ -20,8 +20,11 @@ template(name="curatorSourceDetails")
           p Preparing next source
       .transition(class="{{#if notifying}} active {{/if}}")
     .curator-source-details-content
-      .curator-source-details-copy-wrapper
-        .curator-source-details-copy= content
-      +incidentTable incidents=incidents
-      if notifying
-        .veil
+      if incidentsLoaded
+        .curator-source-details-copy-wrapper
+          .curator-source-details-copy= content
+        +curatorEvents selectedSourceId=selectedSourceId
+        if notifying
+          .veil
+      else
+        +loading message="Processing Source"

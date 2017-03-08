@@ -25,18 +25,22 @@ IncidentReportSchema = new SimpleSchema
     optional: true
   locations:
     type: [Object]
-    minCount: 1
+    optional: true
   userEventId:
     type: String
+    optional: true
   dateRange:
     type: Object
   "dateRange.type":
     type: String
     allowedValues: ["day","precise"]
+    optional: true
   "dateRange.start":
     type: Date
+    optional: true
   "dateRange.end":
     type: Date
+    optional: true
   "dateRange.cumulative":
     type: Boolean
     optional: true

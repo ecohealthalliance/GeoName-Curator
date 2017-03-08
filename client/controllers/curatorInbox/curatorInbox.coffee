@@ -100,7 +100,6 @@ Template.curatorInbox.onRendered ->
         console.log(err)
         return toastr.error(err.reason)
 
-
     calendar = $('#date-picker').data('daterangepicker')
     if calendar
       updateCalendarSelection(calendar, range)

@@ -21,6 +21,6 @@ Template.notification.helpers
   icon: ->
     switch @type
       when 'success' then 'check-circle'
-      when 'failure', 'warning' then 'exclamation-triangle'
+      when 'failure', 'warning', 'error' then 'exclamation-triangle'
   active: ->
     Template.instance().active?.get()

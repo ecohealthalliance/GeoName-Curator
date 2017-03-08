@@ -1,5 +1,7 @@
 CuratorSources = require '/imports/collections/curatorSources.coffee'
+Incidents = require '/imports/collections/incidentReports.coffee'
 key = require 'keymaster'
+{ notify } = require '/imports/ui/notification'
 
 _markReviewed = (instance, showNext=true) ->
   new Promise (resolve) ->
@@ -27,9 +29,10 @@ _getSource = (instance, sourceId) ->
   instance.source.set source
 
 Template.curatorSourceDetails.onCreated ->
-  @notifying = new ReactiveVar false
-  @source = new ReactiveVar null
-  @reviewed = new ReactiveVar false
+  @notifying = new ReactiveVar(false)
+  @source = new ReactiveVar(null)
+  @reviewed = new ReactiveVar(false)
+  @incidentsLoaded = new ReactiveVar(true)
 
 Template.curatorSourceDetails.onRendered ->
   instance = @
@@ -43,24 +46,50 @@ Template.curatorSourceDetails.onRendered ->
       swippablePane.on 'swiperight', (event) ->
         instance.data.currentPaneInView.set('')
 
-  @autorun =>
-    title = instance.source.get()?.title
-    Meteor.defer =>
-      $title = $('#sourceDetailsTitle')
-      titleEl = $title[0]
-      # Remove title and tooltip if the title is complete & without ellipsis
-      if titleEl.offsetWidth >= titleEl.scrollWidth
-        $title.tooltip('hide').attr('data-original-title', '')
-      else
-        $title.attr('data-original-title', title)
-
   # Create key binding which marks sources as reviewed.
   key 'ctrl + enter, command + enter', (event) =>
     _markReviewed(@)
 
-  @autorun ->
-    sourceId = instance.data.selectedSourceId.get()
-    _getSource(instance, sourceId)
+  @autorun =>
+    # When source is selected in the curatorInbox template, `selectedSourceId`,
+    # which is handed down, is updated and triggers this autorun
+    # current source
+    sourceId = @data.selectedSourceId.get()
+    _getSource(@, sourceId)
+
+  @autorun =>
+    source = @source.get()
+    if source
+      @incidentsLoaded.set(false)
+      title = source.title
+      sourceId = source._sourceId
+      # Update the source title and its tooltip in the right pane
+      Meteor.defer =>
+        $title = $('#sourceDetailsTitle')
+        titleEl = $title[0]
+        # Remove title and tooltip if the title is complete & without ellipsis
+        if titleEl.offsetWidth >= titleEl.scrollWidth
+          $title.tooltip('hide').attr('data-original-title', '')
+        else
+          $title.attr('data-original-title', title)
+
+      @subscribe 'curatorSourceIncidentReports', sourceId,
+        onReady: =>
+          source.url = "http://www.promedmail.org/post/#{sourceId}"
+          if Incidents.findOne('url.0': $regex: new RegExp("#{sourceId}$"))
+            @incidentsLoaded.set(true)
+          else
+            Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
+              if error
+                notify('error', error.reason)
+              else
+                options =
+                  enhancements: enhancements
+                  source: source
+                  acceptByDefault: true
+                  addToCollection: true
+                Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) =>
+                  @incidentsLoaded.set(true)
 
 Template.curatorSourceDetails.helpers
   source: ->
@@ -80,6 +109,9 @@ Template.curatorSourceDetails.helpers
 
   selectedSourceId: ->
     Template.instance().data.selectedSourceId
+
+  incidentsLoaded: ->
+    Template.instance().incidentsLoaded.get()
 
 Template.curatorSourceDetails.events
   "click .toggle-reviewed": (event, instance) ->
