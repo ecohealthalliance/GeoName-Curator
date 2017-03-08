@@ -4,69 +4,6 @@ Constants = require '/imports/constants.coffee'
 { notify } = require('/imports/ui/notification')
 { stageModals } = require('/imports/ui/modals')
 
-# A annotation's territory is the sentence containing it,
-# and all the following sentences until the next annotation.
-# Annotations in the same sentence are grouped.
-getTerritories = (annotationsWithOffsets, sents) ->
-  # Split annotations with multiple offsets
-  # and sort by offset.
-  annotationsWithSingleOffsets = []
-  annotationsWithOffsets.forEach (annotation)->
-    annotation.textOffsets.forEach (textOffset)->
-      splitAnnotation = Object.create(annotation)
-      splitAnnotation.textOffsets = [textOffset]
-      annotationsWithSingleOffsets.push(splitAnnotation)
-  annotationsWithOffsets = _.sortBy(annotationsWithSingleOffsets, (annotation)->
-    annotation.textOffsets[0][0]
-  )
-  annotationIdx = 0
-  sentStart = 0
-  sentEnd = 0
-  territories = []
-  sents.forEach (sent) ->
-    sentStart = sentEnd
-    sentEnd = sentEnd + sent.length
-    sentAnnotations = []
-    while annotation = annotationsWithOffsets[annotationIdx]
-      [aStart, aEnd] = annotation.textOffsets[0]
-      if aStart > sentEnd
-        break
-      else
-        sentAnnotations.push annotation
-        annotationIdx++
-    if sentAnnotations.length > 0 or territories.length == 0
-      territories.push
-        annotations: sentAnnotations
-        territoryStart: sentStart
-        territoryEnd: sentEnd
-    else
-      territories[territories.length - 1].territoryEnd = sentEnd
-  return territories
-
-# Parse text into an array of sentences separated by
-# periods, colons, semi-colons, or double linebreaks.
-parseSents = (text)->
-  idx = 0
-  sents = []
-  sentStart = 0
-  while idx < text.length
-    char = text[idx]
-    if char == '\n'
-      [match] = text.slice(idx).match(/^\n+/)
-      idx += match.length
-      if match.length > 1
-        sents[sents.length] = text.slice(sentStart, idx)
-        sentStart = idx
-    else if /^[\.\;\:]/.test(char)
-      idx++
-      sents[sents.length] = text.slice(sentStart, idx)
-      sentStart = idx
-    else
-      idx++
-  if sentStart < idx
-    sents[sents.length] = text.slice(sentStart, idx)
-  return sents
-
 # determines if the user should be prompted before leaving the current modal
 #
 # @param {object} event, the DOM event
@@ -154,177 +91,30 @@ Template.suggestedIncidentsModal.onCreated ->
     currentModal:
       element: '#suggestedIncidentsModal'
 
-  Meteor.call('getArticleEnhancements', @data.article, (error, result) =>
+Template.suggestedIncidentsModal.onRendered ->
+  $('#event-source').on 'hidden.bs.modal', ->
+    $('body').addClass('modal-open')
+
+  source = @data.article
+  Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
     if error
       Modal.hide(@)
       toastr.error error.reason
       return
-    locationAnnotations = result.features.filter (f) -> f.type == 'location'
-    datetimeAnnotations = result.features.filter (f) -> f.type == 'datetime'
-    diseaseAnnotations = result.features.filter (f) -> f.type == 'diseases'
-    countAnnotations = result.features.filter (f) -> f.type == 'count'
-    geonameIds = locationAnnotations.map((r) -> r.geoname.geonameid)
-    # Query geoname lookup service to get admin names.
-    # The GRITS api reponse only includes admin codes.
-    new Promise((resolve, reject) =>
-      if geonameIds.length == 0
-        resolve([])
+    options =
+      enhancements: enhancements
+      source: source
+      acceptByDefault: @data.acceptByDefault
+      addToCollection: false
+    Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) =>
+      if error
+        notify('error', error.reason)
+        return
       else
-        HTTP.get(Constants.GRITS_URL + '/api/geoname_lookup/api/geonames', {
-          params:
-            ids: geonameIds
-        }, (error, geonamesResult) =>
-          if error
-            toastr.error error.reason
-            Modal.hide(@)
-            reject()
-          else
-            resolve(geonamesResult.data.docs)
-        )
-    ).then((locations) =>
-      geonamesById = {}
-      locations.forEach (loc) ->
-        geonamesById[loc.id] =
-          id: loc.id
-          name: loc.name
-          admin1Name: loc.admin1Name
-          admin2Name: loc.admin2Name
-          latitude: parseFloat(loc.latitude)
-          longitude: parseFloat(loc.longitude)
-          countryName: loc.countryName
-          population: loc.population
-          featureClass: loc.featureClass
-          featureCode: loc.featureCode
-          alternateNames: loc.alternateNames
-      @loading.set(false)
-      @content.set result.source.cleanContent.content
-      sents = parseSents(result.source.cleanContent.content)
-      locTerritories = getTerritories(locationAnnotations, sents)
-      datetimeAnnotations = datetimeAnnotations
-        .map (timeAnnotation) =>
-          if not (timeAnnotation.timeRange and
-            timeAnnotation.timeRange.begin and
-            timeAnnotation.timeRange.end
-          )
-            return
-          # moment parses 0 based month indecies
-          if timeAnnotation.timeRange.begin.month
-            timeAnnotation.timeRange.begin.month--
-          if timeAnnotation.timeRange.end.month
-            timeAnnotation.timeRange.end.month--
-          timeAnnotation.precision = (
-            Object.keys(timeAnnotation.timeRange.end).length +
-            Object.keys(timeAnnotation.timeRange.end).length
-          )
-          timeAnnotation.beginMoment = moment.utc(
-            timeAnnotation.timeRange.begin
-          )
-          # Round up the to day end
-          timeAnnotation.endMoment = moment.utc(
-            timeAnnotation.timeRange.end
-          ).endOf('day')
-          publishMoment = moment.utc(@data.article.publishDate)
-          if timeAnnotation.beginMoment.isAfter publishMoment, 'day'
-            # Omit future dates
-            return
-          if timeAnnotation.endMoment.isAfter publishMoment, 'day'
-            # Truncate ranges that extend into the future
-            timeAnnotation.endMoment = publishMoment
-          return timeAnnotation
-        .filter (x) -> x
-      dateTerritories = getTerritories(datetimeAnnotations, sents)
-      diseaseTerritories = getTerritories(diseaseAnnotations, sents)
-      countAnnotations.forEach((countAnnotation) =>
-        [start, end] = countAnnotation.textOffsets[0]
-        locationTerritory = _.find locTerritories, ({territoryStart, territoryEnd}) ->
-          return (start <= territoryEnd and start >= territoryStart)
-        dateTerritory = _.find dateTerritories, ({territoryStart, territoryEnd}) ->
-          return (start <= territoryEnd and start >= territoryStart)
-        diseaseTerritory = _.find diseaseTerritories, ({territoryStart, territoryEnd}) ->
-          return (start <= territoryEnd and start >= territoryStart)
-        incident =
-          locations: locationTerritory.annotations.map(({geoname}) ->
-            geonamesById[geoname.geonameid]
-          )
-        maxPrecision = 0
-        # Use the article's date as the default
-        incident.dateRange =
-          start: @data.article.publishDate
-          end: moment(@data.article.publishDate).add(1, 'day')
-          type: 'day'
-        dateTerritory.annotations.forEach (timeAnnotation)->
-          if (timeAnnotation.precision > maxPrecision and
-            timeAnnotation.beginMoment.isValid() and
-            timeAnnotation.endMoment.isValid()
-          )
-            maxPrecision = timeAnnotation.precision
-            incident.dateRange =
-              start: timeAnnotation.beginMoment.toDate()
-              end: timeAnnotation.endMoment.toDate()
-            rangeHours = moment(incident.dateRange.end)
-              .diff(incident.dateRange.start, 'hours')
-            if rangeHours <= 24
-              incident.dateRange.type = 'day'
-            else
-              incident.dateRange.type = 'precise'
-        incident.dateTerritory = dateTerritory
-        incident.locationTerritory = locationTerritory
-        incident.diseaseTerritory = diseaseTerritory
-        incident.countAnnotation = countAnnotation
-        { count, attributes } = countAnnotation
-        if 'death' in attributes
-          incident.deaths = count
-        else if "case" in attributes or "hospitalization" in attributes
-          incident.cases = count
-        else
-          incident.cases = count
-          incident.uncertainCountType = true
-        if @data.acceptByDefault and not incident.uncertainCountType
-          incident.accepted = true
-        # Detect whether count is cumulative
-        if 'incremental' in attributes
-          incident.dateRange.cumulative = false
-        else if 'cumulative' in attributes
-          incident.dateRange.cumulative = true
-        else if incident.dateRange.type == 'day' and count > 300
-          incident.dateRange.cumulative = true
-        suspectedAttributes = _.intersection([
-          'approximate', 'average', 'suspected'
-        ], attributes)
-        if suspectedAttributes.length > 0
-          incident.status = 'suspected'
-        incident.url = [@data.article.url]
-        # The disease field is set to the last disease mentioned,
-        # document classification, or event disease with overides in that order.
-        event = UserEvents.findOne(@data.article?.userEventId)
-        if event?.disease
-          incident.disease = event.disease
-        result.diseases.forEach ({name})->
-          incident.disease = name
-        diseaseTerritory.annotations.forEach ({value})->
-          incident.disease = value
-        incident.suggestedFields = _.intersection(
-          Object.keys(incident),
-          [
-            'disease'
-            'cases'
-            'deaths'
-            'dateRange'
-            'status'
-            if incident.locations.length then 'locations'
-          ]
-        )
-        if incident.dateRange?.cumulative
-          incident.suggestedFields.push('cumulative')
-        @incidentCollection.insert(incident)
-      )
-    )
-  )
-
-Template.suggestedIncidentsModal.onRendered ->
-  instance = @
-  $('#event-source').on 'hidden.bs.modal', ->
-    $('body').addClass('modal-open')
+        for incident in result.incidents
+          @incidentCollection.insert(incident)
+        @loading.set(false)
+        @content.set(result.content)
 
 Template.suggestedIncidentsModal.onDestroyed ->
   $('#suggestedIncidentsModal').off('hide.bs.modal')
