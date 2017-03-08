@@ -68,3 +68,8 @@ Meteor.startup ->
       $set:
         deleted: true
         deletedDate: new Date()
+
+  # Store urls on incident reports as strings rather than arrays
+  Incidents.find('url.0': {$exists: true}).forEach (incident) ->
+    Incidents.update _id: incident._id,
+      $set: url: incident.url[0]
