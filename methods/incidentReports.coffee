@@ -68,7 +68,7 @@ parseSents = (text)->
 
 
 Meteor.methods
-  addIncidentReport: (incident) ->
+  addIncidentReport: (incident, updateEvent=true) ->
     incidentReportSchema.validate(incident)
     user = Meteor.user()
     if not Roles.userIsInRole(user._id, ['admin'])
@@ -77,25 +77,27 @@ Meteor.methods
     incident.addedByUserName = user.profile.name
     incident.addedDate = new Date()
     newId = Incidents.insert(incident)
-    # Meteor.call("editUserEventLastModified", incident.userEventId)
-    # Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
+    if updateEvent
+      Meteor.call("editUserEventLastModified", incident.userEventId)
+      Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return newId
 
-  editIncidentReport: (incident) ->
+  editIncidentReport: (incident, updateEvent=true) ->
     incidentReportSchema.validate(incident)
     user = Meteor.user()
     if not Roles.userIsInRole(user._id, ['admin'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     res = Incidents.update(incident._id, incident)
-    Meteor.call("editUserEventLastModified", incident.userEventId)
-    Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
+    if updateEvent
+      Meteor.call("editUserEventLastModified", incident.userEventId)
+      Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return incident._id
 
-  addIncidentReports: (incidents) ->
+  addIncidentReports: (incidents, updateEvents=true) ->
     incidents.map (incident)->
-      Meteor.call("addIncidentReport", incident)
+      Meteor.call("addIncidentReport", incident, updateEvents)
 
-  removeIncidentReport: (id) ->
+  removeIncidentReport: (id, updateEvent) ->
     if not Roles.userIsInRole(@userId, ['admin'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     incident = Incidents.findOne(id)
@@ -103,8 +105,9 @@ Meteor.methods
       $set:
         deleted: true,
         deletedDate: new Date()
-    Meteor.call("editUserEventLastModified", incident.userEventId)
-    Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
+    if updateEvent
+      Meteor.call("editUserEventLastModified", incident.userEventId)
+      Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
 
   createIncidentReportsFromEnhancements: (options) ->
     { enhancements, source, acceptByDefault, addToCollection } = options
@@ -267,7 +270,7 @@ Meteor.methods
         incidents.push(incident)
         if addToCollection
           _incident = _.pick(incident, incidentReportSchema.objectKeys())
-          Meteor.call('addIncidentReport', _incident)
+          Meteor.call('addIncidentReport', _incident, false)
 
       content: enhancements.source.cleanContent.content
       incidents: incidents
