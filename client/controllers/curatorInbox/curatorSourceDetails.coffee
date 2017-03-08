@@ -29,7 +29,6 @@ _getSource = (instance, sourceId) ->
   instance.source.set source
 
 Template.curatorSourceDetails.onCreated ->
-  @incidentCollection = new Meteor.Collection(null)
   @notifying = new ReactiveVar(false)
   @source = new ReactiveVar(null)
   @reviewed = new ReactiveVar(false)
