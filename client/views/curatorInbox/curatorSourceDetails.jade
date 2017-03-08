@@ -23,7 +23,7 @@ template(name="curatorSourceDetails")
       if incidentsLoaded
         .curator-source-details-copy-wrapper
           .curator-source-details-copy= content
-        +curatorEvents selectedSourceId=selectedSourceId
+        +incidentTable incidents=incidents
         if notifying
           .veil
       else

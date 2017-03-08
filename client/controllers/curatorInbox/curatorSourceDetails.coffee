@@ -29,6 +29,7 @@ _getSource = (instance, sourceId) ->
   instance.source.set source
 
 Template.curatorSourceDetails.onCreated ->
+  @incidentCollection = new Meteor.Collection(null)
   @notifying = new ReactiveVar(false)
   @source = new ReactiveVar(null)
   @reviewed = new ReactiveVar(false)
@@ -76,7 +77,10 @@ Template.curatorSourceDetails.onRendered ->
       @subscribe 'curatorSourceIncidentReports', sourceId,
         onReady: =>
           source.url = "http://www.promedmail.org/post/#{sourceId}"
+          @incidentCollection = new Meteor.Collection(null)
           if Incidents.findOne('url.0': $regex: new RegExp("#{sourceId}$"))
+            for incident in Incidents.find().fetch()
+              @incidentCollection.insert(incident)
             @incidentsLoaded.set(true)
           else
             Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
@@ -89,9 +93,14 @@ Template.curatorSourceDetails.onRendered ->
                   acceptByDefault: true
                   addToCollection: true
                 Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) =>
+                  for incident in result.incidents
+                    @incidentCollection.insert(incident)
                   @incidentsLoaded.set(true)
 
 Template.curatorSourceDetails.helpers
+  incidents: ->
+    Template.instance().incidentCollection.find()
+
   source: ->
     Template.instance().source.get()
 
