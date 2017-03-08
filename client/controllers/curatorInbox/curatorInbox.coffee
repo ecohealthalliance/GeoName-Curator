@@ -328,8 +328,10 @@ Template.curatorInboxSection.events
     , keyup .curator-inbox-table tbody tr': (event, instance) ->
     return if not keyboardSelect(event) and event.type is 'keyup'
     instanceData = instance.data
-    instanceData.selectedSourceId.set(@_id)
-    instanceData.currentPaneInView.set('details')
+    selectedSourceId = instanceData.selectedSourceId
+    if selectedSourceId.get()._str != @_id._str
+      selectedSourceId.set(@_id)
+      instanceData.currentPaneInView.set('details')
     $(event.currentTarget).blur()
 
   'click .curator-inbox-section-head
