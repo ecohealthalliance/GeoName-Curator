@@ -82,7 +82,6 @@ sendModalOffStage = (instance) ->
   stageModals(instance, modal, false)
 
 Template.suggestedIncidentsModal.onCreated ->
-  @incidentCollection = new Meteor.Collection(null)
   @hasBeenWarned = new ReactiveVar(false)
   @loading = new ReactiveVar(true)
   @content = new ReactiveVar('')
