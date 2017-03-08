@@ -244,7 +244,7 @@ Meteor.methods
         ], attributes)
         if suspectedAttributes.length > 0
           incident.status = 'suspected'
-        incident.url = [source.url]
+        incident.url = source.url
         # The disease field is set to the last disease mentioned,
         # document classification, or event disease with overides in that order.
         event = UserEvents.findOne(source?.userEventId)

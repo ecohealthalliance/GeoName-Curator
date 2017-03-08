@@ -135,7 +135,7 @@ const enhance = (target)=>{
     })
     .date(a => new Date(a.publishDate))
     .click(showTooltip);
-    
+
     $(document).click((evt)=>{
       if(evt.target.matches(".drop")) return;
       if(!$(evt.target).closest('.tooltip').length) hideTooltip();
