@@ -115,7 +115,7 @@ Template.incidentForm.helpers
     not Template.instance().incidentType.get()
 
   articleSourceUrl: ->
-    Template.instance().data.articles.fetch()[0]?.url
+    Template.instance().data.articles[0]?.url
 
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->
