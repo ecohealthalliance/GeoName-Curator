@@ -23,7 +23,7 @@ template(name="curatorSourceDetails")
       if incidentsLoaded
         .curator-source-details-copy-wrapper
           .curator-source-details-copy= annotatedContent
-        +incidentTable incidents=acceptedIncidents scrollToAnnotations=true
+        +incidentTable incidents=incidents scrollToAnnotations=true
         if notifying
           .veil
       else

@@ -100,8 +100,8 @@ Template.curatorSourceDetails.onRendered ->
                   _addIncidentsToLocalCollection(@, result.incidents)
 
 Template.curatorSourceDetails.helpers
-  acceptedIncidents: ->
-    Template.instance().incidentCollection.find(accepted: true)
+  incidents: ->
+    Template.instance().incidentCollection.find()
 
   source: ->
     Template.instance().source.get()
