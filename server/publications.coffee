@@ -48,7 +48,7 @@ Meteor.publish 'curatorSources', (query) ->
       publishDate: -1
   })
 Meteor.publish 'curatorSourceIncidentReports', (sourceId) ->
-  Incidents.find('url.0': $regex: new RegExp("#{sourceId}$"))
+  Incidents.find(url: $regex: new RegExp("#{sourceId}$"))
 
 Meteor.publish 'eventArticles', (ueId) ->
   Articles.find(

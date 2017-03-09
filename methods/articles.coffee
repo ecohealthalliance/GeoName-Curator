@@ -4,7 +4,7 @@ Meteor.methods
   addEventSource: (source) -> #eventId, url, publishDate, publishDateTZ
     user = Meteor.user()
     if user and Roles.userIsInRole(user._id, ['admin'])
-      if source.url.length
+      if source.url
         insertArticle =
           url: source.url
           title: source.title

@@ -46,7 +46,7 @@ Template.incidentForm.onCreated ->
 
     @incidentType.set(type)
 
-    url = @incidentData.url[0]
+    url = @incidentData.url
     if url
       @incidentData.articleSource = _.findWhere(@data.articles,
         url: url

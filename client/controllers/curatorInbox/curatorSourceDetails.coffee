@@ -77,7 +77,7 @@ Template.curatorSourceDetails.onRendered ->
         onReady: =>
           source.url = "http://www.promedmail.org/post/#{sourceId}"
           @incidentCollection = new Meteor.Collection(null)
-          if Incidents.findOne('url.0': $regex: new RegExp("#{sourceId}$"))
+          if Incidents.findOne(url: $regex: new RegExp("#{sourceId}$"))
             for incident in Incidents.find().fetch()
               @incidentCollection.insert(incident)
             @incidentsLoaded.set(true)
