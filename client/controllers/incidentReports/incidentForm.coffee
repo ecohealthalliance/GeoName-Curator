@@ -16,15 +16,20 @@ _selectInput = (event, instance, prop, isCheckbox) ->
       state.set(clickedInput)
 
 Template.incidentForm.onCreated ->
+  instanceData = @data
   @incidentStatus = new ReactiveVar('')
   @incidentType = new ReactiveVar('')
-  incident = @data.incident
+  incident = instanceData.incident
   @suggestedFields = incident?.suggestedFields or new ReactiveVar([])
 
   @incidentData =
     species: 'Human'
     dateRange:
       type: 'day'
+
+  article = instanceData.articles[0]
+  if article
+    @incidentData.articleSource = article.url
 
   if incident
     @incidentData = _.extend(@incidentData, incident)
@@ -48,7 +53,7 @@ Template.incidentForm.onCreated ->
 
     url = @incidentData.url
     if url
-      @incidentData.articleSource = _.findWhere(@data.articles,
+      @incidentData.articleSource = _.findWhere(instanceData.articles,
         url: url
       )?._id
 

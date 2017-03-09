@@ -10,12 +10,15 @@ template(name="incidentForm")
             data-placement="right"
             title="URL of the article where the incident was reported."
           ) Source URL
-          +articleSelect2(
-            selectId="articleSource"
-            articles=articles
-            selected=incidentData.articleSource
-            placeholder='Select a source')
-          .help-block.with-errors
+          if incidentData.articleSource
+            p=incidentData.articleSource
+          else
+            +articleSelect2(
+              selectId="articleSource"
+              articles=articles
+              selected=incidentData.articleSource
+              placeholder='Select a source')
+            .help-block.with-errors
 
       .incident-type-wrapper.form-groups(
         class="{{#if typeIsSelected}} form-groups--highlighted {{/if}} {{suggestedField 'cases'}} {{suggestedField 'deaths'}}")
