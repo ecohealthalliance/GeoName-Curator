@@ -3,7 +3,7 @@ module.exports =
     lastEnd = 0
     html = ''
     incidents.map (incident)->
-      [start, end] = incident.countAnnotation.textOffsets[0]
+      [start, end] = incident.textOffsets or incident.countAnnotation.textOffsets[0]
       html += (
         Handlebars._escape("#{content.slice(lastEnd, start)}") +
         """<span
