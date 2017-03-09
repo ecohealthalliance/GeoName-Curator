@@ -29,7 +29,7 @@ template(name="suggestedIncidentsModal")
                 p.annotated-content(
                   class="{{#unless incidentsFound}} space-top-4 {{/unless}}")=annotatedContent
             if showTable
-              +incidentTable incidents=incidents
+              +incidentTable incidents=incidents annotatedContentVisible=annotatedContentVisible
         .modal-footer
           button.btn.btn-default.confirm-close-modal(type="button" data-dismiss="modal") Close
           if showTable
