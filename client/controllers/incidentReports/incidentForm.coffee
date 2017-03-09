@@ -48,7 +48,7 @@ Template.incidentForm.onCreated ->
 
     url = @incidentData.url[0]
     if url
-      @incidentData.articleSource = _.findWhere(@data.articles.fetch(),
+      @incidentData.articleSource = _.findWhere(@data.articles,
         url: url
       )?._id
 
@@ -82,7 +82,7 @@ Template.incidentForm.helpers
     type is Template.instance().incidentType.get()
 
   articles: ->
-    Template.instance().data.articles.fetch()
+    Template.instance().data.articles
 
   showCountForm: ->
     type = Template.instance().incidentType.get()
@@ -115,7 +115,7 @@ Template.incidentForm.helpers
     not Template.instance().incidentType.get()
 
   articleSourceUrl: ->
-    Template.instance().data.articles.fetch()[0]?.url
+    Template.instance().data.articles[0]?.url
 
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->

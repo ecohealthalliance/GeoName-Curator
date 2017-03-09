@@ -1,0 +1,34 @@
+template(name="incidentTable")
+  table.table.incident-table(
+    hidden=annotatedContentVisible
+    data-tableexport-display="always")
+    thead
+      tr
+        th.count-header Type
+        th.count-header Value
+        th Start Date
+        th End Date
+        th.locations-header Locations
+        th Status
+        th Species
+        th Properties
+    tbody
+      each incidents
+        tr
+          if cases
+            td Case Count
+            td.count(data-incident-id=_id)=cases
+          else if deaths
+            td Death Count
+            td.count(data-incident-id=_id)=deaths
+          else
+            td Other
+            td.count(data-incident-id=_id)=specify
+          td
+            unless dateRange.cumulative
+              | {{formatDateISO dateRange.start}}
+          td {{formatDateISO dateRange.end}}
+          td {{formatLocations locations}}
+          td=status
+          td=species
+          td=incidentProperties
