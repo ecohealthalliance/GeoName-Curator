@@ -68,6 +68,9 @@ parseSents = (text)->
 
 
 Meteor.methods
+  getIncidentReport: (incidentId) ->
+    Incidents.findOne({_id: incidentId})
+
   addIncidentReport: (incident, updateEvent=true) ->
     incidentReportSchema.validate(incident)
     user = Meteor.user()

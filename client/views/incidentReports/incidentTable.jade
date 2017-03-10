@@ -1,4 +1,8 @@
 template(name="incidentTable")
+  if showMultiActions
+    .actions
+      button.btn.confirm Confirm All
+      button.btn.reject Reject All
   table.table.incident-table(
     hidden=annotatedContentVisible
     data-tableexport-display="always")
