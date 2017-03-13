@@ -98,7 +98,7 @@ Template.curatorSourceDetails.onRendered ->
 
 Template.curatorSourceDetails.helpers
   incidents: ->
-    Template.instance().incidentCollection.find()
+    Template.instance().incidentCollection
 
   source: ->
     Template.instance().source.get()

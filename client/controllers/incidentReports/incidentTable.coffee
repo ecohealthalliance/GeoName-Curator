@@ -1,10 +1,8 @@
 Template.incidentTable.onCreated ->
-  @rowsSelected = new ReactiveVar(false)
-  @selectedIncidents = new ReactiveVar([])
 
 changeIncidentStatus = (status, instance) ->
-  $.each instance.selectedIncidents.get(), (index, incidentId) ->
-    incident = _id: incidentId
+  $.each instance.data.incidents.find({selected: true}).fetch(), (index, incident) ->  
+    incident = _id: incident._id
     incident.accepted = status
     Meteor.call 'updateIncidentReport', incident, false, (error, result) ->
       if error
@@ -14,20 +12,17 @@ changeIncidentStatus = (status, instance) ->
       toastr.success("Incidents reports udpated!")
 
 Template.incidentTable.helpers
+  incidents: ->
+    Template.instance().data.incidents.find()
+
   showMultiActions: ->
-    Template.instance().rowsSelected.get()
+    Template.instance().data.incidents.find({selected: true}).fetch().length > 0
 
 Template.incidentTable.events
   'click table.incident-table tr': (event, instance) ->
-    currentIds = instance.selectedIncidents.get()
     currentId = $(event.target).parent('tr').children('.count').data("incident-id")
-    index = _.indexOf(currentIds, currentId)
-    if index >= 0
-      currentIds.splice(index, 1)
-    else
-      currentIds.push(currentId)
+    instance.data.incidents.update({_id: currentId}, {$set: {selected: true}})
     $(event.target).parent('tr').toggleClass('active')
-    instance.rowsSelected.set(currentIds.length > 0)
 
   'click .reject': (event, instance) ->
     changeIncidentStatus(false, instance)

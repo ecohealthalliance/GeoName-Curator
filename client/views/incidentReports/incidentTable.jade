@@ -17,7 +17,7 @@ template(name="incidentTable")
         th Properties
     tbody
       each incidents
-        tr
+        tr(class="{{#if selected}} active {{/if}}")
           if cases
             td Case Count
             td.count(data-incident-id=_id)=cases
