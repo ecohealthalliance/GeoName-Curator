@@ -1,5 +1,3 @@
-Template.incidentTable.onCreated ->
-
 changeIncidentStatus = (status, instance) ->
   $.each instance.data.incidents.find({selected: true}).fetch(), (index, incident) ->  
     incident = _id: incident._id
