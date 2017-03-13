@@ -31,6 +31,3 @@ Template.incidentTable.events
 
   'click .reject': (event, instance) ->
     changeIncidentStatus(false, instance)
-
-  'click .confirm': (event, instance) ->
-    changeIncidentStatus(true, instance)
