@@ -1,5 +1,5 @@
 Template.incidentTable.events
-  'click .incident-table tbody tr': (event, instance) ->
+  'mouseover .incident-table tbody tr': (event, instance) ->
     if not instance.data.scrollToAnnotations
       return
     $annotation = $("span[data-incident-id=#{@_id}]")
