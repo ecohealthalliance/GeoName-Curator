@@ -2,9 +2,6 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 Articles = require '/imports/collections/articles.coffee'
 { keyboardSelect } = require '/imports/utils'
 
-import {formatUrl} from '/imports/utils.coffee'
-
-
 Template.articles.onCreated ->
   @selectedSourceId = new ReactiveVar null
 
@@ -78,9 +75,6 @@ Template.articles.helpers
         for location in incident.locations
           locations[location.id] = location.name
     _.flatten locations
-
-  formatUrl: (url) ->
-    formatUrl(url)
 
   searchSettings: ->
     id: 'sourceFilter'
