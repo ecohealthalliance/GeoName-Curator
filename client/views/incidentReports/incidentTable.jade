@@ -8,7 +8,7 @@ template(name="incidentTable")
         | Deslect All
       else
         | Select All
-  table.table.incident-table(
+  table.table.featured.incident-table(
     hidden=annotatedContentVisible
     data-tableexport-display="always")
     thead
@@ -19,9 +19,6 @@ template(name="incidentTable")
         th Start Date
         th End Date
         th.locations-header Locations
-        th Status
-        th Species
-        th Properties
     tbody
       each incidents
         tr
@@ -29,18 +26,15 @@ template(name="incidentTable")
             span.select(class="{{#if selected}} selected {{/if}}")
           if cases
             td Case Count
-            td.count(data-incident-id=_id)=cases
+            td=cases
           else if deaths
             td Death Count
-            td.count(data-incident-id=_id)=deaths
+            td=deaths
           else
             td Other
-            td.count(data-incident-id=_id)=specify
+            td=specify
           td
             unless dateRange.cumulative
               | {{formatDateISO dateRange.start}}
           td {{formatDateISO dateRange.end}}
           td {{formatLocations locations}}
-          td=status
-          td=species
-          td=incidentProperties

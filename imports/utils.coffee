@@ -79,11 +79,11 @@ export incidentReportFormToIncident = (form) ->
 
   articleSourceUrl = form.articleSourceUrl
   if articleSourceUrl
-    incident.url = [articleSourceUrl.value]
+    incident.url = articleSourceUrl.value
   else
     for child in $(form.articleSource).select2('data')
       if child.selected
-        incident.url = [child.text.trim()]
+        incident.url = child.text.trim()
 
   $loc = $(form).find('#incident-location-select2')
   for option in $loc.select2('data')

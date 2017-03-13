@@ -110,7 +110,7 @@ Template.incidentForm.helpers
       when 'deaths' then 'Death'
 
   suggestedField: (fieldName)->
-    if fieldName in Template.instance().suggestedFields.get()
+    if fieldName in Template.instance().suggestedFields?.get()
       'suggested'
 
   typeIsSelected: ->
