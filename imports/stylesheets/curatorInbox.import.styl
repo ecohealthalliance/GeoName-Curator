@@ -1,7 +1,6 @@
 $header-BG = $border-primary-light
 $pane-switch-speed = .3s
 
-
 .curator-heading
   color $primary
   font-weight 400
@@ -48,6 +47,7 @@ $pane-switch-speed = .3s
       transform translate(0, 0)
       &:not(.on-canvas)
         transform translate(-100%, 0)
+
   h2
     color $primary
     margin 0
@@ -210,9 +210,11 @@ $pane-switch-speed = .3s
   margin-bottom 30px
 
 .curator-source-details
+  display flex
+  flex-direction column
   padding 0
 
-.curator-source-details-header
+.curator-source-details--header
   position relative
   background none
   padding-left 1.5em
@@ -323,7 +325,7 @@ $pane-switch-speed = .3s
       opacity 1
       transform scale(100)
 
-.curator-source-details-options
+.curator-source-details--options
   display flex
   align-self stretch
   align-items center
@@ -379,8 +381,9 @@ $pane-switch-speed = .3s
         span
           display none
 
-.curator-source-details-content
-  padding-bottom 2em
+.curator-source-details--content
+  display flex
+  flex-direction column
   a
     cursor pointer
     color $d-gray
@@ -401,12 +404,12 @@ $pane-switch-speed = .3s
     +below(2)
       margin-top 1em
 
-.curator-source-details-copy-wrapper
+.curator-source-details--copy-wrapper
   position relative
   gradientTopAndBottom()
 
-.curator-source-details-copy
-  max-height 25vh
+.curator-source-details--copy
+  height 30vh
   padding 1em 10%
   overflow scroll
   white-space pre-wrap
@@ -641,6 +644,16 @@ $pane-switch-speed = .3s
   font-size 1.1em
   left .225em
   color $danger
+
+.curator-source-details--table
+  overflow scroll
+  border-top 2px solid darken($border-primary-light, 5%)
+  .table
+    thead
+      background lighten($border-primary-light, 50%)
+      > tr > th
+        border-bottom 2px solid darken($border-primary-light, 5%)
+
 
 .back-to-top
   position absolute
