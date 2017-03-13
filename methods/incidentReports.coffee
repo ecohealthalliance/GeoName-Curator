@@ -85,6 +85,19 @@ Meteor.methods
       Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return newId
 
+  # similar to editIncidentReport, but allows you to set a single field without changing any other existing fields.
+  updateIncidentReport: (incident, updateEvent=true) ->
+    _id = incident._id
+    delete incident._id
+    user = Meteor.user()
+    if not Roles.userIsInRole(user._id, ['admin'])
+      throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
+    res = Incidents.update({_id: _id}, {$set: incident})
+    if updateEvent
+      Meteor.call("editUserEventLastModified", incident.userEventId)
+      Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
+    return incident._id
+
   editIncidentReport: (incident, updateEvent=true) ->
     incidentReportSchema.validate(incident)
     user = Meteor.user()
