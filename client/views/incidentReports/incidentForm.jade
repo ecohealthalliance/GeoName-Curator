@@ -11,7 +11,8 @@ template(name="incidentForm")
             title="URL of the article where the incident was reported."
           ) Source URL
           if incidentData.articleSource
-            p=incidentData.articleSource
+            p
+              a(href="{{formatUrl(incidentData.articleSource)}}" target="_blank")=incidentData.articleSource
           else
             +articleSelect2(
               selectId="articleSource"
