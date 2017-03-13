@@ -38,8 +38,7 @@ UI.registerHelper 'formatDate', (date) ->
 UI.registerHelper 'formatDateISO', (date) ->
   moment.utc(date).format("YYYY-MM-DDTHH:mm")
 
-UI.registerHelper 'formatUrl', (url) ->
-  formatUrl(url)
+UI.registerHelper 'formatUrl', formatUrl
 
 pluralize = (word, count, showCount=true) ->
   if Number(count) isnt 1
