@@ -20,7 +20,6 @@ Template.incidentTable.events
   'click table.incident-table tr': (event, instance) ->
     currentId = $(event.target).parent('tr').children('.count').data("incident-id")
     instance.data.incidents.update({_id: currentId}, {$set: {selected: true}})
-    $(event.target).parent('tr').toggleClass('active')
 
   'click .reject': (event, instance) ->
     changeIncidentStatus(false, instance)
