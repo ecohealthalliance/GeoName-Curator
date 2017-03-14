@@ -96,5 +96,8 @@ IncidentReportSchema = new SimpleSchema
   deletedDate:
     type: Date
     optional: true
+  textOffsets:
+    type: [Number]
+    optional: true
 
 module.exports = IncidentReportSchema

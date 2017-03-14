@@ -1,12 +1,12 @@
 template(name="curatorSourceDetails")
   with source
-    .curator-inbox-header.curator-source-details-header(class="{{#if isReviewed}} reviewed {{/if}}")
+    .curator-inbox-header.curator-source-details--header(class="{{#if isReviewed}} reviewed {{/if}}")
       +curatorUserStatus selectedSourceId=selectedSourceId
       h2(id="sourceDetailsTitle" data-toggle="tooltip" data-placement="bottom")
         .back-to-list
           i.fa.fa-chevron-circle-left(title="Return to source list")
         a(href="https://promedmail.org/post/#{_sourceId}" target="_blank")= title
-      .curator-source-details-options
+      .curator-source-details--options
         button.btn.btn-success.toggle-reviewed(class="{{#if isReviewed}} reviewed {{/if}}")
           if isReviewed
             span Reviewed
@@ -19,11 +19,12 @@ template(name="curatorSourceDetails")
             .circle
           p Preparing next source
       .transition(class="{{#if notifying}} active {{/if}}")
-    .curator-source-details-content
+    .curator-source-details--content
       if incidentsLoaded
-        .curator-source-details-copy-wrapper
-          .curator-source-details-copy= content
-        +incidentTable incidents=incidents
+        .curator-source-details--copy-wrapper
+          .curator-source-details--copy= annotatedContent
+        .curator-source-details--table
+          +incidentTable incidents=incidents scrollToAnnotations=true
         if notifying
           .veil
       else
