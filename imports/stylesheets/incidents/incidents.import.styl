@@ -114,11 +114,20 @@
   z-index $mid-layer
   font-weight 600
 
+.incident-reports--actions
+  padding .5em
+  .select-all
+    margin-left auto
+
 .incident-table
-  tr
-    border-bottom 1px solid $border-primary
-    &:hover
-      background $border-primary-light
+  > tbody
+    > tr
+      border-bottom 1px solid $border-primary
+      &:hover
+      &:active
+        background lighten($border-primary-light, 20%)
+        > td
+          background none
   td
   th
     padding 5px
@@ -130,6 +139,22 @@
     color blue
     text-decoration underline
     cursor pointer
+  .select
+    font-size 1.25em
+    padding .25em
+    color lighten($m-gray, 10%)
+    display block
+    &::before
+      icon()
+      content '\f1db' // fa-circle-thin
+    &:hover
+      cursor pointer
+      &::before
+        content '\f111' // fa-circle
+    &.selected
+      color $highlight
+      &::before
+        content '\f111' // fa-circle
 
 .submit-page
   margin-top 30px

@@ -1,3 +1,5 @@
+{ notify } = require '/imports/ui/notification'
+
 SCROLL_WAIT_TIME = 500
 Template.incidentTable.onCreated ->
   @scrollToAnnotation = (id) =>
@@ -31,31 +33,45 @@ Template.incidentTable.onCreated ->
     clearInterval(@interval)
 
 changeIncidentStatus = (status, instance) ->
-  $.each instance.data.incidents.find({selected: true}).fetch(), (index, incident) ->  
+  instance.data.incidents.find({selected: true}).forEach (incident) ->
     incident = _id: incident._id
     incident.accepted = status
     #setting accepted status of local collection as well
     Template.instance().data.incidents.update({_id: incident._id}, {$set: {accepted: status}})
     Meteor.call 'updateIncidentReport', incident, false, (error, result) ->
       if error
-        console.log "ERROR calling editIncidentReport", error
-        toastr.error("There was a problem updating your incident reports!")
+        notify('error', 'There was a problem updating your incident reports.')
         return
-      toastr.success("Incidents reports udpated!")
+
+updateAllIncidentsStatus = (instance, status, event) ->
+  instance.data.incidents.update {}, {$set: {selected: status}}, {multi: true}
+  event.currentTarget.blur()
 
 Template.incidentTable.helpers
   incidents: ->
     Template.instance().data.incidents.find({accepted: {$ne: false}})
 
-  showMultiActions: ->
-    Template.instance().data.incidents.find({selected: true}).fetch().length > 0
+  incidentsSelected: ->
+    Template.instance().data.incidents.find({selected: true}).count() > 0
+
+  allSelected: ->
+    incidents = Template.instance().data.incidents
+    incidents.find().count() == incidents.find({selected: true}).count()
 
 Template.incidentTable.events
-  'click table.incident-table tr': (event, instance) ->
+  'click table.incident-table tr td .select': (event, instance) ->
+    event.stopPropagation()
     instance.data.incidents.update({_id: @_id}, {$set: {selected: !@selected}})
 
   'click .reject': (event, instance) ->
     changeIncidentStatus(false, instance)
+    event.currentTarget.blur()
+
+  'click .select-all': (event, instance) ->
+    updateAllIncidentsStatus(instance, true, event)
+
+  'click .deselect-all': (event, instance) ->
+    updateAllIncidentsStatus(instance, false, event)
 
   'mouseover .incident-table tbody tr': (event, instance) ->
     if not instance.data.scrollToAnnotations
