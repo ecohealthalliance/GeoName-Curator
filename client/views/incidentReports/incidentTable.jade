@@ -1,32 +1,45 @@
 template(name="incidentTable")
-  .incident-reports--actions.container-flex
-    button.btn.btn-sm.btn-danger.reject(
-      disabled="{{#unless incidentsSelected}} true {{/unless}}") Reject Incidents
-    button.btn.btn-sm.btn-default(
-      class="{{#if allSelected}} deselect-all {{else}} select-all {{/if}}")
-      if allSelected
-        | Deslect All
-      else
-        | Select All
-  table.table.featured.incident-table(
-    hidden=annotatedContentVisible
-    data-tableexport-display="always")
-    tbody
-      each incidents
-        tr
-          td
-            span.select(class="{{#if selected}} selected {{/if}}")
-          if cases
-            td Case Count
-            td=cases
-          else if deaths
-            td Death Count
-            td=deaths
-          else
-            td Other
-            td=specify
-          td
-            unless dateRange.cumulative
-              | {{formatDateISO dateRange.start}}
-          td {{formatDateISO dateRange.end}}
-          td {{formatLocations locations}}
+  if incidents.count
+    .incident-reports--actions.container-flex
+      button.btn.btn-sm.action(
+        disabled="{{#unless incidentsSelected}} true {{/unless}}"
+        class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") #{action} Incidents
+      button.btn.btn-sm.btn-default.select(
+        class="{{#if allSelected}} deselect-all {{else}} select-all {{/if}}")
+        if allSelected
+          | Deselect All
+        else
+          | Select All
+    table.table.incident-table(
+      hidden=annotatedContentVisible
+      data-tableexport-display="always")
+      unless hideTableHeader
+        thead
+          tr
+            th
+            th.count-header Type
+            th.count-header Value
+            th Start Date
+            th End Date
+            th.locations-header Locations
+      tbody
+        each incidents
+          tr
+            td
+              span.select(class="{{#if selected}} selected {{/if}}")
+            if cases
+              td Case Count
+              td(data-incident-id=_id)=cases
+            else if deaths
+              td Death Count
+              td(data-incident-id=_id)=deaths
+            else
+              td Other
+              td(data-incident-id=_id)=specify
+            td
+              unless dateRange.cumulative
+                | {{formatDateISO dateRange.start}}
+            td {{formatDateISO dateRange.end}}
+            td {{formatLocations locations}}
+  else
+    +noResults message="No incidents found"
