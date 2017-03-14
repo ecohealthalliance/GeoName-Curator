@@ -4,7 +4,6 @@ import ScatterPlot from '/imports/charts/ScatterPlot.coffee'
 import Axes from '/imports/charts/Axes.coffee'
 import Group from '/imports/charts/Group.coffee'
 import SegmentMarker from '/imports/charts/SegmentMarker.coffee'
-import { formatUrl } from '/imports/utils.coffee'
 import { pluralize } from '/imports/ui/helpers'
 
 Template.incidentReports.onDestroyed ->
@@ -120,7 +119,6 @@ Template.incidentReports.onRendered ->
       return
 
 Template.incidentReports.helpers
-  formatUrl: formatUrl
   getSettings: ->
     tableName = 'event-incidents'
     fields = [
