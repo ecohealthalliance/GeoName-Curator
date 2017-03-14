@@ -2,6 +2,8 @@ changeIncidentStatus = (status, instance) ->
   $.each instance.data.incidents.find({selected: true}).fetch(), (index, incident) ->  
     incident = _id: incident._id
     incident.accepted = status
+    #setting accepted status of local collection as well
+    Template.instance().data.incidents.update({_id: incident._id}, {$set: {accepted: status}})
     Meteor.call 'updateIncidentReport', incident, false, (error, result) ->
       if error
         console.log "ERROR calling editIncidentReport", error
@@ -11,7 +13,7 @@ changeIncidentStatus = (status, instance) ->
 
 Template.incidentTable.helpers
   incidents: ->
-    Template.instance().data.incidents.find()
+    Template.instance().data.incidents.find({accepted: {$ne: false}})
 
   showMultiActions: ->
     Template.instance().data.incidents.find({selected: true}).fetch().length > 0
