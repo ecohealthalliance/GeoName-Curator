@@ -18,8 +18,7 @@ Template.incidentTable.helpers
 
 Template.incidentTable.events
   'click table.incident-table tr': (event, instance) ->
-    currentId = $(event.target).parent('tr').children('.count').data("incident-id")
-    instance.data.incidents.update({_id: currentId}, {$set: {selected: true}})
+    instance.data.incidents.update({_id: @_id}, {$set: {selected: true}})
 
   'click .reject': (event, instance) ->
     changeIncidentStatus(false, instance)
