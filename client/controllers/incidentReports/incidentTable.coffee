@@ -52,7 +52,7 @@ Template.incidentTable.helpers
 
 Template.incidentTable.events
   'click table.incident-table tr': (event, instance) ->
-    instance.data.incidents.update({_id: @_id}, {$set: {selected: true}})
+    instance.data.incidents.update({_id: @_id}, {$set: {selected: !@selected}})
 
   'click .reject': (event, instance) ->
     changeIncidentStatus(false, instance)
