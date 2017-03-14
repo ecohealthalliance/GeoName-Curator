@@ -153,7 +153,7 @@ Template.curatorSourceDetails.helpers
     Template.instance().selectedIncidentTab
 
 Template.curatorSourceDetails.events
-  "click .toggle-reviewed": (event, instance) ->
+  'click .toggle-reviewed': (event, instance) ->
     _markReviewed(instance)
 
   'click .back-to-list': (event, instance) ->
@@ -166,3 +166,6 @@ Template.curatorSourceDetails.events
       articles: [instance.source.get()]
       edit: true
       updateEvent: false
+
+  'click .tabs a': (event, instance) ->
+    instance.selectedIncidentTab.set(instance.$(event.currentTarget).data('tab'))

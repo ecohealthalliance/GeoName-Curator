@@ -50,12 +50,14 @@ Template.incidentModal.events
     updateEvent = instanceData.updateEvent
     updateEvent ?= true
 
+    incident.accepted = true
+
     if not incident
       return
     incident.userEventId = instanceData.userEventId
 
     if @add
-      Meteor.call 'addIncidentReport', incident, (error, result) ->
+      Meteor.call 'addIncidentReport', incident, updateEvent, (error, result) ->
         if not error
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.tr-details').remove()
