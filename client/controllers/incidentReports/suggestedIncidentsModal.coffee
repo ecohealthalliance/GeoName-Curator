@@ -3,6 +3,7 @@ UserEvents = require '/imports/collections/userEvents.coffee'
 Constants = require '/imports/constants.coffee'
 { notify } = require('/imports/ui/notification')
 { stageModals } = require('/imports/ui/modals')
+{ annotateContent } = require('/imports/ui/annotation')
 
 # determines if the user should be prompted before leaving the current modal
 #
@@ -142,24 +143,8 @@ Template.suggestedIncidentsModal.helpers
 
   annotatedContent: ->
     content = Template.instance().content.get()
-    lastEnd = 0
-    html = ''
-    Template.instance().incidentCollection.find().map (incident)->
-      [start, end] = incident.countAnnotation.textOffsets[0]
-      html += (
-        Handlebars._escape("#{content.slice(lastEnd, start)}") +
-        """<span
-          class='annotation annotation-text#{
-            if incident.accepted then " accepted" else ""
-          }#{
-            if incident.uncertainCountType then " uncertain" else ""
-          }'
-          data-incident-id='#{incident._id}'
-        >#{Handlebars._escape(content.slice(start, end))}</span>"""
-      )
-      lastEnd = end
-    html += Handlebars._escape("#{content.slice(lastEnd)}")
-    new Spacebars.SafeString(html)
+    incidents = Template.instance().incidentCollection.find().fetch()
+    annotateContent(content, incidents)
 
   annotatedContentVisible: ->
     Template.instance().annotatedContentVisible.get()

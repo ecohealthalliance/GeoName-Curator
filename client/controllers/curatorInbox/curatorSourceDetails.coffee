@@ -2,6 +2,7 @@ CuratorSources = require '/imports/collections/curatorSources.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
 key = require 'keymaster'
 { notify } = require '/imports/ui/notification'
+{ annotateContent } = require('/imports/ui/annotation')
 
 _markReviewed = (instance, showNext=true) ->
   new Promise (resolve) ->
@@ -27,6 +28,11 @@ _getSource = (instance, sourceId) ->
     _id: sourceId
   instance.reviewed.set source?.reviewed or false
   instance.source.set source
+
+_addIncidentsToLocalCollection = (instance, incidents) ->
+  for incident in incidents
+    instance.incidentCollection.insert(incident)
+  instance.incidentsLoaded.set(true)
 
 Template.curatorSourceDetails.onCreated ->
   @notifying = new ReactiveVar(false)
@@ -77,10 +83,9 @@ Template.curatorSourceDetails.onRendered ->
         onReady: =>
           source.url = "http://www.promedmail.org/post/#{sourceId}"
           @incidentCollection = new Meteor.Collection(null)
-          if Incidents.findOne(url: $regex: new RegExp("#{sourceId}$"))
-            for incident in Incidents.find().fetch()
-              @incidentCollection.insert(incident)
-            @incidentsLoaded.set(true)
+          incidents = Incidents.find(url: $regex: new RegExp("#{sourceId}$"))
+          if incidents.count()
+            _addIncidentsToLocalCollection(@, incidents.fetch())
           else
             Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
               if error
@@ -92,9 +97,7 @@ Template.curatorSourceDetails.onRendered ->
                   acceptByDefault: true
                   addToCollection: true
                 Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) =>
-                  for incident in result.incidents
-                    @incidentCollection.insert(incident)
-                  @incidentsLoaded.set(true)
+                  _addIncidentsToLocalCollection(@, result.incidents)
 
 Template.curatorSourceDetails.helpers
   incidents: ->
@@ -120,6 +123,11 @@ Template.curatorSourceDetails.helpers
 
   incidentsLoaded: ->
     Template.instance().incidentsLoaded.get()
+
+  annotatedContent: ->
+    incidents = Template.instance().incidentCollection?.find().fetch()
+    if incidents.length
+      annotateContent(@content, incidents)
 
 Template.curatorSourceDetails.events
   "click .toggle-reviewed": (event, instance) ->

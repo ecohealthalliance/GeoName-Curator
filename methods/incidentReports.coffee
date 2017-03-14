@@ -280,6 +280,7 @@ Meteor.methods
         )
         if incident.dateRange?.cumulative
           incident.suggestedFields.push('cumulative')
+        incident.textOffsets = incident.countAnnotation.textOffsets[0]
         incidents.push(incident)
         if addToCollection
           _incident = _.pick(incident, incidentReportSchema.objectKeys())

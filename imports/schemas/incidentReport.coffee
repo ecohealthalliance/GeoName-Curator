@@ -99,5 +99,8 @@ IncidentReportSchema = new SimpleSchema
   accepted:
     type: Boolean
     optional: true
+  textOffsets:
+    type: [Number]
+    optional: true
 
 module.exports = IncidentReportSchema

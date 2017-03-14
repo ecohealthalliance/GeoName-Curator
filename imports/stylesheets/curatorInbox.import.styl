@@ -1,5 +1,6 @@
 $header-BG = $border-primary-light
 $pane-switch-speed = .3s
+$break-point--curator-inbox--x-wide = 1500px
 
 
 .curator-heading
@@ -48,6 +49,9 @@ $pane-switch-speed = .3s
       transform translate(0, 0)
       &:not(.on-canvas)
         transform translate(-100%, 0)
+    +above($break-point--curator-inbox--x-wide)
+      width 30%
+
   h2
     color $primary
     margin 0
@@ -80,6 +84,9 @@ $pane-switch-speed = .3s
     transform translate(0, 0)
     &:not(.on-canvas)
       transform translate(-100%, 0)
+  +above($break-point--curator-inbox--x-wide)
+    width 30%
+
   .curator-inbox-header
   .curator-inbox-section-head
     background lighten($border-primary-light, 50%)
@@ -210,9 +217,13 @@ $pane-switch-speed = .3s
   margin-bottom 30px
 
 .curator-source-details
+  display flex
+  flex-direction column
   padding 0
+  +above($break-point--curator-inbox--x-wide)
+    width 70%
 
-.curator-source-details-header
+.curator-source-details--header
   position relative
   background none
   padding-left 1.5em
@@ -323,7 +334,7 @@ $pane-switch-speed = .3s
       opacity 1
       transform scale(100)
 
-.curator-source-details-options
+.curator-source-details--options
   display flex
   align-self stretch
   align-items center
@@ -379,8 +390,11 @@ $pane-switch-speed = .3s
         span
           display none
 
-.curator-source-details-content
-  padding-bottom 2em
+.curator-source-details--content
+  display flex
+  flex-direction column
+  +above($break-point--curator-inbox--x-wide)
+    flex-direction row
   a
     cursor pointer
     color $d-gray
@@ -401,17 +415,49 @@ $pane-switch-speed = .3s
     +below(2)
       margin-top 1em
 
-.curator-source-details-copy-wrapper
+.curator-source-details--copy-wrapper
   position relative
   gradientTopAndBottom()
+  +above($break-point--curator-inbox--x-wide)
+    overflow-x scroll
+    &::after
+    &::before
+      display none
 
-.curator-source-details-copy
-  max-height 25vh
+
+.curator-source-details--copy
+  height 30vh
   padding 1em 10%
   overflow scroll
   white-space pre-wrap
   +above(4)
     padding 1em 15%
+  +above($break-point--curator-inbox--x-wide)
+    height auto
+    flex 1
+    padding-right 5%
+    padding-left 5%
+    padding-bottom 3em
+    border-right 1px solid $border-primary
+
+.curator-source-details--table
+  overflow scroll
+  border-top 2px solid darken($border-primary-light, 5%)
+  padding-bottom 3em
+  .table
+    thead
+      background lighten($border-primary-light, 50%)
+      > tr > th
+        border-bottom 2px solid darken($border-primary-light, 5%)
+  +above($break-point--curator-inbox--x-wide)
+    padding-bottom 2em
+    border 0
+
+.curator-source-details--copy-wrapper
+.curator-source-details--table
+  +above($break-point--curator-inbox--x-wide)
+    flex 1 1 50%
+    max-width 50%
 
 .curator-details-articles
   .open-icon

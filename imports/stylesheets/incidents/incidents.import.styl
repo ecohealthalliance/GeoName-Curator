@@ -12,6 +12,9 @@
 .annotation
   cursor pointer
   background-color: $incident-type-colors.case
+  &.viewing
+    transition background-color .5s ease-in-out
+    background-color $highlight-yellow
   &:hover
     background-color darken(@background-color, 30%)
     color white
@@ -27,7 +30,6 @@
     text-decoration none
     &:hover
       background-color darken(@background-color, 50%)
-
 .suggested-incidents
   margin 30px
   width calc(100% - 60px)
@@ -114,7 +116,9 @@
 
 .incident-table
   tr
-    border-bottom 1px solid gray
+    border-bottom 1px solid $border-primary
+    &:hover
+      background $border-primary-light
   td
   th
     padding 5px
