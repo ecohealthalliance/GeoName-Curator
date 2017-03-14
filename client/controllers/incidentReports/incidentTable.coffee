@@ -1,6 +1,6 @@
 { notify } = require '/imports/ui/notification'
-
 SCROLL_WAIT_TIME = 500
+
 Template.incidentTable.onCreated ->
   @scrollToAnnotation = (id) =>
     intervalTime = 0

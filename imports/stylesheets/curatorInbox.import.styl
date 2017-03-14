@@ -439,11 +439,35 @@ $break-point--curator-inbox--x-wide = 1500px
     padding-bottom 3em
     border-right 1px solid $border-primary
 
-.curator-source-details--table
+.curator-source-details--incidents-options
+  .tabs
+    width 100%
+    margin 0
+    border-top 2px solid darken($border-primary-light, 5%)
+    border-bottom 2px solid darken($border-primary-light, 5%)
+    li
+      margin 0
+      &:first-of-type
+        border-right 1px solid darken($border-primary-light, 5%)
+      &.active
+        a
+          background $border-primary-light
+          color $primary-dark
+      a
+        border 0
+        border-radius 0
+        font-size 1em
+        span
+          &:first-of-type
+            font-weight 600
+
+.curator-source-details--incidents
   overflow scroll
-  border-top 2px solid darken($border-primary-light, 5%)
   padding-bottom 3em
   .table
+    border-top 1px solid $border-primary-light
+    > tbody > tr:last-of-type td
+      border-bottom 0
     thead
       background lighten($border-primary-light, 50%)
       > tr > th
@@ -451,7 +475,7 @@ $break-point--curator-inbox--x-wide = 1500px
   +above($break-point--curator-inbox--x-wide)
     padding-bottom 2em
     border 0
-
+    incidents-options
 .curator-source-details--copy-wrapper
 .curator-source-details--table
   +above($break-point--curator-inbox--x-wide)

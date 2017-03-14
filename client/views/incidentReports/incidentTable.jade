@@ -11,14 +11,6 @@ template(name="incidentTable")
   table.table.featured.incident-table(
     hidden=annotatedContentVisible
     data-tableexport-display="always")
-    thead
-      tr
-        th
-        th.count-header Type
-        th.count-header Value
-        th Start Date
-        th End Date
-        th.locations-header Locations
     tbody
       each incidents
         tr

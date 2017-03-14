@@ -39,6 +39,7 @@ Template.curatorSourceDetails.onCreated ->
   @source = new ReactiveVar(null)
   @reviewed = new ReactiveVar(false)
   @incidentsLoaded = new ReactiveVar(true)
+  @selectedIncidentTab = new ReactiveVar(0)
 
 Template.curatorSourceDetails.onRendered ->
   instance = @
@@ -129,9 +130,15 @@ Template.curatorSourceDetails.helpers
     if incidents.length
       annotateContent(@content, incidents)
 
+  selectedIncidentTab: (tab) ->
+    parseInt(tab) == Template.instance().selectedIncidentTab.get()
+
 Template.curatorSourceDetails.events
   "click .toggle-reviewed": (event, instance) ->
     _markReviewed(instance)
 
   'click .back-to-list': (event, instance) ->
     instance.data.currentPaneInView.set('')
+
+  'click .tabs a': (event, instance) ->
+    instance.selectedIncidentTab.set(instance.$(event.currentTarget).data('tab'))
