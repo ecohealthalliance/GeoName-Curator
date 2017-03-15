@@ -95,12 +95,12 @@ Template.incidentTable.events
     updateAllIncidentsStatus(instance, false, event)
 
   'mouseover .incident-table tbody tr': (event, instance) ->
-    if not instance.data.scrollToAnnotations
+    if not instance.data.scrollToAnnotations or not @textOffsets
       return
     instance.scrollToAnnotation(@_id)
 
   'mouseout .incident-table tbody tr': (event, instance) ->
-    if not instance.data.scrollToAnnotations
+    if not instance.data.scrollToAnnotations or not @textOffsets
       return
     instance.stopScrollingInterval()
 
