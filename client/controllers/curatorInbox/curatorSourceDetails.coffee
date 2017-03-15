@@ -158,3 +158,11 @@ Template.curatorSourceDetails.events
 
   'click .back-to-list': (event, instance) ->
     instance.data.currentPaneInView.set('')
+
+  'click span.annotation': (event, instance) ->
+    incidentId = $(event.currentTarget).data('incident-id')
+    Modal.show 'incidentModal',
+      incident: instance.incidentCollection.findOne(incidentId)
+      articles: [instance.source.get()]
+      edit: true
+      updateEvent: false
