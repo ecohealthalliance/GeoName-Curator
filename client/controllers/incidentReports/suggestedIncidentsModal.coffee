@@ -122,7 +122,10 @@ Template.suggestedIncidentsModal.onDestroyed ->
 
 Template.suggestedIncidentsModal.helpers
   showTable: ->
-    Template.instance().data.showTable
+    incidents = Template.instance().incidentCollection.find
+      accepted: true
+      specify: $exists: false
+    Template.instance().data.showTable and incidents.count()
 
   incidents: ->
     Template.instance().incidentCollection.find
