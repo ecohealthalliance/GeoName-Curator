@@ -47,17 +47,12 @@ Template.incidentModal.events
     incident = utils.incidentReportFormToIncident(form)
     instanceData = instance.data
 
-    updateEvent = instanceData.updateEvent
-    updateEvent ?= true
-
-    incident.accepted = true
-
     if not incident
       return
     incident.userEventId = instanceData.userEventId
 
     if @add
-      Meteor.call 'addIncidentReport', incident, updateEvent, (error, result) ->
+      Meteor.call 'addIncidentReport', incident, (error, result) ->
         if not error
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.tr-details').remove()
@@ -79,7 +74,7 @@ Template.incidentModal.events
       incident.addedByUserId = @incident.addedByUserId
       incident.addedByUserName = @incident.addedByUserName
       incident.addedDate = @incident.addedDate
-      Meteor.call 'editIncidentReport', incident, updateEvent, (error, result) ->
+      Meteor.call 'editIncidentReport', incident, (error, result) ->
         if not error
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.details').remove()

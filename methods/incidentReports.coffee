@@ -68,7 +68,7 @@ parseSents = (text)->
 
 
 Meteor.methods
-  addIncidentReport: (incident, updateEvent=true) ->
+  addIncidentReport: (incident) ->
     incidentReportSchema.validate(incident)
     user = Meteor.user()
     if not Roles.userIsInRole(user._id, ['admin'])
@@ -77,40 +77,40 @@ Meteor.methods
     incident.addedByUserName = user.profile.name
     incident.addedDate = new Date()
     newId = Incidents.insert(incident)
-    if updateEvent
+    if incident.userEventId
       Meteor.call("editUserEventLastModified", incident.userEventId)
       Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return newId
 
   # similar to editIncidentReport, but allows you to set a single field without changing any other existing fields.
-  updateIncidentReport: (incident, updateEvent=true) ->
+  updateIncidentReport: (incident) ->
     _id = incident._id
     delete incident._id
     user = Meteor.user()
     if not Roles.userIsInRole(user._id, ['admin'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     res = Incidents.update({_id: _id}, {$set: incident})
-    if updateEvent
+    if incident.userEventId
       Meteor.call("editUserEventLastModified", incident.userEventId)
       Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return incident._id
 
-  editIncidentReport: (incident, updateEvent=true) ->
+  editIncidentReport: (incident) ->
     incidentReportSchema.validate(incident)
     user = Meteor.user()
     if not Roles.userIsInRole(user._id, ['admin'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     res = Incidents.update(incident._id, incident)
-    if updateEvent
+    if incident.userEventId
       Meteor.call("editUserEventLastModified", incident.userEventId)
       Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return incident._id
 
-  addIncidentReports: (incidents, updateEvents=true) ->
+  addIncidentReports: (incidents) ->
     incidents.map (incident)->
-      Meteor.call("addIncidentReport", incident, updateEvents)
+      Meteor.call("addIncidentReport", incident)
 
-  removeIncidentReport: (id, updateEvent) ->
+  removeIncidentReport: (id) ->
     if not Roles.userIsInRole(@userId, ['admin'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     incident = Incidents.findOne(id)
@@ -118,7 +118,7 @@ Meteor.methods
       $set:
         deleted: true,
         deletedDate: new Date()
-    if updateEvent
+    if incident.userEventId
       Meteor.call("editUserEventLastModified", incident.userEventId)
       Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
 
