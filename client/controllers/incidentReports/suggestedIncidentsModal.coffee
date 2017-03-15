@@ -23,7 +23,7 @@ confirmAbandonChanges = (event, instance) ->
     true
 
 showSuggestedIncidentModal = (event, instance)->
-  incident = instance.incidentCollection.findOne($(event.target).data("incident-id"))
+  incident = instance.incidentCollection.findOne($(event.currentTarget).data("incident-id"))
   content = Template.instance().content.get()
   displayCharacters = 150
   incidentAnnotations = [incident.countAnnotation]
@@ -216,7 +216,8 @@ Template.suggestedIncidentsModal.events
     if table.length
       table.tableExport(type: fileType)
 
-  'click .count': (event, instance) ->
+  'click .incident-report': (event, instance) ->
+    sendModalOffStage(instance)
     showSuggestedIncidentModal(event, instance)
 
   'click .annotated-content': (event, instance) ->
