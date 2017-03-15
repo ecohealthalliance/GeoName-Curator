@@ -3,6 +3,7 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 key = require 'keymaster'
 { notify } = require '/imports/ui/notification'
 { annotateContent } = require('/imports/ui/annotation')
+WIDE_UI_WIDTH = 1500
 
 _markReviewed = (instance, showNext=true) ->
   new Promise (resolve) ->
@@ -40,6 +41,7 @@ Template.curatorSourceDetails.onCreated ->
   @reviewed = new ReactiveVar(false)
   @incidentsLoaded = new ReactiveVar(true)
   @selectedIncidentTab = new ReactiveVar(0)
+  @wideUI = new ReactiveVar(window.innerWidth >= WIDE_UI_WIDTH)
 
 Template.curatorSourceDetails.onRendered ->
   instance = @
@@ -52,6 +54,17 @@ Template.curatorSourceDetails.onRendered ->
       swippablePane = new Hammer($('#touch-stage')[0])
       swippablePane.on 'swiperight', (event) ->
         instance.data.currentPaneInView.set('')
+
+  # Adjust the UI if it is above WIDE_UI_WIDTH
+  $(window).resize =>
+    state = false
+    wideUI = @wideUI.get()
+    if window.innerWidth >= WIDE_UI_WIDTH
+      return if wideUI
+      state = true
+    else if not wideUI
+      state = false
+    @wideUI.set(state)
 
   # Create key binding which marks sources as reviewed.
   key 'ctrl + enter, command + enter', (event) =>
@@ -100,6 +113,9 @@ Template.curatorSourceDetails.onRendered ->
                 Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) =>
                   _addIncidentsToLocalCollection(@, result.incidents)
 
+Template.curatorSourceDetails.onDestroyed ->
+  $(window).off('resize')
+
 Template.curatorSourceDetails.helpers
   incidents: ->
     Template.instance().incidentCollection
@@ -130,8 +146,11 @@ Template.curatorSourceDetails.helpers
     if incidents.length
       annotateContent(@content, incidents)
 
-  selectedIncidentTab: (tab) ->
-    parseInt(tab) == Template.instance().selectedIncidentTab.get()
+  wideUI: ->
+    Template.instance().wideUI.get()
+
+  selectedIncidentTab: ->
+    Template.instance().selectedIncidentTab
 
 Template.curatorSourceDetails.events
   "click .toggle-reviewed": (event, instance) ->
@@ -139,6 +158,3 @@ Template.curatorSourceDetails.events
 
   'click .back-to-list': (event, instance) ->
     instance.data.currentPaneInView.set('')
-
-  'click .tabs a': (event, instance) ->
-    instance.selectedIncidentTab.set(instance.$(event.currentTarget).data('tab'))

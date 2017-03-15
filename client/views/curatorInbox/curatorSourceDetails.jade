@@ -23,30 +23,15 @@ template(name="curatorSourceDetails")
       if incidentsLoaded
         .curator-source-details--copy-wrapper
           .curator-source-details--copy= annotatedContent
-        .curator-source-details--incidents-options
-          ul.tabs
-            li(class="{{#if selectedIncidentTab 0}} active {{/if}}")
-              a(data-tab='0')
-                span Accepted
-                span Incidents
-            li(class="{{#if selectedIncidentTab 1}} active {{/if}}")
-              a(data-tab='1')
-                span Rejected
-                span Incidents
-        .curator-source-details--incidents
-          .tab-content
-            .tab-pane(class="{{#if selectedIncidentTab 0}} active {{/if}}")
-              +incidentTable(
-                incidents=incidents
-                scrollToAnnotations=true
-                source=source
-                accepted=true)
-            .tab-pane(class="{{#if selectedIncidentTab 1}} active {{/if}}")
-              +incidentTable(
-                incidents=incidents
-                scrollToAnnotations=true
-                source=source
-                accepted=false)
+        if wideUI
+          .curator-source-details--incidents-container
+            +sourceIncidentReports(
+              incidents=incidents
+              selectedIncidentTab=selectedIncidentTab)
+        else
+          +sourceIncidentReports(
+              incidents=incidents
+              selectedIncidentTab=selectedIncidentTab)
         if notifying
           .veil
       else

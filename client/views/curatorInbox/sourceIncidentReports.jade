@@ -1,0 +1,25 @@
+template(name="sourceIncidentReports")
+  .curator-source-details--incidents-options
+    ul.tabs
+      li(class="{{#if selectedIncidentTab 0}} active {{/if}}")
+        a(data-tab='0')
+          span Accepted
+          span Incidents
+      li(class="{{#if selectedIncidentTab 1}} active {{/if}}")
+        a(data-tab='1')
+          span Rejected
+          span Incidents
+  .curator-source-details--incidents
+    .tab-content
+      .tab-pane(class="{{#if selectedIncidentTab 0}} active {{/if}}")
+        +incidentTable(
+          incidents=incidents
+          scrollToAnnotations=true
+          accepted=true
+          hideTableHeader=true)
+      .tab-pane(class="{{#if selectedIncidentTab 1}} active {{/if}}")
+        +incidentTable(
+          incidents=incidents
+          scrollToAnnotations=true
+          accepted=false
+          hideTableHeader=true)
