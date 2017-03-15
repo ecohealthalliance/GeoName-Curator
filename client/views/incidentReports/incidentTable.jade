@@ -1,9 +1,19 @@
 template(name="incidentTable")
+  .incident-reports--actions.container-flex
+    button.btn.btn-sm.btn-danger.reject(
+      disabled="{{#unless incidentsSelected}} true {{/unless}}") Reject Incidents
+    button.btn.btn-sm.btn-default(
+      class="{{#if allSelected}} deselect-all {{else}} select-all {{/if}}")
+      if allSelected
+        | Deslect All
+      else
+        | Select All
   table.table.incident-table(
     hidden=annotatedContentVisible
     data-tableexport-display="always")
     thead
       tr
+        th
         th.count-header Type
         th.count-header Value
         th Start Date
@@ -15,6 +25,8 @@ template(name="incidentTable")
     tbody
       each incidents
         tr
+          td
+            span.select(class="{{#if selected}} selected {{/if}}")
           if cases
             td Case Count
             td.count(data-incident-id=_id)=cases

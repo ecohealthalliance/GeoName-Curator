@@ -96,6 +96,9 @@ IncidentReportSchema = new SimpleSchema
   deletedDate:
     type: Date
     optional: true
+  accepted:
+    type: Boolean
+    optional: true
   textOffsets:
     type: [Number]
     optional: true
