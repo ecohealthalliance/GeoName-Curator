@@ -23,11 +23,15 @@ template(name="curatorSourceDetails")
       if incidentsLoaded
         .curator-source-details--copy-wrapper
           .curator-source-details--copy= annotatedContent
-        .curator-source-details--table
-          +incidentTable(
-            incidents=incidents
-            scrollToAnnotations=true
-            source=source)
+        if wideUI
+          .curator-source-details--incidents-container
+            +sourceIncidentReports(
+              incidents=incidents
+              selectedIncidentTab=selectedIncidentTab)
+        else
+          +sourceIncidentReports(
+              incidents=incidents
+              selectedIncidentTab=selectedIncidentTab)
         if notifying
           .veil
       else

@@ -1,6 +1,6 @@
 { notify } = require '/imports/ui/notification'
-
 SCROLL_WAIT_TIME = 500
+
 Template.incidentTable.onCreated ->
   @scrollToAnnotation = (id) =>
     intervalTime = 0
@@ -37,7 +37,10 @@ changeIncidentStatus = (status, instance) ->
     incident = _id: incident._id
     incident.accepted = status
     #setting accepted status of local collection as well
-    Template.instance().data.incidents.update({_id: incident._id}, {$set: {accepted: status}})
+    Template.instance().data.incidents.update _id: incident._id,
+      $set:
+        accepted: status
+        selected: false
     Meteor.call 'updateIncidentReport', incident, false, (error, result) ->
       if error
         notify('error', 'There was a problem updating your incident reports.')
@@ -49,7 +52,13 @@ updateAllIncidentsStatus = (instance, status, event) ->
 
 Template.incidentTable.helpers
   incidents: ->
-    Template.instance().data.incidents.find({accepted: {$ne: false}})
+    accepted = Template.instance().data.accepted
+    query = {}
+    if accepted
+      query = {accepted: {$ne: false}}
+    else if not _.isUndefined(accepted) and not accepted
+      query = {accepted: {$ne: true}}
+    Template.instance().data.incidents.find(query)
 
   incidentsSelected: ->
     Template.instance().data.incidents.find({selected: true}).count() > 0
@@ -58,13 +67,25 @@ Template.incidentTable.helpers
     incidents = Template.instance().data.incidents
     incidents.find().count() == incidents.find({selected: true}).count()
 
+  acceptance: ->
+    not Template.instance().data.accepted
+
+  action: ->
+    if Template.instance().data.accepted
+      'Reject'
+    else
+      'Accept'
+
 Template.incidentTable.events
   'click table.incident-table tr td .select': (event, instance) ->
     event.stopPropagation()
     instance.data.incidents.update({_id: @_id}, {$set: {selected: !@selected}})
 
-  'click .reject': (event, instance) ->
-    changeIncidentStatus(false, instance)
+  'click .action': (event, instance) ->
+    accept = true
+    if instance.data.accepted
+      accept = false
+    changeIncidentStatus(accept, instance)
     event.currentTarget.blur()
 
   'click .select-all': (event, instance) ->
