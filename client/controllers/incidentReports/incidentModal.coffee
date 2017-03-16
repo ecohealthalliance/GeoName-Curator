@@ -70,7 +70,7 @@ Template.incidentModal.events
           errorString = error.reason
           if error.details[0].name is 'locations' and error.details[0].type is 'minCount'
             errorString = 'You must specify at least one loction'
-          toastr.error(errorString)
+          notify('error', errorString)
 
     if @edit
       incident._id = @incident._id
@@ -81,7 +81,7 @@ Template.incidentModal.events
         if not error
           $('.reactive-table tr').removeClass('open')
           $('.reactive-table tr.details').remove()
-          notify('success', 'Incident report added to event')
+          notify('success', 'Incident report updated')
           Modal.hide('incidentModal')
         else
           toastr.error(error.reason)
