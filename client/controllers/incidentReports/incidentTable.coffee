@@ -82,3 +82,13 @@ Template.incidentTable.events
     if not instance.data.scrollToAnnotations
       return
     instance.stopScrollingInterval()
+
+  'click .incident-table tbody tr': (event, instance) ->
+    event.stopPropagation()
+    source = instance.data.source
+    Modal.show 'incidentModal',
+      articles: [source]
+      userEventId: null
+      edit: true
+      incident: @
+      updateEvent: false

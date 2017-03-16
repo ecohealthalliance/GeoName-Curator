@@ -1,13 +1,4 @@
-template(name="incidentTable")
-  .incident-reports--actions.container-flex
-    button.btn.btn-sm.btn-danger.reject(
-      disabled="{{#unless incidentsSelected}} true {{/unless}}") Reject Incidents
-    button.btn.btn-sm.btn-default(
-      class="{{#if allSelected}} deselect-all {{else}} select-all {{/if}}")
-      if allSelected
-        | Deslect All
-      else
-        | Select All
+template(name="extractedIncidents")
   table.table.featured.incident-table(
     hidden=annotatedContentVisible
     data-tableexport-display="always")
@@ -19,6 +10,9 @@ template(name="incidentTable")
         th Start Date
         th End Date
         th.locations-header Locations
+        th Status
+        th Species
+        th Properties
     tbody
       each incidents
         tr
@@ -38,3 +32,6 @@ template(name="incidentTable")
               | {{formatDateISO dateRange.start}}
           td {{formatDateISO dateRange.end}}
           td {{formatLocations locations}}
+          td=status
+          td=species
+          td=incidentProperties
