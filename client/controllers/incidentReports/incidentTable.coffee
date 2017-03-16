@@ -106,9 +106,8 @@ Template.incidentTable.events
 
   'click .incident-table tbody tr': (event, instance) ->
     event.stopPropagation()
-    source = instance.data.source
     Modal.show 'incidentModal',
-      articles: [source]
+      articles: [instance.data.source]
       userEventId: null
       edit: true
       incident: @

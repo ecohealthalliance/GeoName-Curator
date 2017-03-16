@@ -29,7 +29,7 @@ Template.incidentForm.onCreated ->
 
   article = instanceData.articles[0]
   if article
-    @incidentData.articleSource = article.url
+    @incidentData.url = article.url
 
   if incident
     @incidentData = _.extend(@incidentData, incident)
@@ -50,12 +50,6 @@ Template.incidentForm.onCreated ->
       type = ''
 
     @incidentType.set(type)
-
-    url = @incidentData.url
-    if url
-      @incidentData.articleSource = _.findWhere(instanceData.articles,
-        url: url
-      )?._id
 
     @incidentStatus.set(incident.status or '')
 
