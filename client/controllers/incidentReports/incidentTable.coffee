@@ -19,6 +19,14 @@ _selectedIncidents = (instance) ->
 _incidentsSelected = (instance) ->
   _selectedIncidents(instance).count()
 
+select2NoResults = ->
+  """
+    <div class='no-results small'>
+      <p>No Results Found</p>
+    </div>
+    <button class='btn btn-default add-new-event'>Add New Event</a>
+  """
+
 Template.incidentTable.onCreated ->
   @subscribe('useEvents')
   @subscribe('curatorSourceIncidentReports', @data.source._sourceId)
@@ -74,15 +82,6 @@ Template.incidentTable.onRendered ->
             data: select2Data
             placeholder: 'Search for an Event...'
             minimumInputLength: 0
-            language:
-              noResults: ->
-                """
-                  <div class='no-results small'>
-                    <p>No Results Found</p>
-                  </div>
-                  <button class='btn btn-default add-new-event'>Add New Event</a>
-                """
-            escapeMarkup: (markup) -> markup
 
           $(document).on 'click', '.add-new-event', (event) =>
             $select2.select2('close')
