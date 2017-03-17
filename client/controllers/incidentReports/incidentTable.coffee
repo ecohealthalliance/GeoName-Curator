@@ -3,7 +3,7 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 { notify } = require '/imports/ui/notification'
 SCROLL_WAIT_TIME = 500
 
-updateAllIncidentsStatus = (instance, status, event) ->
+_updateAllIncidentsStatus = (instance, status, event) ->
   selectedIncidents = instance.selectedIncidents
   if status
     Incidents.find().forEach (incident) ->
@@ -13,8 +13,11 @@ updateAllIncidentsStatus = (instance, status, event) ->
     selectedIncidents.remove({})
   event.currentTarget.blur()
 
-incidentsSelected = (instance) ->
-  instance.selectedIncidents.find().count()
+_selectedIncidents = (instance) ->
+  instance.selectedIncidents.find()
+
+_incidentsSelected = (instance) ->
+  _selectedIncidents(instance).count()
 
 Template.incidentTable.onCreated ->
   @subscribe('useEvents')
@@ -58,7 +61,7 @@ Template.incidentTable.onRendered ->
   # show 'Create Event' modal
   if @data.accepted
     @autorun =>
-      if @addingEvent.get() and incidentsSelected(@)
+      if @addingEvent.get() and _incidentsSelected(@)
         Meteor.defer =>
           events = UserEvents.find {},
             fields: eventName: 1
@@ -89,7 +92,7 @@ Template.incidentTable.onRendered ->
               sourceId: @data.sourceId
               eventName: ''
   @autorun =>
-    if not incidentsSelected(@)
+    if not _incidentsSelected(@)
       @addingEvent.set(false)
       @selectedEventId.set(null)
 
@@ -116,7 +119,7 @@ Template.incidentTable.helpers
     Template.instance().selectedIncidents.findOne(id: @_id)
 
   incidentsSelected: ->
-    incidentsSelected(Template.instance())
+    _incidentsSelected(Template.instance())
 
   acceptance: ->
     not Template.instance().data.accepted
@@ -172,10 +175,10 @@ Template.incidentTable.events
       event.currentTarget.blur()
 
   'click .select-all': (event, instance) ->
-    updateAllIncidentsStatus(instance, true, event)
+    _updateAllIncidentsStatus(instance, true, event)
 
   'click .deselect-all': (event, instance) ->
-    updateAllIncidentsStatus(instance, false, event)
+    _updateAllIncidentsStatus(instance, false, event)
 
   'mouseover .incident-table tbody tr': (event, instance) ->
     if not instance.data.scrollToAnnotations or not @textOffsets
@@ -209,3 +212,13 @@ Template.incidentTable.events
 
   'select2:closing': (event, instance) ->
     instance.tableContentScrollable.set(true)
+
+  'click .add-to-event': (event, instance) ->
+    selectedIncidentIds = _.pluck(_selectedIncidents(instance).fetch(), '_id')
+    userEventId = instance.selectedEventId.get()
+    Meteor.call 'addIncidentsToEvent', selectedIncidentIds, userEventId, (error, result) ->
+      if error
+        notify('error', error.reason)
+      else
+        notify('success', 'Incident reports successfuly added to event')
+        _updateAllIncidentsStatus(instance, false, event)
