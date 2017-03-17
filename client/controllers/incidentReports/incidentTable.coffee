@@ -163,16 +163,6 @@ Template.incidentTable.events
     selectedIncidents.remove({})
     event.currentTarget.blur()
 
-  'click .add': (event, instance) ->
-    instance.data.incidents.find({selected: true}).forEach (incident) ->
-      incident = _id: incident._id
-      incident.userEventId = Template.instance().data.sourceId.get()._str
-      Meteor.call 'updateIncidentReport', incident, false, (error, result) ->
-        if error
-          notify('error', 'There was a problem updating your incident reports.')
-          return
-      event.currentTarget.blur()
-
   'click .select-all': (event, instance) ->
     _updateAllIncidentsStatus(instance, true, event)
 
