@@ -38,6 +38,8 @@ $break-point--curator-inbox--x-wide = 1500px
   border-bottom 2px solid darken($border-primary, 10%)
   +above($break-point--curator-inbox)
     border-right 1px solid darken($border-primary, 10%)
+  +above($break-point--curator-inbox--x-wide)
+    border-right-width 3px
 
   &.pane-head-l
     padding-right 1em
@@ -85,6 +87,7 @@ $break-point--curator-inbox--x-wide = 1500px
       transform translate(-100%, 0)
   +above($break-point--curator-inbox--x-wide)
     width 30%
+    border-right-width 3px
 
   .curator-inbox-header
   .curator-inbox-section-head
