@@ -1,3 +1,17 @@
+AnnotationSchema = new SimpleSchema
+  "text":
+    type: String
+    optional: true
+  "textOffsets":
+    type: Array
+    optional: true
+  "textOffsets.$":
+    type: Array
+    optional: true
+  "textOffsets.$.$":
+    type: [Number]
+    optional: true
+
 IncidentReportSchema = new SimpleSchema
   _id:
     type: String
@@ -99,8 +113,20 @@ IncidentReportSchema = new SimpleSchema
   accepted:
     type: Boolean
     optional: true
-  textOffsets:
-    type: [Number]
+  annotations:
+    type: Object
+    optional: true
+  "annotations.case":
+    type: AnnotationSchema
+    optional: true
+  "annotations.date":
+    type: AnnotationSchema
+    optional: true
+  "annotations.location":
+    type: AnnotationSchema
+    optional: true
+  "annotations.disease":
+    type: AnnotationSchema
     optional: true
 
 module.exports = IncidentReportSchema

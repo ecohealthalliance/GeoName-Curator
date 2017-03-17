@@ -3,7 +3,8 @@ UserEvents = require '/imports/collections/userEvents.coffee'
 Constants = require '/imports/constants.coffee'
 { notify } = require('/imports/ui/notification')
 { stageModals } = require('/imports/ui/modals')
-{ annotateContent } = require('/imports/ui/annotation')
+{ annotateContent,
+  buildAnnotatedIncidentSnippet } = require('/imports/ui/annotation')
 
 # determines if the user should be prompted before leaving the current modal
 #
@@ -25,49 +26,15 @@ confirmAbandonChanges = (event, instance) ->
 showSuggestedIncidentModal = (event, instance)->
   incident = instance.incidentCollection.findOne($(event.currentTarget).data("incident-id"))
   content = Template.instance().content.get()
-  displayCharacters = 150
-  incidentAnnotations = [incident.countAnnotation]
-    .concat(incident.dateTerritory?.annotations or [])
-    .concat(incident.locationTerritory?.annotations or [])
-    .concat(incident.diseaseTerritory?.annotations or [])
-    .filter((x)-> x)
-  incidentAnnotations = _.sortBy(incidentAnnotations, (annotation)->
-    annotation.textOffsets[0][0]
-  )
-  startingIndex = _.min(incidentAnnotations.map (a)->a.textOffsets[0][0])
-  startingIndex = Math.max(startingIndex - 30, 0)
-  endingIndex = _.max(incidentAnnotations.map (a)->a.textOffsets[0][1])
-  endingIndex = Math.min(endingIndex + 30, content.length - 1)
-  lastEnd = startingIndex
-  html = ""
-  if incidentAnnotations[0]?.textOffsets[0][0] isnt 0
-    html += "..."
-  incidentAnnotations.map (annotation)->
-    [start, end] = annotation.textOffsets[0]
-    type = "case"
-    if annotation in incident.dateTerritory?.annotations
-      type = "date"
-    else if annotation in incident.locationTerritory?.annotations
-      type = "location"
-    else if annotation in incident.diseaseTerritory?.annotations
-      type = "disease"
-    html += (
-      Handlebars._escape("#{content.slice(lastEnd, start)}") +
-      """<span class='annotation-text #{type}'>#{
-        Handlebars._escape(content.slice(start, end))
-      }</span>"""
-    )
-    lastEnd = end
-  html += Handlebars._escape("#{content.slice(lastEnd, endingIndex)}")
-  if lastEnd < content.length - 1
-    html += "..."
+  snippetHtml = buildAnnotatedIncidentSnippet(content, incident)
+
   Modal.show 'suggestedIncidentModal',
     edit: true
     articles: [instance.data.article]
     userEventId: instance.data.userEventId
     incidentCollection: instance.incidentCollection
     incident: incident
-    incidentText: Spacebars.SafeString(html)
+    incidentText: Spacebars.SafeString(snippetHtml)
 
 modalClasses = (modal, add, remove) ->
   modal.currentModal.add = add
