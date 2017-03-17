@@ -1,3 +1,6 @@
+Template.sourceIncidentReports.onCreated ->
+  @data.selectedIncidentTab.set(0)
+
 Template.sourceIncidentReports.helpers
   selectedIncidentTab: (tab) ->
     parseInt(tab) == Template.instance().data.selectedIncidentTab.get()
