@@ -26,12 +26,10 @@ template(name="curatorSourceDetails")
         if wideUI
           .curator-source-details--incidents-container
             +sourceIncidentReports(
-              incidents=incidents
               selectedIncidentTab=selectedIncidentTab
               source=source)
         else
           +sourceIncidentReports(
-              incidents=incidents
               selectedIncidentTab=selectedIncidentTab
               source=source)
         if notifying

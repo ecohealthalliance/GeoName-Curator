@@ -13,13 +13,16 @@ updateAllIncidentsStatus = (instance, status, event) ->
     selectedIncidents.remove({})
   event.currentTarget.blur()
 
+incidentsSelected = (instance) ->
+  instance.selectedIncidents.find().count()
+
 Template.incidentTable.onCreated ->
   @subscribe('useEvents')
   @subscribe('curatorSourceIncidentReports', @data.source._sourceId)
   @selectedIncidents = new Meteor.Collection(null)
   @addingEvent = new ReactiveVar(false)
-  @eventSelected = new ReactiveVar(false)
-
+  @selectedEventId = new ReactiveVar(false)
+  @tableContentScrollable = @data.tableContentScrollable
   @scrollToAnnotation = (id) =>
     intervalTime = 0
     @interval = setInterval =>
@@ -55,7 +58,7 @@ Template.incidentTable.onRendered ->
   # show 'Create Event' modal
   if @data.accepted
     @autorun =>
-      if @addingEvent.get() and @data.incidents.find({selected: true}).count()
+      if @addingEvent.get() and incidentsSelected(@)
         Meteor.defer =>
           events = UserEvents.find {},
             fields: eventName: 1
@@ -86,9 +89,9 @@ Template.incidentTable.onRendered ->
               sourceId: @data.sourceId
               eventName: ''
   @autorun =>
-    if not @data.incidents.find({selected: true}).count()
+    if not incidentsSelected(@)
       @addingEvent.set(false)
-      @eventSelected.set(null)
+      @selectedEventId.set(null)
 
 Template.incidentTable.onDestroyed ->
   $(document).off('click', '.add-new-event')
@@ -105,15 +108,15 @@ Template.incidentTable.helpers
       query.accepted = {$ne: true}
     Incidents.find(query)
 
-  incidentsSelected: ->
-    Template.instance().selectedIncidents.find().count() > 0
-
   allSelected: ->
     selectedIncidentCount = Template.instance().selectedIncidents.find().count()
     Incidents.find().count() == selectedIncidentCount
 
   selected: ->
     Template.instance().selectedIncidents.findOne(id: @_id)
+
+  incidentsSelected: ->
+    incidentsSelected(Template.instance())
 
   acceptance: ->
     not Template.instance().data.accepted
@@ -128,7 +131,10 @@ Template.incidentTable.helpers
     Template.instance().addingEvent.get()
 
   allowAddingEvent: ->
-    Template.instance().eventSelected.get()
+    Template.instance().selectedEventId.get()
+
+  selectingEvent: ->
+    Template.instance().selectingEvent.get()
 
 Template.incidentTable.events
   'click table.incident-table tr td .select': (event, instance) ->
@@ -196,4 +202,10 @@ Template.incidentTable.events
     event.currentTarget.blur()
 
   'select2:select': (event, instance) ->
-    instance.eventSelected.set(event.params.data.id)
+    instance.selectedEventId.set(event.params.data.id)
+
+  'select2:opening': (event, instance) ->
+    instance.tableContentScrollable.set(false)
+
+  'select2:closing': (event, instance) ->
+    instance.tableContentScrollable.set(true)

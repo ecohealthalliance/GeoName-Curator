@@ -5,7 +5,7 @@ template(name="incidentTable")
         disabled="{{#unless incidentsSelected}} true {{/unless}}"
         class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") #{action} Incidents
       if accepted
-        button.btn.btn-sm.btn-default.show-addEvent(
+        button.btn.btn-sm.btn-primary.show-addEvent(
           disabled="{{#unless incidentsSelected}} true {{/unless}}") Add to Event
       button.btn.btn-sm.btn-default.select(
         class="{{#if allSelected}} deselect-all {{else}} select-all {{/if}}")
