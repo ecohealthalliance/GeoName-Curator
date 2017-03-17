@@ -1,3 +1,4 @@
+UserEvents = require '/imports/collections/userEvents.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
 { notify } = require '/imports/ui/notification'
 SCROLL_WAIT_TIME = 500
@@ -13,8 +14,12 @@ updateAllIncidentsStatus = (instance, status, event) ->
   event.currentTarget.blur()
 
 Template.incidentTable.onCreated ->
+  @subscribe('useEvents')
   @subscribe('curatorSourceIncidentReports', @data.source._sourceId)
   @selectedIncidents = new Meteor.Collection(null)
+  @addingEvent = new ReactiveVar(false)
+  @eventSelected = new ReactiveVar(false)
+
   @scrollToAnnotation = (id) =>
     intervalTime = 0
     @interval = setInterval =>
@@ -44,6 +49,49 @@ Template.incidentTable.onCreated ->
 
   @stopScrollingInterval = ->
     clearInterval(@interval)
+
+Template.incidentTable.onRendered ->
+  # If showing accepted IRs instantiate select2 input and register event to
+  # show 'Create Event' modal
+  if @data.accepted
+    @autorun =>
+      if @addingEvent.get() and @data.incidents.find({selected: true}).count()
+        Meteor.defer =>
+          events = UserEvents.find {},
+            fields: eventName: 1
+            sort: eventName: 1
+          $select2 = @$('.select2')
+          select2Data = events.map (event) ->
+            id: event._id
+            text: event.eventName
+          $select2.select2
+            data: select2Data
+            placeholder: 'Search for an Event...'
+            minimumInputLength: 0
+            language:
+              noResults: ->
+                """
+                  <div class='no-results small'>
+                    <p>No Results Found</p>
+                  </div>
+                  <button class='btn btn-default add-new-event'>Add New Event</a>
+                """
+            escapeMarkup: (markup) -> markup
+
+          $(document).on 'click', '.add-new-event', (event) =>
+            $select2.select2('close')
+            Modal.show 'editEventDetailsModal',
+              action: 'add'
+              saveActionMessage: 'Add Event & Associate Incident Reports'
+              sourceId: @data.sourceId
+              eventName: ''
+  @autorun =>
+    if not @data.incidents.find({selected: true}).count()
+      @addingEvent.set(false)
+      @eventSelected.set(null)
+
+Template.incidentTable.onDestroyed ->
+  $(document).off('click', '.add-new-event')
 
 Template.incidentTable.helpers
   incidents: ->
@@ -75,6 +123,12 @@ Template.incidentTable.helpers
       'Reject'
     else
       'Accept'
+
+  addEvent: ->
+    Template.instance().addingEvent.get()
+
+  allowAddingEvent: ->
+    Template.instance().eventSelected.get()
 
 Template.incidentTable.events
   'click table.incident-table tr td .select': (event, instance) ->
@@ -135,3 +189,11 @@ Template.incidentTable.events
       edit: true
       incident: @
       updateEvent: false
+
+  'click .show-addEvent': (event, instance) ->
+    addingEvent = instance.addingEvent
+    addingEvent.set(not addingEvent.get())
+    event.currentTarget.blur()
+
+  'select2:select': (event, instance) ->
+    instance.eventSelected.set(event.params.data.id)
