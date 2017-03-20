@@ -28,8 +28,6 @@ select2NoResults = ->
   """
 
 Template.incidentTable.onCreated ->
-  @subscribe('useEvents')
-  @subscribe('curatorSourceIncidentReports', @data.source._sourceId)
   @selectedIncidents = new Meteor.Collection(null)
   @addingEvent = new ReactiveVar(false)
   @selectedEventId = new ReactiveVar(false)
@@ -65,38 +63,10 @@ Template.incidentTable.onCreated ->
     clearInterval(@interval)
 
 Template.incidentTable.onRendered ->
-  # If showing accepted IRs instantiate select2 input and register event to
-  # show 'Create Event' modal
-  if @data.accepted
-    @autorun =>
-      if @addingEvent.get() and _incidentsSelected(@)
-        Meteor.defer =>
-          events = UserEvents.find {},
-            fields: eventName: 1
-            sort: eventName: 1
-          $select2 = @$('.select2')
-          select2Data = events.map (event) ->
-            id: event._id
-            text: event.eventName
-          $select2.select2
-            data: select2Data
-            placeholder: 'Search for an Event...'
-            minimumInputLength: 0
-
-          $(document).on 'click', '.add-new-event', (event) =>
-            $select2.select2('close')
-            Modal.show 'editEventDetailsModal',
-              action: 'add'
-              saveActionMessage: 'Add Event & Associate Incident Reports'
-              sourceId: @data.sourceId
-              eventName: ''
   @autorun =>
     if not _incidentsSelected(@)
       @addingEvent.set(false)
       @selectedEventId.set(null)
-
-Template.incidentTable.onDestroyed ->
-  $(document).off('click', '.add-new-event')
 
 Template.incidentTable.helpers
   incidents: ->
@@ -111,7 +81,7 @@ Template.incidentTable.helpers
     Incidents.find(query)
 
   allSelected: ->
-    selectedIncidentCount = Template.instance().selectedIncidents.find().count()
+    selectedIncidentCount = _incidentsSelected(Template.instance())
     Incidents.find().count() == selectedIncidentCount
 
   selected: ->
@@ -132,11 +102,11 @@ Template.incidentTable.helpers
   addEvent: ->
     Template.instance().addingEvent.get()
 
-  allowAddingEvent: ->
-    Template.instance().selectedEventId.get()
+  selectedIncidents: ->
+    _selectedIncidents(Template.instance())
 
-  selectingEvent: ->
-    Template.instance().selectingEvent.get()
+  tableContentScrollable: ->
+    Template.instance().tableContentScrollable
 
 Template.incidentTable.events
   'click table.incident-table tr td .select': (event, instance) ->
@@ -192,22 +162,3 @@ Template.incidentTable.events
     addingEvent = instance.addingEvent
     addingEvent.set(not addingEvent.get())
     event.currentTarget.blur()
-
-  'select2:select': (event, instance) ->
-    instance.selectedEventId.set(event.params.data.id)
-
-  'select2:opening': (event, instance) ->
-    instance.tableContentScrollable.set(false)
-
-  'select2:closing': (event, instance) ->
-    instance.tableContentScrollable.set(true)
-
-  'click .add-to-event': (event, instance) ->
-    selectedIncidentIds = _.pluck(_selectedIncidents(instance).fetch(), '_id')
-    userEventId = instance.selectedEventId.get()
-    Meteor.call 'addIncidentsToEvent', selectedIncidentIds, userEventId, (error, result) ->
-      if error
-        notify('error', error.reason)
-      else
-        notify('success', 'Incident reports successfuly added to event')
-        _updateAllIncidentsStatus(instance, false, event)

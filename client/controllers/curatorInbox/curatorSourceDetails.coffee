@@ -31,6 +31,7 @@ Template.curatorSourceDetails.onCreated ->
   @incidentsLoaded = new ReactiveVar(true)
   @selectedIncidentTab = new ReactiveVar(0)
   @wideUI = new ReactiveVar(window.innerWidth >= WIDE_UI_WIDTH)
+  @addingSourceToEvent = new ReactiveVar(false)
 
 Template.curatorSourceDetails.onRendered ->
   instance = @
@@ -138,6 +139,12 @@ Template.curatorSourceDetails.helpers
   selectedIncidentTab: ->
     Template.instance().selectedIncidentTab
 
+  addingSourceToEvent: ->
+    Template.instance().addingSourceToEvent.get()
+
+  source: ->
+    Template.instance().source.get()
+
 Template.curatorSourceDetails.events
   'click .toggle-reviewed': (event, instance) ->
     _markReviewed(instance)
@@ -155,3 +162,7 @@ Template.curatorSourceDetails.events
 
   'click .tabs a': (event, instance) ->
     instance.selectedIncidentTab.set(instance.$(event.currentTarget).data('tab'))
+
+  'click .add-source-to-event': (event, instance) ->
+    addingSourceToEvent = instance.addingSourceToEvent
+    addingSourceToEvent.set(not addingSourceToEvent.get())

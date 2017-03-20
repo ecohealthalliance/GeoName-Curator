@@ -1,12 +1,12 @@
 template(name="incidentTable")
   if incidents.count
-    .incident-reports--actions.container-flex
+    .incident-reports--actions.container-flex.no-break
       button.btn.btn-sm.action(
         disabled="{{#unless incidentsSelected}} true {{/unless}}"
         class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") #{action} Incidents
       if accepted
         button.btn.btn-sm.btn-primary.show-addEvent(
-          disabled="{{#unless incidentsSelected}} true {{/unless}}") Add to Event
+          disabled="{{#unless incidentsSelected}} true {{/unless}}") Add Incidents to Event
       button.btn.btn-sm.btn-default.select(
         class="{{#if allSelected}} deselect-all {{else}} select-all {{/if}}")
         if allSelected
@@ -14,13 +14,10 @@ template(name="incidentTable")
         else
           | Select All
     if addEvent
-      .incident-reports--add-event-container.container-flex.vertically-centered
-        select.form-control.select2(
-          id=selectId
-          name="event")
-          option()
-        button.btn.btn-primary.add-to-event(
-          disabled="{{#unless allowAddingEvent}} true {{/unless}}") Add Incidents to Event
+      +addToEvent(
+        selectedIncidents=selectedIncidents
+        tableContentScrollable=tableContentScrollable
+        source=source)
     table.table.incident-table(
       hidden=annotatedContentVisible
       data-tableexport-display="always")
