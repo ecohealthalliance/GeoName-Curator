@@ -3,12 +3,14 @@ template(name="sourceIncidentReports")
     ul.tabs
       li(class="{{#if selectedIncidentTab 0}} active {{/if}}")
         a(data-tab='0')
-          span Accepted
-          span Incidents
+          span
+            span Accepted
+            span Incidents
       li(class="{{#if selectedIncidentTab 1}} active {{/if}}")
         a(data-tab='1')
-          span Rejected
-          span Incidents
+          span
+            span Rejected
+            span Incidents
   .curator-source-details--incidents(
     class="{{#unless tableContentIsScrollable}} no-scroll {{/unless}}")
     .tab-content

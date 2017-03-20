@@ -32,8 +32,8 @@ $break-point--curator-inbox--x-wide = 1500px
   display flex
   align-items center
   width 100%
-  min-height 50px
-  max-height 50px
+  min-height $curator-pane-head-height
+  max-height $curator-pane-head-height
   padding .5em $page-padding .5em 1.5em
   border-bottom 2px solid darken($border-primary, 10%)
   +above($break-point--curator-inbox)
@@ -194,7 +194,7 @@ $break-point--curator-inbox--x-wide = 1500px
 
 .curator-inbox-section-head
   justify-content space-around
-  min-height 50px
+  min-height $curator-pane-head-height
   font-size 1em
   padding .5em 1em
   cursor pointer
@@ -419,7 +419,8 @@ $break-point--curator-inbox--x-wide = 1500px
 .curator-source-details--copy-wrapper
   position relative
   +above($break-point--curator-inbox--x-wide)
-    overflow-x scroll
+    display flex
+    flex-direction column
     border-right 1px solid $border-primary
     &::after
     &::before
@@ -464,12 +465,18 @@ $break-point--curator-inbox--x-wide = 1500px
           background $border-primary-light
           color $primary-dark
       a
+        display flex
+        align-items center
+        justify-content center
         border 0
         border-radius 0
         font-size 1em
+        min-height $curator-pane-head-height
         span
-          &:first-of-type
-            font-weight 600
+          span
+            &:first-of-type
+              font-weight 600
+              margin-right .1em
 
 .curator-source-details--incidents
   overflow scroll
@@ -662,7 +669,7 @@ $break-point--curator-inbox--x-wide = 1500px
         padding-right 1em
 
 .curator-events-header
-  min-height 50px
+  min-height $curator-pane-head-height
   padding .5em $page-padding
   display flex
   align-items center
