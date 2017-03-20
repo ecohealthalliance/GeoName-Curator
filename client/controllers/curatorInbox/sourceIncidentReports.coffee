@@ -13,3 +13,4 @@ Template.sourceIncidentReports.events
     Modal.show 'incidentModal',
       articles: [instance.data.source]
       add: true
+      accept: true

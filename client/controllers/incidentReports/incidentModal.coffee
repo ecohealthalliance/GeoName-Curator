@@ -51,6 +51,9 @@ Template.incidentModal.events
       return
     incident.userEventId = instanceData.userEventId
 
+    if instance.data.accept or @incident.accepted
+      incident.accepted = true
+
     if @add
       Meteor.call 'addIncidentReport', incident, (error, result) ->
         if not error
@@ -81,4 +84,4 @@ Template.incidentModal.events
           notify('success', 'Incident report updated')
           Modal.hide('incidentModal')
         else
-          toastr.error(error.reason)
+          notify('error', error.reason)

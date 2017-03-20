@@ -47,12 +47,14 @@ Template.incidentTable.onCreated ->
 
 Template.incidentTable.helpers
   incidents: ->
-    accepted = Template.instance().data.accepted
+    instance = Template.instance()
+    accepted = instance.data.accepted
     query = {}
+    query.url = {$regex: new RegExp("#{instance.data.source._sourceId}$")}
     if accepted
-      query = {accepted: {$ne: false}}
+      query.accepted = true
     else if not _.isUndefined(accepted) and not accepted
-      query = {accepted: {$ne: true}}
+      query.accepted = {$ne: true}
     Incidents.find(query)
 
   incidentsSelected: ->
