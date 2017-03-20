@@ -3,7 +3,7 @@ module.exports =
     lastEnd = 0
     html = ''
     incidents.map (incident)->
-      textOffsets = incident.annotations.case.textOffsets[0][0]
+      textOffsets = incident.annotations?.case.textOffsets[0][0]
       if textOffsets
         [start, end] = textOffsets
         html += (
@@ -17,9 +17,7 @@ module.exports =
             data-incident-id='#{incident._id}'
           >#{Handlebars._escape(content.slice(start, end))}</span>"""
         )
-      else
-        Handlebars._escape(content.slice(start, end))
-      lastEnd = end
+        lastEnd = end
     html += Handlebars._escape("#{content.slice(lastEnd)}")
     new Spacebars.SafeString(html)
 
