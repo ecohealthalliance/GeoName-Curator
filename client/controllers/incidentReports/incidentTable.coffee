@@ -3,18 +3,29 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 { notify } = require '/imports/ui/notification'
 SCROLL_WAIT_TIME = 500
 
-_updateAllIncidentsStatus = (instance, status, event) ->
+_acceptedQuery = (accepted) ->
+  query = {}
+  if accepted
+    query.accepted = true
+  else if not _.isUndefined(accepted) and not accepted
+    query.accepted = {$ne: true}
+  query
+
+_updateAllIncidentsStatus = (instance, select, event) ->
   selectedIncidents = instance.selectedIncidents
-  if status
-    Incidents.find().forEach (incident) ->
+  query = _acceptedQuery(instance.accepted)
+  if select
+    Incidents.find(query).forEach (incident) ->
       selectedIncidents.insert
         id: incident._id
+        accepted: incident.accepted
   else
-    selectedIncidents.remove({})
+    selectedIncidents.remove(query)
   event.currentTarget.blur()
 
 _selectedIncidents = (instance) ->
-  instance.selectedIncidents.find()
+  query = _acceptedQuery(instance.accepted)
+  instance.selectedIncidents.find(query)
 
 _incidentsSelected = (instance) ->
   _selectedIncidents(instance).count()
@@ -32,6 +43,7 @@ Template.incidentTable.onCreated ->
   @addingEvent = new ReactiveVar(false)
   @selectedEventId = new ReactiveVar(false)
   @tableContentScrollable = @data.tableContentScrollable
+  @accepted = @data.accepted
   @scrollToAnnotation = (id) =>
     intervalTime = 0
     @interval = setInterval =>
@@ -71,18 +83,15 @@ Template.incidentTable.onRendered ->
 Template.incidentTable.helpers
   incidents: ->
     instance = Template.instance()
-    accepted = instance.data.accepted
-    query = {}
+    query = _acceptedQuery(instance.accepted)
     query.url = {$regex: new RegExp("#{instance.data.source._sourceId}$")}
-    if accepted
-      query.accepted = true
-    else if not _.isUndefined(accepted) and not accepted
-      query.accepted = {$ne: true}
     Incidents.find(query)
 
   allSelected: ->
-    selectedIncidentCount = _incidentsSelected(Template.instance())
-    Incidents.find().count() == selectedIncidentCount
+    instance = Template.instance()
+    selectedIncidentCount = _incidentsSelected(instance)
+    query = _acceptedQuery(instance.accepted)
+    Incidents.find(query).count() == selectedIncidentCount
 
   selected: ->
     Template.instance().selectedIncidents.findOne(id: @_id)
@@ -91,10 +100,10 @@ Template.incidentTable.helpers
     _incidentsSelected(Template.instance())
 
   acceptance: ->
-    not Template.instance().data.accepted
+    not Template.instance().accepted
 
   action: ->
-    if Template.instance().data.accepted
+    if Template.instance().accepted
       'Reject'
     else
       'Accept'
@@ -116,14 +125,16 @@ Template.incidentTable.events
     if selectedIncidents.findOne(query)
       selectedIncidents.remove(query)
     else
+      query.accepted = @accepted
       selectedIncidents.insert(query)
 
   'click .action': (event, instance) ->
+    accepted = instance.accepted
     accept = true
-    if instance.data.accepted
+    if accepted
       accept = false
     selectedIncidents = instance.selectedIncidents
-    selectedIncidents.find().forEach (incident) ->
+    selectedIncidents.find(_acceptedQuery(accepted)).forEach (incident) ->
       incident = _id: incident.id
       incident.accepted = accept
       Meteor.call 'updateIncidentReport', incident, (error, result) ->

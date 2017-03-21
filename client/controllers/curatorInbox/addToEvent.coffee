@@ -61,7 +61,7 @@ Template.addToEvent.events
 
     selectedIncidents = instance.data.selectedIncidents
     if selectedIncidents
-      selectedIncidentIds = _.pluck(selectedIncidents.fetch(), '_id')
+      selectedIncidentIds = _.pluck(selectedIncidents.fetch(), 'id')
       Meteor.call 'addIncidentsToEvent', selectedIncidentIds, userEventId, (error, result) ->
         if error
           notify('error', error.reason)
