@@ -2,7 +2,6 @@ CuratorSources = require '/imports/collections/curatorSources.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
 key = require 'keymaster'
 { notify } = require '/imports/ui/notification'
-{ annotateContent } = require('/imports/ui/annotation')
 WIDE_UI_WIDTH = 1500
 
 _markReviewed = (instance, showNext=true) ->
@@ -107,6 +106,9 @@ Template.curatorSourceDetails.onDestroyed ->
   $(window).off('resize')
 
 Template.curatorSourceDetails.helpers
+  incidents: ->
+    Incidents.find()
+
   source: ->
     Template.instance().source.get()
 
@@ -128,11 +130,6 @@ Template.curatorSourceDetails.helpers
   incidentsLoaded: ->
     Template.instance().incidentsLoaded.get()
 
-  annotatedContent: ->
-    incidents = Incidents.find().fetch()
-    if incidents.length
-      annotateContent(@content, incidents)
-
   wideUI: ->
     Template.instance().wideUI.get()
 
@@ -144,6 +141,9 @@ Template.curatorSourceDetails.helpers
 
   source: ->
     Template.instance().source.get()
+
+  content: ->
+    Template.instance().source.get().content
 
 Template.curatorSourceDetails.events
   'click .toggle-reviewed': (event, instance) ->
