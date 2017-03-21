@@ -7,8 +7,8 @@ template(name="smartEventSummary")
           +editDetailsButton(target="#smart-event-modal" editing="name" icon="edit")
 
       p.disease-name
-        if disease
-          span= disease
+        if diseases
+          span= disease.text
         else
           span.not-available No disease available.
           if isInRole "admin"

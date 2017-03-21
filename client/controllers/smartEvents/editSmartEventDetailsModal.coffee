@@ -3,6 +3,7 @@
 createInlineDateRangePicker = require('/imports/ui/inlineDateRangePicker')
 { updateCalendarSelection } = require('/imports/ui/setRange')
 require('bootstrap-validator')
+{ diseaseOptionsFn } = require '/imports/utils'
 
 Template.editSmartEventDetailsModal.onCreated ->
   @confirmingDeletion = new ReactiveVar(false)
@@ -42,17 +43,26 @@ Template.editSmartEventDetailsModal.helpers
   showCalendar: ->
     Template.instance().addDate.get()
 
+  diseaseOptionsFn: -> diseaseOptionsFn
+
 Template.editSmartEventDetailsModal.events
   'submit #editEvent': (event, instance) ->
     form = event.target
     return if event.isDefaultPrevented() # Form is invalid
     event.preventDefault()
 
+    diseases = $(form)
+    .find('#disease-select2')
+    .select2('data')
+    .map (option)->
+      id: option.id
+      text: option?.item?.label or option.text
+
     smartEvent =
       _id: @_id
       eventName: form.eventName.value.trim()
       summary: form.eventSummary.value.trim()
-      disease: form.eventDisease.value.trim()
+      diseases: diseases
 
     # Locations
     locations = []

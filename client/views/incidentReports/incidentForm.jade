@@ -148,20 +148,23 @@ template(name="incidentForm")
         ) Locations
         +locationSelect2(
           selectId="incident-location-select2"
-          multiple="true"
+          multiple=true
           selected=incidentData.locations
           required=true)
         .help-block.with-errors
 
-      .form-group.form-group--full(class="{{suggestedField 'disease'}}")
+      .form-group.form-group--full(class="{{suggestedField 'resolvedDisease'}}")
         label.control-label.with-info-tooltip(
           data-toggle="tooltip"
           data-placement="right"
           title="The disease that caused the cases or deaths.") Disease
-        input.form-control(
-          type="text"
+        +select2(
           name="disease"
-          value=incidentData.disease)
+          selectId="incident-disease-select2"
+          multiple=false
+          optionsFn=diseaseOptionsFn
+          selected=incidentData.resolvedDisease)
+        .help-block.with-errors
 
       .form-group.form-group--full(class="{{suggestedField 'species'}}")
         label.control-label.with-info-tooltip(

@@ -128,7 +128,11 @@ Meteor.methods
     features = enhancements.features
     locationAnnotations = features.filter (f) -> f.type == 'location'
     datetimeAnnotations = features.filter (f) -> f.type == 'datetime'
-    diseaseAnnotations = features.filter (f) -> f.type == 'diseases'
+    diseaseAnnotations = features.filter (f) ->
+      f.type == 'resolvedKeyword' and f.resolutions.some((r)->
+        # resolution is from the disease ontology
+        r.uri.startsWith("http://purl.obolibrary.org/obo/DOID")
+      )
     countAnnotations = features.filter (f) -> f.type == 'count'
     geonameIds = locationAnnotations.map((r) -> r.geoname.geonameid)
     # Query geoname lookup service to get admin names.
@@ -258,19 +262,15 @@ Meteor.methods
         if suspectedAttributes.length > 0
           incident.status = 'suspected'
         incident.url = source.url
-        # The disease field is set to the last disease mentioned,
-        # document classification, or event disease with overides in that order.
-        event = UserEvents.findOne(source?.userEventId)
-        if event?.disease
-          incident.disease = event.disease
-        enhancements.diseases.forEach ({name})->
-          incident.disease = name
-        diseaseTerritory.annotations.forEach ({value})->
-          incident.disease = value
+        # The disease field is set to the last disease mentioned.
+        diseaseTerritory.annotations.forEach (annotation)->
+          incident.resolvedDisease =
+            id: annotation.resolutions[0].uri
+            text: annotation.resolutions[0].label
         incident.suggestedFields = _.intersection(
           Object.keys(incident),
           [
-            'disease'
+            'resolvedDisease'
             'cases'
             'deaths'
             'dateRange'

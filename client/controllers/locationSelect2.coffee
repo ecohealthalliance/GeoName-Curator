@@ -14,12 +14,6 @@ incidentsToLocations = (incidents) ->
   # Return
   _.values(locations)
 
-_setRequiredAttr = ->
-  required = false
-  if $('.select2-selection__rendered li').length is 1
-    required = true
-  $('.select2-search__field').attr('required', required)
-
 Template.locationSelect2.onCreated ->
   @required = @data.required
   @required ?= false
@@ -82,11 +76,15 @@ Template.locationSelect2.onRendered ->
   if required
     if initialValues.length > 0
       required = false
-    $('.select2-search__field').attr
+    @$('.select2-search__field').attr
       'required': required
       'data-error': 'Please select a location.'
 
     # Remove required attr when location is selected and add it back when all
     # locations are removed/unselected
-    $input.on 'change', _setRequiredAttr
+    $input.on 'change', =>
+      required = false
+      if @$('.select2-selection__rendered li').length is 1
+        required = true
+      @$('.select2-search__field').attr('required', required)
   $input.val(initialValues.map((x)->x.id)).trigger('change')

@@ -18,10 +18,9 @@ Template.smartEvent.onRendered ->
     if event
       eventDateRange = event.dateRange
       locations = event.locations
-      disease = event.disease
       query = {}
-      if disease
-        query.disease = disease
+      if event.diseases and event.diseases.length > 0
+        query['resolvedDisease.id'] = $in: event.diseases.map (x)-> x.id
       if eventDateRange
         query['dateRange.start'] = $lte: eventDateRange.end
         query['dateRange.end'] = $gte: eventDateRange.start
