@@ -27,11 +27,13 @@ template(name="curatorSourceDetails")
           .curator-source-details--incidents-container
             +sourceIncidentReports(
               incidents=incidents
-              selectedIncidentTab=selectedIncidentTab)
+              selectedIncidentTab=selectedIncidentTab
+              source=source)
         else
           +sourceIncidentReports(
               incidents=incidents
-              selectedIncidentTab=selectedIncidentTab)
+              selectedIncidentTab=selectedIncidentTab
+              source=source)
         if notifying
           .veil
       else

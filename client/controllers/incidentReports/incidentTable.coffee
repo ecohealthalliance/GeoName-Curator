@@ -1,7 +1,20 @@
+Incidents = require '/imports/collections/incidentReports.coffee'
 { notify } = require '/imports/ui/notification'
 SCROLL_WAIT_TIME = 500
 
+updateAllIncidentsStatus = (instance, status, event) ->
+  selectedIncidents = instance.selectedIncidents
+  if status
+    Incidents.find().forEach (incident) ->
+      selectedIncidents.insert
+        id: incident._id
+  else
+    selectedIncidents.remove({})
+  event.currentTarget.blur()
+
 Template.incidentTable.onCreated ->
+  @subscribe('curatorSourceIncidentReports', @data.source._sourceId)
+  @selectedIncidents = new Meteor.Collection(null)
   @scrollToAnnotation = (id) =>
     intervalTime = 0
     @interval = setInterval =>
@@ -32,40 +45,27 @@ Template.incidentTable.onCreated ->
   @stopScrollingInterval = ->
     clearInterval(@interval)
 
-changeIncidentStatus = (status, instance) ->
-  instance.data.incidents.find({selected: true}).forEach (incident) ->
-    incident = _id: incident._id
-    incident.accepted = status
-    #setting accepted status of local collection as well
-    Template.instance().data.incidents.update _id: incident._id,
-      $set:
-        accepted: status
-        selected: false
-    Meteor.call 'updateIncidentReport', incident, false, (error, result) ->
-      if error
-        notify('error', 'There was a problem updating your incident reports.')
-        return
-
-updateAllIncidentsStatus = (instance, status, event) ->
-  instance.data.incidents.update {}, {$set: {selected: status}}, {multi: true}
-  event.currentTarget.blur()
-
 Template.incidentTable.helpers
   incidents: ->
-    accepted = Template.instance().data.accepted
+    instance = Template.instance()
+    accepted = instance.data.accepted
     query = {}
+    query.url = {$regex: new RegExp("#{instance.data.source._sourceId}$")}
     if accepted
-      query = {accepted: {$ne: false}}
+      query.accepted = true
     else if not _.isUndefined(accepted) and not accepted
-      query = {accepted: {$ne: true}}
-    Template.instance().data.incidents.find(query)
+      query.accepted = {$ne: true}
+    Incidents.find(query)
 
   incidentsSelected: ->
-    Template.instance().data.incidents.find({selected: true}).count() > 0
+    Template.instance().selectedIncidents.find().count() > 0
 
   allSelected: ->
-    incidents = Template.instance().data.incidents
-    incidents.find().count() == incidents.find({selected: true}).count()
+    selectedIncidentCount = Template.instance().selectedIncidents.find().count()
+    Incidents.find().count() == selectedIncidentCount
+
+  selected: ->
+    Template.instance().selectedIncidents.findOne(id: @_id)
 
   acceptance: ->
     not Template.instance().data.accepted
@@ -79,13 +79,26 @@ Template.incidentTable.helpers
 Template.incidentTable.events
   'click table.incident-table tr td .select': (event, instance) ->
     event.stopPropagation()
-    instance.data.incidents.update({_id: @_id}, {$set: {selected: !@selected}})
+    selectedIncidents = instance.selectedIncidents
+    query = id: @_id
+    if selectedIncidents.findOne(query)
+      selectedIncidents.remove(query)
+    else
+      selectedIncidents.insert(query)
 
   'click .action': (event, instance) ->
     accept = true
     if instance.data.accepted
       accept = false
-    changeIncidentStatus(accept, instance)
+    selectedIncidents = instance.selectedIncidents
+    selectedIncidents.find().forEach (incident) ->
+      incident = _id: incident.id
+      incident.accepted = accept
+      Meteor.call 'updateIncidentReport', incident, (error, result) ->
+        if error
+          notify('error', 'There was a problem updating your incident reports.')
+          return
+    selectedIncidents.remove({})
     event.currentTarget.blur()
 
   'click .select-all': (event, instance) ->
@@ -95,12 +108,12 @@ Template.incidentTable.events
     updateAllIncidentsStatus(instance, false, event)
 
   'mouseover .incident-table tbody tr': (event, instance) ->
-    if not instance.data.scrollToAnnotations
+    if not instance.data.scrollToAnnotations or not @textOffsets
       return
     instance.scrollToAnnotation(@_id)
 
   'mouseout .incident-table tbody tr': (event, instance) ->
-    if not instance.data.scrollToAnnotations
+    if not instance.data.scrollToAnnotations or not @textOffsets
       return
     instance.stopScrollingInterval()
 
