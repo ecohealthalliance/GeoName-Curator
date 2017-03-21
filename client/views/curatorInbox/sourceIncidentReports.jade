@@ -21,8 +21,6 @@ template(name="sourceIncidentReports")
           accepted=true
           hideTableHeader=true
           tableContentScrollable=tableContentScrollable)
-        .container-flex.central.space-top-2
-          button.btn.btn-default.add-incident Add New Incident
       .tab-pane(class="{{#if selectedIncidentTab 1}} active {{/if}}")
         +incidentTable(
           source=source

@@ -479,10 +479,20 @@ $break-point--curator-inbox--x-wide = 1500px
               margin-right .1em
 
 .curator-source-details--incidents
-  overflow scroll
-  padding-bottom 3em
+  display flex
+  .tab-content
+    flex 1 1 auto
+    display flex
+  .tab-pane
+    flex 1 1 auto
+    &.active
+      display flex
+      flex-direction column
+  .table-wrapper
+    overflow-x hidden
+    overflow-y scroll
+    padding-bottom 3em
   .table
-    border-top 1px solid $border-primary-light
     > tbody > tr:last-of-type td
       border-bottom 0
     thead
