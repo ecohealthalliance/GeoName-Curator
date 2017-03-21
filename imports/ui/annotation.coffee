@@ -3,7 +3,7 @@ module.exports =
     lastEnd = 0
     html = ''
     incidents.map (incident)->
-      textOffsets = incident.annotations?.case.textOffsets[0][0]
+      textOffsets = incident.annotations?.case[0].textOffsets
       if textOffsets
         [start, end] = textOffsets
         html += (
@@ -24,22 +24,22 @@ module.exports =
   buildAnnotatedIncidentSnippet: (content, incident) ->
     displayCharacters = 150
     incidentAnnotations = []
-    for type, annotations of incident.annotations
-      annotations.textOffsets?.forEach (offsets) ->
+    for type, typeAnnotations of incident.annotations
+      typeAnnotations.forEach (annotation) ->
         incidentAnnotations.push
           type: type
-          textOffsets: offsets
+          textOffsets: annotation.textOffsets
 
-    startingIndex = _.min(incidentAnnotations.map (a)-> a.textOffsets[0][0])
+    startingIndex = _.min(incidentAnnotations.map (a)-> a.textOffsets[0])
     startingIndex = Math.max(startingIndex - 30, 0)
-    endingIndex = _.max(incidentAnnotations.map (a)-> a.textOffsets[0][1])
+    endingIndex = _.max(incidentAnnotations.map (a)-> a.textOffsets[1])
     endingIndex = Math.min(endingIndex + 30, content.length - 1)
     lastEnd = startingIndex
     html = ""
-    if incidentAnnotations[0]?.textOffsets[0][0] isnt 0
+    if incidentAnnotations[0]?.textOffsets[0] isnt 0
       html += "..."
     incidentAnnotations.map (annotation)->
-      [start, end] = annotation.textOffsets[0]
+      [start, end] = annotation.textOffsets
       type = annotation.type
       html += (
         Handlebars._escape("#{content.slice(lastEnd, start)}") +
