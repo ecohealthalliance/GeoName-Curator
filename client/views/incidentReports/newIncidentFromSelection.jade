@@ -1,4 +1,5 @@
 template(name="newIncidentFromSelection")
   .new-incident-from-selection(
-    style="left: #{leftPosition}px; top: #{topPosition}px; bottom: #{bottomPosition}px")
-    button.btn.btn-success.add-incident-from-selection Add Incident
+    class="{{#if scrolled}} positioned {{/if}}"
+    style="left: #{leftPosition}; top: #{topPosition}; bottom: #{bottomPosition}")
+    button.btn.btn-warning.add-incident-from-selection Add Incident

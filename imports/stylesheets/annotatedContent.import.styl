@@ -5,13 +5,23 @@
 .new-incident-from-selection
   position fixed
   z-index $top-layer
-  transform translate(-50%, -10px) scale(0)
+  opacity 0
+  transform translate(-50%, -15px) scale(0)
   backface-visibility hidden
-  transition .1s transform
+  transition .1s transform ease-in-out, .1s opacity ease-in-out
   &.active
-    transform translate(-50%, 10px) scale(1)
+    opacity 1
+    transform translate(-50%, 0) scale(1)
     transform-origin top
     backface-visibility hidden
   button
     padding-left 3em
     padding-right 3em
+  &.positioned
+    position static
+    transform translate(0,0) scale(1)
+    button
+      width 100%
+      border-radius 0
+      border-left 0
+      border-right 0
