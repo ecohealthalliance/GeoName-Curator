@@ -51,8 +51,6 @@ Template.incidentTable.onCreated ->
         @stopScrollingInterval()
         $annotation = $("span[data-incident-id=#{id}]")
         $sourceTextContainer = $('.curator-source-details--copy')
-        if window.innerWidth >= 1500 # In side-by-side view
-          $sourceTextContainer = $('.curator-source-details--copy-wrapper')
         $("span[data-incident-id]").removeClass('viewing')
         appHeaderHeight = $('header nav.navbar').outerHeight()
         detailsHeaderHeight = $('.curator-source-details--header').outerHeight()
@@ -151,12 +149,12 @@ Template.incidentTable.events
     _updateAllIncidentsStatus(instance, false, event)
 
   'mouseover .incident-table tbody tr': (event, instance) ->
-    if not instance.data.scrollToAnnotations or not @textOffsets
+    if not instance.data.scrollToAnnotations or not @annotations?.case?[0].textOffsets
       return
     instance.scrollToAnnotation(@_id)
 
   'mouseout .incident-table tbody tr': (event, instance) ->
-    if not instance.data.scrollToAnnotations or not @textOffsets
+    if not instance.data.scrollToAnnotations or not @annotations?.case?[0].textOffsets
       return
     instance.stopScrollingInterval()
 
