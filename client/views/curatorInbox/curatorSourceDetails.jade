@@ -28,7 +28,8 @@ template(name="curatorSourceDetails")
           .curator-source-details--copy
             +annotatedContent(
               content=content
-              incidents=incidents)
+              incidents=incidents
+              source=source)
         if wideUI
           .curator-source-details--incidents-container
             +sourceIncidentReports(

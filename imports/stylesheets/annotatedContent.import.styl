@@ -1,0 +1,17 @@
+.source-content--wrapper
+  &::selection
+    background $selection
+
+.new-incident-from-selection
+  position fixed
+  z-index $top-layer
+  transform translate(-50%, -10px) scale(0)
+  backface-visibility hidden
+  transition .1s transform
+  &.active
+    transform translate(-50%, 10px) scale(1)
+    transform-origin top
+    backface-visibility hidden
+  button
+    padding-left 3em
+    padding-right 3em
