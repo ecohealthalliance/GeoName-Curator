@@ -3,27 +3,28 @@ template(name="sourceIncidentReports")
     ul.tabs
       li(class="{{#if selectedIncidentTab 0}} active {{/if}}")
         a(data-tab='0')
-          span Accepted
-          span Incidents
+          span
+            span Accepted
+            span Incidents
       li(class="{{#if selectedIncidentTab 1}} active {{/if}}")
         a(data-tab='1')
-          span Rejected
-          span Incidents
-  .curator-source-details--incidents
+          span
+            span Rejected
+            span Incidents
+  .curator-source-details--incidents(
+    class="{{#unless tableContentIsScrollable}} no-scroll {{/unless}}")
     .tab-content
       .tab-pane(class="{{#if selectedIncidentTab 0}} active {{/if}}")
         +incidentTable(
-          incidents=incidents
+          source=source
           scrollToAnnotations=true
           accepted=true
-          source=source
-          hideTableHeader=true)
-        .container-flex.central.space-top-2
-          button.btn.btn-default.add-incident Add New Incident
+          hideTableHeader=true
+          tableContentScrollable=tableContentScrollable)
       .tab-pane(class="{{#if selectedIncidentTab 1}} active {{/if}}")
         +incidentTable(
-          incidents=incidents
+          source=source
           scrollToAnnotations=true
           accepted=false
-          source=source
-          hideTableHeader=true)
+          hideTableHeader=true
+          tableContentScrollable=tableContentScrollable)

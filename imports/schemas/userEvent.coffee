@@ -1,4 +1,4 @@
-userEventSchema = new SimpleSchema(
+userEventSchema = new SimpleSchema
   _id:
     type: String
     optional: true
@@ -41,5 +41,5 @@ userEventSchema = new SimpleSchema(
   displayOnPromed:
     type: Boolean
     optional: true
-)
+
 module.exports = userEventSchema

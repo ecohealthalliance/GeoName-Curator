@@ -60,6 +60,9 @@ Meteor.publish 'articles', (query={}) ->
   query.deleted = {$in: [null, false]}
   Articles.find(query)
 
+Meteor.publish 'article', (sourceId) ->
+  Articles.find(url: $regex: new RegExp("#{sourceId}$"))
+
 Meteor.publish 'feeds', ->
   Feeds.find()
 

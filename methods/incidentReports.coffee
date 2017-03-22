@@ -122,6 +122,11 @@ Meteor.methods
       Meteor.call("editUserEventLastModified", incident.userEventId)
       Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
 
+  addIncidentsToEvent: (incidentIds, userEventId) ->
+    Incidents.update _id: $in: incidentIds,
+      $set: userEventId: userEventId
+      {multi: true}
+
   createIncidentReportsFromEnhancements: (options) ->
     { enhancements, source, acceptByDefault, addToCollection } = options
     incidents = []

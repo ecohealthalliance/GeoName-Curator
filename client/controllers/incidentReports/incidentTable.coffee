@@ -1,20 +1,49 @@
+UserEvents = require '/imports/collections/userEvents.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
 { notify } = require '/imports/ui/notification'
 SCROLL_WAIT_TIME = 500
 
-updateAllIncidentsStatus = (instance, status, event) ->
+_acceptedQuery = (accepted) ->
+  query = {}
+  if accepted
+    query.accepted = true
+  else if not _.isUndefined(accepted) and not accepted
+    query.accepted = {$ne: true}
+  query
+
+_updateAllIncidentsStatus = (instance, select, event) ->
   selectedIncidents = instance.selectedIncidents
-  if status
-    Incidents.find().forEach (incident) ->
+  query = _acceptedQuery(instance.accepted)
+  if select
+    Incidents.find(query).forEach (incident) ->
       selectedIncidents.insert
         id: incident._id
+        accepted: incident.accepted
   else
-    selectedIncidents.remove({})
+    selectedIncidents.remove(query)
   event.currentTarget.blur()
 
+_selectedIncidents = (instance) ->
+  query = _acceptedQuery(instance.accepted)
+  instance.selectedIncidents.find(query)
+
+_incidentsSelected = (instance) ->
+  _selectedIncidents(instance).count()
+
+select2NoResults = ->
+  """
+    <div class='no-results small'>
+      <p>No Results Found</p>
+    </div>
+    <button class='btn btn-default add-new-event'>Add New Event</a>
+  """
+
 Template.incidentTable.onCreated ->
-  @subscribe('curatorSourceIncidentReports', @data.source._sourceId)
   @selectedIncidents = new Meteor.Collection(null)
+  @addingEvent = new ReactiveVar(false)
+  @selectedEventId = new ReactiveVar(false)
+  @tableContentScrollable = @data.tableContentScrollable
+  @accepted = @data.accepted
   @scrollToAnnotation = (id) =>
     intervalTime = 0
     @interval = setInterval =>
@@ -45,36 +74,48 @@ Template.incidentTable.onCreated ->
   @stopScrollingInterval = ->
     clearInterval(@interval)
 
+Template.incidentTable.onRendered ->
+  @autorun =>
+    if not _incidentsSelected(@)
+      @addingEvent.set(false)
+      @selectedEventId.set(null)
+
 Template.incidentTable.helpers
   incidents: ->
     instance = Template.instance()
-    accepted = instance.data.accepted
-    query = {}
+    query = _acceptedQuery(instance.accepted)
     query.url = {$regex: new RegExp("#{instance.data.source._sourceId}$")}
-    if accepted
-      query.accepted = true
-    else if not _.isUndefined(accepted) and not accepted
-      query.accepted = {$ne: true}
     Incidents.find(query)
 
-  incidentsSelected: ->
-    Template.instance().selectedIncidents.find().count() > 0
-
   allSelected: ->
-    selectedIncidentCount = Template.instance().selectedIncidents.find().count()
-    Incidents.find().count() == selectedIncidentCount
+    instance = Template.instance()
+    selectedIncidentCount = _incidentsSelected(instance)
+    query = _acceptedQuery(instance.accepted)
+    Incidents.find(query).count() == selectedIncidentCount
 
   selected: ->
     Template.instance().selectedIncidents.findOne(id: @_id)
 
+  incidentsSelected: ->
+    _incidentsSelected(Template.instance())
+
   acceptance: ->
-    not Template.instance().data.accepted
+    not Template.instance().accepted
 
   action: ->
-    if Template.instance().data.accepted
+    if Template.instance().accepted
       'Reject'
     else
       'Accept'
+
+  addEvent: ->
+    Template.instance().addingEvent.get()
+
+  selectedIncidents: ->
+    _selectedIncidents(Template.instance())
+
+  tableContentScrollable: ->
+    Template.instance().tableContentScrollable
 
 Template.incidentTable.events
   'click table.incident-table tr td .select': (event, instance) ->
@@ -84,14 +125,16 @@ Template.incidentTable.events
     if selectedIncidents.findOne(query)
       selectedIncidents.remove(query)
     else
+      query.accepted = @accepted
       selectedIncidents.insert(query)
 
   'click .action': (event, instance) ->
+    accepted = instance.accepted
     accept = true
-    if instance.data.accepted
+    if accepted
       accept = false
     selectedIncidents = instance.selectedIncidents
-    selectedIncidents.find().forEach (incident) ->
+    selectedIncidents.find(_acceptedQuery(accepted)).forEach (incident) ->
       incident = _id: incident.id
       incident.accepted = accept
       Meteor.call 'updateIncidentReport', incident, (error, result) ->
@@ -102,10 +145,10 @@ Template.incidentTable.events
     event.currentTarget.blur()
 
   'click .select-all': (event, instance) ->
-    updateAllIncidentsStatus(instance, true, event)
+    _updateAllIncidentsStatus(instance, true, event)
 
   'click .deselect-all': (event, instance) ->
-    updateAllIncidentsStatus(instance, false, event)
+    _updateAllIncidentsStatus(instance, false, event)
 
   'mouseover .incident-table tbody tr': (event, instance) ->
     if not instance.data.scrollToAnnotations or not @textOffsets
@@ -125,3 +168,14 @@ Template.incidentTable.events
       edit: true
       incident: @
       updateEvent: false
+
+  'click .show-addEvent': (event, instance) ->
+    addingEvent = instance.addingEvent
+    addingEvent.set(not addingEvent.get())
+    event.currentTarget.blur()
+
+  'click .add-incident': (event, instance) ->
+    Modal.show 'incidentModal',
+      articles: [instance.data.source]
+      add: true
+      accept: true

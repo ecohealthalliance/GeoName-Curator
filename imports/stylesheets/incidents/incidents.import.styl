@@ -120,10 +120,37 @@ viewingBG()
   z-index $mid-layer
   font-weight 600
 
+.curator-source-details--actions
 .incident-reports--actions
-  padding .5em
+  padding .5em 1em
+  min-height 50px
+  border-bottom 1px solid $border-primary-light
+  +at(1)
+    flex-direction column
+
+  button
+    margin-right .5em
+    &:last-of-type
+      margin-right 0
+    +at(1)
+      margin 0 0 1em 0
+      padding-top .75em
+      padding-bottom .75em
+  .on-left
   .select
     margin-left auto
+    +at(1)
+      margin 0 0 1em 0
+
+.curator-inbox--add-event-container
+  justify-content center
+  padding 1em
+  border-top 1px solid $border-primary-light
+  border-bottom 1px solid $border-primary-light
+  button
+    margin-left 1em
+  .select2-container
+    max-width 50%
 
 .incident-table
   > tbody

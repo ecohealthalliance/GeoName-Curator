@@ -10,6 +10,7 @@
   opacity 0
   transition opacity .2s linear
   font-smoothing antialiased
+  border 3px solid transparent
   h4
     font-size 1.5em
   i
@@ -18,9 +19,14 @@
     display block
   &.success
     color $positive
+    border-color $positive
   &.failure
+  &.error
+    color $danger
+    border-color $danger
   &.warning
     color $warning
+    border-color $positive
   &.active
     opacity 1
   &.dismissing
