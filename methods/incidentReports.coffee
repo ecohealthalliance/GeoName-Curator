@@ -280,7 +280,23 @@ Meteor.methods
         )
         if incident.dateRange?.cumulative
           incident.suggestedFields.push('cumulative')
-        incident.textOffsets = incident.countAnnotation.textOffsets[0]
+
+        annotations =
+          case: [
+            textOffsets: incident.countAnnotation.textOffsets[0]
+            text: incident.countAnnotation.text
+          ]
+        if locationTerritory.annotations.length
+          annotations.location =
+            locationTerritory.annotations.map (a) -> textOffsets: a.textOffsets[0]
+        if dateTerritory.annotations.length
+          annotations.date =
+            dateTerritory.annotations.map (a) -> textOffsets: a.textOffsets[0]
+        if diseaseTerritory.annotations.length
+          annotations.disease =
+            diseaseTerritory.annotations.map (a) -> textOffsets: a.textOffsets[0]
+        incident.annotations = annotations
+
         incidents.push(incident)
         if addToCollection
           _incident = _.pick(incident, incidentReportSchema.objectKeys())

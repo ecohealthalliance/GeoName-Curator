@@ -106,6 +106,9 @@ Template.curatorSourceDetails.onDestroyed ->
   $(window).off('resize')
 
 Template.curatorSourceDetails.helpers
+  incidents: ->
+    Template.instance().incidentCollection
+
   source: ->
     Template.instance().source.get()
 
