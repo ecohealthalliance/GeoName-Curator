@@ -25,7 +25,13 @@ template(name="editSmartEventDetailsModal")
                 .help-block.with-errors
               .form-group
                 label Disease
-                input.form-control(type='text' name='eventDisease' value=disease)
+                +select2(
+                  name="disease"
+                  selectId="disease-select2"
+                  placeholder="Select a disease"
+                  multiple=true
+                  optionsFn=diseaseOptionsFn
+                  selected=diseases)
                 .help-block.with-errors
               .form-group
                 label Locations

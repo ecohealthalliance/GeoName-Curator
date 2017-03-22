@@ -16,6 +16,7 @@ userEventSchema = new SimpleSchema
     optional: true
   disease:
     type: String
+    optional: true
   eventName:
     type: String
   lastIncidentDate:

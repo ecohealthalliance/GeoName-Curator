@@ -13,7 +13,13 @@ smartEventSchema = new SimpleSchema
     optional: true
   eventName:
     type: String
-  disease:
+  diseases:
+    type: [Object]
+    optional: true
+  "diseases.$.id":
+    type: String
+    optional: true
+  "diseases.$.text":
     type: String
     optional: true
   lastModifiedByUserId:

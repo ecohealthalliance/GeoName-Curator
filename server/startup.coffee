@@ -5,6 +5,7 @@ articleSchema = require '/imports/schemas/article.coffee'
 Articles = require '/imports/collections/articles.coffee'
 PromedPosts = require '/imports/collections/promedPosts.coffee'
 CuratorSources = require '/imports/collections/curatorSources'
+Constants = require '/imports/constants.coffee'
 
 Meteor.startup ->
   # set incident dates
@@ -73,3 +74,28 @@ Meteor.startup ->
   Incidents.find('url.0': {$exists: true}).forEach (incident) ->
     Incidents.update _id: incident._id,
       $set: url: incident.url[0]
+
+  # Set resolved diseases
+  Incidents.find(
+    resolvedDisease: {$exists: false}
+    disease: {$exists: true}
+  ).forEach (incident) ->
+    if incident.disease
+      console.log incident.disease
+      requestResult = HTTP.get Constants.GRITS_URL + "/api/v1/disease_ontology/lookup",
+        params:
+          q: incident.disease
+      result = requestResult.data.result
+      if result.length > 0
+        d = result[0]
+        Incidents.update _id: incident._id,
+          $set:
+            resolvedDisease:
+              id: d.uri
+              text: d.label
+      else
+        Incidents.update _id: incident._id,
+          $set:
+            resolvedDisease:
+              id: "userSpecifiedDisease:#{incident.disease}"
+              text: "Other Disease: #{incident.disease}"

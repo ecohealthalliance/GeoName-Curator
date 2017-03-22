@@ -1,6 +1,6 @@
 createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 validator = require 'bootstrap-validator'
-{ keyboardSelect, removeSuggestedProperties } = require '/imports/utils'
+{ keyboardSelect, removeSuggestedProperties, diseaseOptionsFn } = require '/imports/utils'
 
 _selectInput = (event, instance, prop, isCheckbox) ->
   return if not keyboardSelect(event) and event.type is 'keyup'
@@ -115,6 +115,8 @@ Template.incidentForm.helpers
 
   articleSourceUrl: ->
     Template.instance().data.articles[0]?.url
+
+  diseaseOptionsFn: -> diseaseOptionsFn
 
 Template.incidentForm.events
   'change input[name=daterangepicker_start]': (event, instance) ->

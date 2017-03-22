@@ -61,6 +61,15 @@ IncidentReportSchema = new SimpleSchema
   disease:
     type: String
     optional: true
+  resolvedDisease:
+    type: Object
+    optional: true
+  "resolvedDisease.id":
+    type: String
+    optional: true
+  "resolvedDisease.text":
+    type: String
+    optional: true
   species:
     type: String
     optional: true

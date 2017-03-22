@@ -1,3 +1,4 @@
+Constants = require '/imports/constants.coffee'
 ###
 # cleanUrl - takes an existing url and removes the last match of the applied
 #   regular expressions.
@@ -55,7 +56,6 @@ export incidentReportFormToIncident = (form) ->
 
   incident =
     species: form.species.value
-    disease: form.disease.value
     travelRelated: form.travelRelated.checked
     approximate: form.approximate.checked
     locations: []
@@ -84,9 +84,11 @@ export incidentReportFormToIncident = (form) ->
     for child in $(form.articleSource).select2('data')
       if child.selected
         incident.url = child.text.trim()
-
-  $loc = $(form).find('#incident-location-select2')
-  for option in $loc.select2('data')
+  for option in $(form).find('#incident-disease-select2').select2('data')
+    incident.resolvedDisease =
+      id: option.id
+      text: option?.item?.label or option.text
+  for option in $(form).find('#incident-location-select2').select2('data')
     item = option.item
     if typeof item.alternateNames is 'string'
       delete item.alternateNames
@@ -129,3 +131,30 @@ export keyboardSelect = (event) ->
 export removeSuggestedProperties = (instance, props) ->
   suggestedFields = instance.suggestedFields
   suggestedFields.set(_.difference(suggestedFields.get(), props))
+
+export diseaseOptionsFn = (params, callback) ->
+  term = params.term?.trim()
+  if not term
+    return callback(results: [])
+  HTTP.get Constants.GRITS_URL + "/api/v1/disease_ontology/lookup", {
+    params:
+      q: term
+  }, (error, response)->
+    if error
+      return callback(error)
+    callback(
+      results: response.data.result.map((d)->
+        if d.synonym != d.label
+          text = d.synonym + " | " + d.label
+        else
+          text = d.label
+        {
+          id: d.uri
+          text: text
+          item: d
+        }
+      ).concat([
+        id: "userSpecifiedDisease:#{term}"
+        text: "Other Disease: #{term}"
+      ])
+    )
