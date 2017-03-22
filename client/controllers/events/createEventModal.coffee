@@ -12,7 +12,6 @@ Template.createEventModal.events
     return if event.isDefaultPrevented() # Form is invalid
     event.preventDefault()
     target = event.target
-    disease = event.target.eventDisease?.value.trim()
     summary = target.eventSummary?.value.trim()
     eventName = target.eventName
     sourceId = instance.data?.sourceId
@@ -20,7 +19,6 @@ Template.createEventModal.events
       source = CuratorSources.findOne(sourceId)
     Meteor.call 'upsertUserEvent',
       eventName: eventName.value.trim()
-      disease: disease
       summary: summary
       displayOnPromed: event.target.promed.checked
     , (error, result) ->

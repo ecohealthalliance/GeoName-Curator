@@ -17,10 +17,6 @@ template(name="editEventDetailsModal")
                 label Event Name
                 input.form-control(type='text' name='eventName' value=eventName required)
                 .help-block.with-errors
-              unless adding
-                .form-group
-                  label Event Disease
-                  input.form-control(type="text" name="eventDisease" value=disease)
               .form-group
                 label Event Summary
                 textarea.form-control(name="eventSummary" rows="15")= summary

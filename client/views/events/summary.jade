@@ -5,13 +5,6 @@ template(name="summary")
         h1.event-name= eventName
         if isInRole "admin"
           +editDetailsButton(target="#edit-event-modal" editing="name")
-      p.disease-name
-        if disease
-          span= disease
-        else
-          span.not-available No disease available.
-          if isInRole "admin"
-            +editDetailsButton(target="#edit-event-modal" editing="disease")
 
       if summary
         p.summary(class="{{#if collapsed}}collapsed{{/if}}")
