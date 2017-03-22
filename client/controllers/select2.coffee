@@ -27,6 +27,7 @@ Template.select2.onRendered ->
       multiple: @data.multiple
       minimumInputLength: 0
       dataAdapter: CustomDataAdapter
+      placeholder: @data.placeholder or ""
 
     required = @data.required
     if required

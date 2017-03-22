@@ -84,12 +84,10 @@ export incidentReportFormToIncident = (form) ->
     for child in $(form.articleSource).select2('data')
       if child.selected
         incident.url = child.text.trim()
-  console.log 1
   for option in $(form).find('#incident-disease-select2').select2('data')
     incident.resolvedDisease =
       id: option.id
       text: option?.item?.label or option.text
-  console.log $(form).find('#incident-location-select2').select2('data')
   for option in $(form).find('#incident-location-select2').select2('data')
     item = option.item
     if typeof item.alternateNames is 'string'
