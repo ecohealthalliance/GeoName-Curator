@@ -3,7 +3,8 @@ UserEvents = require '/imports/collections/userEvents.coffee'
 Constants = require '/imports/constants.coffee'
 { notify } = require('/imports/ui/notification')
 { stageModals } = require('/imports/ui/modals')
-{ buildAnnotatedIncidentSnippet } = require('/imports/ui/annotation')
+{ annotateContent,
+  buildAnnotatedIncidentSnippet } = require('/imports/ui/annotation')
 
 # determines if the user should be prompted before leaving the current modal
 #
@@ -101,6 +102,10 @@ Template.suggestedIncidentsModal.helpers
 
   isLoading: ->
     Template.instance().loading.get()
+
+  annotatedContent: ->
+    instance = Template.instance()
+    annotateContent(instance.content.get(), instance.incidentCollection.find().fetch())
 
   annotatedCount: ->
     total = Template.instance().incidentCollection.find().count()

@@ -19,7 +19,10 @@
   word-break break-word
 
 .annotated-content
-  user-select none
+  &
+  span
+    &::selection
+      background transparent
   &:after
     content ''
     display block
