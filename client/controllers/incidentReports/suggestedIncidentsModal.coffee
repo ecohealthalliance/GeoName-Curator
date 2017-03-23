@@ -95,9 +95,7 @@ Template.suggestedIncidentsModal.helpers
     Template.instance().data.showTable and incidents.count()
 
   incidents: ->
-    Template.instance().incidentCollection.find
-      accepted: true
-      specify: $exists: false
+    Template.instance().incidentCollection.find()
 
   incidentsFound: ->
     Template.instance().incidentCollection.find().count() > 0
@@ -110,11 +108,6 @@ Template.suggestedIncidentsModal.helpers
     if total
       count = Template.instance().incidentCollection.find(accepted: true).count()
       "#{count} of #{total} incidents accepted"
-
-  annotatedContent: ->
-    content = Template.instance().content.get()
-    incidents = Template.instance().incidentCollection.find().fetch()
-    annotateContent(content, incidents)
 
   annotatedContentVisible: ->
     Template.instance().annotatedContentVisible.get()
@@ -132,6 +125,16 @@ Template.suggestedIncidentsModal.helpers
       properties.push "Approximate"
     properties.join(";")
 
+  content: ->
+    Template.instance().content.get()
+
+  source: ->
+    Template.instance().data.article
+
+  relatedElements: ->
+    parent: '.suggested-incidents .modal-content'
+    sibling: '.suggested-incidents .modal-body'
+    sourceContainer: '.suggested-incidents-wrapper'
 
 Template.suggestedIncidentsModal.events
   'hide.bs.modal #suggestedIncidentsModal': (event, instance) ->

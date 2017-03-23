@@ -139,11 +139,11 @@ Template.curatorSourceDetails.helpers
   addingSourceToEvent: ->
     Template.instance().addingSourceToEvent.get()
 
-  source: ->
-    Template.instance().source.get()
-
-  content: ->
-    Template.instance().source.get().content
+  relatedElements: ->
+    instance = Template.instance()
+    parent: '.curator-source-details--copy-wrapper'
+    sibling: '.curator-source-details--copy'
+    sourceContainer: '.curator-source-details--copy'
 
 Template.curatorSourceDetails.events
   'click .toggle-reviewed': (event, instance) ->

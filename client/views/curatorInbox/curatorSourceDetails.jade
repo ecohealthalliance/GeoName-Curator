@@ -27,8 +27,9 @@ template(name="curatorSourceDetails")
             +addToEvent(source=source)
           .curator-source-details--copy
             +annotatedContent(
-              content=content
+              content=source.content
               incidents=incidents
+              relatedElements=relatedElements
               source=source)
         if wideUI
           .curator-source-details--incidents-container

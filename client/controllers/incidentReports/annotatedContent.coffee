@@ -10,6 +10,7 @@ Template.annotatedContent.onCreated ->
   @scrolled = new ReactiveVar(false)
 
 Template.annotatedContent.onRendered ->
+  $sourceContainer = $(@data.relatedElements.sourceContainer)
   $('body').on 'mousedown', (event) =>
     # Handle triple clicks
     # Dismiss popup so it can be re-shown in correct position
@@ -23,7 +24,7 @@ Template.annotatedContent.onRendered ->
     setTimeout =>
       _setSelectingState(@, false)
     , POPUP_DELAY
-  @$('.source-content--wrapper').parent().on 'scroll', (event) =>
+  $(@data.relatedElements.sourceContainer).on 'scroll', (event) =>
     unless @scrolled.get()
       @scrolled.set(true)
 
@@ -32,7 +33,9 @@ Template.annotatedContent.onDestroyed ->
 
 Template.annotatedContent.helpers
   annotatedContent: ->
-    annotateContent(@content, @incidents.fetch())
+    instanceData = Template.instance().data
+    $(instanceData.relatedElements.sourceContainer).html()
+    annotateContent(instanceData.content, instanceData.incidents.fetch())
 
 Template.annotatedContent.events
   'mousedown .source-content--wrapper': (event, instance) ->
@@ -47,12 +50,11 @@ Template.annotatedContent.events
           source: instance.data.source
           scrolled: instance.scrolled
           selecting: instance.selecting
-          sourceTextContainerClass: 'curator-source-details--copy'
           popupDelay: POPUP_DELAY
         Blaze.renderWithData(
           Template.newIncidentFromSelection,
           data,
-          $('.curator-source-details--copy-wrapper')[0],
-          $('.curator-source-details--copy')[0]
+          $("#{instance.data.relatedElements.parent}")[0]
+          $("#{instance.data.relatedElements.sibling}")[0]
         )
   , POPUP_DELAY

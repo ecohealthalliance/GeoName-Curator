@@ -3,6 +3,13 @@ POPUP_PADDING = 5
 POPUP_PADDING_TOP = 20
 POPUP_WINDOW_PADDING = 50
 
+_getAnnotationData = (content) ->
+  selection = window.getSelection()
+  textOffsets = [selection.baseOffset, selection.extentOffset]
+
+  textOffsets: textOffsets
+  text: content.slice(textOffsets[0], textOffsets[1])
+
 Template.newIncidentFromSelection.onCreated ->
   @selecting = @data.selecting
   @selecting.set(true)
@@ -44,17 +51,16 @@ Template.newIncidentFromSelection.helpers
   scrolled: ->
     Template.instance().data.scrolled.get()
 
+  annotatedText: ->
+    _getAnnotationData(Template.instance().data.source.content).text
+
 Template.newIncidentFromSelection.events
   'click .add-incident-from-selection': (event, instance) ->
-    selection = window.getSelection()
-    content = selection.baseNode.textContent
-    textOffsets = [selection.baseOffset, selection.extentOffset]
-    selection.removeAllRanges()
+    instanceData = instance.data
     Modal.show 'incidentModal',
       incident: null
-      articles: [instance.data.source]
+      articles: [instanceData.source]
       add: true
       accept: true
-      manualAnnotation:
-        textOffsets: textOffsets
-        text: content.slice(textOffsets[0], textOffsets[1])
+      manualAnnotation: _getAnnotationData(instanceData.source.content)
+    window.getSelection().removeAllRanges()
