@@ -2,7 +2,10 @@ module.exports =
   annotateContent: (content, incidents) ->
     lastEnd = 0
     html = ''
-    incidents.map (incident)->
+    # Sort incidents by case annotation's poisiton in content
+    _.sortBy(incidents, (incident) ->
+      incident.annotations?.case[0].textOffsets[0]
+    ).map (incident) ->
       textOffsets = incident.annotations?.case[0].textOffsets
       if textOffsets
         [start, end] = textOffsets

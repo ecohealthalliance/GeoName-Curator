@@ -63,4 +63,5 @@ Template.newIncidentFromSelection.events
       add: true
       accept: true
       manualAnnotation: _getAnnotationData(instanceData.source.content)
+
     window.getSelection().removeAllRanges()

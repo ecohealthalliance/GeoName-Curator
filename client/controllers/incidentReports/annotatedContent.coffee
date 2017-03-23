@@ -33,9 +33,7 @@ Template.annotatedContent.onDestroyed ->
 
 Template.annotatedContent.helpers
   annotatedContent: ->
-    instanceData = Template.instance().data
-    $(instanceData.relatedElements.sourceContainer).html()
-    annotateContent(instanceData.content, instanceData.incidents.fetch())
+    annotateContent(@content, @incidents.fetch())
 
 Template.annotatedContent.events
   'mousedown .source-content--wrapper': (event, instance) ->
