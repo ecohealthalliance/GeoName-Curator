@@ -36,15 +36,13 @@ Template.annotatedContent.helpers
     annotateContent(@content, @incidents.fetch())
 
 Template.annotatedContent.events
-  'mousedown .source-content--wrapper': (event, instance) ->
+  'mousedown .selectable-content': (event, instance) ->
     _setSelectingState(instance, false)
 
-  'mouseup .source-content--wrapper,
-   dblclick .source-content--wrapper': _.debounce (event, instance) ->
+  'mouseup .selectable-content': _.debounce (event, instance) ->
       selection = window.getSelection()
       if not selection.isCollapsed
         data =
-          selection: selection
           source: instance.data.source
           scrolled: instance.scrolled
           selecting: instance.selecting

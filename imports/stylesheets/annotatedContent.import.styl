@@ -1,7 +1,34 @@
 .source-content--wrapper
+  position relative
+  margin 1em 2.5% 3em 2.5%
+  +above(4)
+    margin-right 5%
+    margin-left 5%
+
+.selectable-content
+.annotated-content
+  position absolute
+  top 0
+  left 0
+  bottom 0
+  right 0
+  z-index 1
+  padding-bottom 3em
   white-space pre-wrap
+  word-wrap break-word
+  word-break break-word
+
+.annotated-content
+  &:after
+    content ''
+    display block
+    height 3em
+.selectable-content
+  z-index 2
+  color transparent
   &::selection
-    background $selection
+    color black
+    background alpha($selection, 90%)
 
 .new-incident-from-selection
   position fixed

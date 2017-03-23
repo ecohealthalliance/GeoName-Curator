@@ -3,18 +3,19 @@ POPUP_PADDING = 5
 POPUP_PADDING_TOP = 20
 POPUP_WINDOW_PADDING = 50
 
-_getAnnotationData = (content) ->
-  selection = window.getSelection()
-  textOffsets = [selection.baseOffset, selection.extentOffset]
+_getAnnotationData = (selection) ->
+  range = selection.getRangeAt(0)
+  textOffsets = [range.startOffset, range.endOffset]
+  content = selection.anchorNode.textContent
 
   textOffsets: textOffsets
   text: content.slice(textOffsets[0], textOffsets[1])
 
 Template.newIncidentFromSelection.onCreated ->
+  @selection = window.getSelection()
   @selecting = @data.selecting
   @selecting.set(true)
-  selection = window.getSelection()
-  range = selection.getRangeAt(0)
+  range = @selection.getRangeAt(0)
   {top, bottom, left, width} = range.getBoundingClientRect()
   selectionHeight = bottom - top
   topPosition = "#{Math.floor(top + selectionHeight + POPUP_PADDING)}px"
@@ -52,7 +53,8 @@ Template.newIncidentFromSelection.helpers
     Template.instance().data.scrolled.get()
 
   annotatedText: ->
-    _getAnnotationData(Template.instance().data.source.content).text
+    instance = Template.instance()
+    _getAnnotationData(instance.selection).text
 
 Template.newIncidentFromSelection.events
   'click .add-incident-from-selection': (event, instance) ->
@@ -62,6 +64,6 @@ Template.newIncidentFromSelection.events
       articles: [instanceData.source]
       add: true
       accept: true
-      manualAnnotation: _getAnnotationData(instanceData.source.content)
+      manualAnnotation: _getAnnotationData(instance.selection)
 
     window.getSelection().removeAllRanges()
