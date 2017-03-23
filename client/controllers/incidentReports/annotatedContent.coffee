@@ -12,13 +12,6 @@ Template.annotatedContent.onCreated ->
 Template.annotatedContent.onRendered ->
   $sourceContainer = $(@data.relatedElements.sourceContainer)
   $('body').on 'mousedown', (event) =>
-    # Handle triple clicks
-    # Dismiss popup so it can be re-shown in correct position
-    if event.originalEvent.detail == 3
-      _setSelectingState(@, false)
-    # Do not dismiss popup if click originated from the source text container
-    if $(event.target).hasClass('source-content--wrapper')
-      return
     # Allow event to propagate to 'add-incident-from-selection' button before
     # element is removed from DOM
     setTimeout =>
@@ -36,9 +29,6 @@ Template.annotatedContent.helpers
     annotateContent(@content, @incidents.fetch())
 
 Template.annotatedContent.events
-  'mousedown .selectable-content': (event, instance) ->
-    _setSelectingState(instance, false)
-
   'mouseup .selectable-content': _.debounce (event, instance) ->
       selection = window.getSelection()
       if not selection.isCollapsed
