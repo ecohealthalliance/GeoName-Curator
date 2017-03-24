@@ -28,7 +28,7 @@ Template.curatorSourceDetails.onCreated ->
   @notifying = new ReactiveVar(false)
   @source = new ReactiveVar(null)
   @reviewed = new ReactiveVar(false)
-  @incidentsLoaded = new ReactiveVar(true)
+  @incidentsLoaded = new ReactiveVar(false)
   @selectedIncidentTab = new ReactiveVar(0)
   @wideUI = new ReactiveVar(window.innerWidth >= WIDE_UI_WIDTH)
   @addingSourceToEvent = new ReactiveVar(false)
@@ -107,9 +107,6 @@ Template.curatorSourceDetails.onDestroyed ->
   $(window).off('resize')
 
 Template.curatorSourceDetails.helpers
-  incidents: ->
-    Template.instance().incidentCollection
-
   source: ->
     Template.instance().source.get()
 
