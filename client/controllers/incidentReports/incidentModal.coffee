@@ -51,7 +51,7 @@ Template.incidentModal.events
       return
     incident.userEventId = instanceData.userEventId
 
-    if instance.data.accept or @incident.accepted
+    if instance.data.accept or @incident?.accepted
       incident.accepted = true
 
     if @add

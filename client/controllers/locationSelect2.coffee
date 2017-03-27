@@ -87,4 +87,5 @@ Template.locationSelect2.onRendered ->
       if @$('.select2-selection__rendered li').length is 1
         required = true
       @$('.select2-search__field').attr('required', required)
+      @$('select').attr('required', required)
   $input.val(initialValues.map((x)->x.id)).trigger('change')
