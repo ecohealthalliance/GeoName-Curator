@@ -158,3 +158,66 @@ export diseaseOptionsFn = (params, callback) ->
         text: "Other Disease: #{term}"
       ])
     )
+
+# Parse text into an array of sentences separated by
+# periods, colons, semi-colons, or double linebreaks.
+export parseSents = (text)->
+  idx = 0
+  sents = []
+  sentStart = 0
+  while idx < text.length
+    char = text[idx]
+    if char == '\n'
+      [match] = text.slice(idx).match(/^\n+/)
+      idx += match.length
+      if match.length > 1
+        sents[sents.length] = text.slice(sentStart, idx)
+        sentStart = idx
+    else if /^[\.\;\:]/.test(char)
+      idx++
+      sents[sents.length] = text.slice(sentStart, idx)
+      sentStart = idx
+    else
+      idx++
+  if sentStart < idx
+    sents[sents.length] = text.slice(sentStart, idx)
+  return sents
+
+# A annotation's territory is the sentence containing it,
+# and all the following sentences until the next annotation.
+# Annotations in the same sentence are grouped.
+export getTerritories = (annotationsWithOffsets, sents) ->
+  # Split annotations with multiple offsets
+  # and sort by offset.
+  annotationsWithSingleOffsets = []
+  annotationsWithOffsets.forEach (annotation)->
+    annotation.textOffsets.forEach (textOffset)->
+      splitAnnotation = Object.create(annotation)
+      splitAnnotation.textOffsets = [textOffset]
+      annotationsWithSingleOffsets.push(splitAnnotation)
+  annotationsWithOffsets = _.sortBy(annotationsWithSingleOffsets, (annotation)->
+    annotation.textOffsets[0][0]
+  )
+  annotationIdx = 0
+  sentStart = 0
+  sentEnd = 0
+  territories = []
+  sents.forEach (sent) ->
+    sentStart = sentEnd
+    sentEnd = sentEnd + sent.length
+    sentAnnotations = []
+    while annotation = annotationsWithOffsets[annotationIdx]
+      [aStart, aEnd] = annotation.textOffsets[0]
+      if aStart > sentEnd
+        break
+      else
+        sentAnnotations.push annotation
+        annotationIdx++
+    if sentAnnotations.length > 0 or territories.length == 0
+      territories.push
+        annotations: sentAnnotations
+        territoryStart: sentStart
+        territoryEnd: sentEnd
+    else
+      territories[territories.length - 1].territoryEnd = sentEnd
+  return territories
