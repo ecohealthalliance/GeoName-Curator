@@ -35,6 +35,9 @@ Template.suggestedIncidentModal.helpers
   valid: ->
     Template.instance().valid
 
+  offCanvasStartPosition: ->
+    Template.instance().data.offCanvasStartPosition or 'right'
+
 Template.suggestedIncidentModal.events
   'hide.bs.modal #suggestedIncidentModal': (event, instance) ->
     if $(event.currentTarget).hasClass('in')

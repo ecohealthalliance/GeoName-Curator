@@ -70,5 +70,6 @@ Template.newIncidentFromSelection.events
       articles: [source]
       incident: incident
       incidentText: Spacebars.SafeString(snippetHtml)
+      offCanvasStartPosition: 'top'
 
     window.getSelection().removeAllRanges()
