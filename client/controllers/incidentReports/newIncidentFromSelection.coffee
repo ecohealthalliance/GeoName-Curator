@@ -1,3 +1,5 @@
+{ buildAnnotatedIncidentSnippet } = require('/imports/ui/annotation')
+
 POPUP_DELAY = 200
 POPUP_PADDING = 5
 POPUP_PADDING_TOP = 20
@@ -58,12 +60,15 @@ Template.newIncidentFromSelection.helpers
 
 Template.newIncidentFromSelection.events
   'click .add-incident-from-selection': (event, instance) ->
-    instanceData = instance.data
-    Modal.show 'incidentModal',
-      incident: null
-      articles: [instanceData.source]
+    source = instance.data.source
+    incident =
+      annotations:
+        case: [_getAnnotationData(instance.selection)]
+    snippetHtml = buildAnnotatedIncidentSnippet(source.content, incident)
+    Modal.show 'suggestedIncidentModal',
       add: true
-      accept: true
-      manualAnnotation: _getAnnotationData(instance.selection)
+      articles: [source]
+      incident: incident
+      incidentText: Spacebars.SafeString(snippetHtml)
 
     window.getSelection().removeAllRanges()
