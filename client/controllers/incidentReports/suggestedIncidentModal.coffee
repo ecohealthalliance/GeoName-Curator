@@ -62,12 +62,19 @@ Template.suggestedIncidentModal.events
     incident.suggestedFields = instance.incident.suggestedFields.get()
     incident.userEventId = instance.data.userEventId
     incident.accepted = true
-    instance.incidentCollection.update instance.incident._id,
-      $unset:
-        cases: true
-        deaths: true
-        specify: true
-      $set: incident
-
-    notify('success', 'Incident Report Accepted', 1200)
-    stageModals(instance, instance.modals)
+    if instance.incidentCollection
+      instance.incidentCollection.update instance.incident._id,
+        $unset:
+          cases: true
+          deaths: true
+          specify: true
+        $set: incident
+      notify('success', 'Incident Report Accepted', 1200)
+      stageModals(instance, instance.modals)
+    else
+      incident = _.pick(incident, incidentReportSchema.objectKeys())
+      Meteor.call 'addIncidentReport', incident, (error, result) ->
+        if error
+          return notify('error', error)
+        notify('success', 'Incident report added.')
+        stageModals(instance, instance.modals)

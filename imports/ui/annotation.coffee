@@ -37,21 +37,52 @@ module.exports =
     startingIndex = Math.max(startingIndex - 30, 0)
     endingIndex = _.max(incidentAnnotations.map (a)-> a.textOffsets[1])
     endingIndex = Math.min(endingIndex + 30, content.length - 1)
-    lastEnd = startingIndex
+    lastOffset = startingIndex
     html = ""
     if incidentAnnotations[0]?.textOffsets[0] isnt 0
       html += "..."
+    endpoints = []
     incidentAnnotations.map (annotation)->
       [start, end] = annotation.textOffsets
-      type = annotation.type
-      html += (
-        Handlebars._escape("#{content.slice(lastEnd, start)}") +
-        """<span class='annotation-text #{type}'>#{
-          Handlebars._escape(content.slice(start, end))
-        }</span>"""
-      )
-      lastEnd = end
-    html += Handlebars._escape("#{content.slice(lastEnd, endingIndex)}")
-    if lastEnd < content.length - 1
+      endpoints.push
+        offset: start
+        otherEndpointOffset: end
+        annotation: annotation
+        start: true
+      endpoints.push
+        offset: end
+        otherEndpointOffset: start
+        annotation: annotation
+        start: false
+    endpoints = endpoints.sort (a, b)->
+      if a.offset < b.offset
+        -1
+      else if a.offset > b.offset
+        1
+      else if a.start < b.start
+        -1
+      else if a.start > b.start
+        1
+      else if a.otherEndpointOffset < b.otherEndpointOffset
+        -1
+      else if a.otherEndpointOffset > b.otherEndpointOffset
+        1
+      else
+        0
+    activeAnnotations = []
+    endpoints.forEach ({offset, annotation, start})->
+      html += Handlebars._escape(content.slice(lastOffset, offset))
+      if activeAnnotations.length > 0
+        html += "</span>"
+      if start
+        activeAnnotations.push(annotation)
+      else
+        activeAnnotations = _.without(activeAnnotations, annotation)
+      if activeAnnotations.length > 0
+        types = activeAnnotations.map((a)-> a.type).join(" ")
+        html += "<span class='annotation-text #{types}'>"
+      lastOffset = offset
+    html += Handlebars._escape("#{content.slice(lastOffset, endingIndex)}")
+    if lastOffset < content.length - 1
       html += "..."
     html

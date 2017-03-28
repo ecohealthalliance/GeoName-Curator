@@ -87,19 +87,20 @@ Template.curatorSourceDetails.onRendered ->
       @subscribe 'curatorSourceIncidentReports', sourceId,
         onReady: =>
           source.url = "http://www.promedmail.org/post/#{sourceId}"
-          if Incidents.findOne(url: $regex: new RegExp("#{sourceId}$"))
+          if Incidents.findOne(
+            url: $regex: new RegExp("#{sourceId}$")
+          ) and source.enhancements
             instance.incidentsLoaded.set(true)
           else
-            Meteor.call 'getArticleEnhancements', source, (error, enhancements) =>
+            Meteor.call 'getArticleEnhancements', source, (error, enhancements)=>
               if error
                 notify('error', error.reason)
               else
-                options =
-                  enhancements: enhancements
-                  source: source
+                source.enhancements = enhancements
+                Meteor.call("updateSourceEnhancements", source._id, enhancements)
+                Meteor.call 'addSourceIncidentReportsToCollection', source, {
                   acceptByDefault: true
-                  addToCollection: true
-                Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) ->
+                }, (error, result) ->
                   instance.incidentsLoaded.set(true)
 
 Template.curatorSourceDetails.onDestroyed ->

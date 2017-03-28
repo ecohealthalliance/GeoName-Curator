@@ -5,6 +5,7 @@ Constants = require '/imports/constants.coffee'
 { stageModals } = require('/imports/ui/modals')
 { annotateContent,
   buildAnnotatedIncidentSnippet } = require('/imports/ui/annotation')
+import { formatUrl, createIncidentReportsFromEnhancements } from '/imports/utils.coffee'
 
 # determines if the user should be prompted before leaving the current modal
 #
@@ -69,20 +70,16 @@ Template.suggestedIncidentsModal.onRendered ->
       Modal.hide(@)
       toastr.error error.reason
       return
-    options =
-      enhancements: enhancements
-      source: source
+    source.enhancements = enhancements
+    incidents = createIncidentReportsFromEnhancements(enhancements, {
       acceptByDefault: @data.acceptByDefault
-      addToCollection: false
-    Meteor.call 'createIncidentReportsFromEnhancements', options, (error, result) =>
-      if error
-        notify('error', error.reason)
-        return
-      else
-        for incident in result.incidents
-          @incidentCollection.insert(incident)
-        @loading.set(false)
-        @content.set(result.content)
+      url: source.url
+      publishDate: source.publishDate
+    })
+    for incident in result.incidents
+      @incidentCollection.insert(incident)
+    @loading.set(false)
+    @content.set(result.content)
 
 Template.suggestedIncidentsModal.onDestroyed ->
   $('#suggestedIncidentsModal').off('hide.bs.modal')

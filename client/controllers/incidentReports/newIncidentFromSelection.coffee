@@ -1,4 +1,5 @@
 { buildAnnotatedIncidentSnippet } = require('/imports/ui/annotation')
+import { createIncidentReportsFromEnhancements } from '/imports/utils.coffee'
 
 POPUP_DELAY = 200
 POPUP_PADDING = 5
@@ -59,11 +60,14 @@ Template.newIncidentFromSelection.helpers
     _getAnnotationData(instance.selection).text
 
 Template.newIncidentFromSelection.events
-  'click .add-incident-from-selection': (event, instance) ->
+  'mousedown .add-incident-from-selection': (event, instance) ->
     source = instance.data.source
-    incident =
-      annotations:
-        case: [_getAnnotationData(instance.selection)]
+    range = instance.selection.getRangeAt(0)
+    incident = createIncidentReportsFromEnhancements(source.enhancements, {
+      countAnnotations: [{
+        textOffsets: [[range.startOffset, range.endOffset]]
+      }]
+    })[0]
     snippetHtml = buildAnnotatedIncidentSnippet(source.content, incident)
     Modal.show 'suggestedIncidentModal',
       add: true
