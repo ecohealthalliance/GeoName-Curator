@@ -276,20 +276,20 @@ export createIncidentReportsFromEnhancements = (enhancements, options)->
   countAnnotations.forEach (countAnnotation) =>
     [start, end] = countAnnotation.textOffsets[0]
     locationTerritory = _.find locTerritories, ({territoryStart, territoryEnd}) ->
-      return (start <= territoryEnd and start >= territoryStart)
+      start <= territoryEnd and start >= territoryStart
     dateTerritory = _.find dateTerritories, ({territoryStart, territoryEnd}) ->
-      return (start <= territoryEnd and start >= territoryStart)
+      start <= territoryEnd and start >= territoryStart
     diseaseTerritory = _.find diseaseTerritories, ({territoryStart, territoryEnd}) ->
-      return (start <= territoryEnd and start >= territoryStart)
+      start <= territoryEnd and start >= territoryStart
     incident =
-      locations: locationTerritory.annotations.map(({geoname}) ->geoname)
+      locations: locationTerritory.annotations.map(({geoname}) -> geoname)
     maxPrecision = 0
     # Use the source's date as the default
     incident.dateRange =
       start: publishDate
       end: moment(publishDate).add(1, 'day').toDate()
       type: 'day'
-    dateTerritory.annotations.forEach (timeAnnotation)->
+    dateTerritory.annotations.forEach (timeAnnotation) ->
       if (timeAnnotation.precision > maxPrecision and
         timeAnnotation.beginMoment.isValid() and
         timeAnnotation.endMoment.isValid()

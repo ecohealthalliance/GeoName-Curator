@@ -10,7 +10,6 @@ Template.annotatedContent.onCreated ->
   @scrolled = new ReactiveVar(false)
 
 Template.annotatedContent.onRendered ->
-  $sourceContainer = $(@data.relatedElements.sourceContainer)
   $('body').on 'mousedown', (event) =>
     # Allow event to propagate to 'add-incident-from-selection' button before
     # element is removed from DOM

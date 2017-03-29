@@ -8,8 +8,7 @@ POPUP_WINDOW_PADDING = 50
 
 Template.newIncidentFromSelection.onCreated ->
   @selection = window.getSelection()
-  @selecting = @data.selecting
-  @selecting.set(true)
+  @data.selecting.set(true)
   range = @selection.getRangeAt(0)
   {top, bottom, left, width} = range.getBoundingClientRect()
   selectionHeight = bottom - top
@@ -30,7 +29,7 @@ Template.newIncidentFromSelection.onRendered ->
   , @data.popupDelay or POPUP_DELAY
 
   @autorun =>
-    if not @selecting.get()
+    if not @data.selecting.get()
       @$('.new-incident-from-selection').remove()
       @data.scrolled.set(false)
 
