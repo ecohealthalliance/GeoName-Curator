@@ -84,24 +84,21 @@ Template.curatorSourceDetails.onRendered ->
         else
           $title.attr('data-original-title', title)
 
-      @subscribe 'curatorSourceIncidentReports', sourceId,
-        onReady: =>
-          source.url = "http://www.promedmail.org/post/#{sourceId}"
-          if Incidents.findOne(
-            url: $regex: new RegExp("#{sourceId}$")
-          ) and source.enhancements
-            instance.incidentsLoaded.set(true)
+      @subscribe 'curatorSourceIncidentReports', sourceId
+      source.url = "http://www.promedmail.org/post/#{sourceId}"
+      if source.enhancements
+        instance.incidentsLoaded.set(true)
+      else
+        Meteor.call 'getArticleEnhancements', source, (error, enhancements)=>
+          if error
+            notify('error', error.reason)
           else
-            Meteor.call 'getArticleEnhancements', source, (error, enhancements)=>
-              if error
-                notify('error', error.reason)
-              else
-                source.enhancements = enhancements
-                Meteor.call("updateSourceEnhancements", source._id, enhancements)
-                Meteor.call 'addSourceIncidentReportsToCollection', source, {
-                  acceptByDefault: true
-                }, (error, result) ->
-                  instance.incidentsLoaded.set(true)
+            source.enhancements = enhancements
+            Meteor.call("updateSourceEnhancements", source._id, enhancements)
+            Meteor.call 'addSourceIncidentReportsToCollection', source, {
+              acceptByDefault: true
+            }, (error, result) ->
+              instance.incidentsLoaded.set(true)
 
 Template.curatorSourceDetails.onDestroyed ->
   $(window).off('resize')
