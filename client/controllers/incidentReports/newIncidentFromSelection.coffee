@@ -6,14 +6,6 @@ POPUP_PADDING = 5
 POPUP_PADDING_TOP = 20
 POPUP_WINDOW_PADDING = 50
 
-_getAnnotationData = (selection) ->
-  range = selection.getRangeAt(0)
-  textOffsets = [range.startOffset, range.endOffset]
-  content = selection.anchorNode.textContent
-
-  textOffsets: textOffsets
-  text: content.slice(textOffsets[0], textOffsets[1])
-
 Template.newIncidentFromSelection.onCreated ->
   @selection = window.getSelection()
   @selecting = @data.selecting
@@ -57,7 +49,11 @@ Template.newIncidentFromSelection.helpers
 
   annotatedText: ->
     instance = Template.instance()
-    _getAnnotationData(instance.selection).text
+    selection = instance.selection
+    range = selection.getRangeAt(0)
+    textOffsets = [range.startOffset, range.endOffset]
+    content = selection.anchorNode.textContent
+    content.slice(textOffsets[0], textOffsets[1])
 
 Template.newIncidentFromSelection.events
   'mousedown .add-incident-from-selection': (event, instance) ->
