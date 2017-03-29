@@ -3,7 +3,7 @@ UserEvents = require '/imports/collections/userEvents.coffee'
 Constants = require '/imports/constants.coffee'
 { notify } = require('/imports/ui/notification')
 { stageModals } = require('/imports/ui/modals')
-{ annotateContent,
+{ annotateContentWithIncidents,
   buildAnnotatedIncidentSnippet } = require('/imports/ui/annotation')
 import { formatUrl, createIncidentReportsFromEnhancements } from '/imports/utils.coffee'
 
@@ -102,7 +102,7 @@ Template.suggestedIncidentsModal.helpers
 
   annotatedContent: ->
     instance = Template.instance()
-    annotateContent(instance.content.get(), instance.incidentCollection.find().fetch())
+    annotateContentWithIncidents(instance.content.get(), instance.incidentCollection.find().fetch())
 
   annotatedCount: ->
     total = Template.instance().incidentCollection.find().count()

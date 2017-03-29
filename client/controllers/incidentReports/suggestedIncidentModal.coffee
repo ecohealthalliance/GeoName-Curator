@@ -72,6 +72,7 @@ Template.suggestedIncidentModal.events
       notify('success', 'Incident Report Accepted', 1200)
       stageModals(instance, instance.modals)
     else
+      incident.annotations = instance?.incident?.annotations
       incident = _.pick(incident, incidentReportSchema.objectKeys())
       Meteor.call 'addIncidentReport', incident, (error, result) ->
         if error

@@ -1,4 +1,4 @@
-{ annotateContent } = require('/imports/ui/annotation')
+{ annotateContentWithIncidents } = require('/imports/ui/annotation')
 
 POPUP_DELAY = 100
 
@@ -26,7 +26,7 @@ Template.annotatedContent.onDestroyed ->
 
 Template.annotatedContent.helpers
   annotatedContent: ->
-    annotateContent(@content, @incidents.fetch())
+    annotateContentWithIncidents(@content, @incidents.fetch())
 
 Template.annotatedContent.events
   'mouseup .selectable-content': _.debounce (event, instance) ->
