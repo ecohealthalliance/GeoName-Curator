@@ -6,7 +6,7 @@ annotateContent = (content, annotations, options={})->
     endingIndex = content.length - 1
   lastOffset = startingIndex
   html = ""
-  if annotations[0]?.textOffsets[0] isnt 0
+  if startingIndex isnt 0
     html += "..."
   endpoints = []
   annotations.map (annotation)->
@@ -53,7 +53,7 @@ annotateContent = (content, annotations, options={})->
       html += "<span class='annotation annotation-text #{types}' #{attributeText}>"
     lastOffset = offset
   html += Handlebars._escape("#{content.slice(lastOffset, endingIndex)}")
-  if lastOffset < content.length - 1
+  if endingIndex < content.length - 1
     html += "..."
   html
 
