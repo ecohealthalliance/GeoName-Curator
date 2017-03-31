@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc350</title>
+        </titleStmt>
+        <extent wordCount="2129"/>
+        <sourceDesc>
+           <title>
+           Scanning laser Doppler is a useful technique to assess foot
+           cutaneous perfusion during femoral artery cannulation
+           </title>
+            <author>Nicholas H Boyle</author>
+            <author>Peter C Roberts</author>
+            <author>Bernice Ng</author>
+            <author>Haim Berkenstadt</author>
+            <author>Angela McLuckie</author>
+            <author>Richard J Beale</author>
+            <author>Robert C Mason</author>
+            <publisher>Crit Care</publisher>
+            <pubDate>1999</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url">http://ccforum.com</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Crit Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc350.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc350.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc350-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc350-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc350-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc350.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc350.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

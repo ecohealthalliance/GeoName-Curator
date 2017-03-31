@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar297</title>
+        </titleStmt>
+        <extent wordCount="2424"/>
+        <sourceDesc>
+           <title>
+           B lymphocyte involvement in ankylosing spondylitis: the heavy chain
+           variable segment gene repertoire of B lymphocytes from germinal
+           center-like foci in the synovial membrane indicates antigen
+           selection
+           </title>
+            <author>Jan Voswinkel</author>
+            <author>Kerstin Weisgerber</author>
+            <author>Michael Pfreundschuh</author>
+            <author>Angela Gause</author>
+            <publisher>Arthritis Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/3/3/189</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar297.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar297.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar297-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar297-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar297-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar297.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar297.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

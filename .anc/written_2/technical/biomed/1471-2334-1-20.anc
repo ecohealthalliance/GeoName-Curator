@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Blood borne transit of CJD from brain to gut at early stages of
+        infection
+      </title>
+            <author>Klaus Radebold</author>
+            <author>Mark Chernyak</author>
+            <author>Daniel Martin</author>
+            <author>Laura Manuelidis</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BMC Infectious Diseases</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1471-2334</idno>
+                        <eAddress type="url">http://www.biomedcentral.com/1471-2334/1/20</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Infectious Diseases</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1471-2334-1-20.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2334-1-20-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2334-1-20-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2334-1-20-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2334-1-20.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2334-1-20.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

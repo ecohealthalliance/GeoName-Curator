@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>rr196</title>
+        </titleStmt>
+        <extent wordCount="5042"/>
+        <sourceDesc>
+           <title>
+           Myosin heavy chain and physiological adaptation of the rat diaphragm
+           in elastase-induced emphysema
+           </title>
+            <author>Dong Kim</author>
+            <author>Jianliang Zhu</author>
+            <author>Benjamin Kozyak</author>
+            <author>James Burkman</author>
+            <author>Neal Rubinstein</author>
+            <author>Edward Lankford</author>
+            <author>Hansell Stedman</author>
+            <author>Taitan Nguyen</author>
+            <author>Sanford Levine</author>
+            <author>Joseph Shrager</author>
+            <publisher>Respir Res</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-9921</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Respir Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="rr196.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="rr196.txt" type="content">Text content</annotation>
+            <annotation ann.loc="rr196-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="rr196-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="rr196-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="rr196.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="rr196.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="NMI" date.created="2005-09-18"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>pmed.0020203</title>
+        </titleStmt>
+        <extent wordCount="745"/>
+        <sourceDesc>
+            <title>Some Tolerance for Fur—Animal Studies in </title>
+            <idno type="issn">1549-1676</idno>
+            <pubPlace>San Francisco, CA</pubPlace>
+            <publisher type="org">Public Library of Science</publisher>
+            <pubDate value="2005-06-00">6, 2005</pubDate>
+            <pubName>PLoS Medicine</pubName>
+            <pubPlace>San Francisco, CA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR JO">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Infectious Diseases</subject>
+            <subject>Microbiology</subject>
+            <subject>Virology</subject>
+            <subject>Vaccines</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="pmed.0020203.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="pmed.0020203.txt" type="content">Text content</annotation>
+            <annotation ann.loc="pmed.0020203-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="pmed.0020203-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="pmed.0020203-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="pmed.0020203-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="pmed.0020203-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

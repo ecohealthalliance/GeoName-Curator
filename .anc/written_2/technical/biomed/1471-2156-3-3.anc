@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2156-3-3</title>
+        </titleStmt>
+        <extent wordCount="2775"/>
+        <sourceDesc>
+           <title>
+           CFEOM1, the classic familial form of congenital fibrosis of the
+           extraocular muscles, is genetically heterogeneous but does not result
+           from mutations in 
+           ARIX
+           </title>
+            <author>Elizabeth Engle</author>
+            <author>Nathalie McIntosh</author>
+            <author>Koki Yamada</author>
+            <author>Bjorn Lee</author>
+            <author>Roger Johnson</author>
+            <author>Michael O'Keefe</author>
+            <author>Robert Letson</author>
+            <author>Arnold London</author>
+            <author>Evan Ballard</author>
+            <author>Mark Ruttum</author>
+            <author>Naomichi Matsumoto</author>
+            <author>Nakamichi Saito</author>
+            <author>Mary Collins</author>
+            <author>Lisa Morris</author>
+            <author>Monte Monte</author>
+            <author>Adriano Magli</author>
+            <author>Teresa de Berardinis</author>
+            <publisher>BMC Genetics</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1471-2156</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2156/3/3</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Genetics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2156-3-3.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2156-3-3.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2156-3-3-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2156-3-3-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2156-3-3-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2156-3-3.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2156-3-3.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

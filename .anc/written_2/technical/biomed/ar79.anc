@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar79</title>
+        </titleStmt>
+        <extent wordCount="4538"/>
+        <sourceDesc>
+           <title>
+           Active synovial matrix metalloproteinase-2 is associated with
+           radiographic erosions in patients with early synovitis
+           </title>
+            <author>Raphaela Goldbach-Mansky</author>
+            <author>Jennifer M Lee</author>
+            <author>Joseph M Hoxworth</author>
+            <author>David Smith II</author>
+            <author>Paul Duray</author>
+            <author>Ralph H Schumacher</author>
+            <author>Cheryl H Yarboro</author>
+            <author>John Klippel</author>
+            <author>David Kleiner</author>
+            <author>Hani S El-Gabalawy</author>
+            <publisher>Arthritis Res</publisher>
+            <pubDate>2000</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/2/2/145</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar79.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar79.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar79-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar79-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar79-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar79.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar79.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

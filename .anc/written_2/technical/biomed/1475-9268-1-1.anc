@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1475-9268-1-1</title>
+        </titleStmt>
+        <extent wordCount="5255"/>
+        <sourceDesc>
+           <title>
+           Distinct functions of 
+           S. pombeRec12 (Spo11) protein and Rec12-dependent crossover
+           recombination (chiasmata) in meiosis I; and a requirement for Rec12 in
+           meiosis II
+           </title>
+            <author>Wallace Sharif</author>
+            <author>Gloria Glick</author>
+            <author>Mari Davidson</author>
+            <author>Wayne Wahls</author>
+            <publisher>Cell &amp; Chromosome</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1475-9268</idno>
+            <eAddress type="url">http://www.cellandchromosome.com/content/1/1/1</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Cell &amp; Chromosome</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1475-9268-1-1.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1475-9268-1-1.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1475-9268-1-1-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1475-9268-1-1-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1475-9268-1-1-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1475-9268-1-1.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1475-9268-1-1.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

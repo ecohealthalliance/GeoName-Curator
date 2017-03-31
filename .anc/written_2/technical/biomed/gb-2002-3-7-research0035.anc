@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2002-3-7-research0035</title>
+        </titleStmt>
+        <extent wordCount="6148"/>
+        <sourceDesc>
+           <title>
+           Gene-expression profiling of the response of peripheral blood
+           mononuclear cells and melanoma metastases to systemic IL-2
+           administration
+           </title>
+            <author>Monica Panelli</author>
+            <author>Ena Wang</author>
+            <author>Giao Phan</author>
+            <author>Markus Puhlmann</author>
+            <author>Lance Miller</author>
+            <author>Galen Ohnmacht</author>
+            <author>Harvey Klein</author>
+            <author>Francesco Marincola</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2002/3/7/research/0035</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2002-3-7-research0035.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2002-3-7-research0035.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0035-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0035-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0035-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0035.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0035.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

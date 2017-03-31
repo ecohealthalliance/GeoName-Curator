@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Expression of CAAT Enhancer Binding Protein Beta (C/EBP β) in Cervix
+        and Endometrium
+      </title>
+            <author>Brenda Arnett</author>
+            <author>Patrick Soisson</author>
+            <author>Barbara Ducatman</author>
+            <author>Peilin Zhang</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Molecular Cancer</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1476-4598</idno>
+                        <eAddress type="url">http://www.molecular-cancer.com/content/2/1/21</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Molecular Cancer</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1476-4598-2-21.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1476-4598-2-21-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1476-4598-2-21-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1476-4598-2-21-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1476-4598-2-21.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1476-4598-2-21.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2334-1-24</title>
+        </titleStmt>
+        <extent wordCount="3004"/>
+        <sourceDesc>
+           <title>
+           Absence of rapid selection for acyclovir or penciclovir resistance
+           following suboptimal oral prodrug therapy of HSV-infected mice
+           </title>
+            <author>Robert Sarisky</author>
+            <author>H Ron Bartus</author>
+            <author>Shelley Dennis</author>
+            <author>Matthew Quail</author>
+            <author>Tammy Nguyen</author>
+            <author>Robert Wittrock</author>
+            <author>Wendy Halsey</author>
+            <author>Teresa Bacon</author>
+            <author>Jeffry Leary</author>
+            <author>David Sutton</author>
+            <publisher>BMC Infectious Diseases</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1471-2334</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2334/1/24</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Infectious Diseases</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2334-1-24.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2334-1-24.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2334-1-24-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2334-1-24-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2334-1-24-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2334-1-24.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2334-1-24.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

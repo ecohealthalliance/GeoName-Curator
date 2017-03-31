@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Sources of nonlinearity in cDNA microarray expression
+        measurements
+      </title>
+            <author>Latha Ramdas</author>
+            <author>Kevin Coombes</author>
+            <author>Keith Baggerly</author>
+            <author>Lynne Abruzzo</author>
+            <author>W Edward Highsmith</author>
+            <author>Tammy Krogmann</author>
+            <author>Stanley Hamilton</author>
+            <author>Wei Zhang</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Genome Biology</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1465-6906</idno>
+                        <eAddress type="url">http://genomebiology.com/2001/2/11/research/0047</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="gb-2001-2-11-research0047.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2001-2-11-research0047-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2001-2-11-research0047-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2001-2-11-research0047-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2001-2-11-research0047.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2001-2-11-research0047.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

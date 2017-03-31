@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2003-4-4-r26</title>
+        </titleStmt>
+        <extent wordCount="7804"/>
+        <sourceDesc>
+           <title>
+           Analysis and functional classification of transcripts from the
+           nematode 
+           Meloidogyne incognita
+           </title>
+            <author>James McCarter</author>
+            <author>Makedonka Dautova Mitreva</author>
+            <author>John Martin</author>
+            <author>Mike Dante</author>
+            <author>Todd Wylie</author>
+            <author>Uma Rao</author>
+            <author>Deana Pape</author>
+            <author>Yvette Bowers</author>
+            <author>Brenda Theising</author>
+            <author>Claire Murphy</author>
+            <author>Andrew Kloek</author>
+            <author>Brandi Chiapelli</author>
+            <author>Sandra Clifton</author>
+            <author>David Mck Bird</author>
+            <author>Robert Waterston</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2003/4/4/R26</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2003-4-4-r26.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2003-4-4-r26.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2003-4-4-r26-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2003-4-4-r26-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2003-4-4-r26-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2003-4-4-r26.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2003-4-4-r26.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

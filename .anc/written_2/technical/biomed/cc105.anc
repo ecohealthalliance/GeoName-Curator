@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc105</title>
+        </titleStmt>
+        <extent wordCount="2907"/>
+        <sourceDesc>
+           <title>
+           Minimizing charges associated with the determination of brain
+           death
+           </title>
+            <author>Donald H Jenkins</author>
+            <author>Patrick M Reilly</author>
+            <author>Damian J McMahon</author>
+            <author>Rence V Hawthorne</author>
+            <publisher>Crit Care</publisher>
+            <pubDate>1997</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url">http://ccforum.com</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Crit Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc105.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc105.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc105-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc105-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc105-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc105.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc105.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

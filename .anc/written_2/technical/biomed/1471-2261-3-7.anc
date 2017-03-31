@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Sinus versus nonsinus tachycardia in the emergency department:
+        Importance of age and heart rate
+      </title>
+            <author>Duane Pinto</author>
+            <author>Kalon Ho</author>
+            <author>Peter Zimetbaum</author>
+            <author>Alexander Pedan</author>
+            <author>Ary Goldberger</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BMC Cardiovascular Disorders</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1471-2261</idno>
+                        <eAddress type="url">http://www.biomedcentral.com/1471-2261/3/7</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Cardiovascular Disorders</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1471-2261-3-7.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2261-3-7-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2261-3-7-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2261-3-7-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2261-3-7.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2261-3-7.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

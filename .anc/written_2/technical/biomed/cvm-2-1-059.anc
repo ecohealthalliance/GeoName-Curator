@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Experience collecting interim data on mortality: an example from the
+        RALES study
+      </title>
+            <author>Janet Wittes</author>
+            <author>Jolie Palensky</author>
+            <author>Debra Asner</author>
+            <author>Desmond Julian</author>
+            <author>Jean-Pierre Boissel</author>
+            <author>Curt Furberg</author>
+            <author>Henri Kulbertus</author>
+            <author>Stuart Pocock</author>
+            <author>Barbara Roniker</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Current Controlled Trials in Cardiovascular Medicine</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1468-6708</idno>
+                        <eAddress type="url">http://cvm.controlled-trials.com/content/2/1/059</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Current Controlled Trials in Cardiovascular Medicine</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="cvm-2-1-059.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cvm-2-1-059-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cvm-2-1-059-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cvm-2-1-059-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cvm-2-1-059.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cvm-2-1-059.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

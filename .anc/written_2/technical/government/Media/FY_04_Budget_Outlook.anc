@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-11-07" version="1.0.4">
+  <cesHeader creator="KBS" date.created="2005-11-07" version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+       <titleStmt>
+          <title>FY_04_Budget_Outlook</title>
+       </titleStmt>
+        <extent wordCount="396"/>
+       <sourceDesc>
+          <title></title>
+          <author></author>
+          <publisher>US Government</publisher>
+          <pubPlace>http://www.lsc.gov</pubPlace>
+       </sourceDesc>
+    </fileDesc><encodingDesc>
+  </encodingDesc>
+  <profileDesc>
+    <textClass catRef="WR TC">
+      <domain>World Affairs</domain>
+      <subdomain>Government</subdomain>
+      <audience>adult</audience>
+      <medium>web</medium>
+    </textClass>
+    <primaryData loc="FY_04_Budget_Outlook.txt" medium="text"/>
+    <annotations>
+      <annotation type="content" ann.loc="FY_04_Budget_Outlook.txt">Text content</annotation>
+      <annotation type="logical" ann.loc="FY_04_Budget_Outlook-logical.xml">Logical structure</annotation>
+      <annotation type="s" ann.loc="FY_04_Budget_Outlook-s.xml">Sentence boundaries</annotation>
+      <annotation type="hepple" ann.loc="FY_04_Budget_Outlook-hepple.xml">Hepple part of speech tags</annotation>
+      <annotation type="np" ann.loc="FY_04_Budget_Outlook-np.xml">Noun chunks</annotation>
+      <annotation type="vp" ann.loc="FY_04_Budget_Outlook-vp.xml">Verb chunks</annotation>
+    </annotations>
+  </profileDesc>
+</cesHeader>

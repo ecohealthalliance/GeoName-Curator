@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1477-7819-1-10</title>
+        </titleStmt>
+        <extent wordCount="1778"/>
+        <sourceDesc>
+           <title>
+           Patterns of cervical metastasis from carcinoma of the oral
+           tongue
+           </title>
+            <author>CS Nithya</author>
+            <author>Manoj Pandey</author>
+            <author>BR Naik</author>
+            <author>Iqbal M Ahamed</author>
+            <publisher>World Journal of Surgical Oncology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1477-7819</idno>
+            <eAddress type="url">http://www.wjso.com/content/1/1/10</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>World Journal of Surgical Oncology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1477-7819-1-10.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1477-7819-1-10.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1477-7819-1-10-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1477-7819-1-10-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1477-7819-1-10-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1477-7819-1-10.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1477-7819-1-10.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

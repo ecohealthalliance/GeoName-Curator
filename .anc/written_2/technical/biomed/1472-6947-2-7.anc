@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1472-6947-2-7</title>
+        </titleStmt>
+        <extent wordCount="5386"/>
+        <sourceDesc>
+           <title>
+           The quality case for information technology in healthcare
+           </title>
+            <author>David Bates</author>
+            <publisher>BMC Medical Informatics and Decision Making</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1472-6947</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1472-6947/2/7</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Medical Informatics and Decision Making</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1472-6947-2-7.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1472-6947-2-7.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1472-6947-2-7-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1472-6947-2-7-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1472-6947-2-7-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1472-6947-2-7.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1472-6947-2-7.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2180-2-35</title>
+        </titleStmt>
+        <extent wordCount="6233"/>
+        <sourceDesc>
+           <title>
+           Dynamics of success and failure in phage and antibiotic therapy in
+           experimental infections
+           </title>
+            <author>J Bull</author>
+            <author>Bruce Levin</author>
+            <author>Terry DeRouin</author>
+            <author>Nina Walker</author>
+            <author>Craig Bloch</author>
+            <publisher>BMC Microbiology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1471-2180</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2180/2/35</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Microbiology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2180-2-35.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2180-2-35.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2180-2-35-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2180-2-35-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2180-2-35-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2180-2-35.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2180-2-35.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

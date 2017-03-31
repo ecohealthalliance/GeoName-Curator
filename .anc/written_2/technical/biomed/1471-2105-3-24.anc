@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2105-3-24</title>
+        </titleStmt>
+        <extent wordCount="1602"/>
+        <sourceDesc>
+           <title>
+           The functional importance of disease-associated mutation
+           </title>
+            <author>Sean Mooney</author>
+            <author>Teri Klein</author>
+            <publisher>BMC Bioinformatics</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1471-2105</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2105/3/24</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Bioinformatics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2105-3-24.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2105-3-24.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2105-3-24-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2105-3-24-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2105-3-24-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2105-3-24.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2105-3-24.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc4</title>
+        </titleStmt>
+        <extent wordCount="5542"/>
+        <sourceDesc>
+           <title>
+           Inhaled nitric oxide in acute respiratory distress syndrome with and
+           without septic shock requiring norepinephrine administration: a
+           dose-response study
+           </title>
+            <author>Eric Mourgeon</author>
+            <author>Louis Puybasset</author>
+            <author>Jean-Dominique Law-Koune</author>
+            <author>Qin Lu</author>
+            <author>Lamine Abdennour</author>
+            <author>Lluis Gallart</author>
+            <author>Patrick Malassine</author>
+            <author>GS Umamaheswara Rao</author>
+            <author>Philippe Cluzel</author>
+            <author>Abdelhai Bennani</author>
+            <author>Pierre Coriat</author>
+            <author>Jean-Jacques Rouby</author>
+            <publisher>Crit Care</publisher>
+            <pubDate>1997</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url">http://ccforum.com/</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Crit Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc4.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc4.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc4-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc4-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc4-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc4.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc4.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

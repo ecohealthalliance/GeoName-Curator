@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-230X-3-5</title>
+        </titleStmt>
+        <extent wordCount="2871"/>
+        <sourceDesc>
+           <title>
+           Colon biopsies for evaluation of acute graft-versus-host disease
+           (A-GVHD) in allogeneic bone marrow transplant patients
+           </title>
+            <author>Vinod Shidham</author>
+            <author>Chung-Che Chang</author>
+            <author>Ganesh Shidham</author>
+            <author>Farrukh Ghazala</author>
+            <author>Paul Lindholm</author>
+            <author>Bal Kampalath</author>
+            <author>Varghese George</author>
+            <author>Richard Komorowski</author>
+            <publisher>BMC Gastroenterology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-230X</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-230X/3/5</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Gastroenterology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-230X-3-5.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-230X-3-5.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-230X-3-5-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-230X-3-5-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-230X-3-5-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-230X-3-5.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-230X-3-5.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1472-6823-2-2</title>
+        </titleStmt>
+        <extent wordCount="2561"/>
+        <sourceDesc>
+           <title>
+           Islet expression of the DNA repair enzyme 8-oxoguanosine DNA
+           glycosylase (Ogg1) in human type 2 diabetes
+           </title>
+            <author>Björn Tyrberg</author>
+            <author>Kamen Anachkov</author>
+            <author>Sergio Dib</author>
+            <author>Jessica Wang-Rodriguez</author>
+            <author>Kun-Ho Yoon</author>
+            <author>Fred Levine</author>
+            <publisher>BMC Endocrine Disorders</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1472-6823</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1472-6823/2/2</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Endocrine Disorders</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1472-6823-2-2.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1472-6823-2-2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1472-6823-2-2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1472-6823-2-2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1472-6823-2-2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1472-6823-2-2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1472-6823-2-2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

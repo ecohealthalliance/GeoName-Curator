@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Road trips and resources: there is a better way
+      </title>
+            <author>Sandra Swoboda</author>
+            <author>John A Castro</author>
+            <author>Karen A Earsing</author>
+            <author>Pamela A Lipsett</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Crit Care</publisher>
+                        <pubDate>1997</pubDate>
+                        <idno type="issn">1364-8535</idno>
+                        <eAddress type="url">http://ccforum.com/</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Crit Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="cc113.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc113-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc113-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc113-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc113.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc113.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

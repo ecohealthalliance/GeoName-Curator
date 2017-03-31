@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2318-3-2</title>
+        </titleStmt>
+        <extent wordCount="4213"/>
+        <sourceDesc>
+           <title>
+           Approaches to quality improvement in nursing homes: Lessons learned
+           from the six-state pilot of CMS's Nursing Home Quality Initiative
+           </title>
+            <author>Stephanie Kissam</author>
+            <author>David Gifford</author>
+            <author>Peggy Parks</author>
+            <author>Gail Patry</author>
+            <author>Laura Palmer</author>
+            <author>Linda Wilkes</author>
+            <author>Matthew Fitzgerald</author>
+            <author>Alice Petrulis</author>
+            <author>Leslie Barnette</author>
+            <publisher>BMC Geriatrics</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-2318</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2318/3/2</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Geriatrics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2318-3-2.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2318-3-2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2318-3-2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2318-3-2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2318-3-2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2318-3-2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2318-3-2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

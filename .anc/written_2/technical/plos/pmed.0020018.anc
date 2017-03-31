@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="NMI" date.created="2005-09-18"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>pmed.0020018</title>
+        </titleStmt>
+        <extent wordCount="4815"/>
+        <sourceDesc>
+            <title>Modulation of Statin-Activated Shedding of Alzheimer APP Ectodomain by ROCK</title>
+            <author>Steve Pedrini</author>
+            <author>Troy L Carter</author>
+            <author>George Prendergast</author>
+            <author>Suzana Petanceska</author>
+            <author>Michelle E Ehrlich</author>
+            <author>Sam Gandy</author>
+            <author>Bengt Winblad</author>
+            <idno type="issn">1549-1277</idno>
+            <pubPlace>San Francisco, CA</pubPlace>
+            <publisher type="org">Public Library of Science</publisher>
+            <pubDate value="2005-01-00">1, 2005</pubDate>
+            <pubName>PLoS Medicine</pubName>
+            <pubPlace>San Francisco, CA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR JO">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Neuroscience</subject>
+            <subject>Pharmacology/Drug Discovery</subject>
+            <subject>Geriatrics</subject>
+            <subject>Neurology/Neurosurgery</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="pmed.0020018.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="pmed.0020018.txt" type="content">Text content</annotation>
+            <annotation ann.loc="pmed.0020018-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="pmed.0020018-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="pmed.0020018-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="pmed.0020018-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="pmed.0020018-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1468-6708-3-7</title>
+        </titleStmt>
+        <extent wordCount="2312"/>
+        <sourceDesc>
+           <title>
+           A Review of the Adverse Effects of Peripheral Alpha-1 Antagonists in
+           Hypertension Therapy
+           </title>
+            <author>Chris Bryson</author>
+            <author>Bruce Psaty</author>
+            <publisher>Current Controlled Trials in Cardiovascular Medicine</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1468-6708</idno>
+            <eAddress type="url">http://cvm.controlled-trials.com/content/3/1/7</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Current Controlled Trials in Cardiovascular Medicine</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1468-6708-3-7.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1468-6708-3-7.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1468-6708-3-7-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1468-6708-3-7-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1468-6708-3-7-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1468-6708-3-7.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1468-6708-3-7.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

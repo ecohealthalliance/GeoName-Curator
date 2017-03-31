@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2002-4-1-r2</title>
+        </titleStmt>
+        <extent wordCount="6134"/>
+        <sourceDesc>
+           <title>
+           A gene-expression program reflecting the innate immune response of
+           cultured intestinal epithelial cells to infection by 
+           Listeria monocytogenes
+           </title>
+            <author>David Baldwin</author>
+            <author>Veena Vanchinathan</author>
+            <author>Patrick Brown</author>
+            <author>Julie Theriot</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2002/4/1/R2</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2002-4-1-r2.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2002-4-1-r2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2002-4-1-r2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2002-4-1-r2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2002-4-1-r2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2002-4-1-r2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2002-4-1-r2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

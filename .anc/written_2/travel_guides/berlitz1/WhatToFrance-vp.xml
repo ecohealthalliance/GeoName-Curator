@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graph xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <header>
+        <tagsDecl>
+            <tagUsage gi="VG" occurs="3"/>
+        </tagsDecl>
+        <dependencies>
+            <dependsOn type="hepple"/>
+        </dependencies>
+        <annotationSets>
+            <annotationSet name="xces" type="http://www.xces.org/schema/2003"/>
+        </annotationSets>
+    </header>
+    <node xml:id="vp-n0"/>
+    <a label="VG" ref="vp-n0" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <node xml:id="vp-n1"/>
+    <a label="VG" ref="vp-n1" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <node xml:id="vp-n2"/>
+    <a label="VG" ref="vp-n2" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <edge xml:id="lnk2" from="vp-n2" to="penn-n182"/>
+    <edge xml:id="lnk1" from="vp-n1" to="penn-n169"/>
+    <edge xml:id="lnk0" from="vp-n0" to="penn-n2"/>
+</graph>

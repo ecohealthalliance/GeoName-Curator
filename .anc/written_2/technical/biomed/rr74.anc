@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>rr74</title>
+        </titleStmt>
+        <extent wordCount="2847"/>
+        <sourceDesc>
+           <title>
+           Upregulation of nitric oxide synthase in mice with severe
+           hypoxia-induced pulmonary hypertension
+           </title>
+            <author>Karen Fagan</author>
+            <author>Brian Morrissey</author>
+            <author>Brian Fouty</author>
+            <author>Koichi Sato</author>
+            <author>Julie Harral</author>
+            <author>Kenneth Morris</author>
+            <author>Marloes Hoedt-Miller</author>
+            <author>Shanda Vidmar</author>
+            <author>Ivan McMurtry</author>
+            <author>David Rodman</author>
+            <publisher>Respir Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9921</idno>
+            <eAddress type="url">http://respiratory-research.com/content/2/5/306</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Respir Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="rr74.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="rr74.txt" type="content">Text content</annotation>
+            <annotation ann.loc="rr74-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="rr74-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="rr74-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="rr74.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="rr74.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

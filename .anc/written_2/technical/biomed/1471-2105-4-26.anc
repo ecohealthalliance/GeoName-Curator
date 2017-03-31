@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2105-4-26</title>
+        </titleStmt>
+        <extent wordCount="3998"/>
+        <sourceDesc>
+           <title>
+           Statistical implications of pooling RNA samples for microarray
+           experiments
+           </title>
+            <author>Xuejun Peng</author>
+            <author>Constance Wood</author>
+            <author>Eric Blalock</author>
+            <author>Kuey Chen</author>
+            <author>Philip Landfield</author>
+            <author>Arnold Stromberg</author>
+            <publisher>BMC Bioinformatics</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-2105</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2105/4/26</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Bioinformatics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2105-4-26.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2105-4-26.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2105-4-26-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2105-4-26-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2105-4-26-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2105-4-26.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2105-4-26.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

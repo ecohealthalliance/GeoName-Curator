@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Staphylococcal peptidoglycans induce arthritis
+      </title>
+            <author>Zai-Qing Liu</author>
+            <author>Guo-Min Deng</author>
+            <author>Simon Foster</author>
+            <author>Andrej Tarkowski</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Arthritis Res</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1465-9905</idno>
+                        <eAddress type="url"/>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="ar330.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar330-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar330-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar330-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar330.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar330.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

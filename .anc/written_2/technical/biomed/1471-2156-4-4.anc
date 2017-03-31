@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Genomic organization of ATOX1, a human copper chaperone
+      </title>
+            <author>Po-Ching Liu</author>
+            <author>David Koeller</author>
+            <author>Stephen Kaler</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BMC Genetics</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1471-2156</idno>
+                        <eAddress type="url">http://www.biomedcentral.com/1471-2156/4/4</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Genetics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1471-2156-4-4.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2156-4-4-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2156-4-4-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2156-4-4-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2156-4-4.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2156-4-4.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

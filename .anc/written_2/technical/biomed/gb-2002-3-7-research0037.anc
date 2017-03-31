@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2002-3-7-research0037</title>
+        </titleStmt>
+        <extent wordCount="4297"/>
+        <sourceDesc>
+           <title>
+           Normalization and analysis of DNA microarray data by
+           self-consistency and local regression
+           </title>
+            <author>Thomas Kepler</author>
+            <author>Lynn Crosby</author>
+            <author>Kevin Morgan</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2002/3/7/research/0037</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2002-3-7-research0037.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2002-3-7-research0037.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0037-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0037-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0037-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0037.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2002-3-7-research0037.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

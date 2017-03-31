@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar309</title>
+        </titleStmt>
+        <extent wordCount="2391"/>
+        <sourceDesc>
+           <title>
+           Results of a phase-I/II randomized, masked, placebo-controlled trial
+           of recombinant human interleukin-11 (rhIL-11) in the treatment of
+           subjects with active rheumatoid arthritis
+           </title>
+            <author>Larry Moreland</author>
+            <author>Ron Gugliotti</author>
+            <author>Kevin King</author>
+            <author>Walter Chase</author>
+            <author>Michael Weisman</author>
+            <author>Thomas Greco</author>
+            <author>Rose Fife</author>
+            <author>Joseph Korn</author>
+            <author>Robert Simms</author>
+            <author>John Tesser</author>
+            <author>Jan Hillson</author>
+            <author>Jacques Caldwell</author>
+            <author>Thomas Schnitzer</author>
+            <author>David Lyons</author>
+            <author>Ullrich Schwertschlag</author>
+            <publisher>Arthritis Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/3/4/247</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar309.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar309.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar309-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar309-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar309-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar309.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar309.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

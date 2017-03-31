@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2369-4-1</title>
+        </titleStmt>
+        <extent wordCount="2695"/>
+        <sourceDesc>
+           <title>
+           Atrial fibrillation in chronic dialysis patients in the United
+           states: risk factors for hospitalization and mortality
+           </title>
+            <author>Kevin Abbott</author>
+            <author>Fernando Trespalacios</author>
+            <author>Allen Taylor</author>
+            <author>Lawrence Agodoa</author>
+            <publisher>BMC Nephrology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-2369</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2369/4/1</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Nephrology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2369-4-1.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2369-4-1.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2369-4-1-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2369-4-1-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2369-4-1-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2369-4-1.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2369-4-1.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

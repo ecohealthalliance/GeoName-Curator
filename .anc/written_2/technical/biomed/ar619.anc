@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar619</title>
+        </titleStmt>
+        <extent wordCount="2647"/>
+        <sourceDesc>
+           <title>
+        Decreased effector memory CD45RA
+        +CD62L
+        -CD8
+        +T cells and increased central memory CD45RA
+        -CD62L
+        +CD8
+        +T cells in peripheral blood of rheumatoid arthritis
+        patients
+      </title>
+            <author>Anastacia Maldonado</author>
+            <author>Yvonne Mueller</author>
+            <author>Preethi Thomas</author>
+            <author>Paul Bojczuk</author>
+            <author>Carolyn O'Connors</author>
+            <author>Peter Katsikis</author>
+            <publisher>Arthritis Res Ther</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/5/2/R91</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res Ther</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar619.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar619.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar619-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar619-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar619-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar619.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar619.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc303</title>
+        </titleStmt>
+        <extent wordCount="4109"/>
+        <sourceDesc>
+           <title>
+           Mechanical ventilation in rural ICUs
+           </title>
+            <author>John F Fieselmann</author>
+            <author>M Jeanne Bock</author>
+            <author>Michael S Hendryx</author>
+            <author>Douglas Wakefield</author>
+            <author>Charles M Helms</author>
+            <author>Suzanne E Bentler</author>
+            <publisher>Crit Care</publisher>
+            <pubDate>1999</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url">http://ccforum.com</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Crit Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc303.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc303.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc303-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc303-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc303-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc303.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc303.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

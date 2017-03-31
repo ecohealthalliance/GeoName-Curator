@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>bcr285</title>
+        </titleStmt>
+        <extent wordCount="4643"/>
+        <sourceDesc>
+           <title>
+           An investigation of soy intake and mammographic characteristics in
+           Hawaii
+           </title>
+            <author>Gertraud Maskarinec</author>
+            <author>Lixin Meng</author>
+            <publisher>Breast Cancer Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-5411</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Breast Cancer Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="bcr285.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="bcr285.txt" type="content">Text content</annotation>
+            <annotation ann.loc="bcr285-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="bcr285-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="bcr285-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="bcr285.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="bcr285.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

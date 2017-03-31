@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0" xmlns:lnk="http://www.w3.org/1999/xlink"
+    version="1.0" creator="NI" date.created="10-11-2010" type="corpus">
+    <fileDesc>
+        <titleStmt>
+            <title>Open American National Corpus (OANC)</title>
+            <respStmt>
+                <resp lnk:href="http://www.anc.org">American National Corpus Project</resp>
+            </respStmt>
+        </titleStmt>
+        <editionStmt version="2.0"/>
+        <extent wordCount="14,623,927"/>
+        <publicationStmt>
+            <distributor>American National Corpus Project</distributor>
+            <pubAddress>Department of Computer Science, Vassar College, Poughkeepsie, New York
+                12604-0732 USA</pubAddress>
+            <fax>+1 (845) 437 7498</fax>
+            <eAddress>anc@cs.vassar.edu</eAddress>
+            <pubDate value="2010-10-01"/>
+            <availability lnk:href="http://www.anc.org/OANC" status="free"/>
+        </publicationStmt>
+    </fileDesc>
+    <encodingDesc>
+        <projectDesc>The Open American National Corpus currently includes nearly 15 million 
+            words of contemporary American English, all of which contain automatically produced 
+            annotations for a variety of linguistic phenomena.</projectDesc>
+        <samplingDecl> The original texts in the OANC are drawn from the Second Release of The
+            American National Corpus (ANC), which includes written texts and spoken transcripts of 
+            American English produced since 1990. The OANC includes a broad range of genres.
+            </samplingDecl>
+        <editorialDecl>
+            <transduction>OANC data is derived from original electronic versions in a wide variety of
+            formats, including but not limited to Quark Express, XML, Microsoft Word, Portable
+            Document Format (PDF), HTML, and plain text. Transduction procedures vary depending on
+            the original format.</transduction>
+            <correction>As little correction or other editorial modification as possible is 
+            applied to the text themselves. Corrections to the text are either made in standoff 
+            documents containing the corrected version, or are reflected in values of segmentation, 
+            token, sentence, or other segmental unit, and/or part of speech annotation.</correction>
+            <segmentation>The data are segmented into minimal regions spanning the primary data. 
+            Minimal regions are identified as the smallest unit any of the tokenizations applied to
+            data references. Token annotations reference these regions as appropriate. Sentences 
+            reference regions in primary data.</segmentation> 
+        </editorialDecl>
+        <classDecl>
+            <!-- Category codes are referenced in the header of each primary data document -->
+            <taxonomy id="OANC">
+                <category id="WR">
+                    <catDesc>Written</catDesc>
+                    <category id="JO">
+                        <catDesc>journal</catDesc>
+                    </category>
+                    <category id="FC">
+                        <catDesc>fiction</catDesc>
+                    </category>
+                    <category id="NF">
+                        <catDesc>non-fiction</catDesc>
+                    </category>
+                    <category id="TG">
+                        <catDesc>travel guides</catDesc>
+                    </category>
+                    <category id="NP">
+                        <catDesc>newspaper/newswire</catDesc>
+                    </category>
+                    <category id="BL">
+                        <catDesc>web logs (blogs)</catDesc>
+                    </category>
+                    <category id="TC">
+                        <catDesc>technical documents</catDesc>
+                    </category>
+                    <category id="GV">
+                        <catDesc>government documents</catDesc>
+                    </category>
+                    <category id="LT">
+                        <catDesc>letters</catDesc>
+                    </category>
+                    <category id="IM">
+                        <catDesc>instruction manuals</catDesc>
+                    </category>
+                    <category id="EM">
+                        <catDesc>email messages</catDesc>
+                    </category>
+                    <category id="CW">
+                        <catDesc>creative writing</catDesc>
+                    </category>
+                    <category id="ES">
+                        <catDesc>essays</catDesc>
+                    </category>
+                </category>
+                <category id="SP">
+                    <catDesc>spoken</catDesc>
+                    <category id="TR">
+                        <catDesc>normalized transcriptions</catDesc>
+                    </category>
+                    <category id="AD">
+                        <catDesc>academic discourse</catDesc>
+                    </category>
+                    <category id="TP">
+                        <catDesc>conversational telephone speech</catDesc>
+                    </category>
+                    <category id="IN">
+                        <catDesc>interview</catDesc>
+                    </category>
+                    <category id="FF">
+                        <catDesc>face-to-face</catDesc>
+                    </category>
+                    <category id="BN">
+                        <catDesc>broadcast news</catDesc>
+                    </category>
+                    <category id="BC">
+                        <catDesc>broadcast conversation</catDesc>
+                    </category>
+                </category>
+            </taxonomy>
+        </classDecl>
+    </encodingDesc>
+    <corpusProfile>
+        <fileStruct>
+            <!-- The following information identifies the files included in the corpus, 
+                their content types, and dependencies -->
+            <fileType kind="primary" medium="text"/>
+            <fileType name="seg" suffix="seg" a.types="seg" medium="xml">
+                <requires f.type="primary"/>
+            </fileType>
+            <fileType name="logical" suffix="logical" a.type="logical" medium="xml">
+                <requires f.type="primary"/>
+            </fileType>
+            <fileType name="hepple" suffix="hepple" a.type="hepple" medium="xml">
+                <requires f.type="seg"/>
+            </fileType>
+            <fileType name="nounchunks" suffix="nc" a.type="nounchunks" medium="xml">
+                <requires f.type="hepple"/>
+            </fileType>
+            <fileType name="verbchunks" suffix="vc" a.type="verbchunks" medium="xml">
+                <requires f.type="hepple"/>
+            </fileType>
+            <fileType name="sentence" suffix="s" a.type="sentence" medium="xml">
+                <requires f.type="primary"/>
+            </fileType>
+        </fileStruct>
+        <annotationSets>
+            <annotationSet xml:id="xces" lnk:href="http://www.xces.org/schema/2003">
+                <annotation name="seg" layer="seg">
+                    <a.desc>Segmentation into minimal token components</a.desc>
+                    <a.resp lnk:href="http://www.anc.org">ANC project</a.resp>
+                    <a.method type=""/>
+                    <a.doc lnk:href=""/>
+                </annotation>
+                <annotation name="logical" layer="seg">
+                    <a.desc>Segmentation into logical elements (paragraph, section, etc.)</a.desc>
+                    <a.resp lnk:href="http://www.anc.org">ANC project</a.resp>
+                    <a.method type="automatic-validated"/>
+                    <a.doc lnk:href=""/>
+                </annotation>
+                <annotation name="nc" layer="syntax">
+                    <a.desc>noun chunks (shallow parse)</a.desc>
+                    <a.resp lnk:href="http://www.anc.org">ANC project</a.resp>
+                    <a.method type="automatic-validated"/>
+                    <a.doc lnk:href="https://www.anc.org/wiki/wiki/NounChunks"/>
+                </annotation>
+                <annotation name="vc" layer="syntax">
+                    <a.desc>verb chunks (shallow parse)</a.desc>
+                    <a.resp lnk:href="http://www.anc.org">ANC project</a.resp>
+                    <a.method type="automatic-validated"/>
+                    <a.doc lnk:href="https://www.anc.org/wiki/wiki/VerbChunks"/>
+                </annotation>
+                <annotation name="s" layer="seg">
+                    <a.desc>sentence boundaries</a.desc>
+                    <a.resp lnk:href="http://www.anc.org">ANC project</a.resp>
+                    <a.method type="automatic-validated"/>
+                    <a.doc lnk:href=""/>
+                </annotation>
+                <annotation name="hepple" layer="tok-msd">
+                    <a.desc>Tokenization and Penn POS tags produced by GATE-5.0 ANNIE
+                        application</a.desc>
+                    <a.resp lnk:href="http://www.anc.org">ANC project</a.resp>
+                    <a.method type="automatic-validated"/>
+                    <a.doc lnk:href="http://gate.ac.uk/sale/tao/splitli1.html#QQ2-9-156"/>
+                    <a.doc lnk:href="http://gate.ac.uk/sale/tao/splitch6.html#x9-1410006.6"/>
+                </annotation>
+            </annotationSet>
+        </annotationSets>
+        <media>
+            <medium xml:id="text" type="text/plain" encoding="utf-8" suffix=".txt"/>
+            <medium xml:id="xml" type="text/xml" encoding="utf-8" suffix=".xml"/>
+        </media>
+        <anchorTypes>
+            <anchorType medium="text" default="true"
+                lnk:href="http://www.xces.org/ns/GrAF/1.0/#character-anchor"/>
+        </anchorTypes>
+        <layers>
+            <layer name="seg" ref="text">
+                <l.desc>Base segmentation of primary data</l.desc>
+            </layer>
+            <layer name="tok-msd" ref="seg">
+                <l.desc>Tokens with part of speech tags</l.desc>
+            </layer>
+            <layer name="syntax" ref="tok-msd">
+                <l.desc>Syntactic analysis</l.desc>
+            </layer>
+            <layer name="sem" ref="tok-msd">
+                <l.desc>Semantic analysis</l.desc>  
+            </layer>
+        </layers>
+    </corpusProfile>
+</cesHeader>

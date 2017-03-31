@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Heliox improves pulmonary mechanics in a pediatric porcine model of
+        induced severe bronchospasm and independent lung mechanical
+        ventilation
+      </title>
+            <author>Anthony J Orsini</author>
+            <author>John L Stefano</author>
+            <author>Kathleen H Leef</author>
+            <author>Melinda Jasani</author>
+            <author>Andrew Ginn</author>
+            <author>Lisa Tice</author>
+            <author>Vinay M Nadkarni</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Crit Care</publisher>
+                        <pubDate>1999</pubDate>
+                        <idno type="issn">1364-8535</idno>
+                        <eAddress type="url">http://ccforum.com</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Crit Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="cc311.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc311-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc311-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc311-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc311.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc311.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

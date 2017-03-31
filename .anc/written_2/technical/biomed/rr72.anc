@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Fibroblasts and monocyte macrophages contract and degrade
+        three-dimensional collagen gels in extended co-culture
+      </title>
+            <author>Yunkui Zhu</author>
+            <author>C Sköld</author>
+            <author>Xiangde Liu</author>
+            <author>Hangjun Wang</author>
+            <author>Tadashi Kohyama</author>
+            <author>Fu-Qiang Wen</author>
+            <author>Ronald Ertl</author>
+            <author>Stephen Rennard</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Respir Res</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1465-9921</idno>
+                        <eAddress type="url">http://respiratory-research.com/content/2/5/295</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Respir Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="rr72.txt" type="content">Text content</annotation>
+            <annotation ann.loc="rr72-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="rr72-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="rr72-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="rr72.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="rr72.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

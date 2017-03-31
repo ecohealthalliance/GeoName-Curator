@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2002-3-12-research0086</title>
+        </titleStmt>
+        <extent wordCount="10309"/>
+        <sourceDesc>
+           <title>
+           Assessing the impact of comparative genomic sequence data on the
+           functional annotation of the 
+           Drosophilagenome
+           </title>
+            <author>Casey Bergman</author>
+            <author>Barret Pfeiffer</author>
+            <author>Diego Rincón-Limas</author>
+            <author>Roger Hoskins</author>
+            <author>Andreas Gnirke</author>
+            <author>Chris Mungall</author>
+            <author>Adrienne Wang</author>
+            <author>Brent Kronmiller</author>
+            <author>Joanne Pacleb</author>
+            <author>Soo Park</author>
+            <author>Mark Stapleton</author>
+            <author>Kenneth Wan</author>
+            <author>Reed George</author>
+            <author>Pieter de Jong</author>
+            <author>Juan Botas</author>
+            <author>Gerald Rubin</author>
+            <author>Susan Celniker</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2002/3/12/research/0086</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2002-3-12-research0086.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2002-3-12-research0086.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0086-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0086-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0086-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0086.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0086.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

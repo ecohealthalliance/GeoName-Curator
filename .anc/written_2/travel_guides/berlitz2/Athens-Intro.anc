@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-08-29"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>Athens</title>
+        </titleStmt>
+        <extent wordCount="1475"/>
+        <sourceDesc>
+            <title>Athens</title>
+            <publisher>Langenscheidt</publisher>
+            <pubPlace>USA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TG">
+            <domain>Leisure</domain>
+            <subdomain>Travel</subdomain>
+            <subject>Introduction</subject>
+            <audience>Adult</audience>
+            <medium>Book</medium>
+        </textClass>
+        <primaryData loc="Athens-Intro.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="Athens-Intro.txt" type="content">Text content</annotation>
+            <annotation ann.loc="Athens-Intro-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="Athens-Intro-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="Athens-Intro-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="Athens-Intro-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="Athens-Intro-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+    <revisionDesc>
+        <change>
+            <changeDate>2005-05-02</changeDate>
+            <respName>Keith Suderman</respName>
+            <item>Updated to v1.0.4 with complete standoff markup</item>
+            <item>Added Hepple part of speech tags</item>
+            <item>Fixed sentence boundaries</item>
+        </change>
+        <change>
+            <changeDate>2007-11-02</changeDate>
+            <respName>Keith Suderman</respName>
+            <item>Added validated sentence annotations</item>
+        </change>
+    </revisionDesc>
+</cesHeader>

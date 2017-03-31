@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Comparison of complete nuclear receptor sets from the human, 
+        Caenorhabditis elegansand 
+        Drosophilagenomes
+      </title>
+            <author>Jodi Maglich</author>
+            <author>Ann Sluder</author>
+            <author>Xiaojun Guan</author>
+            <author>Yunling Shi</author>
+            <author>David McKee</author>
+            <author>Kevin Carrick</author>
+            <author>Kim Kamdar</author>
+            <author>Timothy Willson</author>
+            <author>John Moore</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Genome Biology</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1465-6906</idno>
+                        <eAddress type="url">http://genomebiology.com/2001/2/8/research/0029</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="gb-2001-2-8-research0029.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2001-2-8-research0029-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2001-2-8-research0029-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2001-2-8-research0029-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2001-2-8-research0029.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2001-2-8-research0029.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

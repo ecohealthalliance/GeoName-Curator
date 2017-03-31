@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1472-6793-3-6</title>
+        </titleStmt>
+        <extent wordCount="3481"/>
+        <sourceDesc>
+           <title>
+           Chronictreatment with Carvedilol improves ventricular function and
+           reducesmyocyte apoptosis in an animal model of heart failure
+           </title>
+            <author>Chukwuka Okafor</author>
+            <author>Cynthia Perreault-Micale</author>
+            <author>Roger Hajjar</author>
+            <author>Djamel Lebeche</author>
+            <author>Klara Skiroman</author>
+            <author>George Jabbour</author>
+            <author>Angelia Doye</author>
+            <author>Michael Lee</author>
+            <author>Nancy Laste</author>
+            <author>Judith Gwathmey</author>
+            <publisher>BMC Physiology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1472-6793</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1472-6793/3/6</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Physiology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1472-6793-3-6.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1472-6793-3-6.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1472-6793-3-6-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1472-6793-3-6-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1472-6793-3-6-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1472-6793-3-6.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1472-6793-3-6.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

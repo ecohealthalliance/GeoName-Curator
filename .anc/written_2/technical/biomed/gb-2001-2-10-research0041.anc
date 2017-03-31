@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2001-2-10-research0041</title>
+        </titleStmt>
+        <extent wordCount="4728"/>
+        <sourceDesc>
+           <title>
+           Genomic-scale measurement of mRNA turnover and the mechanisms of
+           action of the anti-cancer drug flavopiridol
+           </title>
+            <author>Lloyd Lam</author>
+            <author>Oxana Pickeral</author>
+            <author>Amy Peng</author>
+            <author>Andreas Rosenwald</author>
+            <author>Elaine Hurt</author>
+            <author>Jena Giltnane</author>
+            <author>Lauren Averett</author>
+            <author>Hong Zhao</author>
+            <author>R Eric Davis</author>
+            <author>Mohan Sathyamoorthy</author>
+            <author>Larry Wahl</author>
+            <author>Eric Harris</author>
+            <author>Judy Mikovits</author>
+            <author>Anne Monks</author>
+            <author>Melinda Hollingshead</author>
+            <author>Edward Sausville</author>
+            <author>Louis Staudt</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2001/2/10/research/0041</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2001-2-10-research0041.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2001-2-10-research0041.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2001-2-10-research0041-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2001-2-10-research0041-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2001-2-10-research0041-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2001-2-10-research0041.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2001-2-10-research0041.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Survival of patients transferred to tertiary intensive care from
+        rural community hospitals
+      </title>
+            <author>Stephen Surgenor</author>
+            <author>Howard Corwin</author>
+            <author>Terri Clerico</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Critical Care</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1364-8535</idno>
+                        <eAddress type="url">http://ccforum.com/content/5/2/100</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Critical Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="cc993.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc993-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc993-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc993-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc993.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc993.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

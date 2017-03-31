@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        A simple method for generating full length cDNA from low abundance
+        partial genomic clones
+      </title>
+            <author>Yongxin Wang</author>
+            <author>Joseph Fugaro</author>
+            <author>Fauzia Siddiq</author>
+            <author>Chandra Mouli Goparaju</author>
+            <author>Fulvio Lonardo</author>
+            <author>Anil Wali</author>
+            <author>John Lechner</author>
+            <author>Harvey Pass</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BMC Molecular Biology</publisher>
+                        <pubDate>2000</pubDate>
+                        <idno type="issn">1471-2199</idno>
+                        <eAddress type="url">http://www.biomedcentral.com/1471-2199/1/2</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Molecular Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1471-2199-1-2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2199-1-2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2199-1-2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2199-1-2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2199-1-2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2199-1-2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

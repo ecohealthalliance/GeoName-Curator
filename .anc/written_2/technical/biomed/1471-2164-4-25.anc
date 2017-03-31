@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2164-4-25</title>
+        </titleStmt>
+        <extent wordCount="2819"/>
+        <sourceDesc>
+           <title>
+           A transcription map of the 6p22.3 reading disability locus
+           identifying candidate genes
+           </title>
+            <author>Eric Londin</author>
+            <author>Haiying Meng</author>
+            <author>Jeffrey Gruen</author>
+            <publisher>BMC Genomics</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-2164</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2164/4/25</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Genomics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2164-4-25.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2164-4-25.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2164-4-25-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2164-4-25-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2164-4-25-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2164-4-25.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2164-4-25.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

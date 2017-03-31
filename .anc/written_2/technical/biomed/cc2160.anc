@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc2160</title>
+        </titleStmt>
+        <extent wordCount="2294"/>
+        <sourceDesc>
+           <title>
+           Multivariate analysis of risk factors for QT prolongation following
+           subarachnoid hemorrhage
+           </title>
+            <author>Shinji Fukui</author>
+            <author>Hiroshi Katoh</author>
+            <author>Nobusuke Tsuzuki</author>
+            <author>Shoichiro Ishihara</author>
+            <author>Naoki Otani</author>
+            <author>Hidetoshi Ooigawa</author>
+            <author>Terushige Toyooka</author>
+            <author>Akira Ohnuki</author>
+            <author>Takahito Miyazawa</author>
+            <author>Hiroshi Nawashiro</author>
+            <author>Katsuji Shima</author>
+            <publisher>Critical Care</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Critical Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc2160.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc2160.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc2160-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc2160-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc2160-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc2160.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc2160.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

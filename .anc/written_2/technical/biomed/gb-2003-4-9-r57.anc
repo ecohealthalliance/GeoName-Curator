@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2003-4-9-r57</title>
+        </titleStmt>
+        <extent wordCount="4920"/>
+        <sourceDesc>
+           <title>
+           The source of laterally transferred genes in bacterial genomes
+           </title>
+            <author>Vincent Daubin</author>
+            <author>Emmanuelle Lerat</author>
+            <author>Guy Perrière</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2003/4/9/R57</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2003-4-9-r57.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2003-4-9-r57.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2003-4-9-r57-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2003-4-9-r57-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2003-4-9-r57-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2003-4-9-r57.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2003-4-9-r57.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>rr37</title>
+        </titleStmt>
+        <extent wordCount="3948"/>
+        <sourceDesc>
+           <title>
+           Risk factors for hospitalization among adults with asthma: the
+           influence of sociodemographic factors and asthma severity
+           </title>
+            <author>Mark Eisner</author>
+            <author>Patricia Katz</author>
+            <author>Edward Yelin</author>
+            <author>Stephen Shiboski</author>
+            <author>Paul Blanc</author>
+            <publisher>Respir Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9921</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Respir Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="rr37.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="rr37.txt" type="content">Text content</annotation>
+            <annotation ann.loc="rr37-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="rr37-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="rr37-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="rr37.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="rr37.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

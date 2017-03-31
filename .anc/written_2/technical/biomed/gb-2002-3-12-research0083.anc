@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2002-3-12-research0083</title>
+        </titleStmt>
+        <extent wordCount="11081"/>
+        <sourceDesc>
+           <title>
+           Annotation of the 
+           Drosophila melanogastereuchromatic genome: a systematic
+           review
+           </title>
+            <author>Sima Misra</author>
+            <author>Madeline Crosby</author>
+            <author>Christopher Mungall</author>
+            <author>Beverley Matthews</author>
+            <author>Kathryn Campbell</author>
+            <author>Pavel Hradecky</author>
+            <author>Yanmei Huang</author>
+            <author>Joshua Kaminker</author>
+            <author>Gillian Millburn</author>
+            <author>Simon Prochnik</author>
+            <author>Christopher Smith</author>
+            <author>Jonathan Tupy</author>
+            <author>Eleanor Whitfield</author>
+            <author>Leyla Bayraktaroglu</author>
+            <author>Benjamin Berman</author>
+            <author>Brian Bettencourt</author>
+            <author>Susan Celniker</author>
+            <author>Aubrey de Grey</author>
+            <author>Rachel Drysdale</author>
+            <author>Nomi Harris</author>
+            <author>John Richter</author>
+            <author>Susan Russo</author>
+            <author>Andrew Schroeder</author>
+            <author>ShengQiang Shu</author>
+            <author>Mark Stapleton</author>
+            <author>Chihiro Yamada</author>
+            <author>Michael Ashburner</author>
+            <author>William Gelbart</author>
+            <author>Gerald Rubin</author>
+            <author>Suzanna Lewis</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2002/3/12/research/0083</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2002-3-12-research0083.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2002-3-12-research0083.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0083-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0083-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0083-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0083.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2002-3-12-research0083.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

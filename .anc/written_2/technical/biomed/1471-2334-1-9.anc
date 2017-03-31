@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2334-1-9</title>
+        </titleStmt>
+        <extent wordCount="2554"/>
+        <sourceDesc>
+           <title>
+           Differences in time of virus appearance in the blood and
+           virus-specific immune responses in intravenous and intrarectal primary
+           SIV
+           mac251infection of rhesus macaques; a pilot study
+           </title>
+            <author>Liljana Stevceva</author>
+            <author>Elzbieta Tryniszewska</author>
+            <author>Zdenek Hel</author>
+            <author>Janos Nacsa</author>
+            <author>Brian Kelsall</author>
+            <author>Robyn Washington Parks</author>
+            <author>Genoveffa Franchini</author>
+            <publisher>BMC Infectious Diseases</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1471-2334</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2334/1/9</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Infectious Diseases</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2334-1-9.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2334-1-9.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2334-1-9-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2334-1-9-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2334-1-9-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2334-1-9.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2334-1-9.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2334-2-7</title>
+        </titleStmt>
+        <extent wordCount="3502"/>
+        <sourceDesc>
+           <title>
+           Assessing the contribution of the herpes simplex virus DNA
+           polymerase to spontaneous mutations
+           </title>
+            <author>Karen Duffy</author>
+            <author>Matthew Quail</author>
+            <author>Tammy Nguyen</author>
+            <author>Robert Wittrock</author>
+            <author>Joan Bartus</author>
+            <author>Wendy Halsey</author>
+            <author>Jeffry Leary</author>
+            <author>Teresa Bacon</author>
+            <author>Robert Sarisky</author>
+            <publisher>BMC Infectious Diseases</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1471-2334</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2334/2/7</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Infectious Diseases</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2334-2-7.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2334-2-7.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2334-2-7-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2334-2-7-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2334-2-7-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2334-2-7.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2334-2-7.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

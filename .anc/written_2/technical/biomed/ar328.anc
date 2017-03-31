@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar328</title>
+        </titleStmt>
+        <extent wordCount="2088"/>
+        <sourceDesc>
+           <title>
+           High frequency of association of rheumatic/autoimmune diseases and
+           untreated male hypogonadism with severe testicular dysfunction
+           </title>
+            <author>F Javier Jimenez-Balderas</author>
+            <author>Rosario Tapia-Serrano</author>
+            <author>M Eugenia Fonseca</author>
+            <author>Jorge Arellano</author>
+            <author>Arturo Beltran</author>
+            <author>Patricia Yañez</author>
+            <author>Adolfo Camargo-Coronel</author>
+            <author>Antonio Fraga</author>
+            <publisher>Arthritis Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar328.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar328.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar328-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar328-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar328-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar328.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar328.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2261-3-4</title>
+        </titleStmt>
+        <extent wordCount="5781"/>
+        <sourceDesc>
+           <title>
+           The rat 
+           STSLlocus: characterization, chromosomal assignment, and
+           genetic variations in sitosterolemic hypertensive rats
+           </title>
+            <author>Hongwei Yu</author>
+            <author>Bhaswati Pandit</author>
+            <author>Eric Klett</author>
+            <author>Mi-Hye Lee</author>
+            <author>Kangmo Lu</author>
+            <author>Khalil Helou</author>
+            <author>Ikuo Ikeda</author>
+            <author>Nami Egashira</author>
+            <author>Masao Sato</author>
+            <author>Richard Klein</author>
+            <author>Ashok Batta</author>
+            <author>Gerald Salen</author>
+            <author>Shailendra Patel</author>
+            <publisher>BMC Cardiovascular Disorders</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-2261</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2261/3/4</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Cardiovascular Disorders</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2261-3-4.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2261-3-4.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2261-3-4-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2261-3-4-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2261-3-4-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2261-3-4.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2261-3-4.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

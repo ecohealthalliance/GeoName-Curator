@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>bcr294</title>
+        </titleStmt>
+        <extent wordCount="3207"/>
+        <sourceDesc>
+           <title>
+           Allelic loss on chromosome band 18p11.3 occurs early and reveals
+           heterogeneity in breast cancer progression
+           </title>
+            <author>Kanokwan Kittiniyom</author>
+            <author>Karen Gorse</author>
+            <author>Fabienne Dalbegue</author>
+            <author>Jack Lichy</author>
+            <author>Jeffery Taubenberger</author>
+            <author>Irene Newsham</author>
+            <publisher>Breast Cancer Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-5411</idno>
+            <eAddress type="url">http://breast-cancer-research.com/content/3/3/192</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Breast Cancer Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="bcr294.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="bcr294.txt" type="content">Text content</annotation>
+            <annotation ann.loc="bcr294-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="bcr294-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="bcr294-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="bcr294.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="bcr294.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

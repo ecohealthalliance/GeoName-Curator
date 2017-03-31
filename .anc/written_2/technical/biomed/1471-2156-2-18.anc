@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2156-2-18</title>
+        </titleStmt>
+        <extent wordCount="4699"/>
+        <sourceDesc>
+           <title>
+           Haploinsufficient 
+           Bmp4ocular phenotypes include anterior segment dysgenesis with
+           elevated intraocular pressure
+           </title>
+            <author>Bo Chang</author>
+            <author>Richard Smith</author>
+            <author>Maureen Peters</author>
+            <author>Olga Savinova</author>
+            <author>Norman Hawes</author>
+            <author>Adriana Zabaleta</author>
+            <author>Steven Nusinowitz</author>
+            <author>Janice Martin</author>
+            <author>Muriel Davisson</author>
+            <author>Constance Cepko</author>
+            <author>Brigid Hogan</author>
+            <author>Simon John</author>
+            <publisher>BMC Genetics</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1471-2156</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2156/2/18</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Genetics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2156-2-18.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2156-2-18.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2156-2-18-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2156-2-18-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2156-2-18-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2156-2-18.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2156-2-18.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

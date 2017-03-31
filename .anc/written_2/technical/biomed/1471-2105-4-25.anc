@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2105-4-25</title>
+        </titleStmt>
+        <extent wordCount="2564"/>
+        <sourceDesc>
+           <title>
+           AGRIS: Arabidopsis Gene Regulatory Information Server, an
+           information resource of Arabidopsis 
+           cis-regulatory elements and transcription factors
+           </title>
+            <author>Ramana Davuluri</author>
+            <author>Hao Sun</author>
+            <author>Saranyan Palaniswamy</author>
+            <author>Nicole Matthews</author>
+            <author>Carlos Molina</author>
+            <author>Mike Kurtz</author>
+            <author>Erich Grotewold</author>
+            <publisher>BMC Bioinformatics</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-2105</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2105/4/25</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Bioinformatics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2105-4-25.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2105-4-25.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2105-4-25-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2105-4-25-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2105-4-25-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2105-4-25.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2105-4-25.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

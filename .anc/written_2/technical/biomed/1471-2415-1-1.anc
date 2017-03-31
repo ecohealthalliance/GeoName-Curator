@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Atypical Herpes simplex keratitis (HSK) presenting as a perforated
+        corneal ulcer with a large infiltrate in a contact lens wearer:
+        multinucleated giant cells in the Giemsa smear offered a clue to the
+        diagnosis
+      </title>
+            <author>Sreedharan Athmanathan</author>
+            <author>Veenashree Pranesh</author>
+            <author>Gunisha Pasricha</author>
+            <author>Prashant Garg</author>
+            <author>Geeta Vemuganti</author>
+            <author>Savitri Sharma</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BMC Ophthalmology</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1471-2415</idno>
+                        <eAddress type="url">http://www.biomedcentral.com/1471-2415/1/1</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Ophthalmology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1471-2415-1-1.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2415-1-1-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2415-1-1-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2415-1-1-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2415-1-1.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2415-1-1.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

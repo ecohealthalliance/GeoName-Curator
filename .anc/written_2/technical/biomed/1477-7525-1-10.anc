@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1477-7525-1-10</title>
+        </titleStmt>
+        <extent wordCount="2742"/>
+        <sourceDesc>
+           <title>
+           Impact of stress reduction on negative school behavior in
+           adolescents
+           </title>
+            <author>Vernon Barnes</author>
+            <author>Lynnette Bauza</author>
+            <author>Frank Treiber</author>
+            <publisher>Health and Quality of Life Outcomes</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1477-7525</idno>
+            <eAddress type="url">http://www.hqlo.com/content/1/1/10</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Health and Quality of Life Outcomes</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1477-7525-1-10.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1477-7525-1-10.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1477-7525-1-10-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1477-7525-1-10-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1477-7525-1-10-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1477-7525-1-10.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1477-7525-1-10.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

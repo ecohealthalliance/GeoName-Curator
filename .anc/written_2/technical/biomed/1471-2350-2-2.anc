@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2350-2-2</title>
+        </titleStmt>
+        <extent wordCount="3142"/>
+        <sourceDesc>
+           <title>
+           The vitamin D receptor polymorphism in the translation initiation
+           codon is a risk factor for insulin resistance in glucose tolerant
+           Caucasians
+           </title>
+            <author>Ken Chiu</author>
+            <author>Lee-Ming Chuang</author>
+            <author>Carol Yoon</author>
+            <publisher>BMC Medical Genetics</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1471-2350</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2350/2/2</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Medical Genetics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2350-2-2.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2350-2-2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2350-2-2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2350-2-2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2350-2-2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2350-2-2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2350-2-2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

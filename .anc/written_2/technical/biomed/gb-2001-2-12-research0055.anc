@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2001-2-12-research0055</title>
+        </titleStmt>
+        <extent wordCount="6220"/>
+        <sourceDesc>
+           <title>
+           Evaluation of normalization procedures for oligonucleotide array
+           data based on spiked cRNA controls
+           </title>
+            <author>Andrew Hill</author>
+            <author>Eugene Brown</author>
+            <author>Maryann Whitley</author>
+            <author>Greg Tucker-Kellogg</author>
+            <author>Craig Hunter</author>
+            <author>Donna Slonim</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2001/2/12/research/0055</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2001-2-12-research0055.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2001-2-12-research0055.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2001-2-12-research0055-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2001-2-12-research0055-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2001-2-12-research0055-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2001-2-12-research0055.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2001-2-12-research0055.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

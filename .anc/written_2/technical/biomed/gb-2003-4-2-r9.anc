@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2003-4-2-r9</title>
+        </titleStmt>
+        <extent wordCount="6596"/>
+        <sourceDesc>
+           <title>
+           Expression profiling of the schizont and trophozoite stages of 
+           Plasmodium falciparumwith a long-oligonucleotide
+           microarray
+           </title>
+            <author>Zbynek Bozdech</author>
+            <author>Jingchun Zhu</author>
+            <author>Marcin Joachimiak</author>
+            <author>Fred Cohen</author>
+            <author>Brian Pulliam</author>
+            <author>Joseph DeRisi</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2003/4/2/R9</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2003-4-2-r9.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2003-4-2-r9.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2003-4-2-r9-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2003-4-2-r9-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2003-4-2-r9-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2003-4-2-r9.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2003-4-2-r9.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

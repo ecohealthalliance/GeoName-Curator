@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1472-6963-3-1</title>
+        </titleStmt>
+        <extent wordCount="3414"/>
+        <sourceDesc>
+           <title>
+           Toward estimating the impact of changes in immigrants' insurance
+           eligibility on hospital expenditures for uncompensated care
+           </title>
+            <author>Liana Castel</author>
+            <author>Justin Timbie</author>
+            <author>Veronica Sendersky</author>
+            <author>Lesley Curtis</author>
+            <author>Keith Feather</author>
+            <author>Kevin Schulman</author>
+            <publisher>BMC Health Services Research</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1472-6963</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1472-6963/3/1</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Health Services Research</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1472-6963-3-1.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1472-6963-3-1.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1472-6963-3-1-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1472-6963-3-1-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1472-6963-3-1-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1472-6963-3-1.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1472-6963-3-1.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar140</title>
+        </titleStmt>
+        <extent wordCount="5023"/>
+        <sourceDesc>
+           <title>
+           Rheumatoid synovial CD4
+           +T cells exhibit a reduced capacity to differentiate into
+           IL-4-producing T-helper-2 effector cells
+           </title>
+            <author>Laurie Davis</author>
+            <author>John Cush</author>
+            <author>Hendrik Schulze-Koops</author>
+            <author>Peter Lipsky</author>
+            <publisher>Arthritis Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/3/1/054</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar140.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar140.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar140-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar140-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar140-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar140.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar140.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

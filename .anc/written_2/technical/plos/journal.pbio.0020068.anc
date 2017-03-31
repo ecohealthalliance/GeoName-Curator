@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="NMI" date.created="2005-09-18"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>journal.pbio.0020068</title>
+        </titleStmt>
+        <extent wordCount="2163"/>
+        <sourceDesc>
+            <title>Endosymbiosis: Lessons in Conflict Resolution</title>
+            <author>Jennifer J Wernegreen</author>
+            <idno type="issn">1544-9173</idno>
+            <pubPlace>San Francisco, CA</pubPlace>
+            <publisher type="org">Public Library of Science</publisher>
+            <pubDate value="2004-03-00">3, 2004</pubDate>
+            <pubName>PLoS Medicine</pubName>
+            <pubPlace>San Francisco, CA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR JO">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Ecology</subject>
+            <subject>Evolution</subject>
+            <subject>Genetics/Genomics/Gene Therapy</subject>
+            <subject>Microbiology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="journal.pbio.0020068.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="journal.pbio.0020068.txt" type="content">Text content</annotation>
+            <annotation ann.loc="journal.pbio.0020068-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="journal.pbio.0020068-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="journal.pbio.0020068-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="journal.pbio.0020068-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="journal.pbio.0020068-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

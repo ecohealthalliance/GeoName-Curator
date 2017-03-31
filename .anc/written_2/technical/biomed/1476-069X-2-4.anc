@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1476-069X-2-4</title>
+        </titleStmt>
+        <extent wordCount="6816"/>
+        <sourceDesc>
+           <title>
+           The public health benefits of insulation retrofits in existing
+           housing in the United States
+           </title>
+            <author>Jonathan Levy</author>
+            <author>Yurika Nishioka</author>
+            <author>John Spengler</author>
+            <publisher>Environmental Health: A Global Access Science Source</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1476-069X</idno>
+            <eAddress type="url">http://www.ehjournal.net/content/2/1/4</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Environmental Health: A Global Access Science Source</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1476-069X-2-4.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1476-069X-2-4.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1476-069X-2-4-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1476-069X-2-4-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1476-069X-2-4-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1476-069X-2-4.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1476-069X-2-4.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

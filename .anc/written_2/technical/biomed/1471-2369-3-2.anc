@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Angiotensin converting enzyme inhibitor therapy in children with
+        Alport syndrome: effect on urinary albumin, TGF-β, and nitrite
+        excretion
+      </title>
+            <author>Liora Adler</author>
+            <author>Roy Mathew</author>
+            <author>Stephen Futterweit</author>
+            <author>Rachel Frank</author>
+            <author>Bernard Gauthier</author>
+            <author>Clifford Kashtan</author>
+            <author>Howard Trachtman</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BMC Nephrology</publisher>
+                        <pubDate>2002</pubDate>
+                        <idno type="issn">1471-2369</idno>
+                        <eAddress type="url">http://www.biomedcentral.com/1471-2369/3/2</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Nephrology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1471-2369-3-2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2369-3-2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2369-3-2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2369-3-2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2369-3-2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2369-3-2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

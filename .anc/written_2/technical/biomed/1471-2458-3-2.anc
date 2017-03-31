@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2458-3-2</title>
+        </titleStmt>
+        <extent wordCount="4165"/>
+        <sourceDesc>
+           <title>
+           Endemic cryptosporidiosis and exposure to municipal tap water in
+           persons with acquired immunodeficiency syndrome (AIDS): A case-control
+           study
+           </title>
+            <author>Tomás Aragón</author>
+            <author>Suzanne Novotny</author>
+            <author>Wayne Enanoria</author>
+            <author>Duc Vugia</author>
+            <author>Asheena Khalakdina</author>
+            <author>Mitchell Katz</author>
+            <publisher>BMC Public Health</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-2458</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2458/3/2</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Public Health</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2458-3-2.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2458-3-2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2458-3-2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2458-3-2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2458-3-2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2458-3-2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2458-3-2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

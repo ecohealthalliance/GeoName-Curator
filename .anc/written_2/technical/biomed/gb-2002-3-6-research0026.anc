@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Physical mapping of genes in somatic cell radiation hybrids by
+        comparative genomic hybridization to cDNA microarrays
+      </title>
+            <author>Johann Lin</author>
+            <author>Jonathan Pollack</author>
+            <author>Fan-Li Chou</author>
+            <author>Christian Rees</author>
+            <author>Allen Christian</author>
+            <author>Joel Bedford</author>
+            <author>Patrick Brown</author>
+            <author>Mark Ginsberg</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Genome Biology</publisher>
+                        <pubDate>2002</pubDate>
+                        <idno type="issn">1465-6906</idno>
+                        <eAddress type="url">http://genomebiology.com/2002/3/6/research/0026</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="gb-2002-3-6-research0026.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2002-3-6-research0026-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2002-3-6-research0026-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2002-3-6-research0026-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2002-3-6-research0026.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2002-3-6-research0026.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

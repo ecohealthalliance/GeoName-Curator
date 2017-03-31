@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2003-4-2-r14</title>
+        </titleStmt>
+        <extent wordCount="6656"/>
+        <sourceDesc>
+           <title>
+           Lateral gene transfer and ancient paralogy of operons containing
+           redundant copies of tryptophan-pathway genes in 
+           Xylellaspecies and in heterocystous cyanobacteria
+           </title>
+            <author>Gary Xie</author>
+            <author>Carol Bonner</author>
+            <author>Tom Brettin</author>
+            <author>Raphael Gottardo</author>
+            <author>Nemat Keyhani</author>
+            <author>Roy Jensen</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2003/4/2/R14</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2003-4-2-r14.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2003-4-2-r14.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2003-4-2-r14-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2003-4-2-r14-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2003-4-2-r14-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2003-4-2-r14.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2003-4-2-r14.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

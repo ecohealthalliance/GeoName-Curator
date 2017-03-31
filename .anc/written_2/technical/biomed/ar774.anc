@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar774</title>
+        </titleStmt>
+        <extent wordCount="3164"/>
+        <sourceDesc>
+           <title>
+           DEK binding to class II MHC Y-box sequences is gene- and
+           allele-specific
+           </title>
+            <author>Barbara Adams</author>
+            <author>Hyuk Cha</author>
+            <author>Joanne Cleary</author>
+            <author>Tan Haiying</author>
+            <author>Hongling Wang</author>
+            <author>Kajal Sitwala</author>
+            <author>David Markovitz</author>
+            <publisher>Arthritis Res Ther</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/5/4/R226</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res Ther</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar774.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar774.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar774-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar774-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar774-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar774.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar774.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

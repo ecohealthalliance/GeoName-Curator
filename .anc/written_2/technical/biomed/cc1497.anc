@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc1497</title>
+        </titleStmt>
+        <extent wordCount="2073"/>
+        <sourceDesc>
+           <title>
+           External validation of a modified model of Acute Physiology and
+           Chronic Health Evaluation (APACHE) II for orthotopic liver transplant
+           patients
+           </title>
+            <author>Yaseen Arabi</author>
+            <author>Adnan Abbasi</author>
+            <author>Radoslaw Goraj</author>
+            <author>Abdulmajeed Al-Abdulkareem</author>
+            <author>Abudullah Shimemeri</author>
+            <author>Munci Kalayoglu</author>
+            <author>Kenneth Wood</author>
+            <publisher>Critical Care</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Critical Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc1497.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc1497.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc1497-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc1497-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc1497-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc1497.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc1497.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

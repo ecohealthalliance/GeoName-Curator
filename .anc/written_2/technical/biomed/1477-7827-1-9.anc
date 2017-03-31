@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1477-7827-1-9</title>
+        </titleStmt>
+        <extent wordCount="6310"/>
+        <sourceDesc>
+           <title>
+           The spatiotemporal expression pattern of the bone morphogenetic
+           protein family in rat ovary cell types during the estrous cycle
+           </title>
+            <author>Gregory Erickson</author>
+            <author>Shunichi Shimasaki</author>
+            <publisher>Reproductive Biology and Endocrinology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1477-7827</idno>
+            <eAddress type="url">http://www.RBEj.com/content/1/1/9</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Reproductive Biology and Endocrinology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1477-7827-1-9.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1477-7827-1-9.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1477-7827-1-9-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1477-7827-1-9-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1477-7827-1-9-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1477-7827-1-9.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1477-7827-1-9.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

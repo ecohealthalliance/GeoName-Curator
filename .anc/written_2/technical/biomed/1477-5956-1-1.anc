@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1477-5956-1-1</title>
+        </titleStmt>
+        <extent wordCount="2901"/>
+        <sourceDesc>
+           <title>
+           Peptides identify multiple hotspots within the ligand binding domain
+           of the TNF receptor 2
+           </title>
+            <author>Ku-chuan Hsiao</author>
+            <author>Renee Brissette</author>
+            <author>Pinger Wang</author>
+            <author>Paul Fletcher</author>
+            <author>Vanessa Rodriguez</author>
+            <author>Michael Lennick</author>
+            <author>Arthur Blume</author>
+            <author>Neil Goldstein</author>
+            <publisher>Proteome Science</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1477-5956</idno>
+            <eAddress type="url">http://www.Proteomesci.com/content/1/1/1</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Proteome Science</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1477-5956-1-1.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1477-5956-1-1.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1477-5956-1-1-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1477-5956-1-1-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1477-5956-1-1-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1477-5956-1-1.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1477-5956-1-1.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

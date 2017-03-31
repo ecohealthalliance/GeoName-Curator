@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2156-3-11</title>
+        </titleStmt>
+        <extent wordCount="2728"/>
+        <sourceDesc>
+           <title>
+           The 
+           Tnfrh1(
+           Tnfrsf23) gene is weakly imprinted in several organs and
+           expressed at the trophoblast-decidua interface
+           </title>
+            <author>Lorraine Clark</author>
+            <author>Michelle Wei</author>
+            <author>Giorgio Cattoretti</author>
+            <author>Cathy Mendelsohn</author>
+            <author>Benjamin Tycko</author>
+            <publisher>BMC Genetics</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1471-2156</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2156/3/11</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Genetics</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2156-3-11.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2156-3-11.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2156-3-11-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2156-3-11-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2156-3-11-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2156-3-11.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2156-3-11.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

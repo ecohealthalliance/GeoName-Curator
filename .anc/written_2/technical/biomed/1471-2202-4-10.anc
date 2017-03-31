@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2202-4-10</title>
+        </titleStmt>
+        <extent wordCount="3894"/>
+        <sourceDesc>
+           <title>
+           Insulin signaling inhibits the 5-HT
+           2Creceptor in choroid plexus via MAP kinase
+           </title>
+            <author>Joyce Hurley</author>
+            <author>Shengwen Zhang</author>
+            <author>Leighan Bye</author>
+            <author>Mark Marshall</author>
+            <author>Anna DePaoli-Roach</author>
+            <author>Kunliang Guan</author>
+            <author>Aaron Fox</author>
+            <author>Lei Yu</author>
+            <publisher>BMC Neuroscience</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1471-2202</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2202/4/10</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Neuroscience</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2202-4-10.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2202-4-10.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2202-4-10-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2202-4-10-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2202-4-10-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2202-4-10.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2202-4-10.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

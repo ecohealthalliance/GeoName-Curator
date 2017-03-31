@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cvm-2-6-278</title>
+        </titleStmt>
+        <extent wordCount="3248"/>
+        <sourceDesc>
+           <title>
+           Therapeutic angiogenesis for cardiovascular disease
+           </title>
+            <author>Yin-Shan Ng</author>
+            <author>Patricia D'Amore</author>
+            <publisher>Curr Control Trials Cardiovasc Med</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1468-6708</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Curr Control Trials Cardiovasc Med</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cvm-2-6-278.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cvm-2-6-278.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cvm-2-6-278-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cvm-2-6-278-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cvm-2-6-278-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cvm-2-6-278.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cvm-2-6-278.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

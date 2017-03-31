@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="NMI" date.created="2005-09-18" version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>Hearing: Travelling Wave or Resonance?</title>
+            <author>Andrew Bell</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Public Library of Science</publisher>
+                        <pubDate>10,
+                                        2004</pubDate>
+                        <idno type="issn">1544-9173</idno>
+                        <pubPlace>San Francisco, CA</pubPlace>
+                        <eAddress type="url">http://www.publiclibraryofscience.com/</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass>
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="journal.pbio.0020337.txt" type="content">Text content</annotation>
+            <annotation ann.loc="journal.pbio.0020337-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="journal.pbio.0020337-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="journal.pbio.0020337-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="journal.pbio.0020337-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="journal.pbio.0020337-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

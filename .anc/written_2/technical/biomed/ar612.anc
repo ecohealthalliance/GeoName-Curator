@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar612</title>
+        </titleStmt>
+        <extent wordCount="3502"/>
+        <sourceDesc>
+           <title>
+           Exposure to receptor-activator of NFκB ligand renders
+           pre-osteoclasts resistant to IFN-γ by inducing terminal
+           differentiation
+           </title>
+            <author>Willis Huang</author>
+            <author>Regis O'Keefe</author>
+            <author>Edward Schwarz</author>
+            <publisher>Arthritis Res Ther</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/5/1/R49</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res Ther</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar612.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar612.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar612-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar612-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar612-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar612.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar612.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

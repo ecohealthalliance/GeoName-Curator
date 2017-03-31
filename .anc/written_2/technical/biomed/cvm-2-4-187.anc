@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cvm-2-4-187</title>
+        </titleStmt>
+        <extent wordCount="3251"/>
+        <sourceDesc>
+           <title>
+           Disagreements between central clinical events committee and site
+           investigator assessments of myocardial infarction endpoints in an
+           international clinical trial: review of the PURSUIT study
+           </title>
+            <author>Kenneth Mahaffey</author>
+            <author>Robert Harrington</author>
+            <author>Martijn Akkerhuis</author>
+            <author>Neal Kleiman</author>
+            <author>Lisa Berdan</author>
+            <author>Brian Crenshaw</author>
+            <author>Barbara Tardiff</author>
+            <author>Christopher Granger</author>
+            <author>Ingrid DeJong</author>
+            <author>Manju Bhapkar</author>
+            <author>Petr Widimsky</author>
+            <author>Ramón Corbalon</author>
+            <author>Kerry Lee</author>
+            <author>Jaap Deckers</author>
+            <author>Maarten Simoons</author>
+            <author>Eric Topol</author>
+            <author>Robert Califf</author>
+            <author/>
+            <publisher>Current Controlled Trials in Cardiovascular Medicine</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1468-6708</idno>
+            <eAddress type="url">http://cvm.controlled-trials.com/content/2/4/194</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Current Controlled Trials in Cardiovascular Medicine</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cvm-2-4-187.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cvm-2-4-187.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cvm-2-4-187-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cvm-2-4-187-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cvm-2-4-187-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cvm-2-4-187.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cvm-2-4-187.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

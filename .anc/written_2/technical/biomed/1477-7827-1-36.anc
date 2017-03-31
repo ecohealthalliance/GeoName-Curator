@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1477-7827-1-36</title>
+        </titleStmt>
+        <extent wordCount="6921"/>
+        <sourceDesc>
+           <title>
+           Placental expression of estrogen receptor beta and its hormone
+           binding variant - comparison with estrogen receptor alpha and a role
+           for estrogen receptors in asymmetric division and differentiation of
+           estrogen-dependent cells
+           </title>
+            <author>Antonin Bukovsky</author>
+            <author>Michael Caudle</author>
+            <author>Maria Cekanova</author>
+            <author>Romaine Fernando</author>
+            <author>Jay Wimalasena</author>
+            <author>James Foster</author>
+            <author>Donald Henley</author>
+            <author>Robert Elder</author>
+            <publisher>Reproductive Biology and Endocrinology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1477-7827</idno>
+            <eAddress type="url">http://www.RBEj.com/content/1/1/36</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Reproductive Biology and Endocrinology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1477-7827-1-36.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1477-7827-1-36.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1477-7827-1-36-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1477-7827-1-36-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1477-7827-1-36-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1477-7827-1-36.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1477-7827-1-36.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

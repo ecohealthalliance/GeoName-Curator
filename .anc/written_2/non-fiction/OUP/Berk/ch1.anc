@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-09-05" version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>ch1</title>
+        </titleStmt>
+        <extent wordCount="13720"/>
+        <sourceDesc>
+            <title>Awakening Children's Minds: How Parents and Teachers Can Make a Difference : Chapter 1</title>
+            <author>Laura Berk</author>
+            <publisher>Oxford University Press</publisher>
+            <pubDate value="2001-00-00">2001</pubDate>
+            <pubPlace>USA</pubPlace>
+            <idno type="ISBN">0-195124855</idno>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR NF">
+            <domain>Social Science</domain>
+            <subdomain>Psychology</subdomain>
+            <subject>Child development</subject>
+            <audience>Adult</audience>
+            <medium>Book</medium>
+        </textClass>
+        <primaryData loc="ch1.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ch1.txt" type="content">Document content</annotation>
+            <annotation ann.loc="ch1-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ch1-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ch1-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ch1-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ch1-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+    <revisionDesc>
+        <change>
+            <changeDate>2005-03-29   </changeDate>
+            <respName>Keith Suderman</respName>
+            <item>Updated to v1.0.4 with complete standoff markup</item>
+            <item>Added Hepple part of speech tags</item>
+            <item>Fixed sentence boundaries</item>
+            <item>Added noun and verb chunks</item>
+        </change>
+    </revisionDesc>
+</cesHeader>

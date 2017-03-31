@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        A method to assess compositional bias in biological sequences and
+        its application to prion-like glutamine/asparagine-rich domains in
+        eukaryotic proteomes
+      </title>
+            <author>Paul Harrison</author>
+            <author>Mark Gerstein</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Genome Biology</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1465-6906</idno>
+                        <eAddress type="url">http://genomebiology.com/2003/4/6/R40</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="gb-2003-4-6-r40.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2003-4-6-r40-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2003-4-6-r40-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2003-4-6-r40-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2003-4-6-r40.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2003-4-6-r40.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

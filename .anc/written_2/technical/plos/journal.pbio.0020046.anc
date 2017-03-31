@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="NMI" date.created="2005-09-18"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>journal.pbio.0020046</title>
+        </titleStmt>
+        <extent wordCount="2559"/>
+        <sourceDesc>
+            <title>What Causes Stuttering?</title>
+            <author>Christian Büchel</author>
+            <author>Martin Sommer</author>
+            <idno type="issn">1544-9173</idno>
+            <pubPlace>San Francisco, CA</pubPlace>
+            <publisher type="org">Public Library of Science</publisher>
+            <pubDate value="2004-02-00">2, 2004</pubDate>
+            <pubName>PLoS Medicine</pubName>
+            <pubPlace>San Francisco, CA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR JO">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Neuroscience</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="journal.pbio.0020046.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="journal.pbio.0020046.txt" type="content">Text content</annotation>
+            <annotation ann.loc="journal.pbio.0020046-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="journal.pbio.0020046-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="journal.pbio.0020046-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="journal.pbio.0020046-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="journal.pbio.0020046-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

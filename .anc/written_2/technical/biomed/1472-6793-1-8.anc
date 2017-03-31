@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1472-6793-1-8</title>
+        </titleStmt>
+        <extent wordCount="5763"/>
+        <sourceDesc>
+           <title>
+        Modulation of L-type Ca
+        2+current but not activation of Ca
+        2+release by the gamma
+        1subunit of the dihydropyridine receptor of skeletal
+        muscle
+      </title>
+            <author>Chris Ahern</author>
+            <author>Patricia Powers</author>
+            <author>Gloria Biddlecome</author>
+            <author>Laura Roethe</author>
+            <author>Paola Vallejo</author>
+            <author>Lindsay Mortenson</author>
+            <author>Caroline Strube</author>
+            <author>Kevin Campbell</author>
+            <author>Roberto Coronado</author>
+            <author>Ronald Gregg</author>
+            <publisher>BMC Physiology</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1472-6793</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1472-6793/1/8</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Physiology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1472-6793-1-8.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1472-6793-1-8.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1472-6793-1-8-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1472-6793-1-8-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1472-6793-1-8-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1472-6793-1-8.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1472-6793-1-8.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

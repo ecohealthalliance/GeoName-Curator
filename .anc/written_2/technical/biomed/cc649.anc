@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Heat stress is associated with decreased lactic acidemia in rat
+        sepsis
+      </title>
+            <author>Girish G Deshpande</author>
+            <author>Sabrina M Heidemann</author>
+            <author>Ashok P Sarnaik</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Crit Care</publisher>
+                        <pubDate>2000</pubDate>
+                        <idno type="issn">1364-8535</idno>
+                        <eAddress type="url">http://ccforum.com/content/4/1/045</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Crit Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="cc649.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc649-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc649-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc649-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc649.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc649.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

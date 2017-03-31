@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2202-2-12</title>
+        </titleStmt>
+        <extent wordCount="3824"/>
+        <sourceDesc>
+           <title>
+           Bone morphogenetic protein-5 (BMP-5) promotes dendritic growth in
+           cultured sympathetic neurons
+           </title>
+            <author>Hiroko Beck</author>
+            <author>Karen Drahushuk</author>
+            <author>David Jacoby</author>
+            <author>Dennis Higgins</author>
+            <author>Pamela Lein</author>
+            <publisher>BMC Neuroscience</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1471-2202</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2202/2/12</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Neuroscience</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2202-2-12.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2202-2-12.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2202-2-12-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2202-2-12-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2202-2-12-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2202-2-12.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2202-2-12.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

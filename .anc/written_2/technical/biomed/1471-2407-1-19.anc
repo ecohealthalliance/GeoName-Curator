@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2407-1-19</title>
+        </titleStmt>
+        <extent wordCount="3536"/>
+        <sourceDesc>
+           <title>
+           IL-6 signaling by STAT3 participates in the change from hyperplasia
+           to neoplasia in NRP-152 and NRP-154 rat prostatic epithelial cells
+           </title>
+            <author>Beverly Barton</author>
+            <author>Thomas Murphy</author>
+            <author>Patricia Adem</author>
+            <author>Richard Watson</author>
+            <author>Robert Irwin</author>
+            <author>Hosea Huang</author>
+            <publisher>BMC Cancer</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1471-2407</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2407/1/19</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Cancer</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2407-1-19.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2407-1-19.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2407-1-19-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2407-1-19-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2407-1-19-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2407-1-19.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2407-1-19.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

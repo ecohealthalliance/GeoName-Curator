@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="NMI" date.created="2005-09-18"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>pmed.0010064</title>
+        </titleStmt>
+        <extent wordCount="4108"/>
+        <sourceDesc>
+            <title>Randomized, Controlled Trial of Therapy Interruption in Chronic HIV-1 Infection</title>
+            <author>Emmanouil Papasavvas</author>
+            <author>Jay R Kostman</author>
+            <author>Karam Mounzer</author>
+            <author>Robert M Grant</author>
+            <author>Robert Gross</author>
+            <author>Cele Gallo</author>
+            <author>Livio Azzoni</author>
+            <author>Andrea Foulkes</author>
+            <author>Brian Thiel</author>
+            <author>Maxwell Pistilli</author>
+            <author>Agnieszka Mackiewicz</author>
+            <author>Jane Shull</author>
+            <author>Luis J Montaner</author>
+            <author>Paul Klenerman</author>
+            <idno type="issn">1549-1277</idno>
+            <pubPlace>San Francisco, CA</pubPlace>
+            <publisher type="org">Public Library of Science</publisher>
+            <pubDate value="2004-12-00">12, 2004</pubDate>
+            <pubName>PLoS Medicine</pubName>
+            <pubPlace>San Francisco, CA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR JO">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Immunology</subject>
+            <subject>Infectious Diseases</subject>
+            <subject>HIV/AIDS</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="pmed.0010064.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="pmed.0010064.txt" type="content">Text content</annotation>
+            <annotation ann.loc="pmed.0010064-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="pmed.0010064-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="pmed.0010064-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="pmed.0010064-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="pmed.0010064-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

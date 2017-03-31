@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc2167</title>
+        </titleStmt>
+        <extent wordCount="4123"/>
+        <sourceDesc>
+           <title>
+           Safety assessment of drotrecogin alfa (activated) in the treatment
+           of adult patients with severe sepsis
+           </title>
+            <author>Gordon Bernard</author>
+            <author>William Macias</author>
+            <author>David Joyce</author>
+            <author>Mark Williams</author>
+            <author>Joan Bailey</author>
+            <author>Jean-Louis Vincent</author>
+            <publisher>Critical Care</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Critical Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc2167.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc2167.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc2167-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc2167-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc2167-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc2167.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc2167.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

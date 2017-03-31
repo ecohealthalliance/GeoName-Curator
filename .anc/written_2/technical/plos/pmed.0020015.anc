@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="NMI" date.created="2005-09-18"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>pmed.0020015</title>
+        </titleStmt>
+        <extent wordCount="3178"/>
+        <sourceDesc>
+            <title>Are Anticapsular Antibodies the Primary Mechanism of Protection against Invasive Pneumococcal Disease?</title>
+            <author>Marc Lipsitch</author>
+            <author>Cynthia G Whitney</author>
+            <author>Elizabeth Zell</author>
+            <author>Tarja Kaijalainen</author>
+            <author>Ron Dagan</author>
+            <author>Richard Malley</author>
+            <author>Brian Greenwood</author>
+            <idno type="issn">1549-1277</idno>
+            <pubPlace>San Francisco, CA</pubPlace>
+            <publisher type="org">Public Library of Science</publisher>
+            <pubDate value="2005-01-00">1, 2005</pubDate>
+            <pubName>PLoS Medicine</pubName>
+            <pubPlace>San Francisco, CA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR JO">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Immunology</subject>
+            <subject>Infectious Diseases</subject>
+            <subject>Epidemiology/Public Health</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="pmed.0020015.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="pmed.0020015.txt" type="content">Text content</annotation>
+            <annotation ann.loc="pmed.0020015-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="pmed.0020015-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="pmed.0020015-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="pmed.0020015-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="pmed.0020015-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

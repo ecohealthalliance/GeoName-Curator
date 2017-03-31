@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2002-3-11-research0062</title>
+        </titleStmt>
+        <extent wordCount="5730"/>
+        <sourceDesc>
+           <title>
+           Within the fold: assessing differential expression measures and
+           reproducibility in microarray assays
+           </title>
+            <author>Ivana Yang</author>
+            <author>Emily Chen</author>
+            <author>Jeremy Hasseman</author>
+            <author>Wei Liang</author>
+            <author>Bryan Frank</author>
+            <author>Shuibang Wang</author>
+            <author>Vasily Sharov</author>
+            <author>Alexander Saeed</author>
+            <author>Joseph White</author>
+            <author>Jerry Li</author>
+            <author>Norman Lee</author>
+            <author>Timothy Yeatman</author>
+            <author>John Quackenbush</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2002/3/11/research/0062</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2002-3-11-research0062.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2002-3-11-research0062.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2002-3-11-research0062-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2002-3-11-research0062-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2002-3-11-research0062-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2002-3-11-research0062.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2002-3-11-research0062.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

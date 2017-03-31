@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1475-925X-2-10</title>
+        </titleStmt>
+        <extent wordCount="5517"/>
+        <sourceDesc>
+           <title>
+           A Method of Drusen Measurement Based on the Geometry of Fundus
+           Reflectance
+           </title>
+            <author>R Theodore Smith</author>
+            <author>Takayuki Nagasaki</author>
+            <author>Janet Sparrow</author>
+            <author>Irene Barbazetto</author>
+            <author>Caroline Klaver</author>
+            <author>Jackie Chan</author>
+            <publisher>BioMedical Engineering OnLine</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1475-925X</idno>
+            <eAddress type="url">http://www.biomedical-engineering-online.com/content/2/1/10</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BioMedical Engineering OnLine</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1475-925X-2-10.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1475-925X-2-10.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1475-925X-2-10-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1475-925X-2-10-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1475-925X-2-10-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1475-925X-2-10.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1475-925X-2-10.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

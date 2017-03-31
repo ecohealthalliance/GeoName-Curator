@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar104</title>
+        </titleStmt>
+        <extent wordCount="4780"/>
+        <sourceDesc>
+           <title>
+           Gene therapy for established murine collagen-induced arthritis by
+           local and systemic adenovirus-mediated delivery of interleukin-4
+           </title>
+            <author>Seon Hee Kim</author>
+            <author>Christopher H Evans</author>
+            <author>Sunyoung Kim</author>
+            <author>Thomas Oligino</author>
+            <author>Steven C Ghivizzani</author>
+            <author>Paul D Robbins</author>
+            <publisher>Arthritis Res</publisher>
+            <pubDate>2000</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthrtis-research.com/content/2/4/293</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar104.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar104.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar104-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar104-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar104-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar104.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar104.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

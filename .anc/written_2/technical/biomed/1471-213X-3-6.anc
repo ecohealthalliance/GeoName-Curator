@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Reduced-folate carrier (RFC) is expressed in placenta and yolk sac,
+        as well as in cells of the developing forebrain, hindbrain, neural
+        tube, craniofacial region, eye, limb buds and heart
+      </title>
+            <author>Dennis Maddox</author>
+            <author>Anna Manlapat</author>
+            <author>Penny Roon</author>
+            <author>Puttur Prasad</author>
+            <author>Vadivel Ganapathy</author>
+            <author>Sylvia Smith</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BMC Developmental Biology</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1471-213X</idno>
+                        <eAddress type="url">http://www.biomedcentral.com/1471-213X/3/6</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Developmental Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1471-213X-3-6.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-213X-3-6-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-213X-3-6-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-213X-3-6-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-213X-3-6.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-213X-3-6.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

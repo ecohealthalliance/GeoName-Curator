@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc1547</title>
+        </titleStmt>
+        <extent wordCount="1881"/>
+        <sourceDesc>
+           <title>
+           Association of lipid peroxidation with hepatocellular injury in
+           preterm infants
+           </title>
+            <author>Barry Weinberger</author>
+            <author>Kazimierz Watorek</author>
+            <author>Richard Strauss</author>
+            <author>Gisela Witz</author>
+            <author>Mark Hiatt</author>
+            <author>Thomas Hegyi</author>
+            <publisher>Critical Care</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Critical Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc1547.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc1547.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc1547-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc1547-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc1547-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc1547.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc1547.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

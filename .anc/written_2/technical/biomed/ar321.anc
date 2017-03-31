@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar321</title>
+        </titleStmt>
+        <extent wordCount="3182"/>
+        <sourceDesc>
+           <title>
+           The inhibitory effects of camptothecin, a topoisomerase I inhibitor,
+           on collagen synthesis in fibroblasts from patients with systemic
+           sclerosis
+           </title>
+            <author>Joanna Czuwara-Ladykowska</author>
+            <author>Barbara Makiela</author>
+            <author>Edwin Smith</author>
+            <author>Maria Trojanowska</author>
+            <author>Lidia Rudnicka</author>
+            <publisher>Arthritis Research</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Research</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar321.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar321.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar321-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar321-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar321-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar321.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar321.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

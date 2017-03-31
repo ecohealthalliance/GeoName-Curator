@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>rr191</title>
+        </titleStmt>
+        <extent wordCount="4099"/>
+        <sourceDesc>
+           <title>
+           Insulin utilizes the PI 3-kinase pathway to inhibit SP-A gene
+           expression in lung epithelial cells
+           </title>
+            <author>Olga Miakotina</author>
+            <author>Kelli Goss</author>
+            <author>Jeanne Snyder</author>
+            <publisher>Respir Res</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1465-9921</idno>
+            <eAddress type="url">http://respiratory-research.com/content/3/1/27</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Respir Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="rr191.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="rr191.txt" type="content">Text content</annotation>
+            <annotation ann.loc="rr191-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="rr191-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="rr191-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="rr191.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="rr191.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

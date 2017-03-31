@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        ScanImage: Flexible software for operating laser scanning
+        microscopes
+      </title>
+            <author>Thomas Pologruto</author>
+            <author>Bernardo Sabatini</author>
+            <author>Karel Svoboda</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BioMedical Engineering OnLine</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1475-925X</idno>
+                        <eAddress type="url">http://www.biomedical-engineering-online.com/content/2/1/13</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BioMedical Engineering OnLine</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1475-925X-2-13.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1475-925X-2-13-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1475-925X-2-13-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1475-925X-2-13-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1475-925X-2-13.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1475-925X-2-13.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

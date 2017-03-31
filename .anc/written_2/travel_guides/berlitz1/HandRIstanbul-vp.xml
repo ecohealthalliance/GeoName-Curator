@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graph xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <header>
+        <tagsDecl>
+            <tagUsage gi="VG" occurs="14"/>
+        </tagsDecl>
+        <annotationSets>
+            <annotationSet name="xces" type="http://www.xces.org/schema/2003"/>
+        </annotationSets>
+    </header>
+    <region xml:id="vp-r0" anchors="54 61"/>
+    <node xml:id="vp-n0">
+        <link targets="vp-r0"/>
+    </node>
+    <a label="VG" ref="vp-n0" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="Pre"/>
+            <f name="type" value="PART"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r1" anchors="88 90"/>
+    <node xml:id="vp-n1">
+        <link targets="vp-r1"/>
+    </node>
+    <a label="VG" ref="vp-n1" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r2" anchors="129 146"/>
+    <node xml:id="vp-n2">
+        <link targets="vp-r2"/>
+    </node>
+    <a label="VG" ref="vp-n2" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="PrePer"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r3" anchors="201 205"/>
+    <node xml:id="vp-n3">
+        <link targets="vp-r3"/>
+    </node>
+    <a label="VG" ref="vp-n3" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r4" anchors="239 241"/>
+    <node xml:id="vp-n4">
+        <link targets="vp-r4"/>
+    </node>
+    <a label="VG" ref="vp-n4" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r5" anchors="247 254"/>
+    <node xml:id="vp-n5">
+        <link targets="vp-r5"/>
+    </node>
+    <a label="VG" ref="vp-n5" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="Inf"/>
+            <f name="type" value="NFVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r6" anchors="320 323"/>
+    <node xml:id="vp-n6">
+        <link targets="vp-r6"/>
+    </node>
+    <a label="VG" ref="vp-n6" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r7" anchors="477 482"/>
+    <node xml:id="vp-n7">
+        <link targets="vp-r7"/>
+    </node>
+    <a label="VG" ref="vp-n7" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r8" anchors="492 517"/>
+    <node xml:id="vp-n8">
+        <link targets="vp-r8"/>
+    </node>
+    <a label="VG" ref="vp-n8" as="xces">
+        <fs>
+            <f name="voice" value="none"/>
+            <f name="tense" value="none"/>
+            <f name="type" value="MODAL"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r9" anchors="554 558"/>
+    <node xml:id="vp-n9">
+        <link targets="vp-r9"/>
+    </node>
+    <a label="VG" ref="vp-n9" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="SimPre"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r10" anchors="559 566"/>
+    <node xml:id="vp-n10">
+        <link targets="vp-r10"/>
+    </node>
+    <a label="VG" ref="vp-n10" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="Inf"/>
+            <f name="type" value="NFVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r11" anchors="629 638"/>
+    <node xml:id="vp-n11">
+        <link targets="vp-r11"/>
+    </node>
+    <a label="VG" ref="vp-n11" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="PrePer"/>
+            <f name="type" value="FVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r12" anchors="657 668"/>
+    <node xml:id="vp-n12">
+        <link targets="vp-r12"/>
+    </node>
+    <a label="VG" ref="vp-n12" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="Inf"/>
+            <f name="type" value="NFVG"/>
+        </fs>
+    </a>
+    <region xml:id="vp-r13" anchors="713 722"/>
+    <node xml:id="vp-n13">
+        <link targets="vp-r13"/>
+    </node>
+    <a label="VG" ref="vp-n13" as="xces">
+        <fs>
+            <f name="voice" value="active"/>
+            <f name="tense" value="Pre"/>
+            <f name="type" value="PART"/>
+        </fs>
+    </a>
+</graph>

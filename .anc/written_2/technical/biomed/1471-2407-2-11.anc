@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2407-2-11</title>
+        </titleStmt>
+        <extent wordCount="3974"/>
+        <sourceDesc>
+           <title>
+           Sub-lethal radiation enhances anti-tumor immunotherapy in a
+           transgenic mouse model of pancreatic cancer
+           </title>
+            <author>Zhu Cao</author>
+            <author>Dylan Daniel</author>
+            <author>Douglas Hanahan</author>
+            <publisher>BMC Cancer</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1471-2407</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2407/2/11</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Cancer</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2407-2-11.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2407-2-11.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2407-2-11-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2407-2-11-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2407-2-11-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2407-2-11.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2407-2-11.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc1856</title>
+        </titleStmt>
+        <extent wordCount="2252"/>
+        <sourceDesc>
+           <title>
+           Esophageal capnometry during hemorrhagic shock and after
+           resuscitation in rats
+           </title>
+            <author>Balagangadhar Totapally</author>
+            <author>Harun Fakioglu</author>
+            <author>Dan Torbati</author>
+            <author>Jack Wolfsdorf</author>
+            <publisher>Critical Care</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Critical Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc1856.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc1856.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc1856-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc1856-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc1856-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc1856.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc1856.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

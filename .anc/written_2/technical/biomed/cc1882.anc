@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>cc1882</title>
+        </titleStmt>
+        <extent wordCount="3088"/>
+        <sourceDesc>
+           <title>
+           Influence of passive leg elevation on the right ventricular function
+           in anaesthetized coronary patients
+           </title>
+            <author>Massimo Bertolissi</author>
+            <author>Ugo Broi</author>
+            <author>Franca Soldano</author>
+            <author>Flavio Bassi</author>
+            <publisher>Critical Care</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1364-8535</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Critical Care</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="cc1882.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="cc1882.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cc1882-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cc1882-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cc1882-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cc1882.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cc1882.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

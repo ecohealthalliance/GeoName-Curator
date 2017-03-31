@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Approaches to enhancing the retroviral transduction of human
+        synoviocytes
+      </title>
+            <author>Maria Del Vecchio</author>
+            <author>Helga Georgescu</author>
+            <author>James McCormack</author>
+            <author>Paul Robbins</author>
+            <author>Christopher Evans</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Arthritis Research</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1465-9905</idno>
+                        <eAddress type="url">http://arthritis-research.com/content/3/4/259</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Research</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="ar311.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar311-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar311-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar311-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar311.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar311.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Volumetric computerized tomography as a measurement of
+        periprosthetic acetabular osteolysis and its correlation with wear
+      </title>
+            <author>R John Looney</author>
+            <author>Allen Boyd</author>
+            <author>Saara Totterman</author>
+            <author>Gwy-Suk Seo</author>
+            <author>Jose Tamez-Pena</author>
+            <author>Debbie Campbell</author>
+            <author>Leonore Novotny</author>
+            <author>Christopher Olcott</author>
+            <author>John Martell</author>
+            <author>F Ann Hayes</author>
+            <author>Regis O'Keefe</author>
+            <author>Edward Schwarz</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Arthritis Res</publisher>
+                        <pubDate>2002</pubDate>
+                        <idno type="issn">1465-9905</idno>
+                        <eAddress type="url"/>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="ar384.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar384-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar384-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar384-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar384.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar384.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

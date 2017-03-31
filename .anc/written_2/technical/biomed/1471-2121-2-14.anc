@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Bone morphogenetic protein-2 (BMP-2) and transforming growth
+        factor-β1 (TGF-β1) alter connexin 43 phosphorylation in MC3T3-E1
+        Cells
+      </title>
+            <author>Lance Wyatt</author>
+            <author>Chi Chung</author>
+            <author>Brian Carlsen</author>
+            <author>Akiko Iida-Klein</author>
+            <author>George Rudkin</author>
+            <author>Kenji Ishida</author>
+            <author>Dean Yamaguchi</author>
+            <author>Timothy Miller</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>BMC Cell Biology</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1471-2121</idno>
+                        <eAddress type="url">http://www.biomedcentral.com/1471-2121/2/14</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Cell Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1471-2121-2-14.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2121-2-14-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2121-2-14-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2121-2-14-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2121-2-14.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2121-2-14.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

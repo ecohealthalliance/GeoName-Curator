@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graph xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <header>
+        <tagsDecl>
+            <tagUsage gi="NounChunk" occurs="61"/>
+        </tagsDecl>
+        <annotationSets>
+            <annotationSet name="xces" type="http://www.xces.org/schema/2003"/>
+        </annotationSets>
+    </header>
+    <region xml:id="np-r0" anchors="27 45"/>
+    <node xml:id="np-n0">
+        <link targets="np-r0"/>
+    </node>
+    <a label="NounChunk" ref="np-n0" as="xces"/>
+    <region xml:id="np-r1" anchors="69 75"/>
+    <node xml:id="np-n1">
+        <link targets="np-r1"/>
+    </node>
+    <a label="NounChunk" ref="np-n1" as="xces"/>
+    <region xml:id="np-r2" anchors="95 104"/>
+    <node xml:id="np-n2">
+        <link targets="np-r2"/>
+    </node>
+    <a label="NounChunk" ref="np-n2" as="xces"/>
+    <region xml:id="np-r3" anchors="132 171"/>
+    <node xml:id="np-n3">
+        <link targets="np-r3"/>
+    </node>
+    <a label="NounChunk" ref="np-n3" as="xces"/>
+    <region xml:id="np-r4" anchors="173 199"/>
+    <node xml:id="np-n4">
+        <link targets="np-r4"/>
+    </node>
+    <a label="NounChunk" ref="np-n4" as="xces"/>
+    <region xml:id="np-r5" anchors="211 218"/>
+    <node xml:id="np-n5">
+        <link targets="np-r5"/>
+    </node>
+    <a label="NounChunk" ref="np-n5" as="xces"/>
+    <region xml:id="np-r6" anchors="222 233"/>
+    <node xml:id="np-n6">
+        <link targets="np-r6"/>
+    </node>
+    <a label="NounChunk" ref="np-n6" as="xces"/>
+    <region xml:id="np-r7" anchors="240 253"/>
+    <node xml:id="np-n7">
+        <link targets="np-r7"/>
+    </node>
+    <a label="NounChunk" ref="np-n7" as="xces"/>
+    <region xml:id="np-r8" anchors="257 280"/>
+    <node xml:id="np-n8">
+        <link targets="np-r8"/>
+    </node>
+    <a label="NounChunk" ref="np-n8" as="xces"/>
+    <region xml:id="np-r9" anchors="282 296"/>
+    <node xml:id="np-n9">
+        <link targets="np-r9"/>
+    </node>
+    <a label="NounChunk" ref="np-n9" as="xces"/>
+    <region xml:id="np-r10" anchors="306 315"/>
+    <node xml:id="np-n10">
+        <link targets="np-r10"/>
+    </node>
+    <a label="NounChunk" ref="np-n10" as="xces"/>
+    <region xml:id="np-r11" anchors="315 324"/>
+    <node xml:id="np-n11">
+        <link targets="np-r11"/>
+    </node>
+    <a label="NounChunk" ref="np-n11" as="xces"/>
+    <region xml:id="np-r12" anchors="326 339"/>
+    <node xml:id="np-n12">
+        <link targets="np-r12"/>
+    </node>
+    <a label="NounChunk" ref="np-n12" as="xces"/>
+    <region xml:id="np-r13" anchors="365 376"/>
+    <node xml:id="np-n13">
+        <link targets="np-r13"/>
+    </node>
+    <a label="NounChunk" ref="np-n13" as="xces"/>
+    <region xml:id="np-r14" anchors="385 399"/>
+    <node xml:id="np-n14">
+        <link targets="np-r14"/>
+    </node>
+    <a label="NounChunk" ref="np-n14" as="xces"/>
+    <region xml:id="np-r15" anchors="400 404"/>
+    <node xml:id="np-n15">
+        <link targets="np-r15"/>
+    </node>
+    <a label="NounChunk" ref="np-n15" as="xces"/>
+    <region xml:id="np-r16" anchors="427 433"/>
+    <node xml:id="np-n16">
+        <link targets="np-r16"/>
+    </node>
+    <a label="NounChunk" ref="np-n16" as="xces"/>
+    <region xml:id="np-r17" anchors="445 453"/>
+    <node xml:id="np-n17">
+        <link targets="np-r17"/>
+    </node>
+    <a label="NounChunk" ref="np-n17" as="xces"/>
+    <region xml:id="np-r18" anchors="457 461"/>
+    <node xml:id="np-n18">
+        <link targets="np-r18"/>
+    </node>
+    <a label="NounChunk" ref="np-n18" as="xces"/>
+    <region xml:id="np-r19" anchors="465 490"/>
+    <node xml:id="np-n19">
+        <link targets="np-r19"/>
+    </node>
+    <a label="NounChunk" ref="np-n19" as="xces"/>
+    <region xml:id="np-r20" anchors="492 523"/>
+    <node xml:id="np-n20">
+        <link targets="np-r20"/>
+    </node>
+    <a label="NounChunk" ref="np-n20" as="xces"/>
+    <region xml:id="np-r21" anchors="527 545"/>
+    <node xml:id="np-n21">
+        <link targets="np-r21"/>
+    </node>
+    <a label="NounChunk" ref="np-n21" as="xces"/>
+    <region xml:id="np-r22" anchors="555 558"/>
+    <node xml:id="np-n22">
+        <link targets="np-r22"/>
+    </node>
+    <a label="NounChunk" ref="np-n22" as="xces"/>
+    <region xml:id="np-r23" anchors="564 584"/>
+    <node xml:id="np-n23">
+        <link targets="np-r23"/>
+    </node>
+    <a label="NounChunk" ref="np-n23" as="xces"/>
+    <region xml:id="np-r24" anchors="588 591"/>
+    <node xml:id="np-n24">
+        <link targets="np-r24"/>
+    </node>
+    <a label="NounChunk" ref="np-n24" as="xces"/>
+    <region xml:id="np-r25" anchors="592 594"/>
+    <node xml:id="np-n25">
+        <link targets="np-r25"/>
+    </node>
+    <a label="NounChunk" ref="np-n25" as="xces"/>
+    <region xml:id="np-r26" anchors="611 624"/>
+    <node xml:id="np-n26">
+        <link targets="np-r26"/>
+    </node>
+    <a label="NounChunk" ref="np-n26" as="xces"/>
+    <region xml:id="np-r27" anchors="637 658"/>
+    <node xml:id="np-n27">
+        <link targets="np-r27"/>
+    </node>
+    <a label="NounChunk" ref="np-n27" as="xces"/>
+    <region xml:id="np-r28" anchors="660 674"/>
+    <node xml:id="np-n28">
+        <link targets="np-r28"/>
+    </node>
+    <a label="NounChunk" ref="np-n28" as="xces"/>
+    <region xml:id="np-r29" anchors="692 733"/>
+    <node xml:id="np-n29">
+        <link targets="np-r29"/>
+    </node>
+    <a label="NounChunk" ref="np-n29" as="xces"/>
+    <region xml:id="np-r30" anchors="738 752"/>
+    <node xml:id="np-n30">
+        <link targets="np-r30"/>
+    </node>
+    <a label="NounChunk" ref="np-n30" as="xces"/>
+    <region xml:id="np-r31" anchors="754 763"/>
+    <node xml:id="np-n31">
+        <link targets="np-r31"/>
+    </node>
+    <a label="NounChunk" ref="np-n31" as="xces"/>
+    <region xml:id="np-r32" anchors="789 821"/>
+    <node xml:id="np-n32">
+        <link targets="np-r32"/>
+    </node>
+    <a label="NounChunk" ref="np-n32" as="xces"/>
+    <region xml:id="np-r33" anchors="823 849"/>
+    <node xml:id="np-n33">
+        <link targets="np-r33"/>
+    </node>
+    <a label="NounChunk" ref="np-n33" as="xces"/>
+    <region xml:id="np-r34" anchors="864 877"/>
+    <node xml:id="np-n34">
+        <link targets="np-r34"/>
+    </node>
+    <a label="NounChunk" ref="np-n34" as="xces"/>
+    <region xml:id="np-r35" anchors="881 899"/>
+    <node xml:id="np-n35">
+        <link targets="np-r35"/>
+    </node>
+    <a label="NounChunk" ref="np-n35" as="xces"/>
+    <region xml:id="np-r36" anchors="904 916"/>
+    <node xml:id="np-n36">
+        <link targets="np-r36"/>
+    </node>
+    <a label="NounChunk" ref="np-n36" as="xces"/>
+    <region xml:id="np-r37" anchors="934 959"/>
+    <node xml:id="np-n37">
+        <link targets="np-r37"/>
+    </node>
+    <a label="NounChunk" ref="np-n37" as="xces"/>
+    <region xml:id="np-r38" anchors="961 967"/>
+    <node xml:id="np-n38">
+        <link targets="np-r38"/>
+    </node>
+    <a label="NounChunk" ref="np-n38" as="xces"/>
+    <region xml:id="np-r39" anchors="971 985"/>
+    <node xml:id="np-n39">
+        <link targets="np-r39"/>
+    </node>
+    <a label="NounChunk" ref="np-n39" as="xces"/>
+    <region xml:id="np-r40" anchors="999 1024"/>
+    <node xml:id="np-n40">
+        <link targets="np-r40"/>
+    </node>
+    <a label="NounChunk" ref="np-n40" as="xces"/>
+    <region xml:id="np-r41" anchors="1034 1045"/>
+    <node xml:id="np-n41">
+        <link targets="np-r41"/>
+    </node>
+    <a label="NounChunk" ref="np-n41" as="xces"/>
+    <region xml:id="np-r42" anchors="1049 1055"/>
+    <node xml:id="np-n42">
+        <link targets="np-r42"/>
+    </node>
+    <a label="NounChunk" ref="np-n42" as="xces"/>
+    <region xml:id="np-r43" anchors="1077 1087"/>
+    <node xml:id="np-n43">
+        <link targets="np-r43"/>
+    </node>
+    <a label="NounChunk" ref="np-n43" as="xces"/>
+    <region xml:id="np-r44" anchors="1089 1123"/>
+    <node xml:id="np-n44">
+        <link targets="np-r44"/>
+    </node>
+    <a label="NounChunk" ref="np-n44" as="xces"/>
+    <region xml:id="np-r45" anchors="1143 1163"/>
+    <node xml:id="np-n45">
+        <link targets="np-r45"/>
+    </node>
+    <a label="NounChunk" ref="np-n45" as="xces"/>
+    <region xml:id="np-r46" anchors="1168 1198"/>
+    <node xml:id="np-n46">
+        <link targets="np-r46"/>
+    </node>
+    <a label="NounChunk" ref="np-n46" as="xces"/>
+    <region xml:id="np-r47" anchors="1210 1237"/>
+    <node xml:id="np-n47">
+        <link targets="np-r47"/>
+    </node>
+    <a label="NounChunk" ref="np-n47" as="xces"/>
+    <region xml:id="np-r48" anchors="1267 1277"/>
+    <node xml:id="np-n48">
+        <link targets="np-r48"/>
+    </node>
+    <a label="NounChunk" ref="np-n48" as="xces"/>
+    <region xml:id="np-r49" anchors="1298 1316"/>
+    <node xml:id="np-n49">
+        <link targets="np-r49"/>
+    </node>
+    <a label="NounChunk" ref="np-n49" as="xces"/>
+    <region xml:id="np-r50" anchors="1326 1330"/>
+    <node xml:id="np-n50">
+        <link targets="np-r50"/>
+    </node>
+    <a label="NounChunk" ref="np-n50" as="xces"/>
+    <region xml:id="np-r51" anchors="1335 1339"/>
+    <node xml:id="np-n51">
+        <link targets="np-r51"/>
+    </node>
+    <a label="NounChunk" ref="np-n51" as="xces"/>
+    <region xml:id="np-r52" anchors="1348 1351"/>
+    <node xml:id="np-n52">
+        <link targets="np-r52"/>
+    </node>
+    <a label="NounChunk" ref="np-n52" as="xces"/>
+    <region xml:id="np-r53" anchors="1351 1356"/>
+    <node xml:id="np-n53">
+        <link targets="np-r53"/>
+    </node>
+    <a label="NounChunk" ref="np-n53" as="xces"/>
+    <region xml:id="np-r54" anchors="1356 1360"/>
+    <node xml:id="np-n54">
+        <link targets="np-r54"/>
+    </node>
+    <a label="NounChunk" ref="np-n54" as="xces"/>
+    <region xml:id="np-r55" anchors="1369 1371"/>
+    <node xml:id="np-n55">
+        <link targets="np-r55"/>
+    </node>
+    <a label="NounChunk" ref="np-n55" as="xces"/>
+    <region xml:id="np-r56" anchors="1371 1376"/>
+    <node xml:id="np-n56">
+        <link targets="np-r56"/>
+    </node>
+    <a label="NounChunk" ref="np-n56" as="xces"/>
+    <region xml:id="np-r57" anchors="1376 1380"/>
+    <node xml:id="np-n57">
+        <link targets="np-r57"/>
+    </node>
+    <a label="NounChunk" ref="np-n57" as="xces"/>
+    <region xml:id="np-r58" anchors="1389 1390"/>
+    <node xml:id="np-n58">
+        <link targets="np-r58"/>
+    </node>
+    <a label="NounChunk" ref="np-n58" as="xces"/>
+    <region xml:id="np-r59" anchors="1390 1394"/>
+    <node xml:id="np-n59">
+        <link targets="np-r59"/>
+    </node>
+    <a label="NounChunk" ref="np-n59" as="xces"/>
+    <region xml:id="np-r60" anchors="1394 1398"/>
+    <node xml:id="np-n60">
+        <link targets="np-r60"/>
+    </node>
+    <a label="NounChunk" ref="np-n60" as="xces"/>
+</graph>

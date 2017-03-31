@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="NMI" date.created="2005-09-18"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>journal.pbio.0020052</title>
+        </titleStmt>
+        <extent wordCount="2112"/>
+        <sourceDesc>
+            <title>A New Trade Framework for Global Healthcare R&amp;D</title>
+            <author>Tim Hubbard</author>
+            <author>James Love</author>
+            <idno type="issn">1544-9173</idno>
+            <pubPlace>San Francisco, CA</pubPlace>
+            <publisher type="org">Public Library of Science</publisher>
+            <pubDate value="2004-02-00">2, 2004</pubDate>
+            <pubName>PLoS Medicine</pubName>
+            <pubPlace>San Francisco, CA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR JO">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Bioethics</subject>
+            <subject>Pharmacology/Drug Discovery</subject>
+            <subject>Science Policy</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="journal.pbio.0020052.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="journal.pbio.0020052.txt" type="content">Text content</annotation>
+            <annotation ann.loc="journal.pbio.0020052-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="journal.pbio.0020052-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="journal.pbio.0020052-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="journal.pbio.0020052-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="journal.pbio.0020052-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

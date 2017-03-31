@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2001-3-1-research0005</title>
+        </titleStmt>
+        <extent wordCount="3792"/>
+        <sourceDesc>
+           <title>
+           Assessment of the relationship between signal intensities and
+           transcript concentration for Affymetrix GeneChip
+           ®arrays
+           </title>
+            <author>Eugene Chudin</author>
+            <author>Randal Walker</author>
+            <author>Alan Kosaka</author>
+            <author>Sue Wu</author>
+            <author>Douglas Rabert</author>
+            <author>Thomas Chang</author>
+            <author>Dirk Kreder</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2001/3/1/research/0005</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2001-3-1-research0005.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2001-3-1-research0005.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2001-3-1-research0005-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2001-3-1-research0005-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2001-3-1-research0005-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2001-3-1-research0005.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2001-3-1-research0005.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

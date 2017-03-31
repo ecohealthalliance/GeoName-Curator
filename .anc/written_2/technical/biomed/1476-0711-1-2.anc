@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Susceptibility patterns and cross resistances of antibiotics against
+        
+        Pseudomonas aeruginosain a teaching hospital of Turkey
+      </title>
+            <author>Serap Gençer</author>
+            <author>Öznur Ak</author>
+            <author>Nur Benzonana</author>
+            <author>Ayşe Batırel</author>
+            <author>Serdar Özer</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Annals of Clinical Microbiology and Antimicrobials</publisher>
+                        <pubDate>2002</pubDate>
+                        <idno type="issn">1476-0711</idno>
+                        <eAddress type="url">http://www.ann-clinmicrob.com/content/1/1/2</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Annals of Clinical Microbiology and Antimicrobials</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1476-0711-1-2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1476-0711-1-2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1476-0711-1-2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1476-0711-1-2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1476-0711-1-2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1476-0711-1-2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

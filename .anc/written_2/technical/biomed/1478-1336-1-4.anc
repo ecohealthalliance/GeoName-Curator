@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1478-1336-1-4</title>
+        </titleStmt>
+        <extent wordCount="4736"/>
+        <sourceDesc>
+           <title>
+           ERβ Binds N-CoR in the Presence of Estrogens via an LXXLL-like Motif
+           in the N-CoR C-terminus
+           </title>
+            <author>Paul Webb</author>
+            <author>Cathleen Valentine</author>
+            <author>Phuong Nguyen</author>
+            <author>Richard Price</author>
+            <author>Adhirai Marimuthu</author>
+            <author>Brian West</author>
+            <author>John Baxter</author>
+            <author>Peter Kushner</author>
+            <publisher>Nuclear Receptor</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1478-1336</idno>
+            <eAddress type="url">http://www.nuclear-receptor.com/content/1/1/4</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Nuclear Receptor</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1478-1336-1-4.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1478-1336-1-4.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1478-1336-1-4-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1478-1336-1-4-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1478-1336-1-4-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1478-1336-1-4.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1478-1336-1-4.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

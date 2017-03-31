@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar799</title>
+        </titleStmt>
+        <extent wordCount="3167"/>
+        <sourceDesc>
+           <title>
+           Mactinin: a modulator of the monocyte response to inflammation
+           </title>
+            <author>Sharon Luikart</author>
+            <author>Hollis Krug</author>
+            <author>Robert Nelson</author>
+            <author>Timothy Hinkel</author>
+            <author>Peter Majeski</author>
+            <author>Pankaj Gupta</author>
+            <author>Maren Mahowald</author>
+            <author>Theodore Oegema</author>
+            <publisher>Arthritis Res Ther</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/5/5/R310</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res Ther</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar799.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar799.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar799-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar799-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar799-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar799.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar799.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2210-1-10</title>
+        </titleStmt>
+        <extent wordCount="3832"/>
+        <sourceDesc>
+           <title>
+           Peroxisome proliferator-activated receptor agonists prevent
+           25-OH-cholesterol induced c-jun activation and cell death
+           </title>
+            <author>Jason Chang</author>
+            <author>Ling-Zhi Liu</author>
+            <publisher>BMC Pharmacology</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1471-2210</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2210/1/10</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Pharmacology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2210-1-10.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2210-1-10.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2210-1-10-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2210-1-10-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2210-1-10-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2210-1-10.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2210-1-10.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

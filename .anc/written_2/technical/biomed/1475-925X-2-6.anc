@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1475-925X-2-6</title>
+        </titleStmt>
+        <extent wordCount="5201"/>
+        <sourceDesc>
+           <title>
+           Can ultrasound be used to stimulate nerve tissue?
+           </title>
+            <author>Stephen Norton</author>
+            <publisher>BioMedical Engineering OnLine</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1475-925X</idno>
+            <eAddress type="url">http://www.biomedical-engineering-online.com/content/2/1/6</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BioMedical Engineering OnLine</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1475-925X-2-6.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1475-925X-2-6.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1475-925X-2-6-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1475-925X-2-6-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1475-925X-2-6-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1475-925X-2-6.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1475-925X-2-6.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

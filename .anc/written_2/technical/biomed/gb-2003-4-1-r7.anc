@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2003-4-1-r7</title>
+        </titleStmt>
+        <extent wordCount="3893"/>
+        <sourceDesc>
+           <title>
+           MAPPFinder: using Gene Ontology and GenMAPP to create a global
+           gene-expression profile from microarray data
+           </title>
+            <author>Scott Doniger</author>
+            <author>Nathan Salomonis</author>
+            <author>Kam Dahlquist</author>
+            <author>Karen Vranizan</author>
+            <author>Steven Lawlor</author>
+            <author>Bruce Conklin</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2003/4/1/R7</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2003-4-1-r7.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2003-4-1-r7.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2003-4-1-r7-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2003-4-1-r7-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2003-4-1-r7-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2003-4-1-r7.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2003-4-1-r7.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

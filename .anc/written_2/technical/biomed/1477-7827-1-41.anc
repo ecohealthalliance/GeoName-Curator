@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        The expression of cyclin-dependent kinase inhibitors p15, p16, p21,
+        and p27 during ovarian follicle growth initiation in the mouse
+      </title>
+            <author>Aykut Bayrak</author>
+            <author>Kutluk Oktay</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Reproductive Biology and Endocrinology</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1477-7827</idno>
+                        <eAddress type="url">http://www.RBEj.com/content/1/1/41</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Reproductive Biology and Endocrinology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1477-7827-1-41.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1477-7827-1-41-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1477-7827-1-41-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1477-7827-1-41-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1477-7827-1-41.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1477-7827-1-41.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar319</title>
+        </titleStmt>
+        <extent wordCount="3670"/>
+        <sourceDesc>
+           <title>
+           Genetic linkage and transmission disequilibrium of marker haplotypes
+           at chromosome 1q41 in human systemic lupus erythematosus
+           </title>
+            <author>Robert Graham</author>
+            <author>Carl Langefeld</author>
+            <author>Patrick Gaffney</author>
+            <author>Ward Ortmann</author>
+            <author>Scott Selby</author>
+            <author>Emily Baechler</author>
+            <author>Katherine Shark</author>
+            <author>Theresa Ockenden</author>
+            <author>Kristine Rohlf</author>
+            <author>Kathleen Moser</author>
+            <author>William Brown</author>
+            <author>Sherine Gabriel</author>
+            <author>Ronald Messner</author>
+            <author>Richard King</author>
+            <author>Pavel Horak</author>
+            <author>James Elder</author>
+            <author>Philip Stuart</author>
+            <author>Steven Rich</author>
+            <author>Timothy Behrens</author>
+            <publisher>Arthritis Research</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url"/>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Research</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar319.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar319.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar319-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar319-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar319-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar319.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar319.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

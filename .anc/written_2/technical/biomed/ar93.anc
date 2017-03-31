@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>ar93</title>
+        </titleStmt>
+        <extent wordCount="4328"/>
+        <sourceDesc>
+           <title>
+           Rheumatoid arthritis associated autoantibodies in patients with
+           synovitis of recent onset
+           </title>
+            <author>Raphaela Goldbach-Mansky</author>
+            <author>Jennifer Lee</author>
+            <author>Angela McCoy</author>
+            <author>Joseph Hoxworth</author>
+            <author>Cheryl Yarboro</author>
+            <author>Josef S Smolen</author>
+            <author>Günter Steiner</author>
+            <author>Antony Rosen</author>
+            <author>Cindy Zhang</author>
+            <author>Henri A Ménard</author>
+            <author>Zhi Jie Zhou</author>
+            <author>Timo Palosuo</author>
+            <author>Walther J Van Venrooij</author>
+            <author>Ronald L Wilder</author>
+            <author>John H Klippel</author>
+            <author>H Ralph Schumacher</author>
+            <author>Hani S El-Gabalawy</author>
+            <publisher>Arthritis Res</publisher>
+            <pubDate>2000</pubDate>
+            <idno type="issn">1465-9905</idno>
+            <eAddress type="url">http://arthritis-research.com/content/2/3/236</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Arthritis Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="ar93.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="ar93.txt" type="content">Text content</annotation>
+            <annotation ann.loc="ar93-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="ar93-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="ar93-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="ar93.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="ar93.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

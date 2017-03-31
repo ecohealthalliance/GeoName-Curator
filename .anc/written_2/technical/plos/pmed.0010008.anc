@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="NMI" date.created="2005-09-18"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+            <title>pmed.0010008</title>
+        </titleStmt>
+        <extent wordCount="3327"/>
+        <sourceDesc>
+            <title>An Immune Basis for Lung Parenchymal Destruction in Chronic Obstructive Pulmonary Disease and Emphysema</title>
+            <author>Sandra Grumelli</author>
+            <author>David B Corry</author>
+            <author>Li-Zhen Song</author>
+            <author>Ling Song</author>
+            <author>Linda Green</author>
+            <author>Joseph Huh</author>
+            <author>Joan Hacken</author>
+            <author>Rafael Espada</author>
+            <author>Remzi Bag</author>
+            <author>Dorothy E Lewis</author>
+            <author>Farrah Kheradmand</author>
+            <author>Peter J Barnes</author>
+            <idno type="issn">1549-1676</idno>
+            <pubPlace>San Francisco, CA</pubPlace>
+            <publisher type="org">Public Library of Science</publisher>
+            <pubDate value="2004-10-00">10, 2004</pubDate>
+            <pubName>PLoS Medicine</pubName>
+            <pubPlace>San Francisco, CA</pubPlace>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR JO">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Respiratory Medicine</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="pmed.0010008.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="pmed.0010008.txt" type="content">Text content</annotation>
+            <annotation ann.loc="pmed.0010008-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="pmed.0010008-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="pmed.0010008-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="pmed.0010008-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="pmed.0010008-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

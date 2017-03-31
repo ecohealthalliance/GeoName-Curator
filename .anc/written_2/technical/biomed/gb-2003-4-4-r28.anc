@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>gb-2003-4-4-r28</title>
+        </titleStmt>
+        <extent wordCount="3893"/>
+        <sourceDesc>
+           <title>
+           GoMiner: a resource for biological interpretation of genomic and
+           proteomic data
+           </title>
+            <author>Barry Zeeberg</author>
+            <author>Weimin Feng</author>
+            <author>Geoffrey Wang</author>
+            <author>May Wang</author>
+            <author>Anthony Fojo</author>
+            <author>Margot Sunshine</author>
+            <author>Sudarshan Narasimhan</author>
+            <author>David Kane</author>
+            <author>William Reinhold</author>
+            <author>Samir Lababidi</author>
+            <author>Kimberly Bussey</author>
+            <author>Joseph Riss</author>
+            <author>J Barrett</author>
+            <author>John Weinstein</author>
+            <publisher>Genome Biology</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1465-6906</idno>
+            <eAddress type="url">http://genomebiology.com/2003/4/4/R28</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Genome Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="gb-2003-4-4-r28.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="gb-2003-4-4-r28.txt" type="content">Text content</annotation>
+            <annotation ann.loc="gb-2003-4-4-r28-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="gb-2003-4-4-r28-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="gb-2003-4-4-r28-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="gb-2003-4-4-r28.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="gb-2003-4-4-r28.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

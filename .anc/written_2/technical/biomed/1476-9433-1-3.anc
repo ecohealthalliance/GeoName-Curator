@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1476-9433-1-3</title>
+        </titleStmt>
+        <extent wordCount="2807"/>
+        <sourceDesc>
+           <title>
+           Immunomodulation in stable renal transplant recipients with
+           concomitant tacrolimus and sirolimus therapy
+           </title>
+            <author>Ashwani Khanna</author>
+            <author>Matthew Plummer</author>
+            <author>Katherine Bromberek</author>
+            <author>Jeffrey Woodliff</author>
+            <author>Sundaram Hariharan</author>
+            <publisher>Medical Immunology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1476-9433</idno>
+            <eAddress type="url">http://www.medimmunol.com/content/1/1/3</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Medical Immunology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1476-9433-1-3.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1476-9433-1-3.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1476-9433-1-3-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1476-9433-1-3-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1476-9433-1-3-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1476-9433-1-3.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1476-9433-1-3.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

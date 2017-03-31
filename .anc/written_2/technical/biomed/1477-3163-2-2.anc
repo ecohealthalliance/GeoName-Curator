@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Glucocorticoid-like effects of antihepatocarcinogen Rotenone are
+        mediated 
+        viaenhanced serum corticosterone levels: Molecular Fitting and
+        Receptor Activation Studies
+      </title>
+            <author>Jihan Youssef</author>
+            <author>Cem Elbi</author>
+            <author>Barbour Warren</author>
+            <author>David Yourtee</author>
+            <author>Raghavendra Nagarur</author>
+            <author>Agostino Molteni</author>
+            <author>Michael L Cunningham</author>
+            <author>Mostafa Badr</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Journal of Carcinogenesis</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1477-3163</idno>
+                        <eAddress type="url">http://www.Carcinogenesis.com/content/2/1/2</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Journal of Carcinogenesis</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1477-3163-2-2.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1477-3163-2-2-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1477-3163-2-2-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1477-3163-2-2-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1477-3163-2-2.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1477-3163-2-2.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

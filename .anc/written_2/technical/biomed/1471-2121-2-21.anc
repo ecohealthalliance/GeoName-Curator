@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1471-2121-2-21</title>
+        </titleStmt>
+        <extent wordCount="4068"/>
+        <sourceDesc>
+           <title>
+           A regulator of G Protein signaling, RGS3, inhibits
+           gonadotropin-releasing hormone (GnRH)-stimulated luteinizing hormone
+           (LH) secretion
+           </title>
+            <author>Jimmy Neill</author>
+            <author>L Wayne Duck</author>
+            <author>Jeffrey Sellers</author>
+            <author>Lois Musgrove</author>
+            <author>John Kehrl</author>
+            <publisher>BMC Cell Biology</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1471-2121</idno>
+            <eAddress type="url">http://www.biomedcentral.com/1471-2121/2/21</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>BMC Cell Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1471-2121-2-21.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1471-2121-2-21.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1471-2121-2-21-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1471-2121-2-21-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1471-2121-2-21-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1471-2121-2-21.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1471-2121-2-21.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

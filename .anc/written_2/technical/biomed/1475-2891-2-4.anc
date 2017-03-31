@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Validation of the MEDFICTS dietary questionnaire: A clinical tool to
+        assess adherence to American Heart Association dietary fat intake
+        guidelines
+      </title>
+            <author>Allen Taylor</author>
+            <author>Henry Wong</author>
+            <author>Karen Wish</author>
+            <author>Jon Carrow</author>
+            <author>Debulon Bell</author>
+            <author>Jody Bindeman</author>
+            <author>Tammy Watkins</author>
+            <author>Trudy Lehmann</author>
+            <author>Saroj Bhattarai</author>
+            <author>Patrick O'Malley</author>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Nutrition Journal</publisher>
+                        <pubDate>2003</pubDate>
+                        <idno type="issn">1475-2891</idno>
+                        <eAddress type="url">http://www.nutritionj.com/content/2/1/4</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Nutrition Journal</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="1475-2891-2-4.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1475-2891-2-4-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1475-2891-2-4-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1475-2891-2-4-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1475-2891-2-4.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1475-2891-2-4.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

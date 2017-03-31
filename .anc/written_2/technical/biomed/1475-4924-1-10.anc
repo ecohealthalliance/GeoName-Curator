@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1475-4924-1-10</title>
+        </titleStmt>
+        <extent wordCount="7928"/>
+        <sourceDesc>
+           <title>
+           Small-molecule modulators of Hedgehog signaling: identification and
+           characterization of Smoothened agonists and antagonists
+           </title>
+            <author>Maria Frank-Kamenetsky</author>
+            <author>Xiaoyan Zhang</author>
+            <author>Steve Bottega</author>
+            <author>Oivin Guicherit</author>
+            <author>Hynek Wichterle</author>
+            <author>Henryk Dudek</author>
+            <author>David Bumcrot</author>
+            <author>Frank Wang</author>
+            <author>Simon Jones</author>
+            <author>Janine Shulok</author>
+            <author>Lee Rubin</author>
+            <author>Jeffery Porter</author>
+            <publisher>Journal of Biology</publisher>
+            <pubDate>2002</pubDate>
+            <idno type="issn">1475-4924</idno>
+            <eAddress type="url">http://jbiol.com/content/1/2/10</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Journal of Biology</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1475-4924-1-10.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1475-4924-1-10.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1475-4924-1-10-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1475-4924-1-10-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1475-4924-1-10-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1475-4924-1-10.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1475-4924-1-10.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

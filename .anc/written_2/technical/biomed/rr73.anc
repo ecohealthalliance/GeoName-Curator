@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>rr73</title>
+        </titleStmt>
+        <extent wordCount="2096"/>
+        <sourceDesc>
+           <title>
+           Collaborative interactions between neutrophil elastase and
+           metalloproteinases in extracellular matrix degradation in
+           three-dimensional collagen gels
+           </title>
+            <author>Yunkui Zhu</author>
+            <author>Xiangde Liu</author>
+            <author>C Sköld</author>
+            <author>Hangjun Wang</author>
+            <author>Tadashi Kohyama</author>
+            <author>Fu-Qiang Wen</author>
+            <author>Ronald Ertl</author>
+            <author>Stephen Rennard</author>
+            <publisher>Respir Res</publisher>
+            <pubDate>2001</pubDate>
+            <idno type="issn">1465-9921</idno>
+            <eAddress type="url">http://respiratory-research.com/content/2/5/300</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Respir Res</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="rr73.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="rr73.txt" type="content">Text content</annotation>
+            <annotation ann.loc="rr73-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="rr73-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="rr73-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="rr73.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="rr73.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

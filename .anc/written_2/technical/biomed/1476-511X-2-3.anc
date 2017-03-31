@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader xmlns="http://www.xces.org/ns/GrAF/1.0/" creator="KBS" date.created="2005-03-26"
+           version="1.0.4">
+    <fileDesc>
+        <titleStmt>
+           <title>1476-511X-2-3</title>
+        </titleStmt>
+        <extent wordCount="3057"/>
+        <sourceDesc>
+           <title>
+           Physical activity, high density lipoprotein cholesterol and other
+           lipids levels, in men and women from the ATTICA study
+           </title>
+            <author>John Skoumas</author>
+            <author>Christos Pitsavos</author>
+            <author>Demosthenes Panagiotakos</author>
+            <author>Christina Chrysohoou</author>
+            <author>Akis Zeimbekis</author>
+            <author>Ioanna Papaioannou</author>
+            <author>Marina Toutouza</author>
+            <author>Pavlos Toutouzas</author>
+            <author>Christodoulos Stefanadis</author>
+            <publisher>Lipids in Health and Disease</publisher>
+            <pubDate>2003</pubDate>
+            <idno type="issn">1476-511X</idno>
+            <eAddress type="url">http://www.Lipidworld.com/content/2/1/3</eAddress>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Lipids in Health and Disease</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <primaryData loc="1476-511X-2-3.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="1476-511X-2-3.txt" type="content">Text content</annotation>
+            <annotation ann.loc="1476-511X-2-3-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="1476-511X-2-3-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="1476-511X-2-3-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="1476-511X-2-3.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="1476-511X-2-3.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-03-26   " version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+        <titleStmt>
+            <title>
+        Organizing the Carotid Revascularization Endarterectomy versus
+        Stenting Trial (CREST): National Institutes of Health, Health Care
+        Financing Administration, and industry funding
+      </title>
+            <author>Robert Hobson</author>
+            <author>Virginia Howard</author>
+            <author>Thomas Brott</author>
+            <author>George Howard</author>
+            <author>Gary Roubin</author>
+            <author>Robert Ferguson</author>
+            <author/>
+        </titleStmt>
+        <sourceDesc>
+            <biblStruct>
+                <monogr>
+                    <imprint>
+                        <publisher>Curr Control Trials Cardiovasc Med</publisher>
+                        <pubDate>2001</pubDate>
+                        <idno type="issn">1468-6708</idno>
+                        <eAddress type="url">http://cvm.controlled-trials.com/content/2/4/160</eAddress>
+                    </imprint>
+                </monogr>
+            </biblStruct>
+        </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>natural science</domain>
+            <subdomain>biology</subdomain>
+            <subject>Curr Control Trials Cardiovasc Med</subject>
+            <audience>adult</audience>
+            <medium>journal</medium>
+        </textClass>
+        <annotations>
+            <annotation ann.loc="cvm-2-4-160.txt" type="content">Text content</annotation>
+            <annotation ann.loc="cvm-2-4-160-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="cvm-2-4-160-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="cvm-2-4-160-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="cvm-2-4-160.xml-vp.xml" type="vp">Verb chunks</annotation>
+            <annotation ann.loc="cvm-2-4-160.xml-np.xml" type="np">Noun chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cesHeader creator="KBS" date.created="2005-11-07" version="1.0.4" xmlns="http://www.xces.org/ns/GrAF/1.0/">
+    <fileDesc>
+       <titleStmt>
+          <title>predatory_loans</title>
+       </titleStmt>
+        <extent wordCount="1377"/>
+       <sourceDesc>
+          <title></title>
+          <author></author>
+          <publisher>US Government</publisher>
+          <pubPlace>http://www.lsc.gov</pubPlace>
+       </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+    </encodingDesc>
+    <profileDesc>
+        <textClass catRef="WR TC">
+            <domain>World Affairs</domain>
+            <subdomain>Government</subdomain>
+            <audience>adult</audience>
+            <medium>web</medium>
+        </textClass>
+        <primaryData loc="predatory_loans.txt" medium="text"/>
+        <annotations>
+            <annotation ann.loc="predatory_loans.txt" type="content">Text content</annotation>
+            <annotation ann.loc="predatory_loans-logical.xml" type="logical">Logical structure</annotation>
+            <annotation ann.loc="predatory_loans-s.xml" type="s">Sentence boundaries</annotation>
+            <annotation ann.loc="predatory_loans-hepple.xml" type="hepple">Hepple part of speech tags</annotation>
+            <annotation ann.loc="predatory_loans-np.xml" type="np">Noun chunks</annotation>
+            <annotation ann.loc="predatory_loans-vp.xml" type="vp">Verb chunks</annotation>
+        </annotations>
+    </profileDesc>
+</cesHeader>
