@@ -17,15 +17,10 @@ _selectInput = (event, instance, prop, isCheckbox) ->
 
 Template.incidentForm.onCreated ->
   instanceData = @data
-  @incidentStatus = new ReactiveVar('')
-  @incidentType = new ReactiveVar('')
   incident = instanceData.incident
   @suggestedFields = incident?.suggestedFields or new ReactiveVar([])
 
-  @incidentData =
-    species: 'Human'
-    dateRange:
-      type: 'day'
+  @incidentData = {}
 
   article = instanceData.articles[0]
   if article
@@ -36,67 +31,17 @@ Template.incidentForm.onCreated ->
     if incident.dateRange
       @incidentData.dateRange = incident.dateRange
 
-    cases = @incidentData.cases
-    deaths = @incidentData.deaths
-    specify = @incidentData.specify
-    @incidentData.value = cases or deaths or specify
-    if cases
-      type = 'cases'
-    else if deaths
-      type = 'deaths'
-    else if specify
-      type = 'other'
-    else
-      type = ''
-
-    @incidentType.set(type)
-
-    @incidentStatus.set(incident.status or '')
 
 Template.incidentForm.onRendered ->
   @$('[data-toggle=tooltip]').tooltip()
-  datePickerOptions = {}
-  if @incidentData.dateRange.start and @incidentData.dateRange.end
-    datePickerOptions.startDate = moment(moment.utc(@incidentData.dateRange.start).format("YYYY-MM-DD"))
-    datePickerOptions.endDate = moment(moment.utc(@incidentData.dateRange.end).format("YYYY-MM-DD"))
-  createInlineDateRangePicker(@$('#rangePicker'), datePickerOptions)
-  datePickerOptions.singleDatePicker = true
-  createInlineDateRangePicker(@$('#singleDatePicker'), datePickerOptions)
-
   @$('#add-incident').validator()
-  #Update the validator when Blaze adds incident type related inputs
-  @autorun =>
-    @incidentType.get()
-    Meteor.defer =>
-      @$('#add-incident').validator('update')
 
 Template.incidentForm.helpers
   incidentData: ->
     Template.instance().incidentData
 
-  incidentStatusChecked: (status) ->
-    status is Template.instance().incidentStatus.get()
-
-  incidentTypeChecked: (type) ->
-    type is Template.instance().incidentType.get()
-
   articles: ->
     Template.instance().data.articles
-
-  showCountForm: ->
-    type = Template.instance().incidentType.get()
-    type is 'cases' or type is 'deaths'
-
-  showOtherForm: ->
-    Template.instance().incidentType.get() is 'other'
-
-  dayTabClass: ->
-    if Template.instance().incidentData.dateRange.type is 'day'
-      'active'
-
-  rangeTabClass: ->
-    if Template.instance().incidentData.dateRange.type is 'precise'
-      'active'
 
   selectedIncidentType: ->
     switch Template.instance().incidentType.get()
@@ -107,32 +52,10 @@ Template.incidentForm.helpers
     if fieldName in Template.instance().suggestedFields?.get()
       'suggested'
 
-  typeIsSelected: ->
-    Template.instance().incidentType.get()
-
-  typeIsNotSelected: ->
-    not Template.instance().incidentType.get()
-
   articleSourceUrl: ->
     Template.instance().data.articles[0]?.url
 
-  diseaseOptionsFn: -> diseaseOptionsFn
-
 Template.incidentForm.events
-  'change input[name=daterangepicker_start]': (event, instance) ->
-    instance.$('#singleDatePicker').data('daterangepicker').clickApply()
-
-  'click .status label, keyup .status label': (event, instance) ->
-    removeSuggestedProperties(instance, ['status'])
-    _selectInput(event, instance, 'incidentStatus')
-
-  'click .type label, keyup .type label': (event, instance) ->
-    removeSuggestedProperties(instance, ['cases', 'deaths'])
-    _selectInput(event, instance, 'incidentType')
-
-  'keyup [name="count"]': (event, instance) ->
-    removeSuggestedProperties(instance, ['cases', 'deaths'])
-
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
     firstItem = $('.select2-results__options').children().first()
@@ -141,12 +64,6 @@ Template.incidentForm.events
 
   'mouseup .select2-selection': (event, instance) ->
     removeSuggestedProperties(instance, ['locations'])
-
-  'mouseup .incident--dates': (event, instance) ->
-    removeSuggestedProperties(instance, ['dateRange'])
-
-  'click .cumulative, keyup .cumulative': (event, instance) ->
-    removeSuggestedProperties(instance, ['cumulative'])
 
   'submit form': (event, instance) ->
     prevented = event.isDefaultPrevented()
@@ -157,6 +74,3 @@ Template.incidentForm.events
         instance.$('.select2-search__field').blur()
         instance.$('.has-error:first-child').focus()
     event.preventDefault()
-
-  'click .tabs a': (event, instance) ->
-    instance.$(event.currentTarget).parent().tooltip('hide')

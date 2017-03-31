@@ -42,40 +42,9 @@ checkIncidentTypeValue = (form, input) ->
 
 export incidentReportFormToIncident = (form) ->
   $form = $(form)
-  if $form.find('#singleDate').hasClass('active')
-    rangeType = 'day'
-    $pickerContainer = $form.find('#singleDatePicker')
-  else
-    rangeType = 'precise'
-    $pickerContainer = $form.find('#rangePicker')
-
-  picker = $pickerContainer.data('daterangepicker')
-
-  incidentType = $form.find('input[name="incidentType"]:checked').val()
-  incidentStatus = $form.find('input[name="incidentStatus"]:checked').val()
 
   incident =
-    species: form.species.value
-    travelRelated: form.travelRelated.checked
-    approximate: form.approximate.checked
     locations: []
-    status: incidentStatus
-    dateRange:
-      type: rangeType
-      start: moment.utc(picker.startDate.format("YYYY-MM-DD")).toDate()
-      end: moment.utc(picker.endDate.format("YYYY-MM-DD")).toDate()
-      cumulative: form.cumulative.checked
-
-  switch incidentType || ''
-    when 'cases'
-      incident.cases = parseInt(form.count.value, 10)
-    when 'deaths'
-      incident.deaths = parseInt(form.count.value, 10)
-    when 'other'
-      incident.specify = form.specify.value.trim()
-    else
-      toastr.error("Unknown incident type [#{incidentType}]")
-      return
 
   articleSourceUrl = form.articleSourceUrl
   if articleSourceUrl
@@ -84,10 +53,7 @@ export incidentReportFormToIncident = (form) ->
     for child in $(form.articleSource).select2('data')
       if child.selected
         incident.url = child.text.trim()
-  for option in $(form).find('#incident-disease-select2').select2('data')
-    incident.resolvedDisease =
-      id: option.id
-      text: option?.item?.label or option.text
+
   for option in $(form).find('#incident-location-select2').select2('data')
     item = option.item
     if typeof item.alternateNames is 'string'
@@ -273,99 +239,20 @@ export createIncidentReportsFromEnhancements = (enhancements, options)->
     .filter (x) -> x
   dateTerritories = getTerritories(datetimeAnnotations, sents)
   diseaseTerritories = getTerritories(diseaseAnnotations, sents)
-  countAnnotations.forEach (countAnnotation) =>
-    [start, end] = countAnnotation.textOffsets[0]
-    locationTerritory = _.find locTerritories, ({territoryStart, territoryEnd}) ->
-      start <= territoryEnd and start >= territoryStart
-    dateTerritory = _.find dateTerritories, ({territoryStart, territoryEnd}) ->
-      start <= territoryEnd and start >= territoryStart
-    diseaseTerritory = _.find diseaseTerritories, ({territoryStart, territoryEnd}) ->
-      start <= territoryEnd and start >= territoryStart
+  locationAnnotations.forEach (annotation) =>
+    # incident.dateTerritory = dateTerritory
+    # incident.locationTerritory = locationTerritory
+    # incident.diseaseTerritory = diseaseTerritory
+    # incident.countAnnotation = countAnnotation
     incident =
-      locations: locationTerritory.annotations.map(({geoname}) -> geoname)
-    maxPrecision = 0
-    # Use the source's date as the default
-    incident.dateRange =
-      start: publishDate
-      end: moment(publishDate).add(1, 'day').toDate()
-      type: 'day'
-    dateTerritory.annotations.forEach (timeAnnotation) ->
-      if (timeAnnotation.precision > maxPrecision and
-        timeAnnotation.beginMoment.isValid() and
-        timeAnnotation.endMoment.isValid()
-      )
-        maxPrecision = timeAnnotation.precision
-        incident.dateRange =
-          start: timeAnnotation.beginMoment.toDate()
-          end: timeAnnotation.endMoment.toDate()
-        rangeHours = moment(incident.dateRange.end)
-          .diff(incident.dateRange.start, 'hours')
-        if rangeHours <= 24
-          incident.dateRange.type = 'day'
-        else
-          incident.dateRange.type = 'precise'
-    incident.dateTerritory = dateTerritory
-    incident.locationTerritory = locationTerritory
-    incident.diseaseTerritory = diseaseTerritory
-    incident.countAnnotation = countAnnotation
-    { count, attributes } = countAnnotation
-    if count
-      if 'death' in attributes
-        incident.deaths = count
-      else if "case" in attributes or "hospitalization" in attributes
-        incident.cases = count
-      else
-        incident.cases = count
-        incident.uncertainCountType = true
-      if acceptByDefault and not incident.uncertainCountType
-        incident.accepted = true
-      # Detect whether count is cumulative
-      if 'incremental' in attributes
-        incident.dateRange.cumulative = false
-      else if 'cumulative' in attributes
-        incident.dateRange.cumulative = true
-      else if incident.dateRange.type == 'day' and count > 300
-        incident.dateRange.cumulative = true
-      suspectedAttributes = _.intersection([
-        'approximate', 'average', 'suspected'
-      ], attributes)
-      if suspectedAttributes.length > 0
-        incident.status = 'suspected'
-    incident.url = url
-    # The disease field is set to the last disease mentioned.
-    diseaseTerritory.annotations.forEach (annotation)->
-      incident.resolvedDisease =
-        id: annotation.resolutions[0].uri
-        text: annotation.resolutions[0].label
-    incident.suggestedFields = _.intersection(
-      Object.keys(incident),
-      [
-        'resolvedDisease'
-        'cases'
-        'deaths'
-        'dateRange'
-        'status'
-        if incident.locations.length then 'locations'
-      ]
-    )
-    if incident.dateRange?.cumulative
-      incident.suggestedFields.push('cumulative')
-
+      locations: [annotation].map(({geoname}) -> geoname)
     annotations =
-      case: [
-        textOffsets: incident.countAnnotation.textOffsets[0]
-        text: incident.countAnnotation.text
+      location: [
+        textOffsets: annotation.textOffsets[0]
       ]
-    if locationTerritory.annotations.length
-      annotations.location =
-        locationTerritory.annotations.map (a) -> textOffsets: a.textOffsets[0]
-    if dateTerritory.annotations.length
-      annotations.date =
-        dateTerritory.annotations.map (a) -> textOffsets: a.textOffsets[0]
-    if diseaseTerritory.annotations.length
-      annotations.disease =
-        diseaseTerritory.annotations.map (a) -> textOffsets: a.textOffsets[0]
     incident.annotations = annotations
     incident.autogenerated = true
+    incident.accepted = true
+    incident.url = url
     incidents.push(incident)
   return incidents

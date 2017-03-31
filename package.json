@@ -16,7 +16,9 @@
   "dependencies": {
     "bcrypt": "^0.8.7",
     "bootstrap-validator": "^0.11.8",
+    "cheerio": "^0.22.0",
     "d3": "^4.3.0",
+    "filehound": "^1.16.1",
     "hammerjs": "^2.0.8",
     "keymaster": "^1.6.2",
     "pluralize": "^3.0.0",

@@ -22,35 +22,8 @@ IncidentReportSchema = new SimpleSchema
   addedDate:
     type: Date
     optional: true
-  cases:
-    type: Number
-    optional: true
-  deaths:
-    type: Number
-    optional: true
-  specify:
-    type: String
-    optional: true
   locations:
     type: [Object]
-    optional: true
-  userEventId:
-    type: String
-    optional: true
-  dateRange:
-    type: Object
-  "dateRange.type":
-    type: String
-    allowedValues: ["day","precise"]
-    optional: true
-  "dateRange.start":
-    type: Date
-    optional: true
-  "dateRange.end":
-    type: Date
-    optional: true
-  "dateRange.cumulative":
-    type: Boolean
     optional: true
   travelRelated:
     type: Boolean
@@ -59,21 +32,6 @@ IncidentReportSchema = new SimpleSchema
     type: Boolean
     optional: true
   disease:
-    type: String
-    optional: true
-  resolvedDisease:
-    type: Object
-    optional: true
-  "resolvedDisease.id":
-    type: String
-    optional: true
-  "resolvedDisease.text":
-    type: String
-    optional: true
-  species:
-    type: String
-    optional: true
-  status:
     type: String
     optional: true
   "locations.$.admin1Name":

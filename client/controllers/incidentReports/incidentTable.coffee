@@ -83,7 +83,8 @@ Template.incidentTable.helpers
     instance = Template.instance()
     query = _acceptedQuery(instance.accepted)
     query.url = {$regex: new RegExp("#{instance.data.source._sourceId}$")}
-    Incidents.find(query)
+    incidents = Incidents.find(query).fetch()
+    _.sortBy(incidents, (i)-> i.annotations.location[0].textOffsets[0])
 
   allSelected: ->
     instance = Template.instance()
@@ -149,13 +150,9 @@ Template.incidentTable.events
     _updateAllIncidentsStatus(instance, false, event)
 
   'mouseover .incident-table tbody tr': (event, instance) ->
-    if not instance.data.scrollToAnnotations or not @annotations?.case?[0].textOffsets
-      return
     instance.scrollToAnnotation(@_id)
 
   'mouseout .incident-table tbody tr': (event, instance) ->
-    if not instance.data.scrollToAnnotations or not @annotations?.case?[0].textOffsets
-      return
     instance.stopScrollingInterval()
 
   'click .incident-table tbody tr': (event, instance) ->

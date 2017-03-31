@@ -1,9 +1,11 @@
 annotateContent = (content, annotations, options={})->
-  { startingIndex, endingIndex } = options
+  { startingIndex, endingIndex, tag } = options
   if not startingIndex
     startingIndex = 0
   if not endingIndex
     endingIndex = content.length - 1
+  if not tag
+    tag = "span"
   lastOffset = startingIndex
   html = ""
   if startingIndex isnt 0
@@ -40,17 +42,18 @@ annotateContent = (content, annotations, options={})->
   endpoints.forEach ({offset, annotation, start})->
     html += Handlebars._escape(content.slice(lastOffset, offset))
     if activeAnnotations.length > 0
-      html += "</span>"
+      html += "</#{tag}>"
     if start
       activeAnnotations.push(annotation)
     else
       activeAnnotations = _.without(activeAnnotations, annotation)
     if activeAnnotations.length > 0
-      types = activeAnnotations.map((a)-> a.type).join(" ")
+      types = activeAnnotations.map((a)-> a.type).filter((a)->a).join(" ")
       attributes = {}
       activeAnnotations.forEach (a)-> _.extend(attributes, a?.attributes or {})
       attributeText = _.map(attributes, (value, key)-> "#{key}='#{value}'").join(" ")
-      html += "<span class='annotation annotation-text #{types}' #{attributeText}>"
+      classAttr = if types then "class='annotation annotation-text #{types}'" else ""
+      html += "<#{tag} #{classAttr} #{attributeText}>"
     lastOffset = offset
   html += Handlebars._escape("#{content.slice(lastOffset, endingIndex)}")
   if endingIndex < content.length - 1
@@ -58,11 +61,12 @@ annotateContent = (content, annotations, options={})->
   html
 
 module.exports =
+  annotateContent: annotateContent
   annotateContentWithIncidents: (content, incidents) ->
     incidentAnnotations = incidents.map (incident) ->
-      if not incident.annotations?.case[0]
+      if not incident.annotations?.location[0]
         return
-      baseAnnotation = _.clone(incident.annotations?.case[0])
+      baseAnnotation = _.clone(incident.annotations?.location[0])
       baseAnnotation.type = if incident.accepted then "accepted" else "unaccepted"
       if incident.uncertainCountType
         baseAnnotation.type += " uncertain"

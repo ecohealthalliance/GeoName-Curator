@@ -1,12 +1,9 @@
 template(name="incidentTable")
-  if incidents.count
+  if incidents.length
     .incident-reports--actions.container-flex.no-break
       button.btn.btn-sm.action(
         disabled="{{#unless incidentsSelected}} true {{/unless}}"
-        class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") #{action} Incidents
-      if accepted
-        button.btn.btn-sm.btn-primary.show-addEvent(
-          disabled="{{#unless incidentsSelected}} true {{/unless}}") Add Incidents to Event
+        class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") #{action} Locations
       button.btn.btn-sm.btn-default.select(
         class="{{#if allSelected}} deselect-all {{else}} select-all {{/if}}")
         if allSelected
@@ -26,31 +23,14 @@ template(name="incidentTable")
           thead
             tr
               th
-              th.count-header Type
-              th.count-header Value
-              th Start Date
-              th End Date
               th.locations-header Locations
         tbody
           each incidents
             tr
               td
                 span.select(class="{{#if selected}} selected {{/if}}")
-              if cases
-                td Case Count
-                td(data-incident-id=_id)=cases
-              else if deaths
-                td Death Count
-                td(data-incident-id=_id)=deaths
-              else
-                td Other
-                td(data-incident-id=_id)=specify
-              td
-                unless dateRange.cumulative
-                  | {{formatDateISO dateRange.start}}
-              td {{formatDateISO dateRange.end}}
               td {{formatLocations locations}}
       .container-flex.central.space-top-2
-        button.btn.btn-default.add-incident Add New Incident
+
   else
     +noResults message="No incidents found"

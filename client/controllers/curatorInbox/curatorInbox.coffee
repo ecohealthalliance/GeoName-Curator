@@ -95,11 +95,6 @@ Template.curatorInbox.onRendered ->
         $lte: new Date(endDate)
     @query.set query
 
-    Meteor.call 'fetchPromedPosts', 100, range, (err) ->
-      if err
-        console.log(err)
-        return toastr.error(err.reason)
-
     calendar = $('#date-picker').data('daterangepicker')
     if calendar
       updateCalendarSelection(calendar, range)

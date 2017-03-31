@@ -184,29 +184,6 @@ Template.sourceModal.events
       else
         stageModals(instance, instance.modals)
 
-  'input #article': (event, instance) ->
-    value = event.currentTarget.value.trim()
-    match = /promedmail\.org\/post\/(\d+)/ig.exec(value)
-    if match
-      articleId = Number(match[1])
-      Meteor.call 'retrieveProMedArticle', articleId, (error, article) ->
-        if article
-          date = moment.utc(article.promedDate)
-          # Aproximate DST for New York timezone
-          daylightSavings = moment.utc("#{date.year()}-03-08") <= date
-          daylightSavings = daylightSavings and moment.utc(
-            date.year() + "-11-01") >= date
-          tz = if daylightSavings then 'EDT' else 'EST'
-          date = date.utcOffset(UTCOffsets[tz])
-          instance.$('#publishDateTZ').val(tz)
-          _setDatePicker(instance.datePicker, date)
-          instance.$('#publishTime').data('DateTimePicker').date(date)
-          suggestedFields = ['title', 'date', 'time']
-          unless instance.selectedArticle.get().promedDate
-            suggestedFields.push('url')
-          instance.suggestedFields.set(suggestedFields)
-          instance.selectedArticle.set(article)
-
   'click #suggested-articles li': (event, instance) ->
     event.preventDefault()
     instance.selectedArticle.set(@)

@@ -1,6 +1,5 @@
 UserEvents = require '/imports/collections/userEvents.coffee'
 Articles = require '/imports/collections/articles.coffee'
-PromedPosts = require '/imports/collections/promedPosts.coffee'
 Constants = require '/imports/constants.coffee'
 Incidents = require '/imports/collections/incidentReports'
 SmartEvents = require '/imports/collections/smartEvents'
@@ -34,6 +33,7 @@ Meteor.methods
     result = HTTP.post(Constants.GRITS_URL + "/api/v1/public_diagnose", params: params)
     if result.data.error
       throw new Meteor.Error("grits-error", result.data.error)
+    console.log "success"
     enhancements = result.data
     # Normalize geoname data in GRITS annotations to match incident report schema.
     # The geoname lookup service is queried to get admin names.
@@ -77,15 +77,6 @@ Meteor.methods
           enhancements: enhancements
       })
     return enhancements
-
-  retrieveProMedArticle: (articleId) ->
-    @unblock()
-    article = PromedPosts.findOne
-      promedId: "#{articleId}"
-
-    promedDate: article.promedDate
-    url: "http://www.promedmail.org/post/#{article.promedId}"
-    subject: article.subject.raw
 
   queryForSuggestedArticles: (eventId) ->
     @unblock()

@@ -49,7 +49,6 @@ Template.incidentModal.events
 
     if not incident
       return
-    incident.userEventId = instanceData.userEventId
 
     if instance.data.accept or @incident?.accepted
       incident.accepted = true
@@ -82,6 +81,8 @@ Template.incidentModal.events
       incident.addedByUserId = @incident.addedByUserId
       incident.addedByUserName = @incident.addedByUserName
       incident.addedDate = @incident.addedDate
+      incident.annotations = @incident.annotations
+
       Meteor.call 'editIncidentReport', incident, (error, result) ->
         if not error
           $('.reactive-table tr').removeClass('open')
