@@ -149,19 +149,23 @@ export parseSents = (text)->
     sents[sents.length] = text.slice(sentStart, idx)
   return sents
 
-# A annotation's territory is the sentence containing it,
-# and all the following sentences until the next annotation.
-# Annotations in the same sentence are grouped.
-export getTerritories = (annotationsWithOffsets, sents) ->
-  # Split annotations with multiple offsets
-  # and sort by offset.
+# Split annotations with multiple offsets into multiple annotations
+# with single offsets
+ungroupOffsets = (annotationsWithOffsets)->
   annotationsWithSingleOffsets = []
   annotationsWithOffsets.forEach (annotation)->
     annotation.textOffsets.forEach (textOffset)->
       splitAnnotation = Object.create(annotation)
       splitAnnotation.textOffsets = [textOffset]
       annotationsWithSingleOffsets.push(splitAnnotation)
-  annotationsWithOffsets = _.sortBy(annotationsWithSingleOffsets, (annotation)->
+  annotationsWithSingleOffsets
+
+# A annotation's territory is the sentence containing it,
+# and all the following sentences until the next annotation.
+# Annotations in the same sentence are grouped.
+export getTerritories = (annotationsWithOffsets, sents)->
+  annotationsWithOffsets = ungroupOffsets(annotationsWithOffsets)
+  annotationsWithOffsets = _.sortBy(annotationsWithOffsets, (annotation)->
     annotation.textOffsets[0][0]
   )
   annotationIdx = 0
@@ -195,6 +199,7 @@ export createIncidentReportsFromEnhancements = (enhancements, options)->
   incidents = []
   features = enhancements.features
   locationAnnotations = features.filter (f) -> f.type == 'location'
+  locationAnnotations = ungroupOffsets(locationAnnotations)
   datetimeAnnotations = features.filter (f) -> f.type == 'datetime'
   diseaseAnnotations = features.filter (f) ->
     f.type == 'resolvedKeyword' and f.resolutions.some((r)->

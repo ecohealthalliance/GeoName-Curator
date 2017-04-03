@@ -23,16 +23,18 @@ Router.route("/api/geoannotatedDocuments", {where: "server"})
     reviewed: true
   }, {
     skip: parseInt(@request.query.skip or 0)
-    limit: parseInt(@request.query.limit or 2)
+    limit: parseInt(@request.query.limit or 10)
   }).map((source)->
     annotations = Incidents.find(
-      url: source.url
+      url: 'promedmail.org/post/' + source._sourceId
       accepted: true
     ).map((i)->
       textOffsets: i.annotations.location[0].textOffsets
-      attributes: i.locations[0].id
+      attributes:
+        id: i.locations[0].id
     )
-    source.annotatedContent = annotateContent(source.content, annotations, {tag: 'geo'})
+    source.annotatedContent = annotateContent(
+      source.enhancements.source.cleanContent.content, annotations, {tag: 'geo'})
     source
   )))
 
