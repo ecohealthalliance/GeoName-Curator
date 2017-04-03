@@ -19,7 +19,9 @@ Router.route("/api/geoannotatedDocuments", {where: "server"})
 .get ->
   @response.setHeader('Content-Type', 'application/ejson')
   @response.statusCode = 200
-  @response.end(EJSON.stringify(CuratorSources.find({}, {
+  @response.end(EJSON.stringify(CuratorSources.find({
+    reviewed: true
+  }, {
     skip: parseInt(@request.query.skip or 0)
     limit: parseInt(@request.query.limit or 2)
   }).map((source)->

@@ -42,40 +42,36 @@ Meteor.methods
     features = enhancements.features
     locationAnnotations = features.filter (f) -> f.type == 'location'
     geonameIds = locationAnnotations.map((r) -> r.geoname.geonameid)
-    geonamesResult = HTTP.get Constants.GRITS_URL + '/api/geoname_lookup/api/geonames', {
-      params:
-        ids: geonameIds
-    }
-    geonames = geonamesResult.data.docs
-    geonamesById = {}
-    geonames.forEach (geoname) ->
-      if not geoname
-        # null geonames are probably a bug in the geoname lookup service
-        return
-      geonamesById[geoname.id] =
-        id: geoname.id
-        name: geoname.name
-        admin1Name: geoname.admin1Name
-        admin2Name: geoname.admin2Name
-        latitude: parseFloat(geoname.latitude)
-        longitude: parseFloat(geoname.longitude)
-        countryName: geoname.countryName
-        population: geoname.population
-        featureClass: geoname.featureClass
-        featureCode: geoname.featureCode
-        alternateNames: geoname.alternateNames
-    locationAnnotations = locationAnnotations.filter (loc)->
-      geoname = geonamesById[loc.geoname.geonameid]
-      if geoname
-        loc.geoname = geoname
-        true
-      else
-        false
-    if article._id
-      Articles.update(article._id, {
-        $set:
-          enhancements: enhancements
-      })
+    if geonameIds.length > 0
+      geonamesResult = HTTP.get Constants.GRITS_URL + '/api/geoname_lookup/api/geonames', {
+        params:
+          ids: geonameIds
+      }
+      geonames = geonamesResult.data.docs
+      geonamesById = {}
+      geonames.forEach (geoname) ->
+        if not geoname
+          # null geonames are probably a bug in the geoname lookup service
+          return
+        geonamesById[geoname.id] =
+          id: geoname.id
+          name: geoname.name
+          admin1Name: geoname.admin1Name
+          admin2Name: geoname.admin2Name
+          latitude: parseFloat(geoname.latitude)
+          longitude: parseFloat(geoname.longitude)
+          countryName: geoname.countryName
+          population: geoname.population
+          featureClass: geoname.featureClass
+          featureCode: geoname.featureCode
+          alternateNames: geoname.alternateNames
+      locationAnnotations = locationAnnotations.filter (loc)->
+        geoname = geonamesById[loc.geoname.geonameid]
+        if geoname
+          loc.geoname = geoname
+          true
+        else
+          false
     return enhancements
 
   queryForSuggestedArticles: (eventId) ->
