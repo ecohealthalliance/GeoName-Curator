@@ -104,16 +104,17 @@ Template.curatorInbox.onRendered ->
       firstSource = CuratorSources.findOne unReviewedQuery,
         sort:
           publishDate: -1
-      @selectedSourceId.set(firstSource._id)
+      if firstSource
+        @selectedSourceId.set(firstSource._id)
       @filtering.set(false)
-      if not @latestSourceDate.get()
+      if not @latestSourceDate.get() and firstSource
         @latestSourceDate.set CuratorSources.findOne({},
             sort:
               publishDate: -1
             fields:
               publishDate: 1
           ).publishDate
-        @ready.set(true)
+      @ready.set(true)
 
 Template.curatorInbox.onDestroyed ->
   $('.inlineRangePicker').off('mouseleave')

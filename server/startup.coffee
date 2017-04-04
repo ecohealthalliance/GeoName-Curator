@@ -11,6 +11,9 @@ path = Npm.require('path')
 FileHound = Npm.require('filehound')
 
 Meteor.startup ->
+  # Check to only run when there is no data present.
+  # If this is commented out and the script runs a second time prior data
+  # will be removed.
   if CuratorSources.findOne(_source: "anc")
     return
   CuratorSources.remove(_source: "anc")
@@ -19,8 +22,9 @@ Meteor.startup ->
     .ext('txt')
     .findSync()
   count = 0
+  dirNames = _.uniq(files.map (file)-> path.dirname(file))
+  startDate = moment("2017-3-1")
   for file in files
-    count += 1
     data = fs.readFileSync file, 'utf8'
     # remove leading white-spance
     textContent = data.replace(/^ +/mg, "")
@@ -28,18 +32,24 @@ Meteor.startup ->
       console.log "No content:", file
       continue
     # Normalize post for display/subscription
+    relPath = file.split('.anc/')[1]
+    title = textContent.split(/\s+/).slice(0, 10).join(" ")
+    # Make it so files in the same directory are all given the same publish
+    # date so they are grouped together in the inbox.
+    publishDate = moment(startDate).add(
+        dirNames.indexOf(path.dirname(file)), 'day').toDate()
     normalizedPost =
       _id: new Mongo.ObjectID()
       _source: "anc"
-      _sourceId: file
-      title: "[" + file.split('.anc/')[1] + "] " + textContent.slice(0, 60)
+      _sourceId: relPath.replace("/", "_")
+      title: "[#{relPath}] #{title}"
       addedDate: new Date()
-      publishDate: if count < 100 then new Date("2017-3-28") else new Date("2017-3-1")
+      publishDate: publishDate
       content: textContent
       reviewed: false
       feedId: "anc"
       metadata:
         links: []
-    #console.log file, textContent.slice(0, 110)
     CuratorSources.insert(normalizedPost)
+    count += 1
   console.log count, "documents added"
