@@ -21,16 +21,24 @@ template(name="incidentForm")
             .help-block.with-errors
 
       .form-group.form-group--full(class="{{suggestedField 'locations'}}")
-        label.control-label.with-info-tooltip(
-          data-toggle="tooltip"
-          data-placement="right"
-          title="Location where the incident occurred. If the most precise location is unavailable, use the location one administrative division above. E.g. if the city isn't listed use the state."
-        ) Locations
+        label.control-label Location
         +locationSelect2(
           selectId="incident-location-select2"
           multiple=false
           selected=incidentData.locations
           required=true)
+        .form-group
+          label.control-label Check this if locations in the highlighted span should be ignored during classifier training/testing due to ambiguity or other problems.
+          .container-flex.no-break
+            .check-button.ignore
+              input(
+                type="radio"
+                name="ignore"
+                id="ignore"
+                value="ignore"
+                checked=ignore
+                tabindex="-1")
+              label(for="ignore" tabindex="0") Ignore
         .help-block.with-errors
 
       button.hidden(type="submit" aria-hidden="true")

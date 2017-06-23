@@ -36,6 +36,14 @@ viewingBG()
       viewingBG()
     &:hover
       background-color darken(@background-color, 50%)
+  &.ignore
+    background-color: rgba(255,255,0,1)
+    text-decoration none
+    &.viewing
+      viewingBG()
+    &:hover
+      background-color darken(@background-color, 50%)
+
 .suggested-incidents
   margin 30px
   width calc(100% - 60px)

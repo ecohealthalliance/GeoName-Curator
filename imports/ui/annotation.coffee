@@ -42,18 +42,23 @@ annotateContent = (content, annotations, options={})->
   endpoints.forEach ({offset, annotation, start})->
     html += Handlebars._escape(content.slice(lastOffset, offset))
     if activeAnnotations.length > 0
-      html += "</#{tag}>"
+      html += "</#{annotation.tag or tag}>"
     if start
       activeAnnotations.push(annotation)
     else
       activeAnnotations = _.without(activeAnnotations, annotation)
     if activeAnnotations.length > 0
-      types = activeAnnotations.map((a)-> a.type).filter((a)->a).join(" ")
+      types = activeAnnotations.map((a)->
+        if a.ignore
+          'ignore'
+        else
+          a.type
+      ).filter((a)->a).join(" ")
       attributes = {}
       activeAnnotations.forEach (a)-> _.extend(attributes, a?.attributes or {})
       attributeText = _.map(attributes, (value, key)-> "#{key}='#{value}'").join(" ")
       classAttr = if types then "class='annotation annotation-text #{types}'" else ""
-      html += "<#{tag} #{classAttr} #{attributeText}>"
+      html += "<#{annotation.tag or tag} #{classAttr} #{attributeText}>"
     lastOffset = offset
   html += Handlebars._escape("#{content.slice(lastOffset, endingIndex)}")
   if endingIndex < content.length - 1
@@ -66,7 +71,8 @@ module.exports =
     incidentAnnotations = incidents.map (incident) ->
       if not incident.annotations?.location[0]
         return
-      baseAnnotation = _.clone(incident.annotations?.location[0])
+      baseAnnotation = _.clone(incident)
+      baseAnnotation.textOffsets = incident.annotations?.location[0].textOffsets
       baseAnnotation.type = if incident.accepted then "accepted" else "unaccepted"
       if incident.uncertainCountType
         baseAnnotation.type += " uncertain"

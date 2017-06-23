@@ -2,20 +2,8 @@ createInlineDateRangePicker = require '/imports/ui/inlineDateRangePicker.coffee'
 validator = require 'bootstrap-validator'
 { keyboardSelect, removeSuggestedProperties, diseaseOptionsFn } = require '/imports/utils'
 
-_selectInput = (event, instance, prop, isCheckbox) ->
-  return if not keyboardSelect(event) and event.type is 'keyup'
-  if isCheckbox is 'checkbox'
-    prop = instance[prop]
-    prop.set(not prop.get())
-  else
-    clickedInput = instance.$(event.target).attr('for')
-    state = instance[prop]
-    if state.get() is clickedInput
-      state.set(null)
-    else
-      state.set(clickedInput)
-
 Template.incidentForm.onCreated ->
+  @ignore = new ReactiveVar(false)
   instanceData = @data
   incident = instanceData.incident
   @suggestedFields = incident?.suggestedFields or new ReactiveVar([])
@@ -28,6 +16,8 @@ Template.incidentForm.onCreated ->
 
   if incident
     @incidentData = _.extend(@incidentData, incident)
+    if @incidentData.ignore
+      @ignore.set(true)
     if incident.dateRange
       @incidentData.dateRange = incident.dateRange
 
@@ -55,12 +45,18 @@ Template.incidentForm.helpers
   articleSourceUrl: ->
     Template.instance().data.articles[0]?.url
 
+  ignore: ->
+    Template.instance().ignore.get()
+
 Template.incidentForm.events
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
     firstItem = $('.select2-results__options').children().first()
     if firstItem[0]?.id is ''
       firstItem.remove()
+
+  'click .ignore label': (event, instance) ->
+    instance.ignore.set(not instance.ignore.get())
 
   'mouseup .select2-selection': (event, instance) ->
     removeSuggestedProperties(instance, ['locations'])

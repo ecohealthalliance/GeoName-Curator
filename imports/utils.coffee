@@ -45,6 +45,7 @@ export incidentReportFormToIncident = (form) ->
 
   incident =
     locations: []
+    ignore: form.ignore.checked
 
   articleSourceUrl = form.articleSourceUrl
   if articleSourceUrl
@@ -59,6 +60,7 @@ export incidentReportFormToIncident = (form) ->
     if typeof item.alternateNames is 'string'
       delete item.alternateNames
     incident.locations.push(item)
+  
   return incident
 
 export UTCOffsets =

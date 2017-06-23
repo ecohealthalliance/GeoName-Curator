@@ -27,14 +27,18 @@ Router.route("/api/geoannotatedDocuments", {where: "server"})
   }).map((source)->
     annotations = Incidents.find(
       url: 'promedmail.org/post/' + source._sourceId
-      accepted: true
+      $or: [
+        { accepted: true }
+        { ignore: true }
+      ]
     ).map((i)->
       textOffsets: i.annotations.location[0].textOffsets
+      tag: if i.ignore then 'ignore' else 'geo'
       attributes:
         id: i.locations[0].id
     )
     source.annotatedContent = annotateContent(
-      source.enhancements.source.cleanContent.content, annotations, {tag: 'geo'})
+      source.enhancements.source.cleanContent.content, annotations)
     source
   )))
 
