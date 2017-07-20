@@ -3,7 +3,7 @@ annotateContent = (content, annotations, options={})->
   if not startingIndex
     startingIndex = 0
   if not endingIndex
-    endingIndex = content.length - 1
+    endingIndex = content.length
   if not tag
     tag = "span"
   lastOffset = startingIndex
@@ -17,20 +17,20 @@ annotateContent = (content, annotations, options={})->
       offset: start
       otherEndpointOffset: end
       annotation: annotation
-      start: true
+      isStart: true
     endpoints.push
       offset: end
       otherEndpointOffset: start
       annotation: annotation
-      start: false
+      isStart: false
   endpoints = endpoints.sort (a, b)->
     if a.offset < b.offset
       -1
     else if a.offset > b.offset
       1
-    else if a.start < b.start
+    else if a.isStart < b.isStart
       -1
-    else if a.start > b.start
+    else if a.isStart > b.isStart
       1
     else if a.otherEndpointOffset < b.otherEndpointOffset
       -1
@@ -39,15 +39,28 @@ annotateContent = (content, annotations, options={})->
     else
       0
   activeAnnotations = []
-  endpoints.forEach ({offset, annotation, start})->
-    html += Handlebars._escape(content.slice(lastOffset, offset))
-    if activeAnnotations.length > 0
-      html += "</#{annotation.tag or tag}>"
-    if start
-      activeAnnotations.push(annotation)
+  endpointGroups = []
+  endpoints.forEach (endpoint)->
+    {offset, annotation, isStart, otherEndpointOffset} = endpoint
+    lastGroup = endpointGroups.slice(-1)[0]
+    if lastGroup?.offset == offset and lastGroup?.isStart == isStart
+      lastGroup.endpoints.push(endpoint)
     else
-      activeAnnotations = _.without(activeAnnotations, annotation)
-    if activeAnnotations.length > 0
+      endpointGroups.push(
+        offset: offset
+        isStart: isStart
+        endpoints: [endpoint]
+      )
+  endpointGroups.forEach ({offset, isStart, endpoints})->
+    html += Handlebars._escape(content.slice(lastOffset, offset))
+    activeAnnotations.reverse().forEach (activeAnnotation)->
+      html += "</#{activeAnnotation.tag or tag}>"
+    endpoints.forEach ({annotation})->
+      if isStart
+        activeAnnotations.push(annotation)
+      else
+        activeAnnotations = _.without(activeAnnotations, annotation)
+    activeAnnotations.forEach (activeAnnotation, idx)->
       types = activeAnnotations.map((a)->
         if a.ignore
           'ignore'
@@ -55,13 +68,14 @@ annotateContent = (content, annotations, options={})->
           a.type
       ).filter((a)->a).join(" ")
       attributes = {}
-      activeAnnotations.forEach (a)-> _.extend(attributes, a?.attributes or {})
+      activeAnnotations.slice(0, idx + 1).forEach (a)->
+        _.extend(attributes, a?.attributes or {})
       attributeText = _.map(attributes, (value, key)-> "#{key}='#{value}'").join(" ")
       classAttr = if types then "class='annotation annotation-text #{types}'" else ""
-      html += "<#{annotation.tag or tag} #{classAttr} #{attributeText}>"
+      html += "<#{activeAnnotation.tag or tag} #{classAttr} #{attributeText}>"
     lastOffset = offset
   html += Handlebars._escape("#{content.slice(lastOffset, endingIndex)}")
-  if endingIndex < content.length - 1
+  if endingIndex < content.length
     html += "..."
   html
 
