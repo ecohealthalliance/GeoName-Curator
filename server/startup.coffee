@@ -23,7 +23,7 @@ Meteor.startup ->
     .findSync()
   count = 0
   dirNames = _.uniq(files.map (file)-> path.dirname(file))
-  startDate = moment("2017-3-1")
+  startDate = moment("2017-03-01")
   for file in files
     data = fs.readFileSync file, 'utf8'
     # remove leading white-spance

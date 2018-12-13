@@ -203,11 +203,6 @@ export createIncidentReportsFromEnhancements = (enhancements, options)->
   locationAnnotations = features.filter (f) -> f.type == 'location'
   locationAnnotations = ungroupOffsets(locationAnnotations)
   datetimeAnnotations = features.filter (f) -> f.type == 'datetime'
-  diseaseAnnotations = features.filter (f) ->
-    f.type == 'resolvedKeyword' and f.resolutions.some((r)->
-      # resolution is from the disease ontology
-      r.uri.startsWith("http://purl.obolibrary.org/obo/DOID")
-    )
   if not countAnnotations
     countAnnotations = features.filter (f) -> f.type == 'count'
   sents = parseSents(enhancements.source.cleanContent.content)
@@ -245,12 +240,7 @@ export createIncidentReportsFromEnhancements = (enhancements, options)->
       return timeAnnotation
     .filter (x) -> x
   dateTerritories = getTerritories(datetimeAnnotations, sents)
-  diseaseTerritories = getTerritories(diseaseAnnotations, sents)
   locationAnnotations.forEach (annotation) =>
-    # incident.dateTerritory = dateTerritory
-    # incident.locationTerritory = locationTerritory
-    # incident.diseaseTerritory = diseaseTerritory
-    # incident.countAnnotation = countAnnotation
     incident =
       locations: [annotation].map(({geoname}) -> geoname)
     annotations =

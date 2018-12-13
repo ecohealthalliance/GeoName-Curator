@@ -13,12 +13,6 @@ _markReviewed = (instance, showNext=true) ->
     if reviewed.get()
       notifying.set true
       Meteor.setTimeout ->
-        if showNext
-          unReviewedQuery = $and: [ {reviewed: false}, instance.data.query.get()]
-          nextSource = CuratorSources.findOne unReviewedQuery,
-            sort:
-              publishDate: -1
-          instance.data.selectedSourceId.set nextSource._id
         notifying.set false
         resolve()
       , 1200
@@ -34,6 +28,7 @@ Template.curatorSourceDetails.onCreated ->
 
 Template.curatorSourceDetails.onRendered ->
   instance = @
+  @subscribe('curatorSources', {})
   Meteor.defer =>
     instance.$('[data-toggle=tooltip]').tooltip
       delay: show: '300'
@@ -65,6 +60,7 @@ Template.curatorSourceDetails.onRendered ->
     # current source
     sourceId = @data.selectedSourceId.get()
     source = CuratorSources.findOne(sourceId)
+    console.log sourceId, source
     instance.reviewed.set source?.reviewed or false
     instance.source.set source
 
@@ -108,6 +104,7 @@ Template.curatorSourceDetails.helpers
     Incidents.find()
 
   source: ->
+    console.log Template.instance()
     Template.instance().source.get()
 
   formattedScrapeDate: ->

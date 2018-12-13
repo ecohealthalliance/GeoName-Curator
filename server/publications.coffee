@@ -43,10 +43,8 @@ Meteor.publish 'smartEvents', () ->
 # Curator Sources
 ReactiveTable.publish 'curatorSources', CuratorSources, {}
 Meteor.publish 'curatorSources', (query) ->
-  CuratorSources.find(query, {
-    sort:
-      publishDate: -1
-  })
+  CuratorSources.find(query)
+
 Meteor.publish 'curatorSourceIncidentReports', (sourceId) ->
   Incidents.find {url: $regex: new RegExp("#{sourceId}$")},
     sort: 'annotations.case.0.textOffsets.0': 1

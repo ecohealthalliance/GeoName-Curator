@@ -21,6 +21,7 @@
     "filehound": "^1.16.1",
     "hammerjs": "^2.0.8",
     "keymaster": "^1.6.2",
+    "meteor-node-stubs": "^0.4.1",
     "pluralize": "^3.0.0",
     "rupture": "^0.6.1",
     "underscore": "^1.8.3"

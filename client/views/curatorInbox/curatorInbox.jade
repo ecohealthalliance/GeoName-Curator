@@ -20,22 +20,13 @@ template(name="curatorInbox")
 
     .curator-inbox-sources.pane.pane-l.curator-inbox--pane(
       class="{{#if detailsInView}} off{{else}}on{{/if}}-canvas")
-      .curator-inbox-datepicker(class="{{#if calendarState}} active {{/if}}")
-        #date-picker.inlineRangePicker
-        .curator-inbox-datepicker--controls.container-flex.central.no-break
-          button#calendar-btn-apply.btn.btn-primary(type="button") Apply
-          if userHasFilteredByDate
-            button#calendar-btn-reset.btn.btn-default(type="button") Reset
       if isReady
         .curator-inbox-source-list
-          each day in days
-            +curatorInboxSection(
-              date=day
-              index=@index
-              reviewFilter=reviewFilter
-              textFilter=textFilter
-              selectedSourceId=selectedSourceId
-              currentPaneInView=currentPaneInView)
+        +reactiveTable(
+          collection='curatorSources'
+          settings=settings
+          selector=selector
+          class="table table-hover curator-inbox-table")
       else
         +loading static=true
     #touch-stage.curator-source-details.pane.pane-r.curator-inbox--pane(
