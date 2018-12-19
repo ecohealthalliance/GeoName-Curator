@@ -24,7 +24,7 @@ template(name="incidentForm")
         label.control-label Location
         +locationSelect2(
           selectId="incident-location-select2"
-          multiple=false
+          multiple=true
           selected=incidentData.locations
           required=true)
         .form-group

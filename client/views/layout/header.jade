@@ -15,11 +15,6 @@ template(name="navLinks")
       li(class="{{checkActive 'curator-inbox'}}")
         a(href="{{pathFor 'curator-inbox'}}") Inbox
 
-    li(class="{{checkActive 'user-events'}}")
-      a(href="{{pathFor 'user-events'}}") Tracked Events
-    li(class="{{checkActive 'event-map'}}")
-      a(href="{{pathFor 'event-map'}}") Event Map
-
     unless currentUser
       li
         a.withIcon(href="/sign-in" title="Sign In")
