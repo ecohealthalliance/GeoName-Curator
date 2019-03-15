@@ -1,6 +1,5 @@
 incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
-UserEvents = require '/imports/collections/userEvents.coffee'
 Constants = require '/imports/constants.coffee'
 
 Meteor.methods

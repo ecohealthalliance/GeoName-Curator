@@ -10,12 +10,6 @@ template(name="curatorInbox")
           title="Show/Hide Reviewed"
           tabindex="0")
           i.fa.fa-check-circle(aria-hidden="true")
-        a.option.curator-filter-calendar-icon.plain-focus(
-          class="{{#if calendarState}} active {{/if}}"
-          data-toggle="tooltip"
-          title="Filter by Date Range"
-          tabindex="0")
-          i.fa.fa-calendar(aria-hidden="true")
         +searchInput searchSettings
 
     .curator-inbox-sources.pane.pane-l.curator-inbox--pane(

@@ -1,5 +1,4 @@
 incidentReportSchema = require('/imports/schemas/incidentReport.coffee')
-UserEvents = require '/imports/collections/userEvents.coffee'
 Constants = require '/imports/constants.coffee'
 { notify } = require('/imports/ui/notification')
 { stageModals } = require('/imports/ui/modals')

@@ -14,16 +14,16 @@
     "mongodb-prebuilt": "^5.0.7"
   },
   "dependencies": {
+    "babel-runtime": "^6.23.0",
     "bcrypt": "^0.8.7",
-    "bootstrap-validator": "^0.11.8",
-    "cheerio": "^0.22.0",
-    "d3": "^4.3.0",
-    "filehound": "^1.16.1",
     "hammerjs": "^2.0.8",
-    "keymaster": "^1.6.2",
-    "meteor-node-stubs": "^0.4.1",
+    "meteor-node-stubs": "^0.2.6",
+    "moment": "^2.19.2",
+    "nouislider": "^10.0.0",
     "pluralize": "^3.0.0",
     "rupture": "^0.6.1",
-    "underscore": "^1.8.3"
+    "keymaster": "^1.6.2",
+    "bootstrap-validator": "^0.11.8",
+    "filehound": "^1.16.1"
   }
 }
