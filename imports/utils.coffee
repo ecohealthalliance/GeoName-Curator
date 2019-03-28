@@ -40,29 +40,6 @@ checkIncidentTypeValue = (form, input) ->
   else
     true
 
-export incidentReportFormToIncident = (form) ->
-  $form = $(form)
-
-  incident =
-    locations: []
-    ignore: form.ignore.checked
-
-  articleSourceUrl = form.articleSourceUrl
-  if articleSourceUrl
-    incident.url = articleSourceUrl.value
-  else
-    for child in $(form.articleSource).select2('data')
-      if child.selected
-        incident.url = child.text.trim()
-
-  for option in $(form).find('#incident-location-select2').select2('data')
-    item = option.item
-    if typeof item.alternateNames is 'string'
-      delete item.alternateNames
-    incident.locations.push(item)
-  
-  return incident
-
 export UTCOffsets =
   ADT:  '-0300'
   AKDT: '-0800'

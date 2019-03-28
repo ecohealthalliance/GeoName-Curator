@@ -32,10 +32,14 @@ annotateContent = (content, annotations, options={})->
       -1
     else if a.isStart > b.isStart
       1
-    else if a.otherEndpointOffset < b.otherEndpointOffset
-      -1
-    else if a.otherEndpointOffset > b.otherEndpointOffset
+    else if a.annotation.type == 'accepted' and b.annotation.type != 'accepted'
       1
+    else if b.annotation.type == 'accepted' and a.annotation.type != 'accepted'
+      -1
+    else if a.otherEndpointOffset < b.otherEndpointOffset
+      1
+    else if a.otherEndpointOffset > b.otherEndpointOffset
+      -1
     else
       0
   activeAnnotations = []

@@ -1,5 +1,7 @@
-Incidents = require '/imports/collections/incidentReports.coffee'
-{ notify } = require '/imports/ui/notification'
+import Incidents from '/imports/collections/incidentReports.coffee'
+import { notify } from '/imports/ui/notification'
+import selectedIncidents from '/imports/selectedIncidents'
+import { buildAnnotatedIncidentSnippet } from '/imports/ui/annotation'
 SCROLL_WAIT_TIME = 500
 
 _acceptedQuery = (accepted) ->
@@ -11,7 +13,6 @@ _acceptedQuery = (accepted) ->
   query
 
 _updateAllIncidentsStatus = (instance, select, event) ->
-  selectedIncidents = instance.selectedIncidents
   query = _acceptedQuery(instance.accepted)
   if select
     Incidents.find(query).forEach (incident) ->
@@ -24,7 +25,7 @@ _updateAllIncidentsStatus = (instance, select, event) ->
 
 _selectedIncidents = (instance) ->
   query = _acceptedQuery(instance.accepted)
-  instance.selectedIncidents.find(query)
+  selectedIncidents.find(query)
 
 _incidentsSelected = (instance) ->
   _selectedIncidents(instance).count()
@@ -38,35 +39,30 @@ select2NoResults = ->
   """
 
 Template.incidentTable.onCreated ->
-  @selectedIncidents = new Meteor.Collection(null)
   @addingEvent = new ReactiveVar(false)
   @selectedEventId = new ReactiveVar(false)
   @tableContentScrollable = @data.tableContentScrollable
   @accepted = @data.accepted
   @scrollToAnnotation = (id) =>
-    intervalTime = 0
-    @interval = setInterval =>
-      if intervalTime >= SCROLL_WAIT_TIME
-        @stopScrollingInterval()
-        $annotation = $("span[data-incident-id=#{id}]")
-        $sourceTextContainer = $('.curator-source-details--copy')
-        $("span[data-incident-id]").removeClass('viewing')
-        appHeaderHeight = $('header nav.navbar').outerHeight()
-        detailsHeaderHeight = $('.curator-source-details--header').outerHeight()
-        headerOffset = appHeaderHeight + detailsHeaderHeight
-        containerScrollTop = $sourceTextContainer.scrollTop()
-        annotationTopOffset = $annotation.offset().top
-        countainerVerticalMidpoint = $sourceTextContainer.height() / 2
-        totalOffset = annotationTopOffset - headerOffset
-        # Distance of scroll based on postition of text container, scroll position
-        # within the text container and the container's midpoint (to position the
-        # annotation in the center of the container)
-        scrollDistance =  totalOffset + containerScrollTop - countainerVerticalMidpoint
-        $sourceTextContainer.stop().animate
-          scrollTop: scrollDistance
-        , 500, -> $annotation.addClass('viewing')
-      intervalTime += 100
-    , 100
+    @stopScrollingInterval()
+    $annotation = $("span[data-incident-id=#{id}]")
+    $sourceTextContainer = $('.curator-source-details--copy')
+    $("span[data-incident-id]").removeClass('viewing')
+    appHeaderHeight = $('header nav.navbar').outerHeight()
+    detailsHeaderHeight = $('.curator-source-details--header').outerHeight()
+    headerOffset = appHeaderHeight + detailsHeaderHeight
+    containerScrollTop = $sourceTextContainer.scrollTop()
+    annotationTopOffset = $annotation.offset().top
+    countainerVerticalMidpoint = $sourceTextContainer.height() / 2
+    totalOffset = annotationTopOffset - headerOffset
+    # Distance of scroll based on postition of text container, scroll position
+    # within the text container and the container's midpoint (to position the
+    # annotation in the center of the container)
+    scrollDistance =  totalOffset + containerScrollTop - countainerVerticalMidpoint
+    $sourceTextContainer.stop().animate
+      scrollTop: scrollDistance
+    , 500, -> $annotation.addClass('viewing')
+
 
   @stopScrollingInterval = ->
     clearInterval(@interval)
@@ -82,7 +78,9 @@ Template.incidentTable.helpers
     instance = Template.instance()
     query = _acceptedQuery(instance.accepted)
     query.url = {$regex: new RegExp("#{instance.data.source._sourceId}$")}
-    incidents = Incidents.find(query).fetch()
+    incidents = Incidents.find(query).map (incident)->
+      incident.snippet = Spacebars.SafeString(buildAnnotatedIncidentSnippet(instance.data.source.content, incident))
+      incident
     _.sortBy(incidents, (i)-> i.annotations.location[0].textOffsets[0])
 
   allSelected: ->
@@ -92,7 +90,7 @@ Template.incidentTable.helpers
     Incidents.find(query).count() == selectedIncidentCount
 
   selected: ->
-    Template.instance().selectedIncidents.findOne(id: @_id)
+    selectedIncidents.findOne(id: @_id)
 
   incidentsSelected: ->
     _incidentsSelected(Template.instance())
@@ -118,7 +116,6 @@ Template.incidentTable.helpers
 Template.incidentTable.events
   'click table.incident-table tr td .select': (event, instance) ->
     event.stopPropagation()
-    selectedIncidents = instance.selectedIncidents
     query = id: @_id
     if selectedIncidents.findOne(query)
       selectedIncidents.remove(query)
@@ -131,7 +128,6 @@ Template.incidentTable.events
     accept = true
     if accepted
       accept = false
-    selectedIncidents = instance.selectedIncidents
     selectedIncidents.find(_acceptedQuery(accepted)).forEach (incident) ->
       incident = _id: incident.id
       incident.accepted = accept
@@ -148,28 +144,15 @@ Template.incidentTable.events
   'click .deselect-all': (event, instance) ->
     _updateAllIncidentsStatus(instance, false, event)
 
-  'mouseover .incident-table tbody tr': (event, instance) ->
-    instance.scrollToAnnotation(@_id)
-
-  'mouseout .incident-table tbody tr': (event, instance) ->
-    instance.stopScrollingInterval()
-
-  'click .incident-table tbody tr': (event, instance) ->
+  'click .incident-table tbody .open-incident': (event, instance) ->
     event.stopPropagation()
-    Modal.show 'incidentModal',
+    snippetHtml = buildAnnotatedIncidentSnippet(instance.data.source.content, @)
+    Modal.show 'suggestedIncidentModal',
       articles: [instance.data.source]
-      userEventId: null
-      edit: true
       incident: @
-      updateEvent: false
+      incidentText: Spacebars.SafeString(snippetHtml)
+      offCanvasStartPosition: 'top'
+      showBackdrop: true
 
-  'click .show-addEvent': (event, instance) ->
-    addingEvent = instance.addingEvent
-    addingEvent.set(not addingEvent.get())
-    event.currentTarget.blur()
-
-  'click .add-incident': (event, instance) ->
-    Modal.show 'incidentModal',
-      articles: [instance.data.source]
-      add: true
-      accept: true
+  'click .view': (event, instance) ->
+    instance.scrollToAnnotation(@_id)

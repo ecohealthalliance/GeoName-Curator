@@ -1,32 +1,12 @@
 template(name="incidentForm")
   form#add-incident(novalidate)
     .add-incident--wrapper
-      if confirmation
-        input(type="hidden" name="articleSourceUrl" value=articleSourceUrl)
-      else
-        .form-group.form-group--full
-          label.control-label.with-info-tooltip(
-            data-toggle="tooltip"
-            data-placement="right"
-            title="URL of the article where the incident was reported."
-          ) Source URL
-          if incidentData.url
-            input.form-control(readonly value=incidentData.url name="articleSourceUrl")
-          else
-            +articleSelect2(
-              selectId="articleSource"
-              articles=articles
-              selected=incidentData.url
-              placeholder='Select a source')
-            .help-block.with-errors
-
-      .form-group.form-group--full(class="{{suggestedField 'locations'}}")
+      .form-group.form-group--full
         label.control-label Location
         +locationSelect2(
           selectId="incident-location-select2"
           multiple=true
-          selected=incidentData.locations
-          required=true)
+          selected=incidentData.locations)
         .form-group
           label.control-label Check this if locations in the highlighted span should be ignored during classifier training/testing due to ambiguity or other problems.
           .container-flex.no-break
@@ -39,6 +19,28 @@ template(name="incidentForm")
                 checked=ignore
                 tabindex="-1")
               label(for="ignore" tabindex="0") Ignore
+          label.control-label Study Site
+          .container-flex.no-break
+            .check-button.study-site
+              input(
+                type="radio"
+                name="studySite"
+                id="studySite"
+                value="studySite"
+                checked=studySite
+                tabindex="-1")
+              label(for="studySite" tabindex="0") Study Site
+          label.control-label Location could not be found
+          .container-flex.no-break
+            .check-button.coordinates
+              input(
+                type="radio"
+                name="coordinates"
+                id="coordinates"
+                value="coordinates"
+                checked=coordinates
+                tabindex="-1")
+              label(for="coordinates" tabindex="0") Coordinates
         .help-block.with-errors
 
       button.hidden(type="submit" aria-hidden="true")

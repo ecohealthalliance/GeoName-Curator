@@ -2,7 +2,7 @@ CuratorSources = require '/imports/collections/curatorSources.coffee'
 Incidents = require '/imports/collections/incidentReports.coffee'
 key = require 'keymaster'
 { notify } = require '/imports/ui/notification'
-WIDE_UI_WIDTH = 1500
+WIDE_UI_WIDTH = 1000
 
 _markReviewed = (instance, showNext=true) ->
   new Promise (resolve) ->

@@ -1,7 +1,7 @@
 Incidents = require '/imports/collections/incidentReports.coffee'
 SmartEvents = require '/imports/collections/smartEvents.coffee'
 CuratorSources = require '/imports/collections/curatorSources.coffee'
-Articles = require '/imports/collections/articles.coffee'
+#Articles = require '/imports/collections/articles.coffee'
 Feeds = require '/imports/collections/feeds.coffee'
 
 # Incidents
@@ -15,13 +15,6 @@ Meteor.publish 'curatorSources', (query) ->
 Meteor.publish 'curatorSourceIncidentReports', (sourceId) ->
   Incidents.find {url: $regex: new RegExp("#{sourceId}$")},
     sort: 'annotations.case.0.textOffsets.0': 1
-
-Meteor.publish 'articles', (query={}) ->
-  query.deleted = {$in: [null, false]}
-  Articles.find(query)
-
-Meteor.publish 'article', (sourceId) ->
-  Articles.find(url: $regex: new RegExp("#{sourceId}$"))
 
 Meteor.publish 'feeds', ->
   Feeds.find()

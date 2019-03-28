@@ -1,4 +1,3 @@
-Articles = require '/imports/collections/articles.coffee'
 Constants = require '/imports/constants.coffee'
 Incidents = require '/imports/collections/incidentReports'
 SmartEvents = require '/imports/collections/smartEvents'

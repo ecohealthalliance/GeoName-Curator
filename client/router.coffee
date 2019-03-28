@@ -31,6 +31,10 @@ Router.onAfterAction ->
 
 Router.route "/",
   name: 'splash'
+  waitOn: ->
+    Roles.subscription
+  action: ->
+    @redirect '/curator-inbox'
 
 Router.route "/about",
   title: 'About'

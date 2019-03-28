@@ -38,37 +38,6 @@ IncidentReportSchema = new SimpleSchema
   disease:
     type: String
     optional: true
-  # "locations.$.admin1Name":
-  #   type: String
-  #   optional: true
-  # "locations.$.admin2Name":
-  #   type: String
-  #   optional: true
-  # "locations.$.alternateNames":
-  #   type: [String]
-  #   optional: true
-  # "locations.$.countryName":
-  #   type: String
-  #   optional: true
-  # "locations.$.featureClass":
-  #   type: String
-  #   optional: true
-  # "locations.$.featureCode":
-  #   type: String
-  #   optional: true
-  # "locations.$.id":
-  #   type: String
-  # "locations.$.latitude":
-  #   type: Number
-  #   decimal: true
-  # "locations.$.longitude":
-  #   type: Number
-  #   decimal: true
-  # "locations.$.name":
-  #   type: String
-  # "locations.$.population":
-  #   type: Number
-  #   optional: true
   deleted:
     type: Boolean
     optional: true
@@ -99,5 +68,12 @@ IncidentReportSchema = new SimpleSchema
   ignore:
     type: Boolean
     optional: true
+  studySite:
+    type: Boolean
+    optional: true
+  coordinates:
+    type: Boolean
+    optional: true
+
 
 module.exports = IncidentReportSchema

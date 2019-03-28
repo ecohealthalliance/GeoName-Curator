@@ -1,7 +1,5 @@
 import incidentReportSchema from '/imports/schemas/incidentReport'
 import Incidents from '/imports/collections/incidentReports'
-import articleSchema from '/imports/schemas/article'
-import Articles from '/imports/collections/articles'
 import CuratorSources from '/imports/collections/curatorSources'
 import Constants from '/imports/constants'
 

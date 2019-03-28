@@ -170,16 +170,6 @@ Template.suggestedIncidentsModal.events
         notify('success', 'Incident Reports Added')
         dismissModal(instance)
 
-  'click #non-suggested-incident': (event, instance) ->
-    sendModalOffStage(instance)
-    Modal.show 'incidentModal',
-      articles: [instance.data.article]
-      userEventId: instance.data.userEventId
-      add: true
-      incident:
-        url: instance.data.article.url
-      offCanvas: 'right'
-
   'click #save-csv': (event, instance) ->
     fileType = $(event.currentTarget).attr('data-type')
     table = instance.$('table.incident-table')

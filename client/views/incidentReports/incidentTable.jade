@@ -30,10 +30,17 @@ template(name="incidentTable")
               td
                 span.select(class="{{#if selected}} selected {{/if}}")
               if ignore
-                td
+                td.open-incident
                   i Ignored
+                  p=snippet
               else
-                td {{formatLocations locations}}
+                td.open-incident
+                  b {{formatLocations locations}}
+                  p=snippet
+              td
+                ul.actions.container-flex.list-unstyled.no-break
+                  li.view
+                    i.fa.fa-eye
       .container-flex.central.space-top-2
 
   else

@@ -44,33 +44,47 @@ Template.suggestedIncidentModal.events
       event.preventDefault()
       stageModals(instance, instance.modals)
 
-  'click .reject': (event, instance) ->
-    stageModals(instance, instance.modals)
-    Template.instance().incidentCollection.update instance.incident._id,
-      $set:
-        accepted: false
-
   'click .save-modal': (event, instance) ->
     # Submit the form to trigger validation and to update the 'valid'
     # reactiveVar — its value is based on whether the form's hidden submit
     # button's default is prevented
     $('#add-incident').submit()
     return unless instance.valid.get()
-    incident = utils.incidentReportFormToIncident(instance.$("form")[0])
 
-    return if not incident
+    $form = instance.$("form")
+  
+    incident =
+      locations: []
+      ignore: $form.get(0).ignore.checked
+      studySite: $form.get(0).studySite.checked
+      coordinates: $form.get(0).coordinates.checked
+      url: @incident.url
+  
+    for option in $form.find('#incident-location-select2').select2('data')
+      item = option.item
+      if typeof item.alternateNames is 'string'
+        delete item.alternateNames
+      incident.locations.push(item)
+
     incident.suggestedFields = instance.incident.suggestedFields.get()
-    incident.userEventId = instance.data.userEventId
     incident.accepted = true
-    if instance.incidentCollection
-      instance.incidentCollection.update instance.incident._id,
-        $unset:
-          cases: true
-          deaths: true
-          specify: true
-        $set: incident
-      notify('success', 'Incident Report Accepted', 1200)
-      stageModals(instance, instance.modals)
+    
+    if incident.locations.length == 0 and not (incident.ignore or incident.coordinates)
+      return notify('error', 'No location specified.')
+
+    if @incident?._id
+      incident._id = @incident._id
+      incident.addedByUserId = @incident.addedByUserId
+      incident.addedByUserName = @incident.addedByUserName
+      incident.addedDate = @incident.addedDate
+      incident.annotations = @incident.annotations
+      incident = _.pick(incident, incidentReportSchema.objectKeys())
+      Meteor.call 'editIncidentReport', incident, (error, result) ->
+        if not error
+          notify('success', 'Incident report updated')
+          stageModals(instance, instance.modals)
+        else
+          notify('error', error.reason)
     else
       incident.annotations = instance?.incident?.annotations
       incident = _.pick(incident, incidentReportSchema.objectKeys())
@@ -79,3 +93,32 @@ Template.suggestedIncidentModal.events
           return notify('error', error)
         notify('success', 'Incident report added.')
         stageModals(instance, instance.modals)
+
+  'click .delete-incident': (event, instance) ->
+    incident =
+      _id: @incident._id
+      accepted: false
+
+    Meteor.call 'updateIncidentReport', incident, (error, result) ->
+      if error
+        notify('error', 'There was a problem updating your incident reports.')
+        return
+      stageModals(instance, instance.modals)
+
+  'click .update-all': (event, instance) ->
+    $('#add-incident').submit()
+    return unless instance.valid.get()
+    form = instance.$('form')[0]
+    $form = $(form)
+  
+    incident =
+      locations: []
+      ignore: form.ignore.checked
+      url: @incident.url
+  
+    for option in $(form).find('#incident-location-select2').select2('data')
+      item = option.item
+      if typeof item.alternateNames is 'string'
+        delete item.alternateNames
+      incident.locations.push(item)
+

@@ -4,6 +4,8 @@ validator = require 'bootstrap-validator'
 
 Template.incidentForm.onCreated ->
   @ignore = new ReactiveVar(false)
+  @studySite = new ReactiveVar(false)
+  @coordinates = new ReactiveVar(false)
   instanceData = @data
   incident = instanceData.incident
   @suggestedFields = incident?.suggestedFields or new ReactiveVar([])
@@ -18,9 +20,10 @@ Template.incidentForm.onCreated ->
     @incidentData = _.extend(@incidentData, incident)
     if @incidentData.ignore
       @ignore.set(true)
-    if incident.dateRange
-      @incidentData.dateRange = incident.dateRange
-
+    if @incidentData.studySite
+      @studySite.set(true)
+    if @incidentData.coordinates
+      @coordinates.set(true)
 
 Template.incidentForm.onRendered ->
   @$('[data-toggle=tooltip]').tooltip()
@@ -29,14 +32,6 @@ Template.incidentForm.onRendered ->
 Template.incidentForm.helpers
   incidentData: ->
     Template.instance().incidentData
-
-  articles: ->
-    Template.instance().data.articles
-
-  selectedIncidentType: ->
-    switch Template.instance().incidentType.get()
-      when 'cases' then 'Case'
-      when 'deaths' then 'Death'
 
   suggestedField: (fieldName)->
     if fieldName in Template.instance().suggestedFields?.get()
@@ -48,6 +43,12 @@ Template.incidentForm.helpers
   ignore: ->
     Template.instance().ignore.get()
 
+  studySite: ->
+    Template.instance().studySite.get()
+
+  coordinates: ->
+    Template.instance().coordinates.get()
+
 Template.incidentForm.events
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
@@ -57,6 +58,12 @@ Template.incidentForm.events
 
   'click .ignore label': (event, instance) ->
     instance.ignore.set(not instance.ignore.get())
+
+  'click .study-site label': (event, instance) ->
+    instance.studySite.set(not instance.studySite.get())
+
+  'click .coordinates label': (event, instance) ->
+    instance.coordinates.set(not instance.coordinates.get())
 
   'mouseup .select2-selection': (event, instance) ->
     removeSuggestedProperties(instance, ['locations'])
