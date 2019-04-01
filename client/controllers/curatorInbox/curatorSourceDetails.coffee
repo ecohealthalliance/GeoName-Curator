@@ -60,7 +60,6 @@ Template.curatorSourceDetails.onRendered ->
     # current source
     sourceId = @data.selectedSourceId.get()
     source = CuratorSources.findOne(sourceId)
-    console.log sourceId, source
     instance.reviewed.set source?.reviewed or false
     instance.source.set source
 
@@ -104,7 +103,6 @@ Template.curatorSourceDetails.helpers
     Incidents.find()
 
   source: ->
-    console.log Template.instance()
     Template.instance().source.get()
 
   formattedScrapeDate: ->

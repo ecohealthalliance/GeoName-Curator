@@ -32,10 +32,6 @@ annotateContent = (content, annotations, options={})->
       -1
     else if a.isStart > b.isStart
       1
-    else if a.annotation.type == 'accepted' and b.annotation.type != 'accepted'
-      1
-    else if b.annotation.type == 'accepted' and a.annotation.type != 'accepted'
-      -1
     else if a.otherEndpointOffset < b.otherEndpointOffset
       1
     else if a.otherEndpointOffset > b.otherEndpointOffset
@@ -62,6 +58,15 @@ annotateContent = (content, annotations, options={})->
     endpoints.forEach ({annotation})->
       if isStart
         activeAnnotations.push(annotation)
+        # Resort activeAnnotation to ensure accepted annotations are at the end
+        acceptedAnnotations = []
+        unacceptedAnnotations = []
+        activeAnnotations.forEach (activeAnnotation) ->
+          if activeAnnotation.type == "accepted"
+            acceptedAnnotations.push(activeAnnotation)
+          else
+            unacceptedAnnotations.push(activeAnnotation)
+        activeAnnotations = unacceptedAnnotations.concat(acceptedAnnotations)
       else
         activeAnnotations = _.without(activeAnnotations, annotation)
     activeAnnotations.forEach (activeAnnotation, idx)->

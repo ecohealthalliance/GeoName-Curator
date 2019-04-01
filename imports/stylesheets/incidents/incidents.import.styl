@@ -14,24 +14,22 @@ viewingBG()
 
 .annotation
   cursor pointer
-  background-color: $incident-type-colors.case
+  background-color: $incident-type-colors.location
   &.viewing
     z-index 900
     viewingBG()
   &:hover
     background-color darken(@background-color, 30%)
     color white
-  &.uncertain
-    background-color transparent
-    text-decoration underline
+  &.unaccepted
+    background-color: $incident-type-colors.unaccepted
+    text-decoration none
     &.viewing
       viewingBG()
     &:hover
-      background-color: darken($incident-type-colors.uncertain, 5%)
-      color $body-text
-      text-decoration none
+      background-color darken(@background-color, 50%)
   &.accepted
-    background-color: $incident-type-colors.date
+    background-color: $incident-type-colors.accepted
     text-decoration none
     &.viewing
       viewingBG()

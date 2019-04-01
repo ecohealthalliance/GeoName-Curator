@@ -35,7 +35,7 @@ template(name="incidentTable")
                   p=snippet
               else
                 td.open-incident
-                  b {{formatLocations locations}}
+                  b {{formatLocations locations useHTML=true}}
                   p=snippet
               td
                 ul.actions.container-flex.list-unstyled.no-break

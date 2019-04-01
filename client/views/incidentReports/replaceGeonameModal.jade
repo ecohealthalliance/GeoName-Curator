@@ -1,0 +1,19 @@
+template(name="replaceGeonameModal")
+  .modal#replaceGeonameModal(
+    role="dialog"
+    data-backdrop="false"
+    class="off-canvas--#{offCanvasStartPosition}")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          +modalCloseButton
+          .modal-header--title
+            h4 Replace All Geonames
+        .modal-body
+          b Original Geoname:
+          p=original
+          b New Geoname:
+          p=updated
+        .modal-footer
+          button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+          button.btn.btn-primary.btn-wide.update-all(type="button") Replace All

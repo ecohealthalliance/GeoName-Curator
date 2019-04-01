@@ -74,6 +74,14 @@ IncidentReportSchema = new SimpleSchema
   coordinates:
     type: Boolean
     optional: true
-
+  modifiedByUserName:
+    type: String
+    optional: true
+  modifiedByUserId:
+    type: String
+    optional: true
+  modifiedDate:
+    type: Date
+    optional: true
 
 module.exports = IncidentReportSchema

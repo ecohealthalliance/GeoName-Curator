@@ -79,14 +79,14 @@ $page-layer = 0
 $body-font = 'Open Sans'
 
 $incident-type-colors = {
-  'location': lighten($primary, 80%)
-  'date': lighten($positive, 50%)
+  'location': lighten($positive, 10%)
+  'date': lighten($positive, 10%)
   'case': lighten($highlight, 60%)
   'uncertain': darken($l-gray, 5%)
   'disease': #F7DEB9
+  'accepted': lighten($positive, 10%)
+  'unaccepted': lighten($highlight, 60%)
 }
-$incident-type-colors.accepted = $incident-type-colors.date
-$incident-type-colors.rejected = $incident-type-colors.case
 
 // Break points
 $break-point--curator-inbox = 800px

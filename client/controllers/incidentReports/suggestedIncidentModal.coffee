@@ -1,3 +1,4 @@
+CuratorSources = require '/imports/collections/curatorSources.coffee'
 utils = require '/imports/utils.coffee'
 incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 { notify } = require '/imports/ui/notification'
@@ -38,6 +39,9 @@ Template.suggestedIncidentModal.helpers
   offCanvasStartPosition: ->
     Template.instance().data.offCanvasStartPosition or 'right'
 
+  articleId: ->
+    CuratorSources.findOne(_sourceId: Template.instance().incident.url.split('promedmail.org/post/').slice(-1)[0])?._id?._str
+
 Template.suggestedIncidentModal.events
   'hide.bs.modal #suggestedIncidentModal': (event, instance) ->
     if $(event.currentTarget).hasClass('in')
@@ -66,7 +70,6 @@ Template.suggestedIncidentModal.events
         delete item.alternateNames
       incident.locations.push(item)
 
-    incident.suggestedFields = instance.incident.suggestedFields.get()
     incident.accepted = true
     
     if incident.locations.length == 0 and not (incident.ignore or incident.coordinates)
@@ -110,7 +113,7 @@ Template.suggestedIncidentModal.events
     return unless instance.valid.get()
     form = instance.$('form')[0]
     $form = $(form)
-  
+
     incident =
       locations: []
       ignore: form.ignore.checked
@@ -121,4 +124,9 @@ Template.suggestedIncidentModal.events
       if typeof item.alternateNames is 'string'
         delete item.alternateNames
       incident.locations.push(item)
-
+    Modal.hide(instance)
+    window.setTimeout =>
+      Modal.show 'replaceGeonameModal',
+        original: @incident.locations[0]
+        updated: incident.locations[0]
+    , 1000

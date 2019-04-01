@@ -89,3 +89,11 @@ Template.locationSelect2.onRendered ->
       @$('.select2-search__field').attr('required', required)
       @$('select').attr('required', required)
   $input.val(initialValues.map((x)->x.id)).trigger('change')
+
+Template.locationSelect2.events
+  'click .select2-selection__choice': (event, instance)->
+    title = $(event.target).prop('title')
+    for item in instance.$('#incident-location-select2').select2('data')
+      if item.text == title
+        window.open("http://geonames.org/#{item.id}", "_blank")
+        break

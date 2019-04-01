@@ -31,8 +31,8 @@ Router.onAfterAction ->
 
 Router.route "/",
   name: 'splash'
-  waitOn: ->
-    Roles.subscription
+  # waitOn: ->
+  #   Roles.subscription
   action: ->
     @redirect '/curator-inbox'
 
@@ -51,22 +51,17 @@ Router.route "/admins",
     curatorUsers: Meteor.users.find({ roles: {$in: ["curator"] }}, {sort: {'profile.name': 1}})
     defaultUsers: Meteor.users.find({ roles: {$not: {$in: ["admin", "curator"]} }}, {sort: {'profile.name': 1}})
 
-Router.route "/contact-us",
-  name: 'contact-us'
-  title: 'Contact Us'
-
 Router.route "/curator-inbox",
   name: 'curator-inbox'
   title: 'Curator Inbox'
+  waitOn: -> [Roles.subscription, Meteor.subscribe('user')]
   onBeforeAction: ->
     redirectIfNotAuthorized(@, ['admin', 'curator'])
 
-Router.route "/feeds",
+Router.route "/curator-inbox/article/:articleId/:incidentId",
+  name: 'curator-inbox-article'
+  template: 'curatorInbox'
+  title: 'Curator Inbox'
+  waitOn: -> [Roles.subscription, Meteor.subscribe('user')]
   onBeforeAction: ->
-    redirectIfNotAuthorized(@, ['admin'])
-  name: 'feeds'
-  title: 'Feeds'
-
-Router.route "/extract-incidents",
-  name: 'extractIncidents'
-  layoutTemplate: "extractIncidentsLayout"
+    redirectIfNotAuthorized(@, ['admin', 'curator'])

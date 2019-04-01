@@ -1,10 +1,7 @@
 Constants = require '/imports/constants.coffee'
 Incidents = require '/imports/collections/incidentReports'
-SmartEvents = require '/imports/collections/smartEvents'
 incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
 import { formatUrl, cleanUrl, createIncidentReportsFromEnhancements, regexEscape } from '/imports/utils.coffee'
-
-DateRegEx = /<span class="blue">Published Date:<\/span> ([^<]+)/
 
 Meteor.methods
   getArticleEnhancements: (article) ->

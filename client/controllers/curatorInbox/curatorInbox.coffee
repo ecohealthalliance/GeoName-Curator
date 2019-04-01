@@ -50,6 +50,7 @@ Template.curatorInbox.onCreated ->
         if value
           'curator-inbox-curated-row'
       sortDirection: -1
+      sortOrder: 0
       fn: (value) ->
         ''
     },
@@ -59,21 +60,23 @@ Template.curatorInbox.onCreated ->
       label: 'Title'
       sortDirection: -1
     },
-    # {
-    #   key: 'publishDate'
-    #   description: 'Date the article was published.'
-    #   label: 'Published'
-    #   sortOrder: 0
-    #   sortDirection: -1
-    #   sortFn: (value, ctx)->
-    #     value
-    #   fn: (value) ->
-    #     if moment(value).diff(new Date(), 'days') > -7
-    #       moment(value).fromNow()
-    #     else
-    #       moment(value).format('YYYY-MM-DD')
-    # },
     {
+      key: 'reviewedDate'
+      description: 'Date the article was reviewed.'
+      label: 'Reviewed'
+      sortOrder: 1
+      sortDirection: -1
+      sortFn: (value, ctx)->
+        value
+      fn: (value) ->
+        momentValue = moment(value)
+        if not momentValue.isValid()
+          return ""
+        else if momentValue.diff(new Date(), 'days') > -7
+          momentValue.fromNow()
+        else
+          momentValue.format('YYYY-MM-DD')
+    }, {
       key: 'addedDate'
       description: 'Date the article was added.'
       label: 'Added'
@@ -89,7 +92,6 @@ Template.curatorInbox.onCreated ->
     }
   ]
 
-
 Template.curatorInbox.onRendered ->
   # determine if our `back-to-top` button should be initially displayed
   $scrollableElement = $('.curator-inbox-sources')
@@ -98,17 +100,10 @@ Template.curatorInbox.onRendered ->
   $scrollableElement.on 'scroll', ->
     debounceCheckTop(@)
 
-  # @autorun =>
-  #   @filtering.set(true)
-  #   @subscribe "curatorSources", {}, () =>
-  #     unReviewedQuery = $and: [ {reviewed: false}, query ]
-  #     firstSource = CuratorSources.findOne unReviewedQuery,
-  #       sort:
-  #         publishDate: -1
-  #     if firstSource
-  #       @selectedSourceId.set(firstSource._id)
-  #     @filtering.set(false)
-  #     @ready.set(true)
+  @autorun =>
+    articleId = Router.current().params.articleId
+    if articleId
+      @selectedSourceId.set(new Mongo.ObjectID(articleId))
 
 Template.curatorInbox.helpers
   reviewFilter: ->
@@ -159,7 +154,7 @@ Template.curatorInbox.helpers
     showFilter: false
     rowsPerPage: 20
     #showNavigation: 'never'
-    filters: [Template.instance().filterId, 'curator-inbox-article-filter', 'curator-inbox-review-filter']
+    filters: ['curator-inbox-article-filter', 'curator-inbox-review-filter']
     rowClass: (source) ->
       if source._id._str is instance.selectedSourceId?.get()?._str
         'selected'

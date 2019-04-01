@@ -73,6 +73,18 @@ Template.incidentTable.onRendered ->
       @addingEvent.set(false)
       @selectedEventId.set(null)
 
+  @autorun =>
+    incident = Incidents.findOne(_id: Router.current().params.incidentId)
+    if incident
+      source = @data.source
+      snippetHtml = buildAnnotatedIncidentSnippet(source.content, incident, false)
+      Modal.show 'suggestedIncidentModal',
+        articles: [source]
+        incident: incident
+        incidentText: Spacebars.SafeString(snippetHtml)
+        offCanvasStartPosition: 'top'
+        showBackdrop: true
+
 Template.incidentTable.helpers
   incidents: ->
     instance = Template.instance()

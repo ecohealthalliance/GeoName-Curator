@@ -24,7 +24,8 @@ template(name="suggestedIncidentModal")
             confirmation=true
             valid=valid)
         .modal-footer
+          a.btn(href="{{pathFor route='curator-inbox-article' articleId=articleId incidentId=incident._id}}" style="float:left;") Link
           button.btn.btn-default(type="button" data-dismiss="modal") Close
-          //button.btn.btn-danger.update-all(type="button") Update All Mentions of Geoname
           button.btn.btn-danger.delete-incident(type="button") Delete
-          button.btn.btn-primary.btn-wide.save-modal(type="button") Save
+          button.btn.btn-primary.update-all(type="button") Update All Mentions of Geoname
+          button.btn.btn-primary.btn-wide.save-modal(type="button") Accept

@@ -1,11 +1,11 @@
 formatLocation = require '/imports/formatLocation.coffee'
 { formatUrl } = require '/imports/utils.coffee'
 
-UI.registerHelper 'formatLocation', (location)->
-  return formatLocation(location)
+UI.registerHelper 'formatLocation', (location, context)->
+  return Spacebars.SafeString(formatLocation(location, context.hash.useHTML))
 
-UI.registerHelper 'formatLocations', (locations)->
-  return locations.map(formatLocation).join('; ')
+UI.registerHelper 'formatLocations', (locations, context)->
+  return Spacebars.SafeString(locations.map((location)-> formatLocation(location, context.hash.useHTML)).join('; '))
 
 UI.registerHelper 'formatDateRange', (dateRange)->
   return formatDateRange(dateRange)
