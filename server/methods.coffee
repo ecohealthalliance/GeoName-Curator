@@ -1,7 +1,7 @@
-Constants = require '/imports/constants.coffee'
-Incidents = require '/imports/collections/incidentReports'
-incidentReportSchema = require '/imports/schemas/incidentReport.coffee'
-import { formatUrl, cleanUrl, createIncidentReportsFromEnhancements, regexEscape } from '/imports/utils.coffee'
+import Constants from '/imports/constants'
+import Incidents from '/imports/collections/incidentReports'
+import incidentReportSchema from '/imports/schemas/incidentReport'
+import { formatUrl, cleanUrl, createIncidentReportsFromEnhancements, regexEscape } from '/imports/utils'
 
 Meteor.methods
   getArticleEnhancements: (article) ->
@@ -68,39 +68,6 @@ Meteor.methods
         else
           false
     return enhancements
-
-  ###
-  # Create or update an EIDR-C meteor account for a BSVE user with the given
-  # authentication info.
-  # @param authInfo.authTicket - The BSVE authTicket used to verify the account
-  #   with the BSVE. The EIDR-C user's password is set to the authTicket.
-  # @param authInfo.user - The BSVE user's username. The EIDR-C username
-  #   is the BSVE username with bsve- prepended.
-  ###
-  SetBSVEAuthTicketPassword: (authInfo)->
-    # The api path chosen here is aribitrary, the call is only to verify that
-    # the auth ticket works.
-    response = HTTP.get("https://api.bsvecosystem.net/data/v2/sources/PON", {
-      headers:
-        "harbinger-auth-ticket": authInfo.authTicket
-    })
-    if Meteor.settings.private?.disableBSVEAuthentication
-      throw new Meteor.Error("BSVEAuthFailure", "BSVE Authentication is disabled.")
-    if response.data.status != 1
-      throw new Meteor.Error("BSVEAuthFailure", response.data.message)
-    meteorUser = Accounts.findUserByUsername("bsve-" + authInfo.user)
-    if not meteorUser
-      console.log "Creating user"
-      {firstName, lastName} = authInfo.userData
-      userId = Accounts.createUser(
-        username: "bsve-" + authInfo.user
-        profile:
-          name: firstName + " " + lastName
-      )
-    else
-      userId = meteorUser._id
-    Roles.addUsersToRoles([userId], ['admin'])
-    Accounts.setPassword(userId, authInfo.authTicket, logout:false)
 
   addSourceIncidentReportsToCollection: (source, options) ->
     { acceptByDefault } = options

@@ -473,6 +473,7 @@ $pane-switch-speed = .3s
               margin-right .1em
 
 .curator-source-details--incidents
+  height 100%
   display flex
   .tab-content
     flex 1 1 auto
@@ -486,7 +487,12 @@ $pane-switch-speed = .3s
     overflow-x hidden
     overflow-y scroll
     padding-bottom 3em
+    flex 1
+    position relative
   .table
+    position absolute
+    top 0
+    bottom 0
     > tbody > tr:last-of-type td
       border-bottom 0
     thead

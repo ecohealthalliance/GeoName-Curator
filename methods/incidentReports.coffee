@@ -6,7 +6,7 @@ Meteor.methods
   addIncidentReport: (incident) ->
     incidentReportSchema.validate(incident)
     user = Meteor.user()
-    if not Roles.userIsInRole(user._id, ['admin'])
+    if not Roles.userIsInRole(user._id, ['admin', 'curator'])
       throw new Meteor.Error("auth", "User does not have permission to create incident reports")
     incident.addedByUserId = user._id
     incident.addedByUserName = user.profile.name
@@ -22,7 +22,7 @@ Meteor.methods
     _id = incident._id
     delete incident._id
     user = Meteor.user()
-    if not Roles.userIsInRole(user._id, ['admin'])
+    if not Roles.userIsInRole(user._id, ['admin', 'curator'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     incident.modifiedByUserId = user._id
     incident.modifiedByUserName = user.profile.name
@@ -33,7 +33,7 @@ Meteor.methods
   editIncidentReport: (incident) ->
     incidentReportSchema.validate(incident)
     user = Meteor.user()
-    if not Roles.userIsInRole(user._id, ['admin'])
+    if not Roles.userIsInRole(user._id, ['admin', 'curator'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     incident.modifiedByUserId = user._id
     incident.modifiedByUserName = user.profile.name
@@ -46,7 +46,7 @@ Meteor.methods
       Meteor.call("addIncidentReport", incident)
 
   removeIncidentReport: (id) ->
-    if not Roles.userIsInRole(@userId, ['admin'])
+    if not Roles.userIsInRole(@userId, ['admin', 'curator'])
       throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
     incident = Incidents.findOne(id)
     user = Meteor.user()

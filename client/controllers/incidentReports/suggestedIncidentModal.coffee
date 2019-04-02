@@ -118,12 +118,16 @@ Template.suggestedIncidentModal.events
       locations: []
       ignore: form.ignore.checked
       url: @incident.url
-  
+
     for option in $(form).find('#incident-location-select2').select2('data')
       item = option.item
       if typeof item.alternateNames is 'string'
         delete item.alternateNames
       incident.locations.push(item)
+
+    if incident.locations.length == 0
+      return notify('error', 'No location specified.')
+
     Modal.hide(instance)
     window.setTimeout =>
       Modal.show 'replaceGeonameModal',

@@ -7,7 +7,7 @@ redirectIfNotAuthorized = (router, roles) ->
 
   unless Roles.userIsInRole(Meteor.userId(), roles)
     if Meteor.userId()
-      router.redirect '/'
+      router.redirect '/about'
     else
       router.redirect '/sign-in'
   router.next()
@@ -31,8 +31,6 @@ Router.onAfterAction ->
 
 Router.route "/",
   name: 'splash'
-  # waitOn: ->
-  #   Roles.subscription
   action: ->
     @redirect '/curator-inbox'
 

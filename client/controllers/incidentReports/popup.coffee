@@ -12,7 +12,7 @@ Template.popup.onCreated ->
   @allowRepositioning ?= true
 
   range = @selection.getRangeAt(0)
-  {top, bottom, left, width} = range.getBoundingClientRect()
+  {top, bottom, left, width} = range.getClientRects()[0]
   selectionHeight = bottom - top
   topPosition = "#{Math.floor(top + selectionHeight + POPUP_PADDING)}px"
   bottomPosition = 'auto'

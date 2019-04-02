@@ -59,28 +59,29 @@ annotateContent = (content, annotations, options={})->
       if isStart
         activeAnnotations.push(annotation)
         # Resort activeAnnotation to ensure accepted annotations are at the end
+        ignoredAnnotations = []
         acceptedAnnotations = []
         unacceptedAnnotations = []
         activeAnnotations.forEach (activeAnnotation) ->
           if activeAnnotation.type == "accepted"
-            acceptedAnnotations.push(activeAnnotation)
+            if activeAnnotation.ignore
+              ignoredAnnotations.push(activeAnnotation)
+            else
+              acceptedAnnotations.push(activeAnnotation)
           else
             unacceptedAnnotations.push(activeAnnotation)
-        activeAnnotations = unacceptedAnnotations.concat(acceptedAnnotations)
+        activeAnnotations = unacceptedAnnotations.concat(acceptedAnnotations).concat(ignoredAnnotations)
       else
         activeAnnotations = _.without(activeAnnotations, annotation)
     activeAnnotations.forEach (activeAnnotation, idx)->
-      types = activeAnnotations.map((a)->
-        if a.ignore
-          'ignore'
-        else
-          a.type
-      ).filter((a)->a).join(" ")
+      type = activeAnnotation.type
+      if activeAnnotation.type == "accepted" and activeAnnotation.ignore
+        type = "ignore"
       attributes = {}
       activeAnnotations.slice(0, idx + 1).forEach (a)->
         _.extend(attributes, a?.attributes or {})
       attributeText = _.map(attributes, (value, key)-> "#{key}='#{value}'").join(" ")
-      classAttr = if types then "class='annotation annotation-text #{types}'" else ""
+      classAttr = if type then "class='annotation annotation-text #{type}'" else ""
       html += "<#{activeAnnotation.tag or tag} #{classAttr} #{attributeText}>"
     lastOffset = offset
   html += Handlebars._escape("#{content.slice(lastOffset, endingIndex)}")
