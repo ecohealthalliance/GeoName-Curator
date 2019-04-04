@@ -8,29 +8,17 @@ template(name="incidentForm")
           multiple=true
           selected=incidentData.locations)
         .form-group
-          label.control-label Check this if locations in the highlighted span should be ignored during classifier training/testing due to ambiguity or other problems.
           .container-flex.no-break
-            .check-button.ignore
+            .check-button.locationNotFound
               input(
                 type="radio"
-                name="ignore"
-                id="ignore"
-                value="ignore"
-                checked=ignore
+                name="locationNotFound"
+                id="locationNotFound"
+                value="locationNotFound"
+                checked=locationNotFound
                 tabindex="-1")
-              label(for="ignore" tabindex="0") Ignore
-          label.control-label Study Site
-          .container-flex.no-break
-            .check-button.study-site
-              input(
-                type="radio"
-                name="studySite"
-                id="studySite"
-                value="studySite"
-                checked=studySite
-                tabindex="-1")
-              label(for="studySite" tabindex="0") Study Site
-          label.control-label Location could not be found
+              label(for="locationNotFound" tabindex="0") No Matching Geoname
+            .note The selected span is a place name but it cannot be found in the drop-down menu.
           .container-flex.no-break
             .check-button.coordinates
               input(
@@ -41,6 +29,33 @@ template(name="incidentForm")
                 checked=coordinates
                 tabindex="-1")
               label(for="coordinates" tabindex="0") Coordinates
+            .note The selected span is a place name but it cannot be found in the drop-down menu.
+          hr
+          label.control-label Study Site Indicator
+          .container-flex.no-break
+            .check-button.study-site
+              input(
+                type="radio"
+                name="studySite"
+                id="studySite"
+                value="studySite"
+                checked=studySite
+                tabindex="-1")
+              label(for="studySite" tabindex="0") Study Site
+            .note The selected span describes where fieldword was conducted for this study.
+          hr
+          .container-flex.no-break
+            .check-button.ignore
+              input(
+                type="radio"
+                name="ignore"
+                id="ignore"
+                value="ignore"
+                checked=ignore
+                tabindex="-1")
+              label(for="ignore" tabindex="0") Ignore
+            .note Select this to flag a section of the document as "ignored."
+              | Problematic locations and non-prose sections of the document such as tables and garbled text should be flagged.
         .help-block.with-errors
 
       button.hidden(type="submit" aria-hidden="true")

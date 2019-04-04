@@ -6,6 +6,7 @@ Template.incidentForm.onCreated ->
   @ignore = new ReactiveVar(false)
   @studySite = new ReactiveVar(false)
   @coordinates = new ReactiveVar(false)
+  @locationNotFound = new ReactiveVar(false)
   instanceData = @data
   incident = instanceData.incident
   @suggestedFields = incident?.suggestedFields or new ReactiveVar([])
@@ -24,6 +25,8 @@ Template.incidentForm.onCreated ->
       @studySite.set(true)
     if @incidentData.coordinates
       @coordinates.set(true)
+    if @incidentData.locationNotFound
+      @locationNotFound.set(true)
 
 Template.incidentForm.onRendered ->
   @$('[data-toggle=tooltip]').tooltip()
@@ -49,6 +52,9 @@ Template.incidentForm.helpers
   coordinates: ->
     Template.instance().coordinates.get()
 
+  locationNotFound: ->
+    Template.instance().locationNotFound.get()
+
 Template.incidentForm.events
   'click .select2-selection': (event, instance) ->
     # Remove selected empty item
@@ -64,6 +70,9 @@ Template.incidentForm.events
 
   'click .coordinates label': (event, instance) ->
     instance.coordinates.set(not instance.coordinates.get())
+
+  'click .locationNotFound label': (event, instance) ->
+    instance.locationNotFound.set(not instance.locationNotFound.get())
 
   'mouseup .select2-selection': (event, instance) ->
     removeSuggestedProperties(instance, ['locations'])

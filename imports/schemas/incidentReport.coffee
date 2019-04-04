@@ -74,6 +74,9 @@ IncidentReportSchema = new SimpleSchema
   coordinates:
     type: Boolean
     optional: true
+  locationNotFound:
+    type: Boolean
+    optional: true
   modifiedByUserName:
     type: String
     optional: true

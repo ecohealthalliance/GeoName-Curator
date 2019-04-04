@@ -26,11 +26,10 @@ Router.route("/api/geoannotatedDocuments", {where: "server"})
   }).map((source)->
     annotations = Incidents.find(
       url: $regex: utils.regexEscape('promedmail.org/post/' + source._sourceId) + "$"
-      $or: [
-        { accepted: true }
-        { ignore: true }
-      ]
+      accepted: true
     ).map((i)->
+      if i.locationNotFound
+        i.ignore = true
       if not i.ignore and not i.locations[0]?.id
         return
       textOffsets: i.annotations.location[0].textOffsets

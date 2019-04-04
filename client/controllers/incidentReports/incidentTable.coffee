@@ -77,7 +77,7 @@ Template.incidentTable.onRendered ->
     incident = Incidents.findOne(_id: Router.current().params.incidentId)
     if incident
       source = @data.source
-      snippetHtml = buildAnnotatedIncidentSnippet(source.content, incident, false)
+      snippetHtml = buildAnnotatedIncidentSnippet(source.enhancements.source.cleanContent.content, incident, false)
       Modal.show 'suggestedIncidentModal',
         articles: [source]
         incident: incident
@@ -91,7 +91,7 @@ Template.incidentTable.helpers
     query = _acceptedQuery(instance.accepted)
     query.url = {$regex: new RegExp("#{instance.data.source._sourceId}$")}
     incidents = Incidents.find(query).map (incident)->
-      incident.snippet = Spacebars.SafeString(buildAnnotatedIncidentSnippet(instance.data.source.content, incident))
+      incident.snippet = Spacebars.SafeString(buildAnnotatedIncidentSnippet(instance.data.source.enhancements.source.cleanContent.content, incident))
       incident
     _.sortBy(incidents, (i)-> i.annotations.location[0].textOffsets[0])
 
@@ -158,7 +158,7 @@ Template.incidentTable.events
 
   'click .incident-table tbody .open-incident': (event, instance) ->
     event.stopPropagation()
-    snippetHtml = buildAnnotatedIncidentSnippet(instance.data.source.content, @)
+    snippetHtml = buildAnnotatedIncidentSnippet(instance.data.source.enhancements.source.cleanContent.content, @)
     Modal.show 'suggestedIncidentModal',
       articles: [instance.data.source]
       incident: @

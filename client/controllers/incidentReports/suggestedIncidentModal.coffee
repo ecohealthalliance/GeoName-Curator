@@ -62,6 +62,7 @@ Template.suggestedIncidentModal.events
       ignore: $form.get(0).ignore.checked
       studySite: $form.get(0).studySite.checked
       coordinates: $form.get(0).coordinates.checked
+      locationNotFound: $form.get(0).locationNotFound.checked
       url: @incident.url
   
     for option in $form.find('#incident-location-select2').select2('data')
@@ -72,7 +73,7 @@ Template.suggestedIncidentModal.events
 
     incident.accepted = true
     
-    if incident.locations.length == 0 and not (incident.ignore or incident.coordinates)
+    if incident.locations.length == 0 and not (incident.ignore or incident.coordinates or incident.locationNotFound)
       return notify('error', 'No location specified.')
 
     if @incident?._id
