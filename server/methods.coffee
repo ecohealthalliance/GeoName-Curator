@@ -27,6 +27,7 @@ Meteor.methods
       Meteor.Error("InvalidArticle", "Content or a URL must be specified")
     result = HTTP.post(Constants.GRITS_URL + "/api/v1/public_diagnose", params: params)
     if result.data.error
+      console.log(result.data.error)
       throw new Meteor.Error("grits-error", result.data.error)
     console.log "success"
     enhancements = result.data

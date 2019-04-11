@@ -36,6 +36,8 @@ Template.curatorInbox.onCreated ->
   @reviewFilter =
     new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
   @reviewFilter.set(null)
+  feedIdFilter = new ReactiveTable.Filter('curator-inbox-feed-filter', ['feedId'])
+  feedIdFilter.set('pubmed_sample')
   @selectedSourceId = new ReactiveVar(null)
   @query = new ReactiveVar(null)
   @currentPaneInView = new ReactiveVar('')
@@ -154,7 +156,11 @@ Template.curatorInbox.helpers
     showFilter: false
     rowsPerPage: 20
     #showNavigation: 'never'
-    filters: ['curator-inbox-article-filter', 'curator-inbox-review-filter']
+    filters: [
+      'curator-inbox-article-filter',
+      'curator-inbox-review-filter',
+      'curator-inbox-feed-filter'
+    ]
     rowClass: (source) ->
       if source._id._str is instance.selectedSourceId?.get()?._str
         'selected'

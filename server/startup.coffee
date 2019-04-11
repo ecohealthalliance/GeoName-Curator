@@ -8,42 +8,6 @@ path = Npm.require('path')
 FileHound = Npm.require('filehound')
 
 Meteor.startup ->
-  return
-  CuratorSources.remove(_source: "pmc")
-  files = FileHound.create()
-    .paths(path.join(process.env.PWD, '.pmc'))
-    .ext('txt')
-    .findSync()
-  count = 0
-  for file in files
-    data = fs.readFileSync file, 'utf8'
-    # remove leading white-spance
-    textContent = data.replace(/^ +/mg, "")
-    if textContent.length == 0
-      console.log "No content:", file
-      continue
-    # Normalize post for display/subscription
-    relPath = file.split('.pmc/')[1]
-    title = textContent.split(/\s+/).slice(0, 10).join(" ")
-    # Make it so files in the same directory are all given the same publish
-    # date so they are grouped together in the inbox.
-    # publishDate = moment(startDate).add(
-    #     dirNames.indexOf(path.dirname(file)), 'day').toDate()
-    normalizedPost =
-      _id: new Mongo.ObjectID()
-      _source: "pmc"
-      _sourceId: relPath.replace("/", "_")
-      title: "[#{relPath}] #{title}"
-      addedDate: new Date()
-      #publishDate: publishDate
-      content: textContent
-      reviewed: false
-      feedId: "pmc"
-      metadata:
-        links: []
-    CuratorSources.insert(normalizedPost)
-    count += 1
-  console.log count, "documents added"
   # Check to only run when there is no data present.
   # If this is commented out and the script runs a second time prior data
   # will be removed.
