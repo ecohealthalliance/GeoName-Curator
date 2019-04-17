@@ -12,6 +12,9 @@ Template.annotationOptions.helpers
     instance = Template.instance()
     selectedIncidents.findOne(id: @incidentId)
 
+  incidentAccepted: ->
+    Template.instance().incident.accepted
+
 Template.annotationOptions.events
   'click .select': (event, instance) ->
     incidentId = instance.data.incidentId
@@ -19,6 +22,7 @@ Template.annotationOptions.events
     if selectedIncidents.findOne(query)
       selectedIncidents.remove(query)
     else
+      query.accepted = true
       selectedIncidents.insert(query)
 
   'click .edit': (event, instance) ->

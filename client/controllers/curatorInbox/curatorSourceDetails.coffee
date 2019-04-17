@@ -80,20 +80,16 @@ Template.curatorSourceDetails.onRendered ->
           $title.attr('data-original-title', title)
 
       @subscribe 'curatorSourceIncidentReports', sourceId
-      source.url = "http://www.promedmail.org/post/#{sourceId}"
+
       if source.enhancements
         instance.incidentsLoaded.set(true)
       else
-        Meteor.call 'getArticleEnhancements', source, (error, enhancements)=>
+        Meteor.call 'getArticleEnhancementsAndUpdate', source._id, {}, (error, updatedSource) =>
           if error
             notify('error', error.reason)
           else
-            source.enhancements = enhancements
-            Meteor.call("updateSourceEnhancements", source._id, enhancements)
-            Meteor.call 'addSourceIncidentReportsToCollection', source, {
-              acceptByDefault: true
-            }, (error, result) ->
-              instance.incidentsLoaded.set(true)
+            source = updatedSource
+            instance.incidentsLoaded.set(true)
 
 Template.curatorSourceDetails.onDestroyed ->
   $(window).off('resize')

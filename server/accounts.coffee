@@ -1,5 +1,5 @@
-Accounts.emailTemplates.siteName = "EIDR-Connect"
-Accounts.emailTemplates.from = "EIDR-C <no-reply@eha.io>"
+Accounts.emailTemplates.siteName = "Geoname Curator"
+Accounts.emailTemplates.from = "Geoname Curator <no-reply@eha.io>"
 
 Meteor.startup ->
   unless Meteor.users.find().count()

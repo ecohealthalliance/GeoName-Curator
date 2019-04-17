@@ -179,44 +179,8 @@ export createIncidentReportsFromEnhancements = (enhancements, options)->
   features = enhancements.features
   locationAnnotations = features.filter (f) -> f.type == 'location'
   locationAnnotations = ungroupOffsets(locationAnnotations)
-  datetimeAnnotations = features.filter (f) -> f.type == 'datetime'
-  if not countAnnotations
-    countAnnotations = features.filter (f) -> f.type == 'count'
   sents = parseSents(enhancements.source.cleanContent.content)
   locTerritories = getTerritories(locationAnnotations, sents)
-  datetimeAnnotations = datetimeAnnotations
-    .map (timeAnnotation) =>
-      if not (timeAnnotation.timeRange and
-        timeAnnotation.timeRange.begin and
-        timeAnnotation.timeRange.end
-      )
-        return
-      # moment parses 0 based month indecies
-      if timeAnnotation.timeRange.begin.month
-        timeAnnotation.timeRange.begin.month--
-      if timeAnnotation.timeRange.end.month
-        timeAnnotation.timeRange.end.month--
-      timeAnnotation.precision = (
-        Object.keys(timeAnnotation.timeRange.end).length +
-        Object.keys(timeAnnotation.timeRange.end).length
-      )
-      timeAnnotation.beginMoment = moment.utc(
-        timeAnnotation.timeRange.begin
-      )
-      # Round up the to day end
-      timeAnnotation.endMoment = moment.utc(
-        timeAnnotation.timeRange.end
-      ).endOf('day')
-      publishMoment = moment.utc(publishDate)
-      if timeAnnotation.beginMoment.isAfter publishMoment, 'day'
-        # Omit future dates
-        return
-      if timeAnnotation.endMoment.isAfter publishMoment, 'day'
-        # Truncate ranges that extend into the future
-        timeAnnotation.endMoment = publishMoment
-      return timeAnnotation
-    .filter (x) -> x
-  dateTerritories = getTerritories(datetimeAnnotations, sents)
   locationAnnotations.forEach (annotation) =>
     incident =
       locations: [annotation].map(({geoname}) -> geoname)
@@ -230,3 +194,24 @@ export createIncidentReportsFromEnhancements = (enhancements, options)->
     incident.url = url
     incidents.push(incident)
   return incidents
+
+mapAsync = (list, func, done)->
+  if list.length > 0
+    nextCb = (result)->
+      mapAsync(list.slice(1), func, (nextResults)->
+        done([result].concat(nextResults))
+      )
+    func(list[0], nextCb, done)
+  else
+    done([])
+
+forEachAsync = (list, func, done)->
+  if list.length > 0
+    nextCb = (result)->
+      forEachAsync(list.slice(1), func, done)
+    func(list[0], nextCb, done)
+  else
+    done()
+
+export mapAsync = mapAsync
+export forEachAsync = mapAsync

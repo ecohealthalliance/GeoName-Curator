@@ -2,8 +2,6 @@
 
 POPUP_DELAY = 100
 
-_setSelectingState = (instance, state) ->
-  instance.selecting.set(state)
 
 Template.annotatedContent.onCreated ->
   @selecting = new ReactiveVar(false)
@@ -11,11 +9,8 @@ Template.annotatedContent.onCreated ->
 
 Template.annotatedContent.onRendered ->
   $('body').on 'mousedown', (event) =>
-    # Allow event to propagate to 'add-incident-from-selection' button before
-    # element is removed from DOM
-    setTimeout =>
-      _setSelectingState(@, false)
-    , POPUP_DELAY
+    if $(event.target).closest('.new-incident-from-selection').length == 0
+      @selecting.set(false)
   $(@data.relatedElements.sourceContainer).on 'scroll', (event) =>
     unless @scrolled.get()
       @scrolled.set(true)

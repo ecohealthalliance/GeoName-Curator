@@ -2,12 +2,15 @@ import incidentReportSchema from '/imports/schemas/incidentReport'
 import Incidents from '/imports/collections/incidentReports'
 import CuratorSources from '/imports/collections/curatorSources'
 import Constants from '/imports/constants'
+import autoprocess from '/server/autoprocess'
 
 fs = Npm.require('fs')
 path = Npm.require('path')
 FileHound = Npm.require('filehound')
 
 Meteor.startup ->
+  Meteor.setInterval(autoprocess, 1000 * 60 * 25)
+  autoprocess()
   # Check to only run when there is no data present.
   # If this is commented out and the script runs a second time prior data
   # will be removed.

@@ -38,6 +38,8 @@ Template.curatorInbox.onCreated ->
   @reviewFilter.set(null)
   feedIdFilter = new ReactiveTable.Filter('curator-inbox-feed-filter', ['feedId'])
   feedIdFilter.set('pubmed_sample')
+  processedFilter = new ReactiveTable.Filter('processed-filter', ['enhancements'])
+  processedFilter.set($exists: true)
   @selectedSourceId = new ReactiveVar(null)
   @query = new ReactiveVar(null)
   @currentPaneInView = new ReactiveVar('')
@@ -159,7 +161,8 @@ Template.curatorInbox.helpers
     filters: [
       'curator-inbox-article-filter',
       'curator-inbox-review-filter',
-      'curator-inbox-feed-filter'
+      'curator-inbox-feed-filter',
+      'processed-filter'
     ]
     rowClass: (source) ->
       if source._id._str is instance.selectedSourceId?.get()?._str

@@ -12,9 +12,6 @@ Meteor.methods
     incident.addedByUserName = user.profile.name
     incident.addedDate = new Date()
     newId = Incidents.insert(incident)
-    if incident.userEventId
-      Meteor.call("editUserEventLastModified", incident.userEventId)
-      Meteor.call("editUserEventLastIncidentDate", incident.userEventId)
     return newId
 
   # similar to editIncidentReport, but allows you to set a single field without changing any other existing fields.

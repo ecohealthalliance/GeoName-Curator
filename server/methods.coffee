@@ -1,79 +1,73 @@
 import Constants from '/imports/constants'
 import Incidents from '/imports/collections/incidentReports'
 import incidentReportSchema from '/imports/schemas/incidentReport'
+import CuratorSources from '/imports/collections/curatorSources'
 import { formatUrl, cleanUrl, createIncidentReportsFromEnhancements, regexEscape } from '/imports/utils'
+
+getArticleEnhancements = (article) ->
+  check article.url, Match.Maybe(String)
+  check article.content, Match.Maybe(String)
+  check article.publishDate, Match.Maybe(Date)
+  check article.addedDate, Match.Maybe(Date)
+  console.log "Calling GRITS API @ " + Constants.GRITS_URL
+  params =
+    api_key: Constants.GRITS_API_KEY
+    returnSourceContent: true
+  if article.publishDate or article.addedDate
+    params.content_date = moment.utc(
+      article.publishDate or article.addedDate
+    ).utc().format("YYYY-MM-DDTHH:mm:ss")
+  params.split_compound_geonames = true
+  if article.content
+    params.content = article.content
+  else if article.url
+    # formatUrl takes a database cleanUrl and adds 'http://'
+    params.url = formatUrl(article.url)
+  else
+    Meteor.Error("InvalidArticle", "Content or a URL must be specified")
+  result = HTTP.post(Constants.GRITS_URL + "/api/v1/public_diagnose", params: params)
+  if result.data.error
+    console.log(result.data.error)
+    throw new Meteor.Error("grits-error", result.data.error)
+  console.log "success"
+  enhancements = result.data
+  locationAnnotations = enhancements.features.filter (f) -> f.type == 'location'
+  enhancements.features = locationAnnotations.filter (locationAnnotation)->
+    loc = locationAnnotation.geoname
+    if loc.geonameid
+      locationAnnotation.geoname =
+        id: loc.geonameid
+        name: loc.name
+        admin1Name: loc.admin1_name
+        admin2Name: loc.admin2_name
+        latitude: loc.latitude
+        longitude: loc.longitude
+        countryName: loc.country_name
+        population: loc.population
+        featureClass: loc.feature_class
+        featureCode: loc.feature_code
+        alternateNames: loc.names_used.split(';')
+      true
+    else
+      false
+  return enhancements
 
 Meteor.methods
   getArticleEnhancements: (article) ->
     @unblock()
-    check article.url, Match.Maybe(String)
-    check article.content, Match.Maybe(String)
-    check article.publishDate, Match.Maybe(Date)
-    check article.addedDate, Match.Maybe(Date)
-    console.log "Calling GRITS API @ " + Constants.GRITS_URL
-    params =
-      api_key: Constants.GRITS_API_KEY
-      returnSourceContent: true
-    if article.publishDate or article.addedDate
-      params.content_date = moment.utc(
-        article.publishDate or article.addedDate
-      ).utc().format("YYYY-MM-DDTHH:mm:ss")
-    if article.content
-      params.content = article.content
-    else if article.url
-      # formatUrl takes a database cleanUrl and adds 'http://'
-      params.url = formatUrl(article.url)
-    else
-      Meteor.Error("InvalidArticle", "Content or a URL must be specified")
-    result = HTTP.post(Constants.GRITS_URL + "/api/v1/public_diagnose", params: params)
-    if result.data.error
-      console.log(result.data.error)
-      throw new Meteor.Error("grits-error", result.data.error)
-    console.log "success"
-    enhancements = result.data
-    # Normalize geoname data in GRITS annotations to match incident report schema.
-    # The geoname lookup service is queried to get admin names.
-    # The GRITS api reponse only includes admin codes at the moment.
-    geonameIds = []
-    features = enhancements.features
-    locationAnnotations = features.filter (f) -> f.type == 'location'
-    geonameIds = locationAnnotations.map((r) -> r.geoname.geonameid)
-    if geonameIds.length > 0
-      geonamesResult = HTTP.get Constants.GRITS_URL + '/api/geoname_lookup/api/geonames', {
-        params:
-          ids: geonameIds
-      }
-      geonames = geonamesResult.data.docs
-      geonamesById = {}
-      geonames.forEach (geoname) ->
-        if not geoname
-          # null geonames are probably a bug in the geoname lookup service
-          return
-        geonamesById[geoname.id] =
-          id: geoname.id
-          name: geoname.name
-          admin1Name: geoname.admin1Name
-          admin2Name: geoname.admin2Name
-          latitude: parseFloat(geoname.latitude)
-          longitude: parseFloat(geoname.longitude)
-          countryName: geoname.countryName
-          population: geoname.population
-          featureClass: geoname.featureClass
-          featureCode: geoname.featureCode
-          alternateNames: geoname.alternateNames
-      locationAnnotations = locationAnnotations.filter (loc)->
-        geoname = geonamesById[loc.geoname.geonameid]
-        if geoname
-          loc.geoname = geoname
-          true
-        else
-          false
-    return enhancements
+    getArticleEnhancements(article)
 
-  addSourceIncidentReportsToCollection: (source, options) ->
-    { acceptByDefault } = options
-    enhancements = source.enhancements
+  getArticleEnhancementsAndUpdate: (sourceId, params) ->
+    @unblock()
+    source = CuratorSources.findOne(_id: sourceId)
+    enhancements = getArticleEnhancements(source)
     check enhancements, Object
+    source.enhancements = enhancements
+    source.url = "http://www.promedmail.org/post/#{source._sourceId}"
+    CuratorSources.update _id: source._id,
+      $set:
+        enhancements: enhancements
+    options = {}
     options.url = cleanUrl(source.url)
     options.publishDate = source.publishDate
     incidents = createIncidentReportsFromEnhancements(enhancements, options)
@@ -88,4 +82,8 @@ Meteor.methods
       userEventId: $exists: false
       autogenerated: $ne: false
     )
-    Meteor.call('addIncidentReports', incidents, false)
+    incidents.forEach (incident) ->
+      incidentReportSchema.validate(incident)
+      incident.addedDate = new Date()
+      Incidents.insert(incident)
+    return source
