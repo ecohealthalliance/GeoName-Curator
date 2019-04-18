@@ -14,7 +14,8 @@ module.exports = ->
     ,
       'enhancements.diagnoserVersion': $lt: '0.4.2'
     ],
-    reviewed: $in: [null, false]
+    reviewed: {$in: [null, false]},
+    feedId: "pubmed_sample"
   }, {
     limit: 20
     sort:
