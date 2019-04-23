@@ -23,9 +23,12 @@ module.exports = ->
   }).fetch()
   forEachAsync(batch, (article, next, done) ->
     count++
+    if article.content.length > 100000
+      console.log "Articles too long:" + article._id
+      return next()
     Meteor.call('getArticleEnhancementsAndUpdate', article._id, {}, (error, enhancements)->
       if error
-        console.log article
+        console.log "Error on article: " + article._id
         console.log error
         done()
       else
