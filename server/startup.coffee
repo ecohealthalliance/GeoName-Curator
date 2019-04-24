@@ -9,8 +9,8 @@ path = Npm.require('path')
 FileHound = Npm.require('filehound')
 
 Meteor.startup ->
-  Meteor.setInterval(autoprocess, 1000 * 60 * 25)
-  Meteor.setTimeout(autoprocess, 0)
+  Meteor.setInterval(autoprocess, 1000 * 60 * 17)
+  Meteor.setTimeout(autoprocess, 1000 * 60)
   # Check to only run when there is no data present.
   # If this is commented out and the script runs a second time prior data
   # will be removed.

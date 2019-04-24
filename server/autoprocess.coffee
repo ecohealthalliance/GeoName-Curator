@@ -17,18 +17,17 @@ module.exports = ->
     reviewed: {$in: [null, false]},
     feedId: "pubmed_sample"
   }, {
-    limit: 20
-    sort:
-      addedDate: -1
+    limit: 15
   }).fetch()
   forEachAsync(batch, (article, next, done) ->
     count++
+    console.log "Processing id: " + article._id
     if article.content.length > 100000
-      console.log "Articles too long:" + article._id
+      console.log "Article too long."
       return next()
     Meteor.call('getArticleEnhancementsAndUpdate', article._id, {}, (error, enhancements)->
       if error
-        console.log "Error on article: " + article._id
+        console.log "Error:"
         console.log error
         done()
       else
