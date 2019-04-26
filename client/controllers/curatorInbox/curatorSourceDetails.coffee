@@ -28,7 +28,6 @@ Template.curatorSourceDetails.onCreated ->
 
 Template.curatorSourceDetails.onRendered ->
   instance = @
-  @subscribe('curatorSources', {})
   Meteor.defer =>
     instance.$('[data-toggle=tooltip]').tooltip
       delay: show: '300'
@@ -53,6 +52,10 @@ Template.curatorSourceDetails.onRendered ->
   # Create key binding which marks sources as reviewed.
   key 'ctrl + enter, command + enter', (event) =>
     _markReviewed(@)
+
+  @autorun =>
+    sourceId = @data.selectedSourceId.get()
+    @subscribe('curatorSources', {_id: sourceId})
 
   @autorun =>
     # When source is selected in the curatorInbox template, `selectedSourceId`,
