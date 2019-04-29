@@ -9,6 +9,10 @@ path = Npm.require('path')
 FileHound = Npm.require('filehound')
 
 Meteor.startup ->
+  # Create indexes
+  CuratorSources.rawCollection().createIndex(reviewed: 1)
+  CuratorSources.rawCollection().createIndex(title: 1)
+  CuratorSources.rawCollection().createIndex(reviewedDate: 1)
   Meteor.setInterval(autoprocess, 1000 * 60 * 17)
   Meteor.setTimeout(autoprocess, 1000 * 60)
   # Check to only run when there is no data present.

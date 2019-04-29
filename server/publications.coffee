@@ -2,7 +2,15 @@ Incidents = require '/imports/collections/incidentReports.coffee'
 CuratorSources = require '/imports/collections/curatorSources.coffee'
 
 # Curator Sources
-ReactiveTable.publish 'curatorSources', CuratorSources, {}
+ReactiveTable.publish 'curatorSources', CuratorSources, {}, {
+  disablePageCountReactivity: true
+  fields:
+    title: 1
+    reviewed: 1
+    reviewedDate: 1
+    feedId: 1
+    'enhancements.diagnoserVersion': 1
+}
 Meteor.publish 'curatorSources', (query) ->
   CuratorSources.find(query, limit: 100)
 

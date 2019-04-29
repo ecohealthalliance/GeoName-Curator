@@ -37,7 +37,7 @@ Template.curatorInbox.onCreated ->
     new ReactiveTable.Filter('curator-inbox-review-filter', ['reviewed'])
   @reviewFilter.set(null)
   feedIdFilter = new ReactiveTable.Filter('curator-inbox-feed-filter', ['feedId'])
-  feedIdFilter.set('pubmed_sample')
+  feedIdFilter.set($eq: 'pubmed_sample')
   processedFilter = new ReactiveTable.Filter('processed-filter', ['enhancements'])
   processedFilter.set($exists: true)
   @selectedSourceId = new ReactiveVar(null)
@@ -157,6 +157,7 @@ Template.curatorInbox.helpers
     showRowCount: false
     showFilter: false
     rowsPerPage: 20
+    multiColumnSort: false
     #showNavigation: 'never'
     filters: [
       'curator-inbox-article-filter',
