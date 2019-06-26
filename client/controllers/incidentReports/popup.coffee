@@ -26,16 +26,6 @@ Template.popup.onCreated ->
     bottom: bottomPosition
     left:  "#{Math.floor(left + width / 2)}px"
 
-  $('body').on 'mousedown', (event) =>
-    # Allow event to propagate to 'add-incident-from-selection' button before
-    # element is removed from DOM
-    delay = 0
-    if event.target.parentElement.nodeName in ['BUTTON', 'LI', 'UL']
-      delay = POPUP_DELAY
-    Meteor.setTimeout =>
-      @showPopup.set(false)
-    , delay
-
   $(@data.relatedElements.sourceContainer).on 'scroll', _.throttle (event) =>
     unless @data.scrolled.get()
       @data.scrolled.set(true)
@@ -46,6 +36,16 @@ Template.popup.onRendered ->
   Meteor.setTimeout =>
     @$('.popup').addClass('active')
   , POPUP_DELAY
+
+  $('body').on 'mouseup', (event) =>
+    # Allow event to propagate to 'add-incident-from-selection' button before
+    # element is removed from DOM
+    delay = 0
+    if event.target.parentElement.nodeName in ['BUTTON', 'LI', 'UL']
+      delay = POPUP_DELAY
+    Meteor.setTimeout =>
+      @showPopup.set(false)
+    , delay
 
   @autorun =>
     if not @showPopup.get()
