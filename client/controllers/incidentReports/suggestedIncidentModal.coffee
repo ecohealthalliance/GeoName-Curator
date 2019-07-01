@@ -73,8 +73,14 @@ Template.suggestedIncidentModal.events
 
     incident.accepted = true
     
-    if incident.locations.length == 0 and not (incident.ignore or incident.coordinates or incident.locationNotFound)
-      return notify('error', 'No location specified.')
+    if incident.locations.length == 0
+      if incident.ignore or incident.coordinates or incident.locationNotFound
+        if Boolean(incident.coordinates) + Boolean(incident.locationNotFound) > 1
+          return notify('error', 'Only one checkbox can be selected.')
+      else
+        return notify('error', 'No location specified.')
+    else if incident.coordinates or incident.locationNotFound
+      return notify('error', 'A location cannot be selected when the "coordinates" and "location not found" checkboxes are checked.')
 
     if @incident?._id
       incident._id = @incident._id
