@@ -150,6 +150,17 @@ Template.incidentTable.events
     selectedIncidents.remove({})
     event.currentTarget.blur()
 
+  'click .mark-study-sites': (event, instance) ->
+    selectedIncidents.find({}).forEach (incident) ->
+      incident = _id: incident.id
+      incident.studySite = true
+      Meteor.call 'updateIncidentReport', incident, (error, result) ->
+        if error
+          notify('error', 'There was a problem updating your incident reports.')
+          return
+    selectedIncidents.remove({})
+    event.currentTarget.blur()
+
   'click .select-all': (event, instance) ->
     _updateAllIncidentsStatus(instance, true, event)
 

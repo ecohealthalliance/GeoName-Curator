@@ -4,17 +4,10 @@ template(name="incidentTable")
       button.btn.btn-sm.action(
         disabled="{{#unless incidentsSelected}} true {{/unless}}"
         class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") #{action} Locations
+      button.btn.btn-sm.btn-success.mark-study-sites(
+        disabled="{{#unless incidentsSelected}} true {{/unless}}") Mark Study Sites
       button.btn.btn-sm.btn-default.select(
-        class="{{#if allSelected}} deselect-all {{else}} select-all {{/if}}")
-        if allSelected
-          | Deselect All
-        else
-          | Select All
-    if addEvent
-      +addToEvent(
-        selectedIncidents=selectedIncidents
-        tableContentScrollable=tableContentScrollable
-        source=source)
+        class="deselect-all") Deselect All
     .table-wrapper
       table.table.incident-table(
         hidden=annotatedContentVisible
@@ -26,7 +19,7 @@ template(name="incidentTable")
               th.locations-header Locations
         tbody
           each incidents
-            tr
+            tr(data-incident-id=_id)
               td
                 span.select(class="{{#if selected}} selected {{/if}}")
               if ignore

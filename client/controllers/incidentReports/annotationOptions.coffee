@@ -24,6 +24,12 @@ Template.annotationOptions.events
     else
       query.accepted = true
       selectedIncidents.insert(query)
+    # scroll the incident table to the selected geoname
+    $geoname = $("tr[data-incident-id=#{incidentId}]")
+    $container = $('.table-wrapper')
+    $container.stop().animate({
+      scrollTop: $geoname.offset().top + $container.scrollTop() - $container.offset().top
+    }, 500)
 
   'click .edit': (event, instance) ->
     source = instance.data.source
