@@ -3,6 +3,8 @@ template(name="incidentForm")
     .add-incident--wrapper
       .form-group.form-group--full
         label.control-label Location
+        .note Indicate the location referenced the highlighted text.
+          | Select either a GeoName matching the location indicated by the text, "No Matching GeoName", or "Coordinates".
         +locationSelect2(
           selectId="incident-location-select2"
           multiple=true
@@ -17,8 +19,8 @@ template(name="incidentForm")
                 value="locationNotFound"
                 checked=locationNotFound
                 tabindex="-1")
-              label(for="locationNotFound" tabindex="0") No Matching Geoname
-            .note The selected span is a place name but it cannot be found in the drop-down menu.
+              label(for="locationNotFound" tabindex="0") No Matching GeoName
+            .note The highlighted text is a place name mention, but no matching GeoName can be found in the drop-down menu.
           .container-flex.no-break
             .check-button.coordinates
               input(
@@ -29,7 +31,7 @@ template(name="incidentForm")
                 checked=coordinates
                 tabindex="-1")
               label(for="coordinates" tabindex="0") Coordinates
-            .note The selected span is a place name but it cannot be found in the drop-down menu.
+            .note The highlighted text references a location with longitude and latitude coordinates.
           hr
           .container-flex.no-break
             .check-button.study-site
@@ -40,9 +42,10 @@ template(name="incidentForm")
                 value="studySite"
                 checked=studySite
                 tabindex="-1")
-              label(for="studySite" tabindex="0") Study Site
-            .note The selected span describes where fieldwork was conducted for this study.
+              label(for="studySite" tabindex="0") Location of Field Work
+            .note This mention of the highlighted location describes where field work was conducted for this study.
           hr
+          label.control-label Non-Location
           .container-flex.no-break
             .check-button.ignore
               input(
@@ -53,8 +56,9 @@ template(name="incidentForm")
                 checked=ignore
                 tabindex="-1")
               label(for="ignore" tabindex="0") Ignore
-            .note Select this to flag a section of the document as "ignored."
-              | Problematic locations and non-prose sections of the document such as tables and garbled text should be flagged.
+            .note Select this to mark the highlighted section of the document as "Ignored".
+              | Use this to indicate any text that was skipped because it was garbled or unreadable for some reason.
+              | This option should not be used for place names.
         .help-block.with-errors
 
       button.hidden(type="submit" aria-hidden="true")
