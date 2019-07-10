@@ -5,7 +5,7 @@ template(name="incidentTable")
         disabled="{{#unless incidentsSelected}} true {{/unless}}"
         class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") #{action} Locations
       button.btn.btn-sm.btn-success.mark-study-sites(
-        disabled="{{#unless incidentsSelected}} true {{/unless}}") Mark Study Sites
+        disabled="{{#unless incidentsSelected}} true {{/unless}}") Mark as Location of Field Work
       button.btn.btn-sm.btn-default.select(
         class="deselect-all") Deselect All
     .table-wrapper
