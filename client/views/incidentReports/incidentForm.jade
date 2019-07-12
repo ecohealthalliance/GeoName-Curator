@@ -34,16 +34,38 @@ template(name="incidentForm")
             .note The highlighted text references a location with longitude and latitude coordinates.
           hr
           .container-flex.no-break
-            .check-button.study-site
+            .check-button.field-work
               input(
                 type="radio"
-                name="studySite"
-                id="studySite"
-                value="studySite"
-                checked=studySite
+                name="fieldWork"
+                id="fieldWork"
+                value="fieldWork"
+                checked=DOSA.fieldWork
                 tabindex="-1")
-              label(for="studySite" tabindex="0") Location of Field Work
-            .note This mention of the highlighted location describes where field work was conducted for this study.
+              label(for="fieldWork" tabindex="0") Description of Study Activities: Field Work
+            .note ...
+          .container-flex.no-break
+            .check-button.lab-work
+              input(
+                type="radio"
+                name="labWork"
+                id="labWork"
+                value="labWork"
+                checked=DOSA.labWork
+                tabindex="-1")
+              label(for="labWork" tabindex="0") Description of Study Activities: Lab Work
+            .note ...
+          .container-flex.no-break
+            .check-button.dosa-other
+              input(
+                type="radio"
+                name="other"
+                id="other"
+                value="other"
+                checked=DOSA.other
+                tabindex="-1")
+              label(for="other" tabindex="0") Description of Study Activities: Other
+            .note ...
           hr
           label.control-label Non-Location
           .container-flex.no-break
