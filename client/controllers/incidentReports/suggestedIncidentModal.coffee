@@ -60,7 +60,7 @@ Template.suggestedIncidentModal.events
     incident =
       locations: []
       ignore: $form.get(0).ignore.checked
-      DOSA:
+      researchActivities:
         fieldWork: $form.get(0).fieldWork.checked
         labWork: $form.get(0).labWork.checked
         other: $form.get(0).other.checked

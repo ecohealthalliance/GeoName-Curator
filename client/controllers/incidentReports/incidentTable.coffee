@@ -153,7 +153,7 @@ Template.incidentTable.events
   'click .mark-field-work': (event, instance) ->
     selectedIncidents.find({}).forEach (incident) ->
       incident = _id: incident.id
-      incident.DOSA = {
+      incident.researchActivities = {
         fieldWork: true
       }
       Meteor.call 'updateIncidentReport', incident, (error, result) ->

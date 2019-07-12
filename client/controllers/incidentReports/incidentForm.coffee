@@ -4,7 +4,7 @@ validator = require 'bootstrap-validator'
 
 Template.incidentForm.onCreated ->
   @ignore = new ReactiveVar(false)
-  @DOSA = new ReactiveVar({})
+  @researchActivities = new ReactiveVar({})
   @coordinates = new ReactiveVar(false)
   @locationNotFound = new ReactiveVar(false)
   instanceData = @data
@@ -21,8 +21,8 @@ Template.incidentForm.onCreated ->
     @incidentData = _.extend(@incidentData, incident)
     if @incidentData.ignore
       @ignore.set(true)
-    if @incidentData.DOSA
-      @DOSA.set(@incidentData.DOSA)
+    if @incidentData.researchActivities
+      @researchActivities.set(@incidentData.researchActivities)
     if @incidentData.coordinates
       @coordinates.set(true)
     if @incidentData.locationNotFound
@@ -46,8 +46,8 @@ Template.incidentForm.helpers
   ignore: ->
     Template.instance().ignore.get()
 
-  DOSA: ->
-    Template.instance().DOSA.get()
+  researchActivities: ->
+    Template.instance().researchActivities.get()
 
   coordinates: ->
     Template.instance().coordinates.get()
@@ -66,18 +66,18 @@ Template.incidentForm.events
     instance.ignore.set(not instance.ignore.get())
 
   'click .field-work label': (event, instance) ->
-    instance.DOSA.set({
-      fieldWork: not instance.DOSA.get()?.fieldWork
+    instance.researchActivities.set({
+      fieldWork: not instance.researchActivities.get()?.fieldWork
     })
 
   'click .lab-work label': (event, instance) ->
-    instance.DOSA.set({
-      labWork: not instance.DOSA.get()?.labWork
+    instance.researchActivities.set({
+      labWork: not instance.researchActivities.get()?.labWork
     })
 
-  'click .dosa-other label': (event, instance) ->
-    instance.DOSA.set({
-      other: not instance.DOSA.get()?.other
+  'click .research-other label': (event, instance) ->
+    instance.researchActivities.set({
+      other: not instance.researchActivities.get()?.other
     })
 
   'click .coordinates label': (event, instance) ->

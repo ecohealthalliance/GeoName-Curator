@@ -40,7 +40,7 @@ template(name="incidentForm")
                 name="fieldWork"
                 id="fieldWork"
                 value="fieldWork"
-                checked=DOSA.fieldWork
+                checked=researchActivities.fieldWork
                 tabindex="-1")
               label(for="fieldWork" tabindex="0") Description of Study Activities: Field Work
             .note ...
@@ -51,18 +51,18 @@ template(name="incidentForm")
                 name="labWork"
                 id="labWork"
                 value="labWork"
-                checked=DOSA.labWork
+                checked=researchActivities.labWork
                 tabindex="-1")
               label(for="labWork" tabindex="0") Description of Study Activities: Lab Work
             .note ...
           .container-flex.no-break
-            .check-button.dosa-other
+            .check-button.research-other
               input(
                 type="radio"
                 name="other"
                 id="other"
                 value="other"
-                checked=DOSA.other
+                checked=researchActivities.other
                 tabindex="-1")
               label(for="other" tabindex="0") Description of Study Activities: Other
             .note ...
