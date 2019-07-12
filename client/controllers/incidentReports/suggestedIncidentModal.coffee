@@ -60,7 +60,10 @@ Template.suggestedIncidentModal.events
     incident =
       locations: []
       ignore: $form.get(0).ignore.checked
-      studySite: $form.get(0).studySite.checked
+      researchActivities:
+        fieldWork: $form.get(0).fieldWork.checked
+        labWork: $form.get(0).labWork.checked
+        other: $form.get(0).other.checked
       coordinates: $form.get(0).coordinates.checked
       locationNotFound: $form.get(0).locationNotFound.checked
       url: @incident.url

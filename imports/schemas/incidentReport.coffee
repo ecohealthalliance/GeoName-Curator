@@ -68,7 +68,16 @@ IncidentReportSchema = new SimpleSchema
   ignore:
     type: Boolean
     optional: true
-  studySite:
+  researchActivities:
+    type: Object
+    optional: true
+  "researchActivities.fieldWork":
+    type: Boolean
+    optional: true
+  "researchActivities.labWork":
+    type: Boolean
+    optional: true
+  "researchActivities.other":
     type: Boolean
     optional: true
   coordinates:

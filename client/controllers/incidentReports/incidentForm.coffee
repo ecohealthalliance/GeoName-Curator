@@ -4,7 +4,7 @@ validator = require 'bootstrap-validator'
 
 Template.incidentForm.onCreated ->
   @ignore = new ReactiveVar(false)
-  @studySite = new ReactiveVar(false)
+  @researchActivities = new ReactiveVar({})
   @coordinates = new ReactiveVar(false)
   @locationNotFound = new ReactiveVar(false)
   instanceData = @data
@@ -21,8 +21,8 @@ Template.incidentForm.onCreated ->
     @incidentData = _.extend(@incidentData, incident)
     if @incidentData.ignore
       @ignore.set(true)
-    if @incidentData.studySite
-      @studySite.set(true)
+    if @incidentData.researchActivities
+      @researchActivities.set(@incidentData.researchActivities)
     if @incidentData.coordinates
       @coordinates.set(true)
     if @incidentData.locationNotFound
@@ -46,8 +46,8 @@ Template.incidentForm.helpers
   ignore: ->
     Template.instance().ignore.get()
 
-  studySite: ->
-    Template.instance().studySite.get()
+  researchActivities: ->
+    Template.instance().researchActivities.get()
 
   coordinates: ->
     Template.instance().coordinates.get()
@@ -65,8 +65,20 @@ Template.incidentForm.events
   'click .ignore label': (event, instance) ->
     instance.ignore.set(not instance.ignore.get())
 
-  'click .study-site label': (event, instance) ->
-    instance.studySite.set(not instance.studySite.get())
+  'click .field-work label': (event, instance) ->
+    instance.researchActivities.set({
+      fieldWork: not instance.researchActivities.get()?.fieldWork
+    })
+
+  'click .lab-work label': (event, instance) ->
+    instance.researchActivities.set({
+      labWork: not instance.researchActivities.get()?.labWork
+    })
+
+  'click .research-other label': (event, instance) ->
+    instance.researchActivities.set({
+      other: not instance.researchActivities.get()?.other
+    })
 
   'click .coordinates label': (event, instance) ->
     instance.coordinates.set(not instance.coordinates.get())

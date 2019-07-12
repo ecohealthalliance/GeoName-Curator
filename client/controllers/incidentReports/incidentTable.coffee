@@ -150,10 +150,38 @@ Template.incidentTable.events
     selectedIncidents.remove({})
     event.currentTarget.blur()
 
-  'click .mark-study-sites': (event, instance) ->
+  'click .mark-field-work': (event, instance) ->
     selectedIncidents.find({}).forEach (incident) ->
       incident = _id: incident.id
-      incident.studySite = true
+      incident.researchActivities = {
+        fieldWork: true
+      }
+      Meteor.call 'updateIncidentReport', incident, (error, result) ->
+        if error
+          notify('error', 'There was a problem updating your incident reports.')
+          return
+    selectedIncidents.remove({})
+    event.currentTarget.blur()
+
+    'click .mark-lab-work': (event, instance) ->
+    selectedIncidents.find({}).forEach (incident) ->
+      incident = _id: incident.id
+      incident.researchActivities = {
+        labWork: true
+      }
+      Meteor.call 'updateIncidentReport', incident, (error, result) ->
+        if error
+          notify('error', 'There was a problem updating your incident reports.')
+          return
+    selectedIncidents.remove({})
+    event.currentTarget.blur()
+
+    'click .mark-other': (event, instance) ->
+    selectedIncidents.find({}).forEach (incident) ->
+      incident = _id: incident.id
+      incident.researchActivities = {
+        other: true
+      }
       Meteor.call 'updateIncidentReport', incident, (error, result) ->
         if error
           notify('error', 'There was a problem updating your incident reports.')

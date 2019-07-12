@@ -2,9 +2,8 @@ template(name="incidentForm")
   form#add-incident(novalidate)
     .add-incident--wrapper
       .form-group.form-group--full
-        label.control-label Location
-        .note Indicate the location referenced by the highlighted text.
-          | Select either a GeoName matching the location indicated by the text, "No Matching GeoName", or "Coordinates".
+        label.control-label Location. Describe the location represented by the highlighted text.
+        .note Search for and select one GeoName that represents the location referred to by the highlighted text.
         +locationSelect2(
           selectId="incident-location-select2"
           multiple=true
@@ -20,7 +19,7 @@ template(name="incidentForm")
                 checked=locationNotFound
                 tabindex="-1")
               label(for="locationNotFound" tabindex="0") No Matching GeoName
-            .note The highlighted text is a place name mention, but no matching GeoName can be found in the drop-down menu.
+            .note Indicates that the highlighted text is a toponym mention, but no matching GeoName can be found.
           .container-flex.no-break
             .check-button.coordinates
               input(
@@ -31,19 +30,42 @@ template(name="incidentForm")
                 checked=coordinates
                 tabindex="-1")
               label(for="coordinates" tabindex="0") Coordinates
-            .note The highlighted text references a location with longitude and latitude coordinates.
+            .note Indicates that the highlighted text references a location with longitude and latitude coordinates.
           hr
+          label.control-label Description of Research Activities. If the toponym mention is part of a description of research activities for this paper, pick the most appropriate option.
           .container-flex.no-break
-            .check-button.study-site
+            .check-button.field-work
               input(
                 type="radio"
-                name="studySite"
-                id="studySite"
-                value="studySite"
-                checked=studySite
+                name="fieldWork"
+                id="fieldWork"
+                value="fieldWork"
+                checked=researchActivities.fieldWork
                 tabindex="-1")
-              label(for="studySite" tabindex="0") Location of Field Work
-            .note This mention of the highlighted location describes where field work was conducted for this study.
+              label(for="fieldWork" tabindex="0") Description of Research Activities: Field Work
+            .note Field work conducted outside of a research institution, such as sample collection.
+          .container-flex.no-break
+            .check-button.lab-work
+              input(
+                type="radio"
+                name="labWork"
+                id="labWork"
+                value="labWork"
+                checked=researchActivities.labWork
+                tabindex="-1")
+              label(for="labWork" tabindex="0") Description of Research Activities: Lab Work
+            .note Work done in a laboratory or similar environment, such as genomic or other biological assays.
+          .container-flex.no-break
+            .check-button.research-other
+              input(
+                type="radio"
+                name="other"
+                id="other"
+                value="other"
+                checked=researchActivities.other
+                tabindex="-1")
+              label(for="other" tabindex="0") Description of Research Activities: Other
+            .note All other research activities.
           hr
           label.control-label Non-Location
           .container-flex.no-break
