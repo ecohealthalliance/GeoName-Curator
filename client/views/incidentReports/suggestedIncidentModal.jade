@@ -24,7 +24,7 @@ template(name="suggestedIncidentModal")
             confirmation=true
             valid=valid)
         .modal-footer
-          a.btn(href="{{pathFor route='curator-inbox-article' articleId=articleId incidentId=incident._id}}" style="float:left;overflow-x: scroll;max-width:100px;") {{urlFor route='curator-inbox-article' articleId=articleId incidentId=incident._id}}
+          a.btn(href="{{pathFor route='curator-inbox-article' articleId=articleId incidentId=incident._id}}" style="float:left;") Permalink
           button.btn.btn-default(type="button" data-dismiss="modal") Close
           button.btn.btn-danger.delete-incident(type="button") Delete
           button.btn.btn-primary.update-all(type="button") Update All Mentions of Geoname
