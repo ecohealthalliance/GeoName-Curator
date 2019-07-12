@@ -3,9 +3,13 @@ template(name="incidentTable")
     .incident-reports--actions.container-flex.no-break
       button.btn.btn-sm.action(
         disabled="{{#unless incidentsSelected}} true {{/unless}}"
-        class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") #{action} Locations
+        class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") Delete
       button.btn.btn-sm.btn-success.mark-field-work(
-        disabled="{{#unless incidentsSelected}} true {{/unless}}") Mark as Location of Field Work
+        disabled="{{#unless incidentsSelected}} true {{/unless}}") Field Work
+      button.btn.btn-sm.btn-success.mark-lab-work(
+        disabled="{{#unless incidentsSelected}} true {{/unless}}") Lab Work
+      button.btn.btn-sm.btn-success.mark-other(
+        disabled="{{#unless incidentsSelected}} true {{/unless}}") Other
       button.btn.btn-sm.btn-default.select(
         class="deselect-all") Deselect All
     .table-wrapper
