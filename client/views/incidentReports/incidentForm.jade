@@ -2,7 +2,8 @@ template(name="incidentForm")
   form#add-incident(novalidate)
     .add-incident--wrapper
       .form-group.form-group--full
-        label.control-label Location. Describe the location represented by the highlighted text.
+        label.control-label Location
+          .left-note Describe the location represented by the highlighted text.
         .note Search for and select one GeoName that represents the location referred to by the highlighted text.
         +locationSelect2(
           selectId="incident-location-select2"
@@ -32,7 +33,8 @@ template(name="incidentForm")
               label(for="coordinates" tabindex="0") Coordinates
             .note Indicates that the highlighted text references a location with longitude and latitude coordinates.
           hr
-          label.control-label Description of Research Activities. If the toponym mention is part of a description of research activities for this paper, pick the most appropriate option.
+          label.control-label Description of Research Activities
+          left-note If the toponym mention is part of a description of research activities for this paper, pick the most appropriate option.
           .container-flex.no-break
             .check-button.field-work
               input(
@@ -42,7 +44,7 @@ template(name="incidentForm")
                 value="fieldWork"
                 checked=researchActivities.fieldWork
                 tabindex="-1")
-              label(for="fieldWork" tabindex="0") Description of Research Activities: Field Work
+              label(for="fieldWork" tabindex="0") Field Work
             .note Field work conducted outside of a research institution, such as sample collection.
           .container-flex.no-break
             .check-button.lab-work
@@ -53,7 +55,7 @@ template(name="incidentForm")
                 value="labWork"
                 checked=researchActivities.labWork
                 tabindex="-1")
-              label(for="labWork" tabindex="0") Description of Research Activities: Lab Work
+              label(for="labWork" tabindex="0") Lab Work
             .note Work done in a laboratory or similar environment, such as genomic or other biological assays.
           .container-flex.no-break
             .check-button.research-other
@@ -64,10 +66,10 @@ template(name="incidentForm")
                 value="other"
                 checked=researchActivities.other
                 tabindex="-1")
-              label(for="other" tabindex="0") Description of Research Activities: Other
+              label(for="other" tabindex="0") Other Research Activities
             .note All other research activities.
           hr
-          label.control-label Non-Location
+          label.control-label Mark to Ignore
           .container-flex.no-break
             .check-button.ignore
               input(

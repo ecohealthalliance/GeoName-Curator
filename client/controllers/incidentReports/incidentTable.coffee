@@ -163,7 +163,7 @@ Template.incidentTable.events
     selectedIncidents.remove({})
     event.currentTarget.blur()
 
-    'click .mark-lab-work': (event, instance) ->
+  'click .mark-lab-work': (event, instance) ->
     selectedIncidents.find({}).forEach (incident) ->
       incident = _id: incident.id
       incident.researchActivities = {
@@ -176,7 +176,7 @@ Template.incidentTable.events
     selectedIncidents.remove({})
     event.currentTarget.blur()
 
-    'click .mark-other': (event, instance) ->
+  'click .mark-other': (event, instance) ->
     selectedIncidents.find({}).forEach (incident) ->
       incident = _id: incident.id
       incident.researchActivities = {
