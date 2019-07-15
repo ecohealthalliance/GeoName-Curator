@@ -34,7 +34,7 @@ template(name="incidentForm")
             .note Indicates that the highlighted text references a location with longitude and latitude coordinates.
           hr
           label.control-label Description of Research Activities
-            left-note If the toponym mention is part of a description of research activities for this paper, pick the most appropriate option.
+            left-note If the toponym mention is part of a description of research activities conducted for this paper, pick the most appropriate option.
           .container-flex.no-break
             .check-button.field-work
               input(
@@ -45,7 +45,7 @@ template(name="incidentForm")
                 checked=researchActivities.fieldWork
                 tabindex="-1")
               label(for="fieldWork" tabindex="0") Field Work
-            .note Field work conducted outside of a research institution, such as sample collection.
+            .note Locations of work conducted outside of a research institution, such as collecting biological samples or counting animals in a location.
           .container-flex.no-break
             .check-button.lab-work
               input(
@@ -56,7 +56,7 @@ template(name="incidentForm")
                 checked=researchActivities.labWork
                 tabindex="-1")
               label(for="labWork" tabindex="0") Lab Work
-            .note Work done in a laboratory or similar environment, such as genomic or other biological assays.
+            .note Locations of work done in a laboratory or similar environment, such as genomic or other biological assays.
           .container-flex.no-break
             .check-button.research-other
               input(
@@ -67,7 +67,7 @@ template(name="incidentForm")
                 checked=researchActivities.other
                 tabindex="-1")
               label(for="other" tabindex="0") Other Research Activities
-            .note All other research activities.
+            .note Locations related to all other research activities.
           hr
           label.control-label Mark to Ignore
           .container-flex.no-break
