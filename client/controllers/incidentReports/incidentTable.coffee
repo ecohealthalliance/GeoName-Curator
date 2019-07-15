@@ -145,7 +145,7 @@ Template.incidentTable.events
       incident.accepted = accept
       Meteor.call 'updateIncidentReport', incident, (error, result) ->
         if error
-          notify('error', 'There was a problem updating your incident reports.')
+          notify('error', 'There was a problem updating your toponym mentions.')
           return
     selectedIncidents.remove({})
     event.currentTarget.blur()
@@ -158,7 +158,7 @@ Template.incidentTable.events
       }
       Meteor.call 'updateIncidentReport', incident, (error, result) ->
         if error
-          notify('error', 'There was a problem updating your incident reports.')
+          notify('error', 'There was a problem updating your toponym mentions.')
           return
     selectedIncidents.remove({})
     event.currentTarget.blur()
@@ -171,7 +171,7 @@ Template.incidentTable.events
       }
       Meteor.call 'updateIncidentReport', incident, (error, result) ->
         if error
-          notify('error', 'There was a problem updating your incident reports.')
+          notify('error', 'There was a problem updating your toponym mentions.')
           return
     selectedIncidents.remove({})
     event.currentTarget.blur()
@@ -184,7 +184,7 @@ Template.incidentTable.events
       }
       Meteor.call 'updateIncidentReport', incident, (error, result) ->
         if error
-          notify('error', 'There was a problem updating your incident reports.')
+          notify('error', 'There was a problem updating your toponym mentions.')
           return
     selectedIncidents.remove({})
     event.currentTarget.blur()

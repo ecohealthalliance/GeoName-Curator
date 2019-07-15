@@ -26,6 +26,6 @@ Template.replaceGeonameModal.events
         )
       }, (error, result) ->
         if error
-          notify('error', 'There was a problem updating your incident reports.')
+          notify('error', 'There was a problem updating your toponym mentions.')
           return
     Modal.hide(instance)

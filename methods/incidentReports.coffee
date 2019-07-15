@@ -7,7 +7,7 @@ Meteor.methods
     incidentReportSchema.validate(incident)
     user = Meteor.user()
     if not Roles.userIsInRole(user._id, ['admin', 'curator'])
-      throw new Meteor.Error("auth", "User does not have permission to create incident reports")
+      throw new Meteor.Error("auth", "User does not have permission to create toponym mentions")
     incident.addedByUserId = user._id
     incident.addedByUserName = user.profile.name
     incident.addedDate = new Date()
@@ -20,7 +20,7 @@ Meteor.methods
     delete incident._id
     user = Meteor.user()
     if not Roles.userIsInRole(user._id, ['admin', 'curator'])
-      throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
+      throw new Meteor.Error("auth", "User does not have permission to edit toponym mentions")
     incident.modifiedByUserId = user._id
     incident.modifiedByUserName = user.profile.name
     incident.modifiedDate = new Date()
@@ -31,7 +31,7 @@ Meteor.methods
     incidentReportSchema.validate(incident)
     user = Meteor.user()
     if not Roles.userIsInRole(user._id, ['admin', 'curator'])
-      throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
+      throw new Meteor.Error("auth", "User does not have permission to edit toponym mentions")
     incident.modifiedByUserId = user._id
     incident.modifiedByUserName = user.profile.name
     incident.modifiedDate = new Date()
@@ -44,7 +44,7 @@ Meteor.methods
 
   removeIncidentReport: (id) ->
     if not Roles.userIsInRole(@userId, ['admin', 'curator'])
-      throw new Meteor.Error("auth", "User does not have permission to edit incident reports")
+      throw new Meteor.Error("auth", "User does not have permission to edit toponym mentions")
     incident = Incidents.findOne(id)
     user = Meteor.user()
     Incidents.update id,

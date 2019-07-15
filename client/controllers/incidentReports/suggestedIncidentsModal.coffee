@@ -167,7 +167,7 @@ Template.suggestedIncidentsModal.events
         # empty our collection temporary work.
         incidentCollection.remove({})
         # hide the modal
-        notify('success', 'Incident Reports Added')
+        notify('success', 'Toponym Mentions Added')
         dismissModal(instance)
 
   'click #save-csv': (event, instance) ->

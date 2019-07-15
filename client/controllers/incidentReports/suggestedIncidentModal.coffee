@@ -94,7 +94,7 @@ Template.suggestedIncidentModal.events
       incident = _.pick(incident, incidentReportSchema.objectKeys())
       Meteor.call 'editIncidentReport', incident, (error, result) ->
         if not error
-          notify('success', 'Incident report updated')
+          notify('success', 'Toponym Mention Updated')
           stageModals(instance, instance.modals)
         else
           notify('error', error.reason)
@@ -104,7 +104,7 @@ Template.suggestedIncidentModal.events
       Meteor.call 'addIncidentReport', incident, (error, result) ->
         if error
           return notify('error', error)
-        notify('success', 'Incident report added.')
+        notify('success', 'Toponym Mention Added')
         stageModals(instance, instance.modals)
 
   'click .delete-incident': (event, instance) ->
@@ -114,7 +114,7 @@ Template.suggestedIncidentModal.events
 
     Meteor.call 'updateIncidentReport', incident, (error, result) ->
       if error
-        notify('error', 'There was a problem updating your incident reports.')
+        notify('error', 'There was a problem updating your toponym mentions.')
         return
       stageModals(instance, instance.modals)
 
