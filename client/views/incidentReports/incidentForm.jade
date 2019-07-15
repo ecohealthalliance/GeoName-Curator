@@ -3,7 +3,7 @@ template(name="incidentForm")
     .add-incident--wrapper
       .form-group.form-group--full
         label.control-label Location
-          .left-note Describe the location represented by the highlighted text.
+          .sublabel Describe the location represented by the highlighted text.
         .note Search for and select one GeoName that represents the location referred to by the highlighted text.
         +locationSelect2(
           selectId="incident-location-select2"
@@ -34,7 +34,7 @@ template(name="incidentForm")
             .note Indicates that the highlighted text references a location with longitude and latitude coordinates.
           hr
           label.control-label Description of Research Activities
-            left-note If the toponym mention is part of a description of research activities conducted for this paper, pick the most appropriate option.
+            .sublabel If the toponym mention is part of a description of research activities conducted for this paper, pick the most appropriate option.
           .container-flex.no-break
             .check-button.field-work
               input(
