@@ -4,11 +4,11 @@ template(name="incidentTable")
       button.btn.btn-sm.action(
         disabled="{{#unless incidentsSelected}} true {{/unless}}"
         class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") Delete
-      button.btn.btn-sm.btn-success.mark-field-work(
+      button.btn.btn-sm.mark-field-work(
         disabled="{{#unless incidentsSelected}} true {{/unless}}") Field Work
-      button.btn.btn-sm.btn-success.mark-lab-work(
+      button.btn.btn-sm.mark-lab-work(
         disabled="{{#unless incidentsSelected}} true {{/unless}}") Lab Work
-      button.btn.btn-sm.btn-success.mark-other(
+      button.btn.btn-sm.mark-other(
         disabled="{{#unless incidentsSelected}} true {{/unless}}") Other
       button.btn.btn-sm.btn-default.select(
         class="deselect-all") Deselect All
@@ -33,6 +33,12 @@ template(name="incidentTable")
               else
                 td.open-incident
                   b {{formatLocations locations useHTML=true}}
+                    if researchActivities.fieldWork
+                      span.field-work [Field Work]
+                    if researchActivities.labWork
+                      span.lab-work [Lab Work]
+                    if researchActivities.other
+                      span.other-research-activities [Other Research Activities]
                   p=snippet
               td
                 ul.actions.container-flex.list-unstyled.no-break

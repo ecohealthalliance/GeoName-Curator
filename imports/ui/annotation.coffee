@@ -81,7 +81,8 @@ annotateContent = (content, annotations, options={})->
       activeAnnotations.slice(0, idx + 1).forEach (a)->
         _.extend(attributes, a?.attributes or {})
       attributeText = _.map(attributes, (value, key)-> "#{key}='#{value}'").join(" ")
-      classAttr = if type then "class='annotation annotation-text #{type}'" else ""
+      cssClasses = activeAnnotation.cssClasses or ""
+      classAttr = if type then "class='annotation annotation-text #{cssClasses} #{type}'" else ""
       html += "<#{activeAnnotation.tag or tag} #{classAttr} #{attributeText}>"
     lastOffset = offset
   html += Handlebars._escape("#{content.slice(lastOffset, endingIndex)}")
@@ -98,6 +99,12 @@ module.exports =
       baseAnnotation = _.clone(incident)
       baseAnnotation.textOffsets = incident.annotations?.location[0].textOffsets
       baseAnnotation.type = if incident.accepted then "accepted" else "unaccepted"
+      if incident.researchActivities?.fieldWork
+        baseAnnotation.cssClasses = "field-work"
+      else if incident.researchActivities?.labWork
+        baseAnnotation.cssClasses = "lab-work"
+      else if incident.researchActivities?.other
+        baseAnnotation.cssClasses = "other-research-activities"
       if incident.uncertainCountType
         baseAnnotation.type += " uncertain"
       baseAnnotation.attributes =

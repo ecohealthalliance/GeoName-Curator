@@ -31,6 +31,12 @@ viewingBG()
   &.accepted
     background-color: $incident-type-colors.accepted
     text-decoration none
+    &.field-work
+      background-color #ac85f9
+    &.lab-work
+      background-color lighten(#ac85f9, 25%)
+    &.other-research-activities
+      background-color lighten(#ac85f9, 50%)
     &.viewing
       viewingBG()
     &:hover
@@ -42,7 +48,7 @@ viewingBG()
       viewingBG()
     &:hover
       background-color darken(@background-color, 50%)
-
+  
 .suggested-incidents
   margin 30px
   width calc(100% - 60px)
@@ -189,6 +195,19 @@ viewingBG()
       color $highlight
       &::before
         content '\f111' // fa-circle
+  .field-work
+    color #ac85f9
+  .lab-work
+    color lighten(#ac85f9, 25%)
+  .other-research-activities
+    color lighten(#ac85f9, 50%)
+
+.mark-field-work
+  background-color #ac85f9
+.mark-lab-work
+  background-color lighten(#ac85f9, 25%)
+.mark-other
+  background-color lighten(#ac85f9, 50%)
 
 .extract-incidents-table
   margin -25px
