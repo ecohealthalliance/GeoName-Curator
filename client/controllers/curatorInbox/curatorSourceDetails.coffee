@@ -1,7 +1,8 @@
-CuratorSources = require '/imports/collections/curatorSources.coffee'
-Incidents = require '/imports/collections/incidentReports.coffee'
+import CuratorSources from '/imports/collections/curatorSources.coffee'
+import Incidents from '/imports/collections/incidentReports.coffee'
+import selectedIncidents from '/imports/selectedIncidents'
+import { notify } from '/imports/ui/notification'
 key = require 'keymaster'
-{ notify } = require '/imports/ui/notification'
 WIDE_UI_WIDTH = 1000
 
 _markReviewed = (instance, showNext=true) ->
@@ -68,6 +69,7 @@ Template.curatorSourceDetails.onRendered ->
 
   @autorun =>
     source = @source.get()
+    selectedIncidents.remove({})
     if source
       @incidentsLoaded.set(false)
       title = source.title

@@ -39,8 +39,6 @@ select2NoResults = ->
   """
 
 Template.incidentTable.onCreated ->
-  @addingEvent = new ReactiveVar(false)
-  @selectedEventId = new ReactiveVar(false)
   @tableContentScrollable = @data.tableContentScrollable
   @accepted = @data.accepted
   @scrollToAnnotation = (id) =>
@@ -68,11 +66,6 @@ Template.incidentTable.onCreated ->
     clearInterval(@interval)
 
 Template.incidentTable.onRendered ->
-  @autorun =>
-    if not _incidentsSelected(@)
-      @addingEvent.set(false)
-      @selectedEventId.set(null)
-
   @autorun =>
     incident = Incidents.findOne(_id: Router.current().params.incidentId)
     if incident

@@ -56,7 +56,7 @@ Router.route "/curator-inbox",
   onBeforeAction: ->
     redirectIfNotAuthorized(@, ['admin', 'curator'])
 
-Router.route "/curator-inbox/article/:articleId/:incidentId",
+Router.route "/curator-inbox/article/:articleId/:incidentId?",
   name: 'curator-inbox-article'
   template: 'curatorInbox'
   title: 'Curator Inbox'
