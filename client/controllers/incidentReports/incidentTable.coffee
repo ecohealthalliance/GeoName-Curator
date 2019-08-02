@@ -4,6 +4,26 @@ import selectedIncidents from '/imports/selectedIncidents'
 import { buildAnnotatedIncidentSnippet } from '/imports/ui/annotation'
 SCROLL_WAIT_TIME = 500
 
+_markIncidents = (markObject)->
+  incidentsToMark = selectedIncidents.find({}).fetch()
+  markAction = (callback)->
+    incidentsToMark.forEach (incident) ->
+      incident = _.extend(_id: incident.id, markObject)
+      Meteor.call 'updateIncidentReport', incident, (error, result) ->
+        if error
+          notify('error', 'There was a problem updating your toponym mentions.')
+          return
+    selectedIncidents.remove({})
+    event.currentTarget.blur()
+    if callback
+      callback()
+  if incidentsToMark.length > 1
+    Modal.show 'confirmationModal',
+      message: "You are about to mark #{incidentsToMark.length} annotations."
+      actionCallback: markAction
+  else
+    markAction()
+
 _acceptedQuery = (accepted) ->
   query = {}
   if accepted
@@ -39,6 +59,8 @@ select2NoResults = ->
   """
 
 Template.incidentTable.onCreated ->
+  @addingEvent = new ReactiveVar(false)
+  @selectedEventId = new ReactiveVar(false)
   @tableContentScrollable = @data.tableContentScrollable
   @accepted = @data.accepted
   @scrollToAnnotation = (id) =>
@@ -66,6 +88,11 @@ Template.incidentTable.onCreated ->
     clearInterval(@interval)
 
 Template.incidentTable.onRendered ->
+  @autorun =>
+    if not _incidentsSelected(@)
+      @addingEvent.set(false)
+      @selectedEventId.set(null)
+
   @autorun =>
     incident = Incidents.findOne(_id: Router.current().params.incidentId)
     if incident
@@ -128,62 +155,45 @@ Template.incidentTable.events
       query.accepted = @accepted
       selectedIncidents.insert(query)
 
-  'click .action': (event, instance) ->
-    accepted = instance.accepted
-    accept = true
-    if accepted
-      accept = false
-    selectedIncidents.find(_acceptedQuery(accepted)).forEach (incident) ->
-      incident = _id: incident.id
-      incident.accepted = accept
-      Meteor.call 'updateIncidentReport', incident, (error, result) ->
-        if error
-          notify('error', 'There was a problem updating your toponym mentions.')
-          return
-    selectedIncidents.remove({})
-    event.currentTarget.blur()
-
+  'click .delete': (event, instance) ->
+    deleteAction = (callback)->
+      incidentsToDelete.forEach (incident) ->
+        incident =
+          _id: incident.id
+          accepted: false
+        Meteor.call 'updateIncidentReport', incident, (error, result) ->
+          if error
+            notify('error', 'There was a problem updating your toponym mentions.')
+            return
+      selectedIncidents.remove({})
+      event.currentTarget.blur()
+      if callback
+        callback()
+    incidentsToDelete = selectedIncidents.find(_acceptedQuery(true)).fetch()
+    if incidentsToDelete.length > 1
+      Modal.show 'confirmationModal',
+        message: "You are about to delete #{incidentsToDelete.length} annotations."
+        actionCallback: deleteAction
+    else
+      deleteAction()
+    
   'click .mark-field-work': (event, instance) ->
-    selectedIncidents.find({}).forEach (incident) ->
-      incident = _id: incident.id
-      incident.researchActivities = {
+    _markIncidents(
+      researchActivities:
         fieldWork: true
-      }
-      Meteor.call 'updateIncidentReport', incident, (error, result) ->
-        if error
-          notify('error', 'There was a problem updating your toponym mentions.')
-          return
-    selectedIncidents.remove({})
-    event.currentTarget.blur()
+    )
 
   'click .mark-lab-work': (event, instance) ->
-    selectedIncidents.find({}).forEach (incident) ->
-      incident = _id: incident.id
-      incident.researchActivities = {
+    _markIncidents(
+      researchActivities:
         labWork: true
-      }
-      Meteor.call 'updateIncidentReport', incident, (error, result) ->
-        if error
-          notify('error', 'There was a problem updating your toponym mentions.')
-          return
-    selectedIncidents.remove({})
-    event.currentTarget.blur()
+    )
 
   'click .mark-other': (event, instance) ->
-    selectedIncidents.find({}).forEach (incident) ->
-      incident = _id: incident.id
-      incident.researchActivities = {
+    _markIncidents(
+      researchActivities:
         other: true
-      }
-      Meteor.call 'updateIncidentReport', incident, (error, result) ->
-        if error
-          notify('error', 'There was a problem updating your toponym mentions.')
-          return
-    selectedIncidents.remove({})
-    event.currentTarget.blur()
-
-  'click .select-all': (event, instance) ->
-    _updateAllIncidentsStatus(instance, true, event)
+    )
 
   'click .deselect-all': (event, instance) ->
     _updateAllIncidentsStatus(instance, false, event)

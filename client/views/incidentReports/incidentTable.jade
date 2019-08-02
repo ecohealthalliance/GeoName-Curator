@@ -1,9 +1,8 @@
 template(name="incidentTable")
   if incidents.length
     .incident-reports--actions.container-flex.no-break
-      button.btn.btn-sm.action(
-        disabled="{{#unless incidentsSelected}} true {{/unless}}"
-        class="btn-{{#if acceptance}}success{{else}}danger{{/if}}") Delete
+      button.btn.btn-sm.action.delete.btn-danger(
+        disabled="{{#unless incidentsSelected}} true {{/unless}}") Delete
       button.btn.btn-sm.mark-field-work(
         disabled="{{#unless incidentsSelected}} true {{/unless}}") Field Work
       button.btn.btn-sm.mark-lab-work(

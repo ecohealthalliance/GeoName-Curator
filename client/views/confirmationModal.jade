@@ -1,0 +1,15 @@
+template(name="confirmationModal")
+  .modal.fade(id="confirmation-modal" role="dialog")
+    .modal-dialog
+      .modal-content
+        form
+          +modalCloseButton
+          .modal-header
+            .modal-header--title
+              h4 Confirm Action
+          .modal-body.clearfix
+            .confirmation
+              p=message
+          .modal-footer
+            button.cancel.btn.btn-default.btn-wide(type="button" data-dismiss="modal") Cancel
+            button.confirm.btn.btn-danger.btn-wide(type="button") Do it
