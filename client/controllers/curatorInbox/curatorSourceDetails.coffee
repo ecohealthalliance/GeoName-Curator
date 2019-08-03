@@ -64,6 +64,8 @@ Template.curatorSourceDetails.onRendered ->
     # current source
     sourceId = @data.selectedSourceId.get()
     source = CuratorSources.findOne(sourceId)
+    if sourceId
+      @subscribe('userProfilesForSource', sourceId)
     instance.reviewed.set source?.reviewed or false
     instance.source.set source
 
@@ -112,8 +114,9 @@ Template.curatorSourceDetails.helpers
   formattedPromedDate: ->
     moment(Template.instance().data.promedDate).format('MMMM DD, YYYY')
 
-  isReviewed: ->
-    Template.instance().source.get().reviewed
+  reviewStarted: ->
+    source = Template.instance().source.get()
+    source.reviewed or source.reviewStart
 
   notifying: ->
     Template.instance().notifying.get()
@@ -139,9 +142,22 @@ Template.curatorSourceDetails.helpers
     sibling: '.curator-source-details--copy'
     sourceContainer: '.curator-source-details--copy'
 
+  usernameForId: (userId)->
+    user = Meteor.users.findOne(_id: userId)
+    user?.profile?.name or "Unknown"
+
 Template.curatorSourceDetails.events
+  'click .start-qc': (event, instance) ->
+    Meteor.call('startQC', instance.source.get()._id)
+
+  'click .start-review': (event, instance) ->
+    Meteor.call('startReview', instance.source.get()._id)
+
   'click .toggle-reviewed': (event, instance) ->
     _markReviewed(instance)
+
+  'click .toggle-qced': (event, instance) ->
+    Meteor.call('markSourceQCed', instance.source.get()._id, !instance.source.get().QCEnd)
 
   'click .back-to-list': (event, instance) ->
     instance.data.currentPaneInView.set('')

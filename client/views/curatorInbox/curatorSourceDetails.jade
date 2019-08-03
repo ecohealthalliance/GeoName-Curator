@@ -17,11 +17,28 @@ template(name="curatorSourceDetails")
       if incidentsLoaded
         .curator-source-details--copy-wrapper
           .curator-source-details--actions.container-flex.no-break
-            button.btn.btn-success.btn-sm.toggle-reviewed(class="{{#if isReviewed}} reviewed {{/if}}")
-              if isReviewed
-                span Reviewed
+            if reviewStarted
+              button.btn.btn-success.btn-sm.toggle-reviewed(class="{{#if reviewed}} reviewed {{/if}}")
+                if reviewed
+                  span Reviewed: {{formatDate reviewedDate}}
+                else
+                  span Mark Reviewed
+              if reviewed
+                if QCStart
+                  button.btn.btn-success.btn-sm.toggle-qced(class="{{#if QCEnd}} qced {{/if}}")
+                    if QCEnd
+                      span QC Finished: {{formatDate QCEnd}}
+                    else
+                      span Mark QCed
+                  unless QCEnd
+                    span.status QC started by: {{usernameForId QCStartedBy}}
+                else
+                  button.btn.btn-success.btn-sm.start-qc Start QC
               else
-                span Mark Reviewed
+                span.status Review started by: {{usernameForId reviewStartedBy}}
+            else
+              button.btn.btn-success.btn-sm.start-review Start Review
+
           if addingSourceToEvent
             +addToEvent(source=source)
           .curator-source-details--copy

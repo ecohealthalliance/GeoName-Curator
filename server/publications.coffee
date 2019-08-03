@@ -19,6 +19,14 @@ Meteor.publish 'curatorSourceIncidentReports', (sourceId) ->
     sort: 'annotations.case.0.textOffsets.0': 1
     limit: 10000
 
+Meteor.publish 'userProfilesForSource', (sourceId)->
+  if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin']) and sourceId
+    source = CuratorSources.findOne(_id: sourceId)
+    Meteor.users.find(
+      _id:
+        $in: [source.QCedBy, source.reviewedBy, source.reviewStartedBy, source.QCStartedBy]
+    , {fields: profile: 1})
+
 # User status
 Meteor.publish 'userStatus', () ->
   Meteor.users.find({'status.online': true }, {fields: {'status': 1 }})
