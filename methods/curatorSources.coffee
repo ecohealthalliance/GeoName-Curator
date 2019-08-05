@@ -29,3 +29,17 @@ Meteor.methods
         $set:
           QCEnd: if QCed then new Date() else null
           QCedBy: if QCed then Meteor.userId() else null
+
+  resetReviews: (id) ->
+    if Roles.userIsInRole(Meteor.userId(), ['curator', 'admin'])
+      CuratorSources.update _id: id,
+        $unset:
+          reviewed: ''
+          reviewedDate: ''
+          reviewedBy: ''
+          reviewStart: ''
+          reviewStartedBy: ''
+          QCStart: ''
+          QCStartedBy:''
+          QCEnd: ''
+          QCedBy: ''

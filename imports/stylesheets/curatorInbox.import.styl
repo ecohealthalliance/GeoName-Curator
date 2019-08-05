@@ -223,9 +223,6 @@ $pane-switch-speed = .3s
   padding 0
   +above($break-point--curator-inbox--x-wide)
     width 70%
-  .status
-    margin 0.5em
-    margin-left 1em
 
 .curator-source-details--header
   position relative
@@ -337,28 +334,16 @@ $pane-switch-speed = .3s
       opacity 1
       transform scale(100)
 
-.curator-source-details--options
-  display flex
-  align-self stretch
-  align-items center
-  flex-direction row-reverse
-  align-items center
-  margin-bottom 1em
-  +above($break-point--curator-inbox)
-    flex-direction row
-    margin-left auto
-    margin-bottom 0
+.curator-source-details--actions
+  .status
+    margin 0 0.5em
+    max-width 100px
+    display inline-block
+    vertical-align bottom
   .btn
-    transition .3s
-    flex 1
-    +above($break-point--curator-inbox)
-      flex auto
     &.toggle-reviewed
-      padding .45em 3em
       background lighten($positive, 90%)
       color $primary-dark
-      margin-right auto
-      max-width 225px
       +above($break-point--curator-inbox)
         margin-bottom 0
       &:hover
@@ -367,15 +352,16 @@ $pane-switch-speed = .3s
       &:focus
         @extend .btn-success
     &.reviewed
-      min-width 125px
-      transition .3s
+    &.qced
+      padding-left 0.5em
+      width 190px
       background lighten($positive, 30%)
       border-color darken($positive, 50%)
       color $primary-dark
       &::before
       &::after
         display none
-        vertical-align middle
+        vertical-align bottom
       &:before
         content '\f0e2' // fa-undo
         margin-right .25em

@@ -159,6 +159,9 @@ Template.curatorSourceDetails.events
   'click .toggle-qced': (event, instance) ->
     Meteor.call('markSourceQCed', instance.source.get()._id, !instance.source.get().QCEnd)
 
+  'click .reset-reviews': (event, instance) ->
+    Meteor.call('resetReviews', instance.source.get()._id)
+
   'click .back-to-list': (event, instance) ->
     instance.data.currentPaneInView.set('')
 
