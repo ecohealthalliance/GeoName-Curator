@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.23.0",
-    "bcrypt": "^0.8.7",
+    "bcrypt": "^5.0.0",
     "hammerjs": "^2.0.8",
     "meteor-node-stubs": "^0.2.6",
     "moment": "^2.19.2",
